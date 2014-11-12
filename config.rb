@@ -12,7 +12,7 @@ platform_settings = File.exist?(config_path) ? YAML.load_file(config_path) : {}
 
 set :source, 'm'
 
-set :build_dir, platform_settings.has_key?('build_dir') ? parent_dir + platform_settings['build_dir'] : 'middleman-build'
+set :build_dir, platform_settings.has_key?('build_dir') ? parent_dir + platform_settings['build_dir'] : 'p'
 
 set :css_dir, 'stylesheets'
 

@@ -1,0 +1,20 @@
+{
+  "name": "LD-core",
+  "version": "0.0.0",
+  "authors": [
+    "Yoshiya Hinosawa <stibium121@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "arrowkeys": "~0.1.2",
+    "swipe-event": "~0.3.3"
+  }
+}
