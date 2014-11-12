@@ -3,3 +3,6 @@
 
 # Ignore the build directory
 /middleman-build
+
+#
+/bower_components
