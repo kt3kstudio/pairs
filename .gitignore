@@ -1,8 +1,5 @@
 # Ignore bundler config
 /.bundle
 
-# Ignore the build directory
-/middleman-build
-
-#
+# bower
 /bower_components

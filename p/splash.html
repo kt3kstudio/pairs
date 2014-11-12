@@ -1,0 +1,103 @@
+<html>
+<head>
+<title>LD-splash</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!--script src="../bower_components/jquery/dist/jquery.js"></script>
+<script src="../bower_components/swipe-event/swipe-event.js"></script>
+<script src="../bower_components/swipe-event/swipe-cross.js"></script>
+<script src="../bower_components/arrowkeys/arrowkeys.js"></script>
+<script src="../js/util.js"></script>
+<script src="../js/color.js"></script-->
+    
+<link rel="stylesheet" href="./stylesheets/all.css" />
+
+<script>window.config = {}</script>
+<script src="./javascripts/common.js"></script>
+<script src="./javascripts/splash.js"></script>
+
+</head>
+<body>
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    position: relative;
+    background-color: #C1C6CB;
+    text-align: center;
+}
+
+.reset {
+    position: absolute;
+    left: 0; top: 0;
+}
+
+.splash-logo {
+    position: absolute;
+    left: 25%;
+    width: 50%;
+    margin-top: 180px;
+    transition-duration: 500ms;
+    transition-timing-function: ease;
+    opacity: 0;
+}
+
+@-webkit-keyframes logo-anim {
+    0%   { opacity: 0; transform: translate(0, -10px); }
+    25%  { opacity: 1; transform: translate(0,     0); }
+    75%  { opacity: 1; transform: translate(0,     0); }
+    100% { opacity: 0; transform: translate(0,  10px); }
+}
+
+</style>
+
+<script>
+
+
+pages = window.pages || {};
+pages.splash = (function () {
+    var exports = {};
+
+    exports.main = function () {
+
+        wait(100)
+            .then(logoAnim('images/kt3k-logo-v1.svg'))
+            .then(logoAnim('images/kt3k-logo-v2.svg'))
+            .then(logoAnim('images/straw-logo.svg'))
+            .then(goToTitle);
+
+    };
+
+    var goToTitle = function () {
+        location.href = 'title.html';
+    };
+
+    var logoAnim = function (path, dur) {
+        return function () {
+            var dur = dur || 1800;
+
+            var $img = $('<img />')
+                .attr('src', path)
+                .addClass('splash-logo')
+                .css('-webkit-animation', 'logo-anim ' + dur + 'ms')
+                .appendTo(document.body);
+
+            return wait(dur);
+        };
+    };
+
+    return exports;
+
+}());
+
+$(pages.splash.main);
+
+</script>
+
+</body>
+</html>

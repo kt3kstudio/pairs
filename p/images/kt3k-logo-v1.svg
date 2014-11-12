@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="146px" height="100px" viewBox="0 0 146 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.1.1 (8761) - http://www.bohemiancoding.com/sketch -->
+    <title>kt3k-logo 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#7F8B96" offset="0%"></stop>
+            <stop stop-color="#4E5760" offset="100%"></stop>
+        </linearGradient>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.35 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.35 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.35 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-5">
+            <stop stop-color="#FFA900" offset="0%"></stop>
+            <stop stop-color="#4E5760" offset="100%"></stop>
+        </linearGradient>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-6">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.35 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Logo" sketch:type="MSLayerGroup" transform="translate(4.000000, 2.000000)">
+            <g id="kt3k" sketch:type="MSShapeGroup">
+                <path d="M0.930083238,57.1705914 C-2.74340049,38.8031728 1.77141152,19.0947686 2.66152855,14.6441834 C3.55164559,10.1935983 12.3378315,6.14851849 15.4066454,13.5924657 C18.4754593,21.036413 10.2036522,33.4078961 15.4066458,33.4078961 C20.6096394,33.4078961 20.6068701,16.4517208 23.8802791,13.5924657 C27.1536881,10.7332107 39.785072,12.3067082 36.862701,19.857114 C33.9403301,27.4075199 26.4938017,27.0736644 27.5648475,39.857115 C28.6358934,52.6405655 42.6465788,55.8622758 43.8802791,59.857115 C45.1139795,63.8519541 37.3201447,71.213972 27.5648475,63.7067243 C17.8095504,56.1994767 19.0395915,44.1744977 15.4066458,44.1744977 C11.7737,44.1744977 14.8150857,55.6389438 13.1000051,59.8571149 C11.3849246,64.0752859 4.60356696,75.5380101 0.930083238,57.1705914 Z" id="K" fill="url(#linearGradient-1)" filter="url(#filter-2)"></path>
+                <path d="M96.4319008,57.4780349 C92.758417,39.1106163 97.273229,19.4022121 98.1633461,14.9516269 C99.0534631,10.5010418 107.839649,6.45596199 110.908463,13.8999092 C113.977277,21.3438565 105.70547,33.7153396 110.908463,33.7153396 C116.111457,33.7153396 116.108688,16.7591643 119.382097,13.8999092 C122.655506,11.0406542 135.286889,12.6141517 132.364519,20.1645575 C129.442148,27.7149634 121.995619,27.3811079 123.066665,40.1645585 C124.137711,52.948009 138.148396,56.1697193 139.382097,60.1645585 C140.615797,64.1593976 132.821962,71.5214155 123.066665,64.0141678 C113.311368,56.5069202 114.541409,44.4819412 110.908463,44.4819412 C107.275518,44.4819412 110.316903,55.9463873 108.601823,60.1645584 C106.886742,64.3827294 100.105384,75.8454536 96.4319008,57.4780349 Z" id="K" fill="url(#linearGradient-1)" filter="url(#filter-3)"></path>
+                <path d="M50.907622,65.5618553 C47.8128955,49.3538461 52.0824264,32.3684965 52.0824267,22.1129808 C45.864654,22.1129804 44.827544,26.7893937 41.4056691,26.7893939 C35.627349,20.8571141 38.8802783,15.8424657 42.4232474,13.0227925 C50.9076221,10.4049658 65.532624,9.19793451 71.6127021,10.4049658 C74.6908271,15.4938331 76.2787177,20.8571144 72.938874,26.789393 C68.9486396,25.2926603 67.3285224,24.6403175 63.5414111,23.4752784 C62.11563,38.8089191 62.9137943,65.0686199 61.9291065,69.1380258 C54.0873096,73.7376352 52.0824268,69.1380258 50.907622,65.5618553 Z" id="T" fill="url(#linearGradient-1)" filter="url(#filter-4)"></path>
+                <path d="M72.59375,63.0752233 C76.6640137,61.5390632 82.9378748,61.4219005 80.8369141,53.9013939 C78.7359534,46.3808874 72.5937501,50.3770879 72.5937501,42.5195592 C72.5937501,34.6620306 83.0056534,31.1699487 83.0056534,22.5449487 C83.0056534,13.9199486 80.9046927,12.6054955 77.116211,8.47170648 C73.3277293,4.33791742 76.334961,-0.227512295 79.7910157,-0.227512302 C83.2470704,-0.227512308 93.9189444,11.2676049 93.9189444,22.5449486 C93.9189444,33.8222924 86.7851563,36.6484643 86.7851563,43.6435814 C86.7851563,50.6386986 92.6142569,56.7812768 89.9999991,64.6113552 C87.3857413,72.4414335 76.4855015,77.8884113 74.8125001,76.781278 C73.1394986,75.6741447 68.5234863,64.6113834 72.59375,63.0752233 Z" id="3" fill="url(#linearGradient-5)" filter="url(#filter-6)"></path>
+            </g>
+            <text id="STUDIO" sketch:type="MSTextLayer" font-family="Courier" font-size="20" font-weight="bold" fill="#393F44">
+                <tspan x="36" y="96">STUDIO</tspan>
+            </text>
+        </g>
+    </g>
+</svg>
