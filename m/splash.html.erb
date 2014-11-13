@@ -3,23 +3,8 @@ title: LD-splash
 js: splash.js
 css: splash.css
 ---
+
 <style>
-
-* {
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    position: relative;
-    background-color: #C1C6CB;
-    text-align: center;
-}
-
-.reset {
-    position: absolute;
-    left: 0; top: 0;
-}
 
 .splash-logo {
     position: absolute;
@@ -62,16 +47,18 @@ pages.splash = (function () {
     };
 
     var logoAnim = function (path, dur) {
+        dur = dur || 1800;
+
         return function () {
-            var dur = dur || 1800;
 
-            var $img = $('<img />')
-                .attr('src', path)
-                .addClass('splash-logo')
-                .css('-webkit-animation', 'logo-anim ' + dur + 'ms')
-                .appendTo(document.body);
+            return loadImage(path, 'splash-logo', document.body).then(function ($img) {
 
-            return wait(dur);
+                $img.css('-webkit-animation', 'logo-anim ' + dur + 'ms');
+
+                return wait(dur).then(function () { $img.remove(); });
+
+            });
+
         };
     };
 

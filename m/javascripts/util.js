@@ -60,3 +60,16 @@ var wait = function (n) {
         setTimeout(resolve, n);
     });
 };
+
+
+var loadImage = function (path, cls, dom) {
+    return new Promise(function (resolve) {
+        var $img = $('<img />')
+            .attr('src', path)
+            .addClass(cls)
+            .appendTo(dom)
+            .on('load', function () {
+                resolve($img);
+            });
+    });
+};
