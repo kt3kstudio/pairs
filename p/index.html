@@ -169,7 +169,7 @@ var LevelPhaseController = (function () {
     };
 
     lpcPrototype.getLevel = function (path) {
-        return $.getJSON('../level/' + path)
+        return $.getJSON('level/' + path)
     };
 
     lpcPrototype.onMoveSuccess = function () {
@@ -543,11 +543,11 @@ var Wanderer = (function () {
     };
 
     wPrototype.setFemaleColor = function () {
-        this.$dom.attr('src', '../images/neef.svg');
+        this.$dom.attr('src', 'images/neef.svg');
     };
 
     wPrototype.setMaleColor = function () {
-        this.$dom.attr('src', '../images/nim.svg');
+        this.$dom.attr('src', 'images/nim.svg');
     };
 
     wPrototype.setMetrics = function (left, top, unit, wrapX, wrapY) {
