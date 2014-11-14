@@ -63,7 +63,9 @@ pages.title = (function () {
             $img.css('-webkit-animation', 'title-appear 2000ms, title-appear2 5000ms');
 
             return wait(2000).then(function () { $img.css('-webkit-animation', 'float 6000ms infinite'); });
-        }).then(function () {
+        })
+        
+        wait(500).then(function () {
 
             var $p = $('<p />').text('TOUCH HERE').addClass('touch-here elem').appendTo('#main');
 
