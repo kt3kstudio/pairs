@@ -24,6 +24,11 @@
     50% { transform: scale(0.97, 1.03); }
 }
 
+@-webkit-keyframes disappear {
+    from { opacity: 1; transform: translate(0,  0px); }
+    to   { opacity: 0; transform: translate(0, 10px); }
+}
+
 .title-logo {
     position: absolute;
     left: 7.5%;
@@ -53,15 +58,18 @@ pages.title = (function () {
 
     exports.main = function () {
 
-        loadImage('images/title-logo.svg', 'title-logo', $('#main')).then(function ($img) {
+        loadImage('images/title-logo.svg', 'title-logo elem', $('#main')).then(function ($img) {
 
             $img.css('-webkit-animation', 'title-appear 2000ms, title-appear2 5000ms');
 
             return wait(2000).then(function () { $img.css('-webkit-animation', 'float 6000ms infinite'); });
         }).then(function () {
-            var $p = $('<p />').text('TOUCH HERE').addClass('touch-here').appendTo('#main');
+
+            var $p = $('<p />').text('TOUCH HERE').addClass('touch-here elem').appendTo('#main');
 
             $p.css('-webkit-animation', 'title-appear 1000ms');
+
+            $p.click(goToMap);
 
             return wait(1000).then(function () { $p.css('-webkit-animation', 'float 400ms infinite'); });
 
@@ -73,6 +81,21 @@ pages.title = (function () {
 
             pages.title.main();
         });
+
+        var thingsGoOut = function () {
+            var dur = 500;
+            $('.elem').css('-webkit-animation', 'disappear ' + dur + 'ms').css('opacity', 0);
+
+            return wait(dur);
+        };
+
+        var goToMap = function () {
+
+            thingsGoOut().then(function () {
+                location.href = 'map.html';
+            });
+
+        };
     };
 
     return exports;
