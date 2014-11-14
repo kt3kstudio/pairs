@@ -13,9 +13,79 @@
 </head>
 <body>
 <style>
+
+@-webkit-keyframes title-appear {
+    from { opacity: 0; transform: translate(0, 10px); }
+    to   { opacity: 1; transform: translate(0,  0px); }
+}
+
+@-webkit-keyframes float {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(0.97, 1.03); }
+}
+
+.title-logo {
+    position: absolute;
+    left: 7.5%;
+    width: 85%;
+    max-height: 300px;
+    top: 50px;
+}
+
+.touch-here {
+    position: absolute;
+    top: 450px;
+    width: 100%;
+    text-align: center;
+    text-weight: bold;
+    font-size: 1.5em;
+    font-family: 'sans-serif';
+}
+
 </style>
 
+<script>
+
+window.pages = window.pages || {};
+
+pages.title = (function () {
+    var exports = {};
+
+    exports.main = function () {
+
+        loadImage('images/title-logo.svg', 'title-logo', $('#main')).then(function ($img) {
+
+            $img.css('-webkit-animation', 'title-appear 2000ms, title-appear2 5000ms');
+
+            return wait(2000).then(function () { $img.css('-webkit-animation', 'float 6000ms infinite'); });
+        }).then(function () {
+            var $p = $('<p />').text('TOUCH HERE').addClass('touch-here').appendTo('#main');
+
+            $p.css('-webkit-animation', 'title-appear 1000ms');
+
+            return wait(1000).then(function () { $p.css('-webkit-animation', 'float 400ms infinite'); });
+
+        });
+
+
+        $('.reset').click(function () {
+            $('#main').empty();
+
+            pages.title.main();
+        });
+    };
+
+    return exports;
+
+}());
+
+$(pages.title.main);
+
+</script>
+
 <button class="reset">reset</button>
+
+<div id="main"></div>
 
 </body>
 </html>
