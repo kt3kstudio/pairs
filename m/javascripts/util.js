@@ -30,7 +30,7 @@ var bindEvents = function (up, down, left, right, reset, score) {
         .on('score', function (event, param) { console.log('score'); score(event, param); });
 
     $('.reset')
-        .on('click', function () { unbindEvents(); reset(); });
+        .on('click', function () { console.log('=== reset ==='); unbindEvents(); reset(); });
 
 };
 
@@ -72,4 +72,16 @@ var loadImage = function (path, cls, dom) {
                 resolve($img);
             });
     });
+};
+
+$.fn.animation = function (animation) {
+    this.css('-webkit-animation', '').reflow().css('-webkit-animation', animation);
+
+    return this;
+};
+
+$.fn.reflow = function () {
+    this[0].offsetWidth = this[0].offsetWidth;
+
+    return this;
 };
