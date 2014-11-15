@@ -30,7 +30,7 @@ css: title.css
 
 .touch-here {
     position: absolute;
-    top: 450px;
+    top: 400px;
     width: 100%;
     text-align: center;
     text-weight: bold;
@@ -49,7 +49,7 @@ pages.title = (function () {
 
     exports.main = function () {
 
-        loadImage('images/title-logo.svg', 'title-logo elem', $('#main')).then(function ($img) {
+        loadImage('images/title-logo.svg', 'title-logo elem', '#main').then(function ($img) {
 
             $img.css('-webkit-animation', 'title-appear 2000ms, title-appear2 5000ms');
 
