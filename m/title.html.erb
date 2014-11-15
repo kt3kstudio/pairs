@@ -6,18 +6,16 @@ css: title.css
 <style>
 
 @-webkit-keyframes title-appear {
-    from { opacity: 0; transform: translate(0, 10px); }
-    to   { opacity: 1; transform: translate(0,  0px); }
+    0% { opacity: 0; transform: translate(0, 10px); }
 }
 
 @-webkit-keyframes float {
-    0%, 100% { transform: scale(1); }
     50% { transform: scale(0.97, 1.03); }
 }
 
 @-webkit-keyframes disappear {
-    from { opacity: 1; transform: translate(0,  0px); }
-    to   { opacity: 0; transform: translate(0, 10px); }
+    0% { opacity: 1; transform: translate(0,  0px); }
+    100% { opacity: 0; transform: translate(0, 10px); }
 }
 
 .title-logo {
@@ -60,11 +58,13 @@ pages.title = (function () {
 
             var $p = $('<p />').text('TOUCH HERE').addClass('touch-here elem').appendTo('#main');
 
-            $p.css('-webkit-animation', 'title-appear 1000ms');
+            $p.animation('title-appear 1000ms');
 
             $p.click(goToMap);
 
-            return wait(1000).then(function () { $p.css('-webkit-animation', 'float 400ms infinite'); });
+            return wait(1000).then(function () {
+                $p.animation('float 1000ms infinite');
+            });
 
         });
 
