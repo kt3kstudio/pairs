@@ -17,6 +17,7 @@ body {
 
 .circle {
     position: absolute;
+    visibility: hidden;
     transition-duration: 300ms;
 }
 
@@ -27,18 +28,20 @@ body {
 
 @-webkit-keyframes ball-appear {
     0% { opacity: 0; transform: scale(2); }
-    100% { opacity: 1; transform: scale(1); }
 }
 
 @-webkit-keyframes ball-refuse-x {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(0.5, 2); }
+    50% { transform: scale(0.5, 2); opacity: 0.2; }
 }
 
 @-webkit-keyframes ball-refuse-y {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(2, 0.5); }
+    50% { transform: scale(2, 0.5); opacity: 0.2; }
 }
+
+@-webkit-keyframes bom-appear {
+    0% { opacity: 0; transform: translate(0, 10px); }
+}
+
 
 .wrapper {
     position: absolute;
@@ -70,23 +73,33 @@ var UDUR = NUDUR + 'ms';
 var LevelPhaseController = (function () {
     'use strict';
 
+    var FIELD_TOP = 130; // top of main field in px
+    var FIELD_WIDTH = 80; // width of main field in percent (80%)
+    var FIELD_NUM = 3; // number of columns or rows in main field
+
     var exports = function () {
         // construct each class
-        this.map = new Map(new Positioner(130, 80, 3).metrics());
+        this.map = new Map(new Positioner(FIELD_TOP, FIELD_WIDTH, FIELD_NUM).metrics());
         this.evalBox = new EvalBox();
-        this.field = new Field(new Positioner(130, 80, 3).metrics());
+        this.field = new Field(new Positioner(FIELD_TOP, FIELD_WIDTH, FIELD_NUM).metrics());
 
+        this.ball = new Ball(new Positioner(FIELD_TOP, FIELD_WIDTH, FIELD_NUM).metrics());
+
+        // debug things
         this.pointBox = PointBox; // singleton
-        this.ball = new Ball(new Positioner(130, 80, 3).metrics());
         this.scoreBox = ScoreBox;
     };
 
     var lpcPrototype = exports.prototype;
 
     lpcPrototype.init = function (level) {
+        var that = this;
+
         this.map.loadFromBomList(level.boms);
 
-        this.field.appear();
+        this.field.appear()
+            .then(function () { return that.ball.appear(); })
+            .then(function () { return that.map.appear(); });
 
         var bms = new BallMoveMobLeaveService(this.ball, this.map, this.evalBox);
 
@@ -444,11 +457,19 @@ var Map = (function () {
 
         cell.locate();
 
-        cell.prependTo(this.$dom);
-
         return this;
     };
 
+    mapPrototype.appear = function () {
+
+        var promise = wait(10);
+
+        this.cells.forEach(function (cell) {
+            promise = promise.then(function () { return cell.appear(); });
+        });
+
+        return promise;
+    };
 
     mapPrototype.commandAll = function (command, args) {
 
@@ -524,10 +545,6 @@ var Wanderer = (function () {
         return this.$dom;
     };
 
-    wPrototype.prependTo = function (dom) {
-        this.$dom.prependTo(dom);
-    };
-
     wPrototype.setGender = function (gender) {
         this.gender = gender;
 
@@ -546,6 +563,13 @@ var Wanderer = (function () {
 
     wPrototype.setMaleColor = function () {
         this.$dom.attr('src', 'images/nim.svg');
+    };
+
+    wPrototype.appear = function (dom) {
+
+        this.$dom.prependTo(dom || document.body).animation('bom-appear 500ms');
+
+        return wait(40);
     };
 
     wPrototype.setMetrics = function (left, top, unit) {
@@ -614,7 +638,8 @@ var Ball = (function () {
         this.x = 1;
         this.y = 1;
         this.MAX = 3;
-        this.$dom = $('.circle').css({width: metrics.unit + 'px', height: metrics.unit + 'px'});
+        this.$dom = $('.circle')
+            .css({width: metrics.unit + 'px', height: metrics.unit + 'px'});
 
         this.metrics = metrics;
 
@@ -623,31 +648,40 @@ var Ball = (function () {
 
     var ballPrototype = exports.prototype;
 
-    ballPrototype.up = function () { this.move(0, 2); };
-    ballPrototype.down = function () { this.move(0, 1); };
-    ballPrototype.left = function () { this.move(2, 0); };
-    ballPrototype.right = function () { this.move(1, 0); };
+    ballPrototype.appear = function () {
+        var dur = 800;
+
+        this.$dom.css('visibility', 'visible');
+        this.$dom.animation('ball-appear ' + dur + 'ms');
+
+        return wait(dur);
+    };
+
+    ballPrototype.up = function () { this.setPos(this.posAhead('up')); };
+    ballPrototype.down = function () { this.setPos(this.posAhead('down')); };
+    ballPrototype.left = function () { this.setPos(this.posAhead('left')); };
+    ballPrototype.right = function () { this.setPos(this.posAhead('right')); };
 
     ballPrototype.pos = function () {
         return {x: this.x, y: this.y};
     };
 
     ballPrototype.posAhead = function (dir) {
-        var x, y;
         switch (dir) {
-            case 'up': x = this.x + 0; y = this.y + 2; break
-            case 'down': x = this.x + 0; y = this.y + 1; break
-            case 'left': x = this.x + 2; y = this.y + 0; break
-            case 'right': x = this.x + 1; y = this.y + 0; break
+            case 'up': return this.relativePos(0, -1);
+            case 'down': return this.relativePos(0, 1);
+            case 'left': return this.relativePos(-1, 0);
+            case 'right': return this.relativePos(1, 0);
         }
-        return {x: x % this.MAX, y: y % this.MAX};
     };
 
-    ballPrototype.move = function (x, y) {
-        this.x += x;
-        this.x %= this.MAX;
-        this.y += y;
-        this.y %= this.MAX;
+    ballPrototype.relativePos = function (x, y) {
+        return {x: (this.x + x + this.MAX) % this.MAX, y: (this. y + y + this.MAX) % this.MAX};
+    };
+
+    ballPrototype.setPos = function (pos) {
+        this.x = pos.x;
+        this.y = pos.y;
 
         this.locate();
     };
@@ -668,6 +702,8 @@ var Ball = (function () {
 
 var Field = (function () {
 
+    var APPEAR_DUR = 200;
+
     var exports = function (metrics) {
         var gutter = 3;
         this.left = metrics.left - gutter;
@@ -681,13 +717,17 @@ var Field = (function () {
     fPrototype.appear = function () {
         var that = this;
         return loadImage('images/field.svg', 'field-grid', document.body).then(function ($img) {
+            var dur = APPEAR_DUR;
+
             that.$dom = $img;
 
             $img.css('left', that.left + 'px');
             $img.css('top', that.top + 'px');
             $img.css('width', that.width + 'px');
 
-            $img.animation('ball-appear 200ms');
+            $img.animation('ball-appear ' + dur + 'ms');
+
+            return wait(dur);
         });
     };
 
