@@ -20,9 +20,14 @@ body {
     transition-duration: 300ms;
 }
 
+.field-grid {
+    position: absolute;
+    z-index: -1;
+}
+
 @-webkit-keyframes ball-appear {
     0% { opacity: 0; transform: scale(2); }
-    100% { opacity: 0; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1); }
 }
 
 @-webkit-keyframes ball-refuse-x {
@@ -67,11 +72,12 @@ var LevelPhaseController = (function () {
 
     var exports = function () {
         // construct each class
-        this.map = new Map();
+        this.map = new Map(new Positioner(130, 80, 3).metrics());
         this.evalBox = new EvalBox();
+        this.field = new Field(new Positioner(130, 80, 3).metrics());
 
         this.pointBox = PointBox; // singleton
-        this.ball = new Ball();
+        this.ball = new Ball(new Positioner(130, 80, 3).metrics());
         this.scoreBox = ScoreBox;
     };
 
@@ -79,6 +85,8 @@ var LevelPhaseController = (function () {
 
     lpcPrototype.init = function (level) {
         this.map.loadFromBomList(level.boms);
+
+        this.field.appear();
 
         var bms = new BallMoveMobLeaveService(this.ball, this.map, this.evalBox);
 
@@ -111,9 +119,13 @@ var LevelPhaseController = (function () {
         var that = this;
 
         wait(500).then(function () {
-            that.loadCurrentLevel().then(function (level) {
-                that.init(level);
-            });
+
+            return that.loadCurrentLevel();
+
+        }).then(function (level) {
+
+            that.init(level);
+
         });
     };
 
@@ -144,6 +156,40 @@ $(function () {
         lpc.init(level);
     });
 });
+
+// Util
+// calculate TOP, LEFT, UNIT, M, N when given top, fieldWidthPercent, M
+
+var Positioner = (function () {
+    var exports = function (top, fieldWidthPercent, m) {
+        this.top = top;
+        this.fwp = fieldWidthPercent;
+        this.m = m;
+        this.calc();
+    };
+
+    var positionerPt = exports.prototype;
+
+    positionerPt.calc = function () {
+        this.width = $(window).width();
+        this.height = $(window).height();
+
+        var shorter = Math.min(this.width, this.height - this.top);
+
+        this.fieldWidth = shorter * this.fwp / 100;
+
+        this.LEFT = Math.floor((this.width - this.fieldWidth) / 2);
+        this.TOP = this.top;
+
+        this.UNIT = Math.floor(this.fieldWidth / this.m);
+    };
+
+    positionerPt.metrics = function () {
+        return {top: this.TOP, left: this.LEFT, unit: this.UNIT, width: this.UNIT * this.m};
+    };
+
+    return exports;
+}());
 
 
 // Domain layer
@@ -225,8 +271,6 @@ var EvalBox = (function () {
     exports.TOP = -20;
     exports.LEFT = 40;
     exports.UNIT = UNIT / 2;
-    exports.M = 5;
-    exports.N = 5;
 
     var boxPrototype = exports.prototype;
 
@@ -309,7 +353,7 @@ var EvalBox = (function () {
     };
 
     boxPrototype.involve = function (wanderer) {
-        wanderer.setMetrics(exports.LEFT, exports.TOP, exports.UNIT, exports.M, exports.N);
+        wanderer.setMetrics(exports.LEFT, exports.TOP, exports.UNIT);
     };
 
     boxPrototype.setLeft = function (wanderer) {
@@ -345,17 +389,15 @@ var EvalBox = (function () {
 var Map = (function () {
     'use strict';
 
-    var exports = function () {
+    var exports = function (metrics) {
         var cells = this.cells = [];
 
         this.$dom = $(document.body);
-    };
 
-    exports.TOP = TOP;
-    exports.LEFT = LEFT;
-    exports.UNIT = UNIT;
-    exports.M = 3;
-    exports.N = 12;
+        this.top = metrics.top;
+        this.left = metrics.left;
+        this.unit = metrics.unit;
+    };
 
     /**
      *
@@ -366,16 +408,16 @@ var Map = (function () {
         return new exports().loadFromBomList(bomList);
     };
 
+    var mapPrototype = exports.prototype;
+
     /**
      *
      *
      * @return {Wanderer}
      */
-    exports.createCellFromBom = function (bom) {
-        return new Wanderer(bom.x, bom.y, bom.gender, exports.LEFT, exports.TOP, exports.UNIT, exports.M, exports.N);
+    mapPrototype.createCellFromBom = function (bom) {
+        return new Wanderer(bom.x, bom.y, bom.gender, this.left, this.top, this.unit);
     };
-
-    var mapPrototype = exports.prototype;
 
     mapPrototype.empty = function () {
         this.cells.forEach(function (cell) { cell.remove(); });
@@ -385,7 +427,7 @@ var Map = (function () {
 
     mapPrototype.loadFromBomList = function (bomList) {
         bomList.forEach(function (bom) {
-            this.loadOne(exports.createCellFromBom(bom));
+            this.loadOne(this.createCellFromBom(bom));
         }, this);
 
         return this;
@@ -459,19 +501,21 @@ var Map = (function () {
 var Wanderer = (function () {
     'use strict';
 
-    var exports = function (x, y, gender, left, top, unit, m, n) {
+    var exports = function (x, y, gender, left, top, unit) {
         this.x = x;
         this.y = y;
+        this.width = Math.floor(unit / 2);
+        this.gutter = Math.floor(unit / 4);
 
         this.$dom = $('<img />').css({
             'position': 'absolute',
-            'width': '51px',
-            'height': '51px',
+            'width': this.width + 'px',
+            'height': this.width + 'px',
             'transition-duration': UDUR,
         });
 
         this.setGender(gender);
-        this.setMetrics(left, top, unit, m, n);
+        this.setMetrics(left, top, unit);
     };
 
     var wPrototype = exports.prototype;
@@ -504,20 +548,18 @@ var Wanderer = (function () {
         this.$dom.attr('src', 'images/nim.svg');
     };
 
-    wPrototype.setMetrics = function (left, top, unit, wrapX, wrapY) {
+    wPrototype.setMetrics = function (left, top, unit) {
         this.offsetX = left;
         this.offsetY = top;
         this.unit = unit;
-        this.wrapX = wrapX;
-        this.wrapY = wrapY;
 
         return this;
     };
 
     wPrototype.locate = function () {
         this.$dom.css({
-            'top': this.offsetY + this.unit * this.y + 25 + 'px',
-            'left': this.offsetX + this.unit * this.x + 25 + 'px',
+            'top': this.offsetY + this.unit * this.y + this.gutter + 'px',
+            'left': this.offsetX + this.unit * this.x + this.gutter + 'px',
         });
     };
 
@@ -533,12 +575,13 @@ var Wanderer = (function () {
 
     wPrototype.fadeAway = function () {
         var that = this;
-        setTimeout(function () {
-        that.$dom.css('opacity', 0);
 
         setTimeout(function () {
-            that.remove();
-        }, 1000);
+            that.$dom.css('opacity', 0);
+
+            setTimeout(function () {
+                that.remove();
+            }, 1000);
         }, 300);
     };
 
@@ -547,10 +590,8 @@ var Wanderer = (function () {
     };
 
     wPrototype.move = function (x, y) {
-        this.x += this.wrapX + x;
-        this.x %= this.wrapX;
-        this.y += this.wrapY + y;
-        this.y %= this.wrapY;
+        this.x += x;
+        this.y += y;
 
         this.locate();
     };
@@ -566,15 +607,18 @@ var Wanderer = (function () {
 
 
 
-
 // The ball you move, or swipe
 var Ball = (function () {
 
-    var exports = function () {
+    var exports = function (metrics) {
         this.x = 1;
         this.y = 1;
         this.MAX = 3;
-        this.$dom = $('.circle');
+        this.$dom = $('.circle').css({width: metrics.unit + 'px', height: metrics.unit + 'px'});
+
+        this.metrics = metrics;
+
+        this.locate();
     };
 
     var ballPrototype = exports.prototype;
@@ -605,15 +649,46 @@ var Ball = (function () {
         this.y += y;
         this.y %= this.MAX;
 
-        this.$dom
-            .css('top', TOP + this.y * UNIT + 'px')
-            .css('left', LEFT + this.x * UNIT + 'px');
+        this.locate();
+    };
+
+    ballPrototype.locate = function () {
+        this.$dom.css('top', this.metrics.top + this.y * this.metrics.unit + 'px');
+        this.$dom.css('left', this.metrics.left + this.x * this.metrics.unit + 'px');
     };
 
     ballPrototype.refuseToMove = function () {
         this.$dom.animation('ball-refuse-y 300ms');
 
         return wait(NUDUR);
+    };
+
+    return exports;
+}());
+
+var Field = (function () {
+
+    var exports = function (metrics) {
+        var gutter = 3;
+        this.left = metrics.left - gutter;
+        this.top = metrics.top - gutter;
+        this.unit = metrics.unit;
+        this.width = metrics.width + gutter * 2
+    };
+
+    var fPrototype = exports.prototype;
+
+    fPrototype.appear = function () {
+        var that = this;
+        return loadImage('images/field.svg', 'field-grid', document.body).then(function ($img) {
+            that.$dom = $img;
+
+            $img.css('left', that.left + 'px');
+            $img.css('top', that.top + 'px');
+            $img.css('width', that.width + 'px');
+
+            $img.animation('ball-appear 200ms');
+        });
     };
 
     return exports;
