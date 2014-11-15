@@ -24,74 +24,49 @@ body {
     background-color: #C1C6CB;
 }
 
-.indicator {
+.circle {
     position: absolute;
-    top: 130px;
-    left: 30px;
-    height: 253px;
-    width: 0px;
-    background-color: rgba(99,110,121,0.5);
+    visibility: hidden;
     transition-duration: 300ms;
+}
+
+.field-grid {
+    position: absolute;
     z-index: -1;
 }
 
-.circle {
-    position: absolute;
-    left: 131px;
-    top: 231px;
-    transition-duration: 300ms;
+@-webkit-keyframes ball-appear {
+    0% { opacity: 0; transform: scale(2); }
 }
 
-.container {
-    position: absolute;
-    left: 29px;
-    top: 129px;
+@-webkit-keyframes ball-refuse-x {
+    50% { transform: scale(0.5, 2); opacity: 0.2; }
 }
 
-.row {
-    position: absolute;
+@-webkit-keyframes ball-refuse-y {
+    50% { transform: scale(2, 0.5); opacity: 0.2; }
 }
 
-.cell {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    border-right: solid 1px rgba(0,0,0,0.5);
-    border-bottom: solid 1px rgba(0,0,0,0.5);
-    float: left;
+@-webkit-keyframes bom-appear {
+    0% { opacity: 0; transform: translate(0, 10px); }
 }
 
-.cell.border-top {
-    border-top: solid 1px rgba(0,0,0,0.5);
-}
-
-.cell.border-left {
-    border-left: solid 1px rgba(0,0,0,0.5);
-}
-
-.row {
-    position: relative;
-    clear: both;
-}
 
 .wrapper {
     position: absolute;
-    height: 303px;
-    width: 303px;
-    left: 30px;
-    top: 130px;
+    height: 85%;
+    width: 100%;
+    left: 0px;
+    top: 15%;
 }
-
-.round-top-right { border-top-right-radius: 45px; }
-.round-top-left{ border-top-left-radius: 45px; }
-.round-bottom-right { border-bottom-right-radius: 45px; }
-.round-bottom-left{ border-bottom-left-radius: 45px; }
-
-
 
 </style>
 
 <script>
+
+window.pages = window.pages || {};
+
+pages.level = {};
 
 var LEFT = 30;
 var TOP = 130;
@@ -107,20 +82,33 @@ var UDUR = NUDUR + 'ms';
 var LevelPhaseController = (function () {
     'use strict';
 
-    var exports = function () {
-        this.map = new Map();
-        this.evalBox = new EvalBox();
+    var FIELD_TOP = 130; // top of main field in px
+    var FIELD_WIDTH = 80; // width of main field in percent (80%)
+    var FIELD_NUM = 3; // number of columns or rows in main field
 
-        this.indicator = indicator; // singleton
+    var exports = function () {
+        // construct each class
+        this.map = new Map(new Positioner(FIELD_TOP, FIELD_WIDTH, FIELD_NUM).metrics());
+        this.evalBox = new EvalBox();
+        this.field = new Field(new Positioner(FIELD_TOP, FIELD_WIDTH, FIELD_NUM).metrics());
+
+        this.ball = new Ball(new Positioner(FIELD_TOP, FIELD_WIDTH, FIELD_NUM).metrics());
+
+        // debug things
         this.pointBox = PointBox; // singleton
-        this.ball = ball; // singleton
         this.scoreBox = ScoreBox;
     };
 
     var lpcPrototype = exports.prototype;
 
     lpcPrototype.init = function (level) {
+        var that = this;
+
         this.map.loadFromBomList(level.boms);
+
+        this.field.appear()
+            .then(function () { return that.ball.appear(); })
+            .then(function () { return that.map.appear(); });
 
         var bms = new BallMoveMobLeaveService(this.ball, this.map, this.evalBox);
 
@@ -135,26 +123,32 @@ var LevelPhaseController = (function () {
         bindEvents(up, down, left, right, this.reset.bind(this), this.score.bind(this));
     };
 
-    lpcPrototype.loadCurrent = function () {
+    lpcPrototype.loadCurrentLevel = function () {
         var path = (window.location.hash.substring(1) || 0) + '.json';
 
         var that = this;
 
-        this.getLevel(path).then(function (level) {
-            that.init(level);
-        });
+        return this.getLevel(path);
     };
 
     lpcPrototype.reset = function () {
+        console.log('lpc reset');
         this.map.empty();
         this.pointBox.reset();
         this.evalBox.reset();
-        this.indicator.reset();
         this.scoreBox.reset();
 
         var that = this;
 
-        setTimeout(function () { that.loadCurrent(); }, 500);
+        wait(500).then(function () {
+
+            return that.loadCurrentLevel();
+
+        }).then(function (level) {
+
+            that.init(level);
+
+        });
     };
 
     lpcPrototype.score = function (event, param) {
@@ -162,11 +156,10 @@ var LevelPhaseController = (function () {
     };
 
     lpcPrototype.getLevel = function (path) {
-        return $.getJSON('level/' + path)
+        return Promise.resolve($.getJSON('level/' + path));
     };
 
     lpcPrototype.onMoveSuccess = function () {
-        this.indicator.forward();
     };
 
     lpcPrototype.onMoveFailure = function () {
@@ -181,8 +174,44 @@ var LevelPhaseController = (function () {
 $(function () {
     var lpc = new LevelPhaseController();
 
-    lpc.loadCurrent();
+    lpc.loadCurrentLevel().then(function (level) {
+        lpc.init(level);
+    });
 });
+
+// Util
+// calculate TOP, LEFT, UNIT, M, N when given top, fieldWidthPercent, M
+
+var Positioner = (function () {
+    var exports = function (top, fieldWidthPercent, m) {
+        this.top = top;
+        this.fwp = fieldWidthPercent;
+        this.m = m;
+        this.calc();
+    };
+
+    var positionerPt = exports.prototype;
+
+    positionerPt.calc = function () {
+        this.width = $(window).width();
+        this.height = $(window).height();
+
+        var shorter = Math.min(this.width, this.height - this.top);
+
+        this.fieldWidth = shorter * this.fwp / 100;
+
+        this.LEFT = Math.floor((this.width - this.fieldWidth) / 2);
+        this.TOP = this.top;
+
+        this.UNIT = Math.floor(this.fieldWidth / this.m);
+    };
+
+    positionerPt.metrics = function () {
+        return {top: this.TOP, left: this.LEFT, unit: this.UNIT, width: this.UNIT * this.m};
+    };
+
+    return exports;
+}());
 
 
 // Domain layer
@@ -264,8 +293,6 @@ var EvalBox = (function () {
     exports.TOP = -20;
     exports.LEFT = 40;
     exports.UNIT = UNIT / 2;
-    exports.M = 5;
-    exports.N = 5;
 
     var boxPrototype = exports.prototype;
 
@@ -348,7 +375,7 @@ var EvalBox = (function () {
     };
 
     boxPrototype.involve = function (wanderer) {
-        wanderer.setMetrics(exports.LEFT, exports.TOP, exports.UNIT, exports.M, exports.N);
+        wanderer.setMetrics(exports.LEFT, exports.TOP, exports.UNIT);
     };
 
     boxPrototype.setLeft = function (wanderer) {
@@ -384,17 +411,15 @@ var EvalBox = (function () {
 var Map = (function () {
     'use strict';
 
-    var exports = function () {
+    var exports = function (metrics) {
         var cells = this.cells = [];
 
         this.$dom = $(document.body);
-    };
 
-    exports.TOP = TOP;
-    exports.LEFT = LEFT;
-    exports.UNIT = UNIT;
-    exports.M = 3;
-    exports.N = 12;
+        this.top = metrics.top;
+        this.left = metrics.left;
+        this.unit = metrics.unit;
+    };
 
     /**
      *
@@ -405,16 +430,16 @@ var Map = (function () {
         return new exports().loadFromBomList(bomList);
     };
 
+    var mapPrototype = exports.prototype;
+
     /**
      *
      *
      * @return {Wanderer}
      */
-    exports.createCellFromBom = function (bom) {
-        return new Wanderer(bom.x, bom.y, bom.gender, exports.LEFT, exports.TOP, exports.UNIT, exports.M, exports.N);
+    mapPrototype.createCellFromBom = function (bom) {
+        return new Wanderer(bom.x, bom.y, bom.gender, this.left, this.top, this.unit);
     };
-
-    var mapPrototype = exports.prototype;
 
     mapPrototype.empty = function () {
         this.cells.forEach(function (cell) { cell.remove(); });
@@ -424,7 +449,7 @@ var Map = (function () {
 
     mapPrototype.loadFromBomList = function (bomList) {
         bomList.forEach(function (bom) {
-            this.loadOne(exports.createCellFromBom(bom));
+            this.loadOne(this.createCellFromBom(bom));
         }, this);
 
         return this;
@@ -441,11 +466,19 @@ var Map = (function () {
 
         cell.locate();
 
-        cell.prependTo(this.$dom);
-
         return this;
     };
 
+    mapPrototype.appear = function () {
+
+        var promise = wait(10);
+
+        this.cells.forEach(function (cell) {
+            promise = promise.then(function () { return cell.appear(); });
+        });
+
+        return promise;
+    };
 
     mapPrototype.commandAll = function (command, args) {
 
@@ -498,29 +531,27 @@ var Map = (function () {
 var Wanderer = (function () {
     'use strict';
 
-    var exports = function (x, y, gender, left, top, unit, m, n) {
+    var exports = function (x, y, gender, left, top, unit) {
         this.x = x;
         this.y = y;
+        this.width = Math.floor(unit / 2);
+        this.gutter = Math.floor(unit / 4);
 
         this.$dom = $('<img />').css({
             'position': 'absolute',
-            'width': '51px',
-            'height': '51px',
+            'width': this.width + 'px',
+            'height': this.width + 'px',
             'transition-duration': UDUR,
         });
 
         this.setGender(gender);
-        this.setMetrics(left, top, unit, m, n);
+        this.setMetrics(left, top, unit);
     };
 
     var wPrototype = exports.prototype;
 
     wPrototype.element = function () {
         return this.$dom;
-    };
-
-    wPrototype.prependTo = function (dom) {
-        this.$dom.prependTo(dom);
     };
 
     wPrototype.setGender = function (gender) {
@@ -543,20 +574,25 @@ var Wanderer = (function () {
         this.$dom.attr('src', 'images/nim.svg');
     };
 
-    wPrototype.setMetrics = function (left, top, unit, wrapX, wrapY) {
+    wPrototype.appear = function (dom) {
+
+        this.$dom.prependTo(dom || document.body).animation('bom-appear 500ms');
+
+        return wait(40);
+    };
+
+    wPrototype.setMetrics = function (left, top, unit) {
         this.offsetX = left;
         this.offsetY = top;
         this.unit = unit;
-        this.wrapX = wrapX;
-        this.wrapY = wrapY;
 
         return this;
     };
 
     wPrototype.locate = function () {
         this.$dom.css({
-            'top': this.offsetY + this.unit * this.y + 25 + 'px',
-            'left': this.offsetX + this.unit * this.x + 25 + 'px',
+            'top': this.offsetY + this.unit * this.y + this.gutter + 'px',
+            'left': this.offsetX + this.unit * this.x + this.gutter + 'px',
         });
     };
 
@@ -572,12 +608,13 @@ var Wanderer = (function () {
 
     wPrototype.fadeAway = function () {
         var that = this;
-        setTimeout(function () {
-        that.$dom.css('opacity', 0);
 
         setTimeout(function () {
-            that.remove();
-        }, 1000);
+            that.$dom.css('opacity', 0);
+
+            setTimeout(function () {
+                that.remove();
+            }, 1000);
         }, 300);
     };
 
@@ -586,10 +623,8 @@ var Wanderer = (function () {
     };
 
     wPrototype.move = function (x, y) {
-        this.x += this.wrapX + x;
-        this.x %= this.wrapX;
-        this.y += this.wrapY + y;
-        this.y %= this.wrapY;
+        this.x += x;
+        this.y += y;
 
         this.locate();
     };
@@ -603,91 +638,110 @@ var Wanderer = (function () {
 }());
 
 
+
+
 // The ball you move, or swipe
-var ball = {
-    x: 1,
-    y: 1,
-    MAX: 3,
+var Ball = (function () {
 
-    up: function () { this.move(0, 2); },
-    down: function () { this.move(0, 1); },
-    left: function () { this.move(2, 0); },
-    right: function () { this.move(1, 0); },
+    var exports = function (metrics) {
+        this.x = 1;
+        this.y = 1;
+        this.MAX = 3;
+        this.$dom = $('.circle')
+            .css({width: metrics.unit + 'px', height: metrics.unit + 'px'});
 
-    pos: function () {
+        this.metrics = metrics;
+
+        this.locate();
+    };
+
+    var ballPrototype = exports.prototype;
+
+    ballPrototype.appear = function () {
+        var dur = 800;
+
+        this.$dom.css('visibility', 'visible');
+        this.$dom.animation('ball-appear ' + dur + 'ms');
+
+        return wait(dur);
+    };
+
+    ballPrototype.up = function () { this.setPos(this.posAhead('up')); };
+    ballPrototype.down = function () { this.setPos(this.posAhead('down')); };
+    ballPrototype.left = function () { this.setPos(this.posAhead('left')); };
+    ballPrototype.right = function () { this.setPos(this.posAhead('right')); };
+
+    ballPrototype.pos = function () {
         return {x: this.x, y: this.y};
-    },
+    };
 
-    posAhead: function (dir) {
-        var x, y;
+    ballPrototype.posAhead = function (dir) {
         switch (dir) {
-            case 'up': x = this.x + 0; y = this.y + 2; break
-            case 'down': x = this.x + 0; y = this.y + 1; break
-            case 'left': x = this.x + 2; y = this.y + 0; break
-            case 'right': x = this.x + 1; y = this.y + 0; break
+            case 'up': return this.relativePos(0, -1);
+            case 'down': return this.relativePos(0, 1);
+            case 'left': return this.relativePos(-1, 0);
+            case 'right': return this.relativePos(1, 0);
         }
-        return {x: x % this.MAX, y: y % this.MAX};
-    },
+    };
 
-    move: function (x, y) {
-        _console.log('ball move');
-        this.x += x;
-        this.x %= this.MAX;
-        this.y += y;
-        this.y %= this.MAX;
+    ballPrototype.relativePos = function (x, y) {
+        return {x: (this.x + x + this.MAX) % this.MAX, y: (this. y + y + this.MAX) % this.MAX};
+    };
 
-        this.getDom()
-            .css('top', TOP + this.y * UNIT + 'px')
-            .css('left', LEFT + this.x * UNIT + 'px');
-    },
+    ballPrototype.setPos = function (pos) {
+        this.x = pos.x;
+        this.y = pos.y;
 
-    refuseToMove: function () {
+        this.locate();
+    };
+
+    ballPrototype.locate = function () {
+        this.$dom.css('top', this.metrics.top + this.y * this.metrics.unit + 'px');
+        this.$dom.css('left', this.metrics.left + this.x * this.metrics.unit + 'px');
+    };
+
+    ballPrototype.refuseToMove = function () {
+        this.$dom.animation('ball-refuse-y 300ms');
+
+        return wait(NUDUR);
+    };
+
+    return exports;
+}());
+
+var Field = (function () {
+
+    var APPEAR_DUR = 200;
+
+    var exports = function (metrics) {
+        var gutter = 3;
+        this.left = metrics.left - gutter;
+        this.top = metrics.top - gutter;
+        this.unit = metrics.unit;
+        this.width = metrics.width + gutter * 2
+    };
+
+    var fPrototype = exports.prototype;
+
+    fPrototype.appear = function () {
         var that = this;
-        that.getDom().css('transform', 'scale(1.3)');
+        return loadImage('images/field.svg', 'field-grid', document.body).then(function ($img) {
+            var dur = APPEAR_DUR;
 
-        setTimeout(function () {
-            that.getDom().css('transform', 'scale(1)');
-        }, NUDUR);
-    },
+            that.$dom = $img;
 
-    getDom: function () {
-        return $('.circle');
-    },
-};
+            $img.css('left', that.left + 'px');
+            $img.css('top', that.top + 'px');
+            $img.css('width', that.width + 'px');
 
+            $img.animation('ball-appear ' + dur + 'ms');
 
-// indicator of the current progress
-var indicator = {
-    x: 0,
-    y: 250,
-    initialX: 0,
-    initialY: 250,
-    forward: function () {
-        return;
-        this.x += 303/36;
-        this.x %= 3 * UNIT + 1;
-        this.y += 303/36;
-        if (this.y >= 303) { this.y = 303; }
+            return wait(dur);
+        });
+    };
 
-        return this.locate();
-    },
-    reset: function () {
-        this.x = this.initialX;
-        this.y = this.initialY;
-
-        return this.locate();
-    },
-    locate: function () {
-        this.getTarget().css('width', Math.floor(this.x) + 'px');
-        this.getTarget().css('height', Math.floor(this.y) + 'px');
-
-        return this;
-    },
-    getTarget: function () {
-        return $('.indicator');
-    }
-};
-
+    return exports;
+}());
 
 // displaying current point
 var PointBox = {
@@ -738,40 +792,9 @@ var ScoreBox = {
 
 <button class="reset">reset</button>
 
-<div class="indicator round-bottom-left round-top-right"></div>
-
-<div class="container">
-
-<div class="row">
-  <div class="cell border-top border-left"></div>
-  <div class="cell border-top"></div>
-  <div class="cell border-top round-top-right"></div>
-</div>
-<div class="row">
-  <div class="cell border-left"></div>
-  <div class="cell"></div>
-  <div class="cell"></div>
-</div>
-<div class="row">
-  <div class="cell border-left round-bottom-left"></div>
-  <div class="cell"></div>
-  <div class="cell"></div>
-</div>
-
-</div>
-
-<div class="circle">
-<svg width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <defs>
-        <radialGradient cx="50%" cy="19.2432876%" fx="50%" fy="19.2432876%" r="80.7567124%" id="radialGradient-1">
-            <stop stop-color="#000000" stop-opacity="0" offset="0%"></stop>
-            <stop stop-color="#000000" stop-opacity="0.7" offset="100%"></stop>
-        </radialGradient>
-    </defs>
-    <circle cx="50" cy="50" r="49" stroke-width="2" stroke-opacity="0.4" stroke="#000000" fill="#909090" fill-opacity="0.5"/>
+<svg class="circle" width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="49" stroke-width="2" stroke-opacity="0.4" stroke="#000000" fill="#909090" fill-opacity="0.5"/>
 </svg>
-</div>
-
 
 <div class="wrapper"></div>
 
