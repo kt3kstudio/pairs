@@ -24,6 +24,13 @@ body {
     background-color: #C1C6CB;
 }
 
+#main {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
 .circle {
     position: absolute;
     visibility: hidden;
@@ -108,7 +115,7 @@ var LevelPhaseController = (function () {
 
         this.field.appear()
             .then(function () { return that.ball.appear(); })
-            .then(function () { return that.map.appear(); });
+            .then(function () { return that.map.appear('#main'); });
 
         var bms = new BallMoveMobLeaveService(this.ball, this.map, this.evalBox);
 
@@ -469,12 +476,12 @@ var Map = (function () {
         return this;
     };
 
-    mapPrototype.appear = function () {
+    mapPrototype.appear = function (dom) {
 
         var promise = wait(10);
 
         this.cells.forEach(function (cell) {
-            promise = promise.then(function () { return cell.appear(); });
+            promise = promise.then(function () { return cell.appear(dom); });
         });
 
         return promise;
@@ -714,7 +721,7 @@ var Field = (function () {
     var APPEAR_DUR = 200;
 
     var exports = function (metrics) {
-        var gutter = 3;
+        var gutter = 6;
         this.left = metrics.left - gutter;
         this.top = metrics.top - gutter;
         this.unit = metrics.unit;
@@ -790,6 +797,8 @@ var ScoreBox = {
 
 <body>
 
+<div id="main">
+
 <button class="reset">reset</button>
 
 <svg class="circle" width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -804,6 +813,9 @@ f + m = <span class="fm">0</span><br />
 m + m = <span class="mm">0</span><br />
 f + f = <span class="ff">0</span><br />
 Score = <span class="level-score">0</span><br />
+
+</div>
+
 </div>
 
 </body>
