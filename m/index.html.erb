@@ -38,11 +38,11 @@ body {
 }
 
 @-webkit-keyframes ball-refuse-x {
-    50% { transform: scale(0.5, 2); opacity: 0.2; }
+    50% { transform: scale(2, 0.5); opacity: 0.2; }
 }
 
 @-webkit-keyframes ball-refuse-y {
-    50% { transform: scale(2, 0.5); opacity: 0.2; }
+    50% { transform: scale(0.5, 2); opacity: 0.2; }
 }
 
 @-webkit-keyframes bom-appear {
@@ -104,7 +104,7 @@ domain.level.BallMoveMobLeaveService = (function () {
 
         if (this.mobs.find(pos) == null) {
 
-            this.ball.refuseToMove();
+            this.ball.refuseToMove(dir);
 
             return Promise.reject();
         }
@@ -174,34 +174,30 @@ domain.level.EvalBox = (function () {
 
         this.setRight(wanderer);
 
-        evaluate(this.left, this.right);
+        this.score(evaluate(this.left, this.right));
 
         delete this.left;
         delete this.right;
 
     };
 
-    var evaluate = function (left, right) {
+    boxPrototype.score = function (score) {
+        $(document).trigger('score', score);
+    };
 
-        PointBox.countUp(left.gender, right.gender);
+    var evaluate = function (left, right) {
 
         if (left.gender === right.gender) {
 
-            score(10);
-
             apart(left, right, 300);
 
-            return;
+            return {score: 10, left: left.gender, right: right.gender};
         }
-
-        score(100);
 
         close(left, right, 300);
 
-    };
+        return {score: 100, left: left.gender, right: right.gender};
 
-    var score = function (score) {
-        $(document).trigger('score', {score: score});
     };
 
     var apart = function (a, b, delay) {
@@ -274,7 +270,6 @@ domain.level.EvalBox = (function () {
     return exports;
 
 }());
-
 
 // List of boms
 window.domain = window.domain || {};
@@ -575,8 +570,12 @@ domain.level.Ball = (function () {
         this.$dom.css('left', this.metrics.left + this.x * this.metrics.unit + 'px');
     };
 
-    ballPrototype.refuseToMove = function () {
-        this.$dom.animation('ball-refuse-y 300ms');
+    ballPrototype.refuseToMove = function (dir) {
+        if (dir === 'up' || dir === 'down') {
+            this.$dom.animation('ball-refuse-y 300ms');
+        } else {
+            this.$dom.animation('ball-refuse-x 300ms');
+        }
 
         return wait(NUDUR);
     };

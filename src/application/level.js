@@ -86,8 +86,9 @@ pages.level.PhaseController = (function () {
         });
     };
 
-    lpcPrototype.score = function (event, param) {
-        this.scoreBox.add(param.score);
+    lpcPrototype.score = function (event, params) {
+        this.scoreBox.add(params.score);
+        this.pointBox.countUp(params.left, params.right);
     };
 
     lpcPrototype.getLevel = function (path) {
