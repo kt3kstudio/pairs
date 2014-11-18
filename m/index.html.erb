@@ -62,158 +62,29 @@ body {
 
 <script>
 
-window.pages = window.pages || {};
-
-pages.level = {};
-
-var LEFT = 30;
-var TOP = 130;
-var UNIT = 101;
 
 var NUDUR = 300;
 var SUDUR = NUDUR + 'ms';
 
 var UDUR = NUDUR + 'ms';
 
-
-// Application layer
-var LevelPhaseController = (function () {
-    'use strict';
-
-    var FIELD_TOP = 130; // top of main field in px
-    var FIELD_WIDTH = 80; // width of main field in percent (80%)
-    var FIELD_NUM = 3; // number of columns or rows in main field
-
-    var exports = function () {
-        // construct each class
-        this.map = new Map(new Positioner(FIELD_TOP, FIELD_WIDTH, FIELD_NUM).metrics());
-        this.evalBox = new EvalBox();
-        this.field = new Field(new Positioner(FIELD_TOP, FIELD_WIDTH, FIELD_NUM).metrics());
-
-        this.ball = new Ball(new Positioner(FIELD_TOP, FIELD_WIDTH, FIELD_NUM).metrics());
-
-        // debug things
-        this.pointBox = PointBox; // singleton
-        this.scoreBox = ScoreBox;
-    };
-
-    var lpcPrototype = exports.prototype;
-
-    lpcPrototype.init = function (level) {
-        var that = this;
-
-        this.map.loadFromBomList(level.boms);
-
-        this.field.appear()
-            .then(function () { return that.ball.appear(); })
-            .then(function () { return that.map.appear('#main'); });
-
-        var bms = new BallMoveMobLeaveService(this.ball, this.map, this.evalBox);
-
-        var onMoveSuccess = this.onMoveSuccess.bind(this);
-        var onMoveFailure = this.onMoveFailure.bind(this);
-
-        var up = function () { bms.up().then(onMoveSuccess, onMoveFailure); };
-        var down = function () { bms.down().then(onMoveSuccess, onMoveFailure); };
-        var left = function () { bms.left().then(onMoveSuccess, onMoveFailure); };
-        var right = function () { bms.right().then(onMoveSuccess, onMoveFailure); };
-
-        bindEvents(up, down, left, right, this.reset.bind(this), this.score.bind(this));
-    };
-
-    lpcPrototype.loadCurrentLevel = function () {
-        var path = (window.location.hash.substring(1) || 0) + '.json';
-
-        var that = this;
-
-        return this.getLevel(path);
-    };
-
-    lpcPrototype.reset = function () {
-        console.log('lpc reset');
-        this.map.empty();
-        this.pointBox.reset();
-        this.evalBox.reset();
-        this.scoreBox.reset();
-
-        var that = this;
-
-        wait(500).then(function () {
-
-            return that.loadCurrentLevel();
-
-        }).then(function (level) {
-
-            that.init(level);
-
-        });
-    };
-
-    lpcPrototype.score = function (event, param) {
-        this.scoreBox.add(param.score);
-    };
-
-    lpcPrototype.getLevel = function (path) {
-        return Promise.resolve($.getJSON('level/' + path));
-    };
-
-    lpcPrototype.onMoveSuccess = function () {
-    };
-
-    lpcPrototype.onMoveFailure = function () {
-    };
-
-    return exports;
-
-}());
+var lpc;
 
 
 // main
 $(function () {
-    var lpc = new LevelPhaseController();
+    lpc = new pages.level.PhaseController();
 
     lpc.loadCurrentLevel().then(function (level) {
         lpc.init(level);
     });
 });
 
-// Util
-// calculate TOP, LEFT, UNIT, M, N when given top, fieldWidthPercent, M
-
-var Positioner = (function () {
-    var exports = function (top, fieldWidthPercent, m) {
-        this.top = top;
-        this.fwp = fieldWidthPercent;
-        this.m = m;
-        this.calc();
-    };
-
-    var positionerPt = exports.prototype;
-
-    positionerPt.calc = function () {
-        this.width = $(window).width();
-        this.height = $(window).height();
-
-        var shorter = Math.min(this.width, this.height - this.top);
-
-        this.fieldWidth = shorter * this.fwp / 100;
-
-        this.LEFT = Math.floor((this.width - this.fieldWidth) / 2);
-        this.TOP = this.top;
-
-        this.UNIT = Math.floor(this.fieldWidth / this.m);
-    };
-
-    positionerPt.metrics = function () {
-        return {top: this.TOP, left: this.LEFT, unit: this.UNIT, width: this.UNIT * this.m};
-    };
-
-    return exports;
-}());
-
 
 // Domain layer
-var BallMoveMobLeaveService = (function () {
+window.domain = window.domain || {};
+domain.level = domain.level || {};
+domain.level.BallMoveMobLeaveService = (function () {
     'use strict';
 
     var exports = function (ball, wanderers, box) {
@@ -282,15 +153,14 @@ var BallMoveMobLeaveService = (function () {
 
 
 // The box above the grid
-var EvalBox = (function () {
+window.domain = window.domain || {};
+domain.level = domain.level || {};
+domain.level.EvalBox = (function () {
     'use strict';
 
-    var exports = function () {
+    var exports = function (metrics) {
+        this.metrics = metrics;
     };
-
-    exports.TOP = -20;
-    exports.LEFT = 40;
-    exports.UNIT = UNIT / 2;
 
     var boxPrototype = exports.prototype;
 
@@ -365,6 +235,7 @@ var EvalBox = (function () {
             right.fadeAwayUnhappy();
         }, delay);
     };
+
     var goodbyeHappy = function (left, right, delay) {
         setTimeout(function () {
             left.fadeAwayHappy();
@@ -373,7 +244,7 @@ var EvalBox = (function () {
     };
 
     boxPrototype.involve = function (wanderer) {
-        wanderer.setMetrics(exports.LEFT, exports.TOP, exports.UNIT);
+        wanderer.setMetrics(this.metrics.left, this.metrics.top, this.metrics.unit);
     };
 
     boxPrototype.setLeft = function (wanderer) {
@@ -406,7 +277,9 @@ var EvalBox = (function () {
 
 
 // List of boms
-var Map = (function () {
+window.domain = window.domain || {};
+domain.level = domain.level || {};
+domain.level.Map = (function () {
     'use strict';
 
     var exports = function (metrics) {
@@ -436,7 +309,7 @@ var Map = (function () {
      * @return {Wanderer}
      */
     mapPrototype.createCellFromBom = function (bom) {
-        return new Wanderer(bom.x, bom.y, bom.gender, this.left, this.top, this.unit);
+        return new domain.level.Wanderer(bom.x, bom.y, bom.gender, this.left, this.top, this.unit);
     };
 
     mapPrototype.empty = function () {
@@ -526,7 +399,9 @@ var Map = (function () {
 
 
 // A bom
-var Wanderer = (function () {
+window.domain = window.domain || {};
+domain.level = domain.level || {};
+domain.level.Wanderer = (function () {
     'use strict';
 
     var exports = function (x, y, gender, left, top, unit) {
@@ -639,7 +514,9 @@ var Wanderer = (function () {
 
 
 // The ball you move, or swipe
-var Ball = (function () {
+window.domain = window.domain || {};
+domain.level = domain.level || {};
+domain.level.Ball = (function () {
 
     var exports = function (metrics) {
         this.x = 1;
@@ -707,7 +584,9 @@ var Ball = (function () {
     return exports;
 }());
 
-var Field = (function () {
+window.domain = window.domain || {};
+domain.level = domain.level || {};
+domain.level.Field = (function () {
 
     var APPEAR_DUR = 200;
 
@@ -742,7 +621,8 @@ var Field = (function () {
 }());
 
 // displaying current point
-var PointBox = {
+window.debug = window.debug || {};
+debug.PointBox = {
     reset: function () {
     },
     getCount: function (gender0, gender1) {
@@ -766,7 +646,8 @@ var PointBox = {
     }
 };
 
-var ScoreBox = {
+window.debug = window.debug || {};
+debug.ScoreBox = {
     add: function (point) {
         this.setScore(this.getScore() + point);
     },
