@@ -9,8 +9,8 @@ pages.level = {};
 pages.level.PhaseController = (function () {
     'use strict';
 
-    var FIELD_TOP = 130; // top of main field in px
-    var FIELD_WIDTH = 80; // width of main field in percent (80%)
+    var FIELD_TOP = 180; // top of main field in px
+    var FIELD_WIDTH = 70; // width of main field in percent
     var FIELD_NUM = 3; // number of columns or rows in main field
 
     var EVAL_TOP = -40; // top of eval box in px
@@ -23,10 +23,16 @@ pages.level.PhaseController = (function () {
         // prepare metrics
         var mapMetrics = new pages.level.Positioner(FIELD_TOP, FIELD_WIDTH, FIELD_NUM).metrics();
         var evalBoxMetrics = new pages.level.Positioner(EVAL_TOP, EVAL_WIDTH, EVAL_DIV).metrics();
+        var trashBoxMetrics = {left: 0, top: 0, unit: 1};
 
+        // models
         this.map = new domain.level.Map(mapMetrics);
-        this.evalBox = new domain.level.EvalBox(evalBoxMetrics);
         this.field = new domain.level.Field(mapMetrics);
+
+        // boxes
+        this.evalBox = new domain.level.EvalBox(evalBoxMetrics);
+        this.trashBox = new domain.level.TrashBox(trashBoxMetrics);
+        this.evalBox.trashBox = this.trashBox;
 
         this.ball = new domain.level.Ball(mapMetrics);
 

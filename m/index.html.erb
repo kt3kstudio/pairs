@@ -49,6 +49,10 @@ body {
     0% { opacity: 0; transform: translate(0, 10px); }
 }
 
+@-webkit-keyframes go-to-trash {
+    100% { opacity: 0; transform: translate(0, 10px) scale(0); }
+}
+
 
 .wrapper {
     position: absolute;
@@ -113,7 +117,7 @@ domain.level.BallMoveMobLeaveService = (function () {
 
         var w = this.mobs.leave(pos);
 
-        this.box.push(w);
+        this.box.take(w);
 
         return Promise.resolve();
     };
@@ -164,107 +168,110 @@ domain.level.EvalBox = (function () {
 
     var boxPrototype = exports.prototype;
 
-    boxPrototype.push = function (wanderer) {
-        if (this.left == null) {
+    boxPrototype.take = function (wanderer) {
 
-            this.setLeft(wanderer);
+        if (this.leftPromise == null) {
 
-            return;
+            this.leftPromise = this.setToLeft(wanderer);
+
+            return Promise.resolve(null);
         };
 
-        this.setRight(wanderer);
+        var leftPromise = this.leftPromise;
+        delete this.leftPromise;
 
-        this.score(evaluate(this.left, this.right));
+        return this.setToRight(wanderer).then(function (right) {
 
-        delete this.left;
-        delete this.right;
+            return leftPromise.then(function (left) {
+
+                score(evaluate(left, right));
+
+            });
+
+        });
 
     };
 
-    boxPrototype.score = function (score) {
+    var score = function (score) {
         $(document).trigger('score', score);
     };
 
     var evaluate = function (left, right) {
 
+        var result = {left: left.gender, right: right.gender};
+
         if (left.gender === right.gender) {
-
-            apart(left, right, 300);
-
-            return {score: 10, left: left.gender, right: right.gender};
+            result.score = 10;
+            result.goTrash = [left, right];
+        } else {
+            result.score = 100;
+            result.goFusion = [left, right];
         }
 
-        close(left, right, 300);
+        return result;
 
-        return {score: 100, left: left.gender, right: right.gender};
-
-    };
-
-    var apart = function (a, b, delay) {
-
-        setTimeout(function () {
-            a.left();
-            b.right();
-
-            goodbyeUnhappy(a, b, 300);
-        }, delay);
-
-    };
-
-    var close = function (a, b, delay) {
-
-        setTimeout(function () {
-            a.right();
-            b.left();
-
-            a.up();
-            b.up();
-
-            goodbyeHappy(a, b, 300);
-        }, delay);
-
-    };
-
-    var goodbyeUnhappy = function (left, right, delay) {
-        setTimeout(function () {
-            left.fadeAwayUnhappy();
-            right.fadeAwayUnhappy();
-        }, delay);
-    };
-
-    var goodbyeHappy = function (left, right, delay) {
-        setTimeout(function () {
-            left.fadeAwayHappy();
-            right.fadeAwayHappy();
-        }, delay);
     };
 
     boxPrototype.involve = function (wanderer) {
         wanderer.setMetrics(this.metrics.left, this.metrics.top, this.metrics.unit);
     };
 
-    boxPrototype.setLeft = function (wanderer) {
+    boxPrototype.setToLeft = function (wanderer) {
+
+        var dur = 800;
+
         this.involve(wanderer);
+
+        wanderer.setTransitionDuration(dur);
+
         wanderer.x = 1;
         wanderer.y = 1;
-        wanderer.locate();
-        this.left = wanderer;
+
+        return wait(10).then(function () {
+
+            wanderer.locate();
+
+            return wait(dur);
+
+        }).then(function () {
+            return wanderer;
+        });
+
     };
 
-    boxPrototype.setRight = function (wanderer) {
+    boxPrototype.setToRight = function (wanderer) {
+
+        var dur = 800;
+
         this.involve(wanderer);
-        wanderer.x = 3;
-        wanderer.y = 1;
-        wanderer.locate();
-        this.right = wanderer;
+
+        wanderer.setTransitionDuration(dur);
+
+
+        return wait(10).then(function () {
+
+            wanderer.x = 3;
+            wanderer.y = 1;
+            wanderer.locate();
+
+            return wait(dur);
+
+        }).then(function () {
+
+            return wanderer;
+
+        });
+
     };
 
     boxPrototype.reset = function () {
+
         if (this.left != null) { this.left.remove(); }
         if (this.right != null) { this.right.remove(); }
 
         this.left = null;
         this.right = null;
+
     };
 
     return exports;
@@ -409,37 +416,39 @@ domain.level.Wanderer = (function () {
             'position': 'absolute',
             'width': this.width + 'px',
             'height': this.width + 'px',
-            'transition-duration': UDUR,
         });
 
+        this.setTransitionDuration(NUDUR);
         this.setGender(gender);
         this.setMetrics(left, top, unit);
     };
 
     var wPrototype = exports.prototype;
 
-    wPrototype.element = function () {
-        return this.$dom;
+    wPrototype.setTransitionDuration = function (dur) {
+        this.$dom.css('transition-duration', dur + 'ms');
     };
 
     wPrototype.setGender = function (gender) {
         this.gender = gender;
 
         if (gender === 'm') {
-            this.setMaleColor();
+            return this.setMaleColor();
         } else if (gender === 'f') {
-            this.setFemaleColor();
+            return this.setFemaleColor();
         }
-
-        return this;
     };
 
     wPrototype.setFemaleColor = function () {
         this.$dom.attr('src', 'images/neef.svg');
+
+        return this;
     };
 
     wPrototype.setMaleColor = function () {
         this.$dom.attr('src', 'images/nim.svg');
+
+        return this;
     };
 
     wPrototype.appear = function (dom) {
@@ -618,51 +627,6 @@ domain.level.Field = (function () {
 
     return exports;
 }());
-
-// displaying current point
-window.debug = window.debug || {};
-debug.PointBox = {
-    reset: function () {
-    },
-    getCount: function (gender0, gender1) {
-        return parseInt(this.getTarget(gender0, gender1).text());
-    },
-    setCount: function (gender0, gender1, count) {
-        this.getTarget(gender0, gender1).text(count);
-    },
-    countUp: function (gender0, gender1) {
-        this.setCount(gender0, gender1, this.getCount(gender0, gender1) + 1);
-    },
-    reset: function () {
-        this.setCount('f', 'f', 0);
-        this.setCount('m', 'f', 0);
-        this.setCount('f', 'm', 0);
-        this.setCount('m', 'm', 0);
-    },
-    getTarget: function (gender0, gender1) {
-        var genderPair = gender0 + gender1;
-        return $('.point .' + genderPair);
-    }
-};
-
-window.debug = window.debug || {};
-debug.ScoreBox = {
-    add: function (point) {
-        this.setScore(this.getScore() + point);
-    },
-    getScore: function () {
-        return parseInt(this.getTarget().text());
-    },
-    setScore: function (score) {
-        this.getTarget().text(score);
-    },
-    reset: function () {
-        this.setScore(0);
-    },
-    getTarget: function () {
-        return $('.point .level-score');
-    }
-};
 
 </script>
 

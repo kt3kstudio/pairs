@@ -3,4 +3,7 @@
 //= include swipe-event/swipe-cross.js
 
 //= include application/level.js
-//= include_tree domain/level
+
+//= include domain/level/index.js
+
+//= include debug/all.js
