@@ -47,15 +47,31 @@ body {
 }
 
 @-webkit-keyframes ball-refuse-x {
-    50% { transform: scale(0.5, 2); opacity: 0.2; }
+    50% { transform: scale(2, 0.5); opacity: 0.2; }
 }
 
 @-webkit-keyframes ball-refuse-y {
-    50% { transform: scale(2, 0.5); opacity: 0.2; }
+    50% { transform: scale(0.5, 2); opacity: 0.2; }
 }
 
 @-webkit-keyframes bom-appear {
     0% { opacity: 0; transform: translate(0, 10px); }
+}
+
+@-webkit-keyframes go-to-trash {
+    100% { opacity: 0; transform: translate(0, 10px) scale(0); }
+}
+
+@-webkit-keyframes get-to-reactor-left {
+    0% { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
+    50% { opacity: 1; transform: translate(20px, 0) rotate(0) scale(1); }
+    100% { opacity: 0; transform: translate(40px, 0) rotate(360deg) scale(0); }
+}
+
+@-webkit-keyframes get-to-reactor-right {
+    0% { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
+    50% { opacity: 1; transform: translate(-20px, 0) rotate(0) scale(1); }
+    100% { opacity: 0; transform: translate(-40px, 0) rotate(-360deg) scale(0); }
 }
 
 
@@ -71,158 +87,29 @@ body {
 
 <script>
 
-window.pages = window.pages || {};
-
-pages.level = {};
-
-var LEFT = 30;
-var TOP = 130;
-var UNIT = 101;
 
 var NUDUR = 300;
 var SUDUR = NUDUR + 'ms';
 
 var UDUR = NUDUR + 'ms';
 
-
-// Application layer
-var LevelPhaseController = (function () {
-    'use strict';
-
-    var FIELD_TOP = 130; // top of main field in px
-    var FIELD_WIDTH = 80; // width of main field in percent (80%)
-    var FIELD_NUM = 3; // number of columns or rows in main field
-
-    var exports = function () {
-        // construct each class
-        this.map = new Map(new Positioner(FIELD_TOP, FIELD_WIDTH, FIELD_NUM).metrics());
-        this.evalBox = new EvalBox();
-        this.field = new Field(new Positioner(FIELD_TOP, FIELD_WIDTH, FIELD_NUM).metrics());
-
-        this.ball = new Ball(new Positioner(FIELD_TOP, FIELD_WIDTH, FIELD_NUM).metrics());
-
-        // debug things
-        this.pointBox = PointBox; // singleton
-        this.scoreBox = ScoreBox;
-    };
-
-    var lpcPrototype = exports.prototype;
-
-    lpcPrototype.init = function (level) {
-        var that = this;
-
-        this.map.loadFromBomList(level.boms);
-
-        this.field.appear()
-            .then(function () { return that.ball.appear(); })
-            .then(function () { return that.map.appear('#main'); });
-
-        var bms = new BallMoveMobLeaveService(this.ball, this.map, this.evalBox);
-
-        var onMoveSuccess = this.onMoveSuccess.bind(this);
-        var onMoveFailure = this.onMoveFailure.bind(this);
-
-        var up = function () { bms.up().then(onMoveSuccess, onMoveFailure); };
-        var down = function () { bms.down().then(onMoveSuccess, onMoveFailure); };
-        var left = function () { bms.left().then(onMoveSuccess, onMoveFailure); };
-        var right = function () { bms.right().then(onMoveSuccess, onMoveFailure); };
-
-        bindEvents(up, down, left, right, this.reset.bind(this), this.score.bind(this));
-    };
-
-    lpcPrototype.loadCurrentLevel = function () {
-        var path = (window.location.hash.substring(1) || 0) + '.json';
-
-        var that = this;
-
-        return this.getLevel(path);
-    };
-
-    lpcPrototype.reset = function () {
-        console.log('lpc reset');
-        this.map.empty();
-        this.pointBox.reset();
-        this.evalBox.reset();
-        this.scoreBox.reset();
-
-        var that = this;
-
-        wait(500).then(function () {
-
-            return that.loadCurrentLevel();
-
-        }).then(function (level) {
-
-            that.init(level);
-
-        });
-    };
-
-    lpcPrototype.score = function (event, param) {
-        this.scoreBox.add(param.score);
-    };
-
-    lpcPrototype.getLevel = function (path) {
-        return Promise.resolve($.getJSON('level/' + path));
-    };
-
-    lpcPrototype.onMoveSuccess = function () {
-    };
-
-    lpcPrototype.onMoveFailure = function () {
-    };
-
-    return exports;
-
-}());
+var lpc;
 
 
 // main
 $(function () {
-    var lpc = new LevelPhaseController();
+    lpc = new pages.level.PhaseController();
 
     lpc.loadCurrentLevel().then(function (level) {
         lpc.init(level);
     });
 });
 
-// Util
-// calculate TOP, LEFT, UNIT, M, N when given top, fieldWidthPercent, M
-
-var Positioner = (function () {
-    var exports = function (top, fieldWidthPercent, m) {
-        this.top = top;
-        this.fwp = fieldWidthPercent;
-        this.m = m;
-        this.calc();
-    };
-
-    var positionerPt = exports.prototype;
-
-    positionerPt.calc = function () {
-        this.width = $(window).width();
-        this.height = $(window).height();
-
-        var shorter = Math.min(this.width, this.height - this.top);
-
-        this.fieldWidth = shorter * this.fwp / 100;
-
-        this.LEFT = Math.floor((this.width - this.fieldWidth) / 2);
-        this.TOP = this.top;
-
-        this.UNIT = Math.floor(this.fieldWidth / this.m);
-    };
-
-    positionerPt.metrics = function () {
-        return {top: this.TOP, left: this.LEFT, unit: this.UNIT, width: this.UNIT * this.m};
-    };
-
-    return exports;
-}());
-
 
 // Domain layer
-var BallMoveMobLeaveService = (function () {
+window.domain = window.domain || {};
+domain.level = domain.level || {};
+domain.level.BallMoveMobLeaveService = (function () {
     'use strict';
 
     var exports = function (ball, wanderers, box) {
@@ -242,7 +129,7 @@ var BallMoveMobLeaveService = (function () {
 
         if (this.mobs.find(pos) == null) {
 
-            this.ball.refuseToMove();
+            this.ball.refuseToMove(dir);
 
             return Promise.reject();
         }
@@ -251,9 +138,7 @@ var BallMoveMobLeaveService = (function () {
 
         var w = this.mobs.leave(pos);
 
-        this.box.push(w);
-
-        return Promise.resolve();
+        return this.box.take(w);
     };
 
     bmsPrototype.up = function () { return this.move('up'); };
@@ -291,131 +176,132 @@ var BallMoveMobLeaveService = (function () {
 
 
 // The box above the grid
-var EvalBox = (function () {
+window.domain = window.domain || {};
+domain.level = domain.level || {};
+domain.level.EvalBox = (function () {
     'use strict';
 
-    var exports = function () {
+    var exports = function (metrics) {
+        this.metrics = metrics;
     };
-
-    exports.TOP = -20;
-    exports.LEFT = 40;
-    exports.UNIT = UNIT / 2;
 
     var boxPrototype = exports.prototype;
 
-    boxPrototype.push = function (wanderer) {
-        if (this.left == null) {
+    boxPrototype.take = function (wanderer) {
 
-            this.setLeft(wanderer);
+        if (this.leftPromise == null) {
 
-            return;
+            this.leftPromise = this.setToLeft(wanderer);
+
+            return Promise.resolve(null);
         };
 
-        this.setRight(wanderer);
+        var leftPromise = this.leftPromise;
+        delete this.leftPromise;
 
-        evaluate(this.left, this.right);
+        return this.setToRight(wanderer).then(function (right) {
 
-        delete this.left;
-        delete this.right;
+            return leftPromise.then(function (left) {
+
+                return evaluate(left, right);
+
+            });
+
+        });
 
     };
 
     var evaluate = function (left, right) {
 
-        PointBox.countUp(left.gender, right.gender);
+        var result = {left: left, right: right};
+
+        result.goTrash = [];
+        result.goFusion = [];
+        result.goQueue = [];
 
         if (left.gender === right.gender) {
-
-            score(10);
-
-            apart(left, right, 300);
-
-            return;
+            result.score = 10;
+            result.goTrash.push(right);
+            result.goTrash.push(left);
+        } else {
+            result.score = 100;
+            result.goFusion.push({left: left, right: right});
         }
 
-        score(100);
+        return result;
 
-        close(left, right, 300);
-
-    };
-
-    var score = function (score) {
-        $(document).trigger('score', {score: score});
-    };
-
-    var apart = function (a, b, delay) {
-
-        setTimeout(function () {
-            a.left();
-            b.right();
-
-            goodbyeUnhappy(a, b, 300);
-        }, delay);
-
-    };
-
-    var close = function (a, b, delay) {
-
-        setTimeout(function () {
-            a.right();
-            b.left();
-
-            a.up();
-            b.up();
-
-            goodbyeHappy(a, b, 300);
-        }, delay);
-
-    };
-
-    var goodbyeUnhappy = function (left, right, delay) {
-        setTimeout(function () {
-            left.fadeAwayUnhappy();
-            right.fadeAwayUnhappy();
-        }, delay);
-    };
-    var goodbyeHappy = function (left, right, delay) {
-        setTimeout(function () {
-            left.fadeAwayHappy();
-            right.fadeAwayHappy();
-        }, delay);
     };
 
     boxPrototype.involve = function (wanderer) {
-        wanderer.setMetrics(exports.LEFT, exports.TOP, exports.UNIT);
+        wanderer.setMetrics(this.metrics.left, this.metrics.top, this.metrics.unit);
     };
 
-    boxPrototype.setLeft = function (wanderer) {
+    boxPrototype.setToLeft = function (wanderer) {
+
+        var dur = 800;
+
         this.involve(wanderer);
+
+        wanderer.setTransitionDuration(dur);
+
         wanderer.x = 1;
         wanderer.y = 1;
-        wanderer.locate();
-        this.left = wanderer;
+
+        return wait(10).then(function () {
+
+            wanderer.locate();
+
+            return wait(dur);
+
+        }).then(function () {
+            return wanderer;
+        });
+
     };
 
-    boxPrototype.setRight = function (wanderer) {
+    boxPrototype.setToRight = function (wanderer) {
+
+        var dur = 800;
+
         this.involve(wanderer);
-        wanderer.x = 3;
-        wanderer.y = 1;
-        wanderer.locate();
-        this.right = wanderer;
+
+        wanderer.setTransitionDuration(dur);
+
+
+        return wait(10).then(function () {
+
+            wanderer.x = 3;
+            wanderer.y = 1;
+            wanderer.locate();
+
+            return wait(dur);
+
+        }).then(function () {
+
+            return wanderer;
+
+        });
+
     };
 
     boxPrototype.reset = function () {
+
         if (this.left != null) { this.left.remove(); }
         if (this.right != null) { this.right.remove(); }
 
         this.left = null;
         this.right = null;
+
     };
 
     return exports;
 
 }());
 
-
 // List of boms
-var Map = (function () {
+window.domain = window.domain || {};
+domain.level = domain.level || {};
+domain.level.Map = (function () {
     'use strict';
 
     var exports = function (metrics) {
@@ -445,7 +331,7 @@ var Map = (function () {
      * @return {Wanderer}
      */
     mapPrototype.createCellFromBom = function (bom) {
-        return new Wanderer(bom.x, bom.y, bom.gender, this.left, this.top, this.unit);
+        return new domain.level.Wanderer(bom.x, bom.y, bom.gender, this.left, this.top, this.unit);
     };
 
     mapPrototype.empty = function () {
@@ -535,7 +421,9 @@ var Map = (function () {
 
 
 // A bom
-var Wanderer = (function () {
+window.domain = window.domain || {};
+domain.level = domain.level || {};
+domain.level.Wanderer = (function () {
     'use strict';
 
     var exports = function (x, y, gender, left, top, unit) {
@@ -548,37 +436,39 @@ var Wanderer = (function () {
             'position': 'absolute',
             'width': this.width + 'px',
             'height': this.width + 'px',
-            'transition-duration': UDUR,
         });
 
+        this.setTransitionDuration(NUDUR);
         this.setGender(gender);
         this.setMetrics(left, top, unit);
     };
 
     var wPrototype = exports.prototype;
 
-    wPrototype.element = function () {
-        return this.$dom;
+    wPrototype.setTransitionDuration = function (dur) {
+        this.$dom.css('transition-duration', dur + 'ms');
     };
 
     wPrototype.setGender = function (gender) {
         this.gender = gender;
 
         if (gender === 'm') {
-            this.setMaleColor();
+            return this.setMaleColor();
         } else if (gender === 'f') {
-            this.setFemaleColor();
+            return this.setFemaleColor();
         }
-
-        return this;
     };
 
     wPrototype.setFemaleColor = function () {
         this.$dom.attr('src', 'images/neef.svg');
+
+        return this;
     };
 
     wPrototype.setMaleColor = function () {
         this.$dom.attr('src', 'images/nim.svg');
+
+        return this;
     };
 
     wPrototype.appear = function (dom) {
@@ -648,7 +538,9 @@ var Wanderer = (function () {
 
 
 // The ball you move, or swipe
-var Ball = (function () {
+window.domain = window.domain || {};
+domain.level = domain.level || {};
+domain.level.Ball = (function () {
 
     var exports = function (metrics) {
         this.x = 1;
@@ -707,8 +599,12 @@ var Ball = (function () {
         this.$dom.css('left', this.metrics.left + this.x * this.metrics.unit + 'px');
     };
 
-    ballPrototype.refuseToMove = function () {
-        this.$dom.animation('ball-refuse-y 300ms');
+    ballPrototype.refuseToMove = function (dir) {
+        if (dir === 'up' || dir === 'down') {
+            this.$dom.animation('ball-refuse-y 300ms');
+        } else {
+            this.$dom.animation('ball-refuse-x 300ms');
+        }
 
         return wait(NUDUR);
     };
@@ -716,7 +612,9 @@ var Ball = (function () {
     return exports;
 }());
 
-var Field = (function () {
+window.domain = window.domain || {};
+domain.level = domain.level || {};
+domain.level.Field = (function () {
 
     var APPEAR_DUR = 200;
 
@@ -749,49 +647,6 @@ var Field = (function () {
 
     return exports;
 }());
-
-// displaying current point
-var PointBox = {
-    reset: function () {
-    },
-    getCount: function (gender0, gender1) {
-        return parseInt(this.getTarget(gender0, gender1).text());
-    },
-    setCount: function (gender0, gender1, count) {
-        this.getTarget(gender0, gender1).text(count);
-    },
-    countUp: function (gender0, gender1) {
-        this.setCount(gender0, gender1, this.getCount(gender0, gender1) + 1);
-    },
-    reset: function () {
-        this.setCount('f', 'f', 0);
-        this.setCount('m', 'f', 0);
-        this.setCount('f', 'm', 0);
-        this.setCount('m', 'm', 0);
-    },
-    getTarget: function (gender0, gender1) {
-        var genderPair = gender0 + gender1;
-        return $('.point .' + genderPair);
-    }
-};
-
-var ScoreBox = {
-    add: function (point) {
-        this.setScore(this.getScore() + point);
-    },
-    getScore: function () {
-        return parseInt(this.getTarget().text());
-    },
-    setScore: function (score) {
-        this.getTarget().text(score);
-    },
-    reset: function () {
-        this.setScore(0);
-    },
-    getTarget: function () {
-        return $('.point .level-score');
-    }
-};
 
 </script>
 
