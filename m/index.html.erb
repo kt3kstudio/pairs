@@ -53,6 +53,18 @@ body {
     100% { opacity: 0; transform: translate(0, 10px) scale(0); }
 }
 
+@-webkit-keyframes get-to-reactor-left {
+    0% { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
+    50% { opacity: 1; transform: translate(20px, 0) rotate(0) scale(1); }
+    100% { opacity: 0; transform: translate(40px, 0) rotate(360deg) scale(0); }
+}
+
+@-webkit-keyframes get-to-reactor-right {
+    0% { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
+    50% { opacity: 1; transform: translate(-20px, 0) rotate(0) scale(1); }
+    100% { opacity: 0; transform: translate(-40px, 0) rotate(-360deg) scale(0); }
+}
+
 
 .wrapper {
     position: absolute;
@@ -117,9 +129,7 @@ domain.level.BallMoveMobLeaveService = (function () {
 
         var w = this.mobs.leave(pos);
 
-        this.box.take(w);
-
-        return Promise.resolve();
+        return this.box.take(w);
     };
 
     bmsPrototype.up = function () { return this.move('up'); };
@@ -184,7 +194,7 @@ domain.level.EvalBox = (function () {
 
             return leftPromise.then(function (left) {
 
-                score(evaluate(left, right));
+                return evaluate(left, right);
 
             });
 
@@ -192,20 +202,21 @@ domain.level.EvalBox = (function () {
 
     };
 
-    var score = function (score) {
-        $(document).trigger('score', score);
-    };
-
     var evaluate = function (left, right) {
 
-        var result = {left: left.gender, right: right.gender};
+        var result = {left: left, right: right};
+
+        result.goTrash = [];
+        result.goFusion = [];
+        result.goQueue = [];
 
         if (left.gender === right.gender) {
             result.score = 10;
-            result.goTrash = [left, right];
+            result.goTrash.push(right);
+            result.goTrash.push(left);
         } else {
             result.score = 100;
-            result.goFusion = [left, right];
+            result.goFusion.push({left: left, right: right});
         }
 
         return result;

@@ -24,6 +24,7 @@ pages.level.PhaseController = (function () {
         var mapMetrics = new pages.level.Positioner(FIELD_TOP, FIELD_WIDTH, FIELD_NUM).metrics();
         var evalBoxMetrics = new pages.level.Positioner(EVAL_TOP, EVAL_WIDTH, EVAL_DIV).metrics();
         var trashBoxMetrics = {left: 0, top: 0, unit: 1};
+        var fusionBoxMetrics = new pages.level.Positioner(EVAL_TOP + evalBoxMetrics.unit, 0, 1).metrics();
 
         // models
         this.map = new domain.level.Map(mapMetrics);
@@ -32,7 +33,8 @@ pages.level.PhaseController = (function () {
         // boxes
         this.evalBox = new domain.level.EvalBox(evalBoxMetrics);
         this.trashBox = new domain.level.TrashBox(trashBoxMetrics);
-        this.evalBox.trashBox = this.trashBox;
+        this.fusionBox = new domain.level.FusionBox(fusionBoxMetrics);
+        this.exitQueue = new domain.level.ExitQueue();
 
         this.ball = new domain.level.Ball(mapMetrics);
 
@@ -53,13 +55,27 @@ pages.level.PhaseController = (function () {
             .then(function () { return that.map.appear('#main'); });
 
         var bms = new domain.level.BallMoveMobLeaveService(this.ball, this.map, this.evalBox);
+        var erp = new domain.level.EvalResultProcessor(this.trashBox, this.fusionBox, this.exitQueue);
 
-        var up = function () { bms.up(); };
-        var down = function () { bms.down(); };
-        var left = function () { bms.left(); };
-        var right = function () { bms.right(); };
+        var process = function (result) {
 
-        bindEvents(up, down, left, right, this.reset.bind(this), this.score.bind(this));
+            if (result == null) {
+                return;
+            };
+
+            that.scoreBox.add(result.score);
+            that.pointBox.countUp(result.left.gender, result.right.gender);
+
+            erp.process(result);
+
+        };
+
+        var up = function () { bms.up().then(process); };
+        var down = function () { bms.down().then(process); };
+        var left = function () { bms.left().then(process); };
+        var right = function () { bms.right().then(process); };
+
+        bindEvents(up, down, left, right, this.reset.bind(this));
     };
 
     lpcPrototype.loadCurrentLevel = function () {
@@ -90,11 +106,6 @@ pages.level.PhaseController = (function () {
             that.init(level);
 
         });
-    };
-
-    lpcPrototype.score = function (event, params) {
-        this.scoreBox.add(params.score);
-        this.pointBox.countUp(params.left, params.right);
     };
 
     lpcPrototype.getLevel = function (path) {

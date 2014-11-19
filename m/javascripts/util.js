@@ -26,8 +26,7 @@ var bindEvents = function (up, down, left, right, reset, score) {
         .on('upkey', function () { _console.log('upkey'); up();})
         .on('rightkey', function () { _console.log('rightkey'); right(); })
         .on('leftkey', function () { _console.log('leftkey'); left(); })
-        .on('downkey', function () { _console.log('downkey'); down(); })
-        .on('score', function (event, param) { console.log('score'); score(event, param); });
+        .on('downkey', function () { _console.log('downkey'); down(); });
 
     $('.reset')
         .on('click', function () { console.log('=== reset ==='); unbindEvents(); reset(); });
@@ -49,7 +48,6 @@ var unbindEvents = function () {
         .off('rightkey')
         .off('leftkey')
         .off('downkey')
-        .off('score');
 
     $('.reset')
         .off('click');
