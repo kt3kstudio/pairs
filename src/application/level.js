@@ -13,9 +13,9 @@ pages.level.PhaseController = (function () {
     var FIELD_WIDTH = 70; // width of main field in percent
     var FIELD_NUM = 3; // number of columns or rows in main field
 
-    var EVAL_TOP = -40; // top of eval box in px
+    var EVAL_TOP = 80; // top of eval box in px
     var EVAL_WIDTH = 50; // width of eval box in %
-    var EVAL_DIV = 7; // horizontal division number of eval box
+    var EVAL_DIV = 2; // horizontal division number of eval box
 
     var exports = function () {
         // construct each class
@@ -24,7 +24,7 @@ pages.level.PhaseController = (function () {
         var mapMetrics = new pages.level.Positioner(FIELD_TOP, FIELD_WIDTH, FIELD_NUM).metrics();
         var evalBoxMetrics = new pages.level.Positioner(EVAL_TOP, EVAL_WIDTH, EVAL_DIV).metrics();
         var trashBoxMetrics = {left: 0, top: 0, unit: 1};
-        var fusionBoxMetrics = new pages.level.Positioner(EVAL_TOP + evalBoxMetrics.unit, 0, 1).metrics();
+        var fusionBoxMetrics = new pages.level.Positioner(EVAL_TOP, 10, 1).metrics();
 
         // models
         this.map = new domain.level.Map(mapMetrics);

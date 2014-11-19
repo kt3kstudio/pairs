@@ -49,6 +49,12 @@ body {
     0% { opacity: 0; transform: translate(0, 10px); }
 }
 
+@-webkit-keyframes bom-born {
+    0% { opacity: 0; transform: translate(0, 10px) scale(0); }
+    50% { opacity: 1; transform: translate(0, 0px) scale(1.2); }
+    100% { opacity: 1; transform: translate(0, 0px) scale(1); }
+}
+
 @-webkit-keyframes go-to-trash {
     100% { opacity: 0; transform: translate(0, 10px) scale(0); }
 }
@@ -235,8 +241,8 @@ domain.level.EvalBox = (function () {
 
         wanderer.setTransitionDuration(dur);
 
-        wanderer.x = 1;
-        wanderer.y = 1;
+        wanderer.x = 0;
+        wanderer.y = 0;
 
         return wait(10).then(function () {
 
@@ -261,8 +267,8 @@ domain.level.EvalBox = (function () {
 
         return wait(10).then(function () {
 
-            wanderer.x = 3;
-            wanderer.y = 1;
+            wanderer.x = 1;
+            wanderer.y = 0;
             wanderer.locate();
 
             return wait(dur);

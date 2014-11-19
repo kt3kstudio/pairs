@@ -23,7 +23,6 @@ domain.level.FusionBox = (function () {
 
     fusionPt.getToReactor = function (pair) {
         var dur = 1000;
-        console.log(pair);
 
         pair.left.$dom.animation('get-to-reactor-left ' + dur + 'ms');
         pair.right.$dom.animation('get-to-reactor-right ' + dur + 'ms');
@@ -38,6 +37,9 @@ domain.level.FusionBox = (function () {
         var dur = 600;
         var bom = new domain.level.Wanderer(0, 0, pair.left.gender, this.metrics.left, this.metrics.top, this.metrics.unit);
 
+        bom.locate();
+
+        bom.$dom.prependTo('#main');
         bom.$dom.animation('bom-born ' + dur + 'ms');
 
         return wait(dur);
