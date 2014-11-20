@@ -41,6 +41,8 @@ js: title.js
 
 window.pages = window.pages || {};
 
+var menuButton;
+
 pages.title = (function () {
     var exports = {};
 
@@ -65,6 +67,7 @@ pages.title = (function () {
 
         });
 
+        menuButton = new pages.common.MenuButton();
 
         $('.reset').click(function () {
             $('#main').empty();

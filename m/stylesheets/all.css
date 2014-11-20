@@ -41,3 +41,16 @@ body {
 .menu-button.hidden {
     left: -50px;
 }
+
+.menu-item {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    width: 38px;
+    height: 38px;
+    transition-duration: 400ms;
+}
+
+.menu-item.hidden {
+    opacity: 0;
+}
