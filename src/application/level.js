@@ -51,9 +51,17 @@ pages.level.PhaseController = (function () {
 
         this.map.loadFromBomList(level.boms);
 
-        this.field.appear()
-            .then(function () { return that.ball.appear(); })
-            .then(function () { return that.map.appear('#main'); });
+        Promise.resolve().then(function () {
+            $(document.body).removeClass('dark-bg');
+
+            return wait(1000);
+        }).then(function () {
+            return that.field.appear();
+        }).then(function () {
+            return that.ball.appear();
+        }).then(function () {
+            return that.map.appear('#main');
+        });
 
         var bms = new domain.level.BallMoveMobLeaveService(this.ball, this.map, this.evalBox);
         var erp = new domain.level.EvalResultProcessor(this.trashBox, this.fusionBox, this.exitQueue);
@@ -87,18 +95,45 @@ pages.level.PhaseController = (function () {
         return this.getLevel(path);
     };
 
+    lpcPrototype.cease = function () {
+        var that = this;
+
+        return Promise.resolve().then(function () {
+
+            return that.ball.disappear();
+
+        }).then(function () {
+
+            return domain.level.Wanderer.disappear();
+
+        }).then(function () {
+
+            return that.field.disappear();
+
+        }).then(function () {
+
+            $(document.body).addClass('dark-bg');
+
+            return wait(1000);
+
+        });
+    };
+
     lpcPrototype.reset = function () {
-
-        console.log('lpc reset');
-
-        this.map.empty();
-        this.pointBox.reset();
-        this.evalBox.reset();
-        this.scoreBox.reset();
 
         var that = this;
 
-        wait(500).then(function () {
+        this.cease().then(function () {
+
+            that.map.empty();
+            that.pointBox.reset();
+            that.evalBox.reset();
+            that.scoreBox.reset();
+            that.exitQueue.reset();
+
+            return wait(300);
+
+        }).then(function () {
 
             return that.loadCurrentLevel();
 
@@ -111,6 +146,12 @@ pages.level.PhaseController = (function () {
 
     lpcPrototype.getLevel = function (path) {
         return Promise.resolve($.getJSON('level/' + path));
+    };
+
+    lpcPrototype.goBackToMap = function () {
+        return this.cease().then(function () {
+            window.history.back();
+        });
     };
 
     lpcPrototype.onMoveSuccess = function () {

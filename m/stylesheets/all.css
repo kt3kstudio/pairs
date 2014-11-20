@@ -9,12 +9,22 @@ body {
     position: relative;
     background-color: #C1C6CB;
     color: #191B1D;
+    transition-duration: 1000ms;
 }
 
-.reset {
+.dark-bg {
+    color: #C1C6CB;
+    background-color: #191B1D;
+}
+
+.reset, .back {
     position: absolute;
     left: 5px;
     top: 5px;
     width: 40px;
     height: 40px;
+}
+
+.back {
+    left: 55px;
 }

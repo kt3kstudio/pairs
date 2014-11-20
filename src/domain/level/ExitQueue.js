@@ -65,5 +65,9 @@ domain.level.ExitQueue= (function () {
         return cell.setTransitionDuration(600);
     };
 
+    eqPrototype.reset = function () {
+        this.queue = [];
+    };
+
     return exports;
 }());
