@@ -28,3 +28,16 @@ body {
 .back {
     left: 55px;
 }
+
+.menu-button {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    width: 38px;
+    height: 38px;
+    transition-duration: 800ms;
+}
+
+.menu-button.hidden {
+    left: -50px;
+}

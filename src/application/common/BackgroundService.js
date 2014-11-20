@@ -1,10 +1,10 @@
-window.domain = window.domain || {};
-domain.common = domain.common || {};
+window.pages = window.pages || {};
+pages.common = pages.common || {};
 
 /**
  *
  */
-domain.common.BackgroundService = (function () {
+pages.common.BackgroundService = (function () {
     'use strict';
 
     var exports = {};

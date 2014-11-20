@@ -52,7 +52,7 @@ pages.level.PhaseController = (function () {
         this.map.loadFromBomList(level.boms);
 
         Promise.resolve().then(function () {
-            return domain.common.BackgroundService.turnWhite();
+            return pages.common.BackgroundService.turnWhite();
         }).then(function () {
             return that.field.appear();
         }).then(function () {
@@ -110,7 +110,7 @@ pages.level.PhaseController = (function () {
 
         }).then(function () {
 
-            return domain.common.BackgroundService.turnBlack();
+            return pages.common.BackgroundService.turnBlack();
 
         });
     };

@@ -80,7 +80,7 @@ pages.title = (function () {
 
             thingsGoOut().then(function () {
 
-                return domain.common.BackgroundService.turnBlack();
+                return pages.common.BackgroundService.turnBlack();
 
             }).then(function () {
 
@@ -102,3 +102,5 @@ $(pages.title.main);
 <button class="reset">reset</button>
 
 <div id="main"></div>
+
+<img class="menu-button" src="images/menu-button.svg"></button>
