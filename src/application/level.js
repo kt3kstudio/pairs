@@ -25,6 +25,7 @@ pages.level.PhaseController = (function () {
         var evalBoxMetrics = new pages.level.Positioner(EVAL_TOP, EVAL_WIDTH, EVAL_DIV).metrics();
         var trashBoxMetrics = {left: 0, top: 0, unit: 1};
         var fusionBoxMetrics = new pages.level.Positioner(EVAL_TOP, 10, 1).metrics();
+        var exitQueueMetrics = new pages.level.Positioner(EVAL_TOP - 50, 10, 1).metrics();
 
         // models
         this.map = new domain.level.Map(mapMetrics);
@@ -34,7 +35,7 @@ pages.level.PhaseController = (function () {
         this.evalBox = new domain.level.EvalBox(evalBoxMetrics);
         this.trashBox = new domain.level.TrashBox(trashBoxMetrics);
         this.fusionBox = new domain.level.FusionBox(fusionBoxMetrics);
-        this.exitQueue = new domain.level.ExitQueue();
+        this.exitQueue = new domain.level.ExitQueue(exitQueueMetrics);
 
         this.ball = new domain.level.Ball(mapMetrics);
 

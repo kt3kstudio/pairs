@@ -18,7 +18,7 @@ domain.level.FusionBox = (function () {
 
         var that = this;
 
-        return this.getToReactor(pair).then(function () { that.fusion(pair); });
+        return this.getToReactor(pair).then(function () { return that.fusion(pair); });
     };
 
     fusionPt.getToReactor = function (pair) {
@@ -42,7 +42,7 @@ domain.level.FusionBox = (function () {
         bom.$dom.prependTo('#main');
         bom.$dom.animation('bom-born ' + dur + 'ms');
 
-        return wait(dur);
+        return wait(dur).then(function () { return bom; });
     };
 
     return exports;
