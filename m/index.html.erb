@@ -30,11 +30,17 @@ body {
 
 .field-grid {
     position: absolute;
+    left: -1000px;
+    top: -1000px;
     z-index: -1;
 }
 
 @-webkit-keyframes ball-appear {
     0% { opacity: 0; transform: scale(2); }
+}
+
+@-webkit-keyframes ball-disappear {
+    100% { opacity: 0; transform: scale(2); }
 }
 
 @-webkit-keyframes ball-refuse-x {
@@ -443,7 +449,10 @@ domain.level.Wanderer = (function () {
     var wPrototype = exports.prototype;
 
     wPrototype.setTransitionDuration = function (dur) {
+        this.locateDuration = dur;
         this.$dom.css('transition-duration', dur + 'ms');
+
+        return wait();
     };
 
     wPrototype.setGender = function (gender) {
@@ -488,6 +497,8 @@ domain.level.Wanderer = (function () {
             'top': this.offsetY + this.unit * this.y + this.gutter + 'px',
             'left': this.offsetX + this.unit * this.x + this.gutter + 'px',
         });
+
+        return wait(this.transitionDuration);
     };
 
     wPrototype.fadeAwayHappy = function () {
@@ -613,32 +624,38 @@ window.domain = window.domain || {};
 domain.level = domain.level || {};
 domain.level.Field = (function () {
 
-    var APPEAR_DUR = 200;
+    var TRAN_DUR = 200;
 
     var exports = function (metrics) {
         var gutter = 6;
         this.left = metrics.left - gutter;
         this.top = metrics.top - gutter;
         this.unit = metrics.unit;
-        this.width = metrics.width + gutter * 2
+        this.width = metrics.width + gutter * 2;
+        this.dur = TRAN_DUR;
     };
 
     var fPrototype = exports.prototype;
 
     fPrototype.appear = function () {
         var that = this;
-        return loadImage('images/field.svg', 'field-grid', document.body).then(function ($img) {
-            var dur = APPEAR_DUR;
 
+        return loadImage('images/field.svg', 'field-grid', document.body).then(function ($img) {
             that.$dom = $img;
 
             $img.css('left', that.left + 'px');
             $img.css('top', that.top + 'px');
             $img.css('width', that.width + 'px');
 
-            $img.animation('ball-appear ' + dur + 'ms');
+            return $img.anim('ball-appear', that.dur);
+        });
+    };
 
-            return wait(dur);
+    fPrototype.disappear = function () {
+        var that = this;
+
+        return this.$dom.anim('ball-disappear', this.dur).then(function () {
+            that.$dom.remove();
         });
     };
 

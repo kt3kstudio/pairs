@@ -83,3 +83,9 @@ $.fn.reflow = function () {
 
     return this;
 };
+
+$.fn.anim = function (animation, dur) {
+    this.animation(animation + ' ' + dur + 'ms');
+
+    return wait(dur);
+};
