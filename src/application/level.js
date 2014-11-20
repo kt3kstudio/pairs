@@ -52,9 +52,7 @@ pages.level.PhaseController = (function () {
         this.map.loadFromBomList(level.boms);
 
         Promise.resolve().then(function () {
-            $(document.body).removeClass('dark-bg');
-
-            return wait(1000);
+            return domain.common.BackgroundService.turnWhite();
         }).then(function () {
             return that.field.appear();
         }).then(function () {
@@ -112,9 +110,7 @@ pages.level.PhaseController = (function () {
 
         }).then(function () {
 
-            $(document.body).addClass('dark-bg');
-
-            return wait(1000);
+            return domain.common.BackgroundService.turnBlack();
 
         });
     };

@@ -4,6 +4,7 @@
 
 //= include application/level.js
 
+//= include domain/common/index.js
 //= include domain/level/index.js
 
 //= include debug/all.js
