@@ -21,10 +21,17 @@ set :js_dir, 'javascripts'
 set :images_dir, 'images'
 
 ready do
-  sprockets.append_path File.join root, "bower_components"
-  sprockets.append_path File.join root, "../../bower_components" # bower components of the parent project
-  sprockets.append_path '../src' # main implementations
-  sprockets.append_path '../../../infrastructure' # infrastructure implementations in the parent project
+  # bower
+  sprockets.append_path File.join root, 'bower_components'
+
+  # bower components of the parent project
+  sprockets.append_path File.join root, parent_dir, 'bower_components'
+
+  # main implementations
+  sprockets.append_path File.join root, 'src'
+
+  # infrastructure implementations in the parent project
+  sprockets.append_path File.join root, parent_dir, 'infrastructure'
 end
 
 
