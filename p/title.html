@@ -11,7 +11,7 @@
 <script src="./javascripts/title.js"></script>
 
 </head>
-<body>
+<body class="">
 <style>
 
 @-webkit-keyframes title-appear {
@@ -51,6 +51,8 @@
 
 window.pages = window.pages || {};
 
+var menuButton;
+
 pages.title = (function () {
     var exports = {};
 
@@ -58,25 +60,59 @@ pages.title = (function () {
 
         loadImage('images/title-logo.svg', 'title-logo elem', '#main').then(function ($img) {
 
-            $img.css('-webkit-animation', 'title-appear 2000ms, title-appear2 5000ms');
-
-            return wait(2000).then(function () { $img.css('-webkit-animation', 'float 6000ms infinite'); });
+            return $img.anim('title-appear', 2000).then(function () {
+                return $img.animation('float 6000ms infinite');
+            });
         })
         
         wait(500).then(function () {
 
             var $p = $('<p />').text('START').addClass('touch-here elem').appendTo('#main');
 
-            $p.animation('title-appear 1000ms');
-
             $p.click(goToMap);
 
-            return wait(1000).then(function () {
+            return $p.anim('title-appear', 1000).then(function () {
                 $p.animation('float 1000ms infinite');
             });
 
+        }).then(function () {
+            return menuButton.show();
         });
 
+        var menuButton = $('.menu-button').menuButton([{
+            src: 'images/menu-button.svg',
+            submenu: [{
+                src: 'images/menu-button.svg',
+                onclick: function () { console.log(1234); }
+            }, {
+                src: 'images/menu-button.svg',
+                onclick: function () { console.log(12345); }
+            }]
+        }, {
+            src: 'images/menu-button.svg',
+            submenu: [{
+                src: 'images/menu-button.svg',
+                onclick: function () { console.log(1234); }
+            }, {
+                src: 'images/menu-button.svg',
+                submenu: [{
+                    src: 'images/menu-button.svg',
+                    onclick: function () { console.log(1234); }
+                }, {
+                    src: 'images/menu-button.svg',
+                    onclick: function () { console.log(1234); }
+                }]
+            }]
+        }, {
+            src: 'images/menu-button.svg',
+            submenu: [{
+                src: 'images/menu-button.svg',
+                onclick: function () { console.log(1234); }
+            }, {
+                src: 'images/menu-button.svg',
+                onclick: function () { console.log(12345); }
+            }]
+        }]);
 
         $('.reset').click(function () {
             $('#main').empty();
@@ -85,16 +121,19 @@ pages.title = (function () {
         });
 
         var thingsGoOut = function () {
-            var dur = 500;
-            $('.elem').css('-webkit-animation', 'disappear ' + dur + 'ms').css('opacity', 0);
-
-            return wait(dur);
+            return $('.elem').css('opacity', 0).anim('disappear', 500);
         };
 
         var goToMap = function () {
 
             thingsGoOut().then(function () {
+
+                return pages.common.BackgroundService.turnBlack();
+
+            }).then(function () {
+
                 location.href = 'map.html';
+
             });
 
         };
@@ -110,7 +149,11 @@ $(pages.title.main);
 
 <button class="reset">reset</button>
 
-<div id="main"></div>
+<div id="main">
+
+</div>
+
+<img class="menu-button hidden" src="images/menu-button.svg" />
 
 </body>
 </html>

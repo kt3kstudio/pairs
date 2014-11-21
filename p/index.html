@@ -11,17 +11,15 @@
 <script src="./javascripts/level.js"></script>
 
 </head>
-<body>
+<body class="dark-bg">
 <style>
 
-* {
-    margin: 0;
-    padding: 0;
+body {
+    transition-duration: 1000ms;
 }
 
-body {
-    position: relative;
-    background-color: #C1C6CB;
+.dark-bg {
+    background-color: #191B1D;
 }
 
 #main {
@@ -39,11 +37,17 @@ body {
 
 .field-grid {
     position: absolute;
+    left: -1000px;
+    top: -1000px;
     z-index: -1;
 }
 
 @-webkit-keyframes ball-appear {
     0% { opacity: 0; transform: scale(2); }
+}
+
+@-webkit-keyframes ball-disappear {
+    100% { opacity: 0; transform: scale(0); }
 }
 
 @-webkit-keyframes ball-refuse-x {
@@ -56,6 +60,16 @@ body {
 
 @-webkit-keyframes bom-appear {
     0% { opacity: 0; transform: translate(0, 10px); }
+}
+
+@-webkit-keyframes bom-disappear {
+    100% { opacity: 0; transform: translate(0, 10px); }
+}
+
+@-webkit-keyframes bom-born {
+    0% { opacity: 0; transform: translate(0, 10px) scale(0); }
+    50% { opacity: 1; transform: translate(0, 0px) scale(1.2); }
+    100% { opacity: 1; transform: translate(0, 0px) scale(1); }
 }
 
 @-webkit-keyframes go-to-trash {
@@ -244,8 +258,8 @@ domain.level.EvalBox = (function () {
 
         wanderer.setTransitionDuration(dur);
 
-        wanderer.x = 1;
-        wanderer.y = 1;
+        wanderer.x = 0;
+        wanderer.y = 0;
 
         return wait(10).then(function () {
 
@@ -270,8 +284,8 @@ domain.level.EvalBox = (function () {
 
         return wait(10).then(function () {
 
-            wanderer.x = 3;
-            wanderer.y = 1;
+            wanderer.x = 1;
+            wanderer.y = 0;
             wanderer.locate();
 
             return wait(dur);
@@ -364,13 +378,17 @@ domain.level.Map = (function () {
 
     mapPrototype.appear = function (dom) {
 
-        var promise = wait(10);
+        var p = Promise.resolve();
 
         this.cells.forEach(function (cell) {
-            promise = promise.then(function () { return cell.appear(dom); });
+            p = p.then(function () {
+                cell.appear(dom);
+
+                return wait(40);
+            });
         });
 
-        return promise;
+        return p;
     };
 
     mapPrototype.commandAll = function (command, args) {
@@ -441,12 +459,36 @@ domain.level.Wanderer = (function () {
         this.setTransitionDuration(NUDUR);
         this.setGender(gender);
         this.setMetrics(left, top, unit);
+
+        exports.allList.push(this);
+    };
+
+    exports.allList = [];
+
+    exports.disappear = function () {
+        var p = Promise.resolve();
+
+        exports.allList.forEach(function (cell) {
+            p = p.then(function () {
+                cell.disappear();
+
+                return wait(10);
+            });
+        });
+
+        return p.then(function () {
+            return wait(500);
+        });
     };
 
     var wPrototype = exports.prototype;
 
     wPrototype.setTransitionDuration = function (dur) {
+        this.locateDuration = dur;
+
         this.$dom.css('transition-duration', dur + 'ms');
+
+        return wait();
     };
 
     wPrototype.setGender = function (gender) {
@@ -473,9 +515,17 @@ domain.level.Wanderer = (function () {
 
     wPrototype.appear = function (dom) {
 
-        this.$dom.prependTo(dom || document.body).animation('bom-appear 500ms');
+        return this.$dom.prependTo(dom || document.body).anim('bom-appear', 500);
+    };
 
-        return wait(40);
+    wPrototype.disappear = function (dom) {
+        var that = this;
+
+        this.$dom.css('visibility', 'hidden');
+
+        return this.$dom.anim('bom-disappear', 500).then(function () {
+            that.remove();
+        });
     };
 
     wPrototype.setMetrics = function (left, top, unit) {
@@ -487,49 +537,29 @@ domain.level.Wanderer = (function () {
     };
 
     wPrototype.locate = function () {
-        this.$dom.css({
-            'top': this.offsetY + this.unit * this.y + this.gutter + 'px',
-            'left': this.offsetX + this.unit * this.x + this.gutter + 'px',
-        });
-    };
+        this.$dom.css('top', this.offsetY + this.unit * this.y + this.gutter + 'px');
+        this.$dom.css('left', this.offsetX + this.unit * this.x + this.gutter + 'px');
 
-    wPrototype.fadeAwayHappy = function () {
-        this.$dom.css('transform', 'scale(2)');
-        this.fadeAway();
-    };
-
-    wPrototype.fadeAwayUnhappy = function () {
-        this.$dom.css('transform', 'rotate(45deg)');
-        this.fadeAway();
-    };
-
-    wPrototype.fadeAway = function () {
-        var that = this;
-
-        setTimeout(function () {
-            that.$dom.css('opacity', 0);
-
-            setTimeout(function () {
-                that.remove();
-            }, 1000);
-        }, 300);
+        return wait(this.transitionDuration);
     };
 
     wPrototype.remove = function () {
         this.$dom.remove();
+
+        exports.allList.splice(exports.allList.indexOf(this), 1);
     };
 
     wPrototype.move = function (x, y) {
         this.x += x;
         this.y += y;
 
-        this.locate();
+        return this.locate();
     };
 
-    wPrototype.up = function () { this.move(0, -1); };
-    wPrototype.down = function () { this.move(0, 1); };
-    wPrototype.left = function () { this.move(-1, 0); };
-    wPrototype.right = function () { this.move(1, 0); };
+    wPrototype.up = function () { return this.move(0, -1); };
+    wPrototype.down = function () { return this.move(0, 1); };
+    wPrototype.left = function () { return this.move(-1, 0); };
+    wPrototype.right = function () { return this.move(1, 0); };
 
     return exports;
 }());
@@ -543,6 +573,7 @@ domain.level = domain.level || {};
 domain.level.Ball = (function () {
 
     var exports = function (metrics) {
+        this.transDur = 800;
         this.x = 1;
         this.y = 1;
         this.MAX = 3;
@@ -557,12 +588,20 @@ domain.level.Ball = (function () {
     var ballPrototype = exports.prototype;
 
     ballPrototype.appear = function () {
-        var dur = 800;
+
+        console.log('ball appear');
 
         this.$dom.css('visibility', 'visible');
-        this.$dom.animation('ball-appear ' + dur + 'ms');
 
-        return wait(dur);
+        return this.$dom.anim('ball-appear', this.transDur);
+    };
+
+    ballPrototype.disappear = function () {
+        var that = this;
+
+        that.$dom.css('visibility', 'hidden');
+
+        return this.$dom.anim('ball-disappear', 400);
     };
 
     ballPrototype.up = function () { this.setPos(this.posAhead('up')); };
@@ -616,32 +655,38 @@ window.domain = window.domain || {};
 domain.level = domain.level || {};
 domain.level.Field = (function () {
 
-    var APPEAR_DUR = 200;
+    var TRAN_DUR = 200;
 
     var exports = function (metrics) {
         var gutter = 6;
         this.left = metrics.left - gutter;
         this.top = metrics.top - gutter;
         this.unit = metrics.unit;
-        this.width = metrics.width + gutter * 2
+        this.width = metrics.width + gutter * 2;
+        this.dur = TRAN_DUR;
     };
 
     var fPrototype = exports.prototype;
 
     fPrototype.appear = function () {
         var that = this;
-        return loadImage('images/field.svg', 'field-grid', document.body).then(function ($img) {
-            var dur = APPEAR_DUR;
 
+        return loadImage('images/field.svg', 'field-grid', document.body).then(function ($img) {
             that.$dom = $img;
 
             $img.css('left', that.left + 'px');
             $img.css('top', that.top + 'px');
             $img.css('width', that.width + 'px');
 
-            $img.animation('ball-appear ' + dur + 'ms');
+            return $img.anim('ball-appear', that.dur);
+        });
+    };
 
-            return wait(dur);
+    fPrototype.disappear = function () {
+        var that = this;
+
+        return this.$dom.anim('ball-disappear', 400).then(function () {
+            that.$dom.remove();
         });
     };
 
@@ -650,11 +695,10 @@ domain.level.Field = (function () {
 
 </script>
 
-<body>
-
 <div id="main">
 
 <button class="reset">reset</button>
+<button class="back" onclick="lpc.goBackToMap(); console.log(123);">back</button>
 
 <svg class="circle" width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <circle cx="50" cy="50" r="49" stroke-width="2" stroke-opacity="0.4" stroke="#000000" fill="#909090" fill-opacity="0.5"/>
