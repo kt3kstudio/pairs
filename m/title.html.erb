@@ -44,6 +44,7 @@ window.pages = window.pages || {};
 var menuButton;
 
 pages.title = (function () {
+
     var exports = {};
 
     exports.main = function () {
@@ -66,10 +67,12 @@ pages.title = (function () {
             });
 
         }).then(function () {
-            return menuButton.show();
+
+            menuButton.show();
+
         });
 
-        var menuButton = $('.menu-button').menuButton([{
+        menuButton = menuButton || $('.menu-button').menuButton([{
             src: 'images/menu-button.svg',
             submenu: [{
                 src: 'images/menu-button.svg',
@@ -95,23 +98,33 @@ pages.title = (function () {
             }]
         }, {
             src: 'images/menu-button.svg',
-            submenu: [{
-                src: 'images/menu-button.svg',
-                onclick: function () { console.log(1234); }
-            }, {
-                src: 'images/menu-button.svg',
-                onclick: function () { console.log(12345); }
-            }]
+            onclick: function () { reset(); },
         }]);
 
-        $('.reset').click(function () {
-            $('#main').empty();
+        var reset = function () {
 
-            pages.title.main();
-        });
+            thingsGoOut().then(function () {
+                pages.title.main();
+            });
+        };
+
+        $('.reset').on('click', reset);
 
         var thingsGoOut = function () {
-            return $('.elem').css('opacity', 0).anim('disappear', 500);
+
+            $('.reset').off('click', reset);
+
+            menuButton.closeMenu().then(function () {
+                wait(300).then(function () {
+                    menuButton.hide();
+                });
+            });
+
+            return $('.elem').css('opacity', 0).anim('disappear', 500).then(function () {
+                $('.elem').remove();
+
+                return wait(100);
+            });
         };
 
         var goToMap = function () {
@@ -137,10 +150,14 @@ $(pages.title.main);
 
 </script>
 
-<button class="reset">reset</button>
-
 <div id="main">
 
 </div>
 
 <img class="menu-button hidden" src="images/menu-button.svg" />
+
+<menus>
+  <menu src="images/menu-button.svg" onclick=""></menu>
+  <menu src="images/menu-button.svg" onclick=""></menu>
+  <menu src="images/menu-button.svg" onclick=""></menu>
+</menus>
