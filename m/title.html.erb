@@ -43,6 +43,8 @@ window.pages = window.pages || {};
 
 var menuButton;
 
+var reset;
+
 pages.title = (function () {
 
     var exports = {};
@@ -72,36 +74,9 @@ pages.title = (function () {
 
         });
 
-        menuButton = menuButton || $('.menu-button').menuButton([{
-            src: 'images/menu-button.svg',
-            submenu: [{
-                src: 'images/menu-button.svg',
-                onclick: function () { console.log(1234); }
-            }, {
-                src: 'images/menu-button.svg',
-                onclick: function () { console.log(12345); }
-            }]
-        }, {
-            src: 'images/menu-button.svg',
-            submenu: [{
-                src: 'images/menu-button.svg',
-                onclick: function () { console.log(1234); }
-            }, {
-                src: 'images/menu-button.svg',
-                submenu: [{
-                    src: 'images/menu-button.svg',
-                    onclick: function () { console.log(1234); }
-                }, {
-                    src: 'images/menu-button.svg',
-                    onclick: function () { console.log(1234); }
-                }]
-            }]
-        }, {
-            src: 'images/menu-button.svg',
-            onclick: function () { reset(); },
-        }]);
+        menuButton = menuButton || $('.menu-button').menuButton($('#title-menu'));
 
-        var reset = function () {
+        reset = function () {
 
             thingsGoOut().then(function () {
                 pages.title.main();
@@ -156,8 +131,17 @@ $(pages.title.main);
 
 <img class="menu-button hidden" src="images/menu-button.svg" />
 
-<menus>
-  <menu src="images/menu-button.svg" onclick=""></menu>
-  <menu src="images/menu-button.svg" onclick=""></menu>
-  <menu src="images/menu-button.svg" onclick=""></menu>
+<menus id="title-menu">
+  <menu src="images/reset-button.svg" onclick="reset();"></menu>
+  <menu src="images/reset-button.svg" onclick="reset();"></menu>
+  <menu src="images/menu-button.svg">
+    <menu src="images/reset-button.svg" onclick="reset();"></menu>
+    <menu src="images/menu-button.svg">
+      <menu src="images/reset-button.svg" onclick="reset();"></menu>
+      <menu src="images/reset-button.svg" onclick="reset();"></menu>
+      <menu src="images/reset-button.svg" onclick="reset();"></menu>
+      <menu src="images/back-button.svg" onclick="history.back()"></menu>
+    </menu>
+  </menu>
+  <menu src="images/back-button.svg" onclick="history.back()"></menu>
 </menus>

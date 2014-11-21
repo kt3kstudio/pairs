@@ -128,6 +128,10 @@ pages.common.MenuButton = (function () {
     $.fn.menuButton = function (menus) {
         menus = menus || [];
 
+        if (menus instanceof jQuery) {
+            return this.menuButtonFromNode(menus);
+        }
+
         var menuButton = new exports(this);
 
         menus.forEach(function (menu) {
@@ -141,6 +145,28 @@ pages.common.MenuButton = (function () {
         });
 
         return menuButton;
+    };
+
+    $.fn.menuButtonFromNode = function (node) {
+        var menus = node.children().map(function () {
+            var $dom = $(this);
+
+            var src = $dom.attr('src');
+
+            var script = $dom.attr('onclick');
+
+            if (script != null && script != '') {
+                var onclick = function () { eval(script); };
+            }
+
+            return {
+                src: $(this).attr('src'),
+                onclick: onclick,
+                submenu: $dom
+            }
+        }).toArray();
+
+        return this.menuButton(menus);
     };
 
     return exports;
