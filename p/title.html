@@ -53,7 +53,10 @@ window.pages = window.pages || {};
 
 var menuButton;
 
+var reset;
+
 pages.title = (function () {
+
     var exports = {};
 
     exports.main = function () {
@@ -76,52 +79,37 @@ pages.title = (function () {
             });
 
         }).then(function () {
-            return menuButton.show();
+
+            menuButton.show();
+
         });
 
-        var menuButton = $('.menu-button').menuButton([{
-            src: 'images/menu-button.svg',
-            submenu: [{
-                src: 'images/menu-button.svg',
-                onclick: function () { console.log(1234); }
-            }, {
-                src: 'images/menu-button.svg',
-                onclick: function () { console.log(12345); }
-            }]
-        }, {
-            src: 'images/menu-button.svg',
-            submenu: [{
-                src: 'images/menu-button.svg',
-                onclick: function () { console.log(1234); }
-            }, {
-                src: 'images/menu-button.svg',
-                submenu: [{
-                    src: 'images/menu-button.svg',
-                    onclick: function () { console.log(1234); }
-                }, {
-                    src: 'images/menu-button.svg',
-                    onclick: function () { console.log(1234); }
-                }]
-            }]
-        }, {
-            src: 'images/menu-button.svg',
-            submenu: [{
-                src: 'images/menu-button.svg',
-                onclick: function () { console.log(1234); }
-            }, {
-                src: 'images/menu-button.svg',
-                onclick: function () { console.log(12345); }
-            }]
-        }]);
+        menuButton = menuButton || $('.menu-button').menuButton($('#title-menu'));
 
-        $('.reset').click(function () {
-            $('#main').empty();
+        reset = function () {
 
-            pages.title.main();
-        });
+            thingsGoOut().then(function () {
+                pages.title.main();
+            });
+        };
+
+        $('.reset').on('click', reset);
 
         var thingsGoOut = function () {
-            return $('.elem').css('opacity', 0).anim('disappear', 500);
+
+            $('.reset').off('click', reset);
+
+            menuButton.closeMenu().then(function () {
+                wait(300).then(function () {
+                    menuButton.hide();
+                });
+            });
+
+            return $('.elem').css('opacity', 0).anim('disappear', 500).then(function () {
+                $('.elem').remove();
+
+                return wait(100);
+            });
         };
 
         var goToMap = function () {
@@ -147,13 +135,26 @@ $(pages.title.main);
 
 </script>
 
-<button class="reset">reset</button>
-
 <div id="main">
 
 </div>
 
 <img class="menu-button hidden" src="images/menu-button.svg" />
+
+<menus id="title-menu">
+  <menu src="images/reset-button.svg" onclick="reset();"></menu>
+  <menu src="images/reset-button.svg" onclick="reset();"></menu>
+  <menu src="images/menu-button.svg">
+    <menu src="images/reset-button.svg" onclick="reset();"></menu>
+    <menu src="images/menu-button.svg">
+      <menu src="images/reset-button.svg" onclick="reset();"></menu>
+      <menu src="images/reset-button.svg" onclick="reset();"></menu>
+      <menu src="images/reset-button.svg" onclick="reset();"></menu>
+      <menu src="images/back-button.svg" onclick="history.back()"></menu>
+    </menu>
+  </menu>
+  <menu src="images/back-button.svg" onclick="history.back()"></menu>
+</menus>
 
 </body>
 </html>
