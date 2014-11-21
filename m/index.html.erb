@@ -689,9 +689,6 @@ domain.level.Field = (function () {
 
 <div id="main">
 
-<button class="reset">reset</button>
-<button class="back" onclick="lpc.goBackToMap(); console.log(123);">back</button>
-
 <svg class="circle" width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
   <circle cx="50" cy="50" r="49" stroke-width="2" stroke-opacity="0.4" stroke="#000000" fill="#909090" fill-opacity="0.5"/>
 </svg>
@@ -708,3 +705,10 @@ Score = <span class="level-score">0</span><br />
 </div>
 
 </div>
+
+<img class="menu-button hidden" src="images/menu-button.svg" />
+
+<menus id="level-menu">
+  <menu src="images/back-button.svg" onclick="lpc.goBackToMap();"></menu>
+  <menu src="images/reset-button.svg" onclick="lpc.reset();"></menu>
+</menus>

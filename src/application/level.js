@@ -42,6 +42,9 @@ pages.level.PhaseController = (function () {
         // debug things
         this.pointBox = debug.PointBox; // singleton
         this.scoreBox = debug.ScoreBox;
+
+        // ui parts
+        this.menuButton = $('.menu-button').menuButton($('#level-menu'));
     };
 
     var lpcPrototype = exports.prototype;
@@ -59,6 +62,8 @@ pages.level.PhaseController = (function () {
             return that.ball.appear();
         }).then(function () {
             return that.map.appear('#main');
+        }).then(function () {
+            return that.menuButton.show();
         });
 
         var bms = new domain.level.BallMoveMobLeaveService(this.ball, this.map, this.evalBox);
@@ -95,6 +100,8 @@ pages.level.PhaseController = (function () {
 
     lpcPrototype.cease = function () {
         var that = this;
+
+        this.menuButton.hide();
 
         return Promise.resolve().then(function () {
 
