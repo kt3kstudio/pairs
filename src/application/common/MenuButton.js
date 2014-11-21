@@ -29,10 +29,10 @@ pages.common.MenuButton = (function () {
         return result;
     }
 
-    var exports = function () {
+    var exports = function ($dom) {
         var that = this;
 
-        this.$dom = $('.menu-button').on('click', function () {
+        this.$dom = $dom.on('click', function () {
             that.toggleMenu();
         });
 
@@ -77,23 +77,31 @@ pages.common.MenuButton = (function () {
 
     };
 
-    mbPrototype.closeMenu = function () {
+    mbPrototype.closeMenu = function (offset) {
+        console.log('close menu');
 
         this.closed = true;
 
-        var offset = this.$dom.offset();
+        var offset = offset || this.$dom.offset();
 
         return this.menus.reduce(function (p, menu) {
 
             return p.then(function () {
-                menu.hide(offset);
 
-                return wait(100);
+                var p = menu.hide(offset);
+
+                if (menu.menuButton && !menu.menuButton.closed) {
+                    p = p.then(function () {
+                        return menu.menuButton.closeMenu(offset);
+                    });
+                }
+
+                return p;
             });
 
         }, Promise.resolve()).then(function () {
 
-            return wait(400);
+            return wait(0);
 
         });
 
@@ -108,12 +116,31 @@ pages.common.MenuButton = (function () {
         return this.closeMenu();
     };
 
-    mbPrototype.addMenu = function (url, callback) {
-        this.menus.push(new pages.common.MenuItem(url, callback));
+    mbPrototype.addMenu = function (url, callback, init) {
+        this.menus.push(new pages.common.MenuItem(url, callback, init));
     };
 
     mbPrototype.clearMenu = function () {
         this.menus = [];
+    };
+
+
+    $.fn.menuButton = function (menus) {
+        menus = menus || [];
+
+        var menuButton = new exports(this);
+
+        menus.forEach(function (menu) {
+            var init;
+            if (menu.submenu) {
+                init = function () {
+                    this.menuButton = this.$dom.menuButton(menu.submenu);
+                };
+            }
+            menuButton.addMenu(menu.src, menu.onclick, init);
+        });
+
+        return menuButton;
     };
 
     return exports;

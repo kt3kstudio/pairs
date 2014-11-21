@@ -33,8 +33,8 @@ body {
     position: absolute;
     bottom: 15px;
     left: 15px;
-    width: 38px;
-    height: 38px;
+    width: 47px;
+    height: 47px;
     transition-duration: 800ms;
 }
 
@@ -44,10 +44,8 @@ body {
 
 .menu-item {
     position: absolute;
-    bottom: 15px;
-    left: 15px;
-    width: 38px;
-    height: 38px;
+    width: 47px;
+    height: 47px;
     transition-duration: 400ms;
 }
 

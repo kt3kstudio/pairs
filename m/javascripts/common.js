@@ -1,4 +1,5 @@
-//= include jquery
+//= require jquery
 
-//= include ./util.js
-//= include application/common/index.js
+//= require ./util.js
+
+//= require application/common/index.js

@@ -65,9 +65,44 @@ pages.title = (function () {
                 $p.animation('float 1000ms infinite');
             });
 
+        }).then(function () {
+            return menuButton.show();
         });
 
-        menuButton = new pages.common.MenuButton();
+        var menuButton = $('.menu-button').menuButton([{
+            src: 'images/menu-button.svg',
+            submenu: [{
+                src: 'images/menu-button.svg',
+                onclick: function () { console.log(1234); }
+            }, {
+                src: 'images/menu-button.svg',
+                onclick: function () { console.log(12345); }
+            }]
+        }, {
+            src: 'images/menu-button.svg',
+            submenu: [{
+                src: 'images/menu-button.svg',
+                onclick: function () { console.log(1234); }
+            }, {
+                src: 'images/menu-button.svg',
+                submenu: [{
+                    src: 'images/menu-button.svg',
+                    onclick: function () { console.log(1234); }
+                }, {
+                    src: 'images/menu-button.svg',
+                    onclick: function () { console.log(1234); }
+                }]
+            }]
+        }, {
+            src: 'images/menu-button.svg',
+            submenu: [{
+                src: 'images/menu-button.svg',
+                onclick: function () { console.log(1234); }
+            }, {
+                src: 'images/menu-button.svg',
+                onclick: function () { console.log(12345); }
+            }]
+        }]);
 
         $('.reset').click(function () {
             $('#main').empty();
@@ -104,6 +139,8 @@ $(pages.title.main);
 
 <button class="reset">reset</button>
 
-<div id="main"></div>
+<div id="main">
 
-<img class="menu-button" src="images/menu-button.svg"></button>
+</div>
+
+<img class="menu-button hidden" src="images/menu-button.svg" />
