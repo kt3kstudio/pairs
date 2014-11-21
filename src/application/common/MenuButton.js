@@ -49,9 +49,14 @@ pages.common.MenuButton = (function () {
     };
 
     mbPrototype.hide = function () {
-        this.$dom.addClass('hidden');
 
-        return wait(TRANS_DUR);
+        var that = this;
+
+        return this.closeMenu().then(function () {
+            return wait(300);
+        }).then(function () {
+            that.$dom.addClass('hidden');
+        });
     };
 
     mbPrototype.openMenu = function () {
