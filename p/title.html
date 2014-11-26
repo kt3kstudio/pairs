@@ -99,11 +99,7 @@ pages.title = (function () {
 
             $('.reset').off('click', reset);
 
-            menuButton.closeMenu().then(function () {
-                wait(300).then(function () {
-                    menuButton.hide();
-                });
-            });
+            menuButton.hide();
 
             return $('.elem').css('opacity', 0).anim('disappear', 500).then(function () {
                 $('.elem').remove();
