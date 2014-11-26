@@ -1,0 +1,6 @@
+{
+    "--title": "long-dream-core (dev version) API documentation",
+    "--output": "doc/dev",
+    "--warnings": "-nodoc",
+    "--": "src/"
+}

@@ -3,3 +3,6 @@
 
 # bower
 /bower_components
+
+# dev document
+/doc/dev
