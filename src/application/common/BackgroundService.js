@@ -2,7 +2,8 @@ window.pages = window.pages || {};
 pages.common = pages.common || {};
 
 /**
- *
+ * @class
+ * BackgroundService handles the animation of background colors.
  */
 pages.common.BackgroundService = (function () {
     'use strict';

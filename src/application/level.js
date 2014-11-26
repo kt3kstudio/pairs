@@ -171,6 +171,10 @@ pages.level.PhaseController = (function () {
 // Util
 // calculate TOP, LEFT, UNIT, M, N when given top, fieldWidthPercent, M
 
+/**
+ * @class
+ * Positioner creates metrics for each component.
+ */
 pages.level.Positioner = (function () {
     var exports = function (top, fieldWidthPercent, m) {
         this.top = top;

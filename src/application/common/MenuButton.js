@@ -1,6 +1,10 @@
 window.pages = window.pages || {};
 pages.common = pages.common || {};
 
+/**
+ * @class
+ * MenuButton handles the behaviour of the menu button.
+ */
 pages.common.MenuButton = (function () {
     'use strict';
 
