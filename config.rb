@@ -3,16 +3,11 @@
 
 require 'yaml'
 
-parent_dir = '../../'
-
-config_path = parent_dir + 'ld-middleman-option.yml'
-
-# load platform specific middleman settings
-platform_settings = File.exist?(config_path) ? YAML.load_file(config_path) : {}
+BASE_DIR = ENV['BASE_DIR']
 
 set :source, 'm'
 
-set :build_dir, platform_settings.has_key?('build_dir') ? parent_dir + platform_settings['build_dir'] : 'p'
+set :build_dir, File.join(BASE_DIR, ENV['BUILD_DIR'] || 'build')
 
 set :css_dir, 'stylesheets'
 
@@ -21,21 +16,23 @@ set :js_dir, 'javascripts'
 set :images_dir, 'images'
 
 ready do
-  # bower
+  # bower components
   sprockets.append_path File.join root, 'bower_components'
 
-  # bower components of the parent project
-  sprockets.append_path File.join root, parent_dir, 'bower_components'
+  # bower components
+  sprockets.append_path File.join BASE_DIR, 'bower_components'
 
   # main implementations
   sprockets.append_path File.join root, 'src'
 
   # infrastructure implementations in the parent project
-  sprockets.append_path File.join root, parent_dir, 'infrastructure'
+  sprockets.append_path File.join BASE_DIR, 'infrastructure'
 end
 
 
 
+# This config goes to the browser's window.config,
+# mainly for debug purpose.
 config = {}
 
 
