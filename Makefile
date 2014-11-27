@@ -9,3 +9,6 @@ build:
 
 server:
 	bundle exec middleman server
+
+tree:
+	tree m src
