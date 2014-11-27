@@ -1,5 +1,5 @@
 //= require jquery
 
-//= require ./util.js
+//= require infrastructure/util.js
 
 //= require application/common/index.js
