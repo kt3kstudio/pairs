@@ -1,1 +1,1 @@
-//= require application/splash
+//= require pages/splash/

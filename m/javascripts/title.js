@@ -1,1 +1,1 @@
-//= include domain/common/index.js
+//= require pages/title/
