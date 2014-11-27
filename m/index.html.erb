@@ -35,26 +35,26 @@ pages.splash = (function () {
     exports.main = function () {
 
         wait(100)
-            .then(logoAnim('images/kt3k-studio-v3.svg'))
+            .then(logoAnim('images/kt3k-studio.svg'))
             .then(logoAnim('images/straw-logo.svg'))
             .then(goToTitle);
 
     };
 
     var goToTitle = function () {
-        location.href = 'title.html';
+        location.replace('title.html');
     };
 
     var logoAnim = function (path, dur) {
-        dur = dur || 1800;
+        dur = dur || 1400;
 
         return function () {
 
             return loadImage(path, 'splash-logo', document.body).then(function ($img) {
 
-                $img.css('-webkit-animation', 'logo-anim ' + dur + 'ms');
-
-                return wait(dur).then(function () { $img.remove(); });
+                return $img.anim('logo-anim', dur).then(function () {
+                    $img.remove();
+                });
 
             });
 
