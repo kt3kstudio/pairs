@@ -2,7 +2,7 @@
 .PHONY: doc build
 
 doc:
-	jsduck --config=.jsduck.json
+	jsduck --config=.jsduck.dev.json
 
 build:
 	bundle exec middleman build
