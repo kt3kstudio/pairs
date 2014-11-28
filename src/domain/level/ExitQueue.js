@@ -55,7 +55,7 @@ domain.level.ExitQueue= (function () {
             var leaving = this.queue.shift();
 
             leaving.remove();
-        };
+        }
 
         cell.x = 0;
         cell.y = 0;

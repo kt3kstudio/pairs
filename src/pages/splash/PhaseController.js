@@ -1,4 +1,4 @@
-pages = window.pages || {};
+window.pages = window.pages || {};
 pages.splash = pages.splash || {};
 
 /**

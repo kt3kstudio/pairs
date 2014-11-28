@@ -1,0 +1,34 @@
+{
+    "bitwise": true,
+    "eqeqeq": true,
+    "curly": true,
+    "quotmark": true,
+    "strict": true,
+    "trailing": true,
+    "white": true,
+    "maxlen": 200,
+    "undef": true,
+    "unused": true,
+    "indent": 4,
+
+    "eqnull": true,
+    "expr": true,
+    "newcap": false,
+
+    "browser": true,
+    "node": true,
+
+    "predef": [
+        /* namespaces */
+        "pages",
+        "domain",
+        "debug",
+
+        /* utilities */
+        "wait",
+        "loadImage",
+        "Promise",
+        "bindEvents",
+        "unbindEvents"
+    ]
+}

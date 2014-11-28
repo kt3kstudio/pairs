@@ -26,7 +26,7 @@ domain.level.EvalResultProcessor = (function () {
 
         });
 
-        result.goQueue.forEach(function () {
+        result.goQueue.forEach(function (cell) {
 
             promises.push(that.exitQueue.take(cell));
 

@@ -8,7 +8,9 @@ pages.level = pages.level || {};
  * @class
  * Positioner creates metrics for each component.
  */
-pages.level.Positioner = (function () {
+pages.level.Positioner = (function ($) {
+    'use strict';
+
     var exports = function (top, fieldWidthPercent, m) {
         this.top = top;
         this.fwp = fieldWidthPercent;
@@ -37,4 +39,4 @@ pages.level.Positioner = (function () {
     };
 
     return exports;
-}());
+}(window.jQuery));

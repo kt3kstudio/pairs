@@ -1,19 +1,29 @@
+/* global $ */
 
-var dice = function (n) {
+window.dice = function (n) {
+    'use strict';
+
     return Math.floor(Math.random() * n);
 };
 
-var coinToss = function () { return dice(2); };
+window.sample = function () {
+    'use strict';
 
-var sample = function (array) { return arguments[dice(arguments.length)]; };
+    return arguments[window.dice(arguments.length)];
+};
 
-var _console = {log: function () { /*console.log.apply(console, arguments);*/ }};
+var _console = {log: function () {
+    'use strict';
 
-var swipe$dom;
+    //console.log.apply(console, arguments);
+}};
 
-var bindEvents = function (up, down, left, right, reset, score) {
+window.swipe$dom;
 
-    swipe$dom = $('.wrapper')
+window.bindEvents = function (up, down, left, right, reset) {
+    'use strict';
+
+    window.swipe$dom = $('.wrapper')
         .swipeCross()
         .on('swipeup', function () { _console.log('swipeup'); up();})
         .on('swiperight', function () { _console.log('swiperight'); right(); })
@@ -33,8 +43,10 @@ var bindEvents = function (up, down, left, right, reset, score) {
 
 };
 
-var unbindEvents = function () {
-    swipe$dom
+window.unbindEvents = function () {
+    'use strict';
+
+    window.swipe$dom
         .swipeCrossUnbind()
         .off('swipeup')
         .off('swipedown')
@@ -47,20 +59,24 @@ var unbindEvents = function () {
         .off('upkey')
         .off('rightkey')
         .off('leftkey')
-        .off('downkey')
+        .off('downkey');
 
     $('.reset')
         .off('click');
 };
 
-var wait = function (n) {
+window.wait = function (n) {
+    'use strict';
+
     return new Promise(function (resolve) {
         setTimeout(resolve, n);
     });
 };
 
 
-var loadImage = function (path, cls, dom) {
+window.loadImage = function (path, cls, dom) {
+    'use strict';
+
     return new Promise(function (resolve) {
         var $img = $('<img />')
             .attr('src', path)
@@ -72,20 +88,25 @@ var loadImage = function (path, cls, dom) {
     });
 };
 
-$.fn.animation = function (animation) {
-    this.css('-webkit-animation', '').reflow().css('-webkit-animation', animation);
+(function ($) {
+    'use strict';
 
-    return this;
-};
+    $.fn.animation = function (animation) {
+        this.css('-webkit-animation', '').reflow().css('-webkit-animation', animation);
 
-$.fn.reflow = function () {
-    this[0].offsetWidth = this[0].offsetWidth;
+        return this;
+    };
 
-    return this;
-};
+    $.fn.reflow = function () {
+        this[0].offsetWidth = this[0].offsetWidth;
 
-$.fn.anim = function (animation, dur) {
-    this.animation(animation + ' ' + dur + 'ms');
+        return this;
+    };
 
-    return wait(dur);
-};
+    $.fn.anim = function (animation, dur) {
+        this.animation(animation + ' ' + dur + 'ms');
+
+        return wait(dur);
+    };
+
+}(window.jQuery));

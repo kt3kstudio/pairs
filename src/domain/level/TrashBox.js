@@ -25,7 +25,7 @@ domain.level.TrashBox = (function () {
 
             cell.locate();
 
-            return wait(dur)
+            return wait(dur);
 
         }).then(function () {
 

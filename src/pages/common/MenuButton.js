@@ -5,7 +5,7 @@ pages.common = pages.common || {};
  * @class
  * MenuButton handles the behaviour of the menu button.
  */
-pages.common.MenuButton = (function () {
+pages.common.MenuButton = (function ($) {
     'use strict';
 
     var TRANS_DUR = 800;
@@ -28,10 +28,10 @@ pages.common.MenuButton = (function () {
 
             var res = {left: offset.left + cos, top: offset.top - sin};
             result.push(res);
-        };
+        }
 
         return result;
-    }
+    };
 
     var exports = function ($dom) {
         var that = this;
@@ -91,7 +91,7 @@ pages.common.MenuButton = (function () {
 
         this.closed = true;
 
-        var offset = offset || this.$dom.offset();
+        offset = offset || this.$dom.offset();
 
         return this.menus.reduce(function (p, menu) {
 
@@ -137,7 +137,7 @@ pages.common.MenuButton = (function () {
     $.fn.menuButton = function (menus) {
         menus = menus || [];
 
-        if (menus instanceof jQuery) {
+        if (menus instanceof $) {
             return this.menuButtonFromNode(menus);
         }
 
@@ -160,19 +160,20 @@ pages.common.MenuButton = (function () {
         var menus = node.children().map(function () {
             var $dom = $(this);
 
-            var src = $dom.attr('src');
-
             var script = $dom.attr('onclick');
 
-            if (script != null && script != '') {
-                var onclick = function () { eval(script); };
+            var onclick;
+
+            if (script != null && script !== '') {
+                onclick = function () { eval(script); };
             }
 
             return {
                 src: $(this).attr('src'),
                 onclick: onclick,
                 submenu: $dom
-            }
+            };
+
         }).toArray();
 
         return this.menuButton(menus);
@@ -180,4 +181,4 @@ pages.common.MenuButton = (function () {
 
     return exports;
 
-}());
+}(window.jQuery));

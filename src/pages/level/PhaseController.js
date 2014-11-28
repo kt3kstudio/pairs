@@ -5,7 +5,7 @@ pages.level = pages.level || {};
  * @class
  * PhaseController controlls phase of processes of things in the level page.
  */
-pages.level.PhaseController = (function () {
+pages.level.PhaseController = (function ($) {
     'use strict';
 
     var FIELD_TOP = 180; // top of main field in px
@@ -72,7 +72,7 @@ pages.level.PhaseController = (function () {
 
             if (result == null) {
                 return;
-            };
+            }
 
             that.scoreBox.add(result.score);
             that.pointBox.countUp(result.left.gender, result.right.gender);
@@ -91,8 +91,6 @@ pages.level.PhaseController = (function () {
 
     lpcPrototype.loadCurrentLevel = function () {
         var path = (window.location.hash.substring(1) || 0) + '.json';
-
-        var that = this;
 
         return this.getLevel(path);
     };
@@ -164,4 +162,4 @@ pages.level.PhaseController = (function () {
 
     return exports;
 
-}());
+}(window.jQuery));
