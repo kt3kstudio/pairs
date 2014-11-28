@@ -1,0 +1,14 @@
+{
+  "name": "long-dream-core",
+  "version": "0.0.1",
+  "description": "A puzzle game",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "jshint src"
+  },
+  "author": "Yoshiya Hinosawa <stibium121@gmail.com> (https://twitter.com/kt3k)",
+  "license": "MIT"
+}
