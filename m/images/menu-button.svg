@@ -8,7 +8,7 @@
         <g id="menu-button" sketch:type="MSLayerGroup" transform="translate(4.000000, 4.000000)">
             <g id="circle-3" stroke="#393F44" stroke-width="7" sketch:type="MSShapeGroup">
                 <circle id="Oval-1" cx="50" cy="50" r="50"></circle>
-                <circle id="Oval-2" fill="#D8D8D8" cx="50" cy="50" r="40"></circle>
+                <circle id="Oval-2" fill="#C1C6CB" cx="50" cy="50" r="40"></circle>
             </g>
             <g id="3-dots" transform="translate(40.000000, 20.000000)" fill="#393F44" sketch:type="MSShapeGroup">
                 <ellipse id="Oval-12" cx="10" cy="30.5" rx="10" ry="7.5"></ellipse>
