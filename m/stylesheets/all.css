@@ -17,18 +17,6 @@ body {
     background-color: #191B1D;
 }
 
-.reset, .back {
-    position: absolute;
-    left: 5px;
-    top: 5px;
-    width: 40px;
-    height: 40px;
-}
-
-.back {
-    left: 55px;
-}
-
 .menu-button {
     position: absolute;
     bottom: 15px;
