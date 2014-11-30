@@ -33,49 +33,7 @@
 
 </style>
 
-<script>
-
-
-pages = window.pages || {};
-pages.splash = (function () {
-    var exports = {};
-
-    exports.main = function () {
-
-        wait(100)
-            .then(logoAnim('images/kt3k-studio-v3.svg'))
-            .then(logoAnim('images/straw-logo.svg'))
-            .then(goToTitle);
-
-    };
-
-    var goToTitle = function () {
-        location.href = 'title.html';
-    };
-
-    var logoAnim = function (path, dur) {
-        dur = dur || 1800;
-
-        return function () {
-
-            return loadImage(path, 'splash-logo', document.body).then(function ($img) {
-
-                $img.css('-webkit-animation', 'logo-anim ' + dur + 'ms');
-
-                return wait(dur).then(function () { $img.remove(); });
-
-            });
-
-        };
-    };
-
-    return exports;
-
-}());
-
-$(pages.splash.main);
-
-</script>
+<script>$(new pages.splash.PhaseController().start());</script>
 
 </body>
 </html>
