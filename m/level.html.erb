@@ -93,14 +93,19 @@ body {
 
 <script>
 var lpc;
+var ps;
+var cwp;
 
 // main
 $(function () {
     'use strict';
+
     lpc = new pages.level.PhaseController();
 
-    lpc.loadCurrentLevel().then(function (level) {
-        lpc.init(level);
+    ps = new scene.level.PlayScene();
+
+    cwp = lpc.loadCurrentLevel().then(function (level) {
+        return ps.loadLevel(level).play();
     });
 });
 
@@ -128,6 +133,6 @@ Score = <span class="level-score">0</span><br />
 <img class="menu-button hidden" src="images/menu-button.svg" />
 
 <menus id="level-menu">
-  <menu src="images/back-button.svg" onclick="lpc.goBackToMap();"></menu>
-  <menu src="images/reset-button.svg" onclick="lpc.reset();"></menu>
+  <menu src="images/back-button.svg" onclick="ps.cease().then(function () { history.back(); });"></menu>
+  <menu src="images/reset-button.svg" onclick="ps.cease().then(function () { lpc.loadCurrentLevel().then(function (level) { ps.loadLevel(level).play(); }); });"></menu>
 </menus>
