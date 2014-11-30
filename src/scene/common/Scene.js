@@ -1,5 +1,5 @@
-window.domain = window.domain || {};
-domain.common = domain.common || {};
+window.scene = window.scene || {};
+scene.common = scene.common || {};
 
 /**
  * @class
@@ -7,7 +7,7 @@ domain.common = domain.common || {};
  *
  * A scene starts with play method and it returns promise which resolves with actors in the scene when the scene finished
  */
-domain.common.Scene = (function () {
+scene.common.Scene = (function () {
     'use strict';
 
     var exports = function () {
@@ -19,7 +19,9 @@ domain.common.Scene = (function () {
     scenePrototype.play = function () {
         var that = this;
 
-        this.start();
+        setTimeout(function () {
+            that.start();
+        });
 
         return new Promise(function (resolve) {
             that.__resolve = resolve;
