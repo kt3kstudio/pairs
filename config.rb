@@ -1,9 +1,7 @@
 # middleman config file
 # see http://middlemanapp.com/
 
-require 'yaml'
-
-BASE_DIR = ENV['BASE_DIR'] || root
+BASE_DIR = File.join root, (ENV['BASE_DIR'] || '')
 
 DEFAULT_MIDDLEMAN_SOURCE = 'm'
 DEFAULT_JAVASCRIPT_SOURCE = 'src'
