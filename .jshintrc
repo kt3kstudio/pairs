@@ -12,6 +12,7 @@
     "indent": 4,
 
     "eqnull": true,
+    "evil": true,
     "expr": true,
     "newcap": false,
 
