@@ -8,6 +8,8 @@ scene.level = scene.level || {};
 scene.level.PlayScene = (function ($) {
     'use strict';
 
+    var _console = window._console;
+
     var FIELD_TOP = 180; // top of main field in px
     var FIELD_WIDTH = 70; // width of main field in percent
     var FIELD_NUM = 3; // number of columns or rows in main field
