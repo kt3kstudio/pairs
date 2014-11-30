@@ -1,4 +1,4 @@
-# long-dream-core v0.0.3
+# long-dream-core v0.0.4
 
 > A puzzle game on straw platform
 
