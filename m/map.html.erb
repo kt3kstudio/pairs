@@ -5,19 +5,92 @@ css: map.css
 body: dark-bg
 ---
 <style>
-.tmp {
-    font-size: 2em;
+
+.floor {
     position: absolute;
-    left: 50px;
-    top: 50px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 35%;
+    background-color: #4E5760;
 }
+
+.floor-hidden {
+    bottom: -35%;
+}
+
+.floor-wrapper {
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+.door {
+    position: absolute;
+    background-color: #191B1D;
+}
+
+/* anims */
+
+@-webkit-keyframes floor-appear {
+    0% { bottom: -35%; }
+    100% { bottom: 0; }
+}
+
+@-webkit-keyframes floor-disappear {
+    0% { bottom: 0; }
+    100% { bottom: -35%; }
+}
+
+@-webkit-keyframes door-appear {
+    0% { opacity: 0 }
+    100% { opacity: 1 }
+}
+
+@-webkit-keyframes door-disappear {
+    0% { opacity: 1 }
+    100% { opacity: 0 }
+}
+
 </style>
 
-<button class="reset">reset</button>
+<script>
+var ms;
 
-<div class="tmp">
-Great map will be here.<br />
-<a href="./level.html#0">0.json</a><br />
-<a href="./level.html#1">1.json</a><br />
-<a href="./level.html#2">2.json</a><br />
-</div>
+$(function () {
+    ms = new scene.map.MapScene()
+    ms.play();
+});
+</script>
+
+<div class="floor-wrapper"></div>
+
+<!--div class="tmp">
+  <a href="./level.html#0">0.json</a><br />
+  <a href="./level.html#1">1.json</a><br />
+  <a href="./level.html#2">2.json</a><br />
+</div-->
+
+<div class="floor floor-hidden"></div>
+
+
+
+
+
+
+
+
+
+<img class="life-button -menu-hidden" src="images/life-button.svg" />
+
+<img class="menu-button menu-hidden" src="images/menu-button.svg" />
+
+<menus id="map-menu">
+  <menu src="images/back-button.svg"
+    onclick="ms.fadeOut().then(function () { history.back(); });"></menu>
+  <menu src="images/reset-button.svg"
+    onclick="ms.fadeOut().then(function () { location.reload(); });"></menu>
+</menus>

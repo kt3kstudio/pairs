@@ -11,13 +11,19 @@ pages.common.BackgroundService = (function ($) {
     var exports = {};
 
     exports.turnWhite = function () {
-        $(document.body).removeClass('dark-bg');
+        $(document.body).removeClass('dark-bg').css('background-color', '');
 
         return wait(1000);
     };
 
     exports.turnBlack = function () {
-        $(document.body).addClass('dark-bg');
+        $(document.body).addClass('dark-bg').css('background-color', '');
+
+        return wait(1000);
+    };
+
+    exports.turnYellow = function () {
+        $(document.body).removeClass('dark-bg').css('background-color', 'yellow');
 
         return wait(1000);
     };
