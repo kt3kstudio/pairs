@@ -1,5 +1,6 @@
 /**
  * @class
+ * WallObject is an abstract class which represents the something on the wall in the map view.
  */
 domain.map.WallObject = (function ($) {
     'use strict';
