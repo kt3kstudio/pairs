@@ -1,4 +1,4 @@
-
+/* jshint quotmark: false */
 var h = 100;
 var w = 70;
 window.woList = [
@@ -8,7 +8,7 @@ window.woList = [
     {"type": "l", "name": "3", "pos": [700, -h], "size": [w, h], "star": 3, "score": 5000, },
 ];
 
-domain.map.Wall = (function () {
+domain.map.Wall = (function ($) {
     'use strict';
 
     var exports = function () {
@@ -69,4 +69,4 @@ domain.map.Wall = (function () {
 
     return exports;
 
-}());
+}(window.jQuery));

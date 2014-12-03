@@ -2,7 +2,7 @@
  * @class
  * Floor class handles the behaviour of floor of the corridor view
  */
-domain.map.Floor = (function () {
+domain.map.Floor = (function ($) {
     'use strict';
 
     var FLOOR_MOVE_DUR = 400;
@@ -33,4 +33,4 @@ domain.map.Floor = (function () {
     };
 
     return exports;
-}());
+}(window.jQuery));

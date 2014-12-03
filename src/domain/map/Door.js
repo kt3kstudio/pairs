@@ -1,7 +1,7 @@
 /**
  * @class
  */
-domain.map.Door = (function () {
+domain.map.Door = (function ($) {
     'use strict';
 
     var DOOR_APPEAR_DUR = 400;
@@ -23,9 +23,9 @@ domain.map.Door = (function () {
     };
 
     doorPt.appearAnim = 'door-appear';
-    doorPt.appearDur = 400;
+    doorPt.appearDur = DOOR_APPEAR_DUR;
     doorPt.disappearAnim = 'door-disappear';
-    doorPt.disappearDur = 400;
+    doorPt.disappearDur = DOOR_APPEAR_DUR;
 
     return exports;
-}());
+}(window.jQuery));

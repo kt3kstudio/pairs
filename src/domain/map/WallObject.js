@@ -1,7 +1,7 @@
 /**
  * @class
  */
-domain.map.WallObject = (function () {
+domain.map.WallObject = (function ($) {
     'use strict';
 
     var exports = function () {
@@ -55,4 +55,4 @@ domain.map.WallObject = (function () {
     };
 
     return exports;
-}());
+}(window.jQuery));

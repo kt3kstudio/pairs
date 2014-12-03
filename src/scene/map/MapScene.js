@@ -2,21 +2,21 @@
  * @class
  * MapScene handles the scene of map
  */
-scene.map.MapScene = (function () {
+scene.map.MapScene = (function ($) {
     'use strict';
 
     var exports = function () {
         // domain objects
         this.floor = new domain.map.Floor();
         this.wall = new domain.map.Wall();
-        this.wall.loadFromObjectList(woList);
+        this.wall.loadFromObjectList(window.woList);
 
         // ui
         this.menuButton = $('.menu-button').menuButton($('#map-menu'));
         this.lifeButton = {};
     };
 
-    var msPrototype = exports.prototype = new scene.common.Scene;
+    var msPrototype = exports.prototype = new scene.common.Scene();
 
     msPrototype.start = function () {
         var that = this;
@@ -54,4 +54,4 @@ scene.map.MapScene = (function () {
 
     return exports;
 
-}());
+}(window.jQuery));
