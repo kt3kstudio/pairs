@@ -1,8 +1,6 @@
-
-window.domain = window.domain || {};
-domain.level = domain.level || {};
 /**
  * @class
+ * TrashBox class handles the behaviour of the trash where boms disappear.
  */
 domain.level.TrashBox = (function () {
     'use strict';
