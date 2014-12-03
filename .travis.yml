@@ -5,4 +5,7 @@ branches:
     - gh-pages
 
 before_install:
-  - npm i -g jshint
+  - npm install -g jshint
+  - npm install -g bower
+  - bower install
+  - bundle install
