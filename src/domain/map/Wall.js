@@ -94,7 +94,7 @@ domain.map.Wall = (function ($) {
         this.$dom.animate({scrollLeft: this.$dom.scrollLeft() + x}, dur);
 
         return wait(dur);
-    }
+    };
 
     wallPt.scrollTo = function (x, dur) {
         this.$dom.animate({scrollLeft: x - this.wallWidth / 2}, dur);
