@@ -14,6 +14,7 @@ domain.map.Wall = (function ($) {
     var exports = function () {
         this.wos = [];
         this.groundLevel = $(window).height() * (1 - domain.map.Floor.HEIGHT_RATE);
+        this.wallWidth = $(window).width();
         this.$dom = $('.floor-wrapper');
     };
 
@@ -65,6 +66,24 @@ domain.map.Wall = (function ($) {
     };
 
     wallPt.disappear = function () {
+        var p = Promise.resolve();
+
+        this.wos.forEach(function (wo) {
+            console.log(wo);
+            p = p.then(function () {
+                wo.disappear();
+
+                return wait(100);
+            });
+        });
+
+        return p;
+    };
+
+    wallPt.scrollTo = function (x) {
+        this.$dom.animate({scrollLeft: x - this.wallWidth / 2}, 1000);
+
+        return wait(1000);
     };
 
     wallPt.setCharLocateService = function (cls) {

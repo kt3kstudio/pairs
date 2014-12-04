@@ -29,6 +29,8 @@ domain.map.CharLocateService = (function () {
 
         return this.chr.moveTo('y', this.wall.groundLevel + 150, 1000).then(function () {
 
+            that.wall.scrollTo(wo.centerX());
+
             return that.chr.moveTo('x', wo.centerX(), 1000);
 
         }).then(function () {

@@ -50,7 +50,7 @@ scene.map.MapScene = (function ($) {
 
         var that = this;
 
-        return wait().then(function () {
+        return this.wall.disappear().then(function () {
 
             return that.floor.disappear();
 
