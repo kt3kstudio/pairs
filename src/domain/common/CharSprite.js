@@ -3,7 +3,7 @@
  * @class
  * CharSprite class handles the character sprite.
  */
-domain.common.CharSprite = (function () {
+domain.common.CharSprite = (function ($) {
     'use strict';
 
     var exports = function () {
@@ -148,4 +148,4 @@ domain.common.CharSprite = (function () {
 
     return exports;
 
-}());
+}(window.jQuery));

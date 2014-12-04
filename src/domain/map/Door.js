@@ -27,7 +27,9 @@ domain.map.Door = (function ($) {
         return $('<div />').addClass('door').css('opcaity', 0).click(function () {
             that.cls.moveToDoor(that).then(function () {
 
-                ms.goToLevel(that.level);
+                // ms means MapScene instance 
+                window.ms.goToLevel(that.level);
+
             });
         });
     };

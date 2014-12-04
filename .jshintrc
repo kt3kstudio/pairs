@@ -25,6 +25,7 @@
         "scene",
         "domain",
         "debug",
+        "$",
 
         /* utilities */
         "wait",
