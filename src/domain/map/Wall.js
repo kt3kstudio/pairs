@@ -8,6 +8,10 @@ window.woList = [
     {"type": "l", "name": "3", level: "3", "pos": [700, -h], "size": [w, h], "star": 3, "score": 5000, },
 ];
 
+/**
+ * @class
+ * Wall class handles the position of wall (scrolling of wall div ('.floor-wrapper')) and objects on wall.
+ */
 domain.map.Wall = (function ($) {
     'use strict';
 
@@ -86,10 +90,16 @@ domain.map.Wall = (function ($) {
         return this;
     };
 
+    wallPt.scroll = function (x, dur) {
+        this.$dom.animate({scrollLeft: this.$dom.scrollLeft() + x}, dur);
+
+        return wait(dur);
+    }
+
     wallPt.scrollTo = function (x, dur) {
         this.$dom.animate({scrollLeft: x - this.wallWidth / 2}, dur);
 
-        return wait(1000);
+        return wait(dur);
     };
 
     wallPt.setCharLocateService = function (cls) {

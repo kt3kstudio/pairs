@@ -1,4 +1,8 @@
 
+/**
+ * @class
+ * Ma class handles the sprite of Ma (the protagonist of this game).
+ */
 domain.common.Ma = (function () {
     'use strict';
 
