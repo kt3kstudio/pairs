@@ -80,8 +80,14 @@ domain.map.Wall = (function ($) {
         return p;
     };
 
-    wallPt.scrollTo = function (x) {
-        this.$dom.animate({scrollLeft: x - this.wallWidth / 2}, 1000);
+    wallPt.scrollSet = function (x) {
+        this.$dom.scrollLeft(x - this.wallWidth / 2);
+
+        return this;
+    };
+
+    wallPt.scrollTo = function (x, dur) {
+        this.$dom.animate({scrollLeft: x - this.wallWidth / 2}, dur);
 
         return wait(1000);
     };
@@ -94,6 +100,10 @@ domain.map.Wall = (function ($) {
         });
 
         return this;
+    };
+
+    wallPt.visible = function (chr) {
+        return chr.rightLimit() > this.$dom.scrollLeft() && chr.leftLimit() < this.$dom.scrollLeft() + this.wallWidth;
     };
 
     return exports;

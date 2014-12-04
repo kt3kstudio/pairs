@@ -28,7 +28,7 @@ domain.map.Door = (function ($) {
             that.cls.moveToDoor(that).then(function () {
 
                 // ms means MapScene instance 
-                window.ms.goToLevel(that.level);
+                window.ms.askGoLevel(that.level);
 
             });
         });

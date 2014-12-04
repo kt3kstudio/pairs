@@ -10,6 +10,7 @@ domain.map.CharLocateService = (function () {
     var exports = function (wall, chr) {
         this.wall = wall;
         this.chr = chr;
+        this.current = wall.wos[0];
     };
 
     var clsPt = exports.prototype;
@@ -27,20 +28,41 @@ domain.map.CharLocateService = (function () {
     clsPt.moveToDoor = function (wo) {
         var that = this;
 
-        return this.chr.moveTo('y', this.wall.groundLevel + 150, 1000).then(function () {
+        var goOutDur = 400;
+        var moveOnCorridor = 1000;
+        var goIntoDur = 400;
 
-            that.wall.scrollTo(wo.centerX());
+        var goOutDistance = 80;
 
-            return that.chr.moveTo('x', wo.centerX(), 1000);
+        if (!that.wall.visible(this.chr)) {
+            that.wall.scrollSet(this.current.centerX());
+        }
+
+        return this.chr.moveTo('y', this.wall.groundLevel + goOutDistance, goOutDur).then(function () {
+
+            that.wall.scrollTo(wo.centerX(), moveOnCorridor);
+
+            return that.chr.moveTo('x', wo.centerX(), moveOnCorridor);
 
         }).then(function () {
 
-            return that.chr.moveTo('y', wo.centerY(), 1000);
+            return that.chr.moveTo('y', wo.centerY(), goIntoDur);
 
         }).then(function () {
 
-            return that.chr.disappear();
+            that.current = wo;
+
+            return that.chr.turn('down');
+
         });
+    };
+
+    clsPt.getIntoDoor = function () {
+        var that = this;
+
+        this.chr.turn('up');
+
+        return this.chr.disappear();
     };
 
     return exports;

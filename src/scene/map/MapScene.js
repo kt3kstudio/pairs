@@ -61,12 +61,23 @@ scene.map.MapScene = (function ($) {
         });
     };
 
+    msPrototype.askGoLevel = function (level) {
+        if (confirm('getting into room ' + level + '?')) {
+            this.goToLevel(level);
+        };
+    };
+
     /**
      * Move to the specified level.
      */
     msPrototype.goToLevel = function (level) {
+        var that = this;
 
-        return this.fadeOut().then(function () {
+        return this.cls.getIntoDoor().then(function () {
+
+            return that.fadeOut();
+
+        }).then(function () {
 
             location.href = 'level.html#' + level;
 

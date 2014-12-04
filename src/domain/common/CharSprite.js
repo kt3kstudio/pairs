@@ -58,12 +58,12 @@ domain.common.CharSprite = (function ($) {
     spritePt.createDom = function () {
         return $('<img />').addClass(this.cssClass).width(this.w).height(this.h).offset({
             // the center of bottom line of the image is the sprite's coordinate.
-            left: this.x - this.w / 2,
+            left: this.leftLimit(),
             top: this.y - this.h
         }).attr('src', this.downImage);
     };
 
-    spritePt.setImage = function (dir) {
+    spritePt.turn = function (dir) {
         var img;
 
         switch (dir) {
@@ -101,7 +101,7 @@ domain.common.CharSprite = (function ($) {
 
         var dir = this.getDirection(coordinate, to);
 
-        this.setImage(dir);
+        this.turn(dir);
 
         this.setDuration(dur);
 
@@ -124,6 +124,24 @@ domain.common.CharSprite = (function ($) {
     spritePt.setOffset = function (offset) {
         this.$dom.css('top', offset.top + 'px');
         this.$dom.css('left', offset.left + 'px');
+    };
+
+    /**
+     * Returns right limit x value.
+     *
+     * @return {Number} x value of the right limit of sprite
+     */
+    spritePt.rightLimit = function () {
+        return this.x + this.w / 2;
+    };
+
+    /**
+     * Returns left limit x value.
+     *
+     * @return {Number} x value of the left limit of sprite
+     */
+    spritePt.leftLimit = function () {
+        return this.x - this.w / 2;
     };
 
     spritePt.moveToY = function (dir, to) {
