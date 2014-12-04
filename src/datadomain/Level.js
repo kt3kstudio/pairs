@@ -11,6 +11,8 @@ datadomain.Level = (function () {
 
     var levelPt = exports.prototype;
 
+    levelPt.a = 1;
+
     return exports;
 
 }());

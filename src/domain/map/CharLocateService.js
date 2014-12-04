@@ -58,8 +58,6 @@ domain.map.CharLocateService = (function () {
     };
 
     clsPt.getIntoDoor = function () {
-        var that = this;
-
         this.chr.turn('up');
 
         return this.chr.disappear();

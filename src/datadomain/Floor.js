@@ -12,6 +12,8 @@ datadomain.Floor = (function () {
 
     var floorPt = exports.prototype;
 
+    floorPt.x = 1;
+
     return exports;
 
 }());
