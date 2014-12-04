@@ -6,20 +6,36 @@ domain.map.Door = (function ($) {
 
     var DOOR_APPEAR_DUR = 400;
 
-    var exports = function (name, star, score) {
+    var exports = function (name, level, star, score) {
         this.name = name;
+        this.level = level;
         this.star = star;
         this.score = score;
     };
 
     exports.createFromObject = function (obj) {
-        return new exports(obj.name, obj.star, obj.score).setPos(obj.pos).setSize(obj.size);
+        return new exports(obj.name, obj.level, obj.star, obj.score)
+            .setPos(obj.pos)
+            .setSize(obj.size);
     };
 
     var doorPt = exports.prototype = new domain.map.WallObject();
 
     doorPt.createDom = function () {
-        return $('<div />').addClass('door').css('opcaity', 0);
+        var that = this;
+
+        return $('<div />').addClass('door').css('opcaity', 0).click(function () {
+            that.cls.moveToDoor(that).then(function () {
+
+                ms.goToLevel(that.level);
+            });
+        });
+    };
+
+    doorPt.setCharLocateService = function (cls) {
+        this.cls = cls;
+
+        return this;
     };
 
     doorPt.appearAnim = 'door-appear';

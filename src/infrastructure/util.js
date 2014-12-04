@@ -65,11 +65,11 @@ window.unbindEvents = function () {
         .off('click');
 };
 
-window.wait = function (n) {
+window.wait = function (n, result) {
     'use strict';
 
     return new Promise(function (resolve) {
-        setTimeout(resolve, n);
+        setTimeout(resolve.bind(null, result), n);
     });
 };
 
@@ -106,7 +106,7 @@ window.loadImage = function (path, cls, dom) {
     $.fn.anim = function (animation, dur) {
         this.animation(animation + ' ' + dur + 'ms');
 
-        return wait(dur);
+        return wait(dur, this);
     };
 
 }(window.jQuery));

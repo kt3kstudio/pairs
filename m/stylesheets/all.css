@@ -52,3 +52,21 @@ body {
     width: 47px;
     height: 47px;
 }
+
+.sprite {
+    position: absolute;
+}
+
+.char {
+}
+
+
+@-webkit-keyframes char-appear {
+    0% { opacity: 0 }
+    100% { opacity: 1 }
+}
+
+@-webkit-keyframes char-disappear {
+    0% { opacity: 1 }
+    100% { opacity: 0 }
+}

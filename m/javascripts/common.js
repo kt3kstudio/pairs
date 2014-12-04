@@ -3,3 +3,4 @@
 //= require namespaces.js
 //= require pages/common/
 //= require scene/common/
+//= require domain/common/

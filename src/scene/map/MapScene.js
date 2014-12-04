@@ -10,6 +10,11 @@ scene.map.MapScene = (function ($) {
         this.floor = new domain.map.Floor();
         this.wall = new domain.map.Wall();
         this.wall.loadFromObjectList(window.woList);
+        this.ma = new domain.common.Ma().setParent(this.wall.$dom);
+
+        this.cls = new domain.map.CharLocateService(this.wall, this.ma);
+
+        this.wall.setCharLocateService(this.cls);
 
         // ui
         this.menuButton = $('.menu-button').menuButton($('#map-menu'));
@@ -33,6 +38,10 @@ scene.map.MapScene = (function ($) {
 
             return that.menuButton.show();
 
+        }).then(function () {
+
+            return that.cls.charAppear(that.wall.wos[0]);
+
         });
     };
 
@@ -50,6 +59,19 @@ scene.map.MapScene = (function ($) {
             return pages.common.BackgroundService.turnBlack();
 
         });
+    };
+
+    /**
+     * Move to the specified level.
+     */
+    msPrototype.goToLevel = function (level) {
+
+        return this.fadeOut().then(function () {
+
+            location.href = 'level.html#' + level;
+
+        });
+
     };
 
     return exports;

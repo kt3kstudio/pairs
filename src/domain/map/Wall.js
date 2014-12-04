@@ -2,10 +2,10 @@
 var h = 100;
 var w = 70;
 window.woList = [
-    {"type": "l", "name": "0", "pos": [100, -h], "size": [w, h], "star": 3, "score": 5000, },
-    {"type": "l", "name": "1", "pos": [300, -h], "size": [w, h], "star": 3, "score": 5000, },
-    {"type": "l", "name": "2", "pos": [500, -h], "size": [w, h], "star": 3, "score": 5000, },
-    {"type": "l", "name": "3", "pos": [700, -h], "size": [w, h], "star": 3, "score": 5000, },
+    {"type": "l", "name": "0", level: "0", "pos": [100, -h], "size": [w, h], "star": 3, "score": 5000, },
+    {"type": "l", "name": "1", level: "1", "pos": [300, -h], "size": [w, h], "star": 3, "score": 5000, },
+    {"type": "l", "name": "2", level: "2", "pos": [500, -h], "size": [w, h], "star": 3, "score": 5000, },
+    {"type": "l", "name": "3", level: "3", "pos": [700, -h], "size": [w, h], "star": 3, "score": 5000, },
 ];
 
 domain.map.Wall = (function ($) {
@@ -65,6 +65,16 @@ domain.map.Wall = (function ($) {
     };
 
     wallPt.disappear = function () {
+    };
+
+    wallPt.setCharLocateService = function (cls) {
+        this.cls = cls;
+
+        this.wos.forEach(function (wo) {
+            wo.setCharLocateService(cls);
+        });
+
+        return this;
     };
 
     return exports;

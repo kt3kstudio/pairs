@@ -27,6 +27,14 @@ domain.map.WallObject = (function ($) {
         return this.x + this.w;
     };
 
+    woPt.centerX = function () {
+        return this.x + this.w / 2;
+    };
+
+    woPt.centerY = function () {
+        return this.y + this.h;
+    };
+
     woPt.setSize = function (size) {
         this.w = size[0];
         this.h = size[1];
