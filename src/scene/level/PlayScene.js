@@ -59,7 +59,7 @@ scene.level.PlayScene = (function ($) {
     psPrototype.start = function () {
         var that = this;
 
-        var p = pages.common.BackgroundService.turnWhite().then(function () {
+        var p = Promise.resolve().then(function () {
 
             return that.field.appear();
 
