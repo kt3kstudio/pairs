@@ -32,14 +32,14 @@ domain.level.Field = (function () {
             $img.css('top', that.top + 'px');
             $img.css('width', that.width + 'px');
 
-            return $img.anim('ball-appear', that.dur);
+            return $img.anim('field-appear', that.dur);
         });
     };
 
     fPrototype.disappear = function () {
         var that = this;
 
-        return this.$dom.anim('ball-disappear', 400).then(function () {
+        return this.$dom.anim('field-disappear', 400).then(function () {
             that.$dom.remove();
         });
     };

@@ -10,10 +10,13 @@ scene.level.PlayScene = (function ($) {
 
     var _console = window._console;
 
-    var exports = function () {
-        // construct each class
+    var exports = function (prevScene) {
 
-        var pos = new pages.level.Positioner();
+        var pos = prevScene.pos;
+
+        // continuous actors
+        this.ball = prevScene.ball;
+        this.level = prevScene.level;
 
         // prepare metrics
         var mapMetrics = pos.fieldMetrics();
@@ -32,8 +35,6 @@ scene.level.PlayScene = (function ($) {
         this.fusionBox = new domain.level.FusionBox(fusionBoxMetrics);
         this.exitQueue = new domain.level.ExitQueue(exitQueueMetrics);
 
-        this.ball = new domain.level.Ball(mapMetrics);
-
         // debug things
         this.pointBox = debug.PointBox; // singleton
         this.scoreBox = debug.ScoreBox;
@@ -44,8 +45,8 @@ scene.level.PlayScene = (function ($) {
 
     var psPrototype = exports.prototype = new scene.common.Scene();
 
-    psPrototype.loadLevel = function (level) {
-        this.map.loadFromBomList(level.boms);
+    psPrototype.loadLevel = function () {
+        this.map.loadFromBomList(this.level.boms);
 
         return this;
     };
@@ -53,13 +54,11 @@ scene.level.PlayScene = (function ($) {
     psPrototype.start = function () {
         var that = this;
 
+        this.loadLevel();
+
         var p = Promise.resolve().then(function () {
 
             return that.field.appear();
-
-        }).then(function () {
-
-            return that.ball.appear();
 
         }).then(function () {
 

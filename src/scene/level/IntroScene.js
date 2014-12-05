@@ -9,7 +9,10 @@ scene.level.IntroScene = (function () {
     var exports = function (level) {
         this.level = level;
 
+        this.pos = new pages.level.Positioner();
+
         this.chr = new domain.common.Ma();
+        this.ball = new domain.level.Ball(this.pos.fieldMetrics());
     };
 
     var isPt = exports.prototype = new scene.common.Scene();
@@ -18,7 +21,9 @@ scene.level.IntroScene = (function () {
 
         var that = this;
 
-        this.chr.x = 250;
+        var paperPos = this.pos.paperPos();
+
+        this.chr.x = paperPos.left;
         this.chr.y = 800;
 
         that.chr.put();
@@ -27,13 +32,15 @@ scene.level.IntroScene = (function () {
 
         Promise.resolve().then(function () {
 
-            return that.chr.moveTo('y', 500, 2000);
+            return that.chr.moveTo('y', paperPos.top, 1000);
 
         }).then(function () {
 
+            that.chr.disappear();
+
         }).then(function () {
 
-            return that.chr.disappear();
+            return that.ball.appear();
 
         }).then(function () {
 

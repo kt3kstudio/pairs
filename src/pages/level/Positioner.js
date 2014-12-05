@@ -97,6 +97,10 @@ pages.level.Positioner = (function ($) {
         return this.gridPosition(1, 1, 1);
     };
 
+    posPt.paperPos = function () {
+        return {left: this.width / 2, top: this.TOP + this.UNIT * 4};
+    };
+
     return exports;
 
 }(window.jQuery));
