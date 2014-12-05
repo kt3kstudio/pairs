@@ -19,20 +19,24 @@
     "browser": true,
     "node": true,
 
-    "predef": [
+    "globals": {
         /* namespaces */
-        "pages",
-        "scene",
-        "domain",
-        "datadomain",
-        "debug",
-        "$",
+        "pages": true,
+        "scene": true,
+        "domain": true,
+        "datadomain": true,
+        "debug": true,
+
+        /* constants */
+        "NUDUR": true,
+
+        "$": false,
 
         /* utilities */
-        "wait",
-        "loadImage",
-        "Promise",
-        "bindEvents",
-        "unbindEvents"
-    ]
+        "wait": false,
+        "loadImage": false,
+        "Promise": false,
+        "bindEvents": false,
+        "unbindEvents": false
+    }
 }
