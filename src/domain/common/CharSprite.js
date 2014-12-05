@@ -6,6 +6,8 @@
 domain.common.CharSprite = (function ($) {
     'use strict';
 
+    var DEFAULT_PARENT = 'body';
+
     var exports = function () {
     };
 
@@ -41,8 +43,14 @@ domain.common.CharSprite = (function ($) {
         return this;
     };
 
+    spritePt.put = function () {
+        this.$dom = this.$dom || this.createDom().appendTo(this.parent || DEFAULT_PARENT);
+
+        return this;
+    };
+
     spritePt.appear = function () {
-        this.$dom = this.$dom || this.createDom().appendTo(this.parent);
+        this.$dom = this.$dom || this.createDom().appendTo(this.parent || DEFAULT_PARENT);
 
         return this.$dom.anim(this.appearAnim, this.appearDur);
     };

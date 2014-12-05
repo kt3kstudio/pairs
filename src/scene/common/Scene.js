@@ -29,7 +29,7 @@ scene.common.Scene = (function () {
     };
 
     scenePrototype.finish = function () {
-        this.__resolve(this.actors);
+        this.__resolve(this);
     };
 
     return exports;
