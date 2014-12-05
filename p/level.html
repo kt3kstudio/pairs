@@ -43,7 +43,7 @@ body {
 }
 
 @-webkit-keyframes ball-appear {
-    0% { opacity: 0; transform: scale(2); }
+    0% { opacity: 0; transform: scale(0); }
 }
 
 @-webkit-keyframes ball-disappear {
@@ -56,6 +56,14 @@ body {
 
 @-webkit-keyframes ball-refuse-y {
     50% { transform: scale(0.5, 2); opacity: 0.2; }
+}
+
+@-webkit-keyframes field-appear {
+    0% { opacity: 0; transform: scale(2); }
+}
+
+@-webkit-keyframes field-disappear {
+    100% { opacity: 0; transform: scale(0); }
 }
 
 @-webkit-keyframes bom-appear {
@@ -110,17 +118,17 @@ $(function () {
 
     lpc = new pages.level.PhaseController();
 
-    ps = new scene.level.PlayScene();
-
     lpc.loadCurrentLevel().then(function (level) {
 
         return new scene.level.IntroScene(level).play();
 
-    }).then(function (scene) {
+    }).then(function (prevScene) {
 
-        is = scene;
+        is = prevScene;
 
-        return ps.loadLevel(scene.level).play();
+        ps = new scene.level.PlayScene(prevScene);
+
+        return ps.play();
 
     });
 });
@@ -135,7 +143,7 @@ $(function () {
 
 <div class="wrapper"></div>
 
-<div class="point" style="font-family: menlo; margin-left: 300px;">
+<div class="point hidden" style="font-family: menlo; margin-left: 300px;">
 m + f = <span class="mf">0</span><br />
 f + m = <span class="fm">0</span><br />
 m + m = <span class="mm">0</span><br />
