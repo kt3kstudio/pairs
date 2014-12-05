@@ -10,23 +10,17 @@ scene.level.PlayScene = (function ($) {
 
     var _console = window._console;
 
-    var FIELD_TOP = 180; // top of main field in px
-    var FIELD_WIDTH = 70; // width of main field in percent
-    var FIELD_NUM = 3; // number of columns or rows in main field
-
-    var EVAL_TOP = 80; // top of eval box in px
-    var EVAL_WIDTH = 50; // width of eval box in %
-    var EVAL_DIV = 2; // horizontal division number of eval box
-
     var exports = function () {
         // construct each class
 
+        var pos = new pages.level.Positioner();
+
         // prepare metrics
-        var mapMetrics = new pages.level.Positioner(FIELD_TOP, FIELD_WIDTH, FIELD_NUM).metrics();
-        var evalBoxMetrics = new pages.level.Positioner(EVAL_TOP, EVAL_WIDTH, EVAL_DIV).metrics();
-        var trashBoxMetrics = {left: 0, top: 0, unit: 1};
-        var fusionBoxMetrics = new pages.level.Positioner(EVAL_TOP, 10, 1).metrics();
-        var exitQueueMetrics = new pages.level.Positioner(EVAL_TOP - 50, 10, 1).metrics();
+        var mapMetrics = pos.fieldMetrics();
+        var evalBoxMetrics = pos.evalRoomMetrics();
+        var trashBoxMetrics = pos.leftDoorMetrics();
+        var exitQueueMetrics = pos.queueMetrics();
+        var fusionBoxMetrics = pos.fusionBoxMetrics();
 
         // models
         this.map = new domain.level.Map(mapMetrics);

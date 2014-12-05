@@ -1,8 +1,5 @@
-window.pages = window.pages || {};
-pages.level = pages.level || {};
-
 // Util
-// calculate TOP, LEFT, UNIT, M, N when given top, fieldWidthPercent, M
+// calculate positions of each component
 
 /**
  * @class
@@ -11,32 +8,95 @@ pages.level = pages.level || {};
 pages.level.Positioner = (function ($) {
     'use strict';
 
-    var exports = function (top, fieldWidthPercent, m) {
-        this.top = top;
-        this.fwp = fieldWidthPercent;
-        this.m = m;
+    var TOP_UI_HEIGHT = 50;
+    var BOTTOM_UI_HEIGHT = 50;
+
+    // height / width
+    var PLAY_FIELD_RATIO = 6 / 4;
+
+    var exports = function () {
         this.calc();
     };
 
-    var positionerPt = exports.prototype;
+    var posPt = exports.prototype;
 
-    positionerPt.calc = function () {
-        this.width = $(window).width();
-        this.height = $(window).height();
+    posPt.calcAvailableArea = function () {
+        var w = this.width = $(window).width();
+        var h = this.height = $(window).height();
 
-        var shorter = Math.min(this.width, this.height - this.top);
-
-        this.fieldWidth = shorter * this.fwp / 100;
-
-        this.LEFT = Math.floor((this.width - this.fieldWidth) / 2);
-        this.TOP = this.top;
-
-        this.UNIT = Math.floor(this.fieldWidth / this.m);
+        this.availableHeight = h - TOP_UI_HEIGHT - BOTTOM_UI_HEIGHT;
+        this.availableWidth = w;
     };
 
-    positionerPt.metrics = function () {
-        return {top: this.TOP, left: this.LEFT, unit: this.UNIT, width: this.UNIT * this.m};
+    posPt.calcBestArea = function () {
+        this.calcAvailableArea();
+
+        if (this.availableWidth * PLAY_FIELD_RATIO > this.availableHeight) {
+            // height dominant screen
+            console.log('height dominant');
+
+            this.bestWidth = this.availableHeight / PLAY_FIELD_RATIO;
+            this.bestHeight = this.availableHeight;
+        } else {
+            // width dominant screen
+            console.log('width dominant');
+
+            this.bestWidth = this.availableWidth;
+            this.bestHeight = this.availableWidth * PLAY_FIELD_RATIO;
+        }
+    };
+
+    posPt.calcLeft = function () {
+        this.left = (this.width - this.bestWidth) / 2;
+    };
+
+    posPt.calc = function () {
+        this.calcBestArea();
+        this.calcLeft();
+
+        this.UNIT = this.bestWidth / 4;
+        this.LEFT = this.left + this.UNIT / 2;
+        this.TOP = TOP_UI_HEIGHT;
+    };
+
+    posPt.topUIPosition = function () {
+        return {top: 0, left: this.left};
+    };
+
+    posPt.gridPosition = function (x, y, w) {
+        var u = this.UNIT;
+
+        return {top: this.TOP + u * y, left: this.LEFT + u * x, unit: u, width: u * w};
+    };
+
+    posPt.fieldMetrics = function () {
+        return this.gridPosition(0, 2, 3);
+    };
+
+    posPt.evalRoomMetrics = function () {
+        return this.gridPosition(0, 1, 2);
+    };
+
+    posPt.leftDoorMetrics = function () {
+        return this.gridPosition(0, 0, 1);
+    };
+
+    posPt.rightDoorMetrics = function () {
+        return this.gridPosition(2, 1, 1);
+    };
+
+    posPt.queueMetrics = function () {
+        var pos = this.gridPosition(1, 0, 1);
+
+        pos.unit /= 2;
+
+        return pos;
+    };
+
+    posPt.fusionBoxMetrics = function () {
+        return this.gridPosition(1, 1, 1);
     };
 
     return exports;
+
 }(window.jQuery));
