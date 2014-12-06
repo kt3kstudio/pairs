@@ -103,6 +103,7 @@ body {
 var lpc;
 var ps;
 var is;
+var os;
 
 // main
 $(function () {
@@ -121,6 +122,16 @@ $(function () {
         ps = new scene.level.PlayScene(prevScene);
 
         return ps.play();
+
+    }).then(function (prevScene) {
+
+        os = new scene.level.OutroScene(prevScene);
+
+        return os.play();
+
+    }).then(function () {
+
+        history.back();
 
     });
 });

@@ -49,7 +49,12 @@ scene.level.OutroScene = (function () {
 
             return pages.common.BackgroundService.turnBlack();
 
+        }).then(function () {
+
+            that.finish();
+
         });
+
     };
 
     return exports;
