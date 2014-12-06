@@ -7,8 +7,6 @@
 scene.level.PlayScene = (function ($) {
     'use strict';
 
-    var _console = window._console;
-
     var exports = function (prevScene) {
 
         this.prevScene = prevScene;
@@ -74,25 +72,20 @@ scene.level.PlayScene = (function ($) {
         var bms = new domain.level.BallMoveMobLeaveService(this.ball, this.map, this.evalBox);
         var erp = new domain.level.EvalResultProcessor(this.trashBox, this.fusionBox, this.exitQueue);
 
-        var process = function (result) {
+        this.bindEvents(function (dir) {
 
-            if (result == null) {
-                return;
-            }
+            bms.move(dir).then(function (result) {
 
-            that.scoreBox.add(result.score);
-            that.pointBox.countUp(result.left.gender, result.right.gender);
+                return erp.process(result, function (result) {
 
-            erp.process(result);
+                    // debug code
+                    that.scoreBox.add(result.score);
+                    that.pointBox.countUp(result.left.gender, result.right.gender);
 
-        };
+                });
 
-        var up = function () { bms.up().then(process); };
-        var down = function () { bms.down().then(process); };
-        var left = function () { bms.left().then(process); };
-        var right = function () { bms.right().then(process); };
-
-        this.bindEvents(up, down, left, right);
+            });
+        });
 
         return p;
     };
@@ -134,22 +127,22 @@ scene.level.PlayScene = (function ($) {
         });
     };
 
-    psPrototype.bindEvents = function (up, down, left, right) {
+    psPrototype.bindEvents = function (onSwipe) {
 
         this.swipe$dom = $('.wrapper')
             .swipeCross()
-            .on('swipeup', function () { _console.log('swipeup'); up();})
-            .on('swiperight', function () { _console.log('swiperight'); right(); })
-            .on('swipeleft', function () { _console.log('swipeleft'); left(); })
-            .on('swipedown', function () { _console.log('swipedown'); down(); })
-            .on('swipecancel', function () { _console.log('swipecancel'); });
+            .on('swipeup', function () { onSwipe('up') ;})
+            .on('swipedown', function () { onSwipe('down'); })
+            .on('swipeleft', function () { onSwipe('left'); })
+            .on('swiperight', function () { onSwipe('right'); })
+            .on('swipecancel', function () { });
 
         $(document)
             .arrowkeys()
-            .on('upkey', function () { _console.log('upkey'); up();})
-            .on('rightkey', function () { _console.log('rightkey'); right(); })
-            .on('leftkey', function () { _console.log('leftkey'); left(); })
-            .on('downkey', function () { _console.log('downkey'); down(); });
+            .on('upkey', function () { onSwipe('up'); })
+            .on('downkey', function () { onSwipe('down'); })
+            .on('leftkey', function () { onSwipe('left'); })
+            .on('rightkey', function () { onSwipe('right'); });
 
     };
 
@@ -166,9 +159,9 @@ scene.level.PlayScene = (function ($) {
         $(document)
             .arrowkeysUnbind()
             .off('upkey')
-            .off('rightkey')
+            .off('downkey')
             .off('leftkey')
-            .off('downkey');
+            .off('rightkey');
     };
 
     return exports;

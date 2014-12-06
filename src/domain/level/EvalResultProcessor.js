@@ -15,7 +15,15 @@ domain.level.EvalResultProcessor = (function () {
 
     var erpPrototype = exports.prototype;
 
-    erpPrototype.process = function (result) {
+    erpPrototype.process = function (result, hook) {
+
+        if (result == null) {
+            return Promise.resolve();
+        }
+
+        wait().then(function () {
+            hook(result);
+        });
 
         var promises = [];
         var that = this;
