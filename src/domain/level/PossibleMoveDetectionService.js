@@ -18,10 +18,10 @@ domain.level.PossibleMoveDetectionService = (function () {
      */
     pmdsPt.possible = function () {
         // if any of the next cells has a bom, then the next move is possible.
-        if (this.map.select(ball.posAhead('up')) { return true; }
-        if (this.map.select(ball.posAhead('down')) { return true; }
-        if (this.map.select(ball.posAhead('left')) { return true; }
-        if (this.map.select(ball.posAhead('right')) { return true; }
+        if (this.map.select(this.ball.posAhead('up'))) { return true; }
+        if (this.map.select(this.ball.posAhead('down'))) { return true; }
+        if (this.map.select(this.ball.posAhead('left'))) { return true; }
+        if (this.map.select(this.ball.posAhead('right'))) { return true; }
 
         return false;
     };
