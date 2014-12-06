@@ -12,6 +12,8 @@ scene.level.PlayScene = (function ($) {
 
     var exports = function (prevScene) {
 
+        this.prevScene = prevScene;
+
         var pos = prevScene.pos;
 
         // continuous actors

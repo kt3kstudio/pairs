@@ -66,12 +66,18 @@ domain.level.Ball = (function ($) {
         this.x = pos.x;
         this.y = pos.y;
 
-        this.locate();
+        return this.locate();
+    };
+
+    ballPrototype.goCenter = function () {
+        return this.setPos({x: 1, y: 1});
     };
 
     ballPrototype.locate = function () {
         this.$dom.css('top', this.metrics.top + this.y * this.metrics.unit + 'px');
         this.$dom.css('left', this.metrics.left + this.x * this.metrics.unit + 'px');
+
+        return wait(this.transDur);
     };
 
     ballPrototype.refuseToMove = function (dir) {
@@ -85,4 +91,5 @@ domain.level.Ball = (function ($) {
     };
 
     return exports;
+
 }(window.jQuery));

@@ -10,23 +10,32 @@ pages.common.BackgroundService = (function ($) {
 
     var exports = {};
 
-    exports.turnWhite = function () {
+    exports.transDur = 700;
+
+    exports.turnWhite = function (dur) {
+        dur = dur || exports.transDur;
+
         $(document.body).removeClass('dark-bg').css('background-color', '');
 
-        return wait(1000);
+        return wait(dur);
     };
 
-    exports.turnBlack = function () {
+    exports.turnBlack = function (dur) {
+        dur = dur || exports.transDur;
+
         $(document.body).addClass('dark-bg').css('background-color', '');
 
-        return wait(1000);
+        return wait(dur);
     };
 
-    exports.turnYellow = function () {
+    exports.turnYellow = function (dur) {
+        dur = dur || exports.transDur;
+
         $(document.body).removeClass('dark-bg').css('background-color', 'yellow');
 
-        return wait(1000);
+        return wait(dur);
     };
 
     return exports;
+
 }(window.jQuery));

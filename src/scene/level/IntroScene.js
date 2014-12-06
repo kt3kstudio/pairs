@@ -36,11 +36,12 @@ scene.level.IntroScene = (function () {
 
         }).then(function () {
 
-            that.chr.disappear();
 
         }).then(function () {
 
-            return that.ball.appear();
+            that.ball.appear();
+
+            return that.chr.disappear(1000);
 
         }).then(function () {
 

@@ -49,16 +49,19 @@ domain.common.CharSprite = (function ($) {
         return this;
     };
 
-    spritePt.appear = function () {
+    spritePt.appear = function (dur) {
         this.$dom = this.$dom || this.createDom().appendTo(this.parent || DEFAULT_PARENT);
 
-        return this.$dom.anim(this.appearAnim, this.appearDur);
+        return this.$dom.anim(this.appearAnim, dur || this.appearDur);
     };
 
-    spritePt.disappear = function () {
-        return this.$dom.anim(this.disappearAnim, this.disappearDur).then(function ($dom) {
+    spritePt.disappear = function (dur) {
+        var that = this;
+
+        return this.$dom.anim(this.disappearAnim, dur || this.disappearDur).then(function ($dom) {
 
             $dom.remove();
+            that.$dom = null;
 
         });
     };

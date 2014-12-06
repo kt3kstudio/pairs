@@ -9,7 +9,7 @@ body {
     position: relative;
     background-color: #C1C6CB;
     color: #191B1D;
-    transition-duration: 1000ms;
+    transition-duration: 700ms;
 }
 
 .hidden {
