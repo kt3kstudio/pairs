@@ -12,3 +12,6 @@ server:
 
 tree:
 	tree m src
+
+lines:
+	find src/ -name '*.js' | xargs wc
