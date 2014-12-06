@@ -1,6 +1,7 @@
 
 /**
  * @class
+ * @extends scene.common.Scene
  * IntroScene class handles the introduction scene of the level page.
  */
 scene.level.IntroScene = (function () {

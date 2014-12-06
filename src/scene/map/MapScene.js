@@ -1,5 +1,6 @@
 /**
  * @class
+ * @extends scene.common.Scene
  * MapScene handles the scene of map
  */
 scene.map.MapScene = (function ($) {

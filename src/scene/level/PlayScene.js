@@ -1,8 +1,7 @@
-window.scene = window.scene || {};
-scene.level = scene.level || {};
 
 /**
  * @class
+ * @extends scene.common.Scene
  * PhaseController controlls phase of processes of things in the level page.
  */
 scene.level.PlayScene = (function ($) {

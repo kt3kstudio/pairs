@@ -1,6 +1,7 @@
 
 /**
  * @class
+ * @extends scene.common.Scene
  * OutroScene handles the scene after finishing main play.
  */
 scene.level.OutroScene = (function () {
