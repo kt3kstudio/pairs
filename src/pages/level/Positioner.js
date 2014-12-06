@@ -32,15 +32,13 @@ pages.level.Positioner = (function ($) {
         this.calcAvailableArea();
 
         if (this.availableWidth * PLAY_FIELD_RATIO > this.availableHeight) {
-            // height dominant screen
-            console.log('height dominant');
 
+            // height dominant screen
             this.bestWidth = this.availableHeight / PLAY_FIELD_RATIO;
             this.bestHeight = this.availableHeight;
         } else {
-            // width dominant screen
-            console.log('width dominant');
 
+            // width dominant screen
             this.bestWidth = this.availableWidth;
             this.bestHeight = this.availableWidth * PLAY_FIELD_RATIO;
         }
