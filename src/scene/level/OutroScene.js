@@ -16,7 +16,7 @@ scene.level.OutroScene = (function () {
         this.menuButton = prevScene.menuButton;
     };
 
-    var osPt = exports.prototype = new scene.common.Scene;
+    var osPt = exports.prototype = new scene.common.Scene();
 
     osPt.start = function () {
 
