@@ -15,6 +15,8 @@ domain.level.PossibleMoveDetectionService = (function () {
 
     /**
      * Check if there is any space left in the play field.
+     *
+     * @returns {Boolean} true if possible move available
      */
     pmdsPt.possible = function () {
         // if any of the next cells has a bom, then the next move is possible.
