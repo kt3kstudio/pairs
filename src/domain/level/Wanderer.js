@@ -103,7 +103,7 @@ domain.level.Wanderer = (function ($) {
         this.$dom.css('top', this.offsetY + this.unit * this.y + this.gutter + 'px');
         this.$dom.css('left', this.offsetX + this.unit * this.x + this.gutter + 'px');
 
-        return wait(this.transDur);
+        return wait(this.transDur, this);
     };
 
     wPrototype.remove = function () {

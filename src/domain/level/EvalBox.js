@@ -72,19 +72,13 @@ domain.level.EvalBox = (function () {
 
         this.involve(wanderer);
 
-        wanderer.setTransitionDuration(dur);
-
         wanderer.x = 0;
         wanderer.y = 0;
 
-        return wait(10).then(function () {
+        return wanderer.setTransitionDuration(dur).then(function () {
 
-            wanderer.locate();
+            return wanderer.locate();
 
-            return wait(dur);
-
-        }).then(function () {
-            return wanderer;
         });
 
     };
