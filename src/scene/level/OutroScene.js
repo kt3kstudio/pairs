@@ -10,7 +10,7 @@ scene.level.OutroScene = (function () {
     var exports = function (prevScene) {
         this.prevScene = prevScene;
 
-        this.ball = prevScene.ball;
+        this.ball = new Ball(prevScene.ball);
         this.chr = prevScene.prevScene.chr;
         this.field = prevScene.field;
         this.menuButton = prevScene.menuButton;
@@ -32,7 +32,11 @@ scene.level.OutroScene = (function () {
 
         }).then(function () {
 
-            return that.ball.goCenter();
+            return that.ball.goCenterX();
+
+        }).then(function () {
+
+            return that.ball.goCenterY();
 
         }).then(function () {
 
@@ -55,6 +59,31 @@ scene.level.OutroScene = (function () {
 
         });
 
+    };
+
+    // Ball role in OutroScene
+    var Ball = function (ball) {
+        this.ball = ball;
+    };
+
+    var ballPt = Ball.prototype;
+
+    ballPt.goCenterX = function () {
+        var pos = this.ball.pos();
+        pos.x = 1;
+
+        return this.ball.setPos(pos);
+    };
+
+    ballPt.goCenterY = function () {
+        var pos = this.ball.pos();
+        pos.y = 1;
+
+        return this.ball.setPos(pos);
+    };
+
+    ballPt.disappear = function () {
+        return this.ball.disappear();
     };
 
     return exports;

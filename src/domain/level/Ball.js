@@ -9,7 +9,7 @@ domain.level.Ball = (function ($) {
     'use strict';
 
     var exports = function (metrics) {
-        this.transDur = 800;
+        this.transDur = window.NUDUR;
         this.x = 1;
         this.y = 1;
         this.MAX = 3;
@@ -63,10 +63,6 @@ domain.level.Ball = (function ($) {
         this.y = pos.y;
 
         return this.locate();
-    };
-
-    ballPrototype.goCenter = function () {
-        return this.setPos({x: 1, y: 1});
     };
 
     ballPrototype.locate = function () {
