@@ -111,6 +111,8 @@ body {
 var lpc;
 var ps;
 var is;
+var os;
+var reload = false;
 
 // main
 $(function () {
@@ -129,6 +131,21 @@ $(function () {
         ps = new scene.level.PlayScene(prevScene);
 
         return ps.play();
+
+    }).then(function (prevScene) {
+
+        os = new scene.level.OutroScene(prevScene);
+
+        return os.play();
+
+    }).then(function () {
+
+        if (reload) {
+            location.reload();
+            return;
+        }
+
+        history.back();
 
     });
 });
@@ -157,8 +174,8 @@ Score = <span class="level-score">0</span><br />
 <img class="menu-button menu-hidden" src="images/menu-button.svg" />
 
 <menus id="level-menu">
-  <menu src="images/back-button.svg" onclick="ps.cease().then(function () { history.back(); });"></menu>
-  <menu src="images/reset-button.svg" onclick="ps.cease().then(function () { lpc.loadCurrentLevel().then(function (level) { ps.loadLevel(level).play(); }); });"></menu>
+  <menu src="images/back-button.svg" onclick="ps.finish();"></menu>
+  <menu src="images/reset-button.svg" onclick="ps.finish(); reload = true; "></menu>
 </menus>
 
 </body>
