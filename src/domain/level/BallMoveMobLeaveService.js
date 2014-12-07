@@ -8,15 +8,24 @@ domain.level = domain.level || {};
 domain.level.BallMoveMobLeaveService = (function () {
     'use strict';
 
-    var exports = function (ball, wanderers, box) {
+    var exports = function (ball, wanderers, box, resProcess) {
         this.ball = ball;
         this.mobs = new Mobs(wanderers);
         this.box = box;
+        this.resProcess = resProcess
+
+        this.pmds = new domain.level.PossibleMoveDetectionService(this.ball, wanderers);
     };
 
     var bmsPrototype = exports.prototype;
 
-    bmsPrototype.move = function (dir) {
+    /**
+     * Make the ball to the specified direction and a mob leave the field.
+     *
+     * @param {String} dir The direction the ball moves (up|down|right|left)
+     * @returns {Promise} A promise which resolves when the mob(bom)
+     */
+    bmsPrototype.ballMoveAndLeaveOne = function (dir) {
 
         // position interface
         // pos.x x-coordinate
@@ -30,17 +39,56 @@ domain.level.BallMoveMobLeaveService = (function () {
             return Promise.reject();
         }
 
-        this.ball[dir]();
+        this.ball.move(dir);
 
-        var w = this.mobs.leave(pos);
+        return this.leaveAtPos(pos);
 
-        return this.box.take(w);
     };
 
-    bmsPrototype.up = function () { return this.move('up'); };
-    bmsPrototype.down = function () { return this.move('down'); };
-    bmsPrototype.right = function () { return this.move('right'); };
-    bmsPrototype.left = function () { return this.move('left'); };
+    /**
+     * Make a mob leave the field.
+     */
+    bmsPrototype.leaveOne = function () {
+
+        return this.leaveAtPos(this.ball.pos());
+
+    };
+
+    /**
+     * Make a mob at the specified position leave the field.
+     */
+    bmsPrototype.leaveAtPos = function (pos) {
+
+        var that = this;
+
+        var mob = this.mobs.leave(pos);
+
+        if (!this.pmds.possible()) {
+
+            console.log('no more move!');
+
+            if (this.pmds.cellRemainsAtBall()) {
+
+                console.log('last one cell');
+
+                wait(600).then(function () {
+
+                    return that.leaveOne();
+
+                });
+
+            } else {
+
+                console.log('no cell left');
+
+                mob.lastOne = true;
+            }
+
+        }
+
+        return this.box.take(mob).then(this.resProcess);
+
+    };
 
     // `Mobs` role (extends Map)
     var Mobs = function (wanderers) {
@@ -48,6 +96,10 @@ domain.level.BallMoveMobLeaveService = (function () {
     };
 
     var mobsPrototype = Mobs.prototype;
+
+    mobsPrototype.isEmpty = function () {
+        return this.wanderers.isEmpty();
+    };
 
     mobsPrototype.leave = function (pos) {
         var w = this.wanderers.select(pos);

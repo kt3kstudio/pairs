@@ -55,39 +55,35 @@ scene.level.PlayScene = (function ($) {
 
         this.loadLevel();
 
-        var p = Promise.resolve().then(function () {
-
-            return that.field.appear();
-
-        }).then(function () {
-
-            return that.map.appear('#main');
-
-        }).then(function () {
-
-            return that.menuButton.show();
-
-        });
-
-        var bms = new domain.level.BallMoveMobLeaveService(this.ball, this.map, this.evalBox);
         var erp = new domain.level.EvalResultProcessor(this.trashBox, this.fusionBox, this.exitQueue);
+        var pmds = new domain.level.PossibleMoveDetectionService(this.ball, this.map);
+
+        var resProcessor = function (result) {
+            return erp.process(result, function (result) {
+                console.log('eval result');
+
+                // debug code
+                that.scoreBox.add(result.score);
+                that.pointBox.countUp(result.left.gender, result.right.gender);
+            });
+        };
+
+        var bms = new domain.level.BallMoveMobLeaveService(this.ball, this.map, this.evalBox, resProcessor);
 
         this.bindEvents(function (dir) {
 
-            bms.move(dir).then(function (result) {
+            return bms.ballMoveAndLeaveOne(dir);
 
-                return erp.process(result, function (result) {
-
-                    // debug code
-                    that.scoreBox.add(result.score);
-                    that.pointBox.countUp(result.left.gender, result.right.gender);
-
-                });
-
-            });
         });
 
-        return p;
+        this.menuButton.show();
+
+        return that.field.appear().then(function () {
+
+            return that.map.appear('#main');
+
+        });
+
     };
 
     psPrototype.cease = function () {

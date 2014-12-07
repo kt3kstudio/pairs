@@ -46,6 +46,10 @@ domain.level.Map = (function ($) {
         this.cells = [];
     };
 
+    mapPrototype.isEmpty = function () {
+        return this.cells.length === 0;
+    };
+
     mapPrototype.loadFromBomList = function (bomList) {
         bomList.forEach(function (bom) {
             this.loadOne(this.createCellFromBom(bom));

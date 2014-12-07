@@ -40,10 +40,9 @@ domain.level.Ball = (function ($) {
         return this.$dom.anim('ball-disappear', 400);
     };
 
-    ballPrototype.up = function () { this.setPos(this.posAhead('up')); };
-    ballPrototype.down = function () { this.setPos(this.posAhead('down')); };
-    ballPrototype.left = function () { this.setPos(this.posAhead('left')); };
-    ballPrototype.right = function () { this.setPos(this.posAhead('right')); };
+    ballPrototype.move = function (dir) {
+        return this.setPos(this.posAhead(dir));
+    };
 
     ballPrototype.pos = function () {
         return {x: this.x, y: this.y};

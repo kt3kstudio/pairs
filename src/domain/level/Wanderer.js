@@ -1,11 +1,8 @@
-// A bom
-window.domain = window.domain || {};
-domain.level = domain.level || {};
 /**
  * @class
- * Wanderer class represents a bom basically.
+ * Wanderer class represents a bom (nim and neef).
  *
- * This class can move along the given grid which is described as the metrics (left, top, unit).
+ * This class can move along the given grid which is specified as the metrics (left, top, unit).
  */
 domain.level.Wanderer = (function ($) {
     'use strict';
@@ -50,11 +47,11 @@ domain.level.Wanderer = (function ($) {
     var wPrototype = exports.prototype;
 
     wPrototype.setTransitionDuration = function (dur) {
-        this.locateDuration = dur;
+        this.transDur = dur;
 
         this.$dom.css('transition-duration', dur + 'ms');
 
-        return wait();
+        return wait(0, this);
     };
 
     wPrototype.setGender = function (gender) {
@@ -106,7 +103,7 @@ domain.level.Wanderer = (function ($) {
         this.$dom.css('top', this.offsetY + this.unit * this.y + this.gutter + 'px');
         this.$dom.css('left', this.offsetX + this.unit * this.x + this.gutter + 'px');
 
-        return wait(this.transitionDuration);
+        return wait(this.transDur);
     };
 
     wPrototype.remove = function () {
