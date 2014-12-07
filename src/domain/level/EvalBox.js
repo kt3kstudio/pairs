@@ -19,11 +19,17 @@ domain.level.EvalBox = (function () {
 
     boxPrototype.take = function (wanderer) {
 
+        var result = {};
+        result.isLastOne = wanderer.isLastOne;
+        result.goTrash = [];
+        result.goFusion = [];
+        result.goQueue = [];
+
         if (this.leftPromise == null) {
 
             this.leftPromise = this.setToLeft(wanderer);
 
-            return Promise.resolve(null);
+            return Promise.resolve(result);
         }
 
         var leftPromise = this.leftPromise;
@@ -33,7 +39,7 @@ domain.level.EvalBox = (function () {
 
             return leftPromise.then(function (left) {
 
-                return evaluate(left, right);
+                return evaluate(left, right, result);
 
             });
 
@@ -41,21 +47,23 @@ domain.level.EvalBox = (function () {
 
     };
 
-    var evaluate = function (left, right) {
+    var evaluate = function (left, right, result) {
 
-        var result = {left: left, right: right};
+        result.left = left;
+        result.right = right;
 
-        result.goTrash = [];
-        result.goFusion = [];
-        result.goQueue = [];
 
         if (left.gender === right.gender) {
+
             result.score = 10;
             result.goTrash.push(right);
             result.goTrash.push(left);
+
         } else {
+
             result.score = 100;
             result.goFusion.push({left: left, right: right});
+
         }
 
         return result;

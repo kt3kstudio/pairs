@@ -17,10 +17,6 @@ domain.level.EvalResultProcessor = (function () {
 
     erpPrototype.process = function (result, hook) {
 
-        if (result == null) {
-            return Promise.resolve();
-        }
-
         wait().then(function () {
             hook(result);
         });

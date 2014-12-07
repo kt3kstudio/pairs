@@ -81,7 +81,7 @@ domain.level.BallMoveMobLeaveService = (function () {
 
                 console.log('no cell left');
 
-                mob.lastOne = true;
+                mob.isLastOne = true;
             }
 
         }

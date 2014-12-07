@@ -25,17 +25,14 @@ domain.level.Ball = (function ($) {
 
     ballPrototype.appear = function () {
 
-        console.log('ball appear');
-
         this.$dom.css('visibility', 'visible');
 
         return this.$dom.anim('ball-appear', this.transDur);
     };
 
     ballPrototype.disappear = function () {
-        var that = this;
 
-        that.$dom.css('visibility', 'hidden');
+        this.$dom.css('visibility', 'hidden');
 
         return this.$dom.anim('ball-disappear', 400);
     };
@@ -81,12 +78,10 @@ domain.level.Ball = (function ($) {
 
     ballPrototype.refuseToMove = function (dir) {
         if (dir === 'up' || dir === 'down') {
-            this.$dom.animation('ball-refuse-y 300ms');
+            return this.$dom.anim('ball-refuse-y', window.NUDUR);
         } else {
-            this.$dom.animation('ball-refuse-x 300ms');
+            return this.$dom.anim('ball-refuse-x', window.NUDUR);
         }
-
-        return wait(window.NUDUR);
     };
 
     return exports;

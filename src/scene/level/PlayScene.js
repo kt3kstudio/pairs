@@ -59,13 +59,28 @@ scene.level.PlayScene = (function ($) {
         var pmds = new domain.level.PossibleMoveDetectionService(this.ball, this.map);
 
         var resProcessor = function (result) {
-            return erp.process(result, function (result) {
+            var p = erp.process(result, function (result) {
                 console.log('eval result');
+                console.log(result);
 
                 // debug code
-                that.scoreBox.add(result.score);
-                that.pointBox.countUp(result.left.gender, result.right.gender);
+                if (result.score) {
+                    that.scoreBox.add(result.score);
+                }
+
+                if (result.left && result.right) {
+                    that.pointBox.countUp(result.left.gender, result.right.gender);
+                }
             });
+
+            if (result.isLastOne) {
+                p = p.then(function () {
+                    that.finish();
+                });
+            };
+
+            return p;
+
         };
 
         var bms = new domain.level.BallMoveMobLeaveService(this.ball, this.map, this.evalBox, resProcessor);
