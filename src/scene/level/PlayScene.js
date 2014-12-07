@@ -56,8 +56,6 @@ scene.level.PlayScene = (function ($) {
         this.loadLevel();
 
         var erp = new domain.level.EvalResultProcessor(this.trashBox, this.fusionBox, this.exitQueue);
-        var pmds = new domain.level.PossibleMoveDetectionService(this.ball, this.map);
-
         var resProcessor = function (result) {
             var p = erp.process(result, function (result) {
                 console.log('eval result');
@@ -77,7 +75,7 @@ scene.level.PlayScene = (function ($) {
                 p = p.then(function () {
                     that.finish();
                 });
-            };
+            }
 
             return p;
 

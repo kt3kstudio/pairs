@@ -12,7 +12,7 @@ domain.level.BallMoveMobLeaveService = (function () {
         this.ball = ball;
         this.mobs = new Mobs(wanderers);
         this.box = box;
-        this.resProcess = resProcess
+        this.resProcess = resProcess;
 
         this.pmds = new domain.level.PossibleMoveDetectionService(this.ball, wanderers);
     };
