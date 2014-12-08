@@ -10,14 +10,16 @@
 - Stairs
 
 ## datadomain
-- ClearInfo
+- LevelClearInfo
 - Level
 - Floor
 - PlayingInfo
-- CharPosition
+- UserActivity
+  - got tutorial
+  - review notification
 
 # DONE
-
+- CharPosition
 - Ma redraw
 - Map entrance choreography
 - create choreographic language (with pencil and paper)
