@@ -25,6 +25,7 @@
         "scene": true,
         "domain": true,
         "datadomain": true,
+        "infrastructure": true,
         "debug": true,
 
         /* constants */
