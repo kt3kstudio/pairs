@@ -25,7 +25,7 @@ domain.map.Door = (function ($) {
         var that = this;
 
         return $('<div />').addClass('door').css('opcaity', 0).click(function () {
-            that.cls.moveToDoor(that).then(function () {
+            that.cls.moveToDoorByLevel(that.level).then(function () {
 
                 // ms means MapScene instance 
                 window.ms.askGoLevel(that.level);
@@ -34,16 +34,11 @@ domain.map.Door = (function ($) {
         });
     };
 
-    doorPt.setCharLocateService = function (cls) {
-        this.cls = cls;
-
-        return this;
-    };
-
     doorPt.appearAnim = 'door-appear';
     doorPt.appearDur = DOOR_APPEAR_DUR;
     doorPt.disappearAnim = 'door-disappear';
     doorPt.disappearDur = DOOR_APPEAR_DUR;
 
     return exports;
+
 }(window.jQuery));

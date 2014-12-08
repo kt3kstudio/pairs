@@ -9,9 +9,12 @@ scene.map.MapScene = (function ($) {
     var exports = function () {
         // domain objects
         this.floor = new domain.map.Floor();
+
         this.wall = new domain.map.Wall();
         this.wall.loadFromObjectList(window.woList);
-        this.ma = new domain.common.Ma().setParent(this.wall.$dom);
+
+        this.ma = new domain.common.Ma();
+        this.ma.setParent(this.wall.$dom);
 
         this.cls = new domain.map.CharLocateService(this.wall, this.ma);
 
@@ -27,6 +30,8 @@ scene.map.MapScene = (function ($) {
     msPrototype.start = function () {
         var that = this;
 
+        that.menuButton.show();
+
         return pages.common.BackgroundService.turnWhite().then(function () {
 
             return that.floor.appear();
@@ -37,11 +42,7 @@ scene.map.MapScene = (function ($) {
 
         }).then(function () {
 
-            return that.menuButton.show();
-
-        }).then(function () {
-
-            return that.cls.charAppear(that.wall.wos[0]);
+            return that.cls.charAppear();
 
         });
     };

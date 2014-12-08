@@ -42,6 +42,12 @@ domain.map.WallObject = (function ($) {
         return this;
     };
 
+    woPt.setCharLocateService = function (cls) {
+        this.cls = cls;
+
+        return this;
+    };
+
     woPt.createDom = function () {
         return $('<div />').css({
             backgroundColor: 'black',

@@ -10,12 +10,14 @@ domain.map.CharLocateService = (function () {
     var exports = function (wall, chr) {
         this.wall = wall;
         this.chr = chr;
-        this.current = wall.wos[0];
+        this.charPosRepo = new datadomain.CharPositionRepository();
     };
 
     var clsPt = exports.prototype;
 
-    clsPt.charAppear = function (wo) {
+    clsPt.charAppear = function () {
+        var wo = this.wall.findDoorByLevel(this.position.level);
+
         var x = wo.centerX();
         var y = wo.centerY();
 
@@ -25,8 +27,15 @@ domain.map.CharLocateService = (function () {
         return this.chr.appear();
     };
 
+    clsPt.moveToDoorByLevel = function (level) {
+        return this.moveToDoor(this.wall.findDoorByLevel(level));
+    };
+
     clsPt.moveToDoor = function (wo) {
         var that = this;
+
+        this.position.level = wo.level;
+        this.charPosRepo.setCharPosition(this.chr.name, this.position);
 
         var goOutDur = 400;
         var moveOnCorridor = 1000;
@@ -61,6 +70,16 @@ domain.map.CharLocateService = (function () {
         this.chr.turn('up');
 
         return this.chr.disappear();
+    };
+
+    clsPt.load = function () {
+        var that = this;
+
+        return this.charPosRepo.getCharPosition(this.chr.name).then(function (position) {
+            that.position = position;
+
+            return that;
+        });
     };
 
     return exports;

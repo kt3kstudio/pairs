@@ -6,16 +6,16 @@
 datadomain.CharPositionRepository = (function () {
     'use strict';
 
-    var MA_POSITION_KEY = 'ma-position';
+    var CHAR_POSITION_KEY = '-char-position';
 
     var exports = function () {
     };
 
     var cprPt = exports.prototype;
 
-    cprPt.getMaPosition = function () {
+    cprPt.getCharPosition = function (name) {
 
-        return infrastructure.storage.get(MA_POSITION_KEY, null).then(function (data) {
+        return infrastructure.storage.get(this.createKey(name), null).then(function (data) {
 
             return data ? datadomain.CharPositionFactory.createFromObject(data)
                         : datadomain.CharPositionFactory.createStartPosition();
@@ -23,8 +23,12 @@ datadomain.CharPositionRepository = (function () {
 
     };
 
-    cprPt.saveMaPosition = function (position) {
-        return infrastructure.storage.set(MA_POSITION_KEY, position.toObject());
+    cprPt.setCharPosition = function (name, position) {
+        return infrastructure.storage.set(this.createKey(name), position.toObject());
+    };
+
+    cprPt.createKey = function (name) {
+        return name + CHAR_POSITION_KEY;
     };
 
     return exports;

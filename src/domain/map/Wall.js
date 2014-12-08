@@ -56,7 +56,15 @@ domain.map.Wall = (function ($) {
     };
 
     wallPt.appear = function () {
-        var p = Promise.resolve();
+        var that = this;
+
+        var p = this.cls.load().then(function (cls) {
+
+            // load Floor data
+            // load wo list
+
+            that.scrollSetToDoor(cls.position.level);
+        });
 
         this.wos.forEach(function (wo) {
             p = p.then(function () {
@@ -82,6 +90,16 @@ domain.map.Wall = (function ($) {
         });
 
         return p;
+    };
+
+    wallPt.scrollSetToDoor = function (level) {
+        var door = this.findDoorByLevel(level);
+
+        if (door == null) {
+            console.error('door not found (level = ' + level + ')');
+        }
+
+        return this.scrollSet(door.centerX());
     };
 
     wallPt.scrollSet = function (x) {
@@ -112,8 +130,26 @@ domain.map.Wall = (function ($) {
         return this;
     };
 
+    /**
+     * Check if the character is visible on the wall.
+     *
+     * @param {domain.common.CharSprite} chr
+     * @returns {Boolean}
+     */
     wallPt.visible = function (chr) {
         return chr.rightLimit() > this.$dom.scrollLeft() && chr.leftLimit() < this.$dom.scrollLeft() + this.wallWidth;
+    };
+
+    /**
+     * Find the door object on the wall
+     *
+     * @param {String} level The level of the door to find
+     * @returns {domain.map.Door}
+     */
+    wallPt.findDoorByLevel = function (level) {
+        return this.wos.filter(function (wo) {
+            return wo.level === level;
+        })[0];
     };
 
     return exports;

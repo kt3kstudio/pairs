@@ -11,6 +11,8 @@ domain.common.Ma = (function () {
 
     var maPt = exports.prototype = new domain.common.CharSprite();
 
+    maPt.name = 'ma';
+
     maPt.x = 0;
     maPt.y = 0;
     maPt.w = 40;
