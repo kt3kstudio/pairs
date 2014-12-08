@@ -7,13 +7,14 @@
 - DoorOpen
 - EvalChair
 - ExitDoor
+- Stairs
 
 ## datadomain
 - ClearInfo
 - Level
 - Floor
 - PlayingInfo
-
+- CharPosition
 
 # DONE
 
