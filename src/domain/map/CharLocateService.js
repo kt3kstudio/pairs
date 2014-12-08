@@ -34,6 +34,8 @@ domain.map.CharLocateService = (function () {
     clsPt.moveToDoor = function (wo) {
         var that = this;
 
+        var current = this.wall.findDoorByLevel(this.position.level)
+
         this.position.level = wo.level;
         this.charPosRepo.setCharPosition(this.chr.name, this.position);
 
@@ -43,8 +45,8 @@ domain.map.CharLocateService = (function () {
 
         var goOutDistance = 80;
 
-        if (!that.wall.visible(this.chr)) {
-            that.wall.scrollSet(this.current.centerX());
+        if (!this.wall.visible(this.chr)) {
+            this.wall.scrollSet(current.centerX());
         }
 
         return this.chr.moveTo('y', this.wall.groundLevel + goOutDistance, goOutDur).then(function () {
