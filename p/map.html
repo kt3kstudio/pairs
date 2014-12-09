@@ -37,9 +37,23 @@
     -webkit-overflow-scrolling: touch;
 }
 
-.door {
+.door-frame {
     position: absolute;
     background-color: #191B1D;
+}
+
+.door {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #7F8B96;
+    z-index: 1;
+    transform-origin: 0 0;
+    transition-duration: 700ms;
+}
+
+.door.open {
+    transform: rotateY(180deg);
 }
 
 /* anims */
