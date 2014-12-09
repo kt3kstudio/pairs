@@ -6,7 +6,7 @@
     "strict": true,
     "trailing": true,
     "white": true,
-    "maxlen": 200,
+    "maxlen": 800,
     "undef": true,
     "unused": true,
     "indent": 4,

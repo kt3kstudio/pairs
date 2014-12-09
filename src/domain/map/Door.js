@@ -24,7 +24,7 @@ domain.map.Door = (function ($) {
     doorPt.createDom = function () {
         var that = this;
 
-        this.$doorFrame = $('<div />').addClass('door-frame').css('opcaity', 0)
+        this.$doorFrame = $('<div />').addClass('door-frame').css('opcaity', 0);
 
         this.$door = $('<div />').addClass('door').text(this.name).appendTo(this.$doorFrame);
 
