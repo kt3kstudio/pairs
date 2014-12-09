@@ -69,5 +69,11 @@ domain.map.WallObject = (function ($) {
         });
     };
 
+    woPt.open = function () {
+    };
+
+    woPt.close = function () {
+    };
+
     return exports;
 }(window.jQuery));

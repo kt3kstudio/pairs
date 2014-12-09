@@ -17,14 +17,17 @@ domain.map.CharLocateService = (function () {
 
     clsPt.charAppear = function () {
         var wo = this.wall.findDoorByLevel(this.position.level);
+        var chr = this.chr;
 
         var x = wo.centerX();
         var y = wo.centerY();
 
-        this.chr.x = x;
-        this.chr.y = y;
+        chr.x = x;
+        chr.y = y;
 
-        return this.chr.appear();
+        return wo.open().then(function () {
+            chr.appear();
+        });
     };
 
     clsPt.moveToDoorByLevel = function (level) {
@@ -34,7 +37,7 @@ domain.map.CharLocateService = (function () {
     clsPt.moveToDoor = function (wo) {
         var that = this;
 
-        var current = this.wall.findDoorByLevel(this.position.level)
+        var current = this.wall.findDoorByLevel(this.position.level);
 
         this.position.level = wo.level;
         this.charPosRepo.setCharPosition(this.chr.name, this.position);
@@ -49,9 +52,13 @@ domain.map.CharLocateService = (function () {
             this.wall.scrollSet(current.centerX());
         }
 
+        current.close();
+
         return this.chr.moveTo('y', this.wall.groundLevel + goOutDistance, goOutDur).then(function () {
 
             that.wall.scrollTo(wo.centerX(), moveOnCorridor);
+
+            wo.open();
 
             return that.chr.moveTo('x', wo.centerX(), moveOnCorridor);
 
@@ -69,9 +76,13 @@ domain.map.CharLocateService = (function () {
     };
 
     clsPt.getIntoDoor = function () {
+        var that = this;
+
         this.chr.turn('up');
 
-        return this.chr.disappear();
+        return this.chr.disappear().then(function () {
+            return that.current.close();
+        });
     };
 
     clsPt.load = function () {

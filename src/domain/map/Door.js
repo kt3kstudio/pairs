@@ -24,7 +24,7 @@ domain.map.Door = (function ($) {
     doorPt.createDom = function () {
         var that = this;
 
-        return $('<div />').addClass('door').css('opcaity', 0).click(function () {
+        this.$doorFrame = $('<div />').addClass('door-frame').css('opcaity', 0).click(function () {
             that.cls.moveToDoorByLevel(that.level).then(function () {
 
                 // ms means MapScene instance 
@@ -32,7 +32,25 @@ domain.map.Door = (function ($) {
 
             });
         });
+
+        this.$door = $('<div />').addClass('door').appendTo(this.$doorFrame);
+
+        return this.$doorFrame;
     };
+
+    doorPt.open = function () {
+        this.$door.addClass('open');
+
+        return wait(this.doorActionDur);
+    };
+
+    doorPt.close = function () {
+        this.$door.removeClass('open');
+
+        return wait(this.doorActionDur);
+    };
+
+    doorPt.doorActionDur = 400;
 
     doorPt.appearAnim = 'door-appear';
     doorPt.appearDur = DOOR_APPEAR_DUR;
