@@ -24,27 +24,40 @@ domain.map.Door = (function ($) {
     doorPt.createDom = function () {
         var that = this;
 
-        this.$doorFrame = $('<div />').addClass('door-frame').css('opcaity', 0).click(function () {
-            that.cls.moveToDoorByLevel(that.level).then(function () {
+        this.$doorFrame = $('<div />').addClass('door-frame').css('opcaity', 0)
 
-                // ms means MapScene instance 
-                window.ms.askGoLevel(that.level);
+        this.$door = $('<div />').addClass('door').text(this.name).appendTo(this.$doorFrame);
 
-            });
+        this.$door.click(function () {
+            that.cls.moveToDoorByLevel(that.level);
         });
 
-        this.$door = $('<div />').addClass('door').appendTo(this.$doorFrame);
+
+        this.infoPane = $('<div><div class="door-info-content"><p><small>ROOM</small> ' + this.name + '</p><hr /><p><small>High Score</small><br />' + this.score + '</p><hr /></div></div>').addClass('door-info').css({
+            width: '150px',
+            height: '150px',
+            top: '-200px',
+            left: '-40px'
+        }).appendTo(this.$doorFrame).infoPane(3, 5, {bgcolor: '#393F44'});
+
+        $('<button />').text('ENTER').appendTo($('.door-info-content', this.infoPane.$dom)).click(function (event) {
+            console.log('abc');
+            event.preventDefault();
+            window.ms.goToLevel(that.level);
+        });
 
         return this.$doorFrame;
     };
 
     doorPt.open = function () {
+        this.infoPane.show();
         this.$door.addClass('open');
 
         return wait(this.doorActionDur);
     };
 
     doorPt.close = function () {
+        this.infoPane.hide();
         this.$door.removeClass('open');
 
         return wait(this.doorActionDur);

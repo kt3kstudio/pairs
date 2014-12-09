@@ -40,12 +40,46 @@ body: dark-bg
     height: 100%;
     background-color: #7F8B96;
     z-index: 1;
+    text-align: center;
+    font-weight: bold;
     transform-origin: 0 0;
     transition-duration: 700ms;
 }
 
 .door.open {
     transform: rotateY(180deg);
+}
+
+.door-info {
+    position: absolute;
+}
+
+.door-info-content {
+    position: relative;
+    padding-top: 8px;
+    text-align: center;
+    color: #FAFAFA;
+    font-weight: bold;
+    opacity: 0;
+}
+
+.door-info-content hr {
+    height: 0px;
+    border: 0px;
+    border-top: 1px solid rgba(250, 250, 250, 0.3);
+    margin: 4px 8px 4px 8px;
+}
+
+.door-info-content button {
+    border: 0px;
+    margin-top: 8px;
+    padding: 5px 15px 5px 15px;
+    background-color: #00C634;
+    color: #013A10;
+    font-weight: bold;
+    font-size: 1.3em;
+    border-radius: 20px;
+    outline: 0px;
 }
 
 /* anims */

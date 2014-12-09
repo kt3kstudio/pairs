@@ -15,6 +15,7 @@
   "dependencies": {
     "jquery": "~2.1.1",
     "arrowkeys": "~0.1.2",
-    "swipe-event": "~0.3.3"
+    "swipe-event": "~0.3.3",
+    "info-pane": "~0.1.0"
   }
 }
