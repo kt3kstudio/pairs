@@ -17,6 +17,7 @@ domain.map.CharLocateService = (function () {
 
     clsPt.charAppear = function () {
         var wo = this.wall.findDoorByLevel(this.position.level);
+        this.current = wo;
         var chr = this.chr;
 
         var x = wo.centerX();
