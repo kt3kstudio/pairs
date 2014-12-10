@@ -37,6 +37,18 @@ domain.common.CharSprite = (function ($) {
     /** sprite's image when going right */
     spritePt.rightImage = '';
 
+    /** sprite's appearance animation */
+    spritePt.appearAnim = '';
+
+    /** sprite's appearance duration */
+    spritePt.appearDur = 400;
+
+    /** sprite's disappearance animation */
+    spritePt.disappearAnim = '';
+
+    /** sprite's disappearance duration */
+    spritePt.disappearDur = 400;
+
     spritePt.setParent = function (parent) {
         this.parent = parent;
 
@@ -71,7 +83,7 @@ domain.common.CharSprite = (function ($) {
             // the center of bottom line of the image is the sprite's coordinate.
             left: this.leftLimit(),
             top: this.y - this.h
-        }).attr('src', this.downImage);
+        }).attr('src', this.downImage || this.image);
     };
 
     spritePt.turn = function (dir) {
@@ -79,7 +91,7 @@ domain.common.CharSprite = (function ($) {
 
         switch (dir) {
             case 'up': img = this.upImage; break;
-            case 'down': img = this.downImage; break;
+            case 'down': img = this.downImage || this.image; break;
             case 'left': img = this.leftImage; break;
             case 'right': img = this.rightImage; break;
         }

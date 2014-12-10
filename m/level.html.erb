@@ -34,6 +34,10 @@ body {
     z-index: -1;
 }
 
+.piece-of-paper {
+    z-index: -1;
+}
+
 @-webkit-keyframes ball-appear {
     0% { opacity: 0; transform: scale(0); }
 }
@@ -86,6 +90,16 @@ body {
     0% { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
     50% { opacity: 1; transform: translate(-20px, 0) rotate(0) scale(1); }
     100% { opacity: 0; transform: translate(-40px, 0) rotate(-360deg) scale(0); }
+}
+
+@-webkit-keyframes paper-appear {
+    0% { opacity: 0 }
+    100% { opacity: 1 }
+}
+
+@-webkit-keyframes paper-disappear {
+    0% { opacity: 1 }
+    100% { opacity: 0 }
 }
 
 

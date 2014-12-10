@@ -12,6 +12,8 @@ scene.level.IntroScene = (function () {
 
         this.pos = new pages.level.Positioner();
 
+        this.paper = new domain.level.PieceOfPaper();
+
         this.chr = new domain.common.Ma();
         this.ball = new domain.level.Ball(this.pos.fieldMetrics());
     };
@@ -27,7 +29,12 @@ scene.level.IntroScene = (function () {
         this.chr.x = paperPos.left;
         this.chr.y = 800;
 
-        that.chr.put();
+        this.chr.put();
+
+        this.paper.x = paperPos.left;
+        this.paper.y = paperPos.top;
+
+        this.paper.put();
 
         pages.common.BackgroundService.turnWhite();
 
@@ -37,8 +44,12 @@ scene.level.IntroScene = (function () {
 
         }).then(function () {
 
+            // the character takes the paper in the room.
+            return that.paper.disappear(1000);
 
         }).then(function () {
+
+            alert('game start');
 
             that.ball.appear();
 
