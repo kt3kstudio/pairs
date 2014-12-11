@@ -49,7 +49,7 @@ scene.level.IntroScene = (function () {
 
         }).then(function () {
 
-            alert('game start');
+            window.alert('game start');
 
             that.ball.appear();
 
