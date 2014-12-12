@@ -165,5 +165,5 @@ $(function () {
   <menu src="images/back-button.svg"
     onclick="ms.fadeOut().then(function () { history.back(); });"></menu>
   <menu src="images/reset-button.svg"
-    onclick="ms.fadeOut().then(function () { location.reload(); });"></menu>
+    onclick="ms.fadeOut().then(function () { localStorage.clear(); location.reload(); });"></menu>
 </menus>
