@@ -15,6 +15,10 @@ datadomain.Level = (function () {
         this.cells = cells;
     };
 
+    exports.createFromObject = function (obj) {
+        return new exports(obj.id, obj.name, obj.goals, obj.threshold0, obj.threshold1, obj.cells);
+    };
+
     var levelPt = exports.prototype;
 
     levelPt.stars = function (score) {

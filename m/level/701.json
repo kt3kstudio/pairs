@@ -2,23 +2,26 @@
   "id": 701,
   "name": 701,
   "goals": [
-    [
-      "deutron",
-      2
-    ]
+    {
+      "type": "C",
+      "opts": {
+        "target": "triton",
+        "number": 2
+      }
+    }
   ],
-  "threshold0": 1200,
-  "threshold1": 1600,
+  "threshold0": 1000,
+  "threshold1": 2100,
   "cells": [
     {
       "x": 0,
       "y": 0,
-      "gene": "f"
+      "gene": "m"
     },
     {
       "x": 0,
       "y": 1,
-      "gene": "f"
+      "gene": "m"
     },
     {
       "x": 1,
@@ -33,7 +36,7 @@
     {
       "x": 2,
       "y": 0,
-      "gene": "f"
+      "gene": "m"
     },
     {
       "x": 2,
