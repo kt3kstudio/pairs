@@ -9,18 +9,21 @@ pages.level.PhaseController = (function ($) {
     'use strict';
 
     var exports = function () {
+        this.lvRepo = new datadomain.LevelRepository();
     };
 
     var lpcPrototype = exports.prototype;
 
     lpcPrototype.loadCurrentLevel = function () {
-        var path = (window.location.hash.substring(1) || 0) + '.json';
-
-        return this.getLevel(path);
+        return this.getLevel(this.getLevelName());
     };
 
-    lpcPrototype.getLevel = function (path) {
-        return Promise.resolve($.getJSON('level/' + path));
+    lpcPrototype.getLevelName = function () {
+        return window.location.hash.substring(1) || 0;
+    };
+
+    lpcPrototype.getLevel = function (level) {
+        return this.lvRepo.loadByLevel(level);
     };
 
     return exports;

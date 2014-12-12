@@ -37,7 +37,7 @@ domain.level.Map = (function ($) {
      * @return {domain.level.Wanderer}
      */
     mapPrototype.createCellFromBom = function (bom) {
-        return new domain.level.Wanderer(bom.x, bom.y, bom.gender, this.left, this.top, this.unit);
+        return new domain.level.Wanderer(bom.x, bom.y, bom.gene, this.left, this.top, this.unit);
     };
 
     mapPrototype.empty = function () {

@@ -7,8 +7,8 @@
 datadomain.CharPositionFactory = (function () {
     'use strict';
 
-    var START_LEVEL = '1';
-    var START_FLOOR = '0';
+    var START_LEVEL = '701';
+    var START_FLOOR = '7';
 
     var exports = {};
 

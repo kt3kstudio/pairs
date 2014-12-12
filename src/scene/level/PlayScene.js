@@ -45,7 +45,7 @@ scene.level.PlayScene = (function ($) {
     var psPrototype = exports.prototype = new scene.common.Scene();
 
     psPrototype.loadLevel = function () {
-        this.map.loadFromBomList(this.level.boms);
+        this.map.loadFromBomList(this.level.cells);
 
         return this;
     };
