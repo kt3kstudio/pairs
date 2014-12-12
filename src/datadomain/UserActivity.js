@@ -9,7 +9,7 @@
 datadomain.UserActivity = (function () {
     'use strict';
 
-    var exports = function () {
+    var exports = function (opts) {
         this.doneFirstSwipe = opts.doneFirstSwipe;
         this.doneFirstFusion = opts.doneFirstFusion;
         this.doneStartGame = opts.doneStartGame;

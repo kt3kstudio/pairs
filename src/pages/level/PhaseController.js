@@ -5,7 +5,7 @@ pages.level = pages.level || {};
  * @class
  * PhaseController controlls phase of processes of things in the level page.
  */
-pages.level.PhaseController = (function ($) {
+pages.level.PhaseController = (function () {
     'use strict';
 
     var exports = function () {
@@ -28,4 +28,4 @@ pages.level.PhaseController = (function ($) {
 
     return exports;
 
-}(window.jQuery));
+}());
