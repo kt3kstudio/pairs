@@ -61,13 +61,13 @@ scene.level.IntroScene = (function () {
                     resolve(sb);
                 }, 5000);
 
-                $('.wrapper').css('z-index', 2).one('click', function () {
+                $('.wrapper').css('z-index', 2).one('click touchstart', function () {
                     resolve(sb);
                 });
 
             }).then(function (speechBubble) {
 
-                $('.wrapper').off('click').css('z-index', '');
+                $('.wrapper').off('click touchstart').css('z-index', '');
 
                 return speechBubble.hide();
 
