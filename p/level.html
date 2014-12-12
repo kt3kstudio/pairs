@@ -14,12 +14,12 @@
 <body class="dark-bg">
 <style>
 
-body {
-    transition-duration: 1000ms;
-}
-
-.dark-bg {
-    background-color: #191B1D;
+.wrapper {
+    position: absolute;
+    height: 85%;
+    width: 100%;
+    left: 0px;
+    top: 15%;
 }
 
 #main {
@@ -40,6 +40,20 @@ body {
     left: -1000px;
     top: -1000px;
     z-index: -1;
+}
+
+.piece-of-paper {
+    z-index: -1;
+}
+
+.ma-speech {
+    line-height: 50px;
+    text-align: center;
+    color: #191B1D;
+
+}
+.ma-speech p {
+    width: 100%;
 }
 
 @-webkit-keyframes ball-appear {
@@ -96,14 +110,17 @@ body {
     100% { opacity: 0; transform: translate(-40px, 0) rotate(-360deg) scale(0); }
 }
 
-
-.wrapper {
-    position: absolute;
-    height: 85%;
-    width: 100%;
-    left: 0px;
-    top: 15%;
+@-webkit-keyframes paper-appear {
+    0% { opacity: 0 }
+    100% { opacity: 1 }
 }
+
+@-webkit-keyframes paper-disappear {
+    0% { opacity: 1 }
+    100% { opacity: 0 }
+}
+
+
 
 </style>
 
