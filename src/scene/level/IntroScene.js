@@ -9,6 +9,7 @@ scene.level.IntroScene = (function () {
 
     var exports = function (level) {
         this.level = level;
+        this.gt = new pages.common.GoalTranslator();
 
         this.pos = new pages.level.Positioner();
 
@@ -49,7 +50,7 @@ scene.level.IntroScene = (function () {
 
         }).then(function () {
 
-            window.alert('game start');
+            window.alert(that.gt.translate(that.level.goals));
 
             that.ball.appear();
 
