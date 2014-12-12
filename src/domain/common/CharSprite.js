@@ -187,6 +187,22 @@ domain.common.CharSprite = (function ($) {
         this.setOffset(offset);
     };
 
+    spritePt.speak = function (speech) {
+
+        return this.$dom.speechBubble(speech, {
+
+            width: $(window).width() * 0.8,
+            height: 50,
+            color: '#328DE5',
+            cssClass: this.name + '-speech',
+            partitionY: 2,
+            partitionX: 10,
+            duration: 600
+
+        }).show();
+
+    };
+
     return exports;
 
 }(window.jQuery));

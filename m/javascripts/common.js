@@ -3,6 +3,7 @@
 //= require namespaces.js
 //= require infrastructure.js
 //= require info-pane
+//= require speech-bubble
 //= require pages/common/
 //= require scene/common/
 //= require domain/common/

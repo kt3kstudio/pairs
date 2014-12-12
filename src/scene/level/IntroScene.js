@@ -41,20 +41,40 @@ scene.level.IntroScene = (function () {
 
         Promise.resolve().then(function () {
 
-            return that.chr.moveTo('y', paperPos.top, 1000);
+            return that.chr.moveTo('y', paperPos.top, 600);
 
         }).then(function () {
 
             // the character takes the paper in the room.
-            return that.paper.disappear(1000);
+            that.paper.disappear(1000);
 
-        }).then(function () {
+            var goals = $('<p />').text(that.gt.translate(that.level.goals));
 
-            window.alert(that.gt.translate(that.level.goals));
+            // the character read up the goals of the room
+            return that.chr.speak(goals);
 
-            that.ball.appear();
+        }).then(function (sb) {
 
-            return that.chr.disappear(1000);
+            that.speechPromise = new Promise(function (resolve) {
+
+                setTimeout(function () {
+                    resolve(sb);
+                }, 5000);
+
+                $('.wrapper').css('z-index', 2).one('click', function () {
+                    resolve(sb);
+                });
+
+            }).then(function (speechBubble) {
+
+                $('.wrapper').off('click').css('z-index', '');
+
+                return speechBubble.hide();
+
+            });
+
+            that.chr.disappear(1000);
+            return that.ball.appear();
 
         }).then(function () {
 
