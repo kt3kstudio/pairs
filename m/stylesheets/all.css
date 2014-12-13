@@ -23,6 +23,7 @@ body {
 
 .menu-button {
     position: absolute;
+    z-index: 2;
     bottom: 15px;
     left: 15px;
     width: 47px;
@@ -35,9 +36,11 @@ body {
 }
 
 .menu-item {
+    z-index: 2;
     position: absolute;
     width: 47px;
     height: 47px;
+    z-index: 2;
     transition-duration: 400ms;
 }
 
@@ -51,6 +54,7 @@ body {
     top: 15px;
     width: 47px;
     height: 47px;
+    z-index: 2;
 }
 
 .sprite {

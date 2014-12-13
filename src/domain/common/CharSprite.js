@@ -8,6 +8,8 @@ domain.common.CharSprite = (function ($) {
 
     var DEFAULT_PARENT = 'body';
 
+    var defaultSpeechTimeout = 5000;
+
     var exports = function () {
     };
 
@@ -187,9 +189,14 @@ domain.common.CharSprite = (function ($) {
         this.setOffset(offset);
     };
 
-    spritePt.speak = function (speech) {
+    spritePt.speak = function (speech, opts) {
 
-        return this.$dom.speechBubble(speech, {
+        opts = opts || {};
+
+        var cancelDom = opts.cancelDom || this.$dom;
+        var timeout = opts.timeout || defaultSpeechTimeout;
+
+        var bubbleShown = this.$dom.speechBubble(speech, {
 
             width: $(window).width() * 0.8,
             height: 50,
@@ -200,6 +207,25 @@ domain.common.CharSprite = (function ($) {
             duration: 600
 
         }).show();
+
+        this.speechEndPromise = bubbleShown.then(function (sb) {
+
+            return new Promise(function (resolve) {
+
+                setTimeout(resolve, timeout);
+
+                $(cancelDom).one('click touchstart', resolve);
+
+            }).then(function () {
+
+                $(cancelDom).off('click touchstart');
+
+                return sb.hide();
+
+            });
+        });
+
+        return bubbleShown;
 
     };
 

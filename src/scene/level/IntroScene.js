@@ -51,27 +51,9 @@ scene.level.IntroScene = (function () {
             var goals = $('<p />').text(that.gt.translate(that.level.goals));
 
             // the character read up the goals of the room
-            return that.chr.speak(goals);
+            return that.chr.speak(goals, {cancelDom: '.wrapper'});
 
-        }).then(function (sb) {
-
-            that.speechPromise = new Promise(function (resolve) {
-
-                setTimeout(function () {
-                    resolve(sb);
-                }, 5000);
-
-                $('.wrapper').css('z-index', 2).one('click touchstart', function () {
-                    resolve(sb);
-                });
-
-            }).then(function (speechBubble) {
-
-                $('.wrapper').off('click touchstart').css('z-index', '');
-
-                return speechBubble.hide();
-
-            });
+        }).then(function () {
 
             that.chr.disappear(1000);
             return that.ball.appear();

@@ -16,6 +16,7 @@ scene.level.PlayScene = (function ($) {
         // continuous actors
         this.ball = prevScene.ball;
         this.level = prevScene.level;
+        this.chr = prevScene.chr;
 
         // prepare metrics
         var mapMetrics = pos.fieldMetrics();
@@ -92,6 +93,10 @@ scene.level.PlayScene = (function ($) {
         this.menuButton.show();
 
         return that.field.appear().then(function () {
+
+            return that.chr.speechEndPromise;
+
+        }).then(function () {
 
             return that.map.appear('#main');
 
