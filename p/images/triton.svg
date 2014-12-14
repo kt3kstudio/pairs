@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200px" height="200px" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <link rel="stylesheet" type="text/css" href="cells.css"
+              xmlns="http://www.w3.org/1999/xhtml" />
+    </defs>
+    <g id="2" class="m" transform="translate(84,84)">
+        <circle class="bg" cx="58" cy="58" r="58"></circle>
+        <circle class="in" cx="58" cy="48" r="42"></circle>
+    </g>
+    <g id="1" class="f" transform="translate(0,84)">
+        <circle class="bg" cx="58" cy="58" r="58"></circle>
+        <circle class="in" cx="58" cy="48" r="42"></circle>
+    </g>
+    <g id="0" class="m" transform="translate(42,0)">
+        <circle class="bg" cx="58" cy="58" r="58"></circle>
+        <circle class="in" cx="58" cy="48" r="42"></circle>
+    </g>
+</svg>
