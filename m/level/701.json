@@ -16,32 +16,32 @@
     {
       "x": 0,
       "y": 0,
-      "gene": "m"
+      "gene": "mf"
     },
     {
       "x": 0,
       "y": 1,
-      "gene": "m"
+      "gene": "fm"
     },
     {
       "x": 1,
       "y": 0,
-      "gene": "f"
+      "gene": "fmf"
     },
     {
       "x": 1,
       "y": 1,
-      "gene": "m"
+      "gene": "mfm"
     },
     {
       "x": 2,
       "y": 0,
-      "gene": "m"
+      "gene": "ffmm"
     },
     {
       "x": 2,
       "y": 1,
-      "gene": "f"
+      "gene": "mfmf"
     }
   ]
 }

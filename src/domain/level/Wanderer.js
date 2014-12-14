@@ -13,14 +13,8 @@ domain.level.Wanderer = (function ($) {
         this.width = Math.floor(unit / 2);
         this.gutter = Math.floor(unit / 4);
 
-        this.$dom = $('<object type="image/svg+xml" />').css({
-            'position': 'absolute',
-            'width': this.width + 'px',
-            'height': this.width + 'px',
-        });
-
-        this.setTransitionDuration(window.NUDUR);
         this.setGene(gene);
+        this.setTransitionDuration(window.NUDUR);
         this.setMetrics(left, top, unit);
 
         exports.allList.push(this);
@@ -57,23 +51,57 @@ domain.level.Wanderer = (function ($) {
     wPrototype.setGene = function (gene) {
         this.gene = gene;
 
+        this.createDom();
+
         if (gene === 'm') {
-            return this.setMaleColor();
+            this.setMaleColor();
         } else if (gene === 'f') {
-            return this.setFemaleColor();
+            this.setFemaleColor();
+        } else if (gene.length >= 2) {
+            this.setMultiton();
         }
     };
 
     wPrototype.setFemaleColor = function () {
         this.$dom.attr('data', 'images/neef.svg');
-
-        return this;
     };
 
     wPrototype.setMaleColor = function () {
         this.$dom.attr('data', 'images/nim.svg');
+    };
 
-        return this;
+    wPrototype.selectMultitonUrl = function () {
+        switch (this.gene.length) {
+            case 2: return 'images/deutron.svg';
+            case 3: return 'images/triton.svg';
+            case 4: return 'images/quatron.svg';
+        }
+    };
+
+    wPrototype.setMultiton = function () {
+        var that = this;
+
+        this.$dom.attr('data', this.selectMultitonUrl());
+
+        this.$dom.one('load', function () {
+            var genes = that.gene.split('');
+
+            var $svg = $(that.$dom[0].contentDocument);
+
+            for (var i = 0; i < genes.length; i++) {
+                $('#' + i, $svg).attr('class', genes[i]);
+            }
+        });
+    };
+
+    wPrototype.createDom = function () {
+        this.$dom = $('<object type="image/svg+xml" />').css({
+            'position': 'absolute',
+            'width': this.width + 'px',
+            'height': this.width + 'px',
+        });
+
+        return this.$dom;
     };
 
     wPrototype.appear = function (dom) {
