@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="200px" height="200px" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.2 (9961) - http://www.bohemiancoding.com/sketch -->
+    <title>quatron</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="quatron" sketch:type="MSLayerGroup">
+            <g id="3" transform="translate(75.000000, 84.000000)" sketch:type="MSShapeGroup">
+                <circle id="bg" fill="#083D71" cx="58" cy="58" r="58"></circle>
+                <circle id="in" fill="#0B6AC6" cx="58" cy="48" r="42"></circle>
+            </g>
+            <g id="2" transform="translate(0.000000, 76.000000)" sketch:type="MSShapeGroup">
+                <circle id="bg" fill="#9D001F" cx="58" cy="58" r="58"></circle>
+                <circle id="in" fill="#EF3559" cx="58" cy="48" r="42"></circle>
+            </g>
+            <g id="1" transform="translate(84.000000, 13.000000)" sketch:type="MSShapeGroup">
+                <circle id="bg" fill="#9D001F" cx="58" cy="58" r="58"></circle>
+                <circle id="in" fill="#EF3559" cx="58" cy="48" r="42"></circle>
+            </g>
+            <g id="0" transform="translate(24.000000, 0.000000)" sketch:type="MSShapeGroup">
+                <circle id="bg" fill="#083D71" cx="58" cy="58" r="58"></circle>
+                <circle id="in" fill="#0B6AC6" cx="58" cy="48" r="42"></circle>
+            </g>
+        </g>
+    </g>
+</svg>
