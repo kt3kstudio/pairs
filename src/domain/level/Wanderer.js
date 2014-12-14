@@ -7,20 +7,20 @@
 domain.level.Wanderer = (function ($) {
     'use strict';
 
-    var exports = function (x, y, gender, left, top, unit) {
+    var exports = function (x, y, gene, left, top, unit) {
         this.x = x;
         this.y = y;
         this.width = Math.floor(unit / 2);
         this.gutter = Math.floor(unit / 4);
 
-        this.$dom = $('<img />').css({
+        this.$dom = $('<object type="image/svg+xml" />').css({
             'position': 'absolute',
             'width': this.width + 'px',
             'height': this.width + 'px',
         });
 
         this.setTransitionDuration(window.NUDUR);
-        this.setGender(gender);
+        this.setGene(gene);
         this.setMetrics(left, top, unit);
 
         exports.allList.push(this);
@@ -54,24 +54,24 @@ domain.level.Wanderer = (function ($) {
         return wait(0, this);
     };
 
-    wPrototype.setGender = function (gender) {
-        this.gender = gender;
+    wPrototype.setGene = function (gene) {
+        this.gene = gene;
 
-        if (gender === 'm') {
+        if (gene === 'm') {
             return this.setMaleColor();
-        } else if (gender === 'f') {
+        } else if (gene === 'f') {
             return this.setFemaleColor();
         }
     };
 
     wPrototype.setFemaleColor = function () {
-        this.$dom.attr('src', 'images/neef.svg');
+        this.$dom.attr('data', 'images/neef.svg');
 
         return this;
     };
 
     wPrototype.setMaleColor = function () {
-        this.$dom.attr('src', 'images/nim.svg');
+        this.$dom.attr('data', 'images/nim.svg');
 
         return this;
     };
@@ -125,4 +125,5 @@ domain.level.Wanderer = (function ($) {
     wPrototype.right = function () { return this.move(1, 0); };
 
     return exports;
+
 }(window.jQuery));

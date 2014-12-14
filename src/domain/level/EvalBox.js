@@ -53,7 +53,7 @@ domain.level.EvalBox = (function () {
         result.right = right;
 
 
-        if (left.gender === right.gender) {
+        if (left.gene === right.gene) {
 
             result.score = 10;
             result.goTrash.push(right);

@@ -35,7 +35,7 @@ domain.level.FusionBox = (function () {
 
     fusionPt.fusion = function (pair) {
         var dur = 600;
-        var bom = new domain.level.Wanderer(0, 0, pair.left.gender, this.metrics.left, this.metrics.top, this.metrics.unit);
+        var bom = new domain.level.Wanderer(0, 0, pair.left.gene, this.metrics.left, this.metrics.top, this.metrics.unit);
 
         bom.locate();
 
