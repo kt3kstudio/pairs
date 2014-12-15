@@ -87,12 +87,18 @@ pages.level.Positioner = (function ($) {
         var pos = this.gridPosition(1, 0, 1);
 
         pos.unit /= 2;
+        pos.left -= pos.unit / 4;
 
         return pos;
     };
 
     posPt.fusionBoxMetrics = function () {
-        return this.gridPosition(1, 1, 1);
+        var pos = this.gridPosition(1, 1, 1);
+
+        pos.unit /= 1.5;
+        pos.left -= pos.unit / 4;
+
+        return pos;
     };
 
     posPt.paperPos = function () {

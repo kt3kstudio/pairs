@@ -8,7 +8,7 @@ domain.level = domain.level || {};
 domain.level.ExitQueue= (function () {
     'use strict';
 
-    var QUEUE_MAX = 4;
+    var QUEUE_MAX = 32;
 
     var exports = function (metrics) {
         this.metrics = metrics;
@@ -36,12 +36,20 @@ domain.level.ExitQueue= (function () {
     eqPrototype.goForward = function () {
         var p = Promise.resolve();
 
+        var diffDur = 200 / this.queue.length;
+
         this.queue.forEach(function (cell) {
             p = p.then(function () {
-                cell.x += 1;
+
+                if (cell.x < 4) {
+                    cell.x += 1;
+                } else {
+                    cell.y += 1;
+                }
+
                 cell.locate();
 
-                return wait(40);
+                return wait(diffDur);
             });
         });
 

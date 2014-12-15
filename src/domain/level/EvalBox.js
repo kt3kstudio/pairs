@@ -56,8 +56,7 @@ domain.level.EvalBox = (function () {
         if (left.gene === right.gene) {
 
             result.score = 10;
-            result.goTrash.push(right);
-            result.goTrash.push(left);
+            result.goFusion.push({left: left, right: right});
 
         } else {
 
@@ -76,7 +75,7 @@ domain.level.EvalBox = (function () {
 
     boxPrototype.setToLeft = function (wanderer) {
 
-        var dur = 800;
+        var dur = 700;
 
         this.involve(wanderer);
 
@@ -93,24 +92,16 @@ domain.level.EvalBox = (function () {
 
     boxPrototype.setToRight = function (wanderer) {
 
-        var dur = 800;
+        var dur = 700;
 
         this.involve(wanderer);
 
-        wanderer.setTransitionDuration(dur);
+        wanderer.x = 1;
+        wanderer.y = 0;
 
+        return wanderer.setTransitionDuration(dur).then(function () {
 
-        return wait(10).then(function () {
-
-            wanderer.x = 1;
-            wanderer.y = 0;
-            wanderer.locate();
-
-            return wait(dur);
-
-        }).then(function () {
-
-            return wanderer;
+            return wanderer.locate();
 
         });
 
