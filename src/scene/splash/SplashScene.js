@@ -10,7 +10,7 @@ scene.splash.SplashScene = (function () {
     var exports = function () {
     };
 
-    var ssPt = exports.prototype = new scene.common.Scene;
+    var ssPt = exports.prototype = new scene.common.Scene();
 
     ssPt.start = function () {
         var that = this;
