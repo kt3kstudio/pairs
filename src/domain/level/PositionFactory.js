@@ -1,15 +1,12 @@
-// Util
-// calculate positions of each component
-
 /**
  * @class
- * Positioner creates metrics for each component.
+ * PositionFactory creates position objects of components in the level coordinate.
  */
-pages.level.Positioner = (function ($) {
+domain.level.PositionFactory = (function () {
     'use strict';
 
-    var TOP_UI_HEIGHT = 50;
-    var BOTTOM_UI_HEIGHT = 50;
+    var TOP_UI_HEIGHT = 50; // the height of the score board at the top
+    var BOTTOM_UI_HEIGHT = 50; // the height of the banner ad at the bottom of the screen
 
     // height / width
     var PLAY_FIELD_RATIO = 6 / 4;
@@ -67,23 +64,23 @@ pages.level.Positioner = (function ($) {
         return {top: this.TOP + u * y, left: this.LEFT + u * x, unit: u, width: u * w};
     };
 
-    posPt.fieldMetrics = function () {
+    posPt.fieldPosition = function () {
         return this.gridPosition(0, 2, 3);
     };
 
-    posPt.evalRoomMetrics = function () {
+    posPt.evalRoomPosition = function () {
         return this.gridPosition(0, 1, 2);
     };
 
-    posPt.leftDoorMetrics = function () {
+    posPt.leftDoorPosition = function () {
         return this.gridPosition(0, 0, 1);
     };
 
-    posPt.rightDoorMetrics = function () {
+    posPt.rightDoorPosition = function () {
         return this.gridPosition(2, 1, 1);
     };
 
-    posPt.queueMetrics = function () {
+    posPt.queuePosition = function () {
         var pos = this.gridPosition(1, 0, 1);
 
         pos.unit /= 2;
@@ -92,7 +89,7 @@ pages.level.Positioner = (function ($) {
         return pos;
     };
 
-    posPt.fusionBoxMetrics = function () {
+    posPt.fusionBoxPosition = function () {
         var pos = this.gridPosition(1, 1, 1);
 
         pos.unit /= 1.5;
@@ -101,10 +98,10 @@ pages.level.Positioner = (function ($) {
         return pos;
     };
 
-    posPt.paperPos = function () {
+    posPt.paperPosition = function () {
         return {left: this.width / 2, top: this.TOP + this.UNIT * 4};
     };
 
     return exports;
 
-}(window.jQuery));
+}());

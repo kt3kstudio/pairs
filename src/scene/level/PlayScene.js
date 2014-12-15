@@ -19,21 +19,21 @@ scene.level.PlayScene = (function ($) {
         this.chr = prevScene.chr;
 
         // prepare metrics
-        var mapMetrics = pos.fieldMetrics();
-        var evalBoxMetrics = pos.evalRoomMetrics();
-        var trashBoxMetrics = pos.leftDoorMetrics();
-        var exitQueueMetrics = pos.queueMetrics();
-        var fusionBoxMetrics = pos.fusionBoxMetrics();
+        var mapPosition = pos.fieldPosition();
+        var evalBoxPosition = pos.evalRoomPosition();
+        var trashBoxPosition = pos.leftDoorPosition();
+        var exitQueuePosition = pos.queuePosition();
+        var fusionBoxPosition = pos.fusionBoxPosition();
 
         // models
-        this.map = new domain.level.Map(mapMetrics);
-        this.field = new domain.level.Field(mapMetrics);
+        this.map = new domain.level.Map(mapPosition);
+        this.field = new domain.level.Field(mapPosition);
 
         // boxes
-        this.evalBox = new domain.level.EvalBox(evalBoxMetrics);
-        this.trashBox = new domain.level.TrashBox(trashBoxMetrics);
-        this.fusionBox = new domain.level.FusionBox(fusionBoxMetrics);
-        this.exitQueue = new domain.level.ExitQueue(exitQueueMetrics);
+        this.evalBox = new domain.level.EvalBox(evalBoxPosition);
+        this.trashBox = new domain.level.TrashBox(trashBoxPosition);
+        this.fusionBox = new domain.level.FusionBox(fusionBoxPosition);
+        this.exitQueue = new domain.level.ExitQueue(exitQueuePosition);
 
         // debug things
         this.pointBox = debug.PointBox; // singleton

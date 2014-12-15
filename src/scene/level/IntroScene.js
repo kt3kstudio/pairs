@@ -11,12 +11,12 @@ scene.level.IntroScene = (function () {
         this.level = level;
         this.gt = new pages.common.GoalTranslator();
 
-        this.pos = new pages.level.Positioner();
+        this.pos = new domain.level.PositionFactory();
 
         this.paper = new domain.level.PieceOfPaper();
 
         this.chr = new domain.common.Ma();
-        this.ball = new domain.level.Ball(this.pos.fieldMetrics());
+        this.ball = new domain.level.Ball(this.pos.fieldPosition());
     };
 
     var isPt = exports.prototype = new scene.common.Scene();
@@ -25,7 +25,7 @@ scene.level.IntroScene = (function () {
 
         var that = this;
 
-        var paperPos = this.pos.paperPos();
+        var paperPos = this.pos.paperPosition();
 
         this.chr.x = paperPos.left;
         this.chr.y = 800;
