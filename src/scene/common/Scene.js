@@ -1,6 +1,3 @@
-window.scene = window.scene || {};
-scene.common = scene.common || {};
-
 /**
  * @class
  * Scene class represents each unit activity on a page.
@@ -11,7 +8,6 @@ scene.common.Scene = (function () {
     'use strict';
 
     var exports = function () {
-        this.actors = {};
     };
 
     var scenePrototype = exports.prototype;
