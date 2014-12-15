@@ -33,11 +33,22 @@ domain.level.FusionBox = (function () {
         });
     };
 
+    /**
+     * Creates a new gene from a pair of genes
+     * @param {String} x The first gene
+     * @param {String} y The second gene
+     * @returns {String} The new gene
+     */
+    fusionPt.newGene = function (x, y) {
+        return (x + y).replace(/(\w)(\1)/g, '$1');
+    };
+
     fusionPt.fusion = function (pair) {
         var dur = 600;
-        console.log('abc');
-        console.log(this.metrics);
-        var bom = new domain.level.Wanderer(0, 0, pair.left.gene + pair.right.gene, this.metrics.left, this.metrics.top, this.metrics.unit);
+
+        var newGene = this.newGene(pair.left.gene, pair.right.gene);
+
+        var bom = new domain.level.Wanderer(0, 0, newGene, this.metrics.left, this.metrics.top, this.metrics.unit);
 
         bom.locate();
 
