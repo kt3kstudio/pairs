@@ -71,11 +71,9 @@ domain.level.Wanderer = (function ($) {
     };
 
     wPrototype.selectMultitonUrl = function () {
-        switch (this.gene.length) {
-            case 2: return 'images/deutron.svg';
-            case 3: return 'images/triton.svg';
-            case 4: return 'images/quatron.svg';
-        }
+        var cellKind = domain.common.BomTable[this.gene.length];
+
+        return 'images/' + cellKind + '.svg';
     };
 
     wPrototype.setMultiton = function () {
