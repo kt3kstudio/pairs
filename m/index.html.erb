@@ -25,4 +25,8 @@ css: splash.css
 
 </style>
 
-<script>$(new pages.splash.PhaseController().start());</script>
+<script>
+$(function () {
+    new scene.splash.SplashScene().play();
+});
+</script>

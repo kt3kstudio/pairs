@@ -1,11 +1,8 @@
-window.pages = window.pages || {};
-pages.splash = pages.splash || {};
-
 /**
  * @class
  * PhaseController controls the phases of the splash page.
  */
-pages.splash.PhaseController = (function () {
+scene.splash.SplashScene = (function () {
     'use strict';
 
     var ANIM_DUR = 1400;
@@ -13,12 +10,14 @@ pages.splash.PhaseController = (function () {
     var exports = function () {
     };
 
-    var spcPrototype = exports.prototype;
+    var ssPt = exports.prototype = new scene.common.Scene;
 
-    spcPrototype.start = function () {
+    ssPt.start = function () {
         var that = this;
 
         var dur = ANIM_DUR;
+
+        $('body').on('click touchstart', this.goToTitle);
 
         return this.logoAnim('images/kt3k-studio.svg', dur).then(function () {
 
@@ -32,16 +31,16 @@ pages.splash.PhaseController = (function () {
 
     };
 
-    spcPrototype.goToTitle = function () {
+    ssPt.goToTitle = function () {
         location.replace('title.html');
     };
 
-    spcPrototype.logoAnim = function (path, dur) {
+    ssPt.logoAnim = function (path, dur) {
         var that = this;
 
         return loadImage(path, 'splash-logo', document.body).then(function ($img) {
 
-            $img.click(function () {
+            $img.one('click touchstart', function () {
                 that.goToTitle();
             });
 
