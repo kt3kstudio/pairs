@@ -4,7 +4,7 @@
  *
  * This class can move along the given grid which is specified as the metrics (left, top, unit).
  */
-domain.level.Wanderer = (function ($) {
+domain.level.Wanderer = (function () {
     'use strict';
 
     var exports = function (x, y, gene, left, top, unit) {
@@ -14,7 +14,7 @@ domain.level.Wanderer = (function ($) {
         this.gutter = Math.floor(unit / 4);
 
         this.setGene(gene);
-        this.setTransitionDuration(window.NUDUR);
+        this.setTransitionDuration(window.unitDur);
         this.setMetrics(left, top, unit);
 
         exports.allList.push(this);
@@ -152,4 +152,4 @@ domain.level.Wanderer = (function ($) {
 
     return exports;
 
-}(window.jQuery));
+}());

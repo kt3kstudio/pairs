@@ -1,71 +1,18 @@
-/* global $ */
+/**
+ * @class
+ * @singleton
+ */
+global = window;
 
-window.dice = function (n) {
-    'use strict';
 
-    return Math.floor(Math.random() * n);
-};
-
-window.sample = function () {
-    'use strict';
-
-    return arguments[window.dice(arguments.length)];
-};
-
-var _console = {log: function () {
-    'use strict';
-
-    //console.log.apply(console, arguments);
-}};
-
-window.swipe$dom;
-
-window.bindEvents = function (up, down, left, right, reset) {
-    'use strict';
-
-    window.swipe$dom = $('.wrapper')
-        .swipeCross()
-        .on('swipeup', function () { _console.log('swipeup'); up();})
-        .on('swiperight', function () { _console.log('swiperight'); right(); })
-        .on('swipeleft', function () { _console.log('swipeleft'); left(); })
-        .on('swipedown', function () { _console.log('swipedown'); down(); })
-        .on('swipecancel', function () { _console.log('swipecancel'); });
-
-    $(document)
-        .arrowkeys()
-        .on('upkey', function () { _console.log('upkey'); up();})
-        .on('rightkey', function () { _console.log('rightkey'); right(); })
-        .on('leftkey', function () { _console.log('leftkey'); left(); })
-        .on('downkey', function () { _console.log('downkey'); down(); });
-
-    $('.reset')
-        .on('click', function () { console.log('=== reset ==='); unbindEvents(); reset(); });
-
-};
-
-window.unbindEvents = function () {
-    'use strict';
-
-    window.swipe$dom
-        .swipeCrossUnbind()
-        .off('swipeup')
-        .off('swipedown')
-        .off('swipeleft')
-        .off('swiperight')
-        .off('swipecancel');
-
-    $(document)
-        .arrowkeysUnbind()
-        .off('upkey')
-        .off('rightkey')
-        .off('leftkey')
-        .off('downkey');
-
-    $('.reset')
-        .off('click');
-};
-
-window.wait = function (n, result) {
+/**
+ * Returns a promise which resolves given milliseconds later with given object.
+ *
+ * @param {Number} n The time in milliseconds to wait
+ * @param {Object} result The object which the returned promise resolve with
+ * @returns {Promise}
+ */
+global.wait = function (n, result) {
     'use strict';
 
     return new Promise(function (resolve) {
@@ -74,7 +21,10 @@ window.wait = function (n, result) {
 };
 
 
-window.loadImage = function (path, cls, dom) {
+/**
+ * Load image and returns promise which resolves when the image loaded.
+ */
+global.loadImage = function (path, cls, dom) {
     'use strict';
 
     return new Promise(function (resolve) {
@@ -87,6 +37,12 @@ window.loadImage = function (path, cls, dom) {
             });
     });
 };
+
+/**
+ * Unit duration of transition in the level
+ */
+global.unitDur = 300;
+
 
 (function ($) {
     'use strict';

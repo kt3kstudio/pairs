@@ -9,7 +9,7 @@ domain.level.Ball = (function ($) {
     'use strict';
 
     var exports = function (metrics) {
-        this.transDur = window.NUDUR;
+        this.transDur = window.unitDur;
         this.x = 1;
         this.y = 1;
         this.MAX = 3;
@@ -74,9 +74,9 @@ domain.level.Ball = (function ($) {
 
     ballPrototype.refuseToMove = function (dir) {
         if (dir === 'up' || dir === 'down') {
-            return this.$dom.anim('ball-refuse-y', window.NUDUR);
+            return this.$dom.anim('ball-refuse-y', window.unitDur);
         } else {
-            return this.$dom.anim('ball-refuse-x', window.NUDUR);
+            return this.$dom.anim('ball-refuse-x', window.unitDur);
         }
     };
 
