@@ -44,7 +44,6 @@ domain.map.Door = (function ($) {
         }).appendTo(this.$doorFrame).infoPane(3, 5, {bgcolor: '#393F44'});
 
         $('<button />').text('▶').appendTo($('.door-info-content', this.infoPane.$dom)).click(function (event) {
-            console.log('abc');
             event.preventDefault();
             window.ms.goToLevel(that.level);
         });
