@@ -1,11 +1,8 @@
-window.pages = window.pages || {};
-pages.common = pages.common || {};
-
 /**
  * @class
  * MenuButton handles the behaviour of the menu button.
  */
-pages.common.MenuButton = (function ($) {
+ui.common.MenuButton = (function ($) {
     'use strict';
 
     var TRANS_DUR = 800;
@@ -126,7 +123,7 @@ pages.common.MenuButton = (function ($) {
     };
 
     mbPrototype.addMenu = function (url, callback, init) {
-        this.menus.push(new pages.common.MenuItem(url, callback, init));
+        this.menus.push(new ui.common.MenuItem(url, callback, init));
     };
 
     mbPrototype.clearMenu = function () {

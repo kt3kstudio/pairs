@@ -1,11 +1,8 @@
-window.pages = window.pages || {};
-pages.common = pages.common || {};
-
 /**
  * @class
  * MenuItem handles the behaviour of items of the menu.
  */
-pages.common.MenuItem = (function () {
+ui.common.MenuItem = (function () {
     'use strict';
 
     var exports = function (url, callback, init) {
