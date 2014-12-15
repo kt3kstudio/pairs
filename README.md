@@ -1,4 +1,4 @@
-# long-dream-core v0.1.4
+# long-dream-core v0.1.5
 
 [![Build Status](https://travis-ci.org/kt3kstudio/long-dream-core.svg?branch=gh-pages)](https://travis-ci.org/kt3kstudio/long-dream-core)
 
