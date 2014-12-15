@@ -16,7 +16,7 @@ scene.level.IntroScene = (function () {
 
         this.paper = new domain.level.PieceOfPaper();
 
-        this.chr = new domain.common.Ma();
+        this.chr = prevScene.chr;
         this.ball = new domain.level.Ball(this.pos.fieldPosition());
     };
 

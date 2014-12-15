@@ -8,6 +8,7 @@ scene.level.LevelLoader = (function () {
     var exports = function () {
         this.lvRepo = new datadomain.LevelRepository();
         this.charPosRepo = new datadomain.CharPositionRepository();
+        this.chr = new domain.common.Ma();
     };
 
     var llPt = exports.prototype = new scene.common.Scene();
@@ -29,7 +30,7 @@ scene.level.LevelLoader = (function () {
     };
 
     llPt.getCharPosition = function () {
-        return this.charPosRepo.getCharPosition();
+        return this.charPosRepo.getCharPosition(this.chr.name);
     };
 
     llPt.getLevel = function (level) {
