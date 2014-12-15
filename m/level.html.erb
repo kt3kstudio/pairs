@@ -118,7 +118,7 @@ body: dark-bg
 </style>
 
 <script>
-var lpc;
+var ll;
 var ps;
 var is;
 var os;
@@ -128,27 +128,27 @@ var reload = false;
 $(function () {
     'use strict';
 
-    lpc = new pages.level.PhaseController();
+    new scene.level.LevelLoader().play().then(function (ll) {
 
-    lpc.loadCurrentLevel().then(function (level) {
+        window.ll = ll;
 
-        return new scene.level.IntroScene(level).play();
+        return new scene.level.IntroScene(ll).play();
 
-    }).then(function (prevScene) {
+    }).then(function (is) {
 
-        is = prevScene;
+        window.is = is;
 
-        ps = new scene.level.PlayScene(prevScene);
+        return new scene.level.PlayScene(is).play();
 
-        return ps.play();
+    }).then(function (ps) {
 
-    }).then(function (prevScene) {
+        window.ps = ps;
 
-        os = new scene.level.OutroScene(prevScene);
+        return new scene.level.OutroScene(ps).play();
 
-        return os.play();
+    }).then(function (os) {
 
-    }).then(function () {
+        window.os = os;
 
         if (reload) {
             location.reload();

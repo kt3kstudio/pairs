@@ -7,8 +7,9 @@
 scene.level.IntroScene = (function () {
     'use strict';
 
-    var exports = function (level) {
-        this.level = level;
+    var exports = function (prevScene) {
+        this.level = prevScene.level;
+
         this.gt = new pages.common.GoalTranslator();
 
         this.pos = new domain.level.PositionFactory();
