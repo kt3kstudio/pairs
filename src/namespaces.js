@@ -25,3 +25,7 @@ domain.level = {};
 
 // game data domain
 datadomain = {};
+
+// ui domain
+ui = {};
+ui.common = {};

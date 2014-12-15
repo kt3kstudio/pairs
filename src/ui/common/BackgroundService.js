@@ -1,11 +1,8 @@
-window.pages = window.pages || {};
-pages.common = pages.common || {};
-
 /**
  * @class
  * BackgroundService handles the animation of background colors.
  */
-pages.common.BackgroundService = (function ($) {
+ui.common.BackgroundService = (function () {
     'use strict';
 
     var exports = {};
@@ -38,4 +35,4 @@ pages.common.BackgroundService = (function ($) {
 
     return exports;
 
-}(window.jQuery));
+}());

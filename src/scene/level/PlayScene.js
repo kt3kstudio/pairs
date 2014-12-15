@@ -104,43 +104,6 @@ scene.level.PlayScene = (function ($) {
 
     };
 
-    psPrototype.cease = function () {
-
-        var that = this;
-
-        this.menuButton.hide();
-
-        this.unbindEvents();
-
-        return this.ball.disappear().then(function () {
-
-            return domain.level.Wanderer.disappear();
-
-        }).then(function () {
-
-            return that.field.disappear();
-
-        }).then(function () {
-
-            return pages.common.BackgroundService.turnBlack();
-
-        }).then(function () {
-
-            that.map.empty();
-            that.pointBox.reset();
-            that.evalBox.reset();
-            that.scoreBox.reset();
-            that.exitQueue.reset();
-
-            return wait(300);
-
-        }).then(function () {
-
-            that.finish();
-
-        });
-    };
-
     psPrototype.bindEvents = function (onSwipe) {
 
         this.swipe$dom = $('.wrapper')

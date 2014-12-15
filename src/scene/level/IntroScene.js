@@ -37,7 +37,7 @@ scene.level.IntroScene = (function () {
 
         this.paper.put();
 
-        pages.common.BackgroundService.turnWhite();
+        ui.common.BackgroundService.turnWhite();
 
         Promise.resolve().then(function () {
 

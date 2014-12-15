@@ -39,8 +39,6 @@ js: title.js
 
 <script>
 
-window.pages = window.pages || {};
-
 var menuButton;
 
 var reset;
@@ -102,7 +100,7 @@ pages.title = (function () {
 
             thingsGoOut().then(function () {
 
-                return pages.common.BackgroundService.turnBlack();
+                return ui.common.BackgroundService.turnBlack();
 
             }).then(function () {
 

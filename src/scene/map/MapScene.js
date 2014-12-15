@@ -32,7 +32,7 @@ scene.map.MapScene = (function ($) {
 
         that.menuButton.show();
 
-        return pages.common.BackgroundService.turnWhite().then(function () {
+        return ui.common.BackgroundService.turnWhite().then(function () {
 
             return that.floor.appear();
 
@@ -58,7 +58,7 @@ scene.map.MapScene = (function ($) {
 
         }).then(function () {
 
-            return pages.common.BackgroundService.turnBlack();
+            return ui.common.BackgroundService.turnBlack();
 
         });
     };

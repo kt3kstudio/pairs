@@ -51,7 +51,7 @@ scene.level.OutroScene = (function () {
 
         }).then(function () {
 
-            return pages.common.BackgroundService.turnBlack();
+            return ui.common.BackgroundService.turnBlack();
 
         }).then(function () {
 
