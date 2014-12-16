@@ -10,8 +10,6 @@ scene.level.IntroScene = (function () {
     var exports = function (prevScene) {
         this.level = prevScene.level;
 
-        this.gt = new pages.common.GoalTranslator();
-
         this.pos = new domain.level.PositionFactory();
 
         this.paper = new domain.level.PieceOfPaper();
@@ -49,7 +47,7 @@ scene.level.IntroScene = (function () {
             // the character takes the paper in the room.
             that.paper.disappear(1000);
 
-            var goals = $('<p />').text(that.gt.translate(that.level.goals));
+            var goals = $('<p />').text(that.level.goal.toString());
 
             // the character read up the goals of the room
             return that.chr.speak(goals, {cancelDom: '.wrapper'});

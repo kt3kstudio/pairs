@@ -25,6 +25,7 @@ domain.level = {};
 
 // game data domain
 datadomain = {};
+datadomain.goal = {};
 
 // ui domain
 ui = {};

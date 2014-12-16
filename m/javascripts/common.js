@@ -5,7 +5,6 @@
 //= require info-pane
 //= require speech-bubble
 //= require ui/common/
-//= require pages/common/
 //= require scene/common/
 //= require domain/common/
 //= require datadomain/

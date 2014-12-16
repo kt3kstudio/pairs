@@ -6,17 +6,17 @@
 datadomain.Level = (function () {
     'use strict';
 
-    var exports = function (id, name, goals, threshold0, threshold1, cells) {
+    var exports = function (id, name, goal, threshold0, threshold1, cells) {
         this.id = id;
         this.name = name;
-        this.goals = goals;
+        this.goal = goal;
         this.threshold0 = threshold0;
         this.threshold1 = threshold1;
         this.cells = cells;
     };
 
     exports.createFromObject = function (obj) {
-        return new exports(obj.id, obj.name, obj.goals, obj.threshold0, obj.threshold1, obj.cells);
+        return new exports(obj.id, obj.name, new datadomain.goal.GoalFactory().createFromObjectList(obj.goals), obj.threshold0, obj.threshold1, obj.cells);
     };
 
     var levelPt = exports.prototype;
