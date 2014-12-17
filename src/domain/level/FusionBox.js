@@ -18,7 +18,11 @@ domain.level.FusionBox = (function () {
 
         var that = this;
 
-        return this.getToReactor(pair).then(function () { return that.fusion(pair); });
+        return this.getToReactor(pair).then(function () {
+
+            return that.fusion(pair);
+
+        });
     };
 
     fusionPt.getToReactor = function (pair) {
@@ -33,30 +37,22 @@ domain.level.FusionBox = (function () {
         });
     };
 
-    /**
-     * Creates a new gene from a pair of genes
-     * @param {String} x The first gene
-     * @param {String} y The second gene
-     * @returns {String} The new gene
-     */
-    fusionPt.newGene = function (x, y) {
-        return (x + y).replace(/(\w)(\1)/g, '$1');
-    };
-
     fusionPt.fusion = function (pair) {
         var dur = 600;
 
-        var newGene = this.newGene(pair.left.gene, pair.right.gene);
-
-        var bom = new domain.level.Wanderer(0, 0, newGene, this.metrics.left, this.metrics.top, this.metrics.unit);
+        var bom = new domain.level.Wanderer(0, 0, pair.newGene(), this.metrics.left, this.metrics.top, this.metrics.unit);
 
         bom.locate();
 
         bom.$dom.prependTo('#main');
-        bom.$dom.animation('bom-born ' + dur + 'ms');
 
-        return wait(dur).then(function () { return bom; });
+        return bom.$dom.anim('bom-born', dur).then(function () {
+
+            return bom;
+
+        });
     };
 
     return exports;
+
 }());

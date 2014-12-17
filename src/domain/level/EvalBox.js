@@ -52,18 +52,12 @@ domain.level.EvalBox = (function () {
         result.left = left;
         result.right = right;
 
+        var pair = new domain.level.FusionPair(left, right);
 
-        if (left.gene === right.gene) {
+        var newGene = pair.newGene();
 
-            result.score = 10;
-            result.goFusion.push({left: left, right: right});
-
-        } else {
-
-            result.score = 100;
-            result.goFusion.push({left: left, right: right});
-
-        }
+        result.score = Math.pow(newGene.length, 2) * 10;
+        result.goFusion.push(new domain.level.FusionPair(left, right));
 
         return result;
 
