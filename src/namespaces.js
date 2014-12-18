@@ -30,3 +30,4 @@ datadomain.goal = {};
 // ui domain
 ui = {};
 ui.common = {};
+ui.level = {};
