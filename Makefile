@@ -4,6 +4,9 @@
 doc:
 	jsduck --config=.jsduck.dev.json
 
+doc-release:
+	jsduck --config=.jsduck.release.json
+
 build:
 	bundle exec middleman build
 
