@@ -65,4 +65,18 @@ global.unitDur = 300;
         return wait(dur, this);
     };
 
+    $.fn.once = function (events) {
+        var that = this;
+
+        return new Promise(function (resolve) {
+
+            that.one(events, function (event) {
+
+                resolve(event);
+
+            });
+
+        });
+    };
+
 }(window.jQuery));
