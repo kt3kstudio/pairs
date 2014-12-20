@@ -135,11 +135,19 @@ body: dark-bg
 </style>
 
 <script>
-var ms;
+var fl, ms;
 
 $(function () {
-    ms = new scene.map.MapScene()
-    ms.play();
+    fl = new scene.map.FloorLoader();
+
+    fl.play().then(function (fl) {
+
+        ms = new scene.map.MapScene(fl)
+
+        return ms.play();
+
+    });
+
 });
 </script>
 

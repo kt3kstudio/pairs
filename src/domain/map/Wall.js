@@ -1,12 +1,3 @@
-/* jshint quotmark: false */
-var h = 100;
-var w = 70;
-window.woList = [
-    {"type": "l", "name": "701", level: "701", "pos": [100, -h], "size": [w, h], "star": 3, "score": 5000, },
-    {"type": "l", "name": "702", level: "702", "pos": [300, -h], "size": [w, h], "star": 3, "score": 5000, },
-    {"type": "l", "name": "703", level: "703", "pos": [500, -h], "size": [w, h], "star": 3, "score": 5000, },
-    {"type": "l", "name": "704", level: "704", "pos": [700, -h], "size": [w, h], "star": 3, "score": 5000, },
-];
 
 /**
  * @class
@@ -15,6 +6,9 @@ window.woList = [
 domain.map.Wall = (function ($) {
     'use strict';
 
+    /**
+     * @constructor
+     */
     var exports = function () {
         this.wos = [];
         this.groundLevel = $(window).height() * (1 - domain.map.Floor.HEIGHT_RATE);

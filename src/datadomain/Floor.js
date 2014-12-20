@@ -12,7 +12,7 @@ datadomain.Floor = (function () {
         this.woList = woList;
     };
 
-    var floorPt = exports.prototype;
+    //var floorPt = exports.prototype;
 
     return exports;
 

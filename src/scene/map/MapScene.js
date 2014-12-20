@@ -6,17 +6,18 @@
 scene.map.MapScene = (function ($) {
     'use strict';
 
-    var exports = function () {
+    var exports = function (prevScene) {
+
         // domain objects
         this.floor = new domain.map.Floor();
 
         this.wall = new domain.map.Wall();
-        this.wall.loadFromObjectList(window.woList);
+        this.wall.loadFromObjectList(prevScene.floor.woList);
 
-        this.ma = new domain.common.Ma();
-        this.ma.setParent(this.wall.$dom);
+        this.chr = prevScene.chr;
+        this.chr.setParent(this.wall.$dom);
 
-        this.cls = new domain.map.CharLocateService(this.wall, this.ma);
+        this.cls = new domain.map.CharLocateService(this.wall, this.chr);
 
         this.wall.setCharLocateService(this.cls);
 
