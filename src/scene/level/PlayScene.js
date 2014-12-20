@@ -11,7 +11,7 @@ scene.level.PlayScene = (function ($) {
 
         this.prevScene = prevScene;
 
-        var pos = prevScene.pos;
+        var pos = this.pos = prevScene.pos;
 
         // continuous actors
         this.ball = prevScene.ball;

@@ -102,6 +102,12 @@ domain.level.PositionFactory = (function () {
         return {left: this.width / 2, top: this.TOP + this.UNIT * 4};
     };
 
+    posPt.resultPanePosition = function () {
+        var pos = this.gridPosition(0, 2, 3);
+
+        return pos;
+    };
+
     return exports;
 
 }());

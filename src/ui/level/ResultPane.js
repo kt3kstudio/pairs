@@ -7,6 +7,17 @@
 ui.level.ResultPane = (function () {
     'use strict';
 
+
+    /**
+     * @constructor
+     * @param {Object} position
+     * @param {Number} position.left The left offset
+     * @param {Number} position.top The top offset
+     * @param {Number} width The width
+     * @param {Number} height The height
+     * @param {String | HTMLElement | jQuery} parent The parent dom
+     * @param {String | HTMLElement | jQuery} cancelDom The dom to which the pane's cancel event will be attached
+     */
     var exports = function (position, width, height, parent, cancelDom) {
         this.position = position;
         this.width = width;
@@ -22,7 +33,7 @@ ui.level.ResultPane = (function () {
 
         var $wrapper = $('<div />').width(this.width).height(this.height)
 
-            .css({left: this.position.left, top: this.position.top});
+            .css({left: this.position.left, top: this.position.top, position: 'absolute'});
 
         var $content = $('<div />').text('score = []')
 
@@ -32,13 +43,20 @@ ui.level.ResultPane = (function () {
         return $wrapper.appendTo(this.parent);
     };
 
+
+    /**
+     * Shows the result pane and it automatically hides timeout later.
+     *
+     * @param {Number} timeout The time after which the pane hides itself
+     * @return {Promise} The promise which resolves when the pane hides
+     */
     rpPt.show = function (timeout) {
 
         var that = this;
 
         this.$dom = this.$dom || this.createDom();
 
-        this.ip = this.$dom.infoPane(8, 8);
+        this.ip = this.$dom.infoPane(6, 5);
 
         return this.ip.show().then(function () {
 
@@ -46,12 +64,17 @@ ui.level.ResultPane = (function () {
 
         }).then(function () {
 
-            that.hide();
+            return that.hide();
 
         });
 
     };
 
+    /**
+     * Hides the result pane.
+     *
+     * @return {Promise} The promise which resolves when the pane hides
+     */
     rpPt.hide = function () {
 
         return this.ip.hide();

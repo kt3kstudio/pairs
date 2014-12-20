@@ -10,10 +10,16 @@ scene.level.OutroScene = (function () {
     var exports = function (prevScene) {
         this.prevScene = prevScene;
 
+        this.pos = this.prevScene.pos;
+
         this.ball = new Ball(prevScene.ball);
         this.chr = prevScene.prevScene.chr;
         this.field = prevScene.field;
         this.menuButton = prevScene.menuButton;
+
+        var panePos = this.pos.resultPanePosition();
+
+        this.resPane = new ui.level.ResultPane(panePos, panePos.width, panePos.width, '#main', '.wrapper');
     };
 
     var osPt = exports.prototype = new scene.common.Scene();
@@ -22,7 +28,7 @@ scene.level.OutroScene = (function () {
 
         var that = this;
 
-        return Promise.resolve().then(function () {
+        return this.resPane.show(30000).then(function () {
 
             domain.level.Wanderer.disappear();
 
