@@ -7,12 +7,12 @@ datadomain.Floor = (function () {
 
     'use strict';
 
-    var exports = function () {
+    var exports = function (name, woList) {
+        this.name = name;
+        this.woList = woList;
     };
 
     var floorPt = exports.prototype;
-
-    floorPt.x = 1;
 
     return exports;
 
