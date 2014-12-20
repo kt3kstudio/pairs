@@ -49,83 +49,14 @@
 
 <script>
 
-var menuButton;
+var ts;
 
-var reset;
+$(function () {
+    ts = new scene.title.TitleScene();
 
-pages.title = (function () {
+    ts.play();
+});
 
-    var exports = {};
-
-    exports.main = function () {
-
-        loadImage('images/title-logo.svg', 'title-logo elem', '#main').then(function ($img) {
-
-            return $img.anim('title-appear', 2000).then(function () {
-                return $img.animation('float 6000ms infinite');
-            });
-        })
-        
-        wait(500).then(function () {
-
-            var $p = $('<p />').text('GET UP').addClass('touch-here elem').appendTo('#main');
-
-            $p.click(goToMap);
-
-            return $p.anim('title-appear', 1000).then(function () {
-                $p.animation('float 1000ms infinite');
-            });
-
-        }).then(function () {
-
-            menuButton.show();
-
-        });
-
-        menuButton = menuButton || $('.menu-button').menuButton($('#title-menu'));
-
-        reset = function () {
-
-            thingsGoOut().then(function () {
-                pages.title.main();
-            });
-        };
-
-        $('.reset').on('click', reset);
-
-        var thingsGoOut = function () {
-
-            $('.reset').off('click', reset);
-
-            menuButton.hide();
-
-            return $('.elem').css('opacity', 0).anim('disappear', 500).then(function () {
-                $('.elem').remove();
-
-                return wait(100);
-            });
-        };
-
-        var goToMap = function () {
-
-            thingsGoOut().then(function () {
-
-                return ui.common.BackgroundService.turnBlack();
-
-            }).then(function () {
-
-                location.href = 'map.html';
-
-            });
-
-        };
-    };
-
-    return exports;
-
-}());
-
-$(pages.title.main);
 
 </script>
 
@@ -136,14 +67,14 @@ $(pages.title.main);
 <img class="menu-button menu-hidden" src="images/menu-button.svg" />
 
 <menus id="title-menu">
-  <menu src="images/reset-button.svg" onclick="reset();"></menu>
-  <menu src="images/reset-button.svg" onclick="reset();"></menu>
+  <menu src="images/reset-button.svg" onclick="ts.reset();"></menu>
+  <menu src="images/reset-button.svg" onclick="ts.reset();"></menu>
   <menu src="images/menu-button.svg">
-    <menu src="images/reset-button.svg" onclick="reset();"></menu>
+    <menu src="images/reset-button.svg" onclick="ts.reset();"></menu>
     <menu src="images/menu-button.svg">
-      <menu src="images/reset-button.svg" onclick="reset();"></menu>
-      <menu src="images/reset-button.svg" onclick="reset();"></menu>
-      <menu src="images/reset-button.svg" onclick="reset();"></menu>
+      <menu src="images/reset-button.svg" onclick="ts.reset();"></menu>
+      <menu src="images/reset-button.svg" onclick="ts.reset();"></menu>
+      <menu src="images/reset-button.svg" onclick="ts.reset();"></menu>
       <menu src="images/back-button.svg" onclick="history.back()"></menu>
     </menu>
   </menu>
