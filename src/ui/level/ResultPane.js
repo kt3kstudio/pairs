@@ -29,13 +29,12 @@ ui.level.ResultPane = (function () {
     var rpPt = exports.prototype;
 
     rpPt.createDom = function () {
-        var that = this;
 
         var $wrapper = $('<div />').width(this.width).height(this.height)
 
             .css({left: this.position.left, top: this.position.top, position: 'absolute'});
 
-        var $content = $('<div />').text('score = []')
+        $('<div />').text('score = []')
 
             .css({opacity: 0, position: 'relative'}).appendTo($wrapper);
 
