@@ -11,7 +11,7 @@ datadomain.goal.CollectGoal = (function () {
 
     cgPt.toString = function () {
         var number = this.opts.number;
-        var target = this.opts.target;
+        var target = domain.common.BomTable[this.opts.target];
 
         return 'This room needs ' + number + ' ' + this.numberize(target, number) + '.';
     };

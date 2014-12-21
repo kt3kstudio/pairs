@@ -5,7 +5,7 @@
     {
       "type": "C",
       "opts": {
-        "target": "deutron",
+        "target": 2,
         "number": 1
       }
     }
