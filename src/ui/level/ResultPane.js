@@ -55,7 +55,7 @@ ui.level.ResultPane = (function () {
 
         this.$dom = this.$dom || this.createDom();
 
-        this.ip = this.$dom.infoPane(6, 5);
+        this.ip = this.$dom.infoPane(9, 7);
 
         return this.ip.show().then(function () {
 

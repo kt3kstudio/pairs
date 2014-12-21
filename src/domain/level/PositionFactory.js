@@ -105,6 +105,13 @@ domain.level.PositionFactory = (function () {
     posPt.resultPanePosition = function () {
         var pos = this.gridPosition(0, 2, 3);
 
+        pos.left = 15;
+
+        pos.height = pos.width;
+        pos.width = this.width;
+
+        pos.width -= pos.left * 2;
+
         return pos;
     };
 

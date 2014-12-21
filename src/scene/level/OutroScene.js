@@ -19,7 +19,7 @@ scene.level.OutroScene = (function () {
 
         var panePos = this.pos.resultPanePosition();
 
-        this.resPane = new ui.level.ResultPane(panePos, panePos.width, panePos.width, '#main', '.wrapper');
+        this.resPane = new ui.level.ResultPane(panePos, panePos.width, panePos.height, '#main', '.wrapper');
     };
 
     var osPt = exports.prototype = new scene.common.Scene();
