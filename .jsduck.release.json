@@ -1,6 +1,6 @@
 {
-    "--title": "long-dream-core (v0.1.7) API documentation",
-    "--output": "doc/v0.1.7",
+    "--title": "long-dream-core (v0.1.8) API documentation",
+    "--output": "doc/v0.1.8",
     "--warnings": "-nodoc",
     "--": "src/"
 }
