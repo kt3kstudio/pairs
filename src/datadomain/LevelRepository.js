@@ -22,7 +22,7 @@ datadomain.LevelRepository = (function () {
     };
 
     lvRepoPt.levelUrl = function (level) {
-        return 'level/' + level + '.json';
+        return 'data/level/' + level + '.json';
     };
 
     return exports;
