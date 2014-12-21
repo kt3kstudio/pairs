@@ -1,4 +1,5 @@
 /**
+ * Global object.
  * @class
  * @singleton
  */

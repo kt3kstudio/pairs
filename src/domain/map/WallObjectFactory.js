@@ -13,7 +13,7 @@ domain.map.WallObjectFactory = (function () {
     /**
      * Creates wall object from js object.
      *
-     * @param {Object} obj
+     * @param {Object} obj The source object
      * @return {domain.map.WallObject}
      */
     exports.createFromObject = function (obj) {

@@ -1,9 +1,7 @@
-
-
-window.domain = window.domain || {};
-domain.level = domain.level || {};
 /**
+ * @class
  *
+ * FusionBox represents the box in which the two cells combine and give birth to a new cell.
  */
 domain.level.FusionBox = (function () {
     'use strict';

@@ -1,9 +1,5 @@
-
-
-window.domain = window.domain || {};
-domain.level = domain.level || {};
 /**
- *
+ * ExitQueue class represents the exit queue at the level view.
  */
 domain.level.ExitQueue= (function () {
     'use strict';

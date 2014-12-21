@@ -21,7 +21,7 @@ domain.level.Map = (function ($) {
     };
 
     /**
-     *
+     * Create a map object from a bom object list.
      *
      * @return {domain.level.Map}
      */
@@ -32,8 +32,9 @@ domain.level.Map = (function ($) {
     var mapPrototype = exports.prototype;
 
     /**
+     * Create a cell from a bom object.
      *
-     *
+     * @param {Object} bom The bom object
      * @return {domain.level.Wanderer}
      */
     mapPrototype.createCellFromBom = function (bom) {

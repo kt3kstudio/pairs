@@ -18,19 +18,22 @@ datadomain.PlayingData = (function () {
     };
 
     /**
+     * Creates instance from the object.
      *
-     * @param {Object} obj
-     * @param {Number} obj.score
-     * @param {Array} obj.field
-     * @param {Array} obj.queue
-     * @param {Object} obj.goal
+     * @param {Object} obj The source object
+     * @param {Number} obj.score The score
+     * @param {Array} obj.field The state of the field
+     * @param {Array} obj.queue The state of the queue
+     * @param {Object} obj.goal The state of the goal completion
      */
     exports.createFromObject = function (obj) {
         return new exports(obj.score, obj.field, obj.queue, obj.goal);
     };
 
     /**
+     * Creates initial state of the playing data.
      *
+     * @return {datadomain.PlayingData}
      */
     exports.createInitialStateData = function () {
         return new exports(0, [], [], []);

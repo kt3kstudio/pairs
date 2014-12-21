@@ -32,7 +32,9 @@ datadomain.CharPosition = (function () {
     };
 
     /**
+     * Gets the level of the position.
      *
+     * @return {String}
      */
     charPosPt.getLevel = function () {
         return this.wallPosition;

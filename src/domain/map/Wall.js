@@ -127,7 +127,7 @@ domain.map.Wall = (function ($) {
     /**
      * Check if the character is visible on the wall.
      *
-     * @param {domain.common.CharSprite} chr
+     * @param {domain.common.CharSprite} chr The character
      * @returns {Boolean}
      */
     wallPt.visible = function (chr) {

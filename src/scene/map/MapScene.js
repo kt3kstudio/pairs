@@ -68,7 +68,7 @@ scene.map.MapScene = (function ($) {
     /**
      * Go to the specified level.
      *
-     * @param {String} level
+     * @param {String} level The level
      */
     msPrototype.goToLevel = function (level) {
         var that = this;

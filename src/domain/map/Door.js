@@ -1,5 +1,7 @@
 /**
  * @class
+ *
+ * Door class handles behaviour of the level's doors.
  */
 domain.map.Door = (function ($) {
     'use strict';

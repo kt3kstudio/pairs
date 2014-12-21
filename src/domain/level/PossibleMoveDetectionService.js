@@ -1,6 +1,7 @@
 
 /**
  * @class
+ *
  * PossibleMoveDetectionService provides the functionality of detecting the possible moves in the play field.
  */
 domain.level.PossibleMoveDetectionService = (function () {
@@ -29,6 +30,9 @@ domain.level.PossibleMoveDetectionService = (function () {
     };
 
     /**
+     * Check if there is a cell at the position of the ball.
+     *
+     * @return {Boolean} true iff there is a cell at the ball
      */
     pmdsPt.cellRemainsAtBall = function () {
         return this.map.find(this.ball.pos()) != null;

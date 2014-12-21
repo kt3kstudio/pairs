@@ -1,8 +1,7 @@
-
-window.domain = window.domain || {};
-domain.level = domain.level || {};
 /**
+ * EvalResultProcessor class handles the evaluation result of the pair of the cells.
  *
+ * @class
  */
 domain.level.EvalResultProcessor = (function () {
     'use strict';
