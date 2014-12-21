@@ -25,7 +25,7 @@ domain.map.Wall = (function ($) {
 
             that.transformCoordinates(wo);
 
-            return domain.map.Door.createFromObject(wo).setParent(that.$dom);
+            return domain.map.WallObjectFactory.createFromObject(wo).setParent(that.$dom);
 
         });
 
