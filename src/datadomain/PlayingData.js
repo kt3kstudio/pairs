@@ -47,7 +47,7 @@ datadomain.PlayingData = (function () {
             field: this.field,
             queue: this.queue,
             goal: this.goal
-        }
+        };
     };
 
     pdPt.gotScore = function (score) {
