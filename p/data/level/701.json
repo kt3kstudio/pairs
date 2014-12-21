@@ -5,7 +5,7 @@
     {
       "type": "C",
       "opts": {
-        "target": "triton",
+        "target": 3,
         "number": 2
       }
     }

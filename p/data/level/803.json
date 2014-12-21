@@ -1,17 +1,17 @@
 {
-  "id": 703,
-  "name": 703,
+  "id": 803,
+  "name": 803,
   "goals": [
     {
       "type": "C",
       "opts": {
-        "target": "deutron",
-        "number": 2
+        "target": 3,
+        "number": 3
       }
     }
   ],
   "threshold0": 1200,
-  "threshold1": 2100,
+  "threshold1": 1700,
   "cells": [
     {
       "x": 0,
@@ -21,22 +21,22 @@
     {
       "x": 0,
       "y": 1,
-      "gene": "m"
+      "gene": "f"
     },
     {
       "x": 0,
       "y": 2,
-      "gene": "m"
+      "gene": "f"
     },
     {
       "x": 0,
       "y": 3,
-      "gene": "m"
+      "gene": "f"
     },
     {
       "x": 0,
       "y": 4,
-      "gene": "f"
+      "gene": "m"
     },
     {
       "x": 0,
@@ -46,7 +46,7 @@
     {
       "x": 1,
       "y": 0,
-      "gene": "f"
+      "gene": "m"
     },
     {
       "x": 1,
@@ -56,7 +56,7 @@
     {
       "x": 1,
       "y": 2,
-      "gene": "f"
+      "gene": "m"
     },
     {
       "x": 1,
@@ -66,22 +66,22 @@
     {
       "x": 1,
       "y": 4,
-      "gene": "f"
+      "gene": "m"
     },
     {
       "x": 1,
       "y": 5,
-      "gene": "f"
+      "gene": "m"
     },
     {
       "x": 2,
       "y": 0,
-      "gene": "f"
+      "gene": "m"
     },
     {
       "x": 2,
       "y": 1,
-      "gene": "f"
+      "gene": "m"
     },
     {
       "x": 2,
@@ -96,7 +96,7 @@
     {
       "x": 2,
       "y": 4,
-      "gene": "m"
+      "gene": "f"
     },
     {
       "x": 2,
