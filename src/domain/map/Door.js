@@ -29,7 +29,7 @@ domain.map.Door = (function ($) {
         this.$door = $('<div />').addClass('door').appendTo(this.$doorFrame);
 
         this.$door.click(function () {
-            that.cls.moveToDoorByLevel(that.level);
+            that.cls.moveToWallObjectByName(that.name);
         });
 
         $('<div />').addClass('door-front').text(this.name).appendTo(this.$door);

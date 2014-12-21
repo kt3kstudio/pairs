@@ -16,7 +16,7 @@ domain.map.CharLocateService = (function () {
     var clsPt = exports.prototype;
 
     clsPt.charAppear = function () {
-        var wo = this.wall.findDoorByLevel(this.position.level);
+        var wo = this.wall.findByName(this.position.wallPosition);
         this.current = wo;
         var chr = this.chr;
 
@@ -31,16 +31,16 @@ domain.map.CharLocateService = (function () {
         });
     };
 
-    clsPt.moveToDoorByLevel = function (level) {
-        return this.moveToDoor(this.wall.findDoorByLevel(level));
+    clsPt.moveToWallObjectByName = function (name) {
+        return this.moveToWallObject(this.wall.findByName(name));
     };
 
-    clsPt.moveToDoor = function (wo) {
+    clsPt.moveToWallObject = function (wo) {
         var that = this;
 
-        var current = this.wall.findDoorByLevel(this.position.level);
+        var current = this.wall.findByName(this.position.wallPosition);
 
-        this.position.level = wo.level;
+        this.position.wallPosition = wo.name;
         this.charPosRepo.setCharPosition(this.chr.name, this.position);
 
         var goOutDur = 400;

@@ -18,7 +18,7 @@ scene.level.LevelLoader = (function () {
 
         this.getCharPosition().then(function (charPos) {
 
-            return that.getLevel(charPos.level);
+            return that.getLevel(charPos.getLevel());
 
         }).then(function (level) {
 

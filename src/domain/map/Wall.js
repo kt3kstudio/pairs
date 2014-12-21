@@ -57,7 +57,7 @@ domain.map.Wall = (function ($) {
             // load Floor data
             // load wo list
 
-            that.scrollSetToDoor(cls.position.level);
+            that.scrollSetToPosition(cls.position.wallPosition);
         });
 
         this.wos.forEach(function (wo) {
@@ -86,14 +86,14 @@ domain.map.Wall = (function ($) {
         return p;
     };
 
-    wallPt.scrollSetToDoor = function (level) {
-        var door = this.findDoorByLevel(level);
+    wallPt.scrollSetToPosition = function (position) {
+        var wo = this.findByName(position);
 
-        if (door == null) {
-            console.error('door not found (level = ' + level + ')');
+        if (wo == null) {
+            console.error('wall object not found (position = ' + position + ')');
         }
 
-        return this.scrollSet(door.centerX());
+        return this.scrollSet(wo.centerX());
     };
 
     wallPt.scrollSet = function (x) {
@@ -135,14 +135,14 @@ domain.map.Wall = (function ($) {
     };
 
     /**
-     * Find the door object on the wall
+     * Find the wall object of the given name.
      *
-     * @param {String} level The level of the door to find
+     * @param {String} name The name of the wall object
      * @returns {domain.map.Door}
      */
-    wallPt.findDoorByLevel = function (level) {
+    wallPt.findByName = function (name) {
         return this.wos.filter(function (wo) {
-            return wo.level === level;
+            return wo.name === name;
         })[0];
     };
 

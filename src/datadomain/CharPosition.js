@@ -6,18 +6,35 @@
 datadomain.CharPosition = (function () {
     'use strict';
 
-    var exports = function (level, floor) {
-        this.level = level;
+
+    /**
+     * @constructor
+     * @param
+     */
+    var exports = function (wallPosition, floor) {
+        this.wallPosition = wallPosition;
         this.floor = floor;
     };
 
     var charPosPt = exports.prototype;
 
+    /**
+     * Returns the object representation of the character's position
+     *
+     * @return {Object}
+     */
     charPosPt.toObject = function () {
         return {
-            level: this.level,
+            wallPosition: this.wallPosition,
             floor: this.floor
         };
+    };
+
+    /**
+     *
+     */
+    charPosPt.getLevel = function () {
+        return this.wallPosition;
     };
 
     return exports;
