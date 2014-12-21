@@ -96,6 +96,10 @@ domain.map.CharLocateService = (function () {
         });
     };
 
+    clsPt.setCharPosition = function (position) {
+        return this.charPosRepo.setCharPosition(this.chr.name, position);
+    };
+
     return exports;
 
 }());

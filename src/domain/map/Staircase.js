@@ -13,9 +13,13 @@ domain.map.Staircase = (function () {
     };
 
     exports.createFromObject = function (obj) {
-        return new exports(obj.name, obj.opts.to, obj.opts.type)
-            .setPos(obj.pos)
-            .setSize(obj.size);
+        return new exports(
+
+            obj.name,
+            datadomain.CharPositionFactory.createFromObject(obj.opts.to),
+            obj.opts.type
+
+        ).setPos(obj.pos).setSize(obj.size);
     };
 
     var sPt = exports.prototype = new domain.map.WallObject();
@@ -26,7 +30,17 @@ domain.map.Staircase = (function () {
         this.$dom = $('<div />').addClass('staircase staircase-' + this.type);
 
         this.$dom.on('click touchstart', function () {
-            that.cls.moveToWallObjectByName(that.name);
+
+            that.cls.moveToWallObjectByName(that.name).then(function () {
+
+                return that.cls.setCharPosition(that.to);
+
+            }).then(function () {
+
+                return window.ms.reload();
+
+            });
+
         });
 
         return this.$dom;

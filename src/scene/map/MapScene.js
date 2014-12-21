@@ -86,12 +86,13 @@ scene.map.MapScene = (function ($) {
     };
 
     /**
-     * Go to the specified floor.
+     * Reloads the map scene.
      *
-     * @param {String} floor The floor name
+     * This is typically used when the the floor is changed.
+     *
      * @return {Promise}
      */
-    msPrototype.goToFloor = function (floor) {
+    msPrototype.reload = function () {
         var that = this;
 
         return this.cls.getIntoDoor().then(function () {
