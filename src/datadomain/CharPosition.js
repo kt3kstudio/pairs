@@ -9,7 +9,8 @@ datadomain.CharPosition = (function () {
 
     /**
      * @constructor
-     * @param
+     * @param {String} wallPosition The name of the position of the wall object
+     * @param {String} floor
      */
     var exports = function (wallPosition, floor) {
         this.wallPosition = wallPosition;
