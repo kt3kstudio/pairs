@@ -70,9 +70,11 @@ domain.map.WallObject = (function ($) {
     };
 
     woPt.open = function () {
+        return Promise.resolve();
     };
 
     woPt.close = function () {
+        return Promise.resolve();
     };
 
     return exports;

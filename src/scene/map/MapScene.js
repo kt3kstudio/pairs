@@ -66,7 +66,9 @@ scene.map.MapScene = (function ($) {
 
 
     /**
-     * Move to the specified level.
+     * Go to the specified level.
+     *
+     * @param {String} level
      */
     msPrototype.goToLevel = function (level) {
         var that = this;
@@ -81,6 +83,26 @@ scene.map.MapScene = (function ($) {
 
         });
 
+    };
+
+    /**
+     * Go to the specified floor.
+     *
+     * @param {String} floor The floor name
+     * @return {Promise}
+     */
+    msPrototype.goToFloor = function (floor) {
+        var that = this;
+
+        return this.cls.getIntoDoor().then(function () {
+
+            return that.fadeOut();
+
+        }).then(function () {
+
+            location.reload();
+
+        });
     };
 
     return exports;

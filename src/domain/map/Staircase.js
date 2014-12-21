@@ -1,0 +1,37 @@
+
+
+/**
+ * Staircase class represents the staircases in the map view.
+ */
+domain.map.Staircase = (function () {
+    'use strict';
+
+    var exports = function (name, to, type) {
+        this.name = name;
+        this.to = to;
+        this.type = type;
+    };
+
+    exports.createFromObject = function (obj) {
+        return new exports(obj.name, obj.opts.to, obj.opts.type)
+            .setPos(obj.pos)
+            .setSize(obj.size);
+    };
+
+    var sPt = exports.prototype = new domain.map.WallObject();
+
+    sPt.createDom = function () {
+        var that = this;
+
+        this.$dom = $('<div />').addClass('staircase staircase-' + this.type);
+
+        this.$dom.on('click touchstart', function () {
+            that.cls.moveToWallObjectByName(that.name);
+        });
+
+        return this.$dom;
+    };
+
+    return exports;
+
+}());
