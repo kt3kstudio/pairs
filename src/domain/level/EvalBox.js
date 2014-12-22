@@ -29,7 +29,9 @@ domain.level.EvalBox = (function () {
 
             this.leftPromise = this.setToLeft(wanderer);
 
-            return Promise.resolve(result);
+            return this.leftPromise.then(function () {
+                return result;
+            });
         }
 
         var leftPromise = this.leftPromise;
