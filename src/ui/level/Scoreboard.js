@@ -5,6 +5,8 @@
 ui.level.Scoreboard = (function () {
     'use strict';
 
+    var MARGIN = 4;
+
     /**
      * @constructor
      * @param {Object} dimension The dimension of the scoreboard
@@ -17,6 +19,7 @@ ui.level.Scoreboard = (function () {
     var exports = function (dimension, score) {
         this.dim = dimension;
         this.score = score || 0;
+        this.margin = MARGIN;
     };
 
 
@@ -36,9 +39,9 @@ ui.level.Scoreboard = (function () {
      */
     sbPt.createDom = function () {
         this.$dom = $('<div />').addClass('board scoreboard').offset(this.dim)
-            .width(this.dim.width).height(this.dim.height);
-
-        this.$score = $('<div />').text(this.score).appendTo(this.$dom);
+            .width(this.dim.width - this.margin * 2)
+            .height(this.dim.height - this.margin * 2)
+            .text(this.score);
 
         return this.$dom;
     };
@@ -48,7 +51,7 @@ ui.level.Scoreboard = (function () {
      * Updates the scoreboard's number.
      */
     sbPt.update = function () {
-        this.$score.text(this.score);
+        this.$dom.text(this.score);
     };
 
     /**
