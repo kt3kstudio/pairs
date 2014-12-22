@@ -35,6 +35,9 @@ scene.level.PlayScene = (function ($) {
         this.fusionBox = new domain.level.FusionBox(fusionBoxPosition);
         this.exitQueue = new domain.level.ExitQueue(exitQueuePosition);
 
+        // ui components
+        this.scoreBoard = new ui.level.Scoreboard(pos.scoreboardDimension());
+
         // debug things
         this.pointBox = debug.PointBox; // singleton
         this.scoreBox = debug.ScoreBox;
@@ -65,6 +68,8 @@ scene.level.PlayScene = (function ($) {
                 // debug code
                 if (result.score) {
                     that.scoreBox.add(result.score);
+
+                    that.scoreBoard.addScore(result.score);
                 }
 
                 if (result.left && result.right) {
@@ -90,6 +95,7 @@ scene.level.PlayScene = (function ($) {
 
         });
 
+        this.scoreBoard.appear();
         this.menuButton.show();
 
         return that.field.appear().then(function () {

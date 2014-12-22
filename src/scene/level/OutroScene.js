@@ -16,6 +16,7 @@ scene.level.OutroScene = (function () {
         this.chr = prevScene.prevScene.chr;
         this.field = prevScene.field;
         this.menuButton = prevScene.menuButton;
+        this.scoreBoard = prevScene.scoreBoard;
 
         var panePos = this.pos.resultPanePosition();
 
@@ -33,6 +34,8 @@ scene.level.OutroScene = (function () {
             domain.level.Wanderer.disappear();
 
             that.menuButton.hide();
+
+            that.scoreBoard.disappear();
 
             return that.field.disappear();
 

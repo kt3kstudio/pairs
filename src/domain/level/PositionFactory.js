@@ -115,6 +115,20 @@ domain.level.PositionFactory = (function () {
         return pos;
     };
 
+    /**
+     * Returns the dimension for the scoreboard.
+     *
+     * @return {Dimension}
+     */
+    posPt.scoreboardDimension = function () {
+        return {
+            left: this.left,
+            top: 0,
+            width: this.bestWidth / 2,
+            height: TOP_UI_HEIGHT
+        };
+    };
+
     return exports;
 
 }());

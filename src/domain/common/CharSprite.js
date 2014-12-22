@@ -6,14 +6,12 @@
 domain.common.CharSprite = (function ($) {
     'use strict';
 
-    var DEFAULT_PARENT = 'body';
-
     var defaultSpeechTimeout = 5000;
 
     var exports = function () {
     };
 
-    var spritePt = exports.prototype;
+    var spritePt = exports.prototype = new domain.common.Sprite();
 
     /** sprite's x coordinate value */
     spritePt.x = 0;
@@ -39,46 +37,6 @@ domain.common.CharSprite = (function ($) {
     /** sprite's image when going right */
     spritePt.rightImage = '';
 
-    /** sprite's appearance animation */
-    spritePt.appearAnim = '';
-
-    /** sprite's appearance duration */
-    spritePt.appearDur = 400;
-
-    /** sprite's disappearance animation */
-    spritePt.disappearAnim = '';
-
-    /** sprite's disappearance duration */
-    spritePt.disappearDur = 400;
-
-    spritePt.setParent = function (parent) {
-        this.parent = parent;
-
-        return this;
-    };
-
-    spritePt.put = function () {
-        this.$dom = this.$dom || this.createDom().appendTo(this.parent || DEFAULT_PARENT);
-
-        return this;
-    };
-
-    spritePt.appear = function (dur) {
-        this.$dom = this.$dom || this.createDom().appendTo(this.parent || DEFAULT_PARENT);
-
-        return this.$dom.anim(this.appearAnim, dur || this.appearDur);
-    };
-
-    spritePt.disappear = function (dur) {
-        var that = this;
-
-        return this.$dom.anim(this.disappearAnim, dur || this.disappearDur).then(function ($dom) {
-
-            $dom.remove();
-            that.$dom = null;
-
-        });
-    };
 
     spritePt.createDom = function () {
         return $('<img />').addClass(this.cssClass).width(this.w).height(this.h).offset({
@@ -101,10 +59,6 @@ domain.common.CharSprite = (function ($) {
         this.$dom.attr('src', img);
     };
 
-    spritePt.setDuration = function (dur) {
-        this.$dom.css('transition-duration', dur + 'ms');
-        this.$dom.reflow();
-    };
 
     spritePt.getDirection = function (coordinate, to) {
         if (coordinate === 'x') {
@@ -139,17 +93,6 @@ domain.common.CharSprite = (function ($) {
         return wait(dur);
     };
 
-    spritePt.getOffset = function () {
-        return {
-            top: parseInt(this.$dom.css('top')),
-            left: parseInt(this.$dom.css('left'))
-        };
-    };
-
-    spritePt.setOffset = function (offset) {
-        this.$dom.css('top', offset.top + 'px');
-        this.$dom.css('left', offset.left + 'px');
-    };
 
     /**
      * Returns right limit x value.
