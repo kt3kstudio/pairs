@@ -37,7 +37,7 @@ ui.level.ResultPane = (function () {
     /**
      * Sets the number of the stars.
      *
-     * @param {Number} star
+     * @param {Number} star The number of stars
      */
     rpPt.setStar = function (star) {
         this.star = star;

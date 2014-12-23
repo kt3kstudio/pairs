@@ -2,6 +2,6 @@
     "--title": "long-dream-core (dev version) API documentation",
     "--output": "doc/dev",
     "--warnings": ["-global","+nodoc"],
-    "--external": "Promise,jQuery",
+    "--external": "Promise,jQuery,Dimension",
     "--": "src/"
 }
