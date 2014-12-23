@@ -8,11 +8,10 @@ domain.level = domain.level || {};
 domain.level.BallMoveMobLeaveService = (function () {
     'use strict';
 
-    var exports = function (ball, wanderers, box, resProcess) {
+    var exports = function (ball, wanderers, box) {
         this.ball = ball;
         this.mobs = new Mobs(wanderers);
         this.box = box;
-        this.resProcess = resProcess;
 
         this.pmds = new domain.level.PossibleMoveDetectionService(this.ball, wanderers);
     };
@@ -86,7 +85,7 @@ domain.level.BallMoveMobLeaveService = (function () {
 
         }
 
-        return this.box.take(mob).then(this.resProcess);
+        return this.box.take(mob);
 
     };
 

@@ -93,11 +93,11 @@ scene.level.PlayScene = (function ($) {
 
         };
 
-        var bms = new domain.level.BallMoveMobLeaveService(this.ball, this.map, this.evalBox, resProcessor);
+        var bms = new domain.level.BallMoveMobLeaveService(this.ball, this.map, this.evalBox);
 
         this.bindEvents(function (dir) {
 
-            return bms.ballMoveAndLeaveOne(dir);
+            return bms.ballMoveAndLeaveOne(dir).then(resProcessor);
 
         });
 
