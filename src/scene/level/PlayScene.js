@@ -59,23 +59,29 @@ scene.level.PlayScene = (function ($) {
 
         this.loadLevel();
 
-        var erp = new domain.level.EvalResultProcessor(this.trashBox, this.fusionBox, this.exitQueue);
         var resProcessor = function (result) {
-            var p = erp.process(result, function (result) {
-                console.log('eval result');
-                console.log(result);
 
-                // debug code
-                if (result.score) {
-                    that.scoreBox.add(result.score);
+            var p = Promise.resolve();
 
-                    that.scoreBoard.addScore(result.score);
-                }
+            if (result.goFusion.length > 0) {
 
-                if (result.left && result.right) {
-                    that.pointBox.countUp(result.left.gender, result.right.gender);
-                }
-            });
+                p = that.fusionBox.take(result.goFusion[0]).then(function (newCell) {
+
+                    that.exitQueue.take(newCell);
+
+                });
+            }
+
+            // debug code
+            if (result.score) {
+                that.scoreBox.add(result.score);
+
+                that.scoreBoard.addScore(result.score);
+            }
+
+            if (result.left && result.right) {
+                that.pointBox.countUp(result.left.gender, result.right.gender);
+            }
 
             if (result.isLastOne) {
                 p = p.then(function () {
