@@ -24,17 +24,36 @@ ui.level.ResultPane = (function () {
         this.height = height;
         this.parent = parent;
         this.cancelDom = cancelDom;
+        this.score = 0;
+        this.star = 0;
     };
 
     var rpPt = exports.prototype;
 
+    rpPt.setScore = function (score) {
+        this.score = score;
+    };
+
+    /**
+     * Sets the number of the stars.
+     *
+     * @param {Number} star
+     */
+    rpPt.setStar = function (star) {
+        this.star = star;
+    };
+
     rpPt.createDom = function () {
 
-        var $wrapper = $('<div />').width(this.width).height(this.height)
+        var $wrapper = $('<div />').addClass('result-pane')
+
+            .width(this.width).height(this.height)
 
             .css({left: this.position.left, top: this.position.top, position: 'absolute'});
 
-        $('<div />').text('score = []')
+        $('<div />').addClass('result-content')
+
+            .text('score = ' + this.score)
 
             .css({opacity: 0, position: 'relative'}).appendTo($wrapper);
 

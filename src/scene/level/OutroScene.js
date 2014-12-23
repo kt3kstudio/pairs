@@ -29,7 +29,9 @@ scene.level.OutroScene = (function () {
 
         var that = this;
 
-        return this.resPane.show(30000).then(function () {
+        this.resPane.setScore(this.scoreBoard.score);
+
+        return this.resPane.show(30000000).then(function () {
 
             domain.level.Wanderer.disappear();
 
