@@ -1,9 +1,9 @@
 
 
 /**
- * PlayingData model represents the current playing status of the level.
+ * PlayingState model represents the current playing status of the level.
  */
-datadomain.PlayingData = (function () {
+datadomain.PlayingState = (function () {
     'use strict';
 
 
@@ -33,7 +33,7 @@ datadomain.PlayingData = (function () {
     /**
      * Creates initial state of the playing data.
      *
-     * @return {datadomain.PlayingData}
+     * @return {datadomain.PlayingState}
      */
     exports.createInitialStateData = function () {
         return new exports(0, [], [], []);

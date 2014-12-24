@@ -1,9 +1,9 @@
 
 
 /**
- * PlayingDataRepository is the repository class for PlayingData model.
+ * PlayingStateRepository is the repository class for PlayingState model.
  */
-datadomain.PlayingDataRepository = (function () {
+datadomain.PlayingStateRepository = (function () {
     'use strict';
 
     var PLAYING_DATA_KEY = '-playing-data';
@@ -13,21 +13,21 @@ datadomain.PlayingDataRepository = (function () {
 
     var pdrPt = exports.prototype;
 
-    pdrPt.getPlayingData = function (name) {
+    pdrPt.getPlayingState = function (name) {
 
         return infrastructure.storage.get(name + PLAYING_DATA_KEY, null).then(function (data) {
 
-            return data && new datadomain.PlayingData.createFromObject(data);
+            return data && new datadomain.PlayingState.createFromObject(data);
 
         });
 
     };
 
-    pdrPt.savePlayingData = function (name, playData) {
+    pdrPt.savePlayingState = function (name, playState) {
         infrastructure.storage.set(name + PLAYING_DATA_KEY, playData.toObject());
     };
 
-    pdrPt.clearPlayingData = function (name) {
+    pdrPt.clearPlayingState = function (name) {
         infrastructure.storage.set(name + PLAYING_DATA_KEY, null);
     };
 
