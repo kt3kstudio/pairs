@@ -63,9 +63,9 @@ scene.level.PlayScene = (function ($) {
 
             var p = Promise.resolve();
 
-            if (result.goFusion.length > 0) {
+            if (result.fusionPair) {
 
-                p = that.fusionBox.take(result.goFusion[0]).then(function (newCell) {
+                p = that.fusionBox.take(result.fusionPair).then(function (newCell) {
 
                     that.exitQueue.take(newCell);
 

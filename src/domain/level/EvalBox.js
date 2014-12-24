@@ -21,16 +21,15 @@ domain.level.EvalBox = (function () {
 
         var result = {};
         result.isLastOne = wanderer.isLastOne;
-        result.goTrash = [];
-        result.goFusion = [];
-        result.goQueue = [];
 
         if (this.leftPromise == null) {
 
             this.leftPromise = this.setToLeft(wanderer);
 
             return this.leftPromise.then(function () {
+
                 return result;
+
             });
         }
 
@@ -59,7 +58,7 @@ domain.level.EvalBox = (function () {
         var newGene = pair.newGene();
 
         result.score = Math.pow(newGene.length, 2) * 10;
-        result.goFusion.push(new domain.level.FusionPair(left, right));
+        result.fusionPair = new domain.level.FusionPair(left, right);
 
         return result;
 
