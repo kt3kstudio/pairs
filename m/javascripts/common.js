@@ -1,4 +1,6 @@
 //= require jquery
+//= require rxjs/dist/rx.lite.js
+
 //= require util.js
 //= require namespaces.js
 //= require infrastructure.js
