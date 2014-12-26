@@ -1,4 +1,5 @@
 
+'use strict';
 
 describe('wait', function () {
 
@@ -16,6 +17,35 @@ describe('wait', function () {
         });
 
     });
+});
+
+
+
+describe('$', function () {
+
+
+    describe('streamOf', function () {
+
+        it('returns the stream of the events', function (done) {
+
+            var $dom = $(document.body);
+
+            var stream = $dom.streamOf('an-event');
+
+            expect(stream).to.be.instanceof(Rx.Observable);
+
+            stream.forEach(function () {
+
+                done();
+
+            });
+
+            $dom.trigger('an-event');
+
+        });
+
+    });
+
 });
 
 

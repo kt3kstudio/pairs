@@ -80,6 +80,16 @@ global.unitDur = 300;
         });
     };
 
+    /**
+     * Returns Observable of an event stream.
+     *
+     * @param {String} events The list of event names
+     * @return {Rx.Observable}
+     */
+    $.fn.streamOf = function (events) {
+        return Rx.Observable.fromEvent(this, events);
+    };
+
 }(window.jQuery));
 
 /**
