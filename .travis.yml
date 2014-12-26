@@ -5,7 +5,7 @@ branches:
     - gh-pages
 
 before_install:
-  - npm install -g jshint bower
+  - npm install -g jshint bower karma-cli
   - bower install
   - bundle install
 
