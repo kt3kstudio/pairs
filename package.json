@@ -11,7 +11,8 @@
     "lint": "jshint src spec",
     "build": "bundle exec middleman build",
     "test": "karma start karma.js",
-    "ci": "karma start karma.js --browsers PhantomJS"
+    "ci": "karma start karma.js --browsers PhantomJS",
+    "coverage": "karma start karma.js --reporters coverage"
   },
   "author": "Yoshiya Hinosawa <stibium121@gmail.com> (https://twitter.com/kt3k)",
   "license": "MIT",
@@ -20,6 +21,7 @@
     "karma": "^0.12.28",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^0.1.7",
+    "karma-coverage": "^0.2.7",
     "karma-firefox-launcher": "^0.1.3",
     "karma-mocha": "^0.1.10",
     "karma-phantomjs-launcher": "^0.1.4",
