@@ -35,6 +35,9 @@
 
         "$": false,
         "Rx": false,
+        "expect": false,
+        "describe": false,
+        "it": false,
 
         /* utilities */
         "wait": false,
