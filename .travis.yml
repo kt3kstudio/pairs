@@ -12,3 +12,6 @@ before_install:
 script:
 - npm run lint
 - npm run ci
+
+after_success:
+- npm run coveralls
