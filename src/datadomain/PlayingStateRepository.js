@@ -24,7 +24,7 @@ datadomain.PlayingStateRepository = (function () {
     };
 
     pdrPt.savePlayingState = function (name, playState) {
-        infrastructure.storage.set(name + PLAYING_DATA_KEY, playData.toObject());
+        infrastructure.storage.set(name + PLAYING_DATA_KEY, playState.toObject());
     };
 
     pdrPt.clearPlayingState = function (name) {
