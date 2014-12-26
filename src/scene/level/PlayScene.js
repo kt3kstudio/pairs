@@ -2,7 +2,8 @@
 /**
  * @class
  * @extends scene.common.Scene
- * PhaseController controlls phase of processes of things in the level page.
+ *
+ * PlayScene controlls the main playing scene of the level page.
  */
 scene.level.PlayScene = (function ($) {
     'use strict';
@@ -93,13 +94,25 @@ scene.level.PlayScene = (function ($) {
 
         };
 
-        var bms = new domain.level.BallMoveMobLeaveService(this.ball, this.map, this.evalBox);
+        var bms = new domain.level.BallMoveMobLeaveService(this.ball, this.map);
 
-        this.bindEvents(function (dir) {
 
-            return bms.ballMoveAndLeaveOne(dir).then(resProcessor);
+        this.streamOfSwipes().pipe(function (dir) {
 
-        });
+            return bms.ballMoveAndLeaveOne(dir);
+
+        }).pipe(function (cell) {
+
+            console.log(cell);
+
+            return that.evalBox.take(cell);
+
+        }).pipe(function (evalResult) {
+
+            return resProcessor(evalResult);
+
+        }).forEach(function () {});
+
 
         this.scoreBoard.appear();
         this.menuButton.show();
@@ -116,22 +129,24 @@ scene.level.PlayScene = (function ($) {
 
     };
 
-    psPrototype.bindEvents = function (onSwipe) {
+    psPrototype.streamOfSwipes = function () {
 
-        this.swipe$dom = $('.wrapper')
-            .swipeCross()
-            .on('swipeup', function () { onSwipe('up') ;})
-            .on('swipedown', function () { onSwipe('down'); })
-            .on('swipeleft', function () { onSwipe('left'); })
-            .on('swiperight', function () { onSwipe('right'); })
-            .on('swipecancel', function () { });
+        var $swipeTarget = this.swipe$dom = $('.wrapper').swipeCross();
 
-        $(document)
-            .arrowkeys()
-            .on('upkey', function () { onSwipe('up'); })
-            .on('downkey', function () { onSwipe('down'); })
-            .on('leftkey', function () { onSwipe('left'); })
-            .on('rightkey', function () { onSwipe('right'); });
+        var swipeup = $swipeTarget.streamOf('swipeup').map('up');
+        var swipedown = $swipeTarget.streamOf('swipedown').map('down');
+        var swipeleft = $swipeTarget.streamOf('swipeleft').map('left');
+        var swiperight = $swipeTarget.streamOf('swiperight').map('right');
+
+        var $document = $(document).arrowkeys();
+
+        var upkey = Rx.Observable.fromEvent($document, 'upkey').map('up');
+        var downkey = Rx.Observable.fromEvent($document, 'downkey').map('down');
+        var leftkey = Rx.Observable.fromEvent($document, 'leftkey').map('left');
+        var rightkey = Rx.Observable.fromEvent($document, 'rightkey').map('right');
+
+        return Rx.Observable.merge(swipeup, swipedown, swipeleft, swiperight,
+            upkey, downkey, leftkey, rightkey);
 
     };
 

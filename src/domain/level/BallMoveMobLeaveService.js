@@ -8,10 +8,9 @@ domain.level = domain.level || {};
 domain.level.BallMoveMobLeaveService = (function () {
     'use strict';
 
-    var exports = function (ball, wanderers, box) {
+    var exports = function (ball, wanderers) {
         this.ball = ball;
         this.mobs = new Mobs(wanderers);
-        this.box = box;
 
         this.pmds = new domain.level.PossibleMoveDetectionService(this.ball, wanderers);
     };
@@ -45,11 +44,15 @@ domain.level.BallMoveMobLeaveService = (function () {
     };
 
     /**
-     * Make a mob leave the field.
+     * Make the mob at the ball leave the field.
      */
-    bmsPrototype.leaveOne = function () {
+    bmsPrototype.leaveLastOneAtBall = function () {
 
-        return this.leaveAtPos(this.ball.pos());
+        var mob = this.mobs.leave(this.ball.pos());
+
+        mob.isLastOne = true;
+
+        return mob;
 
     };
 
@@ -62,30 +65,32 @@ domain.level.BallMoveMobLeaveService = (function () {
 
         var mob = this.mobs.leave(pos);
 
-        if (!this.pmds.possible()) {
 
-            console.log('no more move!');
+        if (this.pmds.possible()) {
 
-            if (this.pmds.cellRemainsAtBall()) {
-
-                console.log('last one cell');
-
-                wait(600).then(function () {
-
-                    return that.leaveOne();
-
-                });
-
-            } else {
-
-                console.log('no cell left');
-
-                mob.isLastOne = true;
-            }
+            return mob;
 
         }
 
-        return this.box.take(mob);
+        console.log('no more move!');
+
+        if (this.pmds.cellRemainsAtBall()) {
+
+            console.log('cell remains at ball');
+
+            return [mob, wait(600).then(function () {
+
+                return that.leaveLastOneAtBall();
+
+            })].toFlatStream();
+
+        }
+
+        console.log('no cell left');
+
+        mob.isLastOne = true;
+
+        return mob;
 
     };
 
