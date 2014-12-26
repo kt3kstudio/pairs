@@ -8,3 +8,7 @@ before_install:
   - npm install -g jshint bower
   - bower install
   - bundle install
+
+script:
+- npm run lint
+- npm test

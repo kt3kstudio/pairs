@@ -8,7 +8,9 @@
     "doc": "doc"
   },
   "scripts": {
-    "test": "jshint src && bundle exec middleman build"
+    "lint": "jshint src spec",
+    "build": "bundle exec middleman build",
+    "test": "karma start karma.js"
   },
   "author": "Yoshiya Hinosawa <stibium121@gmail.com> (https://twitter.com/kt3k)",
   "license": "MIT",
