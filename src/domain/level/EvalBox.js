@@ -19,16 +19,13 @@ domain.level.EvalBox = (function () {
 
     boxPrototype.take = function (wanderer) {
 
-        var result = {};
-        result.isLastOne = wanderer.isLastOne;
-
         if (this.leftPromise == null) {
 
             this.leftPromise = this.setToLeft(wanderer);
 
             return this.leftPromise.then(function () {
 
-                return result;
+                return null;
 
             });
         }
@@ -36,31 +33,20 @@ domain.level.EvalBox = (function () {
         var leftPromise = this.leftPromise;
         delete this.leftPromise;
 
-        return this.setToRight(wanderer).then(function (right) {
+        return Promise.all([this.setToRight(wanderer), leftPromise]).then(function (res) {
 
-            return leftPromise.then(function (left) {
+            var right = res[0];
+            var left = res[1];
 
-                return evaluate(left, right, result);
-
-            });
+            return evaluate(left, right);
 
         });
 
     };
 
-    var evaluate = function (left, right, result) {
+    var evaluate = function (left, right) {
 
-        result.left = left;
-        result.right = right;
-
-        var pair = new domain.level.FusionPair(left, right);
-
-        var newGene = pair.newGene();
-
-        result.score = Math.pow(newGene.length, 2) * 10;
-        result.fusionPair = new domain.level.FusionPair(left, right);
-
-        return result;
+        return new domain.level.FusionPair(left, right);
 
     };
 

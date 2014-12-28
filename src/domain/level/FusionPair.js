@@ -24,6 +24,16 @@ domain.level.FusionPair = (function () {
         return geneFusion(this.left.gene, this.right.gene);
     };
 
+
+    /**
+     *
+     */
+    fpPt.score = function () {
+        var length = this.newGene().length;
+
+        return Math.pow(length, 2) * 10;
+    };
+
     /**
      * Creates a new gene from a pair of genes
      *

@@ -60,42 +60,7 @@ scene.level.PlayScene = (function ($) {
 
         this.loadLevel();
 
-        var resProcessor = function (result) {
-
-            var p = Promise.resolve();
-
-            if (result.fusionPair) {
-
-                p = that.fusionBox.take(result.fusionPair).then(function (newCell) {
-
-                    that.exitQueue.take(newCell);
-
-                });
-            }
-
-            // debug code
-            if (result.score) {
-                that.scoreBox.add(result.score);
-
-                that.scoreBoard.addScore(result.score);
-            }
-
-            if (result.left && result.right) {
-                that.pointBox.countUp(result.left.gender, result.right.gender);
-            }
-
-            if (result.isLastOne) {
-                p = p.then(function () {
-                    that.finish();
-                });
-            }
-
-            return p;
-
-        };
-
         var bms = new domain.level.BallMoveMobLeaveService(this.ball, this.map);
-
 
         this.streamOfSwipes().pipe(function (dir) {
 
@@ -107,9 +72,23 @@ scene.level.PlayScene = (function ($) {
 
             return that.evalBox.take(cell);
 
-        }).pipe(function (evalResult) {
+        }).filter(function (fusionPair) {
 
-            return resProcessor(evalResult);
+            console.log(fusionPair);
+
+            return fusionPair != null;
+
+        }).pipe(function (fusionPair) {
+
+            that.scoreBoard.addScore(fusionPair.score());
+
+            that.pointBox.countUp(fusionPair.left.gender, fusionPair.right.gender);
+
+            return that.fusionBox.take(fusionPair);
+
+        }).pipe(function (newCell) {
+
+            that.exitQueue.take(newCell);
 
         }).forEach(function () {});
 
