@@ -8,6 +8,7 @@
 scene.level.PlayScene = (function ($) {
     'use strict';
 
+
     var exports = function (prevScene) {
 
         this.prevScene = prevScene;
@@ -28,6 +29,7 @@ scene.level.PlayScene = (function ($) {
 
         // models
         this.map = new domain.level.Map(mapPosition);
+        this.map.loadFromBomList(this.level.cells);
         this.field = new domain.level.Field(mapPosition);
 
         // boxes
@@ -35,6 +37,9 @@ scene.level.PlayScene = (function ($) {
         this.trashBox = new domain.level.TrashBox(trashBoxPosition);
         this.fusionBox = new domain.level.FusionBox(fusionBoxPosition);
         this.exitQueue = new domain.level.ExitQueue(exitQueuePosition);
+
+        // services
+        this.bms = new domain.level.BallMoveMobLeaveService(this.ball, this.map);
 
         // ui components
         this.scoreBoard = new ui.level.Scoreboard(pos.scoreboardDimension());
@@ -45,52 +50,57 @@ scene.level.PlayScene = (function ($) {
 
         // ui parts
         this.menuButton = $('.menu-button').menuButton($('#level-menu'));
+
     };
+
 
     var psPrototype = exports.prototype = new scene.common.Scene();
 
-    psPrototype.loadLevel = function () {
-        this.map.loadFromBomList(this.level.cells);
-
-        return this;
-    };
 
     psPrototype.start = function () {
+
         var that = this;
 
-        this.loadLevel();
 
-        var bms = new domain.level.BallMoveMobLeaveService(this.ball, this.map);
+        this.subscription = this.streamOfSwipes().pipe(function (dir) {
 
-        this.streamOfSwipes().pipe(function (dir) {
-
-            return bms.ballMoveAndLeaveOne(dir);
+            return that.bms.ballMoveAndLeaveOne(dir);
 
         }).pipe(function (cell) {
 
-            console.log(cell);
-
             return that.evalBox.take(cell);
 
-        }).filter(function (fusionPair) {
+        }).filter(function (pairs) {
 
-            console.log(fusionPair);
+            return pairs != null;
 
-            return fusionPair != null;
+        }).pipe(function (pairs) {
 
-        }).pipe(function (fusionPair) {
+            console.log(pairs);
+
+            var fusionPair = new domain.level.FusionPair(pairs[0], pairs[1]);
 
             that.scoreBoard.addScore(fusionPair.score());
 
-            that.pointBox.countUp(fusionPair.left.gender, fusionPair.right.gender);
+            that.pointBox.countUp(fusionPair.leftGene(), fusionPair.rightGene());
 
             return that.fusionBox.take(fusionPair);
 
         }).pipe(function (newCell) {
 
-            that.exitQueue.take(newCell);
+            return that.exitQueue.take(newCell);
 
-        }).forEach(function () {});
+        }).filter(function (cell) {
+
+            return cell.isLastOne;
+
+        }).forEach(function () {
+
+            that.unbindEvents();
+            that.subscription.dispose();
+            that.finish();
+
+        });
 
 
         this.scoreBoard.appear();
@@ -119,10 +129,10 @@ scene.level.PlayScene = (function ($) {
 
         var $document = $(document).arrowkeys();
 
-        var upkey = Rx.Observable.fromEvent($document, 'upkey').map('up');
-        var downkey = Rx.Observable.fromEvent($document, 'downkey').map('down');
-        var leftkey = Rx.Observable.fromEvent($document, 'leftkey').map('left');
-        var rightkey = Rx.Observable.fromEvent($document, 'rightkey').map('right');
+        var upkey = $document.streamOf('upkey').map('up');
+        var downkey = $document.streamOf('downkey').map('down');
+        var leftkey = $document.streamOf('leftkey').map('left');
+        var rightkey = $document.streamOf('rightkey').map('right');
 
         return Rx.Observable.merge(swipeup, swipedown, swipeleft, swiperight,
             upkey, downkey, leftkey, rightkey);
@@ -131,20 +141,9 @@ scene.level.PlayScene = (function ($) {
 
     psPrototype.unbindEvents = function () {
 
-        this.swipe$dom
-            .swipeCrossUnbind()
-            .off('swipeup')
-            .off('swipedown')
-            .off('swipeleft')
-            .off('swiperight')
-            .off('swipecancel');
+        this.swipe$dom.swipeCrossUnbind();
 
-        $(document)
-            .arrowkeysUnbind()
-            .off('upkey')
-            .off('downkey')
-            .off('leftkey')
-            .off('rightkey');
+        $(document).arrowkeysUnbind();
     };
 
     return exports;

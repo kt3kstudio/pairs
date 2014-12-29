@@ -26,13 +26,22 @@ domain.level.FusionBox = (function () {
     fusionPt.getToReactor = function (pair) {
         var dur = 1000;
 
-        pair.left.$dom.animation('get-to-reactor-left ' + dur + 'ms');
-        pair.right.$dom.animation('get-to-reactor-right ' + dur + 'ms');
+        if (pair.right) {
 
-        return wait(dur).then(function () {
+            pair.right.$dom.anim('get-to-reactor-right', dur).then(function () {
+
+                return pair.right.remove();
+
+            });
+
+        }
+
+        return pair.left.$dom.anim('get-to-reactor-left', dur).then(function () {
+
             pair.left.remove();
-            pair.right.remove();
+
         });
+
     };
 
     fusionPt.fusion = function (pair) {
@@ -43,6 +52,8 @@ domain.level.FusionBox = (function () {
         bom.locate();
 
         bom.$dom.prependTo('#main');
+
+        bom.isLastOne = pair.isLastOne();
 
         return bom.$dom.anim('bom-born', dur).then(function () {
 

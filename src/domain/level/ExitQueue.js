@@ -1,4 +1,6 @@
 /**
+ * @class
+ *
  * ExitQueue class represents the exit queue at the level view.
  */
 domain.level.ExitQueue= (function () {
@@ -27,6 +29,7 @@ domain.level.ExitQueue= (function () {
             return cell.locate();
 
         });
+
     };
 
     eqPrototype.goForward = function () {

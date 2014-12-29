@@ -1,6 +1,3 @@
-// The box above the grid
-window.domain = window.domain || {};
-domain.level = domain.level || {};
 /**
  * @class
  * EvalBox reporesents the next place to the field which boms get into after being indicated by the ball.
@@ -11,92 +8,73 @@ domain.level = domain.level || {};
 domain.level.EvalBox = (function () {
     'use strict';
 
-    var exports = function (metrics) {
-        this.metrics = metrics;
+    var exports = function (dimension) {
+        this.dimension = dimension;
+        this.leftPromise = [];
     };
 
     var boxPrototype = exports.prototype;
 
-    boxPrototype.take = function (wanderer) {
 
-        if (this.leftPromise == null) {
+    boxPrototype.takeDur = 700;
 
-            this.leftPromise = this.setToLeft(wanderer);
 
-            return this.leftPromise.then(function () {
+    /**
+     * Takes cell into the fusion preparing position
+     *
+     * @param {domain.level.Wanderer} cell
+     * @return {Promise<Array<domain.level.Wanderer>>}
+     */
+    boxPrototype.take = function (cell) {
 
-                return null;
+        if (this.leftPromise.length) {
 
-            });
+            return Promise.all([this.leftPromise.pop(), this.setToRight(cell)]);
+
         }
 
-        var leftPromise = this.leftPromise;
-        delete this.leftPromise;
+        this.leftPromise.push(this.setToLeft(cell));
 
-        return Promise.all([this.setToRight(wanderer), leftPromise]).then(function (res) {
+        return !cell.isLastOne ? null : Promise.all([this.leftPromise.pop()]);
 
-            var right = res[0];
-            var left = res[1];
+    };
 
-            return evaluate(left, right);
+
+    boxPrototype.involve = function (cell) {
+
+        cell.setMetrics(this.dimension.left, this.dimension.top, this.dimension.unit);
+
+    };
+
+
+    boxPrototype.set = function (cell, x) {
+
+        this.involve(cell);
+
+        cell.x = x;
+        cell.y = 0;
+
+        return cell.setTransitionDuration(this.takeDur).then(function () {
+
+            return cell.locate();
 
         });
 
     };
 
-    var evaluate = function (left, right) {
 
-        return new domain.level.FusionPair(left, right);
+    boxPrototype.setToLeft = function (cell) {
 
-    };
-
-    boxPrototype.involve = function (wanderer) {
-        wanderer.setMetrics(this.metrics.left, this.metrics.top, this.metrics.unit);
-    };
-
-    boxPrototype.setToLeft = function (wanderer) {
-
-        var dur = 700;
-
-        this.involve(wanderer);
-
-        wanderer.x = 0;
-        wanderer.y = 0;
-
-        return wanderer.setTransitionDuration(dur).then(function () {
-
-            return wanderer.locate();
-
-        });
+        return this.set(cell, 0);
 
     };
 
-    boxPrototype.setToRight = function (wanderer) {
+    boxPrototype.setToRight = function (cell) {
 
-        var dur = 700;
-
-        this.involve(wanderer);
-
-        wanderer.x = 1;
-        wanderer.y = 0;
-
-        return wanderer.setTransitionDuration(dur).then(function () {
-
-            return wanderer.locate();
-
-        });
+        return this.set(cell, 1);
 
     };
 
-    boxPrototype.reset = function () {
-
-        if (this.left != null) { this.left.remove(); }
-        if (this.right != null) { this.right.remove(); }
-
-        this.left = null;
-        this.right = null;
-
-    };
 
     return exports;
 

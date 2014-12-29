@@ -1,6 +1,7 @@
 
 /**
  * @class
+ *
  * FusionPair represents the pair of cells which perform the fusion of them.
  */
 domain.level.FusionPair = (function () {
@@ -10,6 +11,20 @@ domain.level.FusionPair = (function () {
         this.left = left;
         this.right = right;
     };
+
+
+    var getGene = function (cell) {
+
+        return cell ? cell.gene : '';
+
+    };
+
+    var isLastOne = function (cell) {
+
+        return cell ? cell.isLastOne : false;
+
+    };
+
 
     var fpPt = exports.prototype;
 
@@ -21,7 +36,30 @@ domain.level.FusionPair = (function () {
      * @returns {String} The new gene
      */
     fpPt.newGene = function () {
-        return geneFusion(this.left.gene, this.right.gene);
+
+        return geneFusion(this.leftGene(), this.rightGene());
+
+    };
+
+
+    fpPt.isLastOne = function () {
+
+        return isLastOne(this.left) || isLastOne(this.right);
+
+    };
+
+
+    fpPt.leftGene = function () {
+
+        return getGene(this.left);
+
+    };
+
+
+    fpPt.rightGene = function () {
+
+        return getGene(this.right);
+
     };
 
 
@@ -29,9 +67,11 @@ domain.level.FusionPair = (function () {
      *
      */
     fpPt.score = function () {
+
         var length = this.newGene().length;
 
         return Math.pow(length, 2) * 10;
+
     };
 
     /**
@@ -42,7 +82,9 @@ domain.level.FusionPair = (function () {
      * @returns {String} The new gene
      */
     var geneFusion = function (x, y) {
+
         return (x + y).replace(/(\w)(\1)/g, '$1');
+
     };
 
     return exports;
