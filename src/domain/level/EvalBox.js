@@ -16,6 +16,9 @@ domain.level.EvalBox = (function () {
     var boxPrototype = exports.prototype;
 
 
+    /**
+     * The duration of going to fusion preparation position.
+     */
     boxPrototype.takeDur = 700;
 
 
@@ -33,9 +36,15 @@ domain.level.EvalBox = (function () {
 
         }
 
+        if (cell.isLastOne) {
+
+            return Promise.all([this.setToLeft(cell)]);
+
+        }
+
         this.leftPromise.push(this.setToLeft(cell));
 
-        return !cell.isLastOne ? null : Promise.all([this.leftPromise.pop()]);
+        return null;
 
     };
 
