@@ -23,7 +23,6 @@ scene.level.PlayScene = (function ($) {
         // prepare metrics
         var mapPosition = pos.fieldPosition();
         var evalBoxPosition = pos.evalRoomPosition();
-        var trashBoxPosition = pos.leftDoorPosition();
         var exitQueuePosition = pos.queuePosition();
         var fusionBoxPosition = pos.fusionBoxPosition();
 
