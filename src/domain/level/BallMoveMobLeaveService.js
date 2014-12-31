@@ -31,7 +31,7 @@ domain.level.BallMoveMobLeaveService = (function () {
 
             this.ball.refuseToMove(dir);
 
-            return Promise.reject();
+            return null;
         }
 
         this.ball.move(dir);

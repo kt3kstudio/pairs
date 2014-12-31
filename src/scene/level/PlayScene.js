@@ -64,15 +64,11 @@ scene.level.PlayScene = (function ($) {
 
             return that.bms.ballMoveAndLeaveOne(dir);
 
-        }).pipe(function (cell) {
+        }).filterNull().pipe(function (cell) {
 
             return that.fps.take(cell);
 
-        }).filter(function (pairs) {
-
-            return pairs != null;
-
-        }).map(function (pairs) {
+        }).filterNull().map(function (pairs) {
 
             return new domain.level.FusionPair(pairs[0], pairs[1]);
 
@@ -98,6 +94,8 @@ scene.level.PlayScene = (function ($) {
             that.subscription.dispose();
             that.finish();
 
+        }, function (e) {
+            console.log (e);
         });
 
 

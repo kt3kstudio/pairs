@@ -153,6 +153,22 @@ global.unitDur = 300;
 
 
     /**
+     * Filters null equivalent element.
+     *
+     * @return {Rx.Observable}
+     */
+    Rx.Observable.prototype.filterNull = function () {
+
+        return this.filter(function (x) {
+
+            return x != null;
+
+        });
+
+    };
+
+
+    /**
      * Array.
      *
      * @class Array
