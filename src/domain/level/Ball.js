@@ -79,9 +79,13 @@ domain.level.Ball = (function () {
 
     ballPt.refuseToMove = function (dir) {
         if (dir === 'up' || dir === 'down') {
-            return this.$dom.anim('ball-refuse-y', window.unitDur);
+
+            return this.$dom.anim('ball-refuse-y', this.locateDur);
+
         } else {
-            return this.$dom.anim('ball-refuse-x', window.unitDur);
+
+            return this.$dom.anim('ball-refuse-x', this.locateDur);
+
         }
     };
 

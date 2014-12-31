@@ -14,7 +14,7 @@ domain.level.Wanderer = (function () {
         this.gutter = Math.floor(unit / 4);
 
         this.setGene(gene);
-        this.setTransitionDuration(window.unitDur);
+        this.setTransitionDuration(300);
         this.setMetrics(left, top, unit);
 
         exports.allList.push(this);
@@ -41,7 +41,7 @@ domain.level.Wanderer = (function () {
     var wPrototype = exports.prototype;
 
     wPrototype.setTransitionDuration = function (dur) {
-        this.transDur = dur;
+        this.locateDur = dur;
 
         this.$dom.css('transition-duration', dur + 'ms');
 
@@ -129,7 +129,7 @@ domain.level.Wanderer = (function () {
         this.$dom.css('top', this.offsetY + this.unit * this.y + this.gutter + 'px');
         this.$dom.css('left', this.offsetX + this.unit * this.x + this.gutter + 'px');
 
-        return wait(this.transDur, this);
+        return wait(this.locateDur, this);
     };
 
     wPrototype.remove = function () {

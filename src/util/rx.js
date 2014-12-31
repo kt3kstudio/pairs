@@ -1,0 +1,93 @@
+/**
+ * RxJS
+ *
+ * @class Rx
+ * @singleton
+ */
+(function (Rx) {
+    'use strict';
+
+    /**
+     * Rx.helpers
+     *
+     * @class Rx.helpers
+     * @singleton
+     */
+
+    /**
+     * Checks if it's flatMappable or not.
+     *
+     * @param {Object} x Testing object
+     * @return {Boolean}
+     */
+    Rx.helpers.isObservableLike = function (x) {
+        return x instanceof Rx.Observable || Rx.helpers.isPromise(x);
+    };
+
+    var wrapUnobservable = function (x) {
+        return Rx.helpers.isObservableLike(x) ? x : [x];
+    };
+
+    /**
+     * Rx.Observable
+     * @class Rx.Observable
+     */
+
+    /**
+     * Maps it and flatMap it only when it's possible.
+     *
+     * @param {Function} f Mapping function
+     * @return {Rx.Observable}
+     */
+    Rx.Observable.prototype.pipe = function (f) {
+
+        return  this.map(f).flattenObservable();
+
+    };
+
+
+    /**
+     * Flattens it.
+     *
+     * @return {Rx.Observable}
+     */
+    Rx.Observable.prototype.flattenObservable = function () {
+
+        return this.map(wrapUnobservable).flatMap(function (x) { return x; });
+
+    };
+
+
+    /**
+     * Filters null equivalent element.
+     *
+     * @return {Rx.Observable}
+     */
+    Rx.Observable.prototype.filterNull = function () {
+
+        return this.filter(function (x) {
+
+            return x != null;
+
+        });
+
+    };
+
+
+    /**
+     * Array.
+     *
+     * @class Array
+     */
+    /**
+     * Makes into flattenned stream.
+     *
+     * @return {Rx.Observable}
+     */
+    Array.prototype.toFlatStream = function () {
+
+        return Rx.Observable.of.apply(null, this).flattenObservable();
+
+    };
+
+}(Rx));
