@@ -33,8 +33,7 @@ scene.level.PlayScene = (function ($) {
         this.field = new domain.level.Field(mapPosition);
 
         // boxes
-        this.evalBox = new domain.level.EvalBox(evalBoxPosition);
-        this.trashBox = new domain.level.TrashBox(trashBoxPosition);
+        this.fps = new domain.level.FusionPreparationService(evalBoxPosition);
         this.fusionBox = new domain.level.FusionBox(fusionBoxPosition);
         this.exitQueue = new domain.level.ExitQueue(exitQueuePosition);
 
@@ -68,17 +67,17 @@ scene.level.PlayScene = (function ($) {
 
         }).pipe(function (cell) {
 
-            return that.evalBox.take(cell);
+            return that.fps.take(cell);
 
         }).filter(function (pairs) {
 
             return pairs != null;
 
-        }).pipe(function (pairs) {
+        }).map(function (pairs) {
 
-            console.log(pairs);
+            return new domain.level.FusionPair(pairs[0], pairs[1]);
 
-            var fusionPair = new domain.level.FusionPair(pairs[0], pairs[1]);
+        }).pipe(function (fusionPair) {
 
             that.scoreBoard.addScore(fusionPair.score());
 
