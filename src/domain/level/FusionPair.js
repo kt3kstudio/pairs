@@ -64,7 +64,9 @@ domain.level.FusionPair = (function () {
 
 
     /**
+     * Calculates the score of the pair.
      *
+     * @return {Number} The score
      */
     fpPt.score = function () {
 
