@@ -1,7 +1,9 @@
 
 /**
- * @class
  * CharSprite class handles the character sprite.
+ *
+ * @class
+ * @extends domain.common.Sprite
  */
 domain.common.CharSprite = (function ($) {
     'use strict';
