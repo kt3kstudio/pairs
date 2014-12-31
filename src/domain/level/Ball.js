@@ -1,51 +1,56 @@
-// The ball you move, or swipe
-window.domain = window.domain || {};
-domain.level = domain.level || {};
 /**
  * @class
  * Ball class represents the ball inside the field of the level.
  */
-domain.level.Ball = (function ($) {
+domain.level.Ball = (function () {
     'use strict';
 
-    var exports = function (metrics) {
-        this.transDur = window.unitDur;
-        this.x = 1;
-        this.y = 1;
-        this.MAX = 3;
-        this.$dom = $('.circle')
-            .css({width: metrics.unit + 'px', height: metrics.unit + 'px'});
+    var TRANS_DUR = 300;
 
-        this.metrics = metrics;
+    var MAX = 3;
+
+    var exports = function (dimension, pos, parent) {
+        this.x = pos.x;
+        this.y = pos.y;
+
+        this.dimension = dimension;
+
+        this.setParent(parent);
+    };
+
+    var ballPt = exports.prototype = new domain.common.Sprite();
+
+    ballPt.maxX = MAX;
+    ballPt.maxY = MAX;
+
+    ballPt.createDom = function () {
+        this.$dom = $($('#tpl-ball').text()).css({
+            width: this.dimension.unit + 'px',
+            height: this.dimension.unit + 'px'
+        });
 
         this.locate();
+
+        return this.$dom;
     };
 
-    var ballPrototype = exports.prototype;
+    ballPt.appearAnim = 'ball-appear';
+    ballPt.appearDur = TRANS_DUR;
 
-    ballPrototype.appear = function () {
+    ballPt.disappearAnim = 'ball-disappear';
+    ballPt.disappearDur = TRANS_DUR;
 
-        this.$dom.css('visibility', 'visible');
+    ballPt.locateDur = TRANS_DUR;
 
-        return this.$dom.anim('ball-appear', this.transDur);
-    };
-
-    ballPrototype.disappear = function () {
-
-        this.$dom.css('visibility', 'hidden');
-
-        return this.$dom.anim('ball-disappear', 400);
-    };
-
-    ballPrototype.move = function (dir) {
+    ballPt.move = function (dir) {
         return this.setPos(this.posAhead(dir));
     };
 
-    ballPrototype.pos = function () {
+    ballPt.pos = function () {
         return {x: this.x, y: this.y};
     };
 
-    ballPrototype.posAhead = function (dir) {
+    ballPt.posAhead = function (dir) {
         switch (dir) {
             case 'up': return this.relativePos(0, -1);
             case 'down': return this.relativePos(0, 1);
@@ -54,25 +59,25 @@ domain.level.Ball = (function ($) {
         }
     };
 
-    ballPrototype.relativePos = function (x, y) {
-        return {x: (this.x + x + this.MAX) % this.MAX, y: (this. y + y + this.MAX) % this.MAX};
+    ballPt.relativePos = function (x, y) {
+        return {x: (this.x + x + this.maxX) % this.maxX, y: (this. y + y + this.maxY) % this.maxY};
     };
 
-    ballPrototype.setPos = function (pos) {
+    ballPt.setPos = function (pos) {
         this.x = pos.x;
         this.y = pos.y;
 
         return this.locate();
     };
 
-    ballPrototype.locate = function () {
-        this.$dom.css('top', this.metrics.top + this.y * this.metrics.unit + 'px');
-        this.$dom.css('left', this.metrics.left + this.x * this.metrics.unit + 'px');
+    ballPt.locate = function () {
+        this.$dom.css('top', this.dimension.top + this.y * this.dimension.unit + 'px');
+        this.$dom.css('left', this.dimension.left + this.x * this.dimension.unit + 'px');
 
-        return wait(this.transDur);
+        return wait(this.locateDur);
     };
 
-    ballPrototype.refuseToMove = function (dir) {
+    ballPt.refuseToMove = function (dir) {
         if (dir === 'up' || dir === 'down') {
             return this.$dom.anim('ball-refuse-y', window.unitDur);
         } else {
@@ -82,4 +87,4 @@ domain.level.Ball = (function ($) {
 
     return exports;
 
-}(window.jQuery));
+}());

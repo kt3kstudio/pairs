@@ -15,7 +15,7 @@ scene.level.IntroScene = (function () {
         this.paper = new domain.level.PieceOfPaper();
 
         this.chr = prevScene.chr;
-        this.ball = new domain.level.Ball(this.pos.fieldPosition());
+        this.ball = new domain.level.Ball(this.pos.fieldPosition(), {x: 1, y: 1}, '#main');
     };
 
     var isPt = exports.prototype = new scene.common.Scene();

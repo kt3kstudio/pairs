@@ -24,7 +24,6 @@ body: dark-bg
 
 .circle {
     position: absolute;
-    visibility: hidden;
     transition-duration: 300ms;
 }
 
@@ -172,9 +171,11 @@ $(function () {
 
 <div id="main">
 
-<svg class="circle" width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="50" cy="50" r="45" stroke-width="6" stroke-opacity="0.9" stroke="#636E79" fill="#9BA3AB" fill-opacity="0.5"/>
-</svg>
+<script type="text/template" id="tpl-ball">
+  <svg class="circle" width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="45" stroke-width="6" stroke-opacity="0.9" stroke="#636E79" fill="#9BA3AB" fill-opacity="0.5"/>
+  </svg>
+</script>
 
 <div class="wrapper"></div>
 
