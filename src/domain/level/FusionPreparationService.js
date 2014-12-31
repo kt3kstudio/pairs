@@ -33,7 +33,7 @@ domain.level.FusionPreparationService = (function () {
     /**
      * PreparationStack is the stack class of cells which are preparing for the fusion and going to the preparing position.
      *
-     * @class domain.level.EvalBox.PreparationStack
+     * @class domain.level.FusionPreparationService.PreparationStack
      * @private
      */
     var PreparationStack = function (dimension) {
