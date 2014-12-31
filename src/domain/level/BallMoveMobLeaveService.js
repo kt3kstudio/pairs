@@ -1,6 +1,3 @@
-// Domain layer
-window.domain = window.domain || {};
-domain.level = domain.level || {};
 /**
  * @class
  * BallMoveMobLeaveService provides the function to move ball and process field boms collectly.
@@ -95,6 +92,14 @@ domain.level.BallMoveMobLeaveService = (function () {
     };
 
     // `Mobs` role (extends Map)
+    /**
+     * Mobs is the role class which represents the collection of cells on and below the field.
+     *
+     * Mobs is the adaptor class of domain.level.Map class into the BallMoveMobLeaveService context.
+     *
+     * @class domain.level.BallMoveMobLeaveService.Mobs
+     * @private
+     */
     var Mobs = function (wanderers) {
         this.wanderers = wanderers;
     };
