@@ -171,15 +171,10 @@ $(function () {
 
 <div id="main">
 
-<script type="text/template" id="tpl-ball">
-  <svg class="circle" width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="45" stroke-width="6" stroke-opacity="0.9" stroke="#636E79" fill="#9BA3AB" fill-opacity="0.5"/>
-  </svg>
-</script>
-
 <div class="wrapper"></div>
 
 <div class="point " style="font-family: menlo; margin-left: 300px;">
+
 m + f = <span class="mf">0</span><br />
 f + m = <span class="fm">0</span><br />
 m + m = <span class="mm">0</span><br />
@@ -192,7 +187,29 @@ Score = <span class="level-score">0</span><br />
 
 <img class="menu-button menu-hidden" src="images/menu-button.svg" />
 
+
+<!-- menu object -->
 <menus id="level-menu">
   <menu src="images/back-button.svg" onclick="ps.finish();"></menu>
   <menu src="images/reset-button.svg" onclick="ps.finish(); reload = true; "></menu>
 </menus>
+
+
+<!-- templates, a bit old-fashioned templating -->
+<script type="text/template" id="tpl-ball">
+  <svg
+    class="circle"
+    width="100px"
+    height="100px"
+    viewBox="0 0 100 100">
+    <circle
+      cx="50"
+      cy="50"
+      r="45"
+      stroke-width="6"
+      stroke-opacity="0.9"
+      stroke="#636E79"
+      fill="#9BA3AB"
+      fill-opacity="0.5"/>
+  </svg>
+</script>
