@@ -1,6 +1,8 @@
 
 /**
  * @class
+ * @abstract
+ *
  * Sprite class handles the basic behaviours of any entity in the game.
  */
 domain.common.Sprite = (function () {
@@ -25,24 +27,47 @@ domain.common.Sprite = (function () {
     /** sprite's disappearance duration */
     spritePt.disappearDur = 400;
 
+
+    /**
+     * Sets the parent of the sprite's dom.
+     *
+     * @param {String|HTMLElement} parent The parent dom
+     */
     spritePt.setParent = function (parent) {
         this.parent = parent;
 
         return this;
     };
 
+    /**
+     * Puts the sprite's dom into the document as the last child of the parent dom.
+     *
+     */
     spritePt.put = function () {
         this.$dom = this.$dom || this.createDom().appendTo(this.parent || DEFAULT_PARENT);
 
         return this;
     };
 
+
+    /**
+     * Appears the sprite.
+     *
+     * @param {Number} [dur] The duration of the animation
+     * @return {Promise} The end of the appearing animation
+     */
     spritePt.appear = function (dur) {
         this.$dom = this.$dom || this.createDom().appendTo(this.parent || DEFAULT_PARENT);
 
         return this.$dom.anim(this.appearAnim, dur || this.appearDur);
     };
 
+    /**
+     * Disappears the sprite.
+     *
+     * @param {Number} [dur] The duration of the animation
+     * @return {Promise} The end of the appearing animation
+     */
     spritePt.disappear = function (dur) {
         var that = this;
 
