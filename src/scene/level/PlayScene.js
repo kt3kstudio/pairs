@@ -34,7 +34,7 @@ scene.level.PlayScene = (function ($) {
 
         // boxes
         this.fps = new domain.level.FusionPreparationService(evalBoxPosition);
-        this.fusionBox = new domain.level.FusionBox(fusionBoxPosition);
+        this.fusionService = new domain.level.FusionService(fusionBoxPosition);
         this.exitQueue = new domain.level.ExitQueue(exitQueuePosition);
 
         // services
@@ -83,7 +83,7 @@ scene.level.PlayScene = (function ($) {
 
             that.pointBox.countUp(fusionPair.leftGene(), fusionPair.rightGene());
 
-            return that.fusionBox.take(fusionPair);
+            return that.fusionService.performFusion(fusionPair);
 
         }).pipe(function (newCell) {
 

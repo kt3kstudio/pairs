@@ -1,9 +1,9 @@
 /**
  * @class
  *
- * FusionBox represents the box in which the two cells combine and give birth to a new cell.
+ * FusionService performs the fusion of the pair of cells.
  */
-domain.level.FusionBox = (function () {
+domain.level.FusionService = (function () {
     'use strict';
 
     var exports = function (metrics) {
@@ -12,7 +12,14 @@ domain.level.FusionBox = (function () {
 
     var fusionPt = exports.prototype;
 
-    fusionPt.take = function (pair) {
+
+    /**
+     * Performs fusion.
+     *
+     * @param {domain.level.FusionPair} pair The pair
+     * @return {Promise<domain.level.Wanderer>} The new cell
+     */
+    fusionPt.performFusion = function (pair) {
 
         var that = this;
 
@@ -23,6 +30,14 @@ domain.level.FusionBox = (function () {
         });
     };
 
+
+    /**
+     * Makes the pair go to the reactor.
+     *
+     * @private
+     * @param {domain.level.FusionPair} pair The pair going to fusion reactor.
+     * @return {Promise}
+     */
     fusionPt.getToReactor = function (pair) {
         var dur = 1000;
 
@@ -44,6 +59,14 @@ domain.level.FusionBox = (function () {
 
     };
 
+
+    /**
+     * Perform cell fusion.
+     *
+     * @private
+     * @param {domain.level.FusionPair} pair The pair
+     * @return {Promise<domain.level.Wanderer>} The new cell
+     */
     fusionPt.fusion = function (pair) {
         var dur = 600;
 
