@@ -17,7 +17,7 @@ domain.level.FusionService = (function () {
      * Performs fusion.
      *
      * @param {domain.level.FusionPair} pair The pair
-     * @return {Promise<domain.level.Wanderer>} The new cell
+     * @return {Promise} {Promise<domain.level.Wanderer>} The new cell
      */
     fusionPt.performFusion = function (pair) {
 
@@ -35,8 +35,8 @@ domain.level.FusionService = (function () {
      * Makes the pair go to the reactor.
      *
      * @private
-     * @param {domain.level.FusionPair} pair The pair going to fusion reactor.
-     * @return {Promise}
+     * @param {domain.level.FusionPair} pair The pair going to fusion reactor
+     * @return {Promise} The end of the animation of going to the reactor
      */
     fusionPt.getToReactor = function (pair) {
         var dur = 1000;
@@ -65,7 +65,7 @@ domain.level.FusionService = (function () {
      *
      * @private
      * @param {domain.level.FusionPair} pair The pair
-     * @return {Promise<domain.level.Wanderer>} The new cell
+     * @return {Promise} The new cell {Promise<domain.level.Wanderer>}
      */
     fusionPt.fusion = function (pair) {
         var dur = 600;

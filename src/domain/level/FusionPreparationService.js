@@ -19,7 +19,7 @@ domain.level.FusionPreparationService = (function () {
      * Takes cell into the fusion preparing position.
      *
      * @param {domain.level.Wanderer} cell The cell
-     * @return {Promise<Array<domain.level.Wanderer>>}
+     * @return {Promise} {Promise<Array<domain.level.Wanderer>>}
      */
     fpsPt.take = function (cell) {
 
