@@ -9,6 +9,10 @@ scene.level.PlayScene = (function ($) {
     'use strict';
 
 
+    /**
+     * @constructor
+     * @param {scene.common.Scene} prevScene
+     */
     var exports = function (prevScene) {
 
         this.prevScene = prevScene;
@@ -40,27 +44,29 @@ scene.level.PlayScene = (function ($) {
         this.bms = new domain.level.BallMoveMobLeaveService(this.ball, this.map);
 
         // ui components
+        this.swipe = new ui.level.SwipeEvent('.wrapper');
         this.scoreBoard = new ui.level.Scoreboard(pos.scoreboardDimension());
+        this.menuButton = $('.menu-button').menuButton($('#level-menu'));
 
         // debug things
         this.pointBox = debug.PointBox; // singleton
         this.scoreBox = debug.ScoreBox;
 
-        // ui parts
-        this.menuButton = $('.menu-button').menuButton($('#level-menu'));
-
     };
 
 
-    var psPrototype = exports.prototype = new scene.common.Scene();
+    var psPt = exports.prototype = new scene.common.Scene();
 
 
-    psPrototype.start = function () {
+    /**
+     * Starts the scene.
+     */
+    psPt.start = function () {
 
         var that = this;
 
 
-        this.subscription = this.streamOfSwipes().pipe(function (dir) {
+        this.subscription = this.swipe.getStream().pipe(function (dir) {
 
             return that.bms.ballMoveAndLeaveOne(dir);
 
@@ -90,7 +96,7 @@ scene.level.PlayScene = (function ($) {
 
         }).forEach(function () {
 
-            that.unbindEvents();
+            that.swipe.unbind();
             that.subscription.dispose();
             that.finish();
 
@@ -114,33 +120,6 @@ scene.level.PlayScene = (function ($) {
 
     };
 
-    psPrototype.streamOfSwipes = function () {
-
-        var $swipeTarget = this.swipe$dom = $('.wrapper').swipeCross();
-
-        var swipeup = $swipeTarget.streamOf('swipeup').map('up');
-        var swipedown = $swipeTarget.streamOf('swipedown').map('down');
-        var swipeleft = $swipeTarget.streamOf('swipeleft').map('left');
-        var swiperight = $swipeTarget.streamOf('swiperight').map('right');
-
-        var $document = $(document).arrowkeys();
-
-        var upkey = $document.streamOf('upkey').map('up');
-        var downkey = $document.streamOf('downkey').map('down');
-        var leftkey = $document.streamOf('leftkey').map('left');
-        var rightkey = $document.streamOf('rightkey').map('right');
-
-        return Rx.Observable.merge(swipeup, swipedown, swipeleft, swiperight,
-            upkey, downkey, leftkey, rightkey);
-
-    };
-
-    psPrototype.unbindEvents = function () {
-
-        this.swipe$dom.swipeCrossUnbind();
-
-        $(document).arrowkeysUnbind();
-    };
 
     return exports;
 
