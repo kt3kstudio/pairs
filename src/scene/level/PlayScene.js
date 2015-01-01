@@ -5,7 +5,7 @@
  *
  * PlayScene controlls the main playing scene of the level page.
  */
-scene.level.PlayScene = (function ($) {
+scene.level.PlayScene = (function () {
     'use strict';
 
 
@@ -123,4 +123,4 @@ scene.level.PlayScene = (function ($) {
 
     return exports;
 
-}(window.jQuery));
+}());
