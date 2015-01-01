@@ -5,17 +5,17 @@
 domain.level.BallMoveMobLeaveService = (function () {
     'use strict';
 
-    var exports = function (ball, wanderers) {
+    var exports = function (ball, cells) {
         this.ball = ball;
-        this.mobs = new Mobs(wanderers);
+        this.mobs = new Mobs(cells);
 
-        this.pmds = new domain.level.PossibleMoveDetectionService(this.ball, wanderers);
+        this.pmds = new domain.level.PossibleMoveDetectionService(this.ball, cells);
     };
 
     var bmsPrototype = exports.prototype;
 
     /**
-     * Make the ball to the specified direction and a mob leave the field.
+     * Makes the ball move to the specified direction and a mob leave the field.
      *
      * @param {String} dir The direction the ball moves (up|down|right|left)
      * @returns {Promise} A promise which resolves when the mob(bom)
@@ -99,6 +99,10 @@ domain.level.BallMoveMobLeaveService = (function () {
      *
      * @class domain.level.BallMoveMobLeaveService.Mobs
      * @private
+     */
+    /**
+     * @constructor
+     * @param {Array} The array of cells
      */
     var Mobs = function (wanderers) {
         this.wanderers = wanderers;
