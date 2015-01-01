@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/kt3kstudio/long-dream-core.svg?branch=gh-pages)](https://travis-ci.org/kt3kstudio/long-dream-core)
 
-[![Coverage Status](https://img.shields.io/coveralls/kt3kstudio/long-dream-core.svg)](https://coveralls.io/r/kt3kstudio/long-dream-core?branch=gh-pages)
+[![Coverage Status](https://coveralls.io/repos/kt3kstudio/long-dream-core/badge.png?branch=gh-pages)](https://coveralls.io/r/kt3kstudio/long-dream-core?branch=gh-pages)
 
 > A puzzle game on straw platform
 
