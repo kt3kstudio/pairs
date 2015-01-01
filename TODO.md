@@ -1,24 +1,29 @@
 # TODO
 
-- InfoPanel
-  - EntranceInfo
-  - GameResultInfo
-- ScoreBoard, RoomBoard
+
+- RoomBoard
+- Record commands
+
+## datadomain
+- LevelClearInfo
+
+
+## Artwork
+- 6
+- 7
+- ankh
+
+# DONE
+- Level
+- Floor
+- ScoreBoard
 - DoorOpen
 - EvalChair
 - ExitDoor
 - Stairs
-
-## datadomain
-- LevelClearInfo
-- Level
-- Floor
-- PlayingInfo
-- UserActivity
-  - got tutorial
-  - review notification
-
-# DONE
+- InfoPanel
+  - EntranceInfo
+  - GameResultInfo
 - CharPosition
 - Ma redraw
 - Map entrance choreography
