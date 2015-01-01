@@ -87,7 +87,7 @@ scene.level.PlayScene = (function () {
 
         }).pipe(function (newCell) {
 
-            return that.exitQueue.take(newCell);
+            return that.exitQueue.enqueue(newCell);
 
         }).filter(function (cell) {
 
@@ -101,6 +101,7 @@ scene.level.PlayScene = (function () {
 
         }, function (e) {
             console.log (e);
+            console.log (e.stack);
         });
 
 

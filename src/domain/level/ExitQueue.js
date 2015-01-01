@@ -8,72 +8,145 @@ domain.level.ExitQueue= (function () {
 
     var QUEUE_MAX = 32;
 
-    var exports = function (metrics) {
-        this.metrics = metrics;
+    var exports = function (dimension) {
+        this.dimension = dimension;
         this.queue = [];
         this.queueMax = QUEUE_MAX;
     };
 
-    var eqPrototype = exports.prototype;
+    var eqPt = exports.prototype;
 
-    eqPrototype.take = function (cell) {
+
+    /**
+     * Enqueues the cell.
+     *
+     * @param {domain.level.Wanderer} cell The cell
+     * @return {Promise} The promise resolves with the cell.
+     */
+    eqPt.enqueue = function (cell) {
 
         var that = this;
 
-        return this.goForward().then(function () {
+        return this.involve(new Queuee(cell)).then(function () {
 
-            return that.involve(cell);
-
-        }).then(function () {
-
-            return cell.locate();
+            return that.goForward();
 
         });
 
     };
 
-    eqPrototype.goForward = function () {
-        var p = Promise.resolve();
+    /**
+     * Makes the entire queue go forward.
+     *
+     * @private
+     * @return {Promise}
+     */
+    eqPt.goForward = function () {
 
-        var diffDur = 200 / this.queue.length;
+        var d = 200 / this.queue.length;
 
-        this.queue.forEach(function (cell) {
-            p = p.then(function () {
+        return this.queue.map(function (queuee, i) {
 
-                if (cell.x < 4) {
-                    cell.x += 1;
-                } else {
-                    cell.y += 1;
-                }
+            queuee.goForward();
 
-                cell.locate();
-
-                return wait(diffDur);
+            return wait(i * d).then(function () {
+                return queuee.locate();
             });
-        });
 
-        return p;
+        }).pop();
     };
 
-    eqPrototype.involve = function (cell) {
-        this.queue.push(cell);
+    eqPt.involve = function (queuee) {
+
+        this.queue.push(queuee);
 
         if (this.queue.length > this.queueMax) {
-            var leaving = this.queue.shift();
 
-            leaving.remove();
+            this.queue.shift().remove();
+
         }
 
-        cell.x = 0;
-        cell.y = 0;
-
-        cell.setMetrics(this.metrics.left, this.metrics.top, this.metrics.unit);
-
-        return cell.setTransitionDuration(600);
+        return queuee.goOrigin().setDimension(this.dimension).setTransitionDuration(600);
     };
 
-    eqPrototype.reset = function () {
+    eqPt.reset = function () {
         this.queue = [];
+    };
+
+    /**
+     * @class domain.level.ExitQueue.Queuee
+     * @private
+     *
+     * Queue class is the role of the cell which is queued in the ExitQueue.
+     */
+
+    /*
+     * @constructor
+     * @param {domain.level.Wanderer} cell The queueing cell
+     */
+    var Queuee = function (cell) {
+        this.cell = cell;
+    };
+
+    var qPt = Queuee.prototype;
+
+
+    /**
+     * Goes forward in the queue.
+     */
+    qPt.goForward = function () {
+        if (this.cell.x < 4) {
+            this.cell.x += 1;
+        } else {
+            this.cell.y += 1;
+        }
+
+        return this;
+    };
+
+    /**
+     * Locates the cell.
+     */
+    qPt.locate = function () {
+        return this.cell.locate();
+    };
+
+    /**
+     * Removes the cell.
+     */
+    qPt.remove = function () {
+        this.cell.remove();
+    };
+
+
+    /**
+     * Goes to the origin of the queue dimension.
+     */
+    qPt.goOrigin = function () {
+        this.cell.x = -1;
+        this.cell.y = 0;
+
+        return this;
+    };
+
+    /**
+     * Sets the dimension.
+     */
+    qPt.setDimension = function (dimension) {
+        this.cell.setMetrics(dimension.left, dimension.top, dimension.unit);
+
+        return this;
+    };
+
+
+    /**
+     * Sets the transion duraiton.
+     *
+     * @param {Number} dur The duration
+     * @return {Promise}
+     */
+    qPt.setTransitionDuration = function (dur) {
+        return this.cell.setTransitionDuration(dur);
     };
 
     return exports;
