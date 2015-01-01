@@ -50,7 +50,6 @@ scene.level.PlayScene = (function () {
 
         // debug things
         this.pointBox = debug.PointBox; // singleton
-        this.scoreBox = debug.ScoreBox;
 
     };
 

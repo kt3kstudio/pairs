@@ -1,7 +1,4 @@
-/* global $ */
-
 // displaying current point
-window.debug = window.debug || {};
 debug.PointBox = {
     getCount: function (gender0, gender1) {
         'use strict';
@@ -31,34 +28,5 @@ debug.PointBox = {
 
         var genderPair = gender0 + gender1;
         return $('.point .' + genderPair);
-    }
-};
-
-window.debug = window.debug || {};
-debug.ScoreBox = {
-    add: function (point) {
-        'use strict';
-
-        this.setScore(this.getScore() + point);
-    },
-    getScore: function () {
-        'use strict';
-
-        return parseInt(this.getTarget().text());
-    },
-    setScore: function (score) {
-        'use strict';
-
-        this.getTarget().text(score);
-    },
-    reset: function () {
-        'use strict';
-
-        this.setScore(0);
-    },
-    getTarget: function () {
-        'use strict';
-
-        return $('.point .level-score');
     }
 };

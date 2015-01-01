@@ -31,3 +31,6 @@ datadomain.goal = {};
 ui = {};
 ui.common = {};
 ui.level = {};
+
+// debug
+debug = {};
