@@ -18,7 +18,7 @@ domain.level.BallMoveMobLeaveService = (function () {
      * Makes the ball move to the specified direction and a mob leave the field.
      *
      * @param {String} dir The direction the ball moves (up|down|right|left)
-     * @returns {Promise} A promise which resolves when the mob(bom)
+     * @returns {domain.level.Wanderer|Rx.Observable} A promise which resolves when the mob(bom) left the field
      */
     bmsPrototype.ballMoveAndLeaveOne = function (dir) {
 
@@ -42,6 +42,8 @@ domain.level.BallMoveMobLeaveService = (function () {
 
     /**
      * Make the mob at the ball leave the field.
+     *
+     * @return {domain.level.Wanderer}
      */
     bmsPrototype.leaveLastOneAtBall = function () {
 
@@ -55,6 +57,9 @@ domain.level.BallMoveMobLeaveService = (function () {
 
     /**
      * Make a mob at the specified position leave the field.
+     *
+     * @param {Object} pos The position
+     * @return {domain.level.Wanderer|Rx.Observable}
      */
     bmsPrototype.leaveAtPos = function (pos) {
 
@@ -91,7 +96,6 @@ domain.level.BallMoveMobLeaveService = (function () {
 
     };
 
-    // `Mobs` role (extends Map)
     /**
      * Mobs is the role class which represents the collection of cells on and below the field.
      *
@@ -100,35 +104,55 @@ domain.level.BallMoveMobLeaveService = (function () {
      * @class domain.level.BallMoveMobLeaveService.Mobs
      * @private
      */
+    var Mobs =
+
+
     /**
      * @constructor
-     * @param {Array} The array of cells
+     * @param {Array} cells The array of cells
      */
-    var Mobs = function (wanderers) {
-        this.wanderers = wanderers;
+    function (cells) {
+        this.cells = cells;
     };
 
     var mobsPrototype = Mobs.prototype;
 
+    /**
+     * Check if the field is empty of cells.
+     *
+     * @return {Boolean}
+     */
     mobsPrototype.isEmpty = function () {
-        return this.wanderers.isEmpty();
+        return this.cells.isEmpty();
     };
 
+    /**
+     * Makes the cell at the position leave the field.
+     *
+     * @param {Object} pos The position
+     */
     mobsPrototype.leave = function (pos) {
-        var w = this.wanderers.select(pos);
-        this.wanderers.filter(w);
+        var w = this.cells.select(pos);
+
+        this.cells.filter(w);
 
         w = w[0];
 
-        this.wanderers.selectRange(pos).forEach(function (cell) {
+        this.cells.selectRange(pos).forEach(function (cell) {
             cell.up();
         });
 
         return w;
     };
 
+
+    /**
+     * Finds the cell at the position.
+     *
+     * @param {Object} pos The position
+     */
     mobsPrototype.find = function (pos) {
-        return this.wanderers.find(pos);
+        return this.cells.find(pos);
     };
 
     return exports;
