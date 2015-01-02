@@ -7,6 +7,11 @@
 domain.level.PossibleMoveDetectionService = (function () {
     'use strict';
 
+    /**
+     * @constructor
+     * @param {domain.level.Ball} ball The ball
+     * @param {domain.level.Map} map The map
+     */
     var exports = function (ball, map) {
         this.ball = ball;
         this.map = map;

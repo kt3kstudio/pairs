@@ -5,6 +5,11 @@
 domain.level.BallMoveMobLeaveService = (function () {
     'use strict';
 
+    /**
+     * @constructor
+     * @param {domain.level.Ball} ball The ball
+     * @param {Array} cells The cells
+     */
     var exports = function (ball, cells) {
         this.ball = ball;
         this.mobs = new Mobs(cells);
