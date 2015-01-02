@@ -1,7 +1,5 @@
-
-
 /**
- * PlayingState model represents the current playing status of the level.
+ * PlayingState model represents the current playing state of the level.
  */
 datadomain.PlayingState = (function () {
     'use strict';
@@ -9,25 +7,20 @@ datadomain.PlayingState = (function () {
 
     /**
      * @constructor
+     * @param {Array} dirs The directions
      */
-    var exports = function (score, field, queue, goal) {
-        this.score = score;
-        this.field = field;
-        this.queue = queue;
-        this.goal = goal;
+    var exports = function (dirs) {
+        this.dirs = dirs;
     };
 
     /**
      * Creates instance from the object.
      *
      * @param {Object} obj The source object
-     * @param {Number} obj.score The score
-     * @param {Array} obj.field The state of the field
-     * @param {Array} obj.queue The state of the queue
-     * @param {Object} obj.goal The state of the goal completion
+     * @param {Array} obj.dirs The list of directions
      */
     exports.createFromObject = function (obj) {
-        return new exports(obj.score, obj.field, obj.queue, obj.goal);
+        return new exports(obj.dirs);
     };
 
     /**
@@ -36,34 +29,31 @@ datadomain.PlayingState = (function () {
      * @return {datadomain.PlayingState}
      */
     exports.createInitialStateData = function () {
-        return new exports(0, [], [], []);
+        return new exports([]);
     };
 
     var pdPt = exports.prototype;
 
+
+    /**
+     * Gets object representation
+     *
+     * @return {Object}
+     */
     pdPt.toObject = function () {
         return {
-            score: this.score,
-            field: this.field,
-            queue: this.queue,
-            goal: this.goal
+            dirs: this.dirs
         };
     };
 
-    pdPt.gotScore = function (score) {
-        this.score += score;
-    };
 
-    pdPt.updateField = function (field) {
-        this.field = field;
-    };
-
-    pdPt.updateQueue = function (queue) {
-        this.queue = queue;
-    };
-
-    pdPt.updateGoal = function (goal) {
-        this.goal = goal;
+    /**
+     * Adds direction
+     *
+     * @param {String} dir The direction.
+     */
+    pdPt.addDirection = function (dir) {
+        this.dirs.push(dir);
     };
 
     return exports;
