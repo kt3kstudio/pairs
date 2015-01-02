@@ -6,8 +6,9 @@
 domain.level.FusionService = (function () {
     'use strict';
 
-    var exports = function (metrics) {
+    var exports = function (metrics, dom) {
         this.metrics = metrics;
+        this.$dom = $(dom);
     };
 
     var fusionPt = exports.prototype;
@@ -70,19 +71,11 @@ domain.level.FusionService = (function () {
     fusionPt.fusion = function (pair) {
         var dur = 600;
 
-        var bom = new domain.level.Cell(0, 0, pair.newGene(), this.metrics.left, this.metrics.top, this.metrics.unit);
-
-        bom.locate();
-
-        bom.$dom.prependTo('#main');
+        var bom = new domain.level.Cell(0, 0, pair.newGene(), this.metrics.left, this.metrics.top, this.metrics.unit, this.$dom);
 
         bom.isLastOne = pair.isLastOne();
 
-        return bom.$dom.anim('bom-born', dur).then(function () {
-
-            return bom;
-
-        });
+        return bom.appear(dur);
     };
 
     return exports;

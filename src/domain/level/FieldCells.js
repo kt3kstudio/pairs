@@ -18,7 +18,7 @@ domain.level.FieldCells = (function () {
         this.dimension = dimension;
     };
 
-    var fsPt = exports.prototype;
+    var fcPt = exports.prototype;
 
     /**
      * Create a cell from a bom object.
@@ -26,7 +26,7 @@ domain.level.FieldCells = (function () {
      * @param {Object} bom The bom object
      * @return {domain.level.Cell}
      */
-    fsPt.createCellFromBom = function (bom) {
+    fcPt.createCellFromBom = function (bom) {
 
         return new domain.level.Cell(
             bom.x,
@@ -40,33 +40,69 @@ domain.level.FieldCells = (function () {
 
     };
 
-    fsPt.isEmpty = function () {
+    /**
+     * Checks if the field is empty.
+     *
+     * @return {Boolean}
+     */
+    fcPt.isEmpty = function () {
         return this.cells.length === 0;
     };
 
-    fsPt.loadFromBomList = function (bomList) {
-        bomList.forEach(function (bom) {
-            this.loadOne(this.createCellFromBom(bom));
+
+    /**
+     * Loads field cells from object list.
+     *
+     * @param {Array} list The list of cells
+     * @return {domain.level.FieldCells}
+     */
+    fcPt.loadFromObjectList = function (list) {
+
+        list.forEach(function (bom) {
+
+            this.push(this.createCellFromBom(bom));
+
         }, this);
 
         return this;
     };
 
-    fsPt.loadList = function (list) {
-        list.forEach(function (cell) { this.loadOne(cell); }, this);
+    /**
+     * Loads field cells from cell list.
+     *
+     * @param {Array} list The list of cells
+     * @return {domain.level.FieldCells}
+     */
+    fcPt.loadList = function (list) {
+
+        list.forEach(function (cell) {
+
+            this.push(cell);
+
+        }, this);
 
         return this;
     };
 
-    fsPt.loadOne = function (cell) {
+
+    /**
+     * Pushes a cell.
+     *
+     * @param {domain.level.Cell} cell The cell
+     */
+    fcPt.push = function (cell) {
+
         this.cells.push(cell);
 
-        return this;
     };
 
-    fsPt.appear = function () {
 
-        var $dom = this.$dom;
+    /**
+     * Appears all the cells
+     *
+     * @return {Promise} The promise which resolves with the last cell when it resolved
+     */
+    fcPt.appear = function () {
 
         return this.cells.map(function (cell, i) {
 
@@ -80,7 +116,15 @@ domain.level.FieldCells = (function () {
 
     };
 
-    fsPt.commandAll = function (command, args) {
+
+    /**
+     * Commands to all the cells.
+     *
+     * @private
+     * @param {String} command The command
+     * @param {Array} args The arguments
+     */
+    fcPt.commandAll = function (command, args) {
 
         this.cells.forEach(function (cell) {
             cell[command](args);
@@ -88,13 +132,20 @@ domain.level.FieldCells = (function () {
 
     };
 
-    fsPt.select = function (pos) {
+    fcPt.select = function (pos) {
         return this.cells.filter(function (cell) {
             return cell.x === pos.x && cell.y === pos.y;
         });
     };
 
-    fsPt.find = function (pos) {
+
+    /**
+     * Finds a cell at the position.
+     *
+     * @param {Object} pos The position.
+     * @return {domain.level.Cell}
+     */
+    fcPt.find = function (pos) {
         var cand = this.select(pos);
 
         if (cand.length === 0) {
@@ -104,16 +155,29 @@ domain.level.FieldCells = (function () {
         return cand[0];
     };
 
-    fsPt.selectRange = function (pos) {
+    fcPt.selectRange = function (pos) {
         return this.cells.filter(function (cell) {
             return cell.x === pos.x && cell.y > pos.y;
         });
     };
 
-    fsPt.filter = function (cells) {
+    fcPt.filter = function (cells) {
         this.cells = this.cells.filter(function (cell) {
             return cells.indexOf(cell) < 0;
         });
+    };
+
+    /**
+     * Returns the list of used position indices.
+     *
+     * @return {Array}
+     */
+    fcPt.usedIndices = function () {
+
+        return this.cells.map(function (cell) {
+            return [cell.x, cell.y];
+        });
+
     };
 
     return exports;

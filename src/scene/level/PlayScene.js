@@ -32,12 +32,12 @@ scene.level.PlayScene = (function () {
 
         // models
         this.cells = new domain.level.FieldCells(fieldDimension, '#main');
-        this.cells.loadFromBomList(this.level.cells);
+        this.cells.loadFromObjectList(this.level.cells);
         this.field = new domain.level.Field(fieldDimension);
 
         // services
         this.fps = new domain.level.FusionPreparationService(prepDimension);
-        this.fusionService = new domain.level.FusionService(fusionDimension);
+        this.fusionService = new domain.level.FusionService(fusionDimension, '#main');
         this.exitQueue = new domain.level.ExitQueue(exitQueueDimension);
 
         // services

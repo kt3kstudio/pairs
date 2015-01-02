@@ -51,7 +51,7 @@ domain.level.Cell = (function () {
     cellPt.setTransitionDuration_ = function () {
         if (this.$dom) {
             this.$dom.css('transition-duration', this.locateDur + 'ms');
-        };
+        }
 
         return wait(0, this);
     };
@@ -113,6 +113,10 @@ domain.level.Cell = (function () {
         return this.createDom().then(function ($dom) {
 
             return $dom.anim('bom-appear', that.appearDur);
+
+        }).then(function () {
+
+            return that;
 
         });
 
