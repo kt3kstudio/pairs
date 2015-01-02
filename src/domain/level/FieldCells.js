@@ -34,7 +34,8 @@ domain.level.FieldCells = (function () {
             bom.gene,
             this.dimension.left,
             this.dimension.top,
-            this.dimension.unit
+            this.dimension.unit,
+            this.$dom
         );
 
     };
@@ -60,8 +61,6 @@ domain.level.FieldCells = (function () {
     fsPt.loadOne = function (cell) {
         this.cells.push(cell);
 
-        cell.locate();
-
         return this;
     };
 
@@ -73,7 +72,7 @@ domain.level.FieldCells = (function () {
 
             return wait(i * 40).then(function () {
 
-                cell.appear($dom);
+                cell.appear();
 
             });
 

@@ -7,7 +7,7 @@
 domain.level.Cell = (function () {
     'use strict';
 
-    var exports = function (x, y, gene, left, top, unit) {
+    var exports = function (x, y, gene, left, top, unit, parent) {
         this.x = x;
         this.y = y;
         this.width = Math.floor(unit / 2);
@@ -16,6 +16,8 @@ domain.level.Cell = (function () {
         this.setGene(gene);
         this.setTransitionDuration(300);
         this.setMetrics(left, top, unit);
+
+        this.parent = parent;
 
         exports.allList.push(this);
     };
@@ -38,50 +40,58 @@ domain.level.Cell = (function () {
         });
     };
 
-    var wPrototype = exports.prototype;
+    var cellPt = exports.prototype;
 
-    wPrototype.setTransitionDuration = function (dur) {
+    cellPt.setTransitionDuration = function (dur) {
         this.locateDur = dur;
 
-        this.$dom.css('transition-duration', dur + 'ms');
+        return this.setTransitionDuration_();
+    };
+
+    cellPt.setTransitionDuration_ = function () {
+        if (this.$dom) {
+            this.$dom.css('transition-duration', this.locateDur + 'ms');
+        };
 
         return wait(0, this);
     };
 
-    wPrototype.setGene = function (gene) {
+
+
+    cellPt.setGene = function (gene) {
         this.gene = gene;
 
-        this.createDom();
+    };
 
-        if (gene === 'm') {
-            this.setMaleColor();
-        } else if (gene === 'f') {
-            this.setFemaleColor();
-        } else if (gene.length >= 2) {
-            this.setMultiton();
+    cellPt.selectImage = function () {
+        if (this.gene === 'f') {
+            return 'images/neef.svg';
         }
-    };
 
-    wPrototype.setFemaleColor = function () {
-        this.$dom.attr('data', 'images/neef.svg');
-    };
+        if (this.gene === 'm') {
+            return 'images/nim.svg';
+        }
 
-    wPrototype.setMaleColor = function () {
-        this.$dom.attr('data', 'images/nim.svg');
-    };
-
-    wPrototype.selectMultitonUrl = function () {
         var cellKind = domain.common.BomTable[this.gene.length];
 
         return 'images/' + cellKind + '.svg';
     };
 
-    wPrototype.setMultiton = function () {
+    cellPt.createDom = function () {
         var that = this;
 
-        this.$dom.attr('data', this.selectMultitonUrl());
+        var $dom = this.$dom = $('<object type="image/svg+xml" />').css({
+            'position': 'absolute',
+            'width': this.width + 'px',
+            'height': this.width + 'px',
+        });
 
-        this.$dom.one('load', function () {
+        $dom.attr('data', this.selectImage()).prependTo(this.parent);
+
+        return this.$dom.once('load').then(function () {
+            that.setTransitionDuration_();
+            that.locate();
+
             var genes = that.gene.split('');
 
             var $svg = $(that.$dom[0].contentDocument);
@@ -89,35 +99,40 @@ domain.level.Cell = (function () {
             for (var i = 0; i < genes.length; i++) {
                 $('#' + i, $svg).attr('class', genes[i]);
             }
+
+            return $dom;
         });
     };
 
-    wPrototype.createDom = function () {
-        this.$dom = $('<object type="image/svg+xml" />').css({
-            'position': 'absolute',
-            'width': this.width + 'px',
-            'height': this.width + 'px',
+    cellPt.appearDur = 500;
+
+    cellPt.appear = function () {
+
+        var that = this;
+
+        return this.createDom().then(function ($dom) {
+
+            return $dom.anim('bom-appear', that.appearDur);
+
         });
 
-        return this.$dom;
     };
 
-    wPrototype.appear = function (dom) {
+    cellPt.disappearDur = 500;
 
-        return this.$dom.prependTo(dom || document.body).anim('bom-appear', 500);
-    };
-
-    wPrototype.disappear = function () {
+    cellPt.disappear = function () {
         var that = this;
 
         this.$dom.css('visibility', 'hidden');
 
-        return this.$dom.anim('bom-disappear', 500).then(function () {
+        return this.$dom.anim('bom-disappear', this.disappearDur).then(function () {
+
             that.remove();
+
         });
     };
 
-    wPrototype.setMetrics = function (left, top, unit) {
+    cellPt.setMetrics = function (left, top, unit) {
         this.offsetX = left;
         this.offsetY = top;
         this.unit = unit;
@@ -125,30 +140,30 @@ domain.level.Cell = (function () {
         return this;
     };
 
-    wPrototype.locate = function () {
+    cellPt.locate = function () {
         this.$dom.css('top', this.offsetY + this.unit * this.y + this.gutter + 'px');
         this.$dom.css('left', this.offsetX + this.unit * this.x + this.gutter + 'px');
 
         return wait(this.locateDur, this);
     };
 
-    wPrototype.remove = function () {
+    cellPt.remove = function () {
         this.$dom.remove();
 
         exports.allList.splice(exports.allList.indexOf(this), 1);
     };
 
-    wPrototype.move = function (x, y) {
+    cellPt.move = function (x, y) {
         this.x += x;
         this.y += y;
 
         return this.locate();
     };
 
-    wPrototype.up = function () { return this.move(0, -1); };
-    wPrototype.down = function () { return this.move(0, 1); };
-    wPrototype.left = function () { return this.move(-1, 0); };
-    wPrototype.right = function () { return this.move(1, 0); };
+    cellPt.up = function () { return this.move(0, -1); };
+    cellPt.down = function () { return this.move(0, 1); };
+    cellPt.left = function () { return this.move(-1, 0); };
+    cellPt.right = function () { return this.move(1, 0); };
 
     return exports;
 
