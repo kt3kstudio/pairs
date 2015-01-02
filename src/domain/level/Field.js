@@ -1,5 +1,3 @@
-window.domain = window.domain || {};
-domain.level = domain.level || {};
 /**
  * @class
  * Field class represents the background field graphics.
