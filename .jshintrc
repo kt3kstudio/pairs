@@ -27,6 +27,7 @@
         "datadomain": true,
         "infrastructure": true,
         "ui": true,
+        "util": true,
         "global": true,
         "debug": true,
 

@@ -32,5 +32,8 @@ ui = {};
 ui.common = {};
 ui.level = {};
 
+// util (infrastructure layer)
+util = {};
+
 // debug
 debug = {};

@@ -1,8 +1,10 @@
 //= require jquery
 //= require rxjs/dist/rx.lite.js
 
-//= require util/
 //= require namespaces.js
+
+//= require util/
+
 //= require infrastructure.js
 //= require info-pane
 //= require speech-bubble
