@@ -27,6 +27,9 @@ scene.level.PlayScene = (function () {
         var exitQueueDimension = pos.queuePosition();
         var fusionDimension = pos.fusionBoxPosition();
 
+        // datadomain
+        this.playingState = new datadomain.PlayingState(this.chr.name);
+
         // models
         this.map = new domain.level.Map(fieldDimension);
         this.map.loadFromBomList(this.level.cells);
@@ -54,15 +57,17 @@ scene.level.PlayScene = (function () {
     var psPt = exports.prototype = new scene.common.Scene();
 
 
+
     /**
-     * Starts the scene.
+     * Binds event handlers to the stream.
+     *
+     * @param {Rx.Observable} stream The source stream
      */
-    psPt.start = function () {
+    psPt.bindEventHandlers = function (stream) {
 
         var that = this;
 
-
-        this.subscription = this.swipe.getStream().pipe(function (dir) {
+        var subscription = stream.pipe(function (dir) {
 
             return that.bms.ballMoveAndLeaveOne(dir);
 
@@ -92,26 +97,41 @@ scene.level.PlayScene = (function () {
 
         }).forEach(function () {
 
-            that.swipe.unbind();
-            that.subscription.dispose();
+            subscription.dispose();
             that.finish();
 
         }, function (e) {
+
             console.log (e);
             console.log (e.stack);
+
         });
 
+        return this;
+
+    };
+
+    /**
+     * Starts the scene.
+     */
+    psPt.start = function () {
+
+        var that = this;
 
         this.scoreBoard.appear();
         this.menuButton.show();
 
-        return that.field.appear().then(function () {
+        return this.field.appear().then(function () {
 
             return that.chr.speechEndPromise;
 
         }).then(function () {
 
             return that.map.appear('#main');
+
+        }).then(function () {
+
+            return that.bindEventHandlers(that.swipe.getStream());
 
         });
 
