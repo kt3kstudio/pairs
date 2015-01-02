@@ -46,7 +46,7 @@ util.FieldIndexGenerator = (function () {
     /**
      * IndexPointer represents the current position of generating sequence of indices.
      *
-     * @class util.FieldIndexGenerator
+     * @class util.FieldIndexGenerator.IndexPointer
      * @private
      */
     var IndexPointer =
