@@ -1,8 +1,8 @@
 /**
  * @class
- * Map class represents the grid positioned queues of boms around the field.
+ * FieldCells class represents the grid positioned queues of cells around the field.
  */
-domain.level.Map = (function ($) {
+domain.level.FieldCells = (function () {
     'use strict';
 
     /**
@@ -18,7 +18,7 @@ domain.level.Map = (function ($) {
         this.dimension = dimension;
     };
 
-    var mapPrototype = exports.prototype;
+    var fsPt = exports.prototype;
 
     /**
      * Create a cell from a bom object.
@@ -26,7 +26,7 @@ domain.level.Map = (function ($) {
      * @param {Object} bom The bom object
      * @return {domain.level.Cell}
      */
-    mapPrototype.createCellFromBom = function (bom) {
+    fsPt.createCellFromBom = function (bom) {
 
         return new domain.level.Cell(
             bom.x,
@@ -39,17 +39,11 @@ domain.level.Map = (function ($) {
 
     };
 
-    mapPrototype.empty = function () {
-        this.cells.forEach(function (cell) { cell.remove(); });
-
-        this.cells = [];
-    };
-
-    mapPrototype.isEmpty = function () {
+    fsPt.isEmpty = function () {
         return this.cells.length === 0;
     };
 
-    mapPrototype.loadFromBomList = function (bomList) {
+    fsPt.loadFromBomList = function (bomList) {
         bomList.forEach(function (bom) {
             this.loadOne(this.createCellFromBom(bom));
         }, this);
@@ -57,13 +51,13 @@ domain.level.Map = (function ($) {
         return this;
     };
 
-    mapPrototype.loadList = function (list) {
+    fsPt.loadList = function (list) {
         list.forEach(function (cell) { this.loadOne(cell); }, this);
 
         return this;
     };
 
-    mapPrototype.loadOne = function (cell) {
+    fsPt.loadOne = function (cell) {
         this.cells.push(cell);
 
         cell.locate();
@@ -71,7 +65,7 @@ domain.level.Map = (function ($) {
         return this;
     };
 
-    mapPrototype.appear = function () {
+    fsPt.appear = function () {
 
         var $dom = this.$dom;
 
@@ -87,7 +81,7 @@ domain.level.Map = (function ($) {
 
     };
 
-    mapPrototype.commandAll = function (command, args) {
+    fsPt.commandAll = function (command, args) {
 
         this.cells.forEach(function (cell) {
             cell[command](args);
@@ -95,13 +89,13 @@ domain.level.Map = (function ($) {
 
     };
 
-    mapPrototype.select = function (pos) {
+    fsPt.select = function (pos) {
         return this.cells.filter(function (cell) {
             return cell.x === pos.x && cell.y === pos.y;
         });
     };
 
-    mapPrototype.find = function (pos) {
+    fsPt.find = function (pos) {
         var cand = this.select(pos);
 
         if (cand.length === 0) {
@@ -111,13 +105,13 @@ domain.level.Map = (function ($) {
         return cand[0];
     };
 
-    mapPrototype.selectRange = function (pos) {
+    fsPt.selectRange = function (pos) {
         return this.cells.filter(function (cell) {
             return cell.x === pos.x && cell.y > pos.y;
         });
     };
 
-    mapPrototype.filter = function (cells) {
+    fsPt.filter = function (cells) {
         this.cells = this.cells.filter(function (cell) {
             return cells.indexOf(cell) < 0;
         });
@@ -125,4 +119,4 @@ domain.level.Map = (function ($) {
 
     return exports;
 
-}(window.jQuery));
+}());

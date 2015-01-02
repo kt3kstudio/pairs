@@ -104,7 +104,7 @@ domain.level.BallMoveMobLeaveService = (function () {
     /**
      * Mobs is the role class which represents the collection of cells on and below the field.
      *
-     * Mobs is the adaptor class of domain.level.Map class into the BallMoveMobLeaveService context.
+     * Mobs is the adaptor class of domain.level.FieldCells class into the BallMoveMobLeaveService context.
      *
      * @class domain.level.BallMoveMobLeaveService.Mobs
      * @private

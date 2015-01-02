@@ -10,11 +10,11 @@ domain.level.PossibleMoveDetectionService = (function () {
     /**
      * @constructor
      * @param {domain.level.Ball} ball The ball
-     * @param {domain.level.Map} map The map
+     * @param {domain.level.FieldCells} cells The field cells
      */
-    var exports = function (ball, map) {
+    var exports = function (ball, cells) {
         this.ball = ball;
-        this.map = map;
+        this.cells = cells;
     };
 
     var pmdsPt = exports.prototype;
@@ -26,10 +26,10 @@ domain.level.PossibleMoveDetectionService = (function () {
      */
     pmdsPt.possible = function () {
         // if any of the next cells has a bom, then the next move is possible.
-        if (this.map.find(this.ball.posAhead('up'))) { return true; }
-        if (this.map.find(this.ball.posAhead('down'))) { return true; }
-        if (this.map.find(this.ball.posAhead('left'))) { return true; }
-        if (this.map.find(this.ball.posAhead('right'))) { return true; }
+        if (this.cells.find(this.ball.posAhead('up'))) { return true; }
+        if (this.cells.find(this.ball.posAhead('down'))) { return true; }
+        if (this.cells.find(this.ball.posAhead('left'))) { return true; }
+        if (this.cells.find(this.ball.posAhead('right'))) { return true; }
 
         return false;
     };
@@ -40,7 +40,7 @@ domain.level.PossibleMoveDetectionService = (function () {
      * @return {Boolean} true iff there is a cell at the ball
      */
     pmdsPt.cellRemainsAtBall = function () {
-        return this.map.find(this.ball.pos()) != null;
+        return this.cells.find(this.ball.pos()) != null;
     };
 
     return exports;

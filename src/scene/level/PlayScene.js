@@ -31,8 +31,8 @@ scene.level.PlayScene = (function () {
         this.playingState = new datadomain.PlayingState(this.chr.name);
 
         // models
-        this.map = new domain.level.Map(fieldDimension, '#main');
-        this.map.loadFromBomList(this.level.cells);
+        this.cells = new domain.level.FieldCells(fieldDimension, '#main');
+        this.cells.loadFromBomList(this.level.cells);
         this.field = new domain.level.Field(fieldDimension);
 
         // services
@@ -41,7 +41,7 @@ scene.level.PlayScene = (function () {
         this.exitQueue = new domain.level.ExitQueue(exitQueueDimension);
 
         // services
-        this.bms = new domain.level.BallMoveMobLeaveService(this.ball, this.map);
+        this.bms = new domain.level.BallMoveMobLeaveService(this.ball, this.cells);
 
         // ui components
         this.swipe = new ui.level.SwipeEvent('.wrapper');
@@ -127,7 +127,7 @@ scene.level.PlayScene = (function () {
 
         }).then(function () {
 
-            return that.map.appear();
+            return that.cells.appear();
 
         }).then(function () {
 

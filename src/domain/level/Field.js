@@ -2,7 +2,7 @@
  * @class
  * Field class represents the background field graphics.
  *
- * This class doesn't handle the mechanism above the field, which is the responsibility of Map class and BallMoveMobLeaveService class.
+ * This class doesn't handle the mechanism above the field, which is the responsibility of FieldCells and BallMoveMobLeaveService classes.
  */
 domain.level.Field = (function () {
     'use strict';
