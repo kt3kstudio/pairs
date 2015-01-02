@@ -33,7 +33,7 @@ scene.level.OutroScene = (function () {
 
         return this.resPane.show(30000000).then(function () {
 
-            domain.level.Wanderer.disappear();
+            domain.level.Cell.disappear();
 
             that.menuButton.hide();
 

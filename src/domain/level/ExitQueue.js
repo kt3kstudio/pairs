@@ -20,7 +20,7 @@ domain.level.ExitQueue= (function () {
     /**
      * Enqueues the cell.
      *
-     * @param {domain.level.Wanderer} cell The cell
+     * @param {domain.level.Cell} cell The cell
      * @return {Promise} The promise resolves with the cell.
      */
     eqPt.enqueue = function (cell) {
@@ -82,7 +82,7 @@ domain.level.ExitQueue= (function () {
 
     /*
      * @constructor
-     * @param {domain.level.Wanderer} cell The queueing cell
+     * @param {domain.level.Cell} cell The queueing cell
      */
     var Queuee = function (cell) {
         this.cell = cell;

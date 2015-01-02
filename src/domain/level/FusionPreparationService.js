@@ -18,8 +18,8 @@ domain.level.FusionPreparationService = (function () {
     /**
      * Takes cell into the fusion preparing position.
      *
-     * @param {domain.level.Wanderer} cell The cell
-     * @return {Promise} {Promise<Array<domain.level.Wanderer>>}
+     * @param {domain.level.Cell} cell The cell
+     * @return {Promise} {Promise<Array<domain.level.Cell>>}
      */
     fpsPt.take = function (cell) {
 
@@ -53,7 +53,7 @@ domain.level.FusionPreparationService = (function () {
     /**
      * Pushes to the stack.
      *
-     * @param {domain.level.Wanderer} cell The cell
+     * @param {domain.level.Cell} cell The cell
      */
     psPt.push = function (cell) {
         var p = this.set(cell, this.stack.length);
@@ -68,7 +68,7 @@ domain.level.FusionPreparationService = (function () {
      * Involves a cell into the preparation dimension.
      *
      * @private
-     * @param {domain.level.Wanderer} cell The cell
+     * @param {domain.level.Cell} cell The cell
      */
     psPt.involve = function (cell) {
 

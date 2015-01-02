@@ -17,7 +17,7 @@ domain.level.FusionService = (function () {
      * Performs fusion.
      *
      * @param {domain.level.FusionPair} pair The pair
-     * @return {Promise} {Promise<domain.level.Wanderer>} The new cell
+     * @return {Promise} {Promise<domain.level.Cell>} The new cell
      */
     fusionPt.performFusion = function (pair) {
 
@@ -65,12 +65,12 @@ domain.level.FusionService = (function () {
      *
      * @private
      * @param {domain.level.FusionPair} pair The pair
-     * @return {Promise} The new cell {Promise<domain.level.Wanderer>}
+     * @return {Promise} The new cell {Promise<domain.level.Cell>}
      */
     fusionPt.fusion = function (pair) {
         var dur = 600;
 
-        var bom = new domain.level.Wanderer(0, 0, pair.newGene(), this.metrics.left, this.metrics.top, this.metrics.unit);
+        var bom = new domain.level.Cell(0, 0, pair.newGene(), this.metrics.left, this.metrics.top, this.metrics.unit);
 
         bom.locate();
 

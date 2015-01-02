@@ -1,10 +1,10 @@
 /**
  * @class
- * Wanderer class represents a bom (nim and neef).
+ * Cell class represents a unit (nim and neef) on the field of the level.
  *
- * This class can move along the given grid which is specified as the metrics (left, top, unit).
+ * This class can move along the given grid which is specified as the dimension object.
  */
-domain.level.Wanderer = (function () {
+domain.level.Cell = (function () {
     'use strict';
 
     var exports = function (x, y, gene, left, top, unit) {

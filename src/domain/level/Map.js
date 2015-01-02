@@ -1,11 +1,6 @@
-// List of boms
-window.domain = window.domain || {};
-domain.level = domain.level || {};
 /**
  * @class
  * Map class represents the grid positioned queues of boms around the field.
- *
- *
  */
 domain.level.Map = (function ($) {
     'use strict';
@@ -35,10 +30,10 @@ domain.level.Map = (function ($) {
      * Create a cell from a bom object.
      *
      * @param {Object} bom The bom object
-     * @return {domain.level.Wanderer}
+     * @return {domain.level.Cell}
      */
     mapPrototype.createCellFromBom = function (bom) {
-        return new domain.level.Wanderer(bom.x, bom.y, bom.gene, this.left, this.top, this.unit);
+        return new domain.level.Cell(bom.x, bom.y, bom.gene, this.left, this.top, this.unit);
     };
 
     mapPrototype.empty = function () {
