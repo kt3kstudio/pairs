@@ -1,4 +1,3 @@
-
 /**
  * @class
  * @extends scene.common.Scene
@@ -14,8 +13,6 @@ scene.level.PlayScene = (function () {
      * @param {scene.common.Scene} prevScene
      */
     var exports = function (prevScene) {
-
-        this.prevScene = prevScene;
 
         var pos = this.pos = prevScene.pos;
 

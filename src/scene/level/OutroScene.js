@@ -13,7 +13,7 @@ scene.level.OutroScene = (function () {
         this.pos = this.prevScene.pos;
 
         this.ball = new Ball(prevScene.ball);
-        this.chr = prevScene.prevScene.chr;
+        this.chr = prevScene.chr;
         this.field = prevScene.field;
         this.menuButton = prevScene.menuButton;
         this.scoreBoard = prevScene.scoreBoard;
