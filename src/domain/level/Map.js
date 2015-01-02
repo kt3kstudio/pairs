@@ -5,23 +5,17 @@
 domain.level.Map = (function ($) {
     'use strict';
 
-    var exports = function (metrics) {
+    /**
+     * @constructor
+     * @param {Object} dimension The cell dimension
+     * @param {String|HTMLElement} dom The dom to put Cell's dom
+     */
+    var exports = function (dimension, dom) {
         this.cells = [];
 
-        this.$dom = $(document.body);
+        this.$dom = $(dom);
 
-        this.top = metrics.top;
-        this.left = metrics.left;
-        this.unit = metrics.unit;
-    };
-
-    /**
-     * Create a map object from a bom object list.
-     *
-     * @return {domain.level.Map}
-     */
-    exports.createFromBomList = function (bomList) {
-        return new exports().loadFromBomList(bomList);
+        this.dimension = dimension;
     };
 
     var mapPrototype = exports.prototype;
@@ -33,7 +27,16 @@ domain.level.Map = (function ($) {
      * @return {domain.level.Cell}
      */
     mapPrototype.createCellFromBom = function (bom) {
-        return new domain.level.Cell(bom.x, bom.y, bom.gene, this.left, this.top, this.unit);
+
+        return new domain.level.Cell(
+            bom.x,
+            bom.y,
+            bom.gene,
+            this.dimension.left,
+            this.dimension.top,
+            this.dimension.unit
+        );
+
     };
 
     mapPrototype.empty = function () {
@@ -68,19 +71,20 @@ domain.level.Map = (function ($) {
         return this;
     };
 
-    mapPrototype.appear = function (dom) {
+    mapPrototype.appear = function () {
 
-        var p = Promise.resolve();
+        var $dom = this.$dom;
 
-        this.cells.forEach(function (cell) {
-            p = p.then(function () {
-                cell.appear(dom);
+        return this.cells.map(function (cell, i) {
 
-                return wait(40);
+            return wait(i * 40).then(function () {
+
+                cell.appear($dom);
+
             });
-        });
 
-        return p;
+        }).pop();
+
     };
 
     mapPrototype.commandAll = function (command, args) {
@@ -90,12 +94,6 @@ domain.level.Map = (function ($) {
         });
 
     };
-
-    // help item ?
-    mapPrototype.allUp = function () { this.commandAll('up'); };
-    mapPrototype.allDown = function () { this.commandAll('down'); };
-    mapPrototype.allRight = function () { this.commandAll('right'); };
-    mapPrototype.allLeft = function () { this.commandAll('left'); };
 
     mapPrototype.select = function (pos) {
         return this.cells.filter(function (cell) {

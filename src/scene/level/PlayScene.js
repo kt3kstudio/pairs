@@ -31,7 +31,7 @@ scene.level.PlayScene = (function () {
         this.playingState = new datadomain.PlayingState(this.chr.name);
 
         // models
-        this.map = new domain.level.Map(fieldDimension);
+        this.map = new domain.level.Map(fieldDimension, '#main');
         this.map.loadFromBomList(this.level.cells);
         this.field = new domain.level.Field(fieldDimension);
 
@@ -127,7 +127,7 @@ scene.level.PlayScene = (function () {
 
         }).then(function () {
 
-            return that.map.appear('#main');
+            return that.map.appear();
 
         }).then(function () {
 
