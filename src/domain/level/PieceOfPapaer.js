@@ -1,6 +1,7 @@
 
 /**
  * @class
+ * @extends domain.common.CharSprite
  * PieceOfPaper represents a piece of paper which is on the floor of each room (level).
  *
  * On a piece of paper, the instruction for clearing the level is written down,
