@@ -24,21 +24,21 @@ scene.level.PlayScene = (function () {
         this.level = prevScene.level;
         this.chr = prevScene.chr;
 
-        // prepare metrics
-        var mapPosition = pos.fieldPosition();
-        var evalBoxPosition = pos.evalRoomPosition();
-        var exitQueuePosition = pos.queuePosition();
-        var fusionBoxPosition = pos.fusionBoxPosition();
+        // prepare dimensions
+        var fieldDimension = pos.fieldPosition();
+        var prepDimension = pos.evalRoomPosition();
+        var exitQueueDimension = pos.queuePosition();
+        var fusionDimension = pos.fusionBoxPosition();
 
         // models
-        this.map = new domain.level.Map(mapPosition);
+        this.map = new domain.level.Map(fieldDimension);
         this.map.loadFromBomList(this.level.cells);
-        this.field = new domain.level.Field(mapPosition);
+        this.field = new domain.level.Field(fieldDimension);
 
-        // boxes
-        this.fps = new domain.level.FusionPreparationService(evalBoxPosition);
-        this.fusionService = new domain.level.FusionService(fusionBoxPosition);
-        this.exitQueue = new domain.level.ExitQueue(exitQueuePosition);
+        // services
+        this.fps = new domain.level.FusionPreparationService(prepDimension);
+        this.fusionService = new domain.level.FusionService(fusionDimension);
+        this.exitQueue = new domain.level.ExitQueue(exitQueueDimension);
 
         // services
         this.bms = new domain.level.BallMoveMobLeaveService(this.ball, this.map);
