@@ -102,8 +102,18 @@ scene.level.PlayScene = (function () {
 
         }).forEach(function () {
 
-            subscription.dispose();
-            that.finish();
+            that.cells.loadList(that.exitQueue.queue.splice(0).map(function (queuee) {
+
+                return queuee.cell;
+
+            }));
+
+            //wait(100).then(function () {
+                that.cells.appear();
+            //});
+
+            //subscription.dispose();
+            //that.finish();
 
         }, function (e) {
 
@@ -144,7 +154,7 @@ scene.level.PlayScene = (function () {
 
             var dirs = that.playingState.dirs.splice(0);
 
-            dirs = dirs.map(function (dir, i) { return wait(i * 300, dir); });
+            dirs = dirs.map(function (dir, i) { return wait(i * 180, dir); });
 
             that.bindEventHandlers(dirs.toFlatStream());
 

@@ -26,17 +26,14 @@ domain.level.FieldCells = (function () {
      * @param {Object} bom The bom object
      * @return {domain.level.Cell}
      */
-    fcPt.createCellFromBom = function (bom) {
+    fcPt.createCellFromObject = function (bom) {
 
         return new domain.level.Cell(
             bom.x,
             bom.y,
             bom.gene,
-            this.dimension.left,
-            this.dimension.top,
-            this.dimension.unit,
             this.$dom
-        );
+        ).setDimension(this.dimension);
 
     };
 
@@ -60,9 +57,9 @@ domain.level.FieldCells = (function () {
 
         var indices = new util.FieldIndexGenerator().generate(list.length, this.usedIndices());
 
-        list.forEach(function (bom, i) {
+        list.forEach(function (obj, i) {
 
-            this.push(this.createCellFromBom(bom).setXY(indices[i]));
+            this.push(this.createCellFromObject(obj).setXY(indices[i]));
 
         }, this);
 
@@ -81,7 +78,7 @@ domain.level.FieldCells = (function () {
 
         list.forEach(function (cell, i) {
 
-            this.push(cell.setXY(indices[i]));
+            this.push(cell.setXY(indices[i]).setDimension(this.dimension));
 
         }, this);
 

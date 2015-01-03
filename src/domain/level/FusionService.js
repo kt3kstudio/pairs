@@ -71,7 +71,12 @@ domain.level.FusionService = (function () {
     fusionPt.fusion = function (pair) {
         var dur = 600;
 
-        var bom = new domain.level.Cell(0, 0, pair.newGene(), this.metrics.left, this.metrics.top, this.metrics.unit, this.$dom);
+        var bom = new domain.level.Cell(
+            0,
+            0,
+            pair.newGene(),
+            this.$dom
+        ).setDimension(this.metrics);
 
         bom.isLastOne = pair.isLastOne();
 

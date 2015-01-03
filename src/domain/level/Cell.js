@@ -7,15 +7,12 @@
 domain.level.Cell = (function () {
     'use strict';
 
-    var exports = function (x, y, gene, left, top, unit, parent) {
+    var exports = function (x, y, gene, parent) {
         this.x = x;
         this.y = y;
-        this.width = Math.floor(unit / 2);
-        this.gutter = Math.floor(unit / 4);
 
         this.setGene(gene);
         this.setTransitionDuration(300);
-        this.setMetrics(left, top, unit);
 
         this.parent = parent;
 
@@ -41,6 +38,21 @@ domain.level.Cell = (function () {
     };
 
     var cellPt = exports.prototype;
+
+
+    /**
+     * Sets the dimension.
+     *
+     * @param {Object} dimension The dimension
+     * @return {domain.level.Cell}
+     */
+    cellPt.setDimension = function (dimension) {
+        this.dimension = dimension;
+        this.width = Math.floor(dimension.unit / 2);
+        this.gutter = Math.floor(dimension.unit / 4);
+
+        return this;
+    };
 
     cellPt.setTransitionDuration = function (dur) {
         this.locateDur = dur;
@@ -107,6 +119,10 @@ domain.level.Cell = (function () {
     cellPt.createDom = function () {
         var that = this;
 
+        if (this.$dom) {
+            return this.$dom;
+        }
+
         var $dom = this.$dom = $('<object type="image/svg+xml" />').css({
             'position': 'absolute',
             'width': this.width + 'px',
@@ -137,7 +153,8 @@ domain.level.Cell = (function () {
 
         var that = this;
 
-        return this.createDom().then(function ($dom) {
+        return Promise.resolve(this.createDom()).then(function ($dom) {
+            that.locate();
 
             return $dom.anim('bom-appear', that.appearDur);
 
@@ -163,17 +180,9 @@ domain.level.Cell = (function () {
         });
     };
 
-    cellPt.setMetrics = function (left, top, unit) {
-        this.offsetX = left;
-        this.offsetY = top;
-        this.unit = unit;
-
-        return this;
-    };
-
     cellPt.locate = function () {
-        this.$dom.css('top', this.offsetY + this.unit * this.y + this.gutter + 'px');
-        this.$dom.css('left', this.offsetX + this.unit * this.x + this.gutter + 'px');
+        this.$dom.css('top', this.dimension.top+ this.dimension.unit * this.y + this.gutter + 'px');
+        this.$dom.css('left', this.dimension.left+ this.dimension.unit * this.x + this.gutter + 'px');
 
         return wait(this.locateDur, this);
     };

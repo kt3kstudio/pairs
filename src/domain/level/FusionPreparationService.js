@@ -56,30 +56,22 @@ domain.level.FusionPreparationService = (function () {
      * @param {domain.level.Cell} cell The cell
      */
     psPt.push = function (cell) {
-        var p = this.set(cell, this.stack.length);
-
         this.isFinished = cell.isLastOne;
 
-        this.stack.push(p);
+        this.stack.push(this.locate(cell, this.stack.length));
     };
 
 
     /**
-     * Involves a cell into the preparation dimension.
+     * locate the cell at the index.
      *
-     * @private
      * @param {domain.level.Cell} cell The cell
+     * @param {Number} index The index
+     * @param {Promise}
      */
-    psPt.involve = function (cell) {
+    psPt.locate = function (cell, index) {
 
-        cell.setMetrics(this.dimension.left, this.dimension.top, this.dimension.unit);
-
-    };
-
-
-    psPt.set = function (cell, index) {
-
-        this.involve(cell);
+        cell.setDimension(this.dimension);
 
         cell.x = index;
         cell.y = 0;

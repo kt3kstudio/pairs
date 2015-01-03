@@ -143,10 +143,23 @@ domain.level.ExitQueue= (function () {
      * Sets the transion duraiton.
      *
      * @param {Number} dur The duration
-     * @return {Promise}
+     * @return {Promise} of domain.level.Cell
      */
     qPt.setTransitionDuration = function (dur) {
         return this.cell.setTransitionDuration(dur);
+    };
+
+
+    /**
+     * Sets the dimension.
+     *
+     * @param {Object} dimension The dimension
+     * @return {domain.level.ExitQueue.Queuee}
+     */
+    qPt.setDimension = function (dimension) {
+        this.cell.setDimension(dimension);
+
+        return this;
     };
 
     return exports;
