@@ -139,7 +139,7 @@ domain.level.BallMoveMobLeaveService = (function () {
     mobsPrototype.leave = function (pos) {
         var w = this.cells.select(pos);
 
-        this.cells.filter(w);
+        this.cells.remove(w);
 
         w = w[0];
 

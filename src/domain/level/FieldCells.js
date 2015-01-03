@@ -58,9 +58,11 @@ domain.level.FieldCells = (function () {
      */
     fcPt.loadFromObjectList = function (list) {
 
-        list.forEach(function (bom) {
+        var indices = new util.FieldIndexGenerator().generate(list.length, this.usedIndices());
 
-            this.push(this.createCellFromBom(bom));
+        list.forEach(function (bom, i) {
+
+            this.push(this.createCellFromBom(bom).setXY(indices[i]));
 
         }, this);
 
@@ -75,9 +77,11 @@ domain.level.FieldCells = (function () {
      */
     fcPt.loadList = function (list) {
 
-        list.forEach(function (cell) {
+        var indices = new util.FieldIndexGenerator().generate(list.length, this.usedIndices());
 
-            this.push(cell);
+        list.forEach(function (cell, i) {
+
+            this.push(cell.setXY(indices[i]));
 
         }, this);
 
@@ -106,7 +110,7 @@ domain.level.FieldCells = (function () {
 
         return this.cells.map(function (cell, i) {
 
-            return wait(i * 40).then(function () {
+            return wait(i * 56).then(function () {
 
                 cell.appear();
 
@@ -132,6 +136,13 @@ domain.level.FieldCells = (function () {
 
     };
 
+
+    /**
+     * Selects all the cells at the position.
+     *
+     * @param {Object} pos The position
+     * @return {Array}
+     */
     fcPt.select = function (pos) {
         return this.cells.filter(function (cell) {
             return cell.x === pos.x && cell.y === pos.y;
@@ -155,13 +166,25 @@ domain.level.FieldCells = (function () {
         return cand[0];
     };
 
+
+    /**
+     * Selects the cells below the given postion.
+     *
+     * @param {Object} pos The position
+     * @return {Array}
+     */
     fcPt.selectRange = function (pos) {
         return this.cells.filter(function (cell) {
             return cell.x === pos.x && cell.y > pos.y;
         });
     };
 
-    fcPt.filter = function (cells) {
+    /**
+     * Removes the given cells.
+     *
+     * @param {Array} cells The cells
+     */
+    fcPt.remove = function (cells) {
         this.cells = this.cells.filter(function (cell) {
             return cells.indexOf(cell) < 0;
         });

@@ -61,6 +61,21 @@ domain.level.Cell = (function () {
     cellPt.setGene = function (gene) {
         this.gene = gene;
 
+        return this;
+    };
+
+
+    cellPt.setXY = function (yx) {
+        this.x = yx[1];
+        this.y = yx[0];
+
+        return this;
+    };
+
+    cellPt.setIsLastOne = function (isLastOne) {
+        this.__isLastOne = isLastOne;
+
+        return this;
     };
 
     cellPt.selectImage = function () {
