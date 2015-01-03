@@ -203,6 +203,32 @@ domain.level.FieldCells = (function () {
 
     };
 
+
+    /**
+     * Serializes the instance in JSON format.
+     *
+     * @param {Number} n The indent width
+     * @return {String}
+     */
+    fcPt.toJSON = function (n) {
+        return JSON.stringify(this.toArray(), null, n);
+    };
+
+
+    /**
+     * Serializes the instance in Array format.
+     *
+     * @return {Array}
+     */
+    fcPt.toArray = function () {
+        var indices = new util.FieldIndexGenerator().generate(this.cells.length);
+
+        return indices.map(function (index) {
+            return this.find({x: index[1], y: index[0]}).toObject();
+        }, this);
+
+    };
+
     return exports;
 
 }());

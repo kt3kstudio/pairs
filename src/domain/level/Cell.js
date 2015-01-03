@@ -58,6 +58,12 @@ domain.level.Cell = (function () {
 
 
 
+    /**
+     * Sets the gene.
+     *
+     * @param {String} gene The gene in string
+     * @return {domain.level.Cell}
+     */
     cellPt.setGene = function (gene) {
         this.gene = gene;
 
@@ -65,6 +71,12 @@ domain.level.Cell = (function () {
     };
 
 
+    /**
+     * Sets the coordinate
+     *
+     * @param {Array} yx The array of [y, x]
+     * @return {domain.level.Cell}
+     */
     cellPt.setXY = function (yx) {
         this.x = yx[1];
         this.y = yx[0];
@@ -183,6 +195,18 @@ domain.level.Cell = (function () {
     cellPt.down = function () { return this.move(0, 1); };
     cellPt.left = function () { return this.move(-1, 0); };
     cellPt.right = function () { return this.move(1, 0); };
+
+
+    /**
+     * Returns object representation of the cell.
+     *
+     * @return {Object}
+     */
+    cellPt.toObject = function () {
+
+        return {gene: this.gene};
+
+    };
 
     return exports;
 
