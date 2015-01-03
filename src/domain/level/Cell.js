@@ -102,6 +102,12 @@ domain.level.Cell = (function () {
         return this;
     };
 
+    /**
+     * Chooses the image for the gene.
+     *
+     * @private
+     * @return {String}
+     */
     cellPt.selectImage = function () {
         if (this.gene === 'f') {
             return 'images/neef.svg';
@@ -116,6 +122,11 @@ domain.level.Cell = (function () {
         return 'images/' + cellKind + '.svg';
     };
 
+    /**
+     * Creates the dom for this
+     *
+     * @return {jQuery}
+     */
     cellPt.createDom = function () {
         var that = this;
 
@@ -126,7 +137,7 @@ domain.level.Cell = (function () {
         var $dom = this.$dom = $('<object type="image/svg+xml" />').css({
             'position': 'absolute',
             'width': this.width + 'px',
-            'height': this.width + 'px',
+            'height': this.width + 'px'
         });
 
         $dom.attr('data', this.selectImage()).prependTo(this.parent);
@@ -147,6 +158,19 @@ domain.level.Cell = (function () {
         });
     };
 
+
+    /**
+     * Recreates the shape of the cell.
+     *
+     * For example, change the size of the dom.
+     */
+    cellPt.remorph = function () {
+        this.$dom.css({
+            'width': this.width + 'px',
+            'height': this.width + 'px'
+        });
+    };
+
     cellPt.appearDur = 500;
 
     cellPt.appear = function () {
@@ -154,6 +178,7 @@ domain.level.Cell = (function () {
         var that = this;
 
         return Promise.resolve(this.createDom()).then(function ($dom) {
+            that.remorph();
             that.locate();
 
             return $dom.anim('bom-appear', that.appearDur);
