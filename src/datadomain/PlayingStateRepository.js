@@ -13,21 +13,21 @@ datadomain.PlayingStateRepository = (function () {
 
     var pdrPt = exports.prototype;
 
-    pdrPt.getPlayingState = function (name) {
+    pdrPt.getByName = function (name) {
 
         return infrastructure.storage.get(name + PLAYING_DATA_KEY, null).then(function (data) {
 
-            return data && new datadomain.PlayingState.createFromObject(data);
+            return data && new datadomain.PlayingState.createFromObject(name, data);
 
         });
 
     };
 
-    pdrPt.savePlayingState = function (name, playState) {
-        infrastructure.storage.set(name + PLAYING_DATA_KEY, playState.toObject());
+    pdrPt.save = function (playState) {
+        infrastructure.storage.set(playState.name + PLAYING_DATA_KEY, playState.toObject());
     };
 
-    pdrPt.clearPlayingState = function (name) {
+    pdrPt.clearByName = function (name) {
         infrastructure.storage.set(name + PLAYING_DATA_KEY, null);
     };
 

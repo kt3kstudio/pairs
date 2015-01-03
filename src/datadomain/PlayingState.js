@@ -9,27 +9,30 @@ datadomain.PlayingState = (function () {
      * @constructor
      * @param {Array} dirs The directions
      */
-    var exports = function (dirs) {
+    var exports = function (name, dirs) {
+        this.name = name;
         this.dirs = dirs;
     };
 
     /**
      * Creates instance from the object.
      *
+     * @param {String} name The name of the character
      * @param {Object} obj The source object
      * @param {Array} obj.dirs The list of directions
      */
-    exports.createFromObject = function (obj) {
-        return new exports(obj.dirs);
+    exports.createFromObject = function (name, obj) {
+        return new exports(name, obj.dirs);
     };
 
     /**
      * Creates initial state of the playing data.
      *
+     * @param {String} name The name of the character
      * @return {datadomain.PlayingState}
      */
-    exports.createInitialStateData = function () {
-        return new exports([]);
+    exports.createInitialState = function (name) {
+        return new exports(name, []);
     };
 
     var pdPt = exports.prototype;
@@ -54,6 +57,42 @@ datadomain.PlayingState = (function () {
      */
     pdPt.addDirection = function (dir) {
         this.dirs.push(dir);
+    };
+
+
+    /**
+     * Restores from the saved object.
+     *
+     * @return {Promise}
+     */
+    pdPt.restore = function () {
+        var that = this;
+
+        var repo = new datadomain.PlayingStateRepository();
+
+        return repo.getByName(this.name).then(function (ps) {
+
+            if (ps) {
+
+                that.name = ps.name;
+                that.dirs = ps.dirs;
+
+            }
+
+            return that;
+        });
+    };
+
+
+    /**
+     * Saves the current state.
+     *
+     * @param {Promise}
+     */
+    pdPt.save = function () {
+        var repo = new datadomain.PlayingStateRepository();
+
+        return repo.save(this);
     };
 
     return exports;
