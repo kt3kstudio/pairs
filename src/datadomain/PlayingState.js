@@ -7,11 +7,12 @@ datadomain.PlayingState = (function () {
 
     /**
      * @constructor
-     * @param {Array} dirs The directions
+     * @param {String} name The name of the character
+     * @param {Array} [dirs] The directions
      */
     var exports = function (name, dirs) {
         this.name = name;
-        this.dirs = dirs;
+        this.dirs = dirs || [];
     };
 
     /**
@@ -51,11 +52,11 @@ datadomain.PlayingState = (function () {
 
 
     /**
-     * Adds direction
+     * Adds a direction
      *
-     * @param {String} dir The direction.
+     * @param {String} dir The direction
      */
-    pdPt.addDirection = function (dir) {
+    pdPt.add = function (dir) {
         this.dirs.push(dir);
     };
 

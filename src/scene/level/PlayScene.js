@@ -62,12 +62,17 @@ scene.level.PlayScene = (function () {
      * Binds event handlers to the stream.
      *
      * @param {Rx.Observable} stream The source stream
+     * @return {Rx.Observer}
      */
     psPt.bindEventHandlers = function (stream) {
 
         var that = this;
 
         var subscription = stream.pipe(function (dir) {
+
+            that.playingState.add(dir);
+
+            that.playingState.save();
 
             return that.bms.ballMoveAndLeaveOne(dir);
 
@@ -107,12 +112,14 @@ scene.level.PlayScene = (function () {
 
         });
 
-        return this;
+        return subscription;
 
     };
 
     /**
      * Starts the scene.
+     *
+     * @return {Promise}
      */
     psPt.start = function () {
 
@@ -127,9 +134,25 @@ scene.level.PlayScene = (function () {
 
         }).then(function () {
 
+            return that.playingState.restore();
+
+        }).then(function () {
+
             return that.cells.appear();
 
         }).then(function () {
+
+            var dirs = that.playingState.dirs.splice(0);
+
+            dirs = dirs.map(function (dir, i) { return wait(i * 300, dir); });
+
+            that.bindEventHandlers(dirs.toFlatStream());
+
+            return dirs[dirs.length - 1];
+
+        }).then(function () {
+
+            console.log('start!');
 
             return that.bindEventHandlers(that.swipe.getStream());
 
