@@ -56,9 +56,20 @@ domain.common.Sprite = (function () {
      * @return {Promise} The end of the appearing animation
      */
     spritePt.appear = function (dur) {
-        this.$dom = this.$dom || this.createDom().appendTo(this.parent || DEFAULT_PARENT);
 
-        return this.$dom.anim(this.appearAnim, dur || this.appearDur);
+        var that = this;
+
+        return Promise.resolve(this.$dom || this.createDom()).then(function ($dom) {
+
+            that.$dom = $dom;
+
+            if ($dom.parent().length === 0) {
+                $dom.appendTo(that.parent || DEFAULT_PARENT);
+            }
+
+            return $dom.anim(that.appearAnim, dur || that.appearDur);
+        });
+
     };
 
     /**
