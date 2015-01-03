@@ -6,7 +6,7 @@
 datadomain.PlayingStateRepository = (function () {
     'use strict';
 
-    var PLAYING_DATA_KEY = '-playing-data';
+    var PLAYING_DATA_KEY = '-playing-state';
 
     var exports = function () {
     };
