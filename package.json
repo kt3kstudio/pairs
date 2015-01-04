@@ -8,7 +8,6 @@
     "doc": "doc"
   },
   "scripts": {
-    "lint": "jshint src spec",
     "build": "bundle exec middleman build",
     "test": "karma start karma.js",
     "ci": "karma start karma.js --browsers PhantomJS",
