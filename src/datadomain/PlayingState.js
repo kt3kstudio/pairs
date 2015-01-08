@@ -8,11 +8,11 @@ datadomain.PlayingState = (function () {
     /**
      * @constructor
      * @param {String} name The name of the character
-     * @param {Array} [dirs] The directions
+     * @param {Array} [rounds] The directions
      */
-    var exports = function (name, dirs) {
+    var exports = function (name, rounds) {
         this.name = name;
-        this.dirs = dirs || [];
+        this.rounds = rounds || [];
     };
 
     /**
@@ -23,7 +23,7 @@ datadomain.PlayingState = (function () {
      * @param {Array} obj.dirs The list of directions
      */
     exports.createFromObject = function (name, obj) {
-        return new exports(name, obj.dirs);
+        return new exports(name, obj.rounds);
     };
 
     /**
@@ -39,6 +39,11 @@ datadomain.PlayingState = (function () {
     var pdPt = exports.prototype;
 
 
+    pdPt.bump = function () {
+        this.rounds.unshift([]);
+    };
+
+
     /**
      * Gets object representation
      *
@@ -46,7 +51,7 @@ datadomain.PlayingState = (function () {
      */
     pdPt.toObject = function () {
         return {
-            dirs: this.dirs
+            rounds: this.rounds
         };
     };
 
@@ -57,7 +62,7 @@ datadomain.PlayingState = (function () {
      * @param {String} dir The direction
      */
     pdPt.add = function (dir) {
-        this.dirs.push(dir);
+        this.rounds[0].push(dir);
     };
 
 
@@ -74,14 +79,16 @@ datadomain.PlayingState = (function () {
         return repo.getByName(this.name).then(function (ps) {
 
             if (ps) {
-
-                that.name = ps.name;
-                that.dirs = ps.dirs;
-
+                that.restoreFromObject(ps);
             }
 
             return that;
         });
+    };
+
+    pdPt.restoreFromObject = function (obj) {
+        this.name = obj.name;
+        this.rounds = obj.rounds;
     };
 
 
