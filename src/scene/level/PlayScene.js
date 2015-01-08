@@ -68,6 +68,14 @@ scene.level.PlayScene = (function () {
 
         var that = this;
 
+        var resolve;
+
+        var promise = new Promise(function (onResolve) {
+
+            resolve = onResolve;
+
+        });
+
         var subscription = stream.pipe(function (dir) {
 
             that.playingState.add(dir);
@@ -100,7 +108,9 @@ scene.level.PlayScene = (function () {
 
             return cell.isLastOne;
 
-        }).forEach(function () {
+        }).pipe(function () {
+
+            that.playingState.bump();
 
             that.cells.loadList(that.exitQueue.queue.splice(0).map(function (queuee) {
 
@@ -108,21 +118,34 @@ scene.level.PlayScene = (function () {
 
             }));
 
-            //wait(100).then(function () {
-                that.cells.appear();
-            //});
+            var p = that.cells.appear();
 
-            //subscription.dispose();
+            p.then(function () { console.log('cell appeared'); })
+
+            return p;
+
             //that.finish();
+
+        }).forEach(function (x) {
+            console.log('forEach');
+            console.log(x);
 
         }, function (e) {
 
             console.log (e);
             console.log (e.stack);
 
+        }, function () {
+
+            console.log('onComplete!');
+
+            wait(1000).then(function () {
+                resolve();
+            });
+
         });
 
-        return subscription;
+        return promise;
 
     };
 
@@ -152,13 +175,25 @@ scene.level.PlayScene = (function () {
 
         }).then(function () {
 
-            var dirs = that.playingState.dirs.splice(0);
+            var rounds = that.playingState.rounds.splice(0);
 
-            dirs = dirs.map(function (dir, i) { return wait(i * 180, dir); });
+            that.playingState.bump();
 
-            that.bindEventHandlers(dirs.toFlatStream());
+            var promise = Promise.resolve();
 
-            return dirs[dirs.length - 1];
+            rounds.reverse().forEach(function (round, i) {
+
+                promise = promise.then(function () {
+
+                    var dirs = round.map(function (dir, i) { return wait(i * 180, dir); });
+
+                    return that.bindEventHandlers(dirs.toFlatStream());
+
+                });
+
+            });
+
+            return promise;
 
         }).then(function () {
 
