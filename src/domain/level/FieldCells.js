@@ -78,7 +78,13 @@ domain.level.FieldCells = (function () {
 
         list.forEach(function (cell, i) {
 
-            this.push(cell.setXY(indices[i]).setDimension(this.dimension));
+            cell
+            .setXY(indices[i])
+            .setDimension(this.dimension);
+
+            cell.isLastOne = false;
+
+            this.push(cell);
 
         }, this);
 
