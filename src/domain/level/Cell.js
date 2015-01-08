@@ -178,10 +178,10 @@ domain.level.Cell = (function () {
         var that = this;
 
         return Promise.resolve(this.createDom()).then(function ($dom) {
-            that.remorph();
-            that.locate();
 
-            return $dom.anim('bom-appear', that.appearDur);
+            that.remorph();
+
+            return Promise.all([that.locate(), that.$dom.anim('bom-appear', that.appearDur)]);
 
         }).then(function () {
 
