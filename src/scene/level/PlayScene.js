@@ -127,6 +127,7 @@ scene.level.PlayScene = (function () {
             //that.finish();
 
         }).forEach(function (x) {
+
             console.log('forEach');
             console.log(x);
 
@@ -139,7 +140,7 @@ scene.level.PlayScene = (function () {
 
             console.log('onComplete!');
 
-            wait(1000).then(function () {
+            wait(500).then(function () {
                 resolve();
             });
 
@@ -205,6 +206,13 @@ scene.level.PlayScene = (function () {
 
     };
 
+
+    psPt.resetPlayingState = function () {
+
+        this.playingState.rounds = [[]];
+        this.playingState.save();
+
+    };
 
     return exports;
 
