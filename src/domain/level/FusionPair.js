@@ -37,7 +37,9 @@ domain.level.FusionPair = (function () {
      */
     fpPt.newGene = function () {
 
-        return geneFusion(this.leftGene(), this.rightGene());
+        this.__newGene__ = this.__newGene__ || geneFusion(this.leftGene(), this.rightGene());
+
+        return this.__newGene__;
 
     };
 
