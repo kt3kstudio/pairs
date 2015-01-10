@@ -75,6 +75,14 @@
 
 
     /**
+     * Rx.Observer
+     *
+     * @class Rx.Observer
+     */
+    Rx.Observer;
+
+
+    /**
      * Array.
      *
      * @class Array

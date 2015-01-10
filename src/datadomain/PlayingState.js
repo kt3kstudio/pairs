@@ -95,7 +95,7 @@ datadomain.PlayingState = (function () {
     /**
      * Saves the current state.
      *
-     * @param {Promise}
+     * @return {Promise}
      */
     pdPt.save = function () {
         var repo = new datadomain.PlayingStateRepository();

@@ -67,7 +67,7 @@ domain.level.FusionPreparationService = (function () {
      *
      * @param {domain.level.Cell} cell The cell
      * @param {Number} index The index
-     * @param {Promise}
+     * @return {Promise}
      */
     psPt.locate = function (cell, index) {
 
