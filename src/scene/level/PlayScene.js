@@ -76,7 +76,7 @@ scene.level.PlayScene = (function () {
 
         });
 
-        var subscription = stream.pipe(function (dir) {
+        stream.pipe(function (dir) {
 
             that.playingState.add(dir);
 
@@ -137,8 +137,6 @@ scene.level.PlayScene = (function () {
             console.log (e.stack);
 
         }, function () {
-
-            subscription.dispose();
             console.log('onComplete!');
 
             wait(500).then(function () {
