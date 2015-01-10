@@ -177,7 +177,7 @@ domain.level.Cell = (function () {
 
         var that = this;
 
-        return Promise.resolve(this.createDom()).then(function ($dom) {
+        return Promise.resolve(this.createDom()).then(function () {
 
             that.remorph();
 

@@ -120,7 +120,7 @@ scene.level.PlayScene = (function () {
 
             var p = that.cells.appear();
 
-            p.then(function () { console.log('cell appeared'); })
+            p.then(function () { console.log('cell appeared'); });
 
             return p;
 
@@ -138,6 +138,7 @@ scene.level.PlayScene = (function () {
 
         }, function () {
 
+            subscription.dispose();
             console.log('onComplete!');
 
             wait(500).then(function () {
@@ -182,7 +183,7 @@ scene.level.PlayScene = (function () {
 
             var promise = Promise.resolve();
 
-            rounds.reverse().forEach(function (round, i) {
+            rounds.reverse().forEach(function (round) {
 
                 promise = promise.then(function () {
 
