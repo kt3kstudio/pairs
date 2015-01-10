@@ -56,7 +56,7 @@ domain.level.FusionPreparationService = (function () {
      * @param {domain.level.Cell} cell The cell
      */
     psPt.push = function (cell) {
-        this.isFinished = cell.isLastOne;
+        this.isFinished = cell.isLastOne();
 
         this.stack.push(this.locate(cell, this.stack.length));
     };

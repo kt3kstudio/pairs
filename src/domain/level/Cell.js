@@ -16,6 +16,8 @@ domain.level.Cell = (function () {
 
         this.parent = parent;
 
+        this.__isLastOne = false;
+
         exports.allList.push(this);
     };
 
@@ -96,10 +98,20 @@ domain.level.Cell = (function () {
         return this;
     };
 
-    cellPt.setIsLastOne = function (isLastOne) {
-        this.__isLastOne = isLastOne;
+    cellPt.setLastOne = function () {
+        this.__isLastOne = true;
 
         return this;
+    };
+
+    cellPt.unsetLastOne = function () {
+        this.__isLastOne = false;
+
+        return this;
+    };
+
+    cellPt.isLastOne = function () {
+        return this.__isLastOne;
     };
 
     /**

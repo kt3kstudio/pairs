@@ -52,11 +52,7 @@ domain.level.BallMoveMobLeaveService = (function () {
      */
     bmsPrototype.leaveLastOneAtBall = function () {
 
-        var mob = this.mobs.leave(this.ball.pos());
-
-        mob.isLastOne = true;
-
-        return mob;
+        return this.mobs.leave(this.ball.pos()).setLastOne();
 
     };
 
@@ -95,9 +91,7 @@ domain.level.BallMoveMobLeaveService = (function () {
 
         console.log('no cell left');
 
-        mob.isLastOne = true;
-
-        return mob;
+        return mob.setLastOne();
 
     };
 

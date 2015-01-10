@@ -21,7 +21,7 @@ domain.level.FusionPair = (function () {
 
     var isLastOne = function (cell) {
 
-        return cell ? cell.isLastOne : false;
+        return cell ? cell.isLastOne() : false;
 
     };
 

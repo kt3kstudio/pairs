@@ -108,7 +108,7 @@ scene.level.PlayScene = (function () {
 
         }).filter(function (cell) {
 
-            return cell.isLastOne;
+            return cell.isLastOne();
 
         }).pipe(function () {
 

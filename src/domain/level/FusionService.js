@@ -78,7 +78,9 @@ domain.level.FusionService = (function () {
             this.$dom
         ).setDimension(this.metrics);
 
-        bom.isLastOne = pair.isLastOne();
+        if (pair.isLastOne()) {
+            bom.setLastOne();
+        }
 
         return bom.appear(dur);
     };

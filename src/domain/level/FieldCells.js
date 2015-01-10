@@ -80,9 +80,8 @@ domain.level.FieldCells = (function () {
 
             cell
             .setXY(indices[i])
-            .setDimension(this.dimension);
-
-            cell.isLastOne = false;
+            .setDimension(this.dimension)
+            .unsetLastOne();
 
             this.push(cell);
 
