@@ -1,32 +1,29 @@
-// displaying current point
-debug.PointBox = {
-    getCount: function (gender0, gender1) {
-        'use strict';
+debug.FusionCounter = (function () {
+    'use strict';
 
-        return parseInt(this.getTarget(gender0, gender1).text());
-    },
-    setCount: function (gender0, gender1, count) {
-        'use strict';
+    var exports = function () {
+        this.table = {};
+    };
 
-        this.getTarget(gender0, gender1).text(count);
-    },
-    countUp: function (gender0, gender1) {
-        'use strict';
+    var fcPt = exports.prototype;
 
-        this.setCount(gender0, gender1, this.getCount(gender0, gender1) + 1);
-    },
-    reset: function () {
-        'use strict';
+    fcPt.count = function (pair) {
 
-        this.setCount('f', 'f', 0);
-        this.setCount('m', 'f', 0);
-        this.setCount('f', 'm', 0);
-        this.setCount('m', 'm', 0);
-    },
-    getTarget: function (gender0, gender1) {
-        'use strict';
+        var gene = pair.newGene();
 
-        var genderPair = gender0 + gender1;
-        return $('.point .' + genderPair);
-    }
-};
+        this.table[gene] = this.table[gene] || 0;
+
+        this.table[gene]++;
+
+    };
+
+    fcPt.toString = function () {
+
+        return Object.keys(this.table).map(function (key) {
+            return key + '(' + this.table[key] + ')';
+        }, this).join(' ');
+
+    };
+
+    return exports;
+}());

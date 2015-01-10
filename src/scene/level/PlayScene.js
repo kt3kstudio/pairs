@@ -49,7 +49,7 @@ scene.level.PlayScene = (function () {
         this.menuButton = $('.menu-button').menuButton($('#level-menu'));
 
         // debug things
-        this.pointBox = debug.PointBox; // singleton
+        this.fCounter = new debug.FusionCounter();
 
     };
 
@@ -94,9 +94,11 @@ scene.level.PlayScene = (function () {
 
         }).pipe(function (fusionPair) {
 
-            that.scoreBoard.addScore(fusionPair.score());
+            that.fCounter.count(fusionPair);
 
-            that.pointBox.countUp(fusionPair.leftGene(), fusionPair.rightGene());
+            console.log(that.fCounter.toString());
+
+            that.scoreBoard.addScore(fusionPair.score());
 
             return that.fusionService.performFusion(fusionPair);
 
