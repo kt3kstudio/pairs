@@ -129,15 +129,6 @@ domain.level.ExitQueue= (function () {
         return this;
     };
 
-    /**
-     * Sets the dimension.
-     */
-    qPt.setDimension = function (dimension) {
-        this.cell.setMetrics(dimension.left, dimension.top, dimension.unit);
-
-        return this;
-    };
-
 
     /**
      * Sets the transion duraiton.
