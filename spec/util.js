@@ -92,6 +92,28 @@ describe('Rx', function () {
 
         });
 
+        describe('getPromise', function () {
+
+            it('returns a promise', function () {
+
+                expect(Rx.Observable.of(1).getPromise()).to.be.instanceof(Promise);
+
+            });
+
+            it('returns a promise which resolves with the last value', function (done) {
+
+                Rx.Observable.of(1, 2, 3, 7).getPromise().then(function (x) {
+
+                    expect(x).to.equal(7);
+
+                    done();
+
+                });
+
+            });
+
+        });
+
     });
 
 });

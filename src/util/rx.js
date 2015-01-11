@@ -75,6 +75,31 @@
 
 
     /**
+     * Returns promise which resolves the last value of the stream when the stream completed.
+     *
+     * @return {Promise}
+     */
+    Rx.Observable.prototype.getPromise = function () {
+        var source = this;
+
+        return new Promise(function (resolve, reject) {
+
+            source.takeLast(1).subscribe(function (x) {
+
+                resolve(x);
+
+            }, function (error) {
+
+                reject(error);
+
+            });
+
+        });
+
+    };
+
+
+    /**
      * Rx.Observer
      *
      * @class Rx.Observer
