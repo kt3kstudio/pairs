@@ -7,16 +7,21 @@
 domain.level.Cell = (function () {
     'use strict';
 
-    var exports = function (x, y, gene, parent) {
-        this.x = x;
-        this.y = y;
+
+    /**
+     * @constructor
+     * @param {String} gene The gene string
+     * @param {String|HTMLElement} parent The parent dom
+     */
+    var exports = function (gene, parent) {
 
         this.setGene(gene);
         this.setTransitionDuration(300);
 
-        this.parent = parent;
+        this.parent = parent || 'body';
 
         this.__isLastOne = false;
+        this.__isEvolved = false;
 
         exports.allList.push(this);
     };
@@ -56,11 +61,19 @@ domain.level.Cell = (function () {
         return this;
     };
 
+
+    /**
+     * Sets the transition duration.
+     *
+     * @param {Number} dur The duration
+     * @return {Promise}
+     */
     cellPt.setTransitionDuration = function (dur) {
         this.locateDur = dur;
 
         return this.setTransitionDuration_();
     };
+
 
     cellPt.setTransitionDuration_ = function () {
         if (this.$dom) {
@@ -98,21 +111,71 @@ domain.level.Cell = (function () {
         return this;
     };
 
+
+    /**
+     * Sets the flag of the last one.
+     *
+     * @return {domain.level.Cell}
+     */
     cellPt.setLastOne = function () {
         this.__isLastOne = true;
 
         return this;
     };
 
+
+    /**
+     * Unsets the flag of the last one.
+     *
+     * @return {domain.level.Cell}
+     */
     cellPt.unsetLastOne = function () {
         this.__isLastOne = false;
 
         return this;
     };
 
+
+    /**
+     * Returns true if it's the last one of the round.
+     *
+     * @return {Boolean}
+     */
     cellPt.isLastOne = function () {
         return this.__isLastOne;
     };
+
+    /**
+     * Sets the flag of being evolved from the parents.
+     */
+    cellPt.setEvolved = function () {
+        this.__evolved = true;
+
+        return this;
+    };
+
+
+    /**
+     * Unsets the flag of being evolved.
+     */
+    cellPt.unsetEvolved = function () {
+        this.__evolved = false;
+
+        return this;
+    };
+
+
+    /**
+     * Returns true if it's evolved from its parents, otherwise false.
+     *
+     * @return {Boolean}
+     */
+    cellPt.isEvolved = function () {
+
+        return this.__evolved;
+
+    };
+
 
     /**
      * Chooses the image for the gene.

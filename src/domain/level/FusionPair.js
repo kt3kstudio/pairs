@@ -9,8 +9,8 @@ domain.level.FusionPair = (function () {
 
     /**
      * @constructor
-     * @param {domain.level.Cell}
-     * @param {domain.level.Cell}
+     * @param {domain.level.Cell} left The left cell
+     * @param {domain.level.Cell} right The right cell
      */
     var exports = function (left, right) {
         this.left = left;
@@ -112,7 +112,7 @@ domain.level.FusionPair = (function () {
             score *= 2;
         }
 
-        return score
+        return score;
 
     };
 

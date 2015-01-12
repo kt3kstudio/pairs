@@ -71,18 +71,17 @@ domain.level.FusionService = (function () {
     fusionPt.fusion = function (pair) {
         var dur = 600;
 
-        var bom = new domain.level.Cell(
-            0,
-            0,
-            pair.newGene(),
-            this.$dom
-        ).setDimension(this.metrics);
+        var cell = new domain.level.Cell(pair.newGene(), this.$dom).setDimension(this.metrics).setXY([0, 0]);
 
         if (pair.isLastOne()) {
-            bom.setLastOne();
+            cell.setLastOne();
         }
 
-        return bom.appear(dur);
+        if (pair.isEvolving()) {
+            cell.setEvolved();
+        }
+
+        return cell.appear(dur);
     };
 
     return exports;

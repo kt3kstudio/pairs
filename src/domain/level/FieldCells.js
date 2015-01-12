@@ -29,8 +29,6 @@ domain.level.FieldCells = (function () {
     fcPt.createCellFromObject = function (bom) {
 
         return new domain.level.Cell(
-            bom.x,
-            bom.y,
             bom.gene,
             this.$dom
         ).setDimension(this.dimension);
