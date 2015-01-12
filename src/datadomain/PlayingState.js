@@ -33,14 +33,41 @@ datadomain.PlayingState = (function () {
      * @return {datadomain.PlayingState}
      */
     exports.createInitialState = function (name) {
-        return new exports(name, []);
+
+        var playingState = new exports(name);
+
+        playingState.bump();
+
+        return playingState;
+
     };
+
 
     var pdPt = exports.prototype;
 
 
+    /**
+     * Moves to the next round.
+     */
     pdPt.bump = function () {
+
         this.rounds.unshift([]);
+
+    };
+
+    /**
+     * Releases the round data and init the obj state.
+     *
+     * @return {Array} The array of round data
+     */
+    pdPt.release = function () {
+
+        var rounds = this.rounds.splice(0).reverse();
+
+        this.bump();
+
+        return rounds;
+
     };
 
 

@@ -28,7 +28,7 @@ scene.level.PlayScene = (function () {
         var fusionDimension = pos.fusionBoxPosition();
 
         // datadomain
-        this.playingState = new datadomain.PlayingState(this.chr.name);
+        this.playingState = new datadomain.PlayingState.createInitialState(this.chr.name);
 
         // models
         this.cells = new domain.level.FieldCells(fieldDimension, '#main');
@@ -161,11 +161,7 @@ scene.level.PlayScene = (function () {
 
         }).then(function () {
 
-            var rounds = that.playingState.rounds.splice(0);
-
-            that.playingState.bump();
-
-            return rounds.reverse().reduce(function (promise, round) {
+            return that.playingState.release().reduce(function (promise, round) {
 
                 return promise.then(function () {
 
