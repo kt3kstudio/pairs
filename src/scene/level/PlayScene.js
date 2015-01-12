@@ -116,11 +116,10 @@ scene.level.PlayScene = (function () {
 
         }).pipe(function () {
 
+
             that.playingState.bump();
 
-            that.cells.loadList(that.exitQueue.releaseCells());
-
-            return that.cells.appear();
+            return that.cells.loadList(that.exitQueue.releaseCells()).appear();
 
 
         }).getPromise().then(function () {
