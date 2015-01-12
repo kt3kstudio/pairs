@@ -44,6 +44,11 @@ domain.level.FusionPair = (function () {
     };
 
 
+    /**
+     * Returns true if the pair is the last one of the round.
+     *
+     * @return {Boolean}
+     */
     fpPt.isLastOne = function () {
 
         return isLastOne(this.left) || isLastOne(this.right);
@@ -51,6 +56,11 @@ domain.level.FusionPair = (function () {
     };
 
 
+    /**
+     * Returns the left gene.
+     *
+     * @return {String}
+     */
     fpPt.leftGene = function () {
 
         return getGene(this.left);
@@ -58,6 +68,11 @@ domain.level.FusionPair = (function () {
     };
 
 
+    /**
+     * Returns the right gene.
+     *
+     * @return {String}
+     */
     fpPt.rightGene = function () {
 
         return getGene(this.right);
@@ -74,7 +89,13 @@ domain.level.FusionPair = (function () {
 
         var length = this.newGene().length;
 
-        return Math.pow(length, 2) * 10;
+        var score = Math.pow(length, 2) * 10;
+
+        if (this.isLastOne()) {
+            score *= 2;
+        }
+
+        return score
 
     };
 
