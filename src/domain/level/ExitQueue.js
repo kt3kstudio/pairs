@@ -35,6 +35,23 @@ domain.level.ExitQueue= (function () {
 
     };
 
+
+    /**
+     * Release cells.
+     *
+     * @return {Array}
+     */
+    eqPt.releaseCells = function () {
+
+        return this.queue.splice(0).map(function (queuee) {
+
+            return queuee.cell;
+
+        });
+
+    };
+
+
     /**
      * Makes the entire queue go forward.
      *
@@ -154,4 +171,5 @@ domain.level.ExitQueue= (function () {
     };
 
     return exports;
+
 }());

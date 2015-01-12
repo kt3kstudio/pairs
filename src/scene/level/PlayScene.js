@@ -118,11 +118,7 @@ scene.level.PlayScene = (function () {
 
             that.playingState.bump();
 
-            that.cells.loadList(that.exitQueue.queue.splice(0).map(function (queuee) {
-
-                return queuee.cell;
-
-            }));
+            that.cells.loadList(that.exitQueue.releaseCells());
 
             return that.cells.appear();
 
