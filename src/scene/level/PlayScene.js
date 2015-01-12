@@ -61,22 +61,15 @@ scene.level.PlayScene = (function () {
     /**
      * Binds event handlers to the stream.
      *
-     * @param {Rx.Observable} stream The source stream
+     * @param {Rx.Observable} source The source stream
      * @return {Rx.Observer}
      */
-    psPt.bindEventHandlers = function (stream) {
+    psPt.bindEventHandlers = function (source) {
 
         var that = this;
 
-        var resolve;
+        return source.pipe(function (dir) {
 
-        var promise = new Promise(function (onResolve) {
-
-            resolve = onResolve;
-
-        });
-
-        stream.pipe(function (dir) {
 
             that.playingState.add(dir);
 
@@ -84,15 +77,21 @@ scene.level.PlayScene = (function () {
 
             return that.bms.ballMoveAndLeaveOne(dir);
 
+
         }).filterNull().pipe(function (cell) {
+
 
             return that.fps.take(cell);
 
+
         }).filterNull().map(function (pairs) {
+
 
             return new domain.level.FusionPair(pairs[0], pairs[1]);
 
+
         }).pipe(function (fusionPair) {
+
 
             that.fCounter.count(fusionPair);
 
@@ -102,13 +101,18 @@ scene.level.PlayScene = (function () {
 
             return that.fusionService.performFusion(fusionPair);
 
+
         }).pipe(function (newCell) {
+
 
             return that.exitQueue.enqueue(newCell);
 
+
         }).filter(function (cell) {
 
+
             return cell.isLastOne();
+
 
         }).pipe(function () {
 
@@ -120,34 +124,14 @@ scene.level.PlayScene = (function () {
 
             }));
 
-            var p = that.cells.appear();
+            return that.cells.appear();
 
-            p.then(function () { console.log('cell appeared'); });
 
-            return p;
+        }).getPromise().then(function () {
 
-            //that.finish();
-
-        }).forEach(function (x) {
-
-            console.log('forEach');
-            console.log(x);
-
-        }, function (e) {
-
-            console.log (e);
-            console.log (e.stack);
-
-        }, function () {
-            console.log('onComplete!');
-
-            wait(500).then(function () {
-                resolve();
-            });
+            return wait(500);
 
         });
-
-        return promise;
 
     };
 
@@ -181,11 +165,9 @@ scene.level.PlayScene = (function () {
 
             that.playingState.bump();
 
-            var promise = Promise.resolve();
+            return rounds.reverse().reduce(function (promise, round) {
 
-            rounds.reverse().forEach(function (round) {
-
-                promise = promise.then(function () {
+                return promise.then(function () {
 
                     var dirs = round.map(function (dir, i) { return wait(i * 180, dir); });
 
@@ -193,9 +175,8 @@ scene.level.PlayScene = (function () {
 
                 });
 
-            });
+            }, Promise.resolve());
 
-            return promise;
 
         }).then(function () {
 
