@@ -7,6 +7,11 @@
 domain.level.FusionPair = (function () {
     'use strict';
 
+    /**
+     * @constructor
+     * @param {domain.level.Cell}
+     * @param {domain.level.Cell}
+     */
     var exports = function (left, right) {
         this.left = left;
         this.right = right;
@@ -40,6 +45,18 @@ domain.level.FusionPair = (function () {
         this.__newGene__ = this.__newGene__ || geneFusion(this.leftGene(), this.rightGene());
 
         return this.__newGene__;
+
+    };
+
+
+    /**
+     * Checks if the pair is evolving.
+     *
+     * @return {Boolean}
+     */
+    fpPt.isEvolving = function () {
+
+        return this.newGene().length > Math.max(this.leftGene().length, this.rightGene().length);
 
     };
 
