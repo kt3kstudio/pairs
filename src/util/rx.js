@@ -92,6 +92,10 @@
 
                 reject(error);
 
+            }, function () {
+
+                resolve();
+
             });
 
         });
