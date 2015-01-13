@@ -6,12 +6,9 @@
 domain.level.ExitQueue= (function () {
     'use strict';
 
-    var QUEUE_MAX = 32;
-
     var exports = function (dimension) {
         this.dimension = dimension;
         this.queue = [];
-        this.queueMax = QUEUE_MAX;
     };
 
     var eqPt = exports.prototype;
@@ -73,15 +70,13 @@ domain.level.ExitQueue= (function () {
         }).pop();
     };
 
+
+    /**
+     * Sets dimension data to the queuee and push into internal queue.
+     */
     eqPt.involve = function (queuee) {
 
         this.queue.push(queuee);
-
-        if (this.queue.length > this.queueMax) {
-
-            this.queue.shift().remove();
-
-        }
 
         return queuee.goOrigin().setDimension(this.dimension).setTransitionDuration(600);
     };
