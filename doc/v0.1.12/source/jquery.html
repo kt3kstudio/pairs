@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='jQuery'>/**
+</span> * jQuery class
+ *
+ * @class jQuery
+ */
+(function ($) {
+    &#39;use strict&#39;;
+
+
+<span id='jQuery-method-animation'>    /**
+</span>     * Performs the animation.
+     *
+     * @param {String} animation The css animation
+     */
+    $.fn.animation = function (animation) {
+        this.css(&#39;-webkit-animation&#39;, &#39;&#39;).reflow().css(&#39;-webkit-animation&#39;, animation);
+
+        return this;
+    };
+
+<span id='jQuery-method-reflow'>    /**
+</span>     * Reflows the dom.
+     */
+    $.fn.reflow = function () {
+        this[0].offsetWidth = this[0].offsetWidth;
+
+        return this;
+    };
+
+<span id='jQuery-method-anim'>    /**
+</span>     * Performs the animation in the duration and returns a promise.
+     *
+     * @param {String} animation The animation name
+     * @param {Number} dur The duration of the animation
+     * @return {Promise}
+     */
+    $.fn.anim = function (animation, dur) {
+        this.animation(animation + &#39; &#39; + dur + &#39;ms&#39;);
+
+        return wait(dur, this);
+    };
+
+
+<span id='jQuery-method-once'>    /**
+</span>     * Binds event once and returns promise.
+     *
+     * @param {String} events The list of events names
+     * @return {Promise}
+     */
+    $.fn.once = function (events) {
+        var that = this;
+
+        return new Promise(function (resolve) {
+
+            that.one(events, function (event) {
+
+                resolve(event);
+
+            });
+
+        });
+    };
+
+<span id='jQuery-method-streamOf'>    /**
+</span>     * Returns Observable of an event stream.
+     *
+     * @param {String} events The list of event names
+     * @return {Rx.Observable}
+     */
+    $.fn.streamOf = function (events) {
+        return Rx.Observable.fromEvent(this, events);
+    };
+
+}(window.jQuery));
+</pre>
+</body>
+</html>

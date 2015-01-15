@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+
+<span id='domain-map-WallObjectFactory'>/**
+</span> * WallObjectFactory is the factory class for wall objects.
+ */
+domain.map.WallObjectFactory = (function () {
+    &#39;use strict&#39;;
+
+    var exports = function () {
+    };
+
+
+<span id='domain-map-WallObjectFactory-method-createFromObject'>    /**
+</span>     * Creates wall object from js object.
+     *
+     * @param {Object} obj The source object
+     * @return {domain.map.WallObject}
+     */
+    exports.createFromObject = function (obj) {
+
+        switch (obj.type) {
+            case &#39;l&#39;: return new domain.map.Door.createFromObject(obj);
+            case &#39;s&#39;: return new domain.map.Staircase.createFromObject(obj);
+            case &#39;e&#39;: return new domain.map.Elevator.createFromObject(obj);
+        }
+
+    };
+
+    return exports;
+
+}());
+</pre>
+</body>
+</html>

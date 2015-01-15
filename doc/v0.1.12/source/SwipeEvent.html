@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='ui-level-SwipeEvent'>/**
+</span> * @class
+ *
+ * SwipeEvent class provides the stream of the swipe events.
+ */
+ui.level.SwipeEvent = (function () {
+    &#39;use strict&#39;;
+
+
+<span id='ui-level-SwipeEvent-method-constructor'>    /**
+</span>     * @constructor
+     * @param {String|HTMLElement} dom
+     */
+    var exports = function (dom) {
+        this.dom = dom;
+    };
+
+
+    var sePt = exports.prototype;
+
+<span id='ui-level-SwipeEvent-method-createDom'>    /**
+</span>     * Creates the swipe target dom.
+     *
+     * @private
+     * @return {jQuery}
+     */
+    sePt.createDom = function () {
+        return $(this.dom).swipeCross();
+    };
+
+<span id='ui-level-SwipeEvent-method-getStream'>    /**
+</span>     * Gets the stream of swipe events.
+     *
+     * @return {Rx.Observable}
+     */
+    sePt.getStream = function () {
+
+        this.$dom = this.$dom || this.createDom();
+
+        this.$document = this.$document || $(document).arrowkeys();
+
+        return Rx.Observable.merge(
+            this.$dom.streamOf(&#39;swipeup&#39;      ).map(&#39;up&#39;),
+            this.$dom.streamOf(&#39;swipedown&#39;    ).map(&#39;down&#39;),
+            this.$dom.streamOf(&#39;swipeleft&#39;    ).map(&#39;left&#39;),
+            this.$dom.streamOf(&#39;swiperight&#39;   ).map(&#39;right&#39;),
+            this.$document.streamOf(&#39;upkey&#39;   ).map(&#39;up&#39;),
+            this.$document.streamOf(&#39;downkey&#39; ).map(&#39;down&#39;),
+            this.$document.streamOf(&#39;leftkey&#39; ).map(&#39;left&#39;),
+            this.$document.streamOf(&#39;rightkey&#39;).map(&#39;right&#39;)
+        );
+
+    };
+
+
+<span id='ui-level-SwipeEvent-method-unbind'>    /**
+</span>     * Unbinds events.
+     */
+    sePt.unbind = function () {
+
+        this.$dom.swipeCrossUnbind();
+        delete this.$dom;
+
+        $(document).arrowkeysUnbind();
+
+        return this;
+
+    };
+
+    return exports;
+
+}());
+</pre>
+</body>
+</html>

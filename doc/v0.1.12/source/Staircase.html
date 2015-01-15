@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+
+<span id='domain-map-Staircase'>/**
+</span> * Staircase class represents the staircases in the map view.
+ */
+domain.map.Staircase = (function () {
+    &#39;use strict&#39;;
+
+    var exports = function (name, to, type) {
+        this.name = name;
+        this.to = to;
+        this.type = type;
+    };
+
+    exports.createFromObject = function (obj) {
+        return new exports(
+
+            obj.name,
+            datadomain.CharPositionFactory.createFromObject(obj.opts.to),
+            obj.opts.type
+
+        ).setPos(obj.pos).setSize(obj.size);
+    };
+
+    var sPt = exports.prototype = new domain.map.WallObject();
+
+    sPt.createDom = function () {
+        var that = this;
+
+        this.$dom = $(&#39;&lt;div /&gt;&#39;).addClass(&#39;staircase staircase-&#39; + this.type);
+
+        this.$dom.on(&#39;click touchstart&#39;, function () {
+
+            that.cls.moveToWallObjectByName(that.name).then(function () {
+
+                return that.cls.setCharPosition(that.to);
+
+            }).then(function () {
+
+                return window.ms.reload();
+
+            });
+
+        });
+
+        return this.$dom;
+    };
+
+    return exports;
+
+}());
+</pre>
+</body>
+</html>

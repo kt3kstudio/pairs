@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+<span id='scene-level-OutroScene'>/**
+</span> * @class
+ * @extends scene.common.Scene
+ * OutroScene handles the scene after finishing main play.
+ */
+scene.level.OutroScene = (function () {
+    &#39;use strict&#39;;
+
+    var exports = function (prevScene) {
+        this.prevScene = prevScene;
+
+        this.pos = this.prevScene.pos;
+
+        this.ball = new Ball(prevScene.ball);
+        this.chr = prevScene.chr;
+        this.field = prevScene.field;
+        this.menuButton = prevScene.menuButton;
+        this.scoreBoard = prevScene.scoreBoard;
+
+        var panePos = this.pos.resultPanePosition();
+
+        this.resPane = new ui.level.ResultPane(panePos, panePos.width, panePos.height, &#39;#main&#39;, &#39;.wrapper&#39;);
+    };
+
+    var osPt = exports.prototype = new scene.common.Scene();
+
+    osPt.start = function () {
+
+        var that = this;
+
+        this.resPane.setScore(this.scoreBoard.score);
+
+        return this.resPane.show(30000000).then(function () {
+
+            domain.level.Cell.disappear();
+
+            that.menuButton.hide();
+
+            that.scoreBoard.disappear();
+
+            return that.field.disappear();
+
+        }).then(function () {
+
+            return that.ball.goCenterX();
+
+        }).then(function () {
+
+            return that.ball.goCenterY();
+
+        }).then(function () {
+
+            return Promise.all([
+                that.chr.appear(400),
+                that.ball.disappear()
+            ]);
+
+        }).then(function () {
+
+            return that.chr.moveTo(&#39;y&#39;, 800, 1000);
+
+        }).then(function () {
+
+            return ui.common.BackgroundService.turnBlack();
+
+        }).then(function () {
+
+            that.finish();
+
+        });
+
+    };
+
+    // Ball role in OutroScene
+    var Ball = function (ball) {
+        this.ball = ball;
+    };
+
+    var ballPt = Ball.prototype;
+
+    ballPt.goCenterX = function () {
+        var pos = this.ball.pos();
+        pos.x = 1;
+
+        return this.ball.setPos(pos);
+    };
+
+    ballPt.goCenterY = function () {
+        var pos = this.ball.pos();
+        pos.y = 1;
+
+        return this.ball.setPos(pos);
+    };
+
+    ballPt.disappear = function () {
+        return this.ball.disappear();
+    };
+
+    return exports;
+
+}());
+</pre>
+</body>
+</html>

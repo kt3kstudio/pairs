@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='Rx'>/**
+</span> * RxJS
+ *
+ * @class Rx
+ * @singleton
+ */
+(function (Rx) {
+    &#39;use strict&#39;;
+
+<span id='Rx-helpers'>    /**
+</span>     * Rx.helpers
+     *
+     * @class Rx.helpers
+     * @singleton
+     */
+
+<span id='Rx-helpers-method-isObservableLike'>    /**
+</span>     * Checks if it&#39;s flatMappable or not.
+     *
+     * @param {Object} x Testing object
+     * @return {Boolean}
+     */
+    Rx.helpers.isObservableLike = function (x) {
+        return x instanceof Rx.Observable || Rx.helpers.isPromise(x);
+    };
+
+    var wrapUnobservable = function (x) {
+        return Rx.helpers.isObservableLike(x) ? x : [x];
+    };
+
+<span id='Rx-Observable'>    /**
+</span>     * Rx.Observable
+     * @class Rx.Observable
+     */
+
+<span id='Rx-Observable-method-pipe'>    /**
+</span>     * Maps it and flatMap it only when it&#39;s possible.
+     *
+     * @param {Function} f Mapping function
+     * @return {Rx.Observable}
+     */
+    Rx.Observable.prototype.pipe = function (f) {
+
+        return  this.map(f).flattenObservable();
+
+    };
+
+
+<span id='Rx-Observable-method-flattenObservable'>    /**
+</span>     * Flattens it.
+     *
+     * @return {Rx.Observable}
+     */
+    Rx.Observable.prototype.flattenObservable = function () {
+
+        return this.map(wrapUnobservable).flatMap(function (x) { return x; });
+
+    };
+
+
+<span id='Rx-Observable-method-filterNull'>    /**
+</span>     * Filters null equivalent element.
+     *
+     * @return {Rx.Observable}
+     */
+    Rx.Observable.prototype.filterNull = function () {
+
+        return this.filter(function (x) {
+
+            return x != null;
+
+        });
+
+    };
+
+
+<span id='Rx-Observable-method-getPromise'>    /**
+</span>     * Returns promise which resolves the last value of the stream when the stream completed.
+     *
+     * @return {Promise}
+     */
+    Rx.Observable.prototype.getPromise = function () {
+        var source = this;
+
+        return new Promise(function (resolve, reject) {
+
+            source.takeLast(1).subscribe(function (x) {
+
+                resolve(x);
+
+            }, function (error) {
+
+                reject(error);
+
+            }, function () {
+
+                resolve();
+
+            });
+
+        });
+
+    };
+
+
+<span id='Rx-Observer'>    /**
+</span>     * Rx.Observer
+     *
+     * @class Rx.Observer
+     */
+    Rx.Observer;
+
+
+<span id='Array'>    /**
+</span>     * Array.
+     *
+     * @class Array
+     */
+<span id='Array-method-toFlatStream'>    /**
+</span>     * Makes into flattenned stream.
+     *
+     * @return {Rx.Observable}
+     */
+    Array.prototype.toFlatStream = function () {
+
+        return Rx.Observable.of.apply(null, this).flattenObservable();
+
+    };
+
+}(Rx));
+</pre>
+</body>
+</html>

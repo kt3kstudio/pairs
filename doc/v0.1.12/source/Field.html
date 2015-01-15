@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='domain-level-Field'>/**
+</span> * @class
+ * Field class represents the background field graphics.
+ *
+ * This class doesn&#39;t handle the mechanism above the field, which is the responsibility of FieldCells and BallMoveMobLeaveService classes.
+ */
+domain.level.Field = (function () {
+    &#39;use strict&#39;;
+
+    var TRAN_DUR = 200;
+
+    var exports = function (metrics) {
+        var gutter = 6;
+        this.left = metrics.left - gutter;
+        this.top = metrics.top - gutter;
+        this.unit = metrics.unit;
+        this.width = metrics.width + gutter * 2;
+        this.dur = TRAN_DUR;
+    };
+
+    var fPrototype = exports.prototype;
+
+    fPrototype.appear = function () {
+        var that = this;
+
+        return loadImage(&#39;images/field.svg&#39;, &#39;field-grid&#39;, document.body).then(function ($img) {
+            that.$dom = $img;
+
+            $img.css(&#39;left&#39;, that.left + &#39;px&#39;);
+            $img.css(&#39;top&#39;, that.top + &#39;px&#39;);
+            $img.css(&#39;width&#39;, that.width + &#39;px&#39;);
+
+            return $img.anim(&#39;field-appear&#39;, that.dur);
+        });
+    };
+
+    fPrototype.disappear = function () {
+        var that = this;
+
+        return this.$dom.anim(&#39;field-disappear&#39;, 400).then(function () {
+            that.$dom.remove();
+        });
+    };
+
+    return exports;
+}());
+</pre>
+</body>
+</html>

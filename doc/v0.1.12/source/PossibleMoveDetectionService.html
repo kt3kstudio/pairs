@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+<span id='domain-level-PossibleMoveDetectionService'>/**
+</span> * @class
+ *
+ * PossibleMoveDetectionService provides the functionality of detecting the possible moves in the play field.
+ */
+domain.level.PossibleMoveDetectionService = (function () {
+    &#39;use strict&#39;;
+
+<span id='domain-level-PossibleMoveDetectionService-method-constructor'>    /**
+</span>     * @constructor
+     * @param {domain.level.Ball} ball The ball
+     * @param {domain.level.FieldCells} cells The field cells
+     */
+    var exports = function (ball, cells) {
+        this.ball = ball;
+        this.cells = cells;
+    };
+
+    var pmdsPt = exports.prototype;
+
+<span id='domain-level-PossibleMoveDetectionService-method-possible'>    /**
+</span>     * Check if there is any space left in the play field.
+     *
+     * @returns {Boolean} true if possible move available
+     */
+    pmdsPt.possible = function () {
+        // if any of the next cells has a bom, then the next move is possible.
+        if (this.cells.find(this.ball.posAhead(&#39;up&#39;))) { return true; }
+        if (this.cells.find(this.ball.posAhead(&#39;down&#39;))) { return true; }
+        if (this.cells.find(this.ball.posAhead(&#39;left&#39;))) { return true; }
+        if (this.cells.find(this.ball.posAhead(&#39;right&#39;))) { return true; }
+
+        return false;
+    };
+
+<span id='domain-level-PossibleMoveDetectionService-method-cellRemainsAtBall'>    /**
+</span>     * Check if there is a cell at the position of the ball.
+     *
+     * @return {Boolean} true iff there is a cell at the ball
+     */
+    pmdsPt.cellRemainsAtBall = function () {
+        return this.cells.find(this.ball.pos()) != null;
+    };
+
+    return exports;
+
+}());
+</pre>
+</body>
+</html>

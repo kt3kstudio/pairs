@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='ui-common-BackgroundService'>/**
+</span> * @class
+ * BackgroundService handles the animation of background colors.
+ */
+ui.common.BackgroundService = (function () {
+    &#39;use strict&#39;;
+
+    var exports = {};
+
+    exports.transDur = 700;
+
+    exports.turnWhite = function (dur) {
+        dur = dur || exports.transDur;
+
+        $(document.body).removeClass(&#39;dark-bg&#39;).css(&#39;background-color&#39;, &#39;&#39;);
+
+        return wait(dur);
+    };
+
+    exports.turnBlack = function (dur) {
+        dur = dur || exports.transDur;
+
+        $(document.body).addClass(&#39;dark-bg&#39;).css(&#39;background-color&#39;, &#39;&#39;);
+
+        return wait(dur);
+    };
+
+    exports.turnYellow = function (dur) {
+        dur = dur || exports.transDur;
+
+        $(document.body).removeClass(&#39;dark-bg&#39;).css(&#39;background-color&#39;, &#39;yellow&#39;);
+
+        return wait(dur);
+    };
+
+    return exports;
+
+}());
+</pre>
+</body>
+</html>

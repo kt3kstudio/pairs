@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+
+<span id='domain-map-CharLocateService'>/**
+</span> * @class
+ * MaLocateService class provide the functionality to move character among the doors in a floor.
+ */
+domain.map.CharLocateService = (function () {
+    &#39;use strict&#39;;
+
+    var exports = function (wall, chr) {
+        this.wall = wall;
+        this.chr = chr;
+        this.charPosRepo = new datadomain.CharPositionRepository();
+    };
+
+    var clsPt = exports.prototype;
+
+    clsPt.charAppear = function () {
+        var wo = this.wall.findByName(this.position.wallPosition);
+        this.current = wo;
+        var chr = this.chr;
+
+        var x = wo.centerX();
+        var y = wo.centerY();
+
+        chr.x = x;
+        chr.y = y;
+
+        return wo.open().then(function () {
+            chr.appear();
+        });
+    };
+
+    clsPt.moveToWallObjectByName = function (name) {
+        return this.moveToWallObject(this.wall.findByName(name));
+    };
+
+    clsPt.moveToWallObject = function (wo) {
+        var that = this;
+
+        var current = this.wall.findByName(this.position.wallPosition);
+
+        this.position.wallPosition = wo.name;
+        this.charPosRepo.setCharPosition(this.chr.name, this.position);
+
+        var goOutDur = 400;
+        var moveOnCorridor = 1000;
+        var goIntoDur = 400;
+
+        var goOutDistance = 80;
+
+        if (!this.wall.visible(this.chr)) {
+            this.wall.scrollSet(current.centerX());
+        }
+
+        current.close();
+
+        return this.chr.moveTo(&#39;y&#39;, this.wall.groundLevel + goOutDistance, goOutDur).then(function () {
+
+            that.wall.scrollTo(wo.centerX(), moveOnCorridor);
+
+            wo.open();
+
+            return that.chr.moveTo(&#39;x&#39;, wo.centerX(), moveOnCorridor);
+
+        }).then(function () {
+
+            return that.chr.moveTo(&#39;y&#39;, wo.centerY(), goIntoDur);
+
+        }).then(function () {
+
+            that.current = wo;
+
+            return that.chr.turn(&#39;down&#39;);
+
+        });
+    };
+
+    clsPt.getIntoDoor = function () {
+        var that = this;
+
+        this.chr.turn(&#39;up&#39;);
+
+        return this.chr.disappear().then(function () {
+            return that.current.close();
+        });
+    };
+
+    clsPt.load = function () {
+        var that = this;
+
+        return this.charPosRepo.getCharPosition(this.chr.name).then(function (position) {
+            that.position = position;
+
+            return that;
+        });
+    };
+
+    clsPt.setCharPosition = function (position) {
+        return this.charPosRepo.setCharPosition(this.chr.name, position);
+    };
+
+    return exports;
+
+}());
+</pre>
+</body>
+</html>

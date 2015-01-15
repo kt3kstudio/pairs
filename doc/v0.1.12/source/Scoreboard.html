@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+<span id='ui-level-Scoreboard'>/**
+</span> * Scoreboard handles the behaviour of the score board of the level view.
+ */
+ui.level.Scoreboard = (function () {
+    &#39;use strict&#39;;
+
+    var MARGIN = 4;
+
+<span id='ui-level-Scoreboard-method-constructor'>    /**
+</span>     * @constructor
+     * @param {Object} dimension The dimension of the scoreboard
+     * @param {Number} dimension.left
+     * @param {Number} dimension.top
+     * @param {Number} dimension.width
+     * @param {Number} dimension.height
+     * @param {Number} [score=0] The score
+     */
+    var exports = function (dimension, score) {
+        this.dim = dimension;
+        this.score = score || 0;
+        this.margin = MARGIN;
+    };
+
+
+    var sbPt = exports.prototype = new domain.common.Sprite();
+
+
+    sbPt.appearAnim = &#39;bom-appear&#39;;
+    sbPt.appearDur = 400;
+    sbPt.disappearAnim = &#39;bom-disappear&#39;;
+    sbPt.disappearDur = 400;
+
+
+<span id='ui-level-Scoreboard-method-createDom'>    /**
+</span>     * Creates the dom for this class.
+     *
+     * @return {jQuery}
+     */
+    sbPt.createDom = function () {
+        this.$dom = $(&#39;&lt;div /&gt;&#39;).addClass(&#39;board scoreboard&#39;).offset(this.dim)
+            .width(this.dim.width - this.margin * 2)
+            .height(this.dim.height - this.margin * 2)
+            .text(this.score);
+
+        return this.$dom;
+    };
+
+
+<span id='ui-level-Scoreboard-method-update'>    /**
+</span>     * Updates the scoreboard&#39;s number.
+     */
+    sbPt.update = function () {
+        this.$dom.text(this.score);
+    };
+
+<span id='ui-level-Scoreboard-method-addScore'>    /**
+</span>     * Add the score to the total score.
+     *
+     * @param {Number} score The score to add
+     */
+    sbPt.addScore = function (score) {
+        this.score += score;
+
+        this.update();
+
+        return this;
+    };
+
+<span id='ui-level-Scoreboard-method-setScore'>    /**
+</span>     * Sets (overwrites) the score.
+     *
+     * @param {Number} score The score
+     */
+    sbPt.setScore = function (score) {
+        this.score = score;
+
+        this.update();
+
+        return this;
+    };
+
+    return exports;
+
+}());
+</pre>
+</body>
+</html>

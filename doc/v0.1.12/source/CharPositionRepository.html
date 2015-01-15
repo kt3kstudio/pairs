@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+<span id='datadomain-CharPositionRepository'>/**
+</span> * @class
+ * CharPositionRepository handles the persistence of CharPosition data
+ */
+datadomain.CharPositionRepository = (function () {
+    &#39;use strict&#39;;
+
+    var CHAR_POSITION_KEY = &#39;-char-position&#39;;
+
+    var exports = function () {
+    };
+
+    var cprPt = exports.prototype;
+
+    cprPt.getCharPosition = function (name) {
+
+        return infrastructure.storage.get(this.createKey(name), null).then(function (data) {
+
+            return data ? datadomain.CharPositionFactory.createFromObject(data)
+                        : datadomain.CharPositionFactory.createStartPosition();
+        });
+
+    };
+
+    cprPt.setCharPosition = function (name, position) {
+        return infrastructure.storage.set(this.createKey(name), position.toObject());
+    };
+
+    cprPt.createKey = function (name) {
+        return name + CHAR_POSITION_KEY;
+    };
+
+    return exports;
+
+}());
+</pre>
+</body>
+</html>

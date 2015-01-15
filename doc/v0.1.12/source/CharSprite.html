@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+<span id='domain-common-CharSprite'>/**
+</span> * CharSprite class handles the character sprite.
+ *
+ * @class
+ * @extends domain.common.Sprite
+ */
+domain.common.CharSprite = (function ($) {
+    &#39;use strict&#39;;
+
+    var defaultSpeechTimeout = 5000;
+
+    var exports = function () {
+    };
+
+    var spritePt = exports.prototype = new domain.common.Sprite();
+
+<span id='domain-common-CharSprite-property-x'>    /** sprite&#39;s x coordinate value */
+</span>    spritePt.x = 0;
+
+<span id='domain-common-CharSprite-property-y'>    /** sprite&#39;s y coordinate value */
+</span>    spritePt.y = 0;
+
+<span id='domain-common-CharSprite-property-w'>    /** sprite&#39;s width */
+</span>    spritePt.w = 0;
+
+<span id='domain-common-CharSprite-property-h'>    /** sprite&#39;s width */
+</span>    spritePt.h = 0;
+
+<span id='domain-common-CharSprite-property-upImage'>    /** sprite&#39;s image when going up */
+</span>    spritePt.upImage = &#39;&#39;;
+
+<span id='domain-common-CharSprite-property-downImage'>    /** sprite&#39;s image when going down */
+</span>    spritePt.downImage = &#39;&#39;;
+
+<span id='domain-common-CharSprite-property-leftImage'>    /** sprite&#39;s image when going left */
+</span>    spritePt.leftImage = &#39;&#39;;
+
+<span id='domain-common-CharSprite-property-rightImage'>    /** sprite&#39;s image when going right */
+</span>    spritePt.rightImage = &#39;&#39;;
+
+
+    spritePt.createDom = function () {
+        return $(&#39;&lt;img /&gt;&#39;).addClass(this.cssClass).width(this.w).height(this.h).offset({
+            // the center of bottom line of the image is the sprite&#39;s coordinate.
+            left: this.leftLimit(),
+            top: this.y - this.h
+        }).attr(&#39;src&#39;, this.downImage || this.image);
+    };
+
+    spritePt.turn = function (dir) {
+        var img;
+
+        switch (dir) {
+            case &#39;up&#39;: img = this.upImage; break;
+            case &#39;down&#39;: img = this.downImage || this.image; break;
+            case &#39;left&#39;: img = this.leftImage; break;
+            case &#39;right&#39;: img = this.rightImage; break;
+        }
+
+        this.$dom.attr(&#39;src&#39;, img);
+    };
+
+
+    spritePt.getDirection = function (coordinate, to) {
+        if (coordinate === &#39;x&#39;) {
+            if (to &gt; this.x) {
+                return &#39;right&#39;;
+            } else {
+                return &#39;left&#39;;
+            }
+        } else {
+            if (to &gt; this.y) {
+                return &#39;down&#39;;
+            } else {
+                return &#39;up&#39;;
+            }
+        }
+    };
+
+    spritePt.moveTo = function (coordinate, to, dur) {
+
+        var dir = this.getDirection(coordinate, to);
+
+        this.turn(dir);
+
+        this.setDuration(dur);
+
+        if (dir === &#39;up&#39; || dir === &#39;down&#39;) {
+            this.moveToY(dir, to);
+        } else {
+            this.moveToX(dir, to);
+        }
+
+        return wait(dur);
+    };
+
+
+<span id='domain-common-CharSprite-method-rightLimit'>    /**
+</span>     * Returns right limit x value.
+     *
+     * @return {Number} x value of the right limit of sprite
+     */
+    spritePt.rightLimit = function () {
+        return this.x + this.w / 2;
+    };
+
+<span id='domain-common-CharSprite-method-leftLimit'>    /**
+</span>     * Returns left limit x value.
+     *
+     * @return {Number} x value of the left limit of sprite
+     */
+    spritePt.leftLimit = function () {
+        return this.x - this.w / 2;
+    };
+
+    spritePt.moveToY = function (dir, to) {
+        var offset = this.getOffset();
+
+        this.y = to;
+
+        offset.top = to - this.h; // the center of bottom line is the sprite&#39;s coordinate.
+
+        this.setOffset(offset);
+    };
+
+    spritePt.moveToX = function (dir, to) {
+        var offset = this.getOffset();
+
+        this.x = to;
+
+        offset.left = to - this.w / 2; // the center of bottom line is the sprite&#39;s coordinate.
+
+        this.setOffset(offset);
+    };
+
+    spritePt.speak = function (speech, opts) {
+
+        opts = opts || {};
+
+        var cancelDom = opts.cancelDom || this.$dom;
+        var timeout = opts.timeout || defaultSpeechTimeout;
+
+        var bubbleShown = this.$dom.speechBubble(speech, {
+
+            width: $(window).width() * 0.8,
+            height: 50,
+            color: &#39;#328DE5&#39;,
+            cssClass: this.name + &#39;-speech&#39;,
+            partitionY: 2,
+            partitionX: 10,
+            duration: 600
+
+        }).show();
+
+        this.speechEndPromise = bubbleShown.then(function (sb) {
+
+            return new Promise(function (resolve) {
+
+                setTimeout(resolve, timeout);
+
+                $(cancelDom).one(&#39;click touchstart&#39;, resolve);
+
+            }).then(function () {
+
+                $(cancelDom).off(&#39;click touchstart&#39;);
+
+                return sb.hide();
+
+            });
+        });
+
+        return bubbleShown;
+
+    };
+
+    return exports;
+
+}(window.jQuery));
+</pre>
+</body>
+</html>

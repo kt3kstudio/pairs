@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+
+<span id='ui-level-ResultPane'>/**
+</span> * @class
+ * ResultPane class handles the behaviour of the pane which appears when the game finished with a score.
+ */
+ui.level.ResultPane = (function () {
+    &#39;use strict&#39;;
+
+
+<span id='ui-level-ResultPane-method-constructor'>    /**
+</span>     * @constructor
+     * @param {Object} position
+     * @param {Number} position.left The left offset
+     * @param {Number} position.top The top offset
+     * @param {Number} width The width
+     * @param {Number} height The height
+     * @param {String | HTMLElement | jQuery} parent The parent dom
+     * @param {String | HTMLElement | jQuery} cancelDom The dom to which the pane&#39;s cancel event will be attached
+     */
+    var exports = function (position, width, height, parent, cancelDom) {
+        this.position = position;
+        this.width = width;
+        this.height = height;
+        this.parent = parent;
+        this.cancelDom = cancelDom;
+        this.score = 0;
+        this.star = 0;
+    };
+
+    var rpPt = exports.prototype;
+
+    rpPt.setScore = function (score) {
+        this.score = score;
+    };
+
+<span id='ui-level-ResultPane-method-setStar'>    /**
+</span>     * Sets the number of the stars.
+     *
+     * @param {Number} star The number of stars
+     */
+    rpPt.setStar = function (star) {
+        this.star = star;
+    };
+
+    rpPt.createDom = function () {
+
+        var $wrapper = $(&#39;&lt;div /&gt;&#39;).addClass(&#39;result-pane&#39;)
+
+            .width(this.width).height(this.height)
+
+            .css({left: this.position.left, top: this.position.top, position: &#39;absolute&#39;});
+
+        $(&#39;&lt;div /&gt;&#39;).addClass(&#39;result-content&#39;)
+
+            .text(&#39;score = &#39; + this.score)
+
+            .css({opacity: 0, position: &#39;relative&#39;}).appendTo($wrapper);
+
+
+        return $wrapper.appendTo(this.parent);
+    };
+
+
+<span id='ui-level-ResultPane-method-show'>    /**
+</span>     * Shows the result pane and it automatically hides timeout later.
+     *
+     * @param {Number} timeout The time after which the pane hides itself
+     * @return {Promise} The promise which resolves when the pane hides
+     */
+    rpPt.show = function (timeout) {
+
+        var that = this;
+
+        this.$dom = this.$dom || this.createDom();
+
+        this.ip = this.$dom.infoPane(9, 7);
+
+        return this.ip.show().then(function () {
+
+            return Promise.race([wait(timeout), $(that.cancelDom).once(&#39;click touchstart&#39;)]);
+
+        }).then(function () {
+
+            return that.hide();
+
+        });
+
+    };
+
+<span id='ui-level-ResultPane-method-hide'>    /**
+</span>     * Hides the result pane.
+     *
+     * @return {Promise} The promise which resolves when the pane hides
+     */
+    rpPt.hide = function () {
+
+        return this.ip.hide();
+
+    };
+
+    return exports;
+
+}());
+</pre>
+</body>
+</html>
