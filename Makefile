@@ -5,7 +5,7 @@ doc:
 	jsduck --config=.jsduck.dev.json
 
 doc-release:
-	rm -rf doc/v*
+	g rm -rf doc/v*
 	jsduck --config=.jsduck.release.json
 
 build:
