@@ -5,8 +5,9 @@ doc:
 	jsduck --config=.jsduck.dev.json
 
 doc-release:
-	g rm -rf doc/v*
+	git rm -rf doc/v*
 	jsduck --config=.jsduck.release.json
+	git add doc
 
 build:
 	bundle exec middleman build

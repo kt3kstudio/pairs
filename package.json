@@ -1,6 +1,6 @@
 {
   "name": "long-dream-core",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "repository": "https://github.com/kt3kstudio/long-dream-core.git",
   "description": "A puzzle game",
   "main": "index.js",
