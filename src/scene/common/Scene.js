@@ -21,6 +21,14 @@ scene.common.Scene = (function () {
     };
 
     /**
+     * This method is to be called by `finish` method.
+     *
+     * @protected
+     */
+    scenePrototype.end = function () {
+    };
+
+    /**
      * This method starts the scene and returns a promise which resolves with itself when the scene is finished.
      *
      * @returns {Promise}
@@ -47,6 +55,13 @@ scene.common.Scene = (function () {
      * [final]
      */
     scenePrototype.finish = function () {
+
+        var that = this;
+
+        setTimeout(function () {
+            that.end();
+        });
+
         this.__resolve(this);
     };
 

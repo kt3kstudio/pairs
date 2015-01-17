@@ -117,6 +117,15 @@ scene.level.PlayScene = (function () {
         }).pipe(function () {
 
 
+            if (!that.exitQueue.theLastOneIsEvolved()) {
+
+                that.finish();
+
+                return new Promise(function () {});
+
+            }
+
+
             that.playingState.bump();
 
             return that.cells.loadList(that.exitQueue.releaseCells()).appear();
@@ -177,6 +186,11 @@ scene.level.PlayScene = (function () {
 
         });
 
+    };
+
+
+    psPt.end = function () {
+        this.resetPlayingState();
     };
 
 

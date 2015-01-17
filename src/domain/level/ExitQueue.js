@@ -81,8 +81,21 @@ domain.level.ExitQueue= (function () {
         return queuee.goOrigin().setDimension(this.dimension).setTransitionDuration(600);
     };
 
-    eqPt.reset = function () {
-        this.queue = [];
+
+    /**
+     * Checks if the queue is finished and has the last cell evolving.
+     *
+     * @return {Boolen}
+     */
+    eqPt.theLastOneIsEvolved = function () {
+
+        if (this.queue.length === 0) {
+            return false;
+        }
+
+        var cell = this.queue[this.queue.length - 1].cell;
+
+        return cell.isLastOne() && cell.isEvolved();
     };
 
     /**
