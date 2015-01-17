@@ -1,9 +1,17 @@
 ---
 version: 0.1.14
 files:
-  README.md: long-dream-core v%.%.%
-  bower.json: '"version": "%.%.%"'
-  package.json: '"version": "%.%.%"'
+
+  README.md:
+    - long-dream-core v%.%.%
+    - doc/v%.%.%
+
+  bower.json:
+    - '"version": "%.%.%"'
+
+  package.json:
+    - '"version": "%.%.%"'
+
   ".jsduck.release.json":
-  - "(v%.%.%)"
-  - doc/v%.%.%
+    - (v%.%.%)
+    - doc/v%.%.%
