@@ -14,6 +14,8 @@ domain.common.BomTable = (function () {
         3: 'triton',
         4: 'quatron',
         5: 'penton',
-        6: 'hexaton'
+        6: 'hexton',
+        7: 'septon',
+        8: 'ankh'
     };
 }());
