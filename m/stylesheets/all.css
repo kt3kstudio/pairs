@@ -31,7 +31,7 @@ body {
     transition-duration: 800ms;
 }
 
-.menu-button.menu-hidden, .life-button.menu-hidden {
+.menu-button.menu-hidden {
     left: -50px;
 }
 
@@ -46,15 +46,6 @@ body {
 
 .menu-item.hidden {
     opacity: 0;
-}
-
-.life-button {
-    position: absolute;
-    left: 15px;
-    top: 15px;
-    width: 47px;
-    height: 47px;
-    z-index: 2;
 }
 
 .sprite {
