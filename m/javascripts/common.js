@@ -1,3 +1,5 @@
+//= require subclassjs
+
 //= require jquery
 //= require rxjs/dist/rx.lite.js
 

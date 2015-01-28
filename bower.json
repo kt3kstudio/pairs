@@ -19,6 +19,7 @@
     "info-pane": "~0.1.0",
     "speech-bubble": "~0.1.2",
     "rxjs": "~2.3.24",
-    "es6-promise": "~2.0.0"
+    "es6-promise": "~2.0.0",
+    "subclassjs": "~1.1.1"
   }
 }
