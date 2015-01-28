@@ -15,6 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'bower_components/subclassjs/index.js',
       'bower_components/jquery/dist/jquery.js',
       'bower_components/es6-promise/promise.js',
       'bower_components/rxjs/dist/rx.lite.js',
@@ -33,7 +34,7 @@ module.exports = function(config) {
 
     // list of files to exclude
     exclude: [
-      '**/*index.js',
+      'src/**/*index.js',
       '**/*.swp'
     ],
 
