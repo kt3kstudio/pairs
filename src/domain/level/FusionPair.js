@@ -4,7 +4,7 @@
  *
  * FusionPair represents the pair of cells which perform the fusion of them.
  */
-domain.level.FusionPair = (function () {
+domain.level.FusionPair = subclass(function (pt) {
     'use strict';
 
     /**
@@ -12,7 +12,7 @@ domain.level.FusionPair = (function () {
      * @param {domain.level.Cell} left The left cell
      * @param {domain.level.Cell} right The right cell
      */
-    var exports = function (left, right) {
+    pt.constructor = function (left, right) {
         this.left = left;
         this.right = right;
     };
@@ -31,8 +31,6 @@ domain.level.FusionPair = (function () {
     };
 
 
-    var fpPt = exports.prototype;
-
     /**
      * Creates a new gene from the pair of cells
      *
@@ -40,7 +38,7 @@ domain.level.FusionPair = (function () {
      * @param {String} y The second gene
      * @returns {String} The new gene
      */
-    fpPt.newGene = function () {
+    pt.newGene = function () {
 
         this.__newGene__ = this.__newGene__ || geneFusion(this.leftGene(), this.rightGene());
 
@@ -54,7 +52,7 @@ domain.level.FusionPair = (function () {
      *
      * @return {Boolean}
      */
-    fpPt.isEvolving = function () {
+    pt.isEvolving = function () {
 
         return this.newGene().length > Math.max(this.leftGene().length, this.rightGene().length);
 
@@ -66,7 +64,7 @@ domain.level.FusionPair = (function () {
      *
      * @return {Boolean}
      */
-    fpPt.isLastOne = function () {
+    pt.isLastOne = function () {
 
         return isLastOne(this.left) || isLastOne(this.right);
 
@@ -78,7 +76,7 @@ domain.level.FusionPair = (function () {
      *
      * @return {String}
      */
-    fpPt.leftGene = function () {
+    pt.leftGene = function () {
 
         return getGene(this.left);
 
@@ -90,7 +88,7 @@ domain.level.FusionPair = (function () {
      *
      * @return {String}
      */
-    fpPt.rightGene = function () {
+    pt.rightGene = function () {
 
         return getGene(this.right);
 
@@ -102,7 +100,7 @@ domain.level.FusionPair = (function () {
      *
      * @return {Number} The score
      */
-    fpPt.score = function () {
+    pt.score = function () {
 
         var length = this.newGene().length;
 
@@ -129,6 +127,4 @@ domain.level.FusionPair = (function () {
 
     };
 
-    return exports;
-
-}());
+});
