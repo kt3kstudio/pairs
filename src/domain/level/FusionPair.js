@@ -7,14 +7,20 @@
 domain.level.FusionPair = subclass(function (pt) {
     'use strict';
 
+    var meiosis = null;
+
     /**
      * @constructor
      * @param {domain.level.Cell} left The left cell
      * @param {domain.level.Cell} right The right cell
      */
     pt.constructor = function (left, right) {
+
         this.left = left;
         this.right = right;
+
+        this.meiosis = meiosis || (meiosis = new domain.genetics.MeioticService());
+
     };
 
 
@@ -40,7 +46,7 @@ domain.level.FusionPair = subclass(function (pt) {
      */
     pt.newGene = function () {
 
-        this.__newGene__ = this.__newGene__ || geneFusion(this.leftGene(), this.rightGene());
+        this.__newGene__ = this.__newGene__ || this.meiosis.recombination(this.leftGene(), this.rightGene());
 
         return this.__newGene__;
 
@@ -54,7 +60,11 @@ domain.level.FusionPair = subclass(function (pt) {
      */
     pt.isEvolving = function () {
 
-        return this.newGene().length > Math.max(this.leftGene().length, this.rightGene().length);
+        var prevLength = Math.max(this.meiosis.virtualLength(this.leftGene()), this.meiosis.virtualLength(this.rightGene()));
+
+        var newLength = this.meiosis.virtualLength(this.newGene());
+
+        return newLength > prevLength;
 
     };
 
@@ -102,7 +112,7 @@ domain.level.FusionPair = subclass(function (pt) {
      */
     pt.score = function () {
 
-        var length = this.newGene().length;
+        var length = this.meiosis.virtualLength(this.newGene());
 
         var score = Math.pow(length, 2) * 10;
 
@@ -111,37 +121,6 @@ domain.level.FusionPair = subclass(function (pt) {
         }
 
         return score;
-
-    };
-
-    /**
-     * Creates a new gene from a pair of genes
-     *
-     * @param {String} x The first gene
-     * @param {String} y The second gene
-     * @returns {String} The new gene
-     */
-    var geneFusion = function (x, y) {
-
-        var newGene = (x + y).replace(/([fm])(\1)+/g, '$1');
-
-        if (newGene.length >= 8) {
-
-            newGene = newGene.replace(/[fm]/g, '');
-
-            newGene += 'a';
-
-            if (newGene.length >= 8) {
-
-                newGene = newGene.replace(/[a]/g, '');
-
-                newGene += 'w';
-
-            }
-
-        }
-
-        return newGene;
 
     };
 
