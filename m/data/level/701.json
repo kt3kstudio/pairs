@@ -14,33 +14,27 @@
   "threshold1": 2100,
   "cells": [
     {
-      "x": 0,
-      "y": 0,
       "gene": "mf"
     },
     {
-      "x": 0,
-      "y": 1,
       "gene": "fm"
     },
     {
-      "x": 1,
-      "y": 0,
-      "gene": "fmf"
+      "gene": "a"
     },
     {
-      "x": 1,
-      "y": 1,
-      "gene": "mfm"
+      "gene": "a"
     },
     {
-      "x": 2,
-      "y": 0,
+      "gene": "f"
+    },
+    {
+      "gene": "m"
+    },
+    {
       "gene": "ffmm"
     },
     {
-      "x": 2,
-      "y": 1,
       "gene": "mfmf"
     }
   ]

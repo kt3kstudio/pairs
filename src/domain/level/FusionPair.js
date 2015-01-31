@@ -123,7 +123,25 @@ domain.level.FusionPair = subclass(function (pt) {
      */
     var geneFusion = function (x, y) {
 
-        return (x + y).replace(/(\w)(\1)/g, '$1');
+        var newGene = (x + y).replace(/([fm])(\1)+/g, '$1');
+
+        if (newGene.length >= 8) {
+
+            newGene = newGene.replace(/[fm]/g, '');
+
+            newGene += 'a';
+
+            if (newGene.length >= 8) {
+
+                newGene = newGene.replace(/[a]/g, '');
+
+                newGene += 'w';
+
+            }
+
+        }
+
+        return newGene;
 
     };
 
