@@ -22,6 +22,7 @@ domain.splash = {};
 domain.title = {};
 domain.map = {};
 domain.level = {};
+domain.genetics = {};
 
 // game data domain
 datadomain = {};
