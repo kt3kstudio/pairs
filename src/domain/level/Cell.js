@@ -196,6 +196,14 @@ domain.level.Cell = (function () {
             return 'images/ankh.svg';
         }
 
+        if (this.gene === 'w') {
+            return 'images/wheel.svg';
+        }
+
+        if (this.gene === 'b') {
+            return 'images/b.svg';
+        }
+
         var cellKind = domain.common.BomTable[this.gene.length];
 
         return 'images/' + cellKind + '.svg';
