@@ -1,19 +1,23 @@
 # TODO
 
+- Char difference
+  - ma - torus
+  - ellen - sphere
+  - emma - P2
 
-- RoomBoard
-- Record commands
 
 ## datadomain
-- LevelClearInfo
+- ClearData
 
 
 ## Artwork
-- 6
-- 7
-- ankh
+- finger - swipe tutorial
+
 
 # DONE
+- 6-cell
+- 7-cell
+- ankh
 - Level
 - Floor
 - ScoreBoard
