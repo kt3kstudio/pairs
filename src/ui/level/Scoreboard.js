@@ -51,7 +51,7 @@ ui.level.Scoreboard = (function () {
      * Updates the scoreboard's number.
      */
     sbPt.update = function () {
-        this.$dom.text(this.score);
+        this.$dom.text(window.commaNumber(this.score));
     };
 
     /**
