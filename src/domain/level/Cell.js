@@ -201,7 +201,7 @@ domain.level.Cell = (function () {
         }
 
         if (this.gene === 'b') {
-            return 'images/b.svg';
+            return 'images/box.svg';
         }
 
         var cellKind = domain.common.BomTable[this.gene.length];
