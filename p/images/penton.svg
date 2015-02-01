@@ -4,23 +4,23 @@
         <link rel="stylesheet" type="text/css" href="cells.css"
               xmlns="http://www.w3.org/1999/xhtml" />
     </defs>
-    <g id="3" transform="translate(87.000000, 100.000000)">
+    <g id="3" class="a" transform="translate(87.000000, 100.000000)">
         <circle class="bg" fill="#083D71" cx="50" cy="50" r="50"></circle>
         <circle class="in" fill="#0B6AC6" cx="50" cy="41.3793103" r="36.2068966"></circle>
     </g>
-    <g id="2" transform="translate(10.000000, 100.000000)">
+    <g id="2" class="b" transform="translate(10.000000, 100.000000)">
         <circle class="bg" fill="#083D71" cx="50" cy="50" r="50"></circle>
         <circle class="in" fill="#0B6AC6" cx="50" cy="41.3793103" r="36.2068966"></circle>
     </g>
-    <g id="1" transform="translate(0.000000, 40.000000)">
+    <g id="1" class="f" transform="translate(0.000000, 40.000000)">
         <circle class="bg" fill="#083D71" cx="50" cy="50" r="50"></circle>
         <circle class="in" fill="#0B6AC6" cx="50" cy="41.3793103" r="36.2068966"></circle>
     </g>
-    <g id="4" transform="translate(100.000000, 40.000000)">
+    <g id="4" class="m" transform="translate(100.000000, 40.000000)">
         <circle class="bg" fill="#083D71" cx="50" cy="50" r="50"></circle>
         <circle class="in" fill="#0B6AC6" cx="50" cy="41.3793103" r="36.2068966"></circle>
     </g>
-    <g id="0" transform="translate(50.000000, 0.000000)">
+    <g id="0" class="w" transform="translate(50.000000, 0.000000)">
         <circle class="bg" fill="#083D71" cx="50" cy="50" r="50"></circle>
         <circle class="in" fill="#0B6AC6" cx="50" cy="41.3793103" r="36.2068966"></circle>
     </g>
