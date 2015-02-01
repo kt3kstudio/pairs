@@ -39,3 +39,15 @@ global.loadImage = function (path, cls, dom) {
             });
     });
 };
+
+/**
+ * Add a comma to separate each group of three digits in a text.
+ *
+ * @param {Number} number The number
+ * @return {String}
+ */
+global.commaNumber = function (number) {
+
+    return number.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
+
+};
