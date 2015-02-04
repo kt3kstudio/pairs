@@ -13,10 +13,13 @@ domain.map.Staircase = (function () {
     };
 
     exports.createFromObject = function (obj) {
+
+        var factory = new datadomain.CharPositionFactory();
+
         return new exports(
 
             obj.name,
-            datadomain.CharPositionFactory.createFromObject(obj.opts.to),
+            factory.createFromObject(obj.opts.to),
             obj.opts.type
 
         ).setPos(obj.pos).setSize(obj.size);

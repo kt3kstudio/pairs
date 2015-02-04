@@ -3,34 +3,38 @@
  * @class
  * CharPositionRepository handles the persistence of CharPosition data
  */
-datadomain.CharPositionRepository = (function () {
+datadomain.CharPositionRepository = subclass(function (pt) {
     'use strict';
 
     var CHAR_POSITION_KEY = '-char-position';
 
-    var exports = function () {
+    /**
+     * @constructor
+     */
+    pt.constructor = function () {
+
+        this.factory = new datadomain.CharPositionFactory();
+
     };
 
-    var cprPt = exports.prototype;
+    pt.getCharPosition = function (name) {
 
-    cprPt.getCharPosition = function (name) {
+        var that = this;
 
         return infrastructure.storage.get(this.createKey(name), null).then(function (data) {
 
-            return data ? datadomain.CharPositionFactory.createFromObject(data)
-                        : datadomain.CharPositionFactory.createStartPosition();
+            return data ? that.factory.createFromObject(data)
+                        : that.factory.createStartPosition();
         });
 
     };
 
-    cprPt.setCharPosition = function (name, position) {
+    pt.setCharPosition = function (name, position) {
         return infrastructure.storage.set(this.createKey(name), position.toObject());
     };
 
-    cprPt.createKey = function (name) {
+    pt.createKey = function (name) {
         return name + CHAR_POSITION_KEY;
     };
 
-    return exports;
-
-}());
+});
