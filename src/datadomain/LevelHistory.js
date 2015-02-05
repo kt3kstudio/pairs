@@ -19,8 +19,6 @@ datadomain.LevelHistory = subclass(function (pt) {
         this.score = score;
         this.star = star;
         this.cleared = cleared;
-        this.ctime = ctime;
-        this.mtime = mtime;
 
     };
 
