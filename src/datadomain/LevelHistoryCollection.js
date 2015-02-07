@@ -13,9 +13,12 @@ datadomain.LevelHistoryCollection = subclass(Array, function (pt) {
 
         list = list || [];
 
+        this.dict = {};
+
         list.forEach(function (history, i) {
 
             this[i] = history;
+            this.dict[history.levelName] = history;
 
         }, this);
 
