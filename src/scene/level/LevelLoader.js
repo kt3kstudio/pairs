@@ -2,18 +2,17 @@
  * @class
  * LevelLoader loads level information.
  */
-scene.level.LevelLoader = (function () {
+scene.level.LevelLoader = subclass(scene.common.Scene, function (pt) {
     'use strict';
 
-    var exports = function () {
+    pt.constructor = function () {
         this.lvRepo = new datadomain.LevelRepository();
         this.charPosRepo = new datadomain.CharPositionRepository();
         this.chr = new domain.common.Ma();
     };
 
-    var llPt = exports.prototype = new scene.common.Scene();
 
-    llPt.start = function () {
+    pt.start = function () {
         var that = this;
 
         this.getCharPosition().then(function (charPos) {
@@ -29,14 +28,14 @@ scene.level.LevelLoader = (function () {
         });
     };
 
-    llPt.getCharPosition = function () {
+
+    pt.getCharPosition = function () {
         return this.charPosRepo.getCharPosition(this.chr.name);
     };
 
-    llPt.getLevel = function (level) {
+
+    pt.getLevel = function (level) {
         return this.lvRepo.loadByLevel(level);
     };
 
-    return exports;
-
-}());
+});
