@@ -12,13 +12,13 @@ datadomain.LevelHistory = subclass(function (pt) {
     /**
      * @constructor
      */
-    pt.constructor = function (chr, levelName, score, star, cleared, ctime, mtime) {
+    pt.constructor = function (levelName, score, star, cleared, clearedAt) {
 
-        this.chr = chr;
         this.levelName = levelName;
         this.score = score;
         this.star = star;
         this.cleared = cleared;
+        this.clearedAt = clearedAt;
 
     };
 

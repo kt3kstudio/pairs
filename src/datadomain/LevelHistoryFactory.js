@@ -36,7 +36,6 @@ datadomain.LevelHistoryFactory = subclass(function (pt) {
 
         return new datadomain.LevelHistory(
 
-            obj.chr,
             obj.levelName,
             obj.score,
             obj.star,
