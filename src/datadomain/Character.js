@@ -12,7 +12,9 @@ datadomain.Character = subclass(function (pt) {
 
     /**
      * @constructor
-     * @param {String} name
+     * @param {String} name The name of the character
+     * @param {datadomain.CharPosition} charPosition The position of the character
+     * @param {datadomain.LevelHistoryCollection} histories The histories of the current floor
      */
     pt.constructor = function (name, charPosition, histories) {
 
@@ -26,7 +28,7 @@ datadomain.Character = subclass(function (pt) {
     /**
      * Sets the position of character.
      *
-     * @param {datadomain.CharPosition} charPosition
+     * @param {datadomain.CharPosition} charPosition The position of the character
      */
     pt.setCharPosition = function (charPosition) {
 
@@ -36,14 +38,19 @@ datadomain.Character = subclass(function (pt) {
 
 
     /**
-     * Sets the level histories of the current floor.
+     * Reloads the levelHistories according to the current position.
      *
-     * @param {datadomain.LevelHistoryCollection} histories
+     * @return {Promise}
      */
-    pt.setHistories = function (histories) {
+    pt.reloadHistories = function () {
+        var that = this;
 
-        this.histories = histories;
+        return new LevelHistoryRepository().getCollectionByFloor(this.charPosition.floor).then (function (histories) {
 
+            that.histories = histories;
+
+        });
     };
+
 
 });
