@@ -7,7 +7,12 @@
 
 
 ## datadomain
-- ClearData
+- Character
+- Cell
+- CellCollection(?)
+- CharPosition.loadLevelHistories(): Promise<LevelHistoryCollection>
+
+- rework level
 
 
 ## Artwork
