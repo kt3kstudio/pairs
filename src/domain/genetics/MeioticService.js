@@ -16,8 +16,8 @@ domain.genetics.MeioticService = subclass(function (pt) {
     /**
      * Calculates the recombination the maternal gene and the paternal gene and returns a new gene.
      *
-     * @param {String} maternalGene
-     * @param {String} paternalGene
+     * @param {String} maternalGene The gene of the mother
+     * @param {String} paternalGene The gene of the father
      * @return {String}
      */
     pt.recombination = function (maternalGene, paternalGene) {
