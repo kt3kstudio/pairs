@@ -45,7 +45,7 @@ datadomain.Character = subclass(function (pt) {
     pt.reloadHistories = function () {
         var that = this;
 
-        return new LevelHistoryRepository().getCollectionByFloor(this.charPosition.floor).then (function (histories) {
+        return new datadomain.LevelHistoryRepository().getCollectionByFloor(this.charPosition.floor).then (function (histories) {
 
             that.histories = histories;
 
