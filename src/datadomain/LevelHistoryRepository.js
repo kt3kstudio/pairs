@@ -26,9 +26,11 @@ datadomain.LevelHistoryRepository = subclass(function (pt) {
      */
     pt.getCollectionByFloorName = function (floorId) {
 
+        var that = this;
+
         return infrastructure.storage.get(this.createStorageKeyForFloorData(floorId), []).then(function (array) {
 
-            return that.factory.createCollectionFromObject(obj);
+            return that.factory.createCollectionFromArray(array);
 
         });
 
