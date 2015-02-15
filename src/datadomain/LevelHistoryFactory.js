@@ -11,7 +11,7 @@ datadomain.LevelHistoryFactory = subclass(function (pt) {
     /**
      * Creates a LevelHistoryCollection from the array.
      *
-     * @param {Array}
+     * @param {Array} array The array of the LevelHistories
      * @return {datadomain.LevelHistoryCollection}
      */
     pt.createCollectionFromArray = function (array) {
