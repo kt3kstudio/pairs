@@ -85,7 +85,7 @@ domain.level.ExitQueue= (function () {
     /**
      * Checks if the queue is finished and has the last cell evolving.
      *
-     * @return {Boolen}
+     * @return {Boolean}
      */
     eqPt.theLastOneIsEvolved = function () {
 
