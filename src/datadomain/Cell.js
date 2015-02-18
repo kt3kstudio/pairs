@@ -4,8 +4,9 @@
 /**
  * The cell.
  *
+ * [ValueObject]
+ *
  * @class
- * @valueObject
  */
 datadomain.Cell = subclass(function (pt) {
     'use strict';
