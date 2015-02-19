@@ -107,6 +107,27 @@ Level
       ((cell Cell)
         (gene String))))))
 
+(level
+  Level
+  (name
+    String)
+  (goal
+    Goal
+    (type String)
+    (opts Object))
+  (starCriteria
+    StarCriteria
+    (thresholds
+      Array
+      Number))
+  (cells
+    CellCollection
+    (cells
+      Array
+      (cell
+        Cell
+        (gene String)))))
+
 E:
 - S
 - V:
