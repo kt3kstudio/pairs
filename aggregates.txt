@@ -1,0 +1,184 @@
+class Level @entity @ar:
+
+  id: String @id
+
+  goal:
+    class Goal @vo:
+      type: String
+      opts: Object
+
+  starCriteria:
+    class StarCriteria @vo:
+      thresholds: Array<Number>
+
+  cells:
+    class CellCollection @vo @ar:
+      cells:
+        class Array<Cell> @vo:
+          gene: String
+
+level:
+  @entity @ar:
+    id: String
+    goal:
+      @vo:
+        type: String
+        opts: Object
+    starCriteria:
+      @vo:
+        thresholds:
+          Array: Number
+    cells:
+      @vo @ar:
+        cells:
+          Array:
+            @vo:
+              gene: String
+
+@entity @ar:
+  - String
+  - @vo:
+    - String
+    - Object
+  - @vo:
+    - Array: Number
+  - @vo @ar:
+    - Array:
+        @vo:
+        - String
+
+Entity:
+  - String
+  - VO:
+    - String
+    - Object
+  - VO:
+    - Array: Number
+  - VO:
+    - Array:
+        VO:
+        - String
+
+E:
+- S
+- V:
+  - S
+  - O
+- V:
+  - A: N
+- V:
+  - A:
+      V:
+      - S
+
+E
+ S
+ -
+  S
+  O
+ -
+  A
+   N
+ -
+  A
+   -
+    S
+
+-
+ S
+ -
+  S
+  O
+ -
+  A
+   N
+ -
+  A
+   -
+    S
+
+-
+ S
+ -
+  S
+  O
+ -
+  A
+   N
+ -
+  A
+   -
+    S
+
+(C S (C S O) (C (A N)) (C (A (C S))))
+
+(C
+ S
+ (C
+  S
+  O)
+ (C
+  (A
+   N))
+ (C
+  (A
+   (C
+    S))))
+
+C
+ S
+ C
+  S
+  O
+ C
+  A
+   N
+ C
+  A
+   C
+    S
+
+
+A S N O -
+
+A N S O
+
+- N
+S 0
+O 0
+A 1
+N 0
+
+
+---
+
+
+class Character @entity @ar:
+  id: String @id
+  name: String
+  position: CharPosition
+  histories: LevelHistoryCollection
+
+class CharPosition @vo:
+  floor: String
+  level: String
+
+class LevelHistoryCollection @vo @ar:
+  histories: Array<LevelHistory>
+
+class LevelHistory @vo:
+  levelId: String
+  score: Number
+  star: Number
+  cleared: Boolean
+  clearedAt: Date
+
+
+---
+
+class Floor @entity @ar:
+  id: string @id
+  objects: FloorObjectCollection
+
+class FloorObjectCollection @vo @ar:
+  objects: Array<FloorObject>
