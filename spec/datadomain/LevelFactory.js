@@ -2,6 +2,7 @@
 
 
 describe('datadomain', function () {
+    'use strict';
 
     describe('LevelFactory', function () {
 

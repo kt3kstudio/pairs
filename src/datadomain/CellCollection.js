@@ -6,6 +6,7 @@
  * The collection class of Cell.
  */
 datadomain.CellCollection = subclass(function (pt) {
+    'use strict';
 
     /**
      * @constructor
