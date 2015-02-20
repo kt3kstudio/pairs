@@ -2,13 +2,8 @@
 /**
  * GoalFactory is the factory class of goal models
  */
-datadomain.goal.GoalFactory = (function () {
+datadomain.goal.GoalFactory = subclass(function (pt) {
     'use strict';
-
-    var exports = function () {
-    };
-
-    var gfPt = exports.prototype;
 
     /**
      * Creates goals from object list.
@@ -16,9 +11,10 @@ datadomain.goal.GoalFactory = (function () {
      * @param {Array} list The lisf of goal objects.
      * @return {Array}
      */
-    gfPt.createFromObjectList = function (list) {
+    pt.createFromObjectList = function (list) {
         return this.createFromObject(list[0]);
     };
+
 
     /**
      * Creates a goal from the given object.
@@ -26,7 +22,7 @@ datadomain.goal.GoalFactory = (function () {
      * @param {Object} obj The goal object
      * @return {datadomain.goal.Goal} The goal
      */
-    gfPt.createFromObject = function (obj) {
+    pt.createFromObject = function (obj) {
         var type = obj.type;
 
         switch (type) {
@@ -37,6 +33,4 @@ datadomain.goal.GoalFactory = (function () {
         }
     };
 
-    return exports;
-
-}());
+});
