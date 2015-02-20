@@ -6,13 +6,27 @@
   - emma - P2
 
 
-## datadomain
-- Character
-- Cell
-- CellCollection(?)
-- CharPosition.loadLevelHistories(): Promise<LevelHistoryCollection>
 
-- rework level
+## datadomain
+
+aggregate driven modeling
+
+- User aggregate
+  - currentCharacter
+  - stat
+- Level aggregate
+  - id
+  - criteria
+    - goal
+  - field
+    - cells
+- Character aggregate
+  - id
+  - name
+  - position
+  - histories
+- Floor
+  - objects
 
 
 ## Artwork
