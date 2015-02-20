@@ -3,7 +3,7 @@
  * @extends scene.common.Scene
  * MapScene handles the scene of map
  */
-scene.map.MapScene = subclass(scene.common.MapScene, function (pt) {
+scene.map.MapScene = subclass(scene.common.Scene, function (pt) {
     'use strict';
 
     /**
