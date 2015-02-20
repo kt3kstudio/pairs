@@ -35,6 +35,115 @@ level:
             @vo:
               gene: String
 
+Level:
+  type:
+  - @entity 
+  - @ar
+  fields:
+  - id: String
+  - goal:
+      Goal:
+        type:
+        - @vo
+        fields:
+        - type: String
+        - opts: Object
+  - starCriteria:
+      StarCriteria:
+        type:
+        - @vo
+        fields:
+        - thresholds:
+            Array: Number
+  - cells:
+      CellCollection:
+        type:
+        - @vo
+        - @ar
+        fields:
+        - cells:
+            Array:
+              Cell:
+                type:
+                - @vo
+                fields:
+                - gene: String
+
+
+
+Level:
+  type:
+  - @entity 
+  - @ar
+  fields:
+  - id: String
+  - goal:
+      type:
+      - @vo
+      fields:
+      - type: String
+      - opts: Object
+  - starCriteria:
+      type:
+      - @vo
+      fields:
+      - thresholds:
+          Array: Number
+  - cells:
+      type:
+      - @vo
+      - @ar
+      fields:
+      - cells:
+          Array:
+            type:
+            - @vo
+            fields:
+            - gene: String
+
+
+Level:
+  pattern:
+  - @entity 
+  - @ar
+  fields:
+  - name: id
+    type: String
+  - name: goal
+    type:
+      pattern:
+      - @vo
+      fields:
+      - name: type
+        type: String
+      - name: opts
+        type: Object
+  - name: starCriteria
+    type:
+      pattern:
+      - @vo
+      fields:
+      - name: thresholds
+        type:
+          Array: Number
+  - name: cells
+    type:
+      pattern:
+      - @vo
+      - @ar
+      fields:
+      - name: cells
+        type:
+          Array:
+            pattern:
+            - @vo
+            fields:
+            - name: gene
+              type: String
+
+
+
+
 @entity @ar:
   - String
   - @vo:
