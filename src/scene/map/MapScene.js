@@ -3,16 +3,20 @@
  * @extends scene.common.Scene
  * MapScene handles the scene of map
  */
-scene.map.MapScene = (function ($) {
+scene.map.MapScene = subclass(scene.common.MapScene, function (pt) {
     'use strict';
 
-    var exports = function (prevScene) {
+    /**
+     * @constructor
+     * @param {scene.common.Scene} prevScene The previous scene
+     */
+    pt.constructor = function (prevScene) {
 
         // domain objects
         this.floor = new domain.map.Floor();
 
         this.wall = new domain.map.Wall();
-        this.wall.loadFromObjectList(prevScene.floor.woList);
+        this.wall.loadFromObjectList(prevScene.floor.objects);
 
         this.chr = prevScene.chr;
         this.chr.setParent(this.wall.$dom);
@@ -26,9 +30,7 @@ scene.map.MapScene = (function ($) {
         this.lifeButton = {};
     };
 
-    var msPrototype = exports.prototype = new scene.common.Scene();
-
-    msPrototype.start = function () {
+    pt.start = function () {
         var that = this;
 
         that.menuButton.show();
@@ -48,7 +50,7 @@ scene.map.MapScene = (function ($) {
         });
     };
 
-    msPrototype.fadeOut = function () {
+    pt.fadeOut = function () {
         this.menuButton.hide();
 
         var that = this;
@@ -70,7 +72,7 @@ scene.map.MapScene = (function ($) {
      *
      * @param {String} level The level
      */
-    msPrototype.goToLevel = function (level) {
+    pt.goToLevel = function (level) {
         var that = this;
 
         return this.cls.getIntoDoor().then(function () {
@@ -92,7 +94,7 @@ scene.map.MapScene = (function ($) {
      *
      * @return {Promise}
      */
-    msPrototype.reload = function () {
+    pt.reload = function () {
         var that = this;
 
         return this.cls.getIntoDoor().then(function () {
@@ -106,6 +108,4 @@ scene.map.MapScene = (function ($) {
         });
     };
 
-    return exports;
-
-}(window.jQuery));
+});
