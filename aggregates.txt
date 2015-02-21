@@ -366,9 +366,19 @@ class LevelHistoryCollection @vo @ar:
 class LevelHistory @vo:
   levelId: String
   score: Number
-  star: Number
+  highestGene: String
   cleared: Boolean
   clearedAt: Date
+
+
+---
+
+class User @entity @ar:
+  currentCharId: String
+  stat: UserStatistics
+
+class UserStatistics @vo:
+  launchTimes: Number
 
 
 ---
