@@ -32,7 +32,7 @@ scene.level.PlayScene = (function () {
 
         // models
         this.cells = new domain.level.FieldCells(fieldDimension, '#main');
-        this.cells.loadFromObjectList(this.level.cells);
+        this.cells.loadFromObjectList(this.level.cells.cells);
         this.field = new domain.level.Field(fieldDimension);
 
         // services
