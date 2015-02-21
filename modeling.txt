@@ -24,8 +24,8 @@ class Character @entity @ar:
   histories: LevelHistoryCollection
 
 class CharPosition @vo:
-  floor: String
-  level: String
+  floorId: String
+  floorObjectId: String
 
 class LevelHistoryCollection @vo @ar:
   histories: Array<LevelHistory>
