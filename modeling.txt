@@ -1,0 +1,58 @@
+class Level @entity @ar:
+  id: String
+  goal: Goal
+  cells: CellCollection
+
+class Goal @vo:
+  type: String
+  opts: Object
+
+class CellCollection @vo @ar:
+  cells: Array<Cell>
+
+class Cell @vo:
+  gene: String
+
+
+---
+
+
+class Character @entity @ar:
+  id: String @id
+  name: String
+  position: CharPosition
+  histories: LevelHistoryCollection
+
+class CharPosition @vo:
+  floor: String
+  level: String
+
+class LevelHistoryCollection @vo @ar:
+  histories: Array<LevelHistory>
+
+class LevelHistory @vo:
+  levelId: String
+  score: Number
+  highestGene: String
+  cleared: Boolean
+  clearedAt: Date
+
+
+---
+
+class User @entity @ar:
+  currentCharId: String
+  stat: UserStatistics
+
+class UserStatistics @vo:
+  launchTimes: Number
+
+
+---
+
+class Floor @entity @ar:
+  id: string @id
+  objects: FloorObjectCollection
+
+class FloorObjectCollection @vo @ar:
+  objects: Array<FloorObject>
