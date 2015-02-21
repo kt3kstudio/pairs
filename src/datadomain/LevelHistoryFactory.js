@@ -38,7 +38,7 @@ datadomain.LevelHistoryFactory = subclass(function (pt) {
 
             obj.levelName,
             obj.score,
-            obj.star,
+            obj.highestGene,
             obj.cleared,
             obj.clearedAt
 
