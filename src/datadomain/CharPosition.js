@@ -1,45 +1,39 @@
 
 /**
- * @class
- * CharPosition is the domain model which represents current position of characters.
+ * The position of the character.
  */
-datadomain.CharPosition = (function () {
+datadomain.CharPosition = subclass(function (pt) {
     'use strict';
-
 
     /**
      * @constructor
-     * @param {String} wallPosition The name of the position of the wall object
-     * @param {String} floor
+     * @param {String} floorId The id of the floor
+     * @param {String} floorObjectId The id of the floor object
      */
-    var exports = function (wallPosition, floor) {
-        this.wallPosition = wallPosition;
-        this.floor = floor;
-    };
+    pt.constructor = function (floorId, floorObjectId) {
 
-    var charPosPt = exports.prototype;
+        /**
+         * @property {String} floorId The id of the floor
+         */
+        this.floorId = floorId;
+
+        /**
+         * @property {String} floorObjectId The id of the floor object
+         */
+        this.floorObjectId = floorObjectId;
+
+    };
 
     /**
      * Returns the object representation of the character's position
      *
      * @return {Object}
      */
-    charPosPt.toObject = function () {
+    pt.toObject = function () {
         return {
-            wallPosition: this.wallPosition,
-            floor: this.floor
+            floorId: this.floorId,
+            floorObjectId: this.floorObjectId
         };
     };
 
-    /**
-     * Gets the level of the position.
-     *
-     * @return {String}
-     */
-    charPosPt.getLevel = function () {
-        return this.wallPosition;
-    };
-
-    return exports;
-
-}());
+});

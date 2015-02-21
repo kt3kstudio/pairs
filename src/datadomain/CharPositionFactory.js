@@ -6,8 +6,8 @@
 datadomain.CharPositionFactory = subclass(function (pt) {
     'use strict';
 
-    var START_WALL_POSITION= '701';
-    var START_FLOOR = '7';
+    var START_FLOOR_ID = '7';
+    var START_FLOOR_OBJECT_ID = '701';
 
     /**
      * Creates the start position.
@@ -15,7 +15,12 @@ datadomain.CharPositionFactory = subclass(function (pt) {
      * @return {datadomain.CharPosition}
      */
     pt.createStartPosition = function () {
-        return new datadomain.CharPosition(START_WALL_POSITION, START_FLOOR);
+        return new datadomain.CharPosition(
+
+            START_FLOOR_ID,
+            START_FLOOR_OBJECT_ID
+
+        );
     };  
 
 
@@ -26,7 +31,14 @@ datadomain.CharPositionFactory = subclass(function (pt) {
      * @return {datadomain.CharPosition}
      */
     pt.createFromObject = function (obj) {
-        return new datadomain.CharPosition(obj.wallPosition, obj.floor);
+
+        return new datadomain.CharPosition(
+
+            obj.floorId,
+            obj.floorObjectId
+
+        );
+
     };  
 
 });
