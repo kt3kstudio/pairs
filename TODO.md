@@ -14,19 +14,13 @@ aggregate driven modeling
 - User aggregate
   - currentCharacter
   - stat
-- Level aggregate
-  - id
-  - criteria
-    - goal
-  - field
-    - cells
 - Character aggregate
   - id
   - name
   - position
   - histories
 - Floor
-  - objects
+  - floorObjects
 
 
 ## Artwork
@@ -34,6 +28,10 @@ aggregate driven modeling
 
 
 # DONE
+- Level aggregate
+  - id
+  - goal
+  - cells
 - 6-cell
 - 7-cell
 - ankh
