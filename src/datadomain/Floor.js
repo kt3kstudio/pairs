@@ -1,19 +1,29 @@
 
 /**
- * @class
  * Floor class is the domain model which represents each floor structure.
+ *
+ * @class
  */
-datadomain.Floor = (function () {
-
+datadomain.Floor = subclass(function (pt) {
     'use strict';
 
-    var exports = function (name, woList) {
-        this.name = name;
-        this.woList = woList;
+    /**
+     * @constructor
+     * @param {String} id The id of the floor (e.g. 7, 8)
+     * @param {datadomain.FloorObjectCollection} objects The objects on the floor
+     */
+    pt.constructor = function (id, objects) {
+
+        /**
+         * @property {String} id The id of the floor
+         */
+        this.id = id;
+
+        /**
+         * @property {datadomain.FloorObjectCollection} objects The objects on the floor
+         */
+        this.objects = objects;
+
     };
 
-    //var floorPt = exports.prototype;
-
-    return exports;
-
-}());
+});

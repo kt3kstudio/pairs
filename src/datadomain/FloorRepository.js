@@ -15,13 +15,13 @@ datadomain.FloorRepository = (function () {
     var frPt = exports.prototype;
 
     /**
-     * Gets floor entity by the name
+     * Gets the floor by the id
      *
-     * @param {String} name The floor name
+     * @param {String} id The id of the floor
      * @return {Promise}
      */
-    frPt.getByName = function (name) {
-        return Promise.resolve($.getJSON(this.floorUrl(name))).then(function (data) {
+    frPt.getById = function (id) {
+        return Promise.resolve($.getJSON(this.floorUrl(id))).then(function (data) {
             return new datadomain.Floor(data.name, data.wallObjects);
         });
     };
@@ -29,11 +29,11 @@ datadomain.FloorRepository = (function () {
     /**
      * Gets the floor's url.
      *
-     * @param {String} name The floor name
+     * @param {String} id The floor id
      * @return {String} The floor url
      */
-    frPt.floorUrl = function (name) {
-        return 'data/floor/' + name + '.json';
+    frPt.floorUrl = function (id) {
+        return 'data/floor/' + id + '.json';
     };
 
     return exports;
