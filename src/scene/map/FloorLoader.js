@@ -22,7 +22,7 @@ scene.map.FloorLoader = (function () {
 
         this.charPosRepo.getCharPosition(this.chr.name).then(function (charPos) {
 
-            return that.floorRepo.getByName(charPos.floor);
+            return that.floorRepo.getById(charPos.floorId);
 
         }).then(function (floor) {
 

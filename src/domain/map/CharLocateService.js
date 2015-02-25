@@ -16,7 +16,7 @@ domain.map.CharLocateService = (function () {
     var clsPt = exports.prototype;
 
     clsPt.charAppear = function () {
-        var wo = this.wall.findByName(this.position.wallPosition);
+        var wo = this.wall.findByName(this.position.floorObjectId);
         this.current = wo;
         var chr = this.chr;
 
@@ -38,9 +38,9 @@ domain.map.CharLocateService = (function () {
     clsPt.moveToWallObject = function (wo) {
         var that = this;
 
-        var current = this.wall.findByName(this.position.wallPosition);
+        var current = this.wall.findByName(this.position.floorObjectId);
 
-        this.position.wallPosition = wo.name;
+        this.position.floorObjectId = wo.name;
         this.charPosRepo.setCharPosition(this.chr.name, this.position);
 
         var goOutDur = 400;

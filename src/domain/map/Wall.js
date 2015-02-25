@@ -57,7 +57,7 @@ domain.map.Wall = (function ($) {
             // load Floor data
             // load wo list
 
-            that.scrollSetToPosition(cls.position.wallPosition);
+            that.scrollSetToPosition(cls.position.floorObjectId);
         });
 
         this.wos.forEach(function (wo) {

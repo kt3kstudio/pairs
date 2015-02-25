@@ -27,7 +27,7 @@ scene.level.LevelLoader = subclass(scene.common.Scene, function (pt) {
 
         this.charPosRepo.getCharPosition(this.chr.name).then(function (charPos) {
 
-            return that.lvRepo.getById(charPos.getLevel());
+            return that.lvRepo.getById(charPos.floorObjectId);
 
         }).then(function (level) {
 
