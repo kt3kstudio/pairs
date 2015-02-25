@@ -19,12 +19,12 @@ datadomain.LevelHistoryRepository = subclass(function (pt) {
 
 
     /**
-     * Gets the level histories by the floor.
+     * Gets the level histories (LevelHistoryCollection) by the floor.
      *
      * @param {String} floorId The floor id
      * @return {Promise}
      */
-    pt.getCollectionByFloorName = function (floorId) {
+    pt.getByFloorId = function (floorId) {
 
         var that = this;
 
