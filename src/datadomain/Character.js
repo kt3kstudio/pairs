@@ -4,6 +4,10 @@
  * Character is the domain model and the aggregate root of character aggregate.
  * It has CharPosition and LevelHistoryCollection as its components.
  *
+ * [Entity]
+ * [AggregateRoot]
+ *
+ * @class
  */
 datadomain.Character = subclass(function (pt) {
     'use strict';
@@ -11,14 +15,31 @@ datadomain.Character = subclass(function (pt) {
 
     /**
      * @constructor
+     * @param {String} id The id of the character
      * @param {String} name The name of the character
-     * @param {datadomain.CharPosition} charPosition The position of the character
+     * @param {datadomain.CharPosition} position The position of the character
      * @param {datadomain.LevelHistoryCollection} histories The histories of the current floor
      */
-    pt.constructor = function (name, charPosition, histories) {
+    pt.constructor = function (id, name, position, histories) {
 
+        /**
+         * @property {String} id The id of the character
+         */
+        this.id = id;
+
+        /**
+         * @property {String} name The name of the character
+         */
         this.name = name;
-        this.charPosition = charPosition;
+
+        /**
+         * @property {datadomain.CharPosition} position The position of the character
+         */
+        this.position = position;
+
+        /**
+         * @property {datadomain.LevelHistoryCollection} histories The histories of the current floor
+         */
         this.histories = histories;
 
     };
@@ -27,11 +48,11 @@ datadomain.Character = subclass(function (pt) {
     /**
      * Sets the position of character.
      *
-     * @param {datadomain.CharPosition} charPosition The position of the character
+     * @param {datadomain.CharPosition} position The position of the character
      */
-    pt.setCharPosition = function (charPosition) {
+    pt.setPosition = function (position) {
 
-        this.charPosition = charPosition;
+        this.position = position;
 
     };
 
@@ -44,7 +65,7 @@ datadomain.Character = subclass(function (pt) {
     pt.reloadHistories = function () {
         var that = this;
 
-        return new datadomain.LevelHistoryRepository().getCollectionByFloor(this.charPosition.floor).then (function (histories) {
+        return new datadomain.LevelHistoryRepository().getByFloorId(this.position.floorId).then (function (histories) {
 
             that.histories = histories;
 
