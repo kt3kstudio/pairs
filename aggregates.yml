@@ -50,3 +50,10 @@ class Floor @entity @ar:
 
 class FloorObjectCollection @vo @ar:
   objects: Array<FloorObject>
+
+class FloorObject @vo
+  id: String
+  type: String
+  offset: Object
+  size: Object
+  opts: Object
