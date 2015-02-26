@@ -1,0 +1,49 @@
+
+
+
+/**
+ * The factory of FloorObject
+ */
+datadomain.FloorObjectFactory = subclass(function (pt) {
+    'use strict';
+
+    /**
+     * Creates a collection class from the array.
+     *
+     * @param {Array} array The array
+     * @return {FloorObjectCollection}
+     */
+    pt.createCollectionFromArray = function (array) {
+
+        var that = this;
+
+        if (array == null) {
+            return new datadomain.FloorObjectCollection();
+        }
+
+        return new datadomain.FloorObjectCollection(array.map(function (obj) {
+
+            return that.createFromObject(obj);
+
+        }));
+    };
+
+
+    /**
+     * Creates a FloorObject from the object
+     *
+     * @param {Object} obj The object
+     * @return {FloorObject}
+     */
+    pt.createFromObject = function (obj) {
+
+        return new datadomain.FloorObject(
+            obj.id,
+            obj.type,
+            obj.offset,
+            obj.size,
+            obj.opts
+        );
+
+    };
+});

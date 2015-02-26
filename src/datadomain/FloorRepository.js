@@ -11,8 +11,8 @@ datadomain.FloorRepository = subclass(function (pt) {
      * @return {Promise}
      */
     pt.getById = function (id) {
-        return Promise.resolve($.getJSON(this.floorUrl(id))).then(function (data) {
-            return new datadomain.Floor(data.name, data.floorObjects);
+        return Promise.resolve($.getJSON(this.floorUrl(id))).then(function (obj) {
+            return new datadomain.FloorFactory().createFromObject(obj);
         });
     };
 
