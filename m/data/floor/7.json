@@ -7,7 +7,7 @@
             "opts": {
                 "levelId": "701"
             },
-            "pos": [
+            "offset": [
                 100,
                 0
             ],
@@ -22,7 +22,7 @@
             "opts": {
                 "levelId": "702"
             },
-            "pos": [
+            "offset": [
                 300,
                 0
             ],
@@ -37,7 +37,7 @@
             "opts": {
                 "levelId": "703"
             },
-            "pos": [
+            "offset": [
                 500,
                 0
             ],
@@ -52,7 +52,7 @@
             "opts": {
                 "levelId": "704"
             },
-            "pos": [
+            "offset": [
                 700,
                 0
             ],
@@ -67,7 +67,7 @@
             "opts": {
                 "levelId": "705"
             },
-            "pos": [
+            "offset": [
                 1100,
                 0
             ],
@@ -79,7 +79,7 @@
         {
             "type": "s",
             "id": "su8",
-            "pos": [
+            "offset": [
                 1400,
                 0
             ],

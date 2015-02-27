@@ -4,7 +4,7 @@
         {
             "type": "s",
             "id": "sd7",
-            "pos": [
+            "offset": [
                 150,
                 0
             ],
@@ -25,7 +25,7 @@
             "opts": {
                 "levelId": "801"
             },
-            "pos": [
+            "offset": [
                 400,
                 0
             ],
@@ -40,7 +40,7 @@
             "opts": {
                 "levelId": "802"
             },
-            "pos": [
+            "offset": [
                 700,
                 0
             ],
@@ -55,7 +55,7 @@
             "opts": {
                 "levelId": "803"
             },
-            "pos": [
+            "offset": [
                 900,
                 0
             ],
@@ -70,7 +70,7 @@
             "opts": {
                 "levelId": "804"
             },
-            "pos": [
+            "offset": [
                 1100,
                 0
             ],
@@ -85,7 +85,7 @@
             "opts": {
                 "levelId": "805"
             },
-            "pos": [
+            "offset": [
                 1500,
                 0
             ],
