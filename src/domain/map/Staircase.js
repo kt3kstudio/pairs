@@ -6,8 +6,8 @@
 domain.map.Staircase = subclass(domain.map.WallObject, function (pt) {
     'use strict';
 
-    pt.constructor = function (name, to, type) {
-        this.name = name;
+    pt.constructor = function (id, to, type) {
+        this.id = id;
         this.to = to;
         this.type = type;
     };
@@ -24,7 +24,7 @@ domain.map.Staircase = subclass(domain.map.WallObject, function (pt) {
 
         return new pt.constructor(
 
-            obj.name,
+            obj.id,
             factory.createFromObject(obj.opts.to),
             obj.opts.type
 
@@ -38,7 +38,7 @@ domain.map.Staircase = subclass(domain.map.WallObject, function (pt) {
 
         this.$dom.on('click touchstart', function () {
 
-            that.cls.moveToWallObjectByName(that.name).then(function () {
+            that.cls.moveToWallObjectByName(that.id).then(function () {
 
                 return that.cls.setCharPosition(that.to);
 

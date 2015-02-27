@@ -40,7 +40,7 @@ domain.map.CharLocateService = (function () {
 
         var current = this.wall.findById(this.position.floorObjectId);
 
-        this.position.floorObjectId = wo.name;
+        this.position.floorObjectId = wo.id;
         this.charPosRepo.setCharPosition(this.chr.name, this.position);
 
         var goOutDur = 400;

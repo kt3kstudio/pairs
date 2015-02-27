@@ -8,8 +8,8 @@ domain.map.Door = subclass(domain.map.WallObject, function (pt) {
 
     var DOOR_APPEAR_DUR = 400;
 
-    pt.constructor = function (name, level, star, score) {
-        this.name = name;
+    pt.constructor = function (id, level, star, score) {
+        this.id = id;
         this.level = level;
         this.star = star;
         this.score = score;
@@ -22,7 +22,7 @@ domain.map.Door = subclass(domain.map.WallObject, function (pt) {
      * @return {domain.map.Door}
      */
     pt.constructor.createFromObject = function (obj) {
-        return new pt.constructor(obj.name, obj.level, obj.star, obj.score)
+        return new pt.constructor(obj.id, obj.level, obj.star, obj.score)
             .setPos(obj.offset)
             .setSize(obj.size);
     };
@@ -35,14 +35,14 @@ domain.map.Door = subclass(domain.map.WallObject, function (pt) {
         this.$door = $('<div />').addClass('door').appendTo(this.$doorFrame);
 
         this.$door.click(function () {
-            that.cls.moveToWallObjectByName(that.name);
+            that.cls.moveToWallObjectByName(that.id);
         });
 
-        $('<div />').addClass('door-front').text(this.name).appendTo(this.$door);
+        $('<div />').addClass('door-front').text(this.id).appendTo(this.$door);
         $('<div />').addClass('doorknob').text('●').appendTo(this.$door);
 
 
-        this.infoPane = $('<div><div class="door-info-content"><p>' + this.name + '</p><hr /><p><small>♛ Best ♛</small><br />' + this.score + '</p><hr /></div></div>').addClass('door-info').css({
+        this.infoPane = $('<div><div class="door-info-content"><p>' + this.id + '</p><hr /><p><small>♛ Best ♛</small><br />' + this.score + '</p><hr /></div></div>').addClass('door-info').css({
             width: '150px',
             height: '150px',
             top: '-200px',

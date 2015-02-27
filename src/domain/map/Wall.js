@@ -38,7 +38,11 @@ domain.map.Wall = (function ($) {
     };
 
     wallPt.transformCoordinates = function (floorObject) {
+
+        floorObject.offset.y *= -1;
         floorObject.offset.y += this.groundLevel;
+        floorObject.offset.y -= floorObject.size.height;
+
     };
 
     wallPt.expandRightLimit = function (val) {
@@ -96,7 +100,7 @@ domain.map.Wall = (function ($) {
         var wo = this.findById(id);
 
         if (wo == null) {
-            console.error('wall object not found (position = ' + position + ')');
+            console.error('wall object not found (id = ' + id + ')');
 
             return;
         }
@@ -143,9 +147,9 @@ domain.map.Wall = (function ($) {
     };
 
     /**
-     * Find the wall object of the given name.
+     * Find the wall object of the given id.
      *
-     * @param {String} name The name of the wall object
+     * @param {String} id The id of the wall object
      * @returns {domain.map.Door}
      */
     wallPt.findById = function (id) {
