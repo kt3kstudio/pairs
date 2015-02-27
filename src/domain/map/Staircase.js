@@ -3,31 +3,35 @@
 /**
  * Staircase class represents the staircases in the map view.
  */
-domain.map.Staircase = (function () {
+domain.map.Staircase = subclass(domain.map.WallObject, function (pt) {
     'use strict';
 
-    var exports = function (name, to, type) {
+    pt.constructor = function (name, to, type) {
         this.name = name;
         this.to = to;
         this.type = type;
     };
 
-    exports.createFromObject = function (obj) {
+    /**
+     * Creates a Staircase from the FloorObject.
+     *
+     * @param {datadomain.FloorObject} obj The FloorObject
+     * @return {domain.map.Staircase}
+     */
+    pt.constructor.createFromObject = function (obj) {
 
         var factory = new datadomain.CharPositionFactory();
 
-        return new exports(
+        return new pt.constructor(
 
             obj.name,
             factory.createFromObject(obj.opts.to),
             obj.opts.type
 
-        ).setPos(obj.pos).setSize(obj.size);
+        ).setPos(obj.offset).setSize(obj.size);
     };
 
-    var sPt = exports.prototype = new domain.map.WallObject();
-
-    sPt.createDom = function () {
+    pt.createDom = function () {
         var that = this;
 
         this.$dom = $('<div />').addClass('staircase staircase-' + this.type);
@@ -49,6 +53,4 @@ domain.map.Staircase = (function () {
         return this.$dom;
     };
 
-    return exports;
-
-}());
+});

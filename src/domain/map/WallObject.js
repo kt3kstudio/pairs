@@ -2,66 +2,70 @@
  * @class
  * WallObject is an abstract class which represents the something on the wall in the map view.
  */
-domain.map.WallObject = (function ($) {
+domain.map.WallObject = subclass(function (pt) {
     'use strict';
 
-    var exports = function () {
-    };
-
-    var woPt = exports.prototype;
-
-    woPt.setParent = function (parent) {
+    pt.setParent = function (parent) {
         this.parent = parent;
 
         return this;
     };
 
-    woPt.setPos = function (pos) {
-        this.x = pos[0];
-        this.y = pos[1];
+    /**
+     * @param {datadomain.Offset} offset The offset
+     */
+    pt.setPos = function (offset) {
+        this.x = offset.x;
+        this.y = offset.y;
 
         return this;
     };
 
-    woPt.rightLimit = function () {
+    pt.rightLimit = function () {
         return this.x + this.w;
     };
 
-    woPt.centerX = function () {
+    pt.centerX = function () {
         return this.x + this.w / 2;
     };
 
-    woPt.centerY = function () {
+    pt.centerY = function () {
         return this.y + this.h;
     };
 
-    woPt.setSize = function (size) {
-        this.w = size[0];
-        this.h = size[1];
+
+    /**
+     * Sets the size of the wall object.
+     *
+     * @param {datadomain.Size} size The size
+     */
+    pt.setSize = function (size) {
+        this.w = size.width;
+        this.h = size.height;
 
         return this;
     };
 
-    woPt.setCharLocateService = function (cls) {
+    pt.setCharLocateService = function (cls) {
         this.cls = cls;
 
         return this;
     };
 
-    woPt.createDom = function () {
+    pt.createDom = function () {
         return $('<div />').css({
             backgroundColor: 'black',
             opcaity: 0,
         });
     };
 
-    woPt.appear = function () {
+    pt.appear = function () {
         this.$dom = this.$dom || this.createDom().width(this.w).height(this.h).offset({left: this.x, top: this.y}).appendTo(this.parent);
 
         return this.$dom.anim(this.appearAnim, this.appearDur);
     };
 
-    woPt.disappear = function () {
+    pt.disappear = function () {
         var that = this;
 
         return this.$dom.anim(this.disappearAnim, this.disappearDur).then(function () {
@@ -69,13 +73,12 @@ domain.map.WallObject = (function ($) {
         });
     };
 
-    woPt.open = function () {
+    pt.open = function () {
         return Promise.resolve();
     };
 
-    woPt.close = function () {
+    pt.close = function () {
         return Promise.resolve();
     };
 
-    return exports;
-}(window.jQuery));
+});

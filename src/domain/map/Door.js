@@ -3,27 +3,31 @@
  *
  * Door class handles behaviour of the level's doors.
  */
-domain.map.Door = (function ($) {
+domain.map.Door = subclass(domain.map.WallObject, function (pt) {
     'use strict';
 
     var DOOR_APPEAR_DUR = 400;
 
-    var exports = function (name, level, star, score) {
+    pt.constructor = function (name, level, star, score) {
         this.name = name;
         this.level = level;
         this.star = star;
         this.score = score;
     };
 
-    exports.createFromObject = function (obj) {
-        return new exports(obj.name, obj.level, obj.star, obj.score)
-            .setPos(obj.pos)
+    /**
+     * Creates a Door from the FloorObject.
+     *
+     * @param {datadomain.FloorObject} obj The FloorObject
+     * @return {domain.map.Door}
+     */
+    pt.constructor.createFromObject = function (obj) {
+        return new pt.constructor(obj.name, obj.level, obj.star, obj.score)
+            .setPos(obj.offset)
             .setSize(obj.size);
     };
 
-    var doorPt = exports.prototype = new domain.map.WallObject();
-
-    doorPt.createDom = function () {
+    pt.createDom = function () {
         var that = this;
 
         this.$doorFrame = $('<div />').addClass('door-frame').css('opcaity', 0);
@@ -53,27 +57,25 @@ domain.map.Door = (function ($) {
         return this.$doorFrame;
     };
 
-    doorPt.open = function () {
+    pt.open = function () {
         this.infoPane.show();
         this.$door.addClass('open');
 
         return wait(this.doorActionDur);
     };
 
-    doorPt.close = function () {
+    pt.close = function () {
         this.infoPane.hide();
         this.$door.removeClass('open');
 
         return wait(this.doorActionDur);
     };
 
-    doorPt.doorActionDur = 400;
+    pt.doorActionDur = 400;
 
-    doorPt.appearAnim = 'door-appear';
-    doorPt.appearDur = DOOR_APPEAR_DUR;
-    doorPt.disappearAnim = 'door-disappear';
-    doorPt.disappearDur = DOOR_APPEAR_DUR;
+    pt.appearAnim = 'door-appear';
+    pt.appearDur = DOOR_APPEAR_DUR;
+    pt.disappearAnim = 'door-disappear';
+    pt.disappearDur = DOOR_APPEAR_DUR;
 
-    return exports;
-
-}(window.jQuery));
+});

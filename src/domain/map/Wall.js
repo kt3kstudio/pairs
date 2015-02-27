@@ -18,22 +18,27 @@ domain.map.Wall = (function ($) {
 
     var wallPt = exports.prototype;
 
-    wallPt.loadFromObjectList = function (woList) {
+    /**
+     * Loads floorObjects from the array of FloorObjects
+     *
+     * @param {Array} objects The array of floorObjects
+     */
+    wallPt.loadFromObjectList = function (objects) {
         var that = this;
 
-        this.wos = woList.map(function (wo) {
+        this.wos = objects.map(function (floorObject) {
 
-            that.transformCoordinates(wo);
+            that.transformCoordinates(floorObject);
 
-            return domain.map.WallObjectFactory.createFromObject(wo).setParent(that.$dom);
+            return domain.map.WallObjectFactory.createFromObject(floorObject).setParent(that.$dom);
 
         });
 
         this.expandRightLimit(100);
     };
 
-    wallPt.transformCoordinates = function (wo) {
-        wo.pos[1] += this.groundLevel;
+    wallPt.transformCoordinates = function (floorObject) {
+        floorObject.offset.y += this.groundLevel;
     };
 
     wallPt.expandRightLimit = function (val) {
@@ -75,22 +80,25 @@ domain.map.Wall = (function ($) {
         var p = Promise.resolve();
 
         this.wos.forEach(function (wo) {
-            console.log(wo);
+
             p = p.then(function () {
                 wo.disappear();
 
                 return wait(100);
             });
+
         });
 
         return p;
     };
 
-    wallPt.scrollSetToPosition = function (position) {
-        var wo = this.findByName(position);
+    wallPt.scrollSetToPosition = function (id) {
+        var wo = this.findById(id);
 
         if (wo == null) {
             console.error('wall object not found (position = ' + position + ')');
+
+            return;
         }
 
         return this.scrollSet(wo.centerX());
@@ -140,9 +148,9 @@ domain.map.Wall = (function ($) {
      * @param {String} name The name of the wall object
      * @returns {domain.map.Door}
      */
-    wallPt.findByName = function (name) {
+    wallPt.findById = function (id) {
         return this.wos.filter(function (wo) {
-            return wo.name === name;
+            return wo.id === id;
         })[0];
     };
 

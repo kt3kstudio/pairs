@@ -16,7 +16,7 @@ scene.map.MapScene = subclass(scene.common.Scene, function (pt) {
         this.floor = new domain.map.Floor();
 
         this.wall = new domain.map.Wall();
-        this.wall.loadFromObjectList(prevScene.floor.objects);
+        this.wall.loadFromObjectList(prevScene.floor.objects.objects);
 
         this.chr = prevScene.chr;
         this.chr.setParent(this.wall.$dom);
