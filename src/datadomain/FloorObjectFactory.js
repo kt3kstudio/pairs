@@ -40,8 +40,8 @@ datadomain.FloorObjectFactory = subclass(function (pt) {
         return new datadomain.FloorObject(
             obj.id,
             obj.type,
-            obj.offset,
-            obj.size,
+            new datadomain.Offset(obj.offset[0], obj.offset[1]),
+            new datadomain.Size(obj.size[0], obj.size[1]),
             obj.opts
         );
 
