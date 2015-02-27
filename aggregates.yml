@@ -51,9 +51,17 @@ class Floor @entity @ar:
 class FloorObjectCollection @vo @ar:
   objects: Array<FloorObject>
 
-class FloorObject @vo
+class FloorObject @vo:
   id: String
   type: String
-  offset: Object
-  size: Object
+  offset: Offset
+  size: Size
   opts: Object
+
+class Offset @vo:
+  y: Number
+  x: Number
+
+class Size @vo:
+  width: Number
+  height: Number
