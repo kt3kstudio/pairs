@@ -3,10 +3,10 @@
 /**
  * FloorLoader loads the floor data according to the current position of the character.
  */
-scene.map.FloorLoader = (function () {
+scene.map.FloorLoader = subclass(scene.common.Scene, function (pt) {
     'use strict';
 
-    var exports = function () {
+    pt.constructor = function () {
 
         this.charPosRepo = new datadomain.CharPositionRepository();
         this.floorRepo = new datadomain.FloorRepository();
@@ -14,9 +14,7 @@ scene.map.FloorLoader = (function () {
 
     };
 
-    var flPt = exports.prototype = new scene.common.Scene();
-
-    flPt.start = function () {
+    pt.start = function () {
 
         var that = this;
 
@@ -33,6 +31,4 @@ scene.map.FloorLoader = (function () {
         });
     };
 
-    return exports;
-
-}());
+});
