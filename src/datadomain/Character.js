@@ -60,7 +60,7 @@ datadomain.Character = subclass(function (pt) {
     /**
      * Reloads the levelHistories according to the current position.
      *
-     * @return {Promise}
+     * @return {Promise} resolves with updated character
      */
     pt.reloadHistories = function () {
         var that = this;
@@ -68,6 +68,8 @@ datadomain.Character = subclass(function (pt) {
         return new datadomain.LevelHistoryRepository().getByFloorId(this.position.floorId).then (function (histories) {
 
             that.histories = histories;
+
+            return that;
 
         });
     };
