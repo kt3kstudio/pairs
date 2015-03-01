@@ -26,6 +26,7 @@ class Character @entity @ar:
   name: String
   position: CharPosition
   histories: LevelHistoryCollection
+  playingState: PlayingState
 
 class CharPosition @vo:
   floor: String
@@ -40,6 +41,15 @@ class LevelHistory @vo:
   star: Number
   cleared: Boolean
   clearedAt: Date
+
+class PlayingState @vo:
+  rounds: Array<PlayingRound>
+
+class PlayingRound @vo:
+  moves: Array<PlayingMove>
+
+class PlayingMove @vo:
+  move: String
 
 
 ---
