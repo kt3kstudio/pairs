@@ -9,6 +9,12 @@
 datadomain.LevelHistoryCollection = subclass(Array, function (pt) {
     'use strict';
 
+
+    /**
+     * @consturctor
+     *
+     * @param {Array} list The array of the LevelHistories
+     */
     pt.constructor = function (list) {
 
         list = list || [];
@@ -18,9 +24,22 @@ datadomain.LevelHistoryCollection = subclass(Array, function (pt) {
         list.forEach(function (history, i) {
 
             this[i] = history;
-            this.dict[history.levelName] = history;
+            this.dict[history.levelId] = history;
 
         }, this);
+
+    };
+
+
+    /**
+     * Gets a LevelHistory by the id
+     *
+     * @param {String} levelId The level id
+     * @return {datadomain.LevelHistory}
+     */
+    pt.get = function (levelId) {
+
+        return this.dict[levelId];
 
     };
 
