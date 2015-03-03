@@ -17,7 +17,7 @@ datadomain.CharacterFactory = subclass(function (pt) {
      */
     pt.createFromObject = function (obj) {
 
-        return datadomain.Character(
+        return new datadomain.Character(
             obj.id,
             obj.name,
             new datadomain.CharPositionFactory().createFromObject(obj.position),
