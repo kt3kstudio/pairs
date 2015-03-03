@@ -18,6 +18,8 @@ datadomain.LevelHistoryFactory = subclass(function (pt) {
 
         var that = this;
 
+        array = array || [];
+
         return new datadomain.LevelHistoryCollection(array.map(function (obj) {
 
             return that.createFromObject(obj);
