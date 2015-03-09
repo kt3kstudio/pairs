@@ -1,5 +1,7 @@
 /**
  * PlayingState model represents the current playing state of the level.
+ *
+ * [ValueObject]
  */
 datadomain.PlayingState = subclass(function (pt) {
     'use strict';
@@ -7,10 +9,11 @@ datadomain.PlayingState = subclass(function (pt) {
 
     /**
      * @constructor
-     * @param {String} name The name of the character
+     * @param {String} charId The id of the character
      * @param {Array} [rounds] The directions
      */
-    pt.constructor = function (rounds) {
+    pt.constructor = function (charId, rounds) {
+        this.charId = charId;
         this.rounds = rounds || [];
     };
 

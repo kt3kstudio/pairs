@@ -10,30 +10,62 @@ datadomain.PlayingStateRepository = subclass(function (pt) {
 
 
     /**
-     * Gets a playing state by the id
+     * Gets a playing state by the character id
+     *
+     * @param {String} id The character id
+     * @return {Promise}
      */
-    pt.getById = function (id) {
+    pt.getByCharId = function (id) {
 
-        return infrastructure.storage.get(name + PLAYING_DATA_KEY, null).then(function (data) {
+        return infrastructure.storage.get(id + PLAYING_DATA_KEY, null).then(function (data) {
 
-            return data && new datadomain.PlayingState(data);
+            return data && new datadomain.PlayingState(id, data.rounds);
 
         });
 
     };
 
-    pt.save = function (playState) {
 
-        return infrastructure.storage.set(playState.name + PLAYING_DATA_KEY, playState.toObject());
+    /**
+     * Saves the playingState
+     *
+     * @return {Promise}
+     */
+    pt.save = function (playingState) {
+
+        return infrastructure.storage.set(playingState.charId + PLAYING_DATA_KEY, this.toObject(playingState)).then(function () {
+
+            return playingState;
+
+        });
 
     };
 
     /**
-     * Clears the data by the id
+     * Clears the data by the character id
+     *
+     * @param {String} id The character id
+     * @return {Promise}
      */
-    pt.clearById = function (id) {
+    pt.clearByCharId = function (id) {
 
-        return infrastructure.storage.set(name + PLAYING_DATA_KEY, null);
+        return infrastructure.storage.set(id + PLAYING_DATA_KEY, null);
+
+    };
+
+    /**
+     * @private
+     * Converts to the object
+     *
+     * @param {datadomain.PlayingState} playingState The playing state
+     * @return {Object}
+     */
+    pt.toObject = function (playingState) {
+
+        return {
+            charId: playingState.charId,
+            rounds: playingState.rounds
+        };
 
     };
 
