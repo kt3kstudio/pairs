@@ -27,6 +27,7 @@ module.exports = function(config) {
       'src/**/*.js',
 
       'spec/helper/polyfill.js',
+      'spec/helper/reset.js',
 
       'spec/**/*.js'
     ],
