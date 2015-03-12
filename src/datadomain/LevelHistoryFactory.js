@@ -18,7 +18,11 @@ datadomain.LevelHistoryFactory = subclass(function (pt) {
 
         var that = this;
 
-        array = array || [];
+        if (!(array instanceof Array)) {
+
+            array = [];
+
+        }
 
         return new datadomain.LevelHistoryCollection(array.map(function (obj) {
 
