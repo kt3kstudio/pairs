@@ -20,11 +20,11 @@ datadomain.CharacterRepository = subclass(function (pt) {
 
         var obj = this.toObject(character);
 
-        return infractructure.storage.set(STORAGE_KEY + character.id, obj).then(function () {
+        return infrastructure.storage.set(STORAGE_KEY + character.id, obj).then(function () {
 
             return character;
 
-        };
+        });
 
     };
 
@@ -37,11 +37,9 @@ datadomain.CharacterRepository = subclass(function (pt) {
      */
     pt.getById = function (id) {
 
-        return infractructure.storage.get(STORAGE_KEY + id, {}).then(function (obj) {
+        return infrastructure.storage.get(STORAGE_KEY + id, {}).then(function (obj) {
 
-            return new datadomain.CharacterFactory().createFromObject(obj);
-
-        }).then(function (character) {
+            var character = new datadomain.CharacterFactory().createFromObject(obj);
 
             return Promise.all([
                 character,
@@ -84,6 +82,12 @@ datadomain.CharacterRepository = subclass(function (pt) {
      * @return {Object}
      */
     pt.positionToObject = function (position) {
+
+        if (position == null) {
+
+            return null;
+
+        }
 
         return {
             floorId: position.floorId,

@@ -6,8 +6,6 @@
  *
  * [Entity]
  * [AggregateRoot]
- *
- * @class
  */
 datadomain.Character = subclass(function (pt) {
     'use strict';
@@ -19,8 +17,9 @@ datadomain.Character = subclass(function (pt) {
      * @param {String} name The name of the character
      * @param {datadomain.CharPosition} position The position of the character
      * @param {datadomain.LevelHistoryCollection} histories The histories of the current floor
+     * @param {datadomain.PlayingState} playingState The state of playing at the current level
      */
-    pt.constructor = function (id, name, position, histories) {
+    pt.constructor = function (id, name, position, histories, playingState) {
 
         /**
          * @property {String} id The id of the character
@@ -41,6 +40,11 @@ datadomain.Character = subclass(function (pt) {
          * @property {datadomain.LevelHistoryCollection} histories The histories of the current floor
          */
         this.histories = histories;
+
+        /**
+         * @property {datadomain.PlayingState} playingState The state of playing at the current level
+         */
+        this.playingState = playingState;
 
     };
 
@@ -63,7 +67,14 @@ datadomain.Character = subclass(function (pt) {
      * @return {Promise} resolves with updated character
      */
     pt.reloadHistories = function () {
+
         var that = this;
+
+        if (this.position == null) {
+
+            return Promise.resolve(this);
+
+        }
 
         return new datadomain.LevelHistoryRepository().getByFloorId(this.position.floorId).then (function (histories) {
 
@@ -72,6 +83,73 @@ datadomain.Character = subclass(function (pt) {
             return that;
 
         });
+    };
+
+
+    /**
+     * Saves the LevelHistories.
+     *
+     * @return {Promsie}
+     */
+    pt.saveHistories = function () {
+
+        var that = this;
+
+        return new datadomain.LevelHistoryRepository().saveByFloorId(this.position.floorId, this.histories).then(function (histories) {
+
+            return that;
+
+        });
+    };
+
+
+    /**
+     * Reloads the playingState
+     *
+     * @return {Promise}
+     */
+    pt.reloadPlayingState = function () {
+
+        var that = this;
+
+        return new datadomain.PlayingStateRepository().getByCharId(this.id).then(function (playingState) {
+
+            that.playingState = playingState;
+
+            return that;
+
+        });
+
+    };
+
+
+    /**
+     * Saves the playing state.
+     *
+     * @return {Promise}
+     */
+    pt.savePlayingState = function () {
+
+        var that = this;
+
+        return new datadomain.PlayingStateRepository().save(this.playingState).then(function () {
+
+            return that;
+
+        });
+
+    };
+
+
+    /**
+     * Clears the playing state.
+     *
+     * @return {Promise}
+     */
+    pt.clearPlayingState = function () {
+
+        return new datadomain.PlayingStateRepository().clearByCharId(this.id);
+
     };
 
 

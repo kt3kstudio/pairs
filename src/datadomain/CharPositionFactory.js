@@ -36,7 +36,7 @@ datadomain.CharPositionFactory = subclass(function (pt) {
 
         if (obj == null) {
 
-            return null;
+            return this.createStartPosition();
 
         }
 

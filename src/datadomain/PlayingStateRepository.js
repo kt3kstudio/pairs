@@ -6,7 +6,7 @@
 datadomain.PlayingStateRepository = subclass(function (pt) {
     'use strict';
 
-    var PLAYING_DATA_KEY = '-playing-state';
+    var PLAYING_DATA_KEY = 'playing-state-';
 
 
     /**
@@ -17,7 +17,7 @@ datadomain.PlayingStateRepository = subclass(function (pt) {
      */
     pt.getByCharId = function (id) {
 
-        return infrastructure.storage.get(id + PLAYING_DATA_KEY, null).then(function (data) {
+        return infrastructure.storage.get(PLAYING_DATA_KEY + id, null).then(function (data) {
 
             return data && new datadomain.PlayingState(id, data.rounds);
 
@@ -33,7 +33,7 @@ datadomain.PlayingStateRepository = subclass(function (pt) {
      */
     pt.save = function (playingState) {
 
-        return infrastructure.storage.set(playingState.charId + PLAYING_DATA_KEY, this.toObject(playingState)).then(function () {
+        return infrastructure.storage.set(PLAYING_DATA_KEY + playingState.charId, this.toObject(playingState)).then(function () {
 
             return playingState;
 
