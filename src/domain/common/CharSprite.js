@@ -5,50 +5,60 @@
  * @class
  * @extends domain.common.Sprite
  */
-domain.common.CharSprite = (function ($) {
+domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
     'use strict';
 
     var defaultSpeechTimeout = 5000;
 
-    var exports = function () {
-    };
-
-    var spritePt = exports.prototype = new domain.common.Sprite();
-
     /** sprite's x coordinate value */
-    spritePt.x = 0;
+    pt.x = 0;
 
     /** sprite's y coordinate value */
-    spritePt.y = 0;
+    pt.y = 0;
 
     /** sprite's width */
-    spritePt.w = 0;
+    pt.w = 0;
 
     /** sprite's width */
-    spritePt.h = 0;
+    pt.h = 0;
 
     /** sprite's image when going up */
-    spritePt.upImage = '';
+    pt.upImage = '';
 
     /** sprite's image when going down */
-    spritePt.downImage = '';
+    pt.downImage = '';
 
     /** sprite's image when going left */
-    spritePt.leftImage = '';
+    pt.leftImage = '';
 
     /** sprite's image when going right */
-    spritePt.rightImage = '';
+    pt.rightImage = '';
 
 
-    spritePt.createDom = function () {
+    /** the css class for <img /> of the sprite */
+    pt.cssClass = 'sprite';
+
+
+    /**
+     * @constructor
+     * @param {datadomain.Character} character The character
+     */
+    pt.constructor = function (character) {
+
+        this.character = character;
+
+    };
+
+
+    pt.createDom = function () {
         return $('<img />').addClass(this.cssClass).width(this.w).height(this.h).offset({
-            // the center of bottom line of the image is the sprite's coordinate.
+            // the center of bottom line of the image is the sprite's center.
             left: this.leftLimit(),
             top: this.y - this.h
         }).attr('src', this.downImage || this.image);
     };
 
-    spritePt.turn = function (dir) {
+    pt.turn = function (dir) {
         var img;
 
         switch (dir) {
@@ -62,7 +72,7 @@ domain.common.CharSprite = (function ($) {
     };
 
 
-    spritePt.getDirection = function (coordinate, to) {
+    pt.getDirection = function (coordinate, to) {
         if (coordinate === 'x') {
             if (to > this.x) {
                 return 'right';
@@ -78,7 +88,7 @@ domain.common.CharSprite = (function ($) {
         }
     };
 
-    spritePt.moveTo = function (coordinate, to, dur) {
+    pt.moveTo = function (coordinate, to, dur) {
 
         var dir = this.getDirection(coordinate, to);
 
@@ -101,7 +111,7 @@ domain.common.CharSprite = (function ($) {
      *
      * @return {Number} x value of the right limit of sprite
      */
-    spritePt.rightLimit = function () {
+    pt.rightLimit = function () {
         return this.x + this.w / 2;
     };
 
@@ -110,11 +120,11 @@ domain.common.CharSprite = (function ($) {
      *
      * @return {Number} x value of the left limit of sprite
      */
-    spritePt.leftLimit = function () {
+    pt.leftLimit = function () {
         return this.x - this.w / 2;
     };
 
-    spritePt.moveToY = function (dir, to) {
+    pt.moveToY = function (dir, to) {
         var offset = this.getOffset();
 
         this.y = to;
@@ -124,7 +134,7 @@ domain.common.CharSprite = (function ($) {
         this.setOffset(offset);
     };
 
-    spritePt.moveToX = function (dir, to) {
+    pt.moveToX = function (dir, to) {
         var offset = this.getOffset();
 
         this.x = to;
@@ -134,7 +144,7 @@ domain.common.CharSprite = (function ($) {
         this.setOffset(offset);
     };
 
-    spritePt.speak = function (speech, opts) {
+    pt.speak = function (speech, opts) {
 
         opts = opts || {};
 
@@ -174,6 +184,4 @@ domain.common.CharSprite = (function ($) {
 
     };
 
-    return exports;
-
-}(window.jQuery));
+});

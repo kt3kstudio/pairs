@@ -1,37 +1,29 @@
 
 /**
- * Ma class handles the sprite of Ma (the protagonist of this game).
+ * The sprite class of Ma (the protagonist).
  *
  * @class
  * @extends domain.common.CharSprite
  */
-domain.common.Ma = (function () {
+domain.common.Ma = subclass(domain.common.CharSprite, function (pt) {
     'use strict';
 
-    var exports = function () {
-    };
+    pt.id = 'ma';
+    pt.name = 'ma';
 
-    var maPt = exports.prototype = new domain.common.CharSprite();
+    pt.x = 0;
+    pt.y = 0;
+    pt.w = 40;
+    pt.h = 60;
 
-    maPt.name = 'ma';
+    pt.upImage = 'images/ma-B.svg';
+    pt.downImage = 'images/ma-F.svg';
+    pt.leftImage = 'images/ma-L.svg';
+    pt.rightImage = 'images/ma-R.svg';
 
-    maPt.x = 0;
-    maPt.y = 0;
-    maPt.w = 40;
-    maPt.h = 60;
+    pt.appearAnim = 'char-appear';
+    pt.appearDur = 1000;
+    pt.disappearAnim = 'char-disappear';
+    pt.disappearDur = 1000;
 
-    maPt.cssClass = 'sprite';
-
-    maPt.upImage = 'images/ma-B.svg';
-    maPt.downImage = 'images/ma-F.svg';
-    maPt.leftImage = 'images/ma-L.svg';
-    maPt.rightImage = 'images/ma-R.svg';
-
-    maPt.appearAnim = 'char-appear';
-    maPt.appearDur = 1000;
-    maPt.disappearAnim = 'char-disappear';
-    maPt.disappearDur = 1000;
-
-    return exports;
-
-}());
+});
