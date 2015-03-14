@@ -4,7 +4,7 @@
  *
  * PlayScene controlls the main playing scene of the level page.
  */
-scene.level.PlayScene = (function () {
+scene.level.PlayScene = subclass(scene.common.Scene, function (pt) {
     'use strict';
 
 
@@ -12,12 +12,13 @@ scene.level.PlayScene = (function () {
      * @constructor
      * @param {scene.common.Scene} prevScene
      */
-    var exports = function (prevScene) {
+    pt.constructor = function (prevScene) {
 
         var pos = this.pos = prevScene.pos;
 
         // continuous actors
         this.ball = prevScene.ball;
+        this.character = prevScene.character;
         this.level = prevScene.level;
         this.chr = prevScene.chr;
 
@@ -26,9 +27,6 @@ scene.level.PlayScene = (function () {
         var prepDimension = pos.evalRoomPosition();
         var exitQueueDimension = pos.queuePosition();
         var fusionDimension = pos.fusionBoxPosition();
-
-        // datadomain
-        this.playingState = new datadomain.PlayingState.createInitialState(this.chr.name);
 
         // models
         this.cells = new domain.level.FieldCells(fieldDimension, '#main');
@@ -54,26 +52,22 @@ scene.level.PlayScene = (function () {
     };
 
 
-    var psPt = exports.prototype = new scene.common.Scene();
-
-
-
     /**
      * Binds event handlers to the stream.
      *
      * @param {Rx.Observable} source The source stream
      * @return {Rx.Observer}
      */
-    psPt.bindEventHandlers = function (source) {
+    pt.bindEventHandlers = function (source) {
 
         var that = this;
 
         return source.pipe(function (dir) {
 
 
-            that.playingState.add(dir);
+            that.character.playingState.add(dir);
 
-            that.playingState.save();
+            that.character.savePlayingState();
 
             return that.bms.ballMoveAndLeaveOne(dir);
 
@@ -126,7 +120,7 @@ scene.level.PlayScene = (function () {
             }
 
 
-            that.playingState.bump();
+            that.character.playingState.bump();
 
             return that.cells.loadList(that.exitQueue.releaseCells()).appear();
 
@@ -144,7 +138,7 @@ scene.level.PlayScene = (function () {
      *
      * @return {Promise}
      */
-    psPt.start = function () {
+    pt.start = function () {
 
         var that = this;
 
@@ -157,7 +151,7 @@ scene.level.PlayScene = (function () {
 
         }).then(function () {
 
-            return that.playingState.restore();
+            return that.character.reloadPlayingState();
 
         }).then(function () {
 
@@ -165,7 +159,7 @@ scene.level.PlayScene = (function () {
 
         }).then(function () {
 
-            return that.playingState.release().reduce(function (promise, round) {
+            return that.character.playingState.release().reduce(function (promise, round) {
 
                 return promise.then(function () {
 
@@ -189,18 +183,9 @@ scene.level.PlayScene = (function () {
     };
 
 
-    psPt.end = function () {
-        this.resetPlayingState();
+    pt.end = function () {
+        this.chracter.clearPlayingState();
     };
 
 
-    psPt.resetPlayingState = function () {
-
-        this.playingState.rounds = [[]];
-        this.playingState.save();
-
-    };
-
-    return exports;
-
-}());
+});

@@ -8,13 +8,16 @@ scene.level.IntroScene = (function () {
     'use strict';
 
     var exports = function (prevScene) {
+
+        this.character = prevScene.character;
         this.level = prevScene.level;
 
         this.pos = new domain.level.PositionFactory();
 
         this.paper = new domain.level.PieceOfPaper();
 
-        this.chr = prevScene.chr;
+        this.chr = prevScene.charSprite;
+
         this.ball = new domain.level.Ball(this.pos.fieldPosition(), {x: 1, y: 1}, '#main');
     };
 

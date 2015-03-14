@@ -13,8 +13,7 @@ scene.level.LevelLoader = subclass(scene.common.Scene, function (pt) {
     pt.constructor = function () {
 
         this.lvRepo = new datadomain.LevelRepository();
-        this.charPosRepo = new datadomain.CharPositionRepository();
-        this.chr = new domain.common.Ma();
+        this.charRepo = new datadomain.CharacterRepository();
 
     };
 
@@ -23,15 +22,24 @@ scene.level.LevelLoader = subclass(scene.common.Scene, function (pt) {
      * Starts the scene.
      */
     pt.start = function () {
+
         var that = this;
 
-        this.charPosRepo.getCharPosition(this.chr.name).then(function (charPos) {
+        return this.charRepo.getById('ma').then(function (character) {
 
-            return that.lvRepo.getById(charPos.floorObjectId);
+            that.character = character;
+
+            that.charSprite = new domain.common.CharSpriteFactory().createFromCharacter(character);
+
+            window.character = character;
+
+            return that.lvRepo.getById(character.position.floorObjectId);
 
         }).then(function (level) {
 
             that.level = level;
+
+            window.level = level;
 
             that.finish();
 
