@@ -37,14 +37,28 @@ datadomain.CharacterRepository = subclass(function (pt) {
      */
     pt.getById = function (id) {
 
-        return infrastructure.storage.get(STORAGE_KEY + id, {}).then(function (obj) {
+        return infrastructure.storage.get(STORAGE_KEY + id, null).then(function (obj) {
 
-            var character = new datadomain.CharacterFactory().createFromObject(obj);
+            var character;
+
+            var factory = new datadomain.CharacterFactory();
+
+            if (obj == null) {
+
+                character = factory.createInitialById(id);
+
+            } else {
+
+                character = factory.createFromObject(obj);
+
+            }
 
             return Promise.all([
+
                 character,
                 character.reloadHistories(),
                 character.reloadPlayingState()
+
             ]);
 
         }).then(function (array) {
@@ -66,9 +80,11 @@ datadomain.CharacterRepository = subclass(function (pt) {
     pt.toObject = function (character) {
 
         return {
+
             id: character.id,
             name: character.name,
             position: this.positionToObject(character.position)
+
         };
 
     };
@@ -90,9 +106,11 @@ datadomain.CharacterRepository = subclass(function (pt) {
         }
 
         return {
+
             floorId: position.floorId,
             floorObjectId: position.floorObjectId
-        }
+
+        };
 
     };
 
