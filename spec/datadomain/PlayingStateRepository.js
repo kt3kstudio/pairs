@@ -3,14 +3,15 @@
 
 
 describe('PlayingStateRepository', function () {
+    'use strict';
 
     var repo = new datadomain.PlayingStateRepository();
 
     beforeEach(function () {
 
-        self.infrastructure = {};
+        window.infrastructure = {};
 
-        self.infrastructure.storage = {
+        window.infrastructure.storage = {
             get: spy(function () {}),
             set: spy(function () {})
         };

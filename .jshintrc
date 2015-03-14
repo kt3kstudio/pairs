@@ -37,15 +37,21 @@
         "$": false,
         "Rx": false,
         "subclass": false,
+
         "expect": false,
         "describe": false,
         "it": false,
+        "beforeEach": false,
 
         /* utilities */
         "wait": false,
         "loadImage": false,
         "Promise": false,
         "bindEvents": false,
-        "unbindEvents": false
+        "unbindEvents": false,
+
+        /* jsmockito */
+        "spy": false,
+        "when": false
     }
 }

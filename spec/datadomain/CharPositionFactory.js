@@ -2,6 +2,7 @@
 
 
 describe('CharPositionFactory', function () {
+    'use strict';
 
     var factory = new datadomain.CharPositionFactory();
 

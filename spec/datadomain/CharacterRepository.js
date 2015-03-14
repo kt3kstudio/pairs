@@ -9,9 +9,9 @@ describe('CharacterRepository', function () {
 
     beforeEach(function () {
 
-        self.infrastructure = {};
+        window.infrastructure = {};
 
-        self.infrastructure.storage = {
+        window.infrastructure.storage = {
             get: spy(function () {}),
             set: spy(function () {})
         };
@@ -32,7 +32,7 @@ describe('CharacterRepository', function () {
 
             return repo.save(character).then(function (character) {
 
-                expect(character).to.be.instanceof(datadomain.Character)
+                expect(character).to.be.instanceof(datadomain.Character);
 
             });
 

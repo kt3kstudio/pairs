@@ -95,7 +95,7 @@ datadomain.Character = subclass(function (pt) {
 
         var that = this;
 
-        return new datadomain.LevelHistoryRepository().saveByFloorId(this.position.floorId, this.histories).then(function (histories) {
+        return new datadomain.LevelHistoryRepository().saveByFloorId(this.position.floorId, this.histories).then(function () {
 
             return that;
 
