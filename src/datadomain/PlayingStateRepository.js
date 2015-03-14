@@ -19,7 +19,11 @@ datadomain.PlayingStateRepository = subclass(function (pt) {
 
         return infrastructure.storage.get(PLAYING_DATA_KEY + id, null).then(function (data) {
 
-            return data && new datadomain.PlayingState(id, data.rounds);
+            if (data == null) {
+                return new datadomain.PlayingState(id, [[]]);
+            }
+
+            return new datadomain.PlayingState(id, data.rounds);
 
         });
 

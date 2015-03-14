@@ -40,4 +40,49 @@ describe('PlayingStateRepository', function () {
 
     });
 
+
+    describe('getByCharId', function () {
+
+        it('gets a PlayingState by the character id', function () {
+
+            when(infrastructure.storage.get)('playing-state-ma').then(function () {
+
+                return Promise.resolve({
+                    id: 'ma',
+                    rounds: [['up']]
+                });
+
+            });
+
+            return repo.getByCharId('ma').then(function (playingState) {
+
+                expect(playingState).to.be.instanceof(datadomain.PlayingState);
+                expect(playingState.charId).to.equal('ma');
+                expect(playingState.rounds).to.eql([['up']]);
+
+            });
+
+        });
+
+
+        it('resolves with an empty PlayingState when the data unavailable', function () {
+
+            when(infrastructure.storage.get)('playing-state-ma').then(function () {
+
+                return Promise.resolve(null);
+
+            });
+
+            return repo.getByCharId('ma').then(function (playingState) {
+
+                expect(playingState).to.be.instanceof(datadomain.PlayingState);
+                expect(playingState.charId).to.equal('ma');
+                expect(playingState.rounds).to.eql([[]]);
+
+            });
+
+        });
+
+    });
+
 });
