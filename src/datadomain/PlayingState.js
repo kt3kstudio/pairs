@@ -9,28 +9,14 @@ datadomain.PlayingState = subclass(function (pt) {
 
     /**
      * @constructor
-     * @param {String} charId The id of the character
+     * @param {String} charId The character id
+     * @param {String} levelId The level id
      * @param {Array} [rounds] The directions
      */
-    pt.constructor = function (charId, rounds) {
+    pt.constructor = function (charId, levelId, rounds) {
         this.charId = charId;
-        this.rounds = rounds || [];
-    };
-
-    /**
-     * Creates initial state of the playing data.
-     *
-     * @param {String} name The name of the character
-     * @return {datadomain.PlayingState}
-     */
-    pt.constructor.createInitialState = function () {
-
-        var playingState = new pt.constructor();
-
-        playingState.bump();
-
-        return playingState;
-
+        this.levelId = levelId;
+        this.rounds = rounds || [[]];
     };
 
 

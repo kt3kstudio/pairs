@@ -112,7 +112,7 @@ datadomain.Character = subclass(function (pt) {
 
         var that = this;
 
-        return new datadomain.PlayingStateRepository().getByCharId(this.id).then(function (playingState) {
+        return new datadomain.PlayingStateRepository().getByCharIdLevelId(this.id, this.position.floorObjectId).then(function (playingState) {
 
             that.playingState = playingState;
 

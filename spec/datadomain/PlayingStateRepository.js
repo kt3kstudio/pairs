@@ -41,23 +41,25 @@ describe('PlayingStateRepository', function () {
     });
 
 
-    describe('getByCharId', function () {
+    describe('getByCharIdLevelId', function () {
 
         it('gets a PlayingState by the character id', function () {
 
             when(infrastructure.storage.get)('playing-state-ma').then(function () {
 
                 return Promise.resolve({
-                    id: 'ma',
+                    charId: 'ma',
+                    levelId: '701',
                     rounds: [['up']]
                 });
 
             });
 
-            return repo.getByCharId('ma').then(function (playingState) {
+            return repo.getByCharIdLevelId('ma', '701').then(function (playingState) {
 
                 expect(playingState).to.be.instanceof(datadomain.PlayingState);
                 expect(playingState.charId).to.equal('ma');
+                expect(playingState.levelId).to.equal('701');
                 expect(playingState.rounds).to.eql([['up']]);
 
             });
@@ -73,11 +75,33 @@ describe('PlayingStateRepository', function () {
 
             });
 
-            return repo.getByCharId('ma').then(function (playingState) {
+            return repo.getByCharIdLevelId('ma', '701').then(function (playingState) {
 
                 expect(playingState).to.be.instanceof(datadomain.PlayingState);
                 expect(playingState.charId).to.equal('ma');
+                expect(playingState.levelId).to.equal('701');
                 expect(playingState.rounds).to.eql([[]]);
+
+            });
+
+        });
+
+    });
+
+
+    describe('clearByCharId', function () {
+
+        it('clears the playing state by the character id', function () {
+
+            when(infrastructure.storage.set)('playing-state-ma', null).then(function () {
+
+                return Promise.resolve(true);
+
+            });
+
+            return repo.clearByCharId('ma').then(function (res) {
+
+                expect(res).to.be.true;
 
             });
 

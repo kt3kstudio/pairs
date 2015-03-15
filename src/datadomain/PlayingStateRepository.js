@@ -10,20 +10,25 @@ datadomain.PlayingStateRepository = subclass(function (pt) {
 
 
     /**
-     * Gets a playing state by the character id
+     * Gets a playing state by the character id.
      *
-     * @param {String} id The character id
+     * @param {String} chadId The character id
+     * @param {String} levelId The level id
      * @return {Promise}
      */
-    pt.getByCharId = function (id) {
+    pt.getByCharIdLevelId = function (charId, levelId) {
 
-        return infrastructure.storage.get(PLAYING_DATA_KEY + id, null).then(function (data) {
+        return infrastructure.storage.get(PLAYING_DATA_KEY + charId, null).then(function (data) {
 
             if (data == null) {
-                return new datadomain.PlayingState(id, [[]]);
+                return new datadomain.PlayingState(charId, levelId, [[]]);
             }
 
-            return new datadomain.PlayingState(id, data.rounds);
+            if (data.levelId !== levelId) {
+                return new datadomain.PlayingState(charId, levelId, [[]]);
+            }
+
+            return new datadomain.PlayingState(data.charId, data.levelId, data.rounds);
 
         });
 
@@ -53,7 +58,7 @@ datadomain.PlayingStateRepository = subclass(function (pt) {
      */
     pt.clearByCharId = function (id) {
 
-        return infrastructure.storage.set(id + PLAYING_DATA_KEY, null);
+        return infrastructure.storage.set(PLAYING_DATA_KEY + id, null);
 
     };
 
@@ -68,6 +73,7 @@ datadomain.PlayingStateRepository = subclass(function (pt) {
 
         return {
             charId: playingState.charId,
+            levelId: playingState.levelId,
             rounds: playingState.rounds
         };
 
