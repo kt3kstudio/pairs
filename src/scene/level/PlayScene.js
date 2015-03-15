@@ -184,7 +184,7 @@ scene.level.PlayScene = subclass(scene.common.Scene, function (pt) {
 
 
     pt.end = function () {
-        this.chracter.clearPlayingState();
+        this.character.clearPlayingState();
     };
 
 
