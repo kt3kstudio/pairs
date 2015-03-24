@@ -1,7 +1,7 @@
 {
   "id": 805,
   "name": 805,
-  "goals": [
+  "goal":
     {
       "type": "C",
       "opts": {
@@ -9,7 +9,7 @@
         "number": 2
       }
     }
-  ],
+  ,
   "threshold0": 1300,
   "threshold1": 1600,
   "cells": [

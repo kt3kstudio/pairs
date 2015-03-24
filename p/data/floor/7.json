@@ -1,13 +1,15 @@
 {
-    "name": "7",
-    "wallObjects": [
+    "id": "7",
+    "floorObjects": [
         {
             "type": "l",
-            "name": "701",
-            "level": "701",
-            "pos": [
+            "id": "701",
+            "opts": {
+                "levelId": "701"
+            },
+            "offset": [
                 100,
-                -100
+                0
             ],
             "size": [
                 80,
@@ -16,11 +18,13 @@
         },
         {
             "type": "l",
-            "name": "702",
-            "level": "702",
-            "pos": [
+            "id": "702",
+            "opts": {
+                "levelId": "702"
+            },
+            "offset": [
                 300,
-                -100
+                0
             ],
             "size": [
                 80,
@@ -29,11 +33,13 @@
         },
         {
             "type": "l",
-            "name": "703",
-            "level": "703",
-            "pos": [
+            "id": "703",
+            "opts": {
+                "levelId": "703"
+            },
+            "offset": [
                 500,
-                -100
+                0
             ],
             "size": [
                 80,
@@ -42,11 +48,13 @@
         },
         {
             "type": "l",
-            "name": "704",
-            "level": "704",
-            "pos": [
+            "id": "704",
+            "opts": {
+                "levelId": "704"
+            },
+            "offset": [
                 700,
-                -100
+                0
             ],
             "size": [
                 80,
@@ -55,11 +63,13 @@
         },
         {
             "type": "l",
-            "name": "705",
-            "level": "705",
-            "pos": [
+            "id": "705",
+            "opts": {
+                "levelId": "705"
+            },
+            "offset": [
                 1100,
-                -100
+                0
             ],
             "size": [
                 80,
@@ -68,18 +78,19 @@
         },
         {
             "type": "s",
-            "name": "su8",
-            "pos": [
+            "id": "su8",
+            "offset": [
                 1400,
-                -100
+                0
             ],
             "size": [
-                120, 100
+                120,
+                100
             ],
             "opts": {
                 "to": {
-                    "floor": "8",
-                    "wallPosition": "sd7"
+                    "floorId": "8",
+                    "floorObjectId": "sd7"
                 },
                 "type": "up"
             }

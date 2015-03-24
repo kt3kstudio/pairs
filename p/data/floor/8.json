@@ -1,31 +1,33 @@
 {
-    "name": "8",
-    "wallObjects": [
+    "id": "8",
+    "floorObjects": [
         {
             "type": "s",
-            "name": "sd7",
-            "pos": [
+            "id": "sd7",
+            "offset": [
                 150,
-                -100
+                0
             ],
             "size": [
                 120, 100
             ],
             "opts": {
                 "to": {
-                    "floor": "7",
-                    "wallPosition": "su8"
+                    "floorId": "7",
+                    "floorObjectId": "su8"
                 },
                 "type": "down"
             }
         },
         {
             "type": "l",
-            "name": "801",
-            "level": "801",
-            "pos": [
+            "id": "801",
+            "opts": {
+                "levelId": "801"
+            },
+            "offset": [
                 400,
-                -100
+                0
             ],
             "size": [
                 80,
@@ -34,11 +36,13 @@
         },
         {
             "type": "l",
-            "name": "802",
-            "level": "802",
-            "pos": [
+            "id": "802",
+            "opts": {
+                "levelId": "802"
+            },
+            "offset": [
                 700,
-                -100
+                0
             ],
             "size": [
                 80,
@@ -47,11 +51,13 @@
         },
         {
             "type": "l",
-            "name": "803",
-            "level": "803",
-            "pos": [
+            "id": "803",
+            "opts": {
+                "levelId": "803"
+            },
+            "offset": [
                 900,
-                -100
+                0
             ],
             "size": [
                 80,
@@ -60,11 +66,13 @@
         },
         {
             "type": "l",
-            "name": "804",
-            "level": "804",
-            "pos": [
+            "id": "804",
+            "opts": {
+                "levelId": "804"
+            },
+            "offset": [
                 1100,
-                -100
+                0
             ],
             "size": [
                 80,
@@ -73,11 +81,13 @@
         },
         {
             "type": "l",
-            "name": "805",
-            "level": "805",
-            "pos": [
+            "id": "805",
+            "opts": {
+                "levelId": "805"
+            },
+            "offset": [
                 1500,
-                -100
+                0
             ],
             "size": [
                 80,

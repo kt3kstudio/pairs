@@ -1,7 +1,7 @@
 {
   "id": 801,
   "name": 801,
-  "goals": [
+  "goal":
     {
       "type": "C",
       "opts": {
@@ -9,7 +9,7 @@
         "number": 1
       }
     }
-  ],
+  ,
   "threshold0": 1200,
   "threshold1": 1700,
   "cells": [

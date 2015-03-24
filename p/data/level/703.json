@@ -1,7 +1,7 @@
 {
   "id": 703,
   "name": 703,
-  "goals": [
+  "goal":
     {
       "type": "C",
       "opts": {
@@ -9,7 +9,7 @@
         "number": 2
       }
     }
-  ],
+  ,
   "threshold0": 1200,
   "threshold1": 2100,
   "cells": [
