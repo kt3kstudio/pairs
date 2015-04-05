@@ -4,18 +4,26 @@
  * @class
  * MaLocateService class provide the functionality to move character among the doors in a floor.
  */
-domain.map.CharLocateService = (function () {
+domain.map.CharLocateService = subclass(function (pt) {
     'use strict';
 
-    var exports = function (wall, chr) {
+    /**
+     * @constructor
+     * @param {domain.map.Wall} wall
+     * @param {domain.common.CharSprite} chr
+     */
+    pt.constructor = function (wall, chr) {
         this.wall = wall;
         this.chr = chr;
         this.charPosRepo = new datadomain.CharPositionRepository();
     };
 
-    var clsPt = exports.prototype;
-
-    clsPt.charAppear = function () {
+    /**
+     * Makes the character appear in the scene
+     *
+     * @return {Promise}
+     */
+    pt.charAppear = function () {
         var wo = this.wall.findById(this.position.floorObjectId);
         this.current = wo;
         var chr = this.chr;
@@ -31,11 +39,20 @@ domain.map.CharLocateService = (function () {
         });
     };
 
-    clsPt.moveToWallObjectByName = function (name) {
+    /**
+     * @param {String} name TODO: this should be changed to id
+     */
+    pt.moveToWallObjectByName = function (name) {
         return this.moveToWallObject(this.wall.findById(name));
     };
 
-    clsPt.moveToWallObject = function (wo) {
+    /**
+     * Moves the character sprite to wall object
+     *
+     * @param {domain.map.WallObject} wo The wall object to go to
+     * @return {Promise}
+     */
+    pt.moveToWallObject = function (wo) {
         var that = this;
 
         var current = this.wall.findById(this.position.floorObjectId);
@@ -76,7 +93,10 @@ domain.map.CharLocateService = (function () {
         });
     };
 
-    clsPt.getIntoDoor = function () {
+    /**
+     * Gets the character into the door.
+     */
+    pt.getIntoDoor = function () {
         var that = this;
 
         this.chr.turn('up');
@@ -86,7 +106,10 @@ domain.map.CharLocateService = (function () {
         });
     };
 
-    clsPt.load = function () {
+    /**
+     * Loads the character's position.
+     */
+    pt.load = function () {
         var that = this;
 
         return this.charPosRepo.getCharPosition(this.chr.name).then(function (position) {
@@ -96,10 +119,13 @@ domain.map.CharLocateService = (function () {
         });
     };
 
-    clsPt.setCharPosition = function (position) {
+    /**
+     * Sets the character's position.
+     *
+     * @param {datadomain.CharPosition} position The character's position
+     */
+    pt.setCharPosition = function (position) {
         return this.charPosRepo.setCharPosition(this.chr.name, position);
     };
 
-    return exports;
-
-}());
+});
