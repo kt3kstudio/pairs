@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+
+
+
+domain.common.CharSpriteFactory = subclass(function (pt) {
+    &#39;use strict&#39;;
+
+<span id='global-method-createFromCharacter'>    /**
+</span>     * Creates a charSprite from the character object.
+     *
+     * @param {datadomain.Character} character The character
+     * @return {domain.common.CharSprite}
+     */
+    pt.createFromCharacter = function (character) {
+
+        if (!(character instanceof datadomain.Character)) {
+            throw Error(&#39;cannot create CharSprite by the parameter: &#39; + character);
+        }
+
+        if (character.id === &#39;ma&#39;) {
+            return new domain.common.Ma(character);
+        }
+
+        throw Error(&#39;unknown (or not yet implemented) character: &#39; + character.id);
+
+    };
+
+});
+</pre>
+</body>
+</html>

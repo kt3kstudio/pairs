@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+<span id='scene-level-IntroScene'>/**
+</span> * @class
+ * @extends scene.common.Scene
+ * IntroScene class handles the introduction scene of the level page.
+ */
+scene.level.IntroScene = (function () {
+    &#39;use strict&#39;;
+
+    var exports = function (prevScene) {
+
+        this.character = prevScene.character;
+        this.level = prevScene.level;
+
+        this.pos = new domain.level.PositionFactory();
+
+        this.paper = new domain.level.PieceOfPaper();
+
+        this.chr = prevScene.charSprite;
+
+        this.ball = new domain.level.Ball(this.pos.fieldPosition(), {x: 1, y: 1}, &#39;#main&#39;);
+    };
+
+    var isPt = exports.prototype = new scene.common.Scene();
+
+    isPt.start = function () {
+
+        var that = this;
+
+        var paperPos = this.pos.paperPosition();
+
+        this.chr.x = paperPos.left;
+        this.chr.y = 800;
+
+        this.chr.put();
+
+        this.paper.x = paperPos.left;
+        this.paper.y = paperPos.top;
+
+        this.paper.put();
+
+        ui.common.BackgroundService.turnWhite();
+
+        Promise.resolve().then(function () {
+
+            return that.chr.moveTo(&#39;y&#39;, paperPos.top, 600);
+
+        }).then(function () {
+
+            // the character takes the paper in the room.
+            that.paper.disappear(1000);
+
+            var goals = $(&#39;&lt;p /&gt;&#39;).text(that.level.goal.toString());
+
+            // the character read up the goals of the room
+            return that.chr.speak(goals, {cancelDom: &#39;.wrapper&#39;});
+
+        }).then(function () {
+
+            that.chr.disappear(1000);
+            return that.ball.appear();
+
+        }).then(function () {
+
+            return that.finish();
+
+        });
+    };
+
+    return exports;
+
+}());
+</pre>
+</body>
+</html>

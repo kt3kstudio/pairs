@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+
+<span id='datadomain-Character'>/**
+</span> * Character is the domain model and the aggregate root of character aggregate.
+ * It has CharPosition and LevelHistoryCollection as its components.
+ *
+ * [Entity]
+ * [AggregateRoot]
+ */
+datadomain.Character = subclass(function (pt) {
+    &#39;use strict&#39;;
+
+
+<span id='datadomain-Character-method-constructor'>    /**
+</span>     * @constructor
+     * @param {String} id The id of the character
+     * @param {String} name The name of the character
+     * @param {datadomain.CharPosition} position The position of the character
+     * @param {datadomain.LevelHistoryCollection} histories The histories of the current floor
+     * @param {datadomain.PlayingState} playingState The state of playing at the current level
+     */
+    pt.constructor = function (id, name, position, histories, playingState) {
+
+<span id='datadomain-Character-property-id'>        /**
+</span>         * @property {String} id The id of the character
+         */
+        this.id = id;
+
+<span id='datadomain-Character-property-name'>        /**
+</span>         * @property {String} name The name of the character
+         */
+        this.name = name;
+
+<span id='datadomain-Character-property-position'>        /**
+</span>         * @property {datadomain.CharPosition} position The position of the character
+         */
+        this.position = position;
+
+<span id='datadomain-Character-property-histories'>        /**
+</span>         * @property {datadomain.LevelHistoryCollection} histories The histories of the current floor
+         */
+        this.histories = histories;
+
+<span id='datadomain-Character-property-playingState'>        /**
+</span>         * @property {datadomain.PlayingState} playingState The state of playing at the current level
+         */
+        this.playingState = playingState;
+
+    };
+
+
+<span id='datadomain-Character-method-setPosition'>    /**
+</span>     * Sets the position of character.
+     *
+     * @param {datadomain.CharPosition} position The position of the character
+     */
+    pt.setPosition = function (position) {
+
+        this.position = position;
+
+    };
+
+
+<span id='datadomain-Character-method-reloadHistories'>    /**
+</span>     * Reloads the levelHistories according to the current position.
+     *
+     * @return {Promise} resolves with updated character
+     */
+    pt.reloadHistories = function () {
+
+        var that = this;
+
+        if (this.position == null) {
+
+            return Promise.resolve(this);
+
+        }
+
+        return new datadomain.LevelHistoryRepository().getByFloorId(this.position.floorId).then (function (histories) {
+
+            that.histories = histories;
+
+            return that;
+
+        });
+    };
+
+
+<span id='datadomain-Character-method-saveHistories'>    /**
+</span>     * Saves the LevelHistories.
+     *
+     * @return {Promsie}
+     */
+    pt.saveHistories = function () {
+
+        var that = this;
+
+        return new datadomain.LevelHistoryRepository().saveByFloorId(this.position.floorId, this.histories).then(function () {
+
+            return that;
+
+        });
+    };
+
+
+<span id='datadomain-Character-method-reloadPlayingState'>    /**
+</span>     * Reloads the playingState
+     *
+     * @return {Promise}
+     */
+    pt.reloadPlayingState = function () {
+
+        var that = this;
+
+        return new datadomain.PlayingStateRepository().getByCharIdLevelId(this.id, this.position.floorObjectId).then(function (playingState) {
+
+            that.playingState = playingState;
+
+            return that;
+
+        });
+
+    };
+
+
+<span id='datadomain-Character-method-savePlayingState'>    /**
+</span>     * Saves the playing state.
+     *
+     * @return {Promise}
+     */
+    pt.savePlayingState = function () {
+
+        var that = this;
+
+        return new datadomain.PlayingStateRepository().save(this.playingState).then(function () {
+
+            return that;
+
+        });
+
+    };
+
+
+<span id='datadomain-Character-method-clearPlayingState'>    /**
+</span>     * Clears the playing state.
+     *
+     * @return {Promise}
+     */
+    pt.clearPlayingState = function () {
+
+        return new datadomain.PlayingStateRepository().clearByCharId(this.id);
+
+    };
+
+
+});
+</pre>
+</body>
+</html>

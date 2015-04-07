@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+(function () {
+    &#39;use strict&#39;;
+
+<span id='global'>    /**
+</span>     * Global object.
+     *
+     * @class
+     * @singleton
+     */
+    var global = window;
+
+
+<span id='global-method-wait'>    /**
+</span>     * Returns a promise which resolves given milliseconds later with given object.
+     *
+     * @param {Number} n The time in milliseconds to wait
+     * @param {Object} result The object which the returned promise resolve with
+     * @returns {Promise}
+     */
+    global.wait = function (n, result) {
+
+        return new window.Promise(function (resolve) {
+            setTimeout(resolve.bind(null, result), n);
+        });
+
+    };
+
+
+<span id='global-method-loadImage'>    /**
+</span>     * Load image and returns promise which resolves when the image loaded.
+     */
+    global.loadImage = function (path, cls, dom) {
+
+        return new Promise(function (resolve) {
+            var $img = $(&#39;&lt;img /&gt;&#39;)
+                .attr(&#39;src&#39;, path)
+                .addClass(cls)
+                .appendTo(dom)
+                .on(&#39;load&#39;, function () {
+                    resolve($img);
+                });
+        });
+
+    };
+
+<span id='global-method-commaNumber'>    /**
+</span>     * Add a comma to separate each group of three digits in a text.
+     *
+     * @param {Number} number The number
+     * @return {String}
+     */
+    global.commaNumber = function (number) {
+
+        return number.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, &#39;$1,&#39;);
+
+    };
+
+}());
+</pre>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+
+
+
+<span id='datadomain-UserStatistics'>/**
+</span> * UserStatistics is the collection class of user statistics info.
+ *
+ */
+datadomain.UserStatistics = subclass(function (pt) {
+    &#39;use strict&#39;;
+
+<span id='datadomain-UserStatistics-method-constructor'>    /**
+</span>     * @constructor
+     * @param {Object} opts The options
+     * @param {Number} [opts.launchTimes] The number of the launches of the app
+     */
+    pt.constuctor = function (opts) {
+
+<span id='datadomain-UserStatistics-property-launchTimes'>        /**
+</span>         * @property {Number} launchTimes The number of the launches of the app
+         */
+        this.launchTimes = opts.launchTimes;
+
+    };
+
+});
+</pre>
+</body>
+</html>

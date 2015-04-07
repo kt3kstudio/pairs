@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+<span id='datadomain-Floor'>/**
+</span> * Floor class is the domain model which represents each floor structure.
+ *
+ * @class
+ */
+datadomain.Floor = subclass(function (pt) {
+    &#39;use strict&#39;;
+
+<span id='datadomain-Floor-method-constructor'>    /**
+</span>     * @constructor
+     * @param {String} id The id of the floor (e.g. 7, 8)
+     * @param {datadomain.FloorObjectCollection} objects The objects on the floor
+     */
+    pt.constructor = function (id, objects) {
+
+<span id='datadomain-Floor-property-id'>        /**
+</span>         * @property {String} id The id of the floor
+         */
+        this.id = id;
+
+<span id='datadomain-Floor-property-objects'>        /**
+</span>         * @property {datadomain.FloorObjectCollection} objects The objects on the floor
+         */
+        this.objects = objects;
+
+    };
+
+});
+</pre>
+</body>
+</html>

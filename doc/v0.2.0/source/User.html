@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+
+
+<span id='datadomain-User'>/**
+</span> * The model of user.
+ */
+datadomain.User = subclass(function (pt) {
+    &#39;use strict&#39;;
+
+<span id='datadomain-User-method-constructor'>    /**
+</span>     * @constructor
+     * @param {String} charId The id of the character currently chosen
+     * @param {datadomain.UserStatistics} stat The statisctics of the user activity
+     */
+    pt.constructor = function (charId, stat) {
+
+<span id='datadomain-User-property-charId'>        /**
+</span>         * @property {String} charId The id of the character currently chosen
+         */
+        this.charId = charId;
+
+<span id='datadomain-User-property-stat'>        /**
+</span>         * @property {datadomain.UserStatistics} stat The statisctics of the user activity
+         */
+        this.stat = stat;
+
+    };
+
+
+<span id='datadomain-User-method-setCharId'>    /**
+</span>     * Sets the character id.
+     *
+     * @param {String} charId The character id.
+     */
+    pt.setCharId = function (charId) {
+        this.charId = charId;
+    };
+
+});
+</pre>
+</body>
+</html>

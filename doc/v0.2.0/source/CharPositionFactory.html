@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+<span id='datadomain-CharPositionFactory'>/**
+</span> * @class
+ * CharPositionFactory handles the creation of CharPositions.
+ */
+datadomain.CharPositionFactory = subclass(function (pt) {
+    &#39;use strict&#39;;
+
+    var START_FLOOR_ID = &#39;7&#39;;
+    var START_FLOOR_OBJECT_ID = &#39;701&#39;;
+
+<span id='datadomain-CharPositionFactory-method-createStartPosition'>    /**
+</span>     * Creates the start position.
+     *
+     * @return {datadomain.CharPosition}
+     */
+    pt.createStartPosition = function () {
+
+        return new datadomain.CharPosition(
+
+            START_FLOOR_ID,
+            START_FLOOR_OBJECT_ID
+
+        );
+
+    };  
+
+
+<span id='datadomain-CharPositionFactory-method-createFromObject'>    /**
+</span>     * Creates char position object from the object.
+     *
+     * @param {Object} obj The object
+     * @return {datadomain.CharPosition}
+     */
+    pt.createFromObject = function (obj) {
+
+        if (obj == null) {
+
+            return this.createStartPosition();
+
+        }
+
+        return new datadomain.CharPosition(
+
+            obj.floorId,
+            obj.floorObjectId
+
+        );
+
+    };  
+
+});
+</pre>
+</body>
+</html>

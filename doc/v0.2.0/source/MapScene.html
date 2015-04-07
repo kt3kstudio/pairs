@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='scene-map-MapScene'>/**
+</span> * @class
+ * @extends scene.common.Scene
+ * MapScene handles the scene of map
+ */
+scene.map.MapScene = subclass(scene.common.Scene, function (pt) {
+    &#39;use strict&#39;;
+
+<span id='scene-map-MapScene-method-constructor'>    /**
+</span>     * @constructor
+     * @param {scene.common.Scene} prevScene The previous scene
+     */
+    pt.constructor = function (prevScene) {
+
+        // domain objects
+        this.floor = new domain.map.Floor();
+
+        this.wall = new domain.map.Wall();
+        this.wall.loadFromObjectList(prevScene.floor.objects.objects);
+
+        this.chr = prevScene.chr;
+        this.chr.setParent(this.wall.$dom);
+
+        this.cls = new domain.map.CharLocateService(this.wall, this.chr);
+
+        this.wall.setCharLocateService(this.cls);
+
+        // ui
+        this.menuButton = $(&#39;.menu-button&#39;).menuButton($(&#39;#map-menu&#39;));
+        this.lifeButton = {};
+    };
+
+    pt.start = function () {
+        var that = this;
+
+        that.menuButton.show();
+
+        return ui.common.BackgroundService.turnWhite().then(function () {
+
+            return that.floor.appear();
+
+        }).then(function () {
+
+            return that.wall.appear();
+
+        }).then(function () {
+
+            return that.cls.charAppear();
+
+        });
+    };
+
+    pt.fadeOut = function () {
+        this.menuButton.hide();
+
+        var that = this;
+
+        return this.wall.disappear().then(function () {
+
+            return that.floor.disappear();
+
+        }).then(function () {
+
+            return ui.common.BackgroundService.turnBlack();
+
+        });
+    };
+
+
+<span id='scene-map-MapScene-method-goToLevel'>    /**
+</span>     * Go to the specified level.
+     *
+     * @param {String} level The level
+     */
+    pt.goToLevel = function (level) {
+        var that = this;
+
+        return this.cls.getIntoDoor().then(function () {
+
+            return that.fadeOut();
+
+        }).then(function () {
+
+            location.href = &#39;level.html&#39;;
+
+        });
+
+    };
+
+<span id='scene-map-MapScene-method-reload'>    /**
+</span>     * Reloads the map scene.
+     *
+     * This is typically used when the the floor is changed.
+     *
+     * @return {Promise}
+     */
+    pt.reload = function () {
+        var that = this;
+
+        return this.cls.getIntoDoor().then(function () {
+
+            return that.fadeOut();
+
+        }).then(function () {
+
+            location.reload();
+
+        });
+    };
+
+});
+</pre>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='domain-level-ExitQueue'>/**
+</span> * @class
+ *
+ * ExitQueue class represents the exit queue at the level view.
+ */
+domain.level.ExitQueue= (function () {
+    &#39;use strict&#39;;
+
+    var exports = function (dimension) {
+        this.dimension = dimension;
+        this.queue = [];
+    };
+
+    var eqPt = exports.prototype;
+
+
+<span id='domain-level-ExitQueue-method-enqueue'>    /**
+</span>     * Enqueues the cell.
+     *
+     * @param {domain.level.Cell} cell The cell
+     * @return {Promise} The promise resolves with the cell.
+     */
+    eqPt.enqueue = function (cell) {
+
+        var that = this;
+
+        return this.involve(new Queuee(cell)).then(function () {
+
+            return that.goForward();
+
+        });
+
+    };
+
+
+<span id='domain-level-ExitQueue-method-releaseCells'>    /**
+</span>     * Release cells.
+     *
+     * @return {Array}
+     */
+    eqPt.releaseCells = function () {
+
+        return this.queue.splice(0).map(function (queuee) {
+
+            return queuee.cell;
+
+        });
+
+    };
+
+
+<span id='domain-level-ExitQueue-method-goForward'>    /**
+</span>     * Makes the entire queue go forward.
+     *
+     * @private
+     * @return {Promise}
+     */
+    eqPt.goForward = function () {
+
+        var d = 200 / this.queue.length;
+
+        return this.queue.map(function (queuee, i) {
+
+            queuee.goForward();
+
+            return wait(i * d).then(function () {
+                return queuee.locate();
+            });
+
+        }).pop();
+    };
+
+
+<span id='domain-level-ExitQueue-method-involve'>    /**
+</span>     * Sets dimension data to the queuee and push into internal queue.
+     */
+    eqPt.involve = function (queuee) {
+
+        this.queue.push(queuee);
+
+        return queuee.goOrigin().setDimension(this.dimension).setTransitionDuration(600);
+    };
+
+
+<span id='domain-level-ExitQueue-method-theLastOneIsEvolved'>    /**
+</span>     * Checks if the queue is finished and has the last cell evolving.
+     *
+     * @return {Boolean}
+     */
+    eqPt.theLastOneIsEvolved = function () {
+
+        if (this.queue.length === 0) {
+            return false;
+        }
+
+        var cell = this.queue[this.queue.length - 1].cell;
+
+        return cell.isLastOne() &amp;&amp; cell.isEvolved();
+    };
+
+<span id='domain-level-ExitQueue-Queuee'>    /**
+</span>     * @class domain.level.ExitQueue.Queuee
+     * @private
+     *
+     * Queue class is the role of the cell which is queued in the ExitQueue.
+     */
+
+    /*
+     * @constructor
+     * @param {domain.level.Cell} cell The queueing cell
+     */
+    var Queuee = function (cell) {
+        this.cell = cell;
+    };
+
+    var qPt = Queuee.prototype;
+
+
+<span id='domain-level-ExitQueue-Queuee-method-goForward'>    /**
+</span>     * Goes forward in the queue.
+     */
+    qPt.goForward = function () {
+        if (this.cell.x &lt; 4) {
+            this.cell.x += 1;
+        } else {
+            this.cell.y += 1;
+        }
+
+        return this;
+    };
+
+<span id='domain-level-ExitQueue-Queuee-method-locate'>    /**
+</span>     * Locates the cell.
+     */
+    qPt.locate = function () {
+        return this.cell.locate();
+    };
+
+<span id='domain-level-ExitQueue-Queuee-method-remove'>    /**
+</span>     * Removes the cell.
+     */
+    qPt.remove = function () {
+        this.cell.remove();
+    };
+
+
+<span id='domain-level-ExitQueue-Queuee-method-goOrigin'>    /**
+</span>     * Goes to the origin of the queue dimension.
+     */
+    qPt.goOrigin = function () {
+        this.cell.x = -1;
+        this.cell.y = 0;
+
+        return this;
+    };
+
+
+<span id='domain-level-ExitQueue-Queuee-method-setTransitionDuration'>    /**
+</span>     * Sets the transion duraiton.
+     *
+     * @param {Number} dur The duration
+     * @return {Promise} of domain.level.Cell
+     */
+    qPt.setTransitionDuration = function (dur) {
+        return this.cell.setTransitionDuration(dur);
+    };
+
+
+<span id='domain-level-ExitQueue-Queuee-method-setDimension'>    /**
+</span>     * Sets the dimension.
+     *
+     * @param {Object} dimension The dimension
+     * @return {domain.level.ExitQueue.Queuee}
+     */
+    qPt.setDimension = function (dimension) {
+        this.cell.setDimension(dimension);
+
+        return this;
+    };
+
+    return exports;
+
+}());
+</pre>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+
+
+<span id='domain-genetics-MeioticService'>/**
+</span> * MeioticService is the service class which handles meiotic recombination and calculation of its value.
+ *
+ * @class
+ */
+domain.genetics.MeioticService = subclass(function (pt) {
+    &#39;use strict&#39;;
+
+
+    var GENES = [&#39;f&#39;, &#39;m&#39;, &#39;a&#39;, &#39;w&#39;, &#39;b&#39;];
+
+
+<span id='domain-genetics-MeioticService-method-recombination'>    /**
+</span>     * Calculates the recombination the maternal gene and the paternal gene and returns a new gene.
+     *
+     * @param {String} maternalGene The gene of the mother
+     * @param {String} paternalGene The gene of the father
+     * @return {String}
+     */
+    pt.recombination = function (maternalGene, paternalGene) {
+
+        var newGene = (maternalGene + paternalGene).replace(/([fm])(\1)+/g, &#39;$1&#39;);
+
+        if (newGene.length &gt;= 8) {
+
+            // remove all males and females
+            newGene = newGene.replace(/[fm]/g, &#39;&#39;);
+
+            // add an ankh for the reward of over 8 recombination
+            newGene += &#39;a&#39;;
+
+        }   
+
+        if (newGene.length &gt;= 8) {
+
+            // remove all ankhs
+            newGene = newGene.replace(/[a]/g, &#39;&#39;);
+
+            // add a wheel for the reward of over 8 recombination
+            newGene += &#39;w&#39;;
+
+        }
+
+        if (newGene.length &gt;= 8) {
+
+            // remove all wheels
+            newGene = newGene.replace(/[w]/g, &#39;&#39;);
+
+            // add a bat for the reward of over 8 recombination
+            newGene += &#39;b&#39;;
+
+        }
+
+        if (newGene.length &gt;= 8) {
+
+            newGene = &#39;m&#39;; // He is Adam.
+
+        }
+
+        return newGene;
+
+    };
+
+
+<span id='domain-genetics-MeioticService-method-virtualLength'>    /**
+</span>     * Returns the virtual length of the gene.
+     *
+     * @param {String} gene The gene
+     * @return {Number}
+     */
+    pt.virtualLength = function (gene) {
+
+        return sumArray(GENES.map(function (c) {
+
+            return countChar(gene, c) * virtualLengthOfMonon(c);
+
+        }));
+
+    };
+
+
+    var virtualLengthOfMonon = function (monon) {
+
+        if (monon === &#39;m&#39;) {
+            return 1;
+        } else if (monon === &#39;f&#39;) {
+            return 1;
+        } else if (monon === &#39;a&#39;) {
+            return 8;
+        } else if (monon === &#39;w&#39;) {
+            return 64;
+        } else if (monon === &#39;b&#39;) {
+            return 512;
+        }
+
+        return 0;
+    };
+
+
+    var countChar = function (string, c) {
+
+        return string.split(c).length - 1;
+
+    };
+
+    var sumArray = function (array) {
+
+        return array.reduce(function (n, m) {
+
+            return n + m;
+
+        });
+
+    };
+
+
+});
+</pre>
+</body>
+</html>

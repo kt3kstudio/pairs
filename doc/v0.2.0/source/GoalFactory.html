@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+<span id='datadomain-goal-GoalFactory'>/**
+</span> * GoalFactory is the factory class of goal models
+ */
+datadomain.goal.GoalFactory = subclass(function (pt) {
+    &#39;use strict&#39;;
+
+<span id='datadomain-goal-GoalFactory-method-createFromObjectList'>    /**
+</span>     * Creates goals from object list.
+     *
+     * @param {Array} list The lisf of goal objects.
+     * @return {Array}
+     */
+    pt.createFromObjectList = function (list) {
+        return this.createFromObject(list[0]);
+    };
+
+
+<span id='datadomain-goal-GoalFactory-method-createFromObject'>    /**
+</span>     * Creates a goal from the given object.
+     *
+     * @param {Object} obj The goal object
+     * @return {datadomain.goal.Goal} The goal
+     */
+    pt.createFromObject = function (obj) {
+        var type = obj.type;
+
+        switch (type) {
+            case &#39;C&#39;: return new datadomain.goal.CollectGoal(obj.type, obj.opts);
+            case &#39;L&#39;: return new datadomain.goal.ClearGoal(obj.type, obj.opts);
+            case &#39;F&#39;: return new datadomain.goal.FusionGoal(obj.type, obj.opts);
+            case &#39;S&#39;: return new datadomain.goal.ScoreGoal(obj.type, obj.opts);
+        }
+    };
+
+});
+</pre>
+</body>
+</html>

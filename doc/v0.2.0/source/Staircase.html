@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+
+<span id='domain-map-Staircase'>/**
+</span> * Staircase class represents the staircases in the map view.
+ */
+domain.map.Staircase = subclass(domain.map.WallObject, function (pt) {
+    &#39;use strict&#39;;
+
+    pt.constructor = function (id, to, type) {
+        this.id = id;
+        this.to = to;
+        this.type = type;
+    };
+
+<span id='domain-map-Staircase-method-createFromObject'>    /**
+</span>     * Creates a Staircase from the FloorObject.
+     *
+     * @param {datadomain.FloorObject} obj The FloorObject
+     * @return {domain.map.Staircase}
+     */
+    pt.constructor.createFromObject = function (obj) {
+
+        var factory = new datadomain.CharPositionFactory();
+
+        return new pt.constructor(
+
+            obj.id,
+            factory.createFromObject(obj.opts.to),
+            obj.opts.type
+
+        ).setPos(obj.offset).setSize(obj.size);
+    };
+
+    pt.createDom = function () {
+        var that = this;
+
+        this.$dom = $(&#39;&lt;div /&gt;&#39;).addClass(&#39;staircase staircase-&#39; + this.type);
+
+        this.$dom.on(&#39;click touchstart&#39;, function () {
+
+            that.cls.moveToWallObjectByName(that.id).then(function () {
+
+                return that.cls.chr.setPosition(that.to);
+
+            }).then(function () {
+
+                return window.ms.reload();
+
+            });
+
+        });
+
+        return this.$dom;
+    };
+
+});
+</pre>
+</body>
+</html>

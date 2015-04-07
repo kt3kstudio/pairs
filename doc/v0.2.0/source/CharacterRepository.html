@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">
+
+
+<span id='datadomain-CharacterRepository'>/**
+</span> * The repository of Character.
+ *
+ */
+datadomain.CharacterRepository = subclass(function (pt) {
+    &#39;use strict&#39;;
+
+    var STORAGE_KEY = &#39;character-&#39;;
+
+<span id='datadomain-CharacterRepository-method-save'>    /**
+</span>     * Saves the character.
+     *
+     * @param {datadomain.Character} character The Character
+     * @return {Promise}
+     */
+    pt.save = function (character) {
+
+        var obj = this.toObject(character);
+
+        return infrastructure.storage.set(STORAGE_KEY + character.id, obj).then(function () {
+
+            return character;
+
+        });
+
+    };
+
+
+<span id='datadomain-CharacterRepository-method-getById'>    /**
+</span>     * Gets a character by the id.
+     *
+     * @param {String} id The id
+     * @return {Promise} A promise of a character
+     */
+    pt.getById = function (id) {
+
+        return infrastructure.storage.get(STORAGE_KEY + id, null).then(function (obj) {
+
+            var character;
+
+            var factory = new datadomain.CharacterFactory();
+
+            if (obj == null) {
+
+                character = factory.createInitialById(id);
+
+            } else {
+
+                character = factory.createFromObject(obj);
+
+            }
+
+            return Promise.all([
+
+                character,
+                character.reloadHistories(),
+                character.reloadPlayingState()
+
+            ]);
+
+        }).then(function (array) {
+
+            return array[0];
+
+        });
+
+    };
+
+
+<span id='datadomain-CharacterRepository-method-toObject'>    /**
+</span>     * @private
+     * Converts the Character object into js object.
+     *
+     * @param {datadomain.Character} character The Character
+     * @return {Object}
+     */
+    pt.toObject = function (character) {
+
+        return {
+
+            id: character.id,
+            name: character.name,
+            position: this.positionToObject(character.position)
+
+        };
+
+    };
+
+
+<span id='datadomain-CharacterRepository-method-positionToObject'>    /**
+</span>     * @private
+     * Converts the CharPosition object into js object.
+     *
+     * @param {datadomain.CharPosition} position
+     * @return {Object}
+     */
+    pt.positionToObject = function (position) {
+
+        if (position == null) {
+
+            return null;
+
+        }
+
+        return {
+
+            floorId: position.floorId,
+            floorObjectId: position.floorObjectId
+
+        };
+
+    };
+
+});
+</pre>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='domain-map-Door'>/**
+</span> * @class
+ *
+ * Door class handles behaviour of the level&#39;s doors.
+ */
+domain.map.Door = subclass(domain.map.WallObject, function (pt) {
+    &#39;use strict&#39;;
+
+    var DOOR_APPEAR_DUR = 400;
+
+    pt.constructor = function (id, level, star, score) {
+        this.id = id;
+        this.level = level;
+        this.star = star;
+        this.score = score;
+    };
+
+<span id='domain-map-Door-method-createFromObject'>    /**
+</span>     * Creates a Door from the FloorObject.
+     *
+     * @param {datadomain.FloorObject} obj The FloorObject
+     * @return {domain.map.Door}
+     */
+    pt.constructor.createFromObject = function (obj) {
+        return new pt.constructor(obj.id, obj.level, obj.star, obj.score)
+            .setPos(obj.offset)
+            .setSize(obj.size);
+    };
+
+    pt.createDom = function () {
+        var that = this;
+
+        this.$doorFrame = $(&#39;&lt;div /&gt;&#39;).addClass(&#39;door-frame&#39;).css(&#39;opcaity&#39;, 0);
+
+        this.$door = $(&#39;&lt;div /&gt;&#39;).addClass(&#39;door&#39;).appendTo(this.$doorFrame);
+
+        this.$door.click(function () {
+            that.cls.moveToWallObjectByName(that.id);
+        });
+
+        $(&#39;&lt;div /&gt;&#39;).addClass(&#39;door-front&#39;).text(this.id).appendTo(this.$door);
+        $(&#39;&lt;div /&gt;&#39;).addClass(&#39;doorknob&#39;).text(&#39;●&#39;).appendTo(this.$door);
+
+
+        this.infoPane = $(&#39;&lt;div&gt;&lt;div class=&quot;door-info-content&quot;&gt;&lt;p&gt;&#39; + this.id + &#39;&lt;/p&gt;&lt;hr /&gt;&lt;p&gt;&lt;small&gt;♛ Best ♛&lt;/small&gt;&lt;br /&gt;&#39; + this.score + &#39;&lt;/p&gt;&lt;hr /&gt;&lt;/div&gt;&lt;/div&gt;&#39;).addClass(&#39;door-info&#39;).css({
+            width: &#39;150px&#39;,
+            height: &#39;150px&#39;,
+            top: &#39;-200px&#39;,
+            left: &#39;-40px&#39;
+        }).appendTo(this.$doorFrame).infoPane(3, 5, {bgcolor: &#39;#393F44&#39;});
+
+        $(&#39;&lt;button /&gt;&#39;).text(&#39;▶&#39;).appendTo($(&#39;.door-info-content&#39;, this.infoPane.$dom)).click(function (event) {
+            event.preventDefault();
+            window.ms.goToLevel(that.level);
+        });
+
+        return this.$doorFrame;
+    };
+
+    pt.open = function () {
+        this.infoPane.show();
+        this.$door.addClass(&#39;open&#39;);
+
+        return wait(this.doorActionDur);
+    };
+
+    pt.close = function () {
+        this.infoPane.hide();
+        this.$door.removeClass(&#39;open&#39;);
+
+        return wait(this.doorActionDur);
+    };
+
+    pt.doorActionDur = 400;
+
+    pt.appearAnim = &#39;door-appear&#39;;
+    pt.appearDur = DOOR_APPEAR_DUR;
+    pt.disappearAnim = &#39;door-disappear&#39;;
+    pt.disappearDur = DOOR_APPEAR_DUR;
+
+});
+</pre>
+</body>
+</html>
