@@ -1,4 +1,4 @@
-# long-dream-core v0.1.16
+# long-dream-core v0.2.0
 
 [![Build Status](https://travis-ci.org/kt3kstudio/long-dream-core.svg?branch=gh-pages)](https://travis-ci.org/kt3kstudio/long-dream-core)
 
@@ -21,4 +21,4 @@ The above creates the middleman build result at `app/src/main/assets` using js f
 The name of `infrastructure` came from the terminology of DDD.
 
 
-# [API doc](http://kt3kstudio.github.io/long-dream-core/doc/v0.1.16/)
+# [API doc](http://kt3kstudio.github.io/long-dream-core/doc/v0.2.0/)
