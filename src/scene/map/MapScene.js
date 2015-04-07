@@ -81,7 +81,7 @@ scene.map.MapScene = subclass(scene.common.Scene, function (pt) {
 
         }).then(function () {
 
-            location.href = 'level.html#' + level;
+            location.href = 'level.html';
 
         });
 
