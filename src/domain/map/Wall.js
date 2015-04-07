@@ -3,27 +3,25 @@
  * @class
  * Wall class handles the position of wall (scrolling of wall div ('.floor-wrapper')) and objects on wall.
  */
-domain.map.Wall = (function ($) {
+domain.map.Wall = subclass(function (pt) {
     'use strict';
 
     /**
      * @constructor
      */
-    var exports = function () {
+    pt.constructor = function () {
         this.wos = [];
         this.groundLevel = $(window).height() * (1 - domain.map.Floor.HEIGHT_RATE);
         this.wallWidth = $(window).width();
         this.$dom = $('.floor-wrapper');
     };
 
-    var wallPt = exports.prototype;
-
     /**
      * Loads floorObjects from the array of FloorObjects
      *
      * @param {Array} objects The array of floorObjects
      */
-    wallPt.loadFromObjectList = function (objects) {
+    pt.loadFromObjectList = function (objects) {
         var that = this;
 
         this.wos = objects.map(function (floorObject) {
@@ -37,7 +35,7 @@ domain.map.Wall = (function ($) {
         this.expandRightLimit(100);
     };
 
-    wallPt.transformCoordinates = function (floorObject) {
+    pt.transformCoordinates = function (floorObject) {
 
         floorObject.offset.y *= -1;
         floorObject.offset.y += this.groundLevel;
@@ -45,7 +43,7 @@ domain.map.Wall = (function ($) {
 
     };
 
-    wallPt.expandRightLimit = function (val) {
+    pt.expandRightLimit = function (val) {
         var x = this.rightLimit() + val;
 
         $('<div />')
@@ -54,11 +52,11 @@ domain.map.Wall = (function ($) {
             .offset({left: x, top: this.groundLevel});
     };
 
-    wallPt.rightLimit = function () {
+    pt.rightLimit = function () {
         return Math.max.apply(Math, this.wos.map(function (wo) { return wo.rightLimit(); }));
     };
 
-    wallPt.appear = function () {
+    pt.appear = function () {
         var that = this;
 
         var p = Promise.resolve();
@@ -76,7 +74,7 @@ domain.map.Wall = (function ($) {
         return p;
     };
 
-    wallPt.disappear = function () {
+    pt.disappear = function () {
         var p = Promise.resolve();
 
         this.wos.forEach(function (wo) {
@@ -92,7 +90,7 @@ domain.map.Wall = (function ($) {
         return p;
     };
 
-    wallPt.scrollSetToPosition = function (id) {
+    pt.scrollSetToPosition = function (id) {
         var wo = this.findById(id);
 
         if (wo == null) {
@@ -104,25 +102,25 @@ domain.map.Wall = (function ($) {
         return this.scrollSet(wo.centerX());
     };
 
-    wallPt.scrollSet = function (x) {
+    pt.scrollSet = function (x) {
         this.$dom.scrollLeft(x - this.wallWidth / 2);
 
         return this;
     };
 
-    wallPt.scroll = function (x, dur) {
+    pt.scroll = function (x, dur) {
         this.$dom.animate({scrollLeft: this.$dom.scrollLeft() + x}, dur);
 
         return wait(dur);
     };
 
-    wallPt.scrollTo = function (x, dur) {
+    pt.scrollTo = function (x, dur) {
         this.$dom.animate({scrollLeft: x - this.wallWidth / 2}, dur);
 
         return wait(dur);
     };
 
-    wallPt.setCharLocateService = function (cls) {
+    pt.setCharLocateService = function (cls) {
         this.cls = cls;
 
         this.wos.forEach(function (wo) {
@@ -138,7 +136,7 @@ domain.map.Wall = (function ($) {
      * @param {domain.common.CharSprite} chr The character
      * @returns {Boolean}
      */
-    wallPt.visible = function (chr) {
+    pt.visible = function (chr) {
         return chr.rightLimit() > this.$dom.scrollLeft() && chr.leftLimit() < this.$dom.scrollLeft() + this.wallWidth;
     };
 
@@ -148,12 +146,10 @@ domain.map.Wall = (function ($) {
      * @param {String} id The id of the wall object
      * @returns {domain.map.Door}
      */
-    wallPt.findById = function (id) {
+    pt.findById = function (id) {
         return this.wos.filter(function (wo) {
             return wo.id === id;
         })[0];
     };
 
-    return exports;
-
-}(window.jQuery));
+});
