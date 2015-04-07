@@ -13,9 +13,10 @@ domain.map.CharLocateService = subclass(function (pt) {
      * @param {domain.common.CharSprite} chr
      */
     pt.constructor = function (wall, chr) {
+
         this.wall = wall;
         this.chr = chr;
-        this.charPosRepo = new datadomain.CharPositionRepository();
+
     };
 
     /**
@@ -24,7 +25,7 @@ domain.map.CharLocateService = subclass(function (pt) {
      * @return {Promise}
      */
     pt.charAppear = function () {
-        var wo = this.wall.findById(this.position.floorObjectId);
+        var wo = this.wall.findById(this.chr.getPosition().floorObjectId);
         this.current = wo;
         var chr = this.chr;
 
@@ -55,10 +56,9 @@ domain.map.CharLocateService = subclass(function (pt) {
     pt.moveToWallObject = function (wo) {
         var that = this;
 
-        var current = this.wall.findById(this.position.floorObjectId);
+        var current = this.wall.findById(this.chr.getPosition().floorObjectId);
 
-        this.position.floorObjectId = wo.id;
-        this.charPosRepo.setCharPosition(this.chr.name, this.position);
+        this.chr.setFloorObjectId(wo.id);
 
         var goOutDur = 400;
         var moveOnCorridor = 1000;
@@ -112,20 +112,11 @@ domain.map.CharLocateService = subclass(function (pt) {
     pt.load = function () {
         var that = this;
 
-        return this.charPosRepo.getCharPosition(this.chr.name).then(function (position) {
-            that.position = position;
+        return this.chr.sync().then(function () {
 
             return that;
-        });
-    };
 
-    /**
-     * Sets the character's position.
-     *
-     * @param {datadomain.CharPosition} position The character's position
-     */
-    pt.setCharPosition = function (position) {
-        return this.charPosRepo.setCharPosition(this.chr.name, position);
+        });
     };
 
 });

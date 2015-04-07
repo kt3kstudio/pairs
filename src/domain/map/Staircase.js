@@ -40,7 +40,7 @@ domain.map.Staircase = subclass(domain.map.WallObject, function (pt) {
 
             that.cls.moveToWallObjectByName(that.id).then(function () {
 
-                return that.cls.setCharPosition(that.to);
+                return that.cls.chr.setPosition(that.to);
 
             }).then(function () {
 

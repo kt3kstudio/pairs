@@ -46,18 +46,85 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
     pt.constructor = function (character) {
 
         this.character = character;
+        this.characterRepository = new datadomain.CharacterRepository();
 
     };
 
 
+    /**
+     * Gets the CharPosition object.
+     *
+     * @return {datadomain.CharPosition}
+     */
+    pt.getPosition = function () {
+
+        return this.character.position;
+
+    };
+
+
+    /**
+     * Sets the CharPosition object.
+     */
+    pt.setPosition = function (position) {
+
+        this.character.position = position;
+
+        return this.save();
+
+    };
+
+
+    /**
+     * Sets the character's floorObjectId
+     *
+     * @param {String} floorObjectId The floor object id
+     */
+    pt.setFloorObjectId = function (floorObjectId) {
+
+        this.character.position.floorObjectId = floorObjectId;
+
+        return this.save();
+
+    };
+
+
+    /**
+     * Synchronize current state of the character into the localStorage.
+     */
+    pt.save = function () {
+
+        var that = this;
+
+        return this.characterRepository.save(this.character).then(function () {
+
+            return that;
+
+        });
+
+    };
+
+
+    /**
+     * Creates the dom of the character.
+     *
+     * @return {jQuery}
+     */
     pt.createDom = function () {
+
         return $('<img />').addClass(this.cssClass).width(this.w).height(this.h).offset({
             // the center of bottom line of the image is the sprite's center.
             left: this.leftLimit(),
             top: this.y - this.h
         }).attr('src', this.downImage || this.image);
+
     };
 
+    /**
+     * Changes the direction the character currently heading for.
+     *
+     * @param {String} dir The direction (one of up, down, left or right)
+     */
     pt.turn = function (dir) {
         var img;
 

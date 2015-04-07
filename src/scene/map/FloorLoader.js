@@ -8,7 +8,7 @@ scene.map.FloorLoader = subclass(scene.common.Scene, function (pt) {
 
     pt.constructor = function () {
 
-        this.charPosRepo = new datadomain.CharPositionRepository();
+        this.charRepo = new datadomain.CharacterRepository();
         this.floorRepo = new datadomain.FloorRepository();
         this.chr = new domain.common.Ma();
 
@@ -18,9 +18,11 @@ scene.map.FloorLoader = subclass(scene.common.Scene, function (pt) {
 
         var that = this;
 
-        this.charPosRepo.getCharPosition(this.chr.name).then(function (charPos) {
+        this.charRepo.getById(this.chr.name).then(function (character) {
 
-            return that.floorRepo.getById(charPos.floorId);
+            that.chr.character = character;
+
+            return that.floorRepo.getById(character.position.floorId);
 
         }).then(function (floor) {
 

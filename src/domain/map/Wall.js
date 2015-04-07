@@ -61,13 +61,9 @@ domain.map.Wall = (function ($) {
     wallPt.appear = function () {
         var that = this;
 
-        var p = this.cls.load().then(function (cls) {
+        var p = Promise.resolve();
 
-            // load Floor data
-            // load wo list
-
-            that.scrollSetToPosition(cls.position.floorObjectId);
-        });
+        this.scrollSetToPosition(this.cls.chr.getPosition().floorObjectId);
 
         this.wos.forEach(function (wo) {
             p = p.then(function () {
