@@ -57,7 +57,6 @@ domain.map.Wall = subclass(function (pt) {
     };
 
     pt.appear = function () {
-        var that = this;
 
         var p = Promise.resolve();
 

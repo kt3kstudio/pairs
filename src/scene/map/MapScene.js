@@ -72,7 +72,7 @@ scene.map.MapScene = subclass(scene.common.Scene, function (pt) {
      *
      * @param {String} level The level
      */
-    pt.goToLevel = function (level) {
+    pt.goToLevel = function () {
         var that = this;
 
         return this.cls.getIntoDoor().then(function () {
