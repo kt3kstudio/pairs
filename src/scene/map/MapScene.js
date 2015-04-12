@@ -51,19 +51,19 @@ scene.map.MapScene = subclass(scene.common.Scene, function (pt) {
     };
 
     pt.fadeOut = function () {
+
         this.menuButton.hide();
 
         var that = this;
 
         return this.wall.disappear().then(function () {
 
-            return that.floor.disappear();
-
-        }).then(function () {
+            that.floor.disappear();
 
             return ui.common.BackgroundService.turnBlack();
 
         });
+
     };
 
 
