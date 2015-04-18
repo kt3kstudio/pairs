@@ -3,12 +3,10 @@
 /**
  * WallObjectFactory is the factory class for wall objects.
  */
-domain.map.WallObjectFactory = (function () {
+domain.map.WallObjectFactory = subclass(function (pt) {
     'use strict';
 
-    var exports = function () {
-    };
-
+    pt.constructor = function () {};
 
     /**
      * Creates wall object from js object.
@@ -16,7 +14,7 @@ domain.map.WallObjectFactory = (function () {
      * @param {Object} obj The source object
      * @return {domain.map.WallObject}
      */
-    exports.createFromObject = function (obj) {
+    pt.constructor.createFromObject = function (obj) {
 
         switch (obj.type) {
             case 'l': return new domain.map.Door.createFromObject(obj);
@@ -26,6 +24,4 @@ domain.map.WallObjectFactory = (function () {
 
     };
 
-    return exports;
-
-}());
+});
