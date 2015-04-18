@@ -2,26 +2,24 @@
  * @class
  * Floor class handles the behaviour of floor of the corridor view
  */
-domain.map.Floor = (function ($) {
+domain.map.Floor = subclass(function (pt) {
     'use strict';
 
     var FLOOR_MOVE_DUR = 400;
 
-    var exports = function () {
+    pt.constructor = function () {
         this.$dom = $('.floor');
     };
 
-    exports.HEIGHT_RATE = 0.35;
+    pt.constructor.HEIGHT_RATE = 0.35;
 
-    var floorPrototype = exports.prototype;
-
-    floorPrototype.appear = function () {
+    pt.appear = function () {
         this.$dom.removeClass('floor-hidden');
 
         return this.$dom.anim('floor-appear', FLOOR_MOVE_DUR);
     };
 
-    floorPrototype.disappear = function () {
+    pt.disappear = function () {
         var that = this;
 
         that.$dom.addClass('floor-hidden');
@@ -32,5 +30,4 @@ domain.map.Floor = (function ($) {
         });
     };
 
-    return exports;
-}(window.jQuery));
+});
