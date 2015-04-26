@@ -2,6 +2,10 @@
 
 //= require jquery
 //= require rxjs/dist/rx.lite.js
+//= require custom-class
+//= require define-class
+//= require event-hub
+//= require event-twister
 
 //= require namespaces.js
 

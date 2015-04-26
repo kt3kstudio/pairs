@@ -71,4 +71,22 @@
         return Rx.Observable.fromEvent(this, events);
     };
 
+
+    /**
+     * Assign a class as the defining class of the custom html class.
+     *
+     *
+     * @param {String} name The name of the custom class
+     * @param {Function} definingClass The definig class
+     */
+    $.assignClass = function (name, definingClass) {
+
+        $.registerCustomClass(name, function (elem) {
+
+            new definingClass(elem);
+
+        });
+
+    };
+
 }(window.jQuery));

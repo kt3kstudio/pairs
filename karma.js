@@ -17,12 +17,16 @@ module.exports = function(config) {
     files: [
       'bower_components/subclassjs/index.js',
       'bower_components/jquery/dist/jquery.js',
+      'bower_components/custom-class/custom-class.js',
+      'bower_components/event-hub/event-hub.js',
+      'bower_components/event-twister/event-twister.js',
       'bower_components/es6-promise/promise.js',
       'bower_components/rxjs/dist/rx.lite.js',
 
       'src/namespaces.js',
       'src/domain/common/Sprite.js',
       'src/domain/map/WallObject.js',
+      'src/util/jquery.js',
 
       'src/**/*.js',
 
