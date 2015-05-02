@@ -89,4 +89,71 @@
 
     };
 
+
+    /**
+     * Registers the actor instance as the actor of the dom.
+     *
+     * @param {Object} actor The actor
+     */
+    $.fn.registerActor = function (actor) {
+
+        this.data('__actor__', actor);
+
+        return this;
+
+    };
+
+
+    /**
+     * Gets the actor of the given selector. Returns first one if there are some available.
+     *
+     * @param {String} selector The selector
+     * @return {Object} The actor
+     */
+    $.fn.getActor = function (selector) {
+
+        return this.find(selector).data('__actor__');
+
+    };
+
+    /**
+     * Gets the array of the actors of the given selector.
+     *
+     * @param {String} selector The selector
+     * @return {Array} The array of the actors
+     */
+    $.fn.getActorList = function (selector) {
+
+        return this.find(selector).map(function (elem) {
+
+            return elem.data('__actor__');
+
+        }).filter(function (x) { return !!x; });
+
+    };
+
+    /**
+     * Short hand for $(document).getActor(...);
+     *
+     * @param {String} selector The selector
+     * @return {Object}
+     */
+    $.getActor = function (selector) {
+
+        return $(document).getActor(selector);
+
+    };
+
+    /**
+     * Short hand for $(document).getActorList(...);
+     *
+     * @param {String} selector The selector
+     * @return {Array}
+     */
+    $.getActorList = function (name) {
+
+        return $(document).getActorList(selector);
+
+    };
+
 }(window.jQuery));
