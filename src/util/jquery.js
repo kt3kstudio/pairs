@@ -94,6 +94,7 @@
      * Registers the actor instance as the actor of the dom.
      *
      * @param {Object} actor The actor
+     * @return {jQuery}
      */
     $.fn.registerActor = function (actor) {
 
@@ -124,11 +125,11 @@
      */
     $.fn.getActorList = function (selector) {
 
-        return this.find(selector).map(function (elem) {
+        return this.find(selector).map(function () {
 
-            return elem.data('__actor__');
+            return $(this).data('__actor__');
 
-        }).filter(function (x) { return !!x; });
+        }).toArray().filter(function (x) { return !!x; });
 
     };
 
@@ -150,9 +151,31 @@
      * @param {String} selector The selector
      * @return {Array}
      */
-    $.getActorList = function (name) {
+    $.getActorList = function (selector) {
 
         return $(document).getActorList(selector);
+
+    };
+
+
+    /**
+     * Map events to the same name method call.
+     *
+     * @param {Object} obj The mapped object
+     * @param {Object} mapping The mapping of the event
+     * @param {jQuery} self
+     */
+    $.fn.mapEventOne = function (obj, mapping) {
+
+        var self = this;
+
+        Object.keys(mapping).forEach(function (key) {
+
+            self.one(key, obj[key].bind(obj));
+
+        });
+
+        return this;
 
     };
 
