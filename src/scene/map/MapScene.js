@@ -6,49 +6,64 @@
 scene.map.MapScene = subclass(scene.common.Scene, function (pt) {
     'use strict';
 
+    var ONE = {};
+
     /**
      * @constructor
-     * @param {scene.common.Scene} prevScene The previous scene
+     * @param {jQuery} elem jQuery object
      */
-    pt.constructor = function (prevScene) {
+    pt.constructor = function (elem) {
 
-        // domain objects
-        this.floor = new domain.map.Floor();
+        this.elem = elem;
 
-        this.wall = new domain.map.Wall();
-        this.wall.loadFromObjectList(prevScene.floor.objects.objects);
+        this.elem.registerActor(this);
 
-        this.chr = prevScene.chr;
-        this.chr.setParent(this.wall.$dom);
+        this.elem.mapEventOne(this, ONE);
 
-        this.cls = new domain.map.CharLocateService(this.wall, this.chr);
+        setTimeout(function () {
+            elem.trigger('init').trigger('start');
+        });
 
-        this.wall.setCharLocateService(this.cls);
-
-        // ui
-        this.menuButton = $('.menu-button').menuButton($('#map-menu'));
-        this.lifeButton = {};
     };
 
+
+    ONE.init = 1;
+    pt.init = function () {
+
+        // actors
+        this.floor = this.elem.getActor('.floor');
+
+        this.wall = this.elem.getActor('.wall');
+
+        this.walker = this.elem.getActor('.floor-walker');
+
+        // ui parts
+        this.menuButton = $('.menu-button').menuButton($('#map-menu'));
+
+    };
+
+
+    ONE.start = 1;
     pt.start = function () {
         var that = this;
 
         that.menuButton.show();
 
-        return ui.common.BackgroundService.turnWhite().then(function () {
+        ui.common.BackgroundService.turnWhite();
 
-            return that.floor.appear();
-
-        }).then(function () {
+        return that.floor.appear().then(function () {
 
             return that.wall.appear();
 
         }).then(function () {
 
-            return that.cls.charAppear();
+            var wo = that.wall.findById(that.walker.getPosition().floorObjectId);
+
+            return that.walker.appearAt(wo);
 
         });
     };
+
 
     pt.fadeOut = function () {
 
@@ -67,19 +82,28 @@ scene.map.MapScene = subclass(scene.common.Scene, function (pt) {
     };
 
 
+    pt.walkerFadeIntoDoor = function () {
+
+        var that = this;
+
+        return this.walker.getIntoDoor().then(function () {
+
+            return that.fadeOut();
+
+        });
+
+    };
+
+
+    ONE.goToLevel = 1;
     /**
      * Go to the specified level.
      *
      * @param {String} level The level
      */
     pt.goToLevel = function () {
-        var that = this;
 
-        return this.cls.getIntoDoor().then(function () {
-
-            return that.fadeOut();
-
-        }).then(function () {
+        return this.walkerFadeIntoDoor().then(function () {
 
             location.href = 'level.html';
 
@@ -87,6 +111,8 @@ scene.map.MapScene = subclass(scene.common.Scene, function (pt) {
 
     };
 
+
+    ONE.reload = 1;
     /**
      * Reloads the map scene.
      *
@@ -95,17 +121,16 @@ scene.map.MapScene = subclass(scene.common.Scene, function (pt) {
      * @return {Promise}
      */
     pt.reload = function () {
-        var that = this;
 
-        return this.cls.getIntoDoor().then(function () {
-
-            return that.fadeOut();
-
-        }).then(function () {
+        return this.walkerFadeIntoDoor().then(function () {
 
             location.reload();
 
         });
+
     };
 
 });
+
+
+$.assignClass('map-scene', scene.map.MapScene);

@@ -3,13 +3,23 @@
 /**
  * Staircase class represents the staircases in the map view.
  */
-domain.map.Staircase = subclass(domain.map.WallObject, function (pt) {
+domain.map.Staircase = subclass(domain.map.WallObject, function (pt, parent) {
     'use strict';
 
-    pt.constructor = function (id, to, type) {
-        this.id = id;
-        this.to = to;
-        this.type = type;
+    var STAIRCASE_ANIMATION_DUR = 400;
+
+    pt.appearAnim = 'door-appear';
+    pt.appearDur = STAIRCASE_ANIMATION_DUR;
+
+    pt.disappearAnim = 'door-disappear';
+    pt.disappearDur = STAIRCASE_ANIMATION_DUR;
+
+
+    pt.constructor = function (elem) {
+        parent.constructor.call(this, elem);
+
+        this.nextPosition = elem.data('goto'); // must be parsed position object, not string
+
     };
 
     /**
@@ -34,19 +44,11 @@ domain.map.Staircase = subclass(domain.map.WallObject, function (pt) {
     pt.createDom = function () {
         var that = this;
 
-        this.$dom = $('<div />').addClass('staircase staircase-' + this.type);
+        var $dom = this.$dom = $('<div />').addClass('staircase staircase-' + this.type);
 
-        this.$dom.on('click touchstart', function () {
+        $dom.on('click touchstart', function () {
 
-            that.cls.moveToWallObjectByName(that.id).then(function () {
-
-                return that.cls.chr.setPosition(that.to);
-
-            }).then(function () {
-
-                return window.ms.reload();
-
-            });
+            $(this).trigger('door-knock.' + that.id);
 
         });
 
@@ -54,3 +56,5 @@ domain.map.Staircase = subclass(domain.map.WallObject, function (pt) {
     };
 
 });
+
+$.assignClass('staircase', domain.map.Staircase);

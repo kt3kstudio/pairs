@@ -2,9 +2,9 @@
 
 /**
  * @class
- * MaLocateService class provide the functionality to move character among the doors in a floor.
+ * FloorWalker is the role of CharSprite which handles the behaviours of the character on the floor.
  */
-domain.map.CharLocateService = subclass(function (pt) {
+domain.map.FloorWalker = subclass(function (pt) {
     'use strict';
 
     /**
@@ -12,40 +12,60 @@ domain.map.CharLocateService = subclass(function (pt) {
      * @param {domain.map.Wall} wall
      * @param {domain.common.CharSprite} chr
      */
-    pt.constructor = function (wall, chr) {
+    pt.constructor = function (elem) {
 
-        this.wall = wall;
-        this.chr = chr;
+        this.wall = $.getActor('.wall');
+        this.chr = new domain.common.Ma(elem);
+
+        this.chr.load();
+
+        elem.registerActor(this);
 
     };
 
     /**
      * Makes the character appear in the scene
      *
+     * @param {domain.map.WallObject}
      * @return {Promise}
      */
-    pt.charAppear = function () {
-        var wo = this.wall.findById(this.chr.getPosition().floorObjectId);
+    pt.appearAt = function (wo) {
+
         this.current = wo;
+
         var chr = this.chr;
 
-        var x = wo.centerX();
-        var y = wo.centerY();
+        chr.x = wo.centerX();
+        chr.y = wo.centerY();
 
-        chr.x = x;
-        chr.y = y;
+        return chr.loaded().then(function () {
 
-        return wo.open().then(function () {
-            chr.appear();
+            console.log('chr loaded');
+
+            return wo.open();
+
+        }).then(function () {
+
+            return chr.appear();
+
         });
+
     };
 
-    /**
-     * @param {String} name TODO: this should be changed to id
-     */
-    pt.moveToWallObjectByName = function (name) {
-        return this.moveToWallObject(this.wall.findById(name));
+
+    pt.getPosition = function () {
+
+        return this.chr.getPosition();
+
     };
+
+
+    pt.setPosition = function (position) {
+
+        return this.chr.setPosition(position);
+
+    };
+
 
     /**
      * Moves the character sprite to wall object
@@ -56,7 +76,7 @@ domain.map.CharLocateService = subclass(function (pt) {
     pt.moveToWallObject = function (wo) {
         var that = this;
 
-        var current = this.wall.findById(this.chr.getPosition().floorObjectId);
+        var current = this.current;
 
         this.chr.setFloorObjectId(wo.id);
 
@@ -93,6 +113,7 @@ domain.map.CharLocateService = subclass(function (pt) {
         });
     };
 
+
     /**
      * Gets the character into the door.
      */
@@ -102,21 +123,13 @@ domain.map.CharLocateService = subclass(function (pt) {
         this.chr.turn('up');
 
         return this.chr.disappear().then(function () {
+
             return that.current.close();
-        });
-    };
-
-    /**
-     * Loads the character's position.
-     */
-    pt.load = function () {
-        var that = this;
-
-        return this.chr.sync().then(function () {
-
-            return that;
 
         });
     };
 
 });
+
+
+$.assignClass('floor-walker', domain.map.FloorWalker);

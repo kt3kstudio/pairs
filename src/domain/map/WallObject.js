@@ -5,20 +5,21 @@
 domain.map.WallObject = subclass(function (pt) {
     'use strict';
 
-    pt.setParent = function (parent) {
-        this.parent = parent;
+    pt.constructor = function (elem) {
 
-        return this;
-    };
+        this.elem = elem;
 
-    /**
-     * @param {datadomain.Offset} offset The offset
-     */
-    pt.setPos = function (offset) {
-        this.x = offset.x;
-        this.y = offset.y;
+        this.w = +elem.attr('w');
+        this.h = +elem.attr('h');
+        this.x = +elem.attr('x');
+        this.y = +elem.attr('y');
 
-        return this;
+        this.id = elem.attr('id');
+
+        this.elem.width(this.w).height(this.h).offset({left: this.x, top: this.y});
+
+        this.elem.registerActor(this);
+
     };
 
     pt.rightLimit = function () {
@@ -33,43 +34,15 @@ domain.map.WallObject = subclass(function (pt) {
         return this.y + this.h;
     };
 
-
-    /**
-     * Sets the size of the wall object.
-     *
-     * @param {datadomain.Size} size The size
-     */
-    pt.setSize = function (size) {
-        this.w = size.width;
-        this.h = size.height;
-
-        return this;
-    };
-
-    pt.setCharLocateService = function (cls) {
-        this.cls = cls;
-
-        return this;
-    };
-
-    pt.createDom = function () {
-        return $('<div />').css({
-            backgroundColor: 'black',
-            opcaity: 0,
-        });
-    };
-
     pt.appear = function () {
-        this.$dom = this.$dom || this.createDom().width(this.w).height(this.h).offset({left: this.x, top: this.y}).appendTo(this.parent);
-
-        return this.$dom.anim(this.appearAnim, this.appearDur);
+        return this.elem.anim(this.appearAnim, this.appearDur);
     };
 
     pt.disappear = function () {
         var that = this;
 
-        return this.$dom.anim(this.disappearAnim, this.disappearDur).then(function () {
-            that.$dom.remove();
+        return this.elem.anim(this.disappearAnim, this.disappearDur).then(function () {
+            that.elem.remove();
         });
     };
 

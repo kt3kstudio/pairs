@@ -43,10 +43,47 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
      * @constructor
      * @param {datadomain.Character} character The character
      */
-    pt.constructor = function (character) {
+    pt.constructor = function (elem) {
 
-        this.character = character;
+        this.$dom = elem;
+        this.elem = elem;
+
+        this.character = elem.data('character');
         this.characterRepository = new datadomain.CharacterRepository();
+
+    };
+
+
+    /**
+     * Loads the data from the persistent layer.
+     *
+     * @return {Promise}
+     */
+    pt.load = function () {
+
+        var that = this;
+
+        console.log(this);
+
+        return this.__loaded = this.characterRepository.getById(this.id).then(function (character) {
+
+            that.character = character;
+
+            return that;
+
+        });
+
+    };
+
+
+    /**
+     * Returns the promise which resolves when finishied loading.
+     *
+     * @return {Promise}
+     */
+    pt.loaded = function () {
+
+        return this.__loaded;
 
     };
 
@@ -110,9 +147,9 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
      *
      * @return {jQuery}
      */
-    pt.createDom = function () {
+    pt.setupDom = function () {
 
-        return $('<img />').addClass(this.cssClass).width(this.w).height(this.h).offset({
+        return this.elem.addClass(this.cssClass).width(this.w).height(this.h).offset({
             // the center of bottom line of the image is the sprite's center.
             left: this.leftLimit(),
             top: this.y - this.h

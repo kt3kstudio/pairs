@@ -1,7 +1,11 @@
 
 /**
  * @class
- * Wall class handles the position of wall (scrolling of wall div ('.floor-wrapper')) and objects on wall.
+ * Wall class handles the position of wall and objects on wall.
+ *
+ * It's also responsible for the position of the camera.
+ *
+ * @domClass wall
  */
 domain.map.Wall = subclass(function (pt) {
     'use strict';
@@ -9,31 +13,24 @@ domain.map.Wall = subclass(function (pt) {
     /**
      * @constructor
      */
-    pt.constructor = function () {
-        this.wos = [];
+    pt.constructor = function (elem) {
         this.groundLevel = $(window).height() * (1 - domain.map.Floor.HEIGHT_RATE);
         this.wallWidth = $(window).width();
-        this.$dom = $('.floor-wrapper');
+
+        this.elem = elem;
+
+        this.walker = elem.getActor('.floor-walker');
+
+        elem.registerActor(this);
     };
 
-    /**
-     * Loads floorObjects from the array of FloorObjects
-     *
-     * @param {Array} objects The array of floorObjects
-     */
-    pt.loadFromObjectList = function (objects) {
-        var that = this;
 
-        this.wos = objects.map(function (floorObject) {
+    pt.init = function () {
 
-            that.transformCoordinates(floorObject);
+        this.wos = this.elem.getActorList('.staircase, .door');
 
-            return domain.map.WallObjectFactory.createFromObject(floorObject).setParent(that.$dom);
-
-        });
-
-        this.expandRightLimit(100);
     };
+
 
     pt.transformCoordinates = function (floorObject) {
 
@@ -47,7 +44,7 @@ domain.map.Wall = subclass(function (pt) {
         var x = this.rightLimit() + val;
 
         $('<div />')
-            .appendTo(this.$dom)
+            .appendTo(this.elem)
             .css({width: '1px', height: '1px', 'position': 'absolute'})
             .offset({left: x, top: this.groundLevel});
     };
@@ -58,9 +55,11 @@ domain.map.Wall = subclass(function (pt) {
 
     pt.appear = function () {
 
-        var p = Promise.resolve();
+        this.init();
 
-        this.scrollSetToPosition(this.cls.chr.getPosition().floorObjectId);
+        this.expandRightLimit();
+
+        var p = Promise.resolve();
 
         this.wos.forEach(function (wo) {
             p = p.then(function () {
@@ -89,44 +88,22 @@ domain.map.Wall = subclass(function (pt) {
         return p;
     };
 
-    pt.scrollSetToPosition = function (id) {
-        var wo = this.findById(id);
-
-        if (wo == null) {
-            console.error('wall object not found (id = ' + id + ')');
-
-            return;
-        }
-
-        return this.scrollSet(wo.centerX());
-    };
-
     pt.scrollSet = function (x) {
-        this.$dom.scrollLeft(x - this.wallWidth / 2);
+        this.elem.scrollLeft(x - this.wallWidth / 2);
 
         return this;
     };
 
     pt.scroll = function (x, dur) {
-        this.$dom.animate({scrollLeft: this.$dom.scrollLeft() + x}, dur);
+        this.elem.animate({scrollLeft: this.elem.scrollLeft() + x}, dur);
 
         return wait(dur);
     };
 
     pt.scrollTo = function (x, dur) {
-        this.$dom.animate({scrollLeft: x - this.wallWidth / 2}, dur);
+        this.elem.animate({scrollLeft: x - this.wallWidth / 2}, dur);
 
         return wait(dur);
-    };
-
-    pt.setCharLocateService = function (cls) {
-        this.cls = cls;
-
-        this.wos.forEach(function (wo) {
-            wo.setCharLocateService(cls);
-        });
-
-        return this;
     };
 
     /**
@@ -146,9 +123,14 @@ domain.map.Wall = subclass(function (pt) {
      * @returns {domain.map.Door}
      */
     pt.findById = function (id) {
+        console.log(id);
         return this.wos.filter(function (wo) {
             return wo.id === id;
         })[0];
     };
 
 });
+
+
+
+$.assignClass('wall', domain.map.Wall);

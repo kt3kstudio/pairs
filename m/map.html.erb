@@ -19,22 +19,18 @@ body: dark-bg
     bottom: -35%;
 }
 
-.floor-wrapper {
+.wall {
     position: absolute;
     left: 0; top: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.01);
     overflow-x: scroll;
+    overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
 }
 
-.door-frame {
-    position: absolute;
-    background-color: #191B1D;
-}
-
-.door {
+.door-body {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -49,11 +45,16 @@ body: dark-bg
     backface-visibility: visible;
 }
 
-.door.open {
+.door {
+    position: absolute;
+    background-color: #191B1D;
+}
+
+.door-body.open {
     transform: rotateY(180deg);
 }
 
-.door div {
+.door-body div {
     backface-visibility: hidden;
 }
 
@@ -139,28 +140,31 @@ body: dark-bg
 
 </style>
 
-<script>
-var fl, ms;
 
-$(function () {
-    fl = new scene.map.FloorLoader();
+<div class="load-scene">
+</div>
 
-    fl.play().then(function (fl) {
+<div class="map-scene">
 
-        ms = new scene.map.MapScene(fl)
+    <div class="wall">
 
-        return ms.play();
+        <div class="door" id="701" level="701" w="70" h="100" x="200" y="0"></div>
+        <div class="door" id="702" level="702" w="70" h="100" x="400" y="0"></div>
 
-    });
+        <div class="staircase" id="s7u" w="100" h="100" x="700" y="0" goto='{"floorId":"8", "floorObjectId": "s8d"}'></div>
 
-});
-</script>
+        <div class="floor floor-hidden">
+
+        <img class="floor-walker char-sprite" />
+
+        </div>
+
+    </div>
 
 
+</div>
 
-<div class="floor floor-hidden"></div>
 
-<div class="floor-wrapper"></div>
 
 
 

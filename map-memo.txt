@@ -1,0 +1,71 @@
+<div class="scene scene-loader">
+
+
+</div>
+
+
+<div class="scene scene-main">
+
+
+</div>
+
+
+
+
+
+
+domain.map.Floor;
+domain.map.Wall;
+domain.map.FloorObject; <- abstract
+- domain.map.Staircase;
+- domain.map.Door;
+
+domain.map.Character = $.defineClass(function (pt) {
+    'use strict';
+
+    pt.constructor = function (elem) {
+
+        this.
+
+    };
+});
+
+
+
+
+
+<main>
+
+    <scene class="floor-loader">
+
+    </scene>
+
+
+    <scene class="map-scene" floor-id="4">
+
+        <wall>
+
+            <character class="floor-walker ma"></character>
+
+            <door level="401" h="100" w="80" x="400" y="0"></door>
+            <door level="402" h="100" w="80" x="700" y="0"></door>
+            <door level="403" h="100" w="80" x="1100" y="0"></door>
+
+            <staircase id="4u" h="100" w="100" x="1500" y="0" class="upstairs" data-goto='{"floorId":"5", "floorObjectId":"5d"}'></staircase>
+
+            <staircase id="4d" h="120" w="100" x="100" y="0" class="downstairs" data-goto='{"floorId":"3", "floorObjectId":"3u"}'></staircase>
+
+        </wall>
+
+        <floor>
+        </floor>
+
+    </scene>
+
+
+    <menu>
+        <menu-button class="back"></menubutton>
+        <menu-button class="reload"></menubutton>
+    </menu>
+
+</main>

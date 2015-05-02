@@ -59,7 +59,9 @@ domain.common.Sprite = (function () {
 
         var that = this;
 
-        return Promise.resolve(this.$dom || this.createDom()).then(function ($dom) {
+        this.setupDom();
+
+        return Promise.resolve(this.$dom).then(function ($dom) {
 
             that.$dom = $dom;
 
