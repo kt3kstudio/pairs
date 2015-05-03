@@ -167,7 +167,7 @@
 
 
     /**
-     * Map events to the same name method call.
+     * Map one time event handlers to events of the given event mapping.
      *
      * @param {Object} obj The mapped object
      * @param {Object} mapping The mapping of the event
@@ -186,5 +186,28 @@
         return this;
 
     };
+
+
+    /**
+     * Maps event handlers to events of the given event mapping.
+     *
+     * @param {Object} obj The mapped object
+     * @param {Object} mapping The mapping of the event
+     * @param {jQuery} self
+     */
+    $.fn.mapEvent = function (obj, mapping) {
+
+        var self = this;
+
+        Object.keys(mapping).forEach(function (key) {
+
+            self.on(key, obj[key].bind(obj));
+
+        });
+
+        return this;
+
+    };
+
 
 }(window.jQuery));
