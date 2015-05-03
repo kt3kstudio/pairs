@@ -7,6 +7,8 @@
 domain.map.FloorWalker = subclass(function (pt) {
     'use strict';
 
+    var ON = {};
+
     /**
      * @constructor
      * @param {domain.map.Wall} wall
@@ -22,7 +24,7 @@ domain.map.FloorWalker = subclass(function (pt) {
 
         elem.registerActor(this);
 
-        this.bindWalkEvent();
+        this.elem.mapEvent(this, ON);
 
     };
 
@@ -53,17 +55,13 @@ domain.map.FloorWalker = subclass(function (pt) {
 
     };
 
-    pt.bindWalkEvent = function () {
+    ON['door-knock'] = 1;
+    pt['door-knock'] = function (e, wo) {
 
-        var that = this;
-
-        this.elem.on('door-knock', function (e, wo) {
-
-            that.moveToWallObject(wo);
-
-        });
+        this.moveToWallObject(wo);
 
     };
+
 
     pt.getPosition = function () {
 
