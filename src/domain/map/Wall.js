@@ -40,14 +40,25 @@ domain.map.Wall = subclass(function (pt) {
     };
 
 
-    pt.transformCoordinates = function (floorObject) {
+    /**
+     * Transforms the y coordinate to fit to the floor level.
+     *
+     * @param {domain.map.WallObject} wo The target WallObject
+     */
+    pt.transformCoordinates = function (wo) {
 
-        floorObject.y *= -1;
-        floorObject.y += this.groundLevel;
-        floorObject.y -= floorObject.h;
+        wo.y *= -1;
+        wo.y += this.groundLevel;
+        wo.y -= wo.h;
 
     };
 
+
+    /**
+     * Expands the right limit of the wall div.
+     *
+     * @private
+     */
     pt.expandRightLimit = function (val) {
         var x = this.rightLimit() + val;
 
