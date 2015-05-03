@@ -22,24 +22,6 @@ domain.map.Staircase = subclass(domain.map.WallObject, function (pt, parent) {
 
     };
 
-    /**
-     * Creates a Staircase from the FloorObject.
-     *
-     * @param {datadomain.FloorObject} obj The FloorObject
-     * @return {domain.map.Staircase}
-     */
-    pt.constructor.createFromObject = function (obj) {
-
-        var factory = new datadomain.CharPositionFactory();
-
-        return new pt.constructor(
-
-            obj.id,
-            factory.createFromObject(obj.opts.to),
-            obj.opts.type
-
-        ).setPos(obj.offset).setSize(obj.size);
-    };
 
     pt.createDom = function () {
         var that = this;
