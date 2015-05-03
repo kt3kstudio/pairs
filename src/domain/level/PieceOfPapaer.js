@@ -8,26 +8,19 @@
  * and ma will take it up & read it,
  * then the level will start.
  */
-domain.level.PieceOfPaper = (function () {
+domain.level.PieceOfPaper = subclass(domain.common.CharSprite, function (pt) {
     'use strict';
 
-    var exports = function () {
-    };
+    pt.x = 0;
+    pt.y = 0;
+    pt.w = 50;
+    pt.h = 50;
 
-    var popPt = exports.prototype = new domain.common.CharSprite();
+    pt.image = 'images/paper.svg';
+    pt.cssClass = 'sprite piece-of-paper';
 
-    popPt.x = 0;
-    popPt.y = 0;
-    popPt.w = 50;
-    popPt.h = 50;
+    pt.appearAnim = 'paper-appear';
 
-    popPt.image = 'images/paper.svg';
-    popPt.cssClass = 'sprite piece-of-paper';
+    pt.disappearAnim = 'paper-disappear';
 
-    popPt.appearAnim = 'paper-appear';
-
-    popPt.disappearAnim = 'paper-disappear';
-
-    return exports;
-
-}());
+});
