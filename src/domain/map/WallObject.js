@@ -32,11 +32,15 @@ domain.map.WallObject = subclass(function (pt) {
     };
 
     pt.centerX = function () {
+
         return this.x + this.w / 2;
+
     };
 
     pt.centerY = function () {
+
         return this.y + this.h;
+
     };
 
     pt.appear = function () {
