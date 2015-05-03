@@ -7,7 +7,6 @@
 domain.common.Sprite = subclass(function (pt) {
     'use strict';
 
-    var DEFAULT_PARENT = 'body';
 
     /** sprite's appearance animation */
     pt.appearAnim = '';
@@ -30,20 +29,9 @@ domain.common.Sprite = subclass(function (pt) {
      */
     pt.appear = function (dur) {
 
-        var that = this;
-
         this.setupDom();
 
-        return Promise.resolve(this.elem).then(function (elem) {
-
-            that.elem = elem;
-
-            if (elem.parent().length === 0) {
-                elem.appendTo(that.parent || DEFAULT_PARENT);
-            }
-
-            return elem.anim(that.appearAnim, dur || that.appearDur);
-        });
+        return this.elem.anim(this.appearAnim, dur || this.appearDur);
 
     };
 
@@ -64,14 +52,13 @@ domain.common.Sprite = subclass(function (pt) {
         });
     };
 
-    pt.createDom = function () {
-        return $('<div />');
-    };
 
     pt.setDuration = function (dur) {
-        this.elem.css('transition-duration', dur + 'ms');
-        this.elem.reflow();
+
+        this.elem.css('transition-duration', dur + 'ms').reflow();
+
     };
+
 
     pt.getOffset = function () {
         return {
