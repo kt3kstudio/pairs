@@ -29,24 +29,29 @@ domain.map.Wall = subclass(function (pt) {
 
         this.wos = this.elem.getActorList('.staircase, .door');
 
+        this.wos.forEach(function (wo) {
+
+            this.transformCoordinates(wo);
+
+        }, this);
+
+        this.expandRightLimit(180);
+
     };
 
 
     pt.transformCoordinates = function (floorObject) {
 
-        floorObject.offset.y *= -1;
-        floorObject.offset.y += this.groundLevel;
-        floorObject.offset.y -= floorObject.size.height;
+        floorObject.y *= -1;
+        floorObject.y += this.groundLevel;
+        floorObject.y -= floorObject.h;
 
     };
 
     pt.expandRightLimit = function (val) {
         var x = this.rightLimit() + val;
 
-        $('<div />')
-            .appendTo(this.elem)
-            .css({width: '1px', height: '1px', 'position': 'absolute'})
-            .offset({left: x, top: this.groundLevel});
+        this.elem.width(x);
     };
 
     pt.rightLimit = function () {
@@ -56,8 +61,6 @@ domain.map.Wall = subclass(function (pt) {
     pt.appear = function () {
 
         this.init();
-
-        this.expandRightLimit();
 
         var p = Promise.resolve();
 

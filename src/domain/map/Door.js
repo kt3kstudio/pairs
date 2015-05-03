@@ -18,13 +18,13 @@ domain.map.Door = subclass(domain.map.WallObject, function (pt, parent) {
         this.star = 0;
         this.score = 0;
 
-        this.setupDom();
-
     };
 
 
     pt.setupDom = function () {
         var that = this;
+
+        parent.setupDom.call(this);
 
         this.$door.css('opcaity', 0);
 

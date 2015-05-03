@@ -40,8 +40,6 @@ domain.map.FloorWalker = subclass(function (pt) {
 
         return chr.loaded().then(function () {
 
-            console.log('chr loaded');
-
             return wo.open();
 
         }).then(function () {

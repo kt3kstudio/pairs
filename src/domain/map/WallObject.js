@@ -16,9 +16,14 @@ domain.map.WallObject = subclass(function (pt) {
 
         this.id = elem.attr('id');
 
-        this.elem.width(this.w).height(this.h).offset({left: this.x, top: this.y});
-
         this.elem.registerActor(this);
+
+    };
+
+
+    pt.setupDom = function () {
+
+        this.elem.width(this.w).height(this.h).offset({left: this.x, top: this.y});
 
     };
 
@@ -35,7 +40,11 @@ domain.map.WallObject = subclass(function (pt) {
     };
 
     pt.appear = function () {
+
+        this.setupDom();
+
         return this.elem.anim(this.appearAnim, this.appearDur);
+
     };
 
     pt.disappear = function () {
