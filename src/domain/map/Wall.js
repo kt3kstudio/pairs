@@ -116,7 +116,7 @@ domain.map.Wall = subclass(function (pt) {
      * @returns {Boolean}
      */
     pt.visible = function (chr) {
-        return chr.rightLimit() > this.$dom.scrollLeft() && chr.leftLimit() < this.$dom.scrollLeft() + this.wallWidth;
+        return chr.rightLimit() > this.elem.scrollLeft() && chr.leftLimit() < this.elem.scrollLeft() + this.wallWidth;
     };
 
     /**

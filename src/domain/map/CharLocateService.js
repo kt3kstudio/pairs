@@ -14,12 +14,15 @@ domain.map.FloorWalker = subclass(function (pt) {
      */
     pt.constructor = function (elem) {
 
-        this.wall = $.getActor('.wall');
         this.chr = new domain.common.Ma(elem);
 
         this.chr.load();
 
+        this.elem = elem;
+
         elem.registerActor(this);
+
+        this.bindWalkEvent();
 
     };
 
@@ -50,6 +53,17 @@ domain.map.FloorWalker = subclass(function (pt) {
 
     };
 
+    pt.bindWalkEvent = function () {
+
+        var that = this;
+
+        this.elem.on('door-knock', function (e, wo) {
+
+            that.moveToWallObject(wo);
+
+        });
+
+    };
 
     pt.getPosition = function () {
 
@@ -78,21 +92,23 @@ domain.map.FloorWalker = subclass(function (pt) {
 
         this.chr.setFloorObjectId(wo.id);
 
+        var wall = $.getActor('.wall');
+
         var goOutDur = 400;
         var moveOnCorridor = 1000;
         var goIntoDur = 400;
 
         var goOutDistance = 80;
 
-        if (!this.wall.visible(this.chr)) {
-            this.wall.scrollSet(current.centerX());
+        if (!wall.visible(this.chr)) {
+            wall.scrollSet(current.centerX());
         }
 
         current.close();
 
-        return this.chr.moveTo('y', this.wall.groundLevel + goOutDistance, goOutDur).then(function () {
+        return this.chr.moveTo('y', wall.groundLevel + goOutDistance, goOutDur).then(function () {
 
-            that.wall.scrollTo(wo.centerX(), moveOnCorridor);
+            wall.scrollTo(wo.centerX(), moveOnCorridor);
 
             wo.open();
 
