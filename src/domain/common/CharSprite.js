@@ -45,10 +45,8 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
      */
     pt.constructor = function (elem) {
 
-        this.$dom = elem;
         this.elem = elem;
 
-        this.character = elem.data('character');
         this.characterRepository = new datadomain.CharacterRepository();
 
     };
@@ -174,7 +172,7 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
             case 'right': img = this.rightImage; break;
         }
 
-        this.$dom.attr('src', img);
+        this.elem.attr('src', img);
     };
 
 
@@ -254,10 +252,10 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
 
         opts = opts || {};
 
-        var cancelDom = opts.cancelDom || this.$dom;
+        var cancelDom = opts.cancelDom || this.elem;
         var timeout = opts.timeout || defaultSpeechTimeout;
 
-        var bubbleShown = this.$dom.speechBubble(speech, {
+        var bubbleShown = this.elem.speechBubble(speech, {
 
             width: $(window).width() * 0.8,
             height: 50,
