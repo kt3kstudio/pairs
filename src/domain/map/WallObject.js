@@ -27,9 +27,13 @@ domain.map.WallObject = subclass(function (pt) {
 
     };
 
+
     pt.rightLimit = function () {
+
         return this.x + this.w;
+
     };
+
 
     pt.centerX = function () {
 
