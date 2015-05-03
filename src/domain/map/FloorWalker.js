@@ -102,7 +102,7 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
 
         current.close();
 
-        return this.chr.moveTo('y', wall.groundLevel + goOutDistance, goOutDur).then(function () {
+        return this.chr.moveTo('y', current.centerY() + goOutDistance, goOutDur).then(function () {
 
             wall.scrollTo(wo.centerX(), moveOnCorridor);
 
