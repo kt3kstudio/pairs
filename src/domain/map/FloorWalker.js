@@ -4,7 +4,7 @@
  * @class
  * FloorWalker is the role of CharSprite which handles the behaviours of the character on the floor.
  */
-domain.map.FloorWalker = subclass(function (pt) {
+domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
     'use strict';
 
     var ON = {};
@@ -16,13 +16,11 @@ domain.map.FloorWalker = subclass(function (pt) {
      */
     pt.constructor = function (elem) {
 
+        parent.constructor.call(this, elem);
+
         this.chr = new domain.common.Ma(elem);
 
         this.chr.load();
-
-        this.elem = elem;
-
-        elem.registerActor(this);
 
         this.elem.mapEvent(this, ON);
 

@@ -2,12 +2,12 @@
  * @class
  * WallObject is an abstract class which represents the something on the wall in the map view.
  */
-domain.map.WallObject = subclass(function (pt) {
+domain.map.WallObject = subclass(domain.common.Actor, function (pt, parent) {
     'use strict';
 
     pt.constructor = function (elem) {
 
-        this.elem = elem;
+        parent.constructor.call(this, elem);
 
         this.w = +elem.attr('w');
         this.h = +elem.attr('h');
@@ -15,8 +15,6 @@ domain.map.WallObject = subclass(function (pt) {
         this.y = +elem.attr('y');
 
         this.id = elem.attr('id');
-
-        this.elem.registerActor(this);
 
     };
 
