@@ -4,49 +4,22 @@
  *
  * Sprite class handles the basic behaviours of any entity in the game.
  */
-domain.common.Sprite = (function () {
+domain.common.Sprite = subclass(function (pt) {
     'use strict';
 
     var DEFAULT_PARENT = 'body';
 
-    var exports = function () {
-    };
-
-    var spritePt = exports.prototype;
-
     /** sprite's appearance animation */
-    spritePt.appearAnim = '';
+    pt.appearAnim = '';
 
     /** sprite's appearance duration */
-    spritePt.appearDur = 400;
+    pt.appearDur = 400;
 
     /** sprite's disappearance animation */
-    spritePt.disappearAnim = '';
+    pt.disappearAnim = '';
 
     /** sprite's disappearance duration */
-    spritePt.disappearDur = 400;
-
-
-    /**
-     * Sets the parent of the sprite's dom.
-     *
-     * @param {String|HTMLElement} parent The parent dom
-     */
-    spritePt.setParent = function (parent) {
-        this.parent = parent;
-
-        return this;
-    };
-
-    /**
-     * Puts the sprite's dom into the document as the last child of the parent dom.
-     *
-     */
-    spritePt.put = function () {
-        this.$dom = this.$dom || this.createDom().appendTo(this.parent || DEFAULT_PARENT);
-
-        return this;
-    };
+    pt.disappearDur = 400;
 
 
     /**
@@ -55,21 +28,21 @@ domain.common.Sprite = (function () {
      * @param {Number} [dur] The duration of the animation
      * @return {Promise} The end of the appearing animation
      */
-    spritePt.appear = function (dur) {
+    pt.appear = function (dur) {
 
         var that = this;
 
         this.setupDom();
 
-        return Promise.resolve(this.$dom).then(function ($dom) {
+        return Promise.resolve(this.elem).then(function (elem) {
 
-            that.$dom = $dom;
+            that.elem = elem;
 
-            if ($dom.parent().length === 0) {
-                $dom.appendTo(that.parent || DEFAULT_PARENT);
+            if (elem.parent().length === 0) {
+                elem.appendTo(that.parent || DEFAULT_PARENT);
             }
 
-            return $dom.anim(that.appearAnim, dur || that.appearDur);
+            return elem.anim(that.appearAnim, dur || that.appearDur);
         });
 
     };
@@ -80,38 +53,36 @@ domain.common.Sprite = (function () {
      * @param {Number} [dur] The duration of the animation
      * @return {Promise} The end of the appearing animation
      */
-    spritePt.disappear = function (dur) {
+    pt.disappear = function (dur) {
         var that = this;
 
-        return this.$dom.anim(this.disappearAnim, dur || this.disappearDur).then(function ($dom) {
+        return this.elem.anim(this.disappearAnim, dur || this.disappearDur).then(function (elem) {
 
-            $dom.remove();
-            that.$dom = null;
+            elem.remove();
+            that.elem = null;
 
         });
     };
 
-    spritePt.createDom = function () {
+    pt.createDom = function () {
         return $('<div />');
     };
 
-    spritePt.setDuration = function (dur) {
-        this.$dom.css('transition-duration', dur + 'ms');
-        this.$dom.reflow();
+    pt.setDuration = function (dur) {
+        this.elem.css('transition-duration', dur + 'ms');
+        this.elem.reflow();
     };
 
-    spritePt.getOffset = function () {
+    pt.getOffset = function () {
         return {
-            top: parseInt(this.$dom.css('top')),
-            left: parseInt(this.$dom.css('left'))
+            top: parseInt(this.elem.css('top')),
+            left: parseInt(this.elem.css('left'))
         };
     };
 
-    spritePt.setOffset = function (offset) {
-        this.$dom.css('top', offset.top + 'px');
-        this.$dom.css('left', offset.left + 'px');
+    pt.setOffset = function (offset) {
+        this.elem.css('top', offset.top + 'px');
+        this.elem.css('left', offset.left + 'px');
     };
 
-    return exports;
-
-}());
+});
