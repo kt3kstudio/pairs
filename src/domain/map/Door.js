@@ -21,6 +21,12 @@ domain.map.Door = subclass(domain.map.WallObject, function (pt, parent) {
     };
 
 
+    pt.doorKnock = function () {
+
+        this.$door.trigger('door-knock', [this]);
+    };
+
+
     pt.setupDom = function () {
         var that = this;
 
@@ -31,7 +37,9 @@ domain.map.Door = subclass(domain.map.WallObject, function (pt, parent) {
         this.$doorBody = $('<div />').addClass('door-body').appendTo(this.$door);
 
         this.$doorBody.one('click', function () {
-            $(this).trigger('door-knock', [that]);
+
+            that.doorKnock();
+
         });
 
         $('<div />').addClass('door-front').text(this.id).appendTo(this.$doorBody);
@@ -56,20 +64,23 @@ domain.map.Door = subclass(domain.map.WallObject, function (pt, parent) {
 
     pt.open = function () {
         this.infoPane.show();
-        this.$doorBody.addClass('open');
+        this.$doorBody
+        .addClass('open')
+        .off('click');
 
         return wait(this.doorActionDur);
     };
 
     pt.close = function () {
-
         var that = this;
 
         this.infoPane.hide();
         this.$doorBody
         .removeClass('open')
         .one('click', function () {
-            $(this).trigger('door-knock', [that]);
+
+            that.doorKnock();
+
         });
 
         return wait(this.doorActionDur);
