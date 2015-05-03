@@ -126,7 +126,6 @@ domain.map.Wall = subclass(function (pt) {
      * @returns {domain.map.Door}
      */
     pt.findById = function (id) {
-        console.log(id);
         return this.wos.filter(function (wo) {
             return wo.id === id;
         })[0];
