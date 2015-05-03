@@ -10,7 +10,7 @@ domain.map.Door = subclass(domain.map.WallObject, function (pt, parent) {
 
     pt.constructor = function (elem) {
 
-        parent.constructor.call(this, elem)
+        parent.constructor.call(this, elem);
 
         this.$door = elem;
 
