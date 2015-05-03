@@ -46,8 +46,10 @@ domain.map.Door = subclass(domain.map.WallObject, function (pt, parent) {
         }).appendTo(this.$door).infoPane(3, 5, {bgcolor: '#393F44'});
 
         $('<button />').text('▶').appendTo($('.door-info-content', this.infoPane.$dom)).click(function (event) {
+
             event.preventDefault();
-            window.ms.goToLevel(that.level);
+            $(this).trigger('goToLevel');
+
         });
 
     };
