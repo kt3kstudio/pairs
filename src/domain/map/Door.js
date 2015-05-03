@@ -12,8 +12,6 @@ domain.map.Door = subclass(domain.map.WallObject, function (pt, parent) {
 
         parent.constructor.call(this, elem);
 
-        this.$door = elem;
-
         this.level = elem.attr('level');
         this.star = 0;
         this.score = 0;
@@ -23,7 +21,7 @@ domain.map.Door = subclass(domain.map.WallObject, function (pt, parent) {
 
     pt.doorKnock = function () {
 
-        this.$door.trigger('door-knock', [this]);
+        this.elem.trigger('door-knock', [this]);
     };
 
 
@@ -32,9 +30,9 @@ domain.map.Door = subclass(domain.map.WallObject, function (pt, parent) {
 
         parent.setupDom.call(this);
 
-        this.$door.css('opcaity', 0);
+        this.elem.css('opcaity', 0);
 
-        this.$doorBody = $('<div />').addClass('door-body').appendTo(this.$door);
+        this.$doorBody = $('<div />').addClass('door-body').appendTo(this.elem);
 
         this.$doorBody.one('click', function () {
 
@@ -51,7 +49,7 @@ domain.map.Door = subclass(domain.map.WallObject, function (pt, parent) {
             height: '150px',
             top: '-200px',
             left: '-40px'
-        }).appendTo(this.$door).infoPane(3, 5, {bgcolor: '#393F44'});
+        }).appendTo(this.elem).infoPane(3, 5, {bgcolor: '#393F44'});
 
         $('<button />').text('▶').appendTo($('.door-info-content', this.infoPane.$dom)).click(function (event) {
 
