@@ -113,7 +113,11 @@
      */
     $.fn.getActor = function (selector) {
 
-        return this.find(selector).data('__actor__');
+        if (selector) {
+            return this.find(selector).getActor();
+        }
+
+        return this.data('__actor__');
 
     };
 
@@ -125,7 +129,11 @@
      */
     $.fn.getActorList = function (selector) {
 
-        return this.find(selector).map(function () {
+        if (selector) {
+            return this.find(selector).getActorList();
+        }
+
+        return this.map(function () {
 
             return $(this).data('__actor__');
 
