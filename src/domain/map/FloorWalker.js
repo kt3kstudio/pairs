@@ -41,6 +41,8 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
         chr.x = wo.centerX();
         chr.y = wo.centerY();
 
+        $.getActor('.wall').scrollSet(this.current.centerX());
+
         return chr.loaded().then(function () {
 
             return wo.open();
@@ -97,7 +99,7 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
         var goOutDistance = 80;
 
         if (!wall.visible(this.chr)) {
-            wall.scrollSet(current.centerX());
+            wall.scrollSet(this.current.centerX());
         }
 
         current.close();
@@ -117,6 +119,8 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
         }).then(function () {
 
             that.current = wo;
+
+            wo.onGetWalker();
 
             return that.chr.turn('down');
 

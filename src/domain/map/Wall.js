@@ -103,19 +103,19 @@ domain.map.Wall = subclass(function (pt) {
     };
 
     pt.scrollSet = function (x) {
-        this.elem.scrollLeft(x - this.wallWidth / 2);
+        $('body').scrollLeft(x - this.wallWidth / 2);
 
         return this;
     };
 
     pt.scroll = function (x, dur) {
-        this.elem.animate({scrollLeft: this.elem.scrollLeft() + x}, dur);
+        $('body').animate({scrollLeft: this.elem.scrollLeft() + x}, dur);
 
         return wait(dur);
     };
 
     pt.scrollTo = function (x, dur) {
-        this.elem.animate({scrollLeft: x - this.wallWidth / 2}, dur);
+        $('body').animate({scrollLeft: x - this.wallWidth / 2}, dur);
 
         return wait(dur);
     };
@@ -127,7 +127,7 @@ domain.map.Wall = subclass(function (pt) {
      * @returns {Boolean}
      */
     pt.visible = function (chr) {
-        return chr.rightLimit() > this.elem.scrollLeft() && chr.leftLimit() < this.elem.scrollLeft() + this.wallWidth;
+        return chr.rightLimit() > $('body').scrollLeft() && chr.leftLimit() < $('body').scrollLeft() + this.wallWidth;
     };
 
     /**

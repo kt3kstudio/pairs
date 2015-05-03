@@ -19,6 +19,16 @@ domain.map.WallObject = subclass(domain.common.Actor, function (pt, parent) {
     };
 
 
+    /**
+     * Knocks the door (figuratively).
+     */
+    pt.doorKnock = function () {
+
+        this.elem.trigger('door-knock', [this]);
+
+    };
+
+
     pt.setupDom = function () {
 
         this.elem.width(this.w).height(this.h).offset({left: this.x, top: this.y});
@@ -66,6 +76,11 @@ domain.map.WallObject = subclass(domain.common.Actor, function (pt, parent) {
     };
 
     pt.close = function () {
+        return Promise.resolve();
+    };
+
+
+    pt.onGetWalker = function () {
         return Promise.resolve();
     };
 

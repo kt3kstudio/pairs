@@ -23,18 +23,30 @@ domain.map.Staircase = subclass(domain.map.WallObject, function (pt, parent) {
     };
 
 
-    pt.createDom = function () {
+    /**
+     * Sets up the dom.
+     */
+    pt.setupDom = function () {
+
+        parent.setupDom.call(this);
+
         var that = this;
 
-        var $dom = this.$dom = $('<div />').addClass('staircase staircase-' + this.type);
+        this.elem.one('click', function () {
 
-        $dom.on('click touchstart', function () {
-
-            $(this).trigger('door-knock.' + that.id);
+            that.doorKnock();
 
         });
 
-        return this.$dom;
+    };
+
+
+    /**
+     */
+    pt.onGetWalker = function () {
+
+        this.elem.trigger('reload');
+
     };
 
 });

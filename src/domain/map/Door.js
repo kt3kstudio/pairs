@@ -19,11 +19,6 @@ domain.map.Door = subclass(domain.map.WallObject, function (pt, parent) {
     };
 
 
-    pt.doorKnock = function () {
-
-        this.elem.trigger('door-knock', [this]);
-    };
-
 
     pt.setupDom = function () {
         var that = this;
