@@ -141,9 +141,6 @@ body: dark-bg
 </style>
 
 
-<div class="load-scene">
-</div>
-
 <div class="map-scene event-hub" channel="door-knock">
 
     <div class="wall">
@@ -155,7 +152,7 @@ body: dark-bg
 
         <div class="floor floor-hidden"></div>
 
-        <img class="floor-walker char-sprite sub-door-knock" />
+        <img class="floor-walker sub-door-knock" />
 
     </div>
 
@@ -174,9 +171,10 @@ body: dark-bg
 
 <img class="menu-button menu-hidden" src="images/menu-button.svg" />
 
+
 <menus id="map-menu">
   <menu src="images/back-button.svg"
-    onclick="ms.fadeOut().then(function () { history.back(); });"></menu>
+    onclick="$.getActor('.map-scene').walkerFadeIntoDoor().then(function () { history.back(); });"></menu>
   <menu src="images/reset-button.svg"
-    onclick="ms.fadeOut().then(function () { localStorage.clear(); location.reload(); });"></menu>
+    onclick="$.getActor('.map-scene').walkerFadeIntoDoor().then(function () { localStorage.clear(); location.reload(); });"></menu>
 </menus>
