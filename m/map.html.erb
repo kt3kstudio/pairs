@@ -19,7 +19,7 @@ body: dark-bg
     bottom: -35%;
 }
 
-.wall {
+.scene {
     position: absolute;
     left: 0; top: 0;
     width: 100%;
@@ -28,6 +28,12 @@ body: dark-bg
     overflow-x: scroll;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
+}
+
+.wall {
+    position: absolute;
+    left: 0; top: 0;
+    height: 100%;
 }
 
 .door-body {
@@ -141,7 +147,7 @@ body: dark-bg
 </style>
 
 
-<div class="map-scene event-hub" channel="door-knock">
+<div class="map-scene scene camera event-hub" channel="door-knock">
 
     <div class="wall">
 

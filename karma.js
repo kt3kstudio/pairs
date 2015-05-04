@@ -25,6 +25,7 @@ module.exports = function(config) {
 
       'src/namespaces.js',
       'src/domain/common/Sprite.js',
+      'src/domain/common/Actor.js',
       'src/domain/map/WallObject.js',
       'src/util/jquery.js',
 

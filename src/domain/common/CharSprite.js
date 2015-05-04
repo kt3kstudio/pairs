@@ -149,7 +149,7 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
      */
     pt.setupDom = function () {
 
-        return this.elem.addClass(this.cssClass).width(this.w).height(this.h).offset({
+        return this.elem.addClass(this.cssClass).width(this.w).height(this.h).setPosition({
             // the center of bottom line of the image is the sprite's center.
             left: this.leftLimit(),
             top: this.y - this.h

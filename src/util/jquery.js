@@ -210,4 +210,17 @@
     };
 
 
+    /**
+     * Sets the position
+     */
+    $.fn.setPosition = function (position) {
+
+        this.css('left', position.left);
+        this.css('top', position.top);
+
+        return this;
+
+    };
+
+
 }(window.jQuery));
