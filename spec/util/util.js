@@ -51,7 +51,6 @@ describe('$', function () {
 
 
 describe('commaNumber', function () {
-    'use strict';
 
     it('Add a comma to separate each group of three digits in a text.', function () {
 
