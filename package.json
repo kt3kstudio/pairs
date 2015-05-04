@@ -12,7 +12,7 @@
     "test": "karma start karma.js",
     "ci": "karma start karma.js --browsers PhantomJS",
     "coverage": "karma start karma.js --reporters coverage",
-    "coveralls": "karma start karma.js --reporters coverage,coveralls"
+    "coveralls": "karma start karma.js --browsers PhantomJS --reporters coverage,coveralls"
   },
   "author": "Yoshiya Hinosawa <stibium121@gmail.com> (https://twitter.com/kt3k)",
   "license": "MIT",
