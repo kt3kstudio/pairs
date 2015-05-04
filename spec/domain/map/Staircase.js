@@ -2,10 +2,12 @@
 
 
 describe('domain.map.Staircase', function () {
+    'use strict';
 
     beforeEach(function () {
 
         this.$dom = $('<div data-goto=\'{"floorId": "abc", "floorObjectId": "def"}\' />');
+        this.staircase = new domain.map.Staircase(this.$dom);
 
     });
 
@@ -13,9 +15,7 @@ describe('domain.map.Staircase', function () {
 
         it('sets the goto property', function () {
 
-            var staircase = new domain.map.Staircase(this.$dom);
-
-            expect(staircase.goto).to.eql({
+            expect(this.staircase.goto).to.eql({
                 floorId: 'abc',
                 floorObjectId: 'def'
             });
@@ -29,9 +29,24 @@ describe('domain.map.Staircase', function () {
 
         it('sets up the dom', function () {
 
-            var staircase = new domain.map.Staircase(this.$dom);
+            this.staircase.setupDom();
 
-            staircase.setupDom();
+            // TODO: some assertion
+
+        });
+
+
+        it('binds to click event', function (done) {
+
+            this.staircase.setupDom();
+
+            this.staircase.elem.on('click', function () {
+
+                done();
+
+            });
+
+            this.staircase.elem.trigger('click');
 
         });
 
@@ -42,15 +57,13 @@ describe('domain.map.Staircase', function () {
 
         it('triggers the reload event', function (done) {
 
-            var staircase = new domain.map.Staircase(this.$dom);
-
-            staircase.elem.on('reload', function () {
+            this.staircase.elem.on('reload', function () {
 
                 done();
 
             });
 
-            staircase.onGetWalker();
+            this.staircase.onGetWalker();
 
         });
 
