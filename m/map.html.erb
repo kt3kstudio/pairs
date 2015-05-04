@@ -46,9 +46,9 @@ body: dark-bg
     font-weight: bold;
     transform-origin: 0 0;
     transform-style: preserve-3d;
+    backface-visibility: visible;
     perspective: 800px;
     transition-duration: 700ms;
-    backface-visibility: visible;
 }
 
 .door {
@@ -57,7 +57,7 @@ body: dark-bg
 }
 
 .door-body.open {
-    transform: rotateY(180deg);
+    transform: rotateY(-180deg);
 }
 
 .door-body div {
