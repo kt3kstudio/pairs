@@ -16,9 +16,10 @@ domain.map.Staircase = subclass(domain.map.WallObject, function (pt, parent) {
 
 
     pt.constructor = function (elem) {
+
         parent.constructor.call(this, elem);
 
-        this.nextPosition = elem.data('goto'); // must be parsed position object, not string
+        this.goto = elem.data('goto'); // must be parsed position object, not string
 
     };
 
@@ -42,6 +43,7 @@ domain.map.Staircase = subclass(domain.map.WallObject, function (pt, parent) {
 
 
     /**
+     * Triggers the reload event.
      */
     pt.onGetWalker = function () {
 
