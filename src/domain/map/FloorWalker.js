@@ -11,8 +11,7 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
 
     /**
      * @constructor
-     * @param {domain.map.Wall} wall
-     * @param {domain.common.CharSprite} chr
+     * @param {jQuery} elem
      */
     pt.constructor = function (elem) {
 
@@ -29,7 +28,7 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
     /**
      * Makes the character appear in the scene
      *
-     * @param {domain.map.WallObject}
+     * @param {domain.map.WallObject} wo The wall object
      * @return {Promise}
      */
     pt.appearAt = function (wo) {

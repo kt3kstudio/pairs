@@ -7,6 +7,8 @@ datadomain.FloorRepository = subclass(function (pt) {
     'use strict';
 
     /**
+     * Gets the floor object by the id.
+     *
      * @param {String} id The id of the floor
      * @return {Promise}
      */

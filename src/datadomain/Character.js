@@ -89,7 +89,7 @@ datadomain.Character = subclass(function (pt) {
     /**
      * Saves the LevelHistories.
      *
-     * @return {Promsie}
+     * @return {Promise}
      */
     pt.saveHistories = function () {
 

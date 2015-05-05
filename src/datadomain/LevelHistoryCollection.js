@@ -11,7 +11,7 @@ datadomain.LevelHistoryCollection = subclass(Array, function (pt) {
 
 
     /**
-     * @consturctor
+     * @constructor
      *
      * @param {Array} list The array of the LevelHistories
      */

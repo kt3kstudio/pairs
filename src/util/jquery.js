@@ -144,6 +144,7 @@
     /**
      * Short hand for $(document).getActor(...);
      *
+     * @static
      * @param {String} selector The selector
      * @return {Object}
      */
@@ -156,6 +157,7 @@
     /**
      * Short hand for $(document).getActorList(...);
      *
+     * @static
      * @param {String} selector The selector
      * @return {Array}
      */
@@ -171,7 +173,6 @@
      *
      * @param {Object} obj The mapped object
      * @param {Object} mapping The mapping of the event
-     * @param {jQuery} self
      */
     $.fn.mapEventOne = function (obj, mapping) {
 
@@ -193,7 +194,6 @@
      *
      * @param {Object} obj The mapped object
      * @param {Object} mapping The mapping of the event
-     * @param {jQuery} self
      */
     $.fn.mapEvent = function (obj, mapping) {
 

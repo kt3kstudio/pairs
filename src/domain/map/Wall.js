@@ -4,8 +4,6 @@
  * Wall class handles the position of wall and objects on wall.
  *
  * It's also responsible for the position of the camera.
- *
- * @domClass wall
  */
 domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
     'use strict';

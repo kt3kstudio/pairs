@@ -11,7 +11,7 @@ datadomain.FloorObjectFactory = subclass(function (pt) {
      * Creates a collection class from the array.
      *
      * @param {Array} array The array
-     * @return {FloorObjectCollection}
+     * @return {datadomain.FloorObjectCollection}
      */
     pt.createCollectionFromArray = function (array) {
 
@@ -33,7 +33,7 @@ datadomain.FloorObjectFactory = subclass(function (pt) {
      * Creates a FloorObject from the object
      *
      * @param {Object} obj The object
-     * @return {FloorObject}
+     * @return {datadomain.FloorObject}
      */
     pt.createFromObject = function (obj) {
 

@@ -94,7 +94,7 @@ datadomain.CharacterRepository = subclass(function (pt) {
      * @private
      * Converts the CharPosition object into js object.
      *
-     * @param {datadomain.CharPosition} position
+     * @param {datadomain.CharPosition} position The position
      * @return {Object}
      */
     pt.positionToObject = function (position) {
