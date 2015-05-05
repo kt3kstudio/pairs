@@ -7,21 +7,21 @@
  *
  * @domClass wall
  */
-domain.map.Wall = subclass(function (pt) {
+domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
     'use strict';
 
     /**
      * @constructor
      */
     pt.constructor = function (elem) {
+
+        parent.constructor.call(this, elem);
+
         this.groundLevel = $(window).height() * (1 - domain.map.Floor.HEIGHT_RATE);
         this.wallWidth = $(window).width();
 
-        this.elem = elem;
-
         this.walker = elem.getActor('.floor-walker');
 
-        elem.registerActor(this);
     };
 
 
