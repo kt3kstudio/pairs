@@ -17,6 +17,7 @@ module.exports = function(config) {
     files: [
       'bower_components/subclassjs/index.js',
       'bower_components/jquery/dist/jquery.js',
+      'bower_components/info-pane/index.js',
       'bower_components/custom-class/custom-class.js',
       'bower_components/event-hub/event-hub.js',
       'bower_components/event-twister/event-twister.js',
