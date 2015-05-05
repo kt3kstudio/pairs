@@ -83,6 +83,7 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
      * @return {Promise}
      */
     pt.moveToWallObject = function (wo) {
+
         var that = this;
 
         var current = this.current;
@@ -124,6 +125,7 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
             return that.chr.turn('down');
 
         });
+
     };
 
 

@@ -58,13 +58,17 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
      * @private
      */
     pt.expandRightLimit = function (val) {
+
         var x = this.rightLimit() + val;
 
         this.elem.width(x);
+
     };
 
     pt.rightLimit = function () {
+
         return Math.max.apply(Math, this.wos.map(function (wo) { return wo.rightLimit(); }));
+
     };
 
     pt.appear = function () {
@@ -125,7 +129,9 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
      * @returns {Boolean}
      */
     pt.visible = function (chr) {
+
         return chr.rightLimit() > $('.camera').scrollLeft() && chr.leftLimit() < $('.camera').scrollLeft() + this.wallWidth;
+
     };
 
     /**
@@ -135,9 +141,11 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
      * @returns {domain.map.Door}
      */
     pt.findById = function (id) {
+
         return this.wos.filter(function (wo) {
             return wo.id === id;
         })[0];
+
     };
 
 });

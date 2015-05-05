@@ -2,6 +2,7 @@
 
 
 describe('domain.map.Door', function () {
+    'use strict';
 
     beforeEach(function () {
 
