@@ -61,8 +61,6 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
 
         var that = this;
 
-        console.log(this);
-
         this.__loaded = this.characterRepository.getById(this.id).then(function (character) {
 
             that.character = character;
