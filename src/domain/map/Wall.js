@@ -18,12 +18,12 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
         this.groundLevel = $(window).height() * (1 - domain.map.Floor.HEIGHT_RATE);
         this.wallWidth = $(window).width();
 
-        this.walker = elem.getActor('.floor-walker');
-
     };
 
 
     pt.init = function () {
+
+        this.walker = this.elem.getActor('.floor-walker');
 
         this.wos = this.elem.getActorList('.staircase, .door');
 
