@@ -28,7 +28,7 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
 
             that.load();
 
-        })
+        });
 
     };
 
