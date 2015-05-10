@@ -63,6 +63,12 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
 
         this.__loaded = this.characterRepository.getById(this.id).then(function (character) {
 
+            setTimeout(function () {
+
+                that.elem.trigger('character-loaded');
+
+            }, 40);
+
             that.character = character;
 
             return that;

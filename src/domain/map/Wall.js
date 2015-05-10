@@ -8,6 +8,8 @@
 domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
     'use strict';
 
+    var ONE = {};
+
     /**
      * @constructor
      */
@@ -17,6 +19,40 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
 
         this.groundLevel = $(window).height() * (1 - domain.map.Floor.HEIGHT_RATE);
         this.wallWidth = $(window).width();
+
+        this.elem.mapEvent(this, ONE);
+
+        var that = this;
+
+        this.elem.on('character-loaded', function () {
+
+            that.load();
+
+        })
+
+    };
+
+
+    /**
+     Loads the floor in dom.
+     */
+    pt.load = function () {
+
+        var that = this;
+
+        $.get(this.elem.attr('url').replace('{floor}', this.elem.getActor('.floor-walker').chr.getPosition().floorId)).then(function (data) {
+
+            that.elem.prepend($(data));
+
+            that.elem.trigger('init');
+
+            setTimeout(function () {
+
+                that.elem.trigger('floor-loaded');
+
+            }, 40);
+
+        });
 
     };
 

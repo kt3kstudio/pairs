@@ -3,7 +3,7 @@
  * @extends scene.common.Scene
  * MapScene handles the scene of map
  */
-scene.map.MapScene = subclass(scene.common.Scene, function (pt) {
+scene.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
     'use strict';
 
     var ONE = {};
@@ -14,14 +14,20 @@ scene.map.MapScene = subclass(scene.common.Scene, function (pt) {
      */
     pt.constructor = function (elem) {
 
-        this.elem = elem;
-
-        this.elem.registerActor(this);
+        parent.constructor.call(this, elem);
 
         this.elem.mapEventOne(this, ONE);
 
         setTimeout(function () {
-            elem.trigger('init').trigger('start');
+
+            elem.trigger('init');
+
+        });
+
+        elem.on('floor-loaded', function () {
+
+            elem.trigger('start');
+
         });
 
     };
@@ -29,13 +35,6 @@ scene.map.MapScene = subclass(scene.common.Scene, function (pt) {
 
     ONE.init = 1;
     pt.init = function () {
-
-        // actors
-        this.floor = this.elem.getActor('.floor');
-
-        this.wall = this.elem.getActor('.wall');
-
-        this.walker = this.elem.getActor('.floor-walker');
 
         // ui parts
         this.menuButton = $('.menu-button').menuButton($('#map-menu'));
@@ -45,21 +44,26 @@ scene.map.MapScene = subclass(scene.common.Scene, function (pt) {
 
     ONE.start = 1;
     pt.start = function () {
-        var that = this;
 
-        that.menuButton.show();
+        this.menuButton.show();
 
         ui.common.BackgroundService.turnWhite();
 
-        return that.floor.appear().then(function () {
+        var walker = this.elem.getActor('.floor-walker');
 
-            return that.wall.appear();
+        var floor = this.elem.getActor('.floor');
+
+        var wall = this.elem.getActor('.wall');
+
+        return floor.appear().then(function () {
+
+            return wall.appear();
 
         }).then(function () {
 
-            var wo = that.wall.findById(that.walker.getPosition().floorObjectId);
+            var wo = wall.findById(walker.getPosition().floorObjectId);
 
-            return that.walker.appearAt(wo);
+            return walker.appearAt(wo);
 
         });
     };
@@ -71,9 +75,9 @@ scene.map.MapScene = subclass(scene.common.Scene, function (pt) {
 
         var that = this;
 
-        return this.wall.disappear().then(function () {
+        return this.elem.getActor('.wall').disappear().then(function () {
 
-            that.floor.disappear();
+            that.elem.getActor('.floor').disappear();
 
             return ui.common.BackgroundService.turnBlack();
 
@@ -86,7 +90,7 @@ scene.map.MapScene = subclass(scene.common.Scene, function (pt) {
 
         var that = this;
 
-        return this.walker.getIntoDoor().then(function () {
+        return this.elem.getActor('.floor-walker').getIntoDoor().then(function () {
 
             return that.fadeOut();
 
