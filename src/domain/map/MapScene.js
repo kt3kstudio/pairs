@@ -3,7 +3,7 @@
  * @extends scene.common.Scene
  * MapScene handles the scene of map
  */
-scene.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
+domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
     'use strict';
 
     var ONE = {};
@@ -137,4 +137,4 @@ scene.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 });
 
 
-$.assignClass('map-scene', scene.map.MapScene);
+$.assignClass('map-scene', domain.map.MapScene);
