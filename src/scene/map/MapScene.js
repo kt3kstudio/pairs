@@ -49,11 +49,11 @@ scene.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         ui.common.BackgroundService.turnWhite();
 
-        var walker = this.elem.getActor('.floor-walker');
+        var walker = this.elem.find('.floor-walker').getActor();
 
-        var floor = this.elem.getActor('.floor');
+        var floor = this.elem.find('.floor').getActor();
 
-        var wall = this.elem.getActor('.wall');
+        var wall = this.elem.find('.wall').getActor();
 
         return floor.appear().then(function () {
 
@@ -75,9 +75,9 @@ scene.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         var that = this;
 
-        return this.elem.getActor('.wall').disappear().then(function () {
+        return this.elem.find('.wall').getActor().disappear().then(function () {
 
-            that.elem.getActor('.floor').disappear();
+            that.elem.find('.floor').getActor().disappear();
 
             return ui.common.BackgroundService.turnBlack();
 
@@ -90,7 +90,7 @@ scene.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         var that = this;
 
-        return this.elem.getActor('.floor-walker').getIntoDoor().then(function () {
+        return this.elem.find('.floor-walker').getActor().getIntoDoor().then(function () {
 
             return that.fadeOut();
 
