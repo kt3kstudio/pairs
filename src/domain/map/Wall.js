@@ -22,44 +22,10 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
 
         this.elem.mapEvent(this, ONE);
 
-        var that = this;
-
-        this.elem.on('character-loaded', function () {
-
-            that.load();
-
-        });
-
-    };
-
-
-    /**
-     Loads the floor in dom.
-     */
-    pt.load = function () {
-
-        var that = this;
-
-        $.get(this.elem.attr('url').replace('{floor}', this.elem.find('.floor-walker').getActor().chr.getPosition().floorId)).then(function (data) {
-
-            that.elem.prepend($(data));
-
-            that.elem.trigger('init-class');
-
-            setTimeout(function () {
-
-                that.elem.trigger('floor-loaded');
-
-            }, 40);
-
-        });
-
     };
 
 
     pt.init = function () {
-
-        this.walker = this.elem.getActor('.floor-walker');
 
         this.wos = this.elem.find('.staircase, .door').map(function () {
 

@@ -23,6 +23,6 @@
     "subclassjs": "~1.1.1",
     "event-hub": "~2.0.0",
     "event-twister": "~2.0.0",
-    "class-component-initializer": "~1.0.2"
+    "class-component-initializer": "~1.1.0"
   }
 }
