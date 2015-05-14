@@ -53,4 +53,4 @@ domain.map.Staircase = subclass(domain.map.WallObject, function (pt, parent) {
 
 });
 
-$.assignClass('staircase', domain.map.Staircase);
+$.assignClassComponent('staircase', domain.map.Staircase);

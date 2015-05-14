@@ -40,7 +40,7 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
         chr.x = wo.centerX();
         chr.y = wo.centerY();
 
-        $.getActor('.wall').scrollSet(this.current.centerX());
+        $('.wall').getActor().scrollSet(this.current.centerX());
 
         return chr.loaded().then(function () {
 
@@ -90,7 +90,7 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
 
         this.chr.setFloorObjectId(wo.id);
 
-        var wall = $.getActor('.wall');
+        var wall = $('.wall').getActor();
 
         var goOutDur = 400;
         var moveOnCorridor = 1000;
@@ -147,4 +147,4 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
 });
 
 
-$.assignClass('floor-walker', domain.map.FloorWalker);
+$.assignClassComponent('floor-walker', domain.map.FloorWalker);

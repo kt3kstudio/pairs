@@ -137,4 +137,4 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 });
 
 
-$.assignClass('map-scene', domain.map.MapScene);
+$.assignClassComponent('map-scene', domain.map.MapScene);

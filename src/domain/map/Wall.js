@@ -40,11 +40,11 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
 
         var that = this;
 
-        $.get(this.elem.attr('url').replace('{floor}', this.elem.getActor('.floor-walker').chr.getPosition().floorId)).then(function (data) {
+        $.get(this.elem.attr('url').replace('{floor}', this.elem.find('.floor-walker').getActor().chr.getPosition().floorId)).then(function (data) {
 
             that.elem.prepend($(data));
 
-            that.elem.trigger('init');
+            that.elem.trigger('init-class');
 
             setTimeout(function () {
 
@@ -61,7 +61,11 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
 
         this.walker = this.elem.getActor('.floor-walker');
 
-        this.wos = this.elem.getActorList('.staircase, .door');
+        this.wos = this.elem.find('.staircase, .door').map(function () {
+
+            return $(this).getActor();
+
+        }).toArray();
 
         this.wos.forEach(function (wo) {
 
@@ -188,4 +192,4 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
 
 
 
-$.assignClass('wall', domain.map.Wall);
+$.assignClassComponent('wall', domain.map.Wall);

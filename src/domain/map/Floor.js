@@ -2,15 +2,15 @@
  * @class
  * Floor class handles the behaviour of floor of the Map view
  */
-domain.map.Floor = subclass(function (pt) {
+domain.map.Floor = subclass(domain.common.Actor, function (pt, parent) {
     'use strict';
 
     var FLOOR_MOVE_DUR = 400;
 
     pt.constructor = function (elem) {
-        this.elem = elem;
 
-        elem.registerActor(this);
+        parent.constructor.call(this, elem);
+
     };
 
     pt.constructor.HEIGHT_RATE = 0.35;
@@ -36,4 +36,4 @@ domain.map.Floor = subclass(function (pt) {
 });
 
 
-$.assignClass('floor', domain.map.Floor);
+$.assignClassComponent('floor', domain.map.Floor);

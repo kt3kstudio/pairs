@@ -88,4 +88,4 @@ domain.map.Door = subclass(domain.map.WallObject, function (pt, parent) {
 
 });
 
-$.assignClass('door', domain.map.Door);
+$.assignClassComponent('door', domain.map.Door);
