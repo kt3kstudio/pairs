@@ -16,48 +16,6 @@ describe('$.assignClass', function () {
 describe('$', function () {
     'use strict';
 
-    describe('registerActor', function () {
-
-        it('registerActor for the element', function () {
-
-            var actor = {a: 1}; // actor could be anything
-
-            var div = $('<div />');
-
-            div.registerActor(actor);
-
-            expect(div.getActor()).to.equal(actor);
-
-        });
-
-    });
-
-    describe('getActor', function () {
-
-        it('gets the actor on the element', function () {
-
-            var actor = {};
-
-            var div = $('<div />').registerActor(actor);
-
-            expect(div.getActor()).to.equal(actor);
-
-        });
-
-        it('gets the actor on the given selector under the element', function () {
-
-            var actor = {};
-
-            var div = $('<div><div class="abc" /></div>');
-
-            div.find('.abc').registerActor(actor);
-
-            expect(div.getActor('.abc')).to.equal(actor);
-
-        });
-
-    });
-
 
     describe('setPosition', function () {
 
