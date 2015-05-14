@@ -19,10 +19,10 @@
     "info-pane": "~0.1.0",
     "speech-bubble": "~0.1.2",
     "rxjs": "~2.3.24",
-    "es6-promise": "~2.0.0",
+    "es6-promise": "~2.1.0",
     "subclassjs": "~1.1.1",
-    "custom-class": "~1.0.1",
-    "event-hub": "~1.1.0",
-    "event-twister": "~1.0.0"
+    "event-hub": "~2.0.0",
+    "event-twister": "~2.0.0",
+    "class-component-initializer": "~1.0.2"
   }
 }
