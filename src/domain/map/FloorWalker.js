@@ -1,8 +1,10 @@
 
 
 /**
- * @class
  * FloorWalker is the role of CharSprite which handles the behaviours of the character on the floor.
+ *
+ * @class
+ * @extends domain.common.Actor
  */
 domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
     'use strict';

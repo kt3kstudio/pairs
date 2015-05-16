@@ -1,9 +1,11 @@
 
 /**
- * @class
  * Wall class handles the position of wall and objects on wall.
  *
  * It's also responsible for the position of the camera.
+ *
+ * @class
+ * @extends domain.common.Actor
  */
 domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
     'use strict';

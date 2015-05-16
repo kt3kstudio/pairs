@@ -1,7 +1,8 @@
 /**
- * @class
- * @extends scene.common.Scene
  * MapScene handles the scene of map
+ *
+ * @class
+ * @extends domain.common.Actor
  */
 domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
     'use strict';
