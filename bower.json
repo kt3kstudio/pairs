@@ -13,16 +13,13 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.1.1",
     "arrowkeys": "~0.1.2",
     "swipe-event": "~0.3.3",
     "info-pane": "~0.1.0",
     "speech-bubble": "~0.1.2",
     "rxjs": "~2.3.24",
-    "es6-promise": "~2.1.0",
-    "subclassjs": "~1.1.1",
     "event-hub": "~2.0.0",
     "event-twister": "~2.0.0",
-    "class-component-initializer": "~1.1.0"
+    "class-component-initializer": "~1.1.3"
   }
 }
