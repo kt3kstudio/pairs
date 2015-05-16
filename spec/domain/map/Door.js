@@ -90,6 +90,29 @@ describe('domain.map.Door', function () {
 
         });
 
+
+        it('unbinds the click event on the .door-body', function (done) {
+
+            var that = this;
+
+            this.door.setupDom();
+
+            this.$dom.on('door-knock', function () {
+
+                assert(false);
+
+            });
+
+            return this.door.open().then(function () {
+
+                that.$dom.find('.door-body').trigger('click');
+
+                setTimeout(done, 300);
+
+            });
+
+        });
+
     });
 
 
