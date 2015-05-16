@@ -157,25 +157,14 @@ body: dark-bg
 
     </div>
 
-
 </div>
-
-
-
-
-
-
-
-
-
 
 
 <img class="menu-button menu-hidden" src="images/menu-button.svg" />
 
-
 <menus id="map-menu">
   <menu src="images/back-button.svg"
-    onclick="$.getActor('.map-scene').walkerFadeIntoDoor().then(function () { history.back(); });"></menu>
+    onclick="$('.map-scene').getActor().walkerFadeIntoDoor().then(function () { history.back(); });"></menu>
   <menu src="images/reset-button.svg"
-    onclick="$.getActor('.map-scene').walkerFadeIntoDoor().then(function () { localStorage.clear(); location.reload(); });"></menu>
+    onclick="$('.map-scene').getActor().walkerFadeIntoDoor().then(function () { localStorage.clear(); location.reload(); });"></menu>
 </menus>
