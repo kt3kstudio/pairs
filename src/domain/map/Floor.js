@@ -7,12 +7,6 @@ domain.map.Floor = subclass(domain.common.Actor, function (pt, parent) {
 
     var FLOOR_MOVE_DUR = 400;
 
-    pt.constructor = function (elem) {
-
-        parent.constructor.call(this, elem);
-
-    };
-
     pt.constructor.HEIGHT_RATE = 0.35;
 
     pt.appear = function () {
