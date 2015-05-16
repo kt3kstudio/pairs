@@ -39,6 +39,7 @@
         "subclass": false,
 
         "expect": false,
+        "assert": false,
         "describe": false,
         "it": false,
         "beforeEach": false,
