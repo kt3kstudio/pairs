@@ -1,5 +1,11 @@
 
 
+/**
+ * Loads the floor
+ *
+ * @class
+ * @extends domain.common.Role
+ */
 domain.map.FloorLoader = $.defineRole('floor-loader', function (pt, parent) {
     'use strict';
 

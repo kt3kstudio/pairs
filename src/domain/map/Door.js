@@ -1,7 +1,8 @@
 /**
- * @class
- *
  * Door class handles behaviour of the level's doors.
+ *
+ * @class
+ * @extends domain.map.WallObject
  */
 domain.map.Door = subclass(domain.map.WallObject, function (pt, parent) {
     'use strict';
@@ -21,6 +22,7 @@ domain.map.Door = subclass(domain.map.WallObject, function (pt, parent) {
 
 
     pt.setupDom = function () {
+
         var that = this;
 
         parent.setupDom.call(this);

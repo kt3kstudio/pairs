@@ -1,6 +1,8 @@
 /**
- * @class
  * Floor class handles the behaviour of floor of the Map view
+ *
+ * @class
+ * @extends domain.common.Actor
  */
 domain.map.Floor = subclass(domain.common.Actor, function (pt, parent) {
     'use strict';

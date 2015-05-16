@@ -1,6 +1,8 @@
 /**
- * @class
  * WallObject is an abstract class which represents the something on the wall in the map view.
+ *
+ * @class
+ * @extends domain.common.Actor
  */
 domain.map.WallObject = subclass(domain.common.Actor, function (pt, parent) {
     'use strict';

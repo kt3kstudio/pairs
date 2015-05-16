@@ -2,6 +2,9 @@
 
 /**
  * Staircase class represents the staircases in the map view.
+ *
+ * @class
+ * @extends domain.map.WallObject
  */
 domain.map.Staircase = subclass(domain.map.WallObject, function (pt, parent) {
     'use strict';
