@@ -80,7 +80,6 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
         var x = this.rightLimit() + val;
 
         this.elem.width(x);
-        $(document.body).width(x);
 
     };
 

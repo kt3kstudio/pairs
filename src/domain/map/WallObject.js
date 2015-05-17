@@ -33,7 +33,7 @@ domain.map.WallObject = subclass(domain.common.Actor, function (pt, parent) {
 
     pt.setupDom = function () {
 
-        this.elem.width(this.w).height(this.h).offset({left: this.x, top: this.y});
+        this.elem.width(this.w).height(this.h).css({left: this.x, top: this.y});
 
     };
 
