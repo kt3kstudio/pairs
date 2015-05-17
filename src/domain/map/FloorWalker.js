@@ -92,9 +92,9 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
 
         var camera = $('.camera').getRole('camera');
 
-        var goOutDur = 400;
-        var moveOnCorridor = 1000;
-        var goIntoDur = 400;
+        var goOutDur = 150;
+        var moveOnCorridor = 300;
+        var goIntoDur = goOutDur;
 
         var goOutDistance = 80;
 

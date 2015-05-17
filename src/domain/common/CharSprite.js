@@ -157,7 +157,7 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
             // the center of bottom line of the image is the sprite's center.
             left: this.leftLimit(),
             top: this.y - this.h
-        }).attr('src', this.downImage || this.image);
+        }).css('transition-timing-function', 'linear').attr('src', this.downImage || this.image);
 
     };
 
