@@ -15,9 +15,9 @@ domain.map.FloorLoader = $.defineRole('floor-loader', function (pt, parent) {
 
         var that = this;
 
-        this.elem.on('character-loaded', function () {
+        this.elem.on('character-loaded', function (e, character) {
 
-            that.load();
+            that.load(character.position.floorId);
 
         });
 
@@ -25,13 +25,15 @@ domain.map.FloorLoader = $.defineRole('floor-loader', function (pt, parent) {
 
 
     /**
-     Loads the floor in dom.
+     * Loads the floor in dom.
+     *
+     * @param {String} floorId The floor id
      */
-    pt.load = function () {
+    pt.load = function (floorId) {
 
         var that = this;
 
-        $.get(this.elem.attr('url').replace('{floor}', this.elem.find('.floor-walker').getActor().chr.getPosition().floorId)).then(function (data) {
+        $.get(this.elem.attr('url').replace('{floorId}', floorId)).then(function (data) {
 
             that.elem.prepend($(data));
 

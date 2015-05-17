@@ -65,7 +65,7 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
 
             setTimeout(function () {
 
-                that.elem.trigger('character-loaded');
+                that.elem.trigger('character-loaded', [character]);
 
             }, 40);
 
