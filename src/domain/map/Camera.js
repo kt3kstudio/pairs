@@ -1,7 +1,12 @@
 
 
 
-
+/**
+ * Camera handles the screen position.
+ *
+ * @class
+ * @extends domain.common.Role
+ */
 domain.map.Camera = $.defineRole('camera', function (pt, parent) {
     'use strict';
 
@@ -42,14 +47,6 @@ domain.map.Camera = $.defineRole('camera', function (pt, parent) {
         this.elem.scrollLeft(x - this.windowWidth / 2);
 
         return this;
-
-    };
-
-    pt.scroll = function (x, dur) {
-
-        this.elem.animate({scrollLeft: this.elem.scrollLeft() + x}, dur);
-
-        return wait(dur);
 
     };
 
