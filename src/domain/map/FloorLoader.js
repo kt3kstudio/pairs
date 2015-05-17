@@ -4,9 +4,9 @@
  * Loads the floor
  *
  * @class
- * @extends domain.common.Role
+ * @extends domain.common.Loader
  */
-domain.map.FloorLoader = $.defineRole('floor-loader', function (pt, parent) {
+domain.map.FloorLoader = $.assignClassComponent('floor-loader', subclass(domain.common.Loader, function (pt, parent) {
     'use strict';
 
     pt.constructor = function (elem) {
@@ -17,34 +17,24 @@ domain.map.FloorLoader = $.defineRole('floor-loader', function (pt, parent) {
 
         this.elem.on('character-loaded', function (e, character) {
 
-            that.load(character.position.floorId);
+            that.load({floorId: character.position.floorId});
 
         });
 
     };
 
-
-    /**
-     * Loads the floor in dom.
-     *
-     * @param {String} floorId The floor id
-     */
-    pt.load = function (floorId) {
+    pt.didLoad = function (data) {
 
         var that = this;
 
-        $.get(this.elem.attr('url').replace('{floorId}', floorId)).then(function (data) {
+        this.elem.prepend($(data));
 
-            that.elem.prepend($(data));
+        return $('.cci').getRole('cci').init('door', 'staircase').then(function () {
 
-            $('.cci').getRole('cci').init('door', 'staircase').then(function () {
-
-                that.elem.trigger('floor-loaded');
-
-            });
+            that.elem.trigger('floor-loaded');
 
         });
 
     };
 
-});
+}));
