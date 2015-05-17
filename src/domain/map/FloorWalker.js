@@ -42,8 +42,6 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
         chr.x = wo.centerX();
         chr.y = wo.centerY();
 
-        $('.wall').getActor().scrollSet(this.current.centerX());
-
         return chr.loaded().then(function () {
 
             return wo.open();

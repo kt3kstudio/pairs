@@ -80,6 +80,7 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
         var x = this.rightLimit() + val;
 
         this.elem.width(x);
+        $(document.body).width(x);
 
     };
 
@@ -121,6 +122,7 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
     };
 
     pt.scrollSet = function (x) {
+
         $('.camera').scrollLeft(x - this.wallWidth / 2);
 
         return this;
