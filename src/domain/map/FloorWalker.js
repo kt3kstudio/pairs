@@ -90,7 +90,7 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
 
         this.chr.setFloorObjectId(wo.id);
 
-        var wall = $('.wall').getActor();
+        var camera = $('.camera').getRole('camera');
 
         var goOutDur = 400;
         var moveOnCorridor = 1000;
@@ -98,15 +98,13 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
 
         var goOutDistance = 80;
 
-        if (!wall.visible(this.chr)) {
-            wall.scrollSet(this.current.centerX());
-        }
+        this.elem.trigger('character-focus', [this.chr]);
 
         current.close();
 
         return this.chr.moveTo('y', current.centerY() + goOutDistance, goOutDur).then(function () {
 
-            wall.scrollTo(wo.centerX(), moveOnCorridor);
+            that.elem.trigger('character-move', [wo.centerX(), moveOnCorridor]);
 
             wo.open();
 

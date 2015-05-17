@@ -56,8 +56,6 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         var wall = this.elem.find('.wall').getActor();
 
-        $('.wall').getActor().scrollSet(wall.findById(walker.getPosition().floorObjectId).centerX());
-
         return floor.appear().then(function () {
 
             return wall.appear();

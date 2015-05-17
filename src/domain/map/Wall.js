@@ -20,7 +20,6 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
         parent.constructor.call(this, elem);
 
         this.groundLevel = $(window).height() * (1 - domain.map.Floor.HEIGHT_RATE);
-        this.wallWidth = $(window).width();
 
         this.elem.mapEvent(this, ONE);
 
@@ -120,36 +119,6 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
         return p;
     };
 
-    pt.scrollSet = function (x) {
-
-        $('.camera').scrollLeft(x - this.wallWidth / 2);
-
-        return this;
-    };
-
-    pt.scroll = function (x, dur) {
-        $('.camera').animate({scrollLeft: this.elem.scrollLeft() + x}, dur);
-
-        return wait(dur);
-    };
-
-    pt.scrollTo = function (x, dur) {
-        $('.camera').animate({scrollLeft: x - this.wallWidth / 2}, dur);
-
-        return wait(dur);
-    };
-
-    /**
-     * Check if the character is visible on the wall.
-     *
-     * @param {domain.common.CharSprite} chr The character
-     * @returns {Boolean}
-     */
-    pt.visible = function (chr) {
-
-        return chr.rightLimit() > $('.camera').scrollLeft() && chr.leftLimit() < $('.camera').scrollLeft() + this.wallWidth;
-
-    };
 
     /**
      * Find the wall object of the given id.
