@@ -25,7 +25,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         });
 
-        elem.on('floor-loaded', function () {
+        elem.on('floor-complete', function () {
 
             elem.trigger('start');
 

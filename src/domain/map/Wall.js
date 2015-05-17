@@ -24,6 +24,16 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
 
         this.elem.mapEvent(this, ONE);
 
+        var that = this;
+
+        this.elem.on('floor-loaded', function () {
+
+            that.init();
+
+            that.elem.trigger('floor-complete');
+
+        });
+
     };
 
 
@@ -80,8 +90,6 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
     };
 
     pt.appear = function () {
-
-        this.init();
 
         var p = Promise.resolve();
 

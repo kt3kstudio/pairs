@@ -12,9 +12,11 @@ domain.map.Floor = subclass(domain.common.Actor, function (pt, parent) {
     pt.constructor.HEIGHT_RATE = 0.35;
 
     pt.appear = function () {
+
         this.elem.removeClass('floor-hidden');
 
         return this.elem.anim('floor-appear', FLOOR_MOVE_DUR);
+
     };
 
     pt.disappear = function () {
