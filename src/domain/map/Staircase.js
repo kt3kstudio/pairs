@@ -47,10 +47,20 @@ domain.map.Staircase = subclass(domain.map.WallObject, function (pt, parent) {
 
     /**
      * Triggers the reload event.
+     *
+     * @param {domain.map.FloorWalker} walker
      */
-    pt.onGetWalker = function () {
+    pt.onGetWalker = function (walker) {
 
-        this.elem.trigger('reload');
+        var that = this;
+
+        walker.chr.setPosition(this.goto);
+
+        walker.chr.save().then(function () {
+
+            that.elem.trigger('reload');
+
+        });
 
     };
 

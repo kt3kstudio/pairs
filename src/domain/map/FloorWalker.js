@@ -122,7 +122,7 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
 
             that.current = wo;
 
-            wo.onGetWalker();
+            wo.onGetWalker(that);
 
             return that.chr.turn('down');
 
