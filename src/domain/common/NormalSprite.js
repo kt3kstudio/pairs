@@ -11,7 +11,6 @@ domain.common.NormalSprite = $.defineActor(function (pt, parent) {
     'use strict';
 
     var noop = function () {};
-    var resolved = Promise.resolve();
 
     pt.showAnim = null;
     pt.showAnimDur = 500; // default 500ms
@@ -23,11 +22,7 @@ domain.common.NormalSprite = $.defineActor(function (pt, parent) {
 
         var that = this;
 
-        return resolved.then(function () {
-
-            return that.willShow();
-
-        }).then(function () {
+        return Promise.resolve(that.willShow()).then(function () {
 
             if (that.showAnim && that.showAnimDur) {
 
@@ -53,11 +48,7 @@ domain.common.NormalSprite = $.defineActor(function (pt, parent) {
 
         var that = this;
 
-        return resolved.then(function () {
-
-            return that.willHide();
-
-        }).then(function () {
+        return Promise.resolve(that.willHide()).then(function () {
 
             if (that.hideAnim && that.hideAnimDur) {
 
@@ -80,11 +71,7 @@ domain.common.NormalSprite = $.defineActor(function (pt, parent) {
 
         var that = this;
 
-        return resolved.then(function () {
-
-            return that.willAppear();
-
-        }).then(function () {
+        return Promise.resolve(that.willAppear()).then(function () {
 
             return that.show();
 
@@ -103,11 +90,7 @@ domain.common.NormalSprite = $.defineActor(function (pt, parent) {
 
         var that = this;
 
-        return resolved.then(function () {
-
-            return that.willDisappear();
-
-        }).then(function () {
+        return Promise.resolve(that.willDisappear()).then(function () {
 
             return that.hide();
 
