@@ -9,17 +9,23 @@
 domain.map.FloorLoader = $.assignClassComponent('floor-loader', subclass(domain.common.Loader, function (pt, parent) {
     'use strict';
 
+    var ONE = {};
+
     pt.constructor = function (elem) {
 
         parent.constructor.call(this, elem);
 
-        var that = this;
+        this.elem.mapEventOne(this, ONE);
 
-        this.elem.on('character-loaded', function (e, character) {
+    };
 
-            that.load({floorId: character.position.floorId});
 
-        });
+    ONE['character-loaded'] = 1;
+    /**
+     */
+    pt['character-loaded'] = function (e, character) {
+
+        this.load({floorId: character.position.floorId});
 
     };
 
