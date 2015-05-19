@@ -42,11 +42,7 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
         chr.x = wo.centerX();
         chr.y = wo.centerY();
 
-        return chr.loaded().then(function () {
-
-            return wo.open();
-
-        }).then(function () {
+        return wo.open().then(function () {
 
             return chr.appear();
 
@@ -89,8 +85,6 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
         var current = this.current;
 
         this.chr.setFloorObjectId(wo.id);
-
-        var camera = $('.camera').getRole('camera');
 
         var goOutDur = 150;
         var moveOnCorridor = 300;
