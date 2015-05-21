@@ -52,8 +52,8 @@ describe('domain.map.WallObject', function () {
 
             expect(this.$dom.width()).to.equal(100);
             expect(this.$dom.height()).to.equal(80);
-            expect(this.$dom.offset().top).to.equal(300);
-            expect(this.$dom.offset().left).to.equal(200);
+            expect(this.$dom.css('top')).to.equal('300px');
+            expect(this.$dom.css('left')).to.equal('200px');
 
         });
 
@@ -130,8 +130,8 @@ describe('domain.map.WallObject', function () {
 
             expect(this.$dom.width()).to.equal(100);
             expect(this.$dom.height()).to.equal(80);
-            expect(this.$dom.offset().top).to.equal(300);
-            expect(this.$dom.offset().left).to.equal(200);
+            expect(this.$dom.css('top')).to.equal('300px');
+            expect(this.$dom.css('left')).to.equal('200px');
 
         });
 
