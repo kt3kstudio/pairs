@@ -33,7 +33,9 @@ datadomain.User = subclass(function (pt) {
      * @param {String} charId The character id.
      */
     pt.setCharId = function (charId) {
+
         this.charId = charId;
+
     };
 
 });
