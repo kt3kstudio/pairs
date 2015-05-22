@@ -50,17 +50,11 @@ domain.map.Staircase = subclass(domain.map.WallObject, function (pt, parent) {
      *
      * @param {domain.map.FloorWalker} walker
      */
-    pt.onGetWalker = function (walker) {
+    pt.onGetWalker = function () {
 
-        var that = this;
+        this.elem.trigger('set-character-position', this.goto);
 
-        walker.chr.setPosition(this.goto);
-
-        walker.chr.save().then(function () {
-
-            that.elem.trigger('reload');
-
-        });
+        this.elem.trigger('scene-reload');
 
     };
 

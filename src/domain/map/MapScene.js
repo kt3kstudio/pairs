@@ -143,6 +143,13 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
     };
 
+    ONE['scene-reload'] = 1;
+    pt['scene-reload'] = function () {
+
+        this.reload();
+
+    };
+
 });
 
 
