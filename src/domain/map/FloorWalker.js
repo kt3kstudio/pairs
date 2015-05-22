@@ -21,8 +21,6 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
 
         this.chr = new domain.common.Ma(elem);
 
-        this.chr.load();
-
         this.elem.mapEvent(this, ON);
 
     };
@@ -60,14 +58,10 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
 
     pt.getPosition = function () {
 
-        return this.chr.getPosition();
-
-    };
-
-
-    pt.setPosition = function (position) {
-
-        return this.chr.setPosition(position);
+        return {
+            floorId: this.elem.attr('floor-id'),
+            floorObjectId: this.elem.attr('floor-object-id')
+        };
 
     };
 
@@ -84,7 +78,7 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
 
         var current = this.current;
 
-        this.chr.setFloorObjectId(wo.id);
+        this.elem.trigger('set-character-floor-object-id', wo.id);
 
         var goOutDur = 150;
         var moveOnCorridor = 300;
@@ -92,7 +86,7 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
 
         var goOutDistance = 80;
 
-        this.elem.trigger('character-focus', [this.chr]);
+        this.elem.trigger('character-focus', [current.centerX()]);
 
         current.close();
 

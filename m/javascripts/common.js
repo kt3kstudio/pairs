@@ -19,3 +19,4 @@
 //= require scene/common/
 //= require domain/common/
 //= require datadomain/
+//= require domain/data/

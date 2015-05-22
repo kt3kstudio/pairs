@@ -20,15 +20,15 @@ domain.map.Camera = $.defineRole('camera', function (pt, parent) {
 
         elem.on('floor-complete', function () {
 
-            that.scrollSet($('.wall').getActor().findById($('.floor-walker').getActor().getPosition().floorObjectId).centerX());
+            that.scrollSet($('.wall').getActor().findById($('.floor-walker').attr('floor-object-id')).centerX());
 
         });
 
-        elem.on('character-focus', function (e, chr) {
+        elem.on('character-focus', function (e, x) {
 
-            if (!that.visible(chr)) {
+            if (!that.visible(x)) {
 
-                that.scrollSet(chr.x);
+                that.scrollSet(x);
 
             }
 
@@ -61,12 +61,12 @@ domain.map.Camera = $.defineRole('camera', function (pt, parent) {
     /**
      * Check if the character is visible on the screen.
      *
-     * @param {domain.common.CharSprite} chr The character
+     * @param {Number} x The focus position
      * @returns {Boolean}
      */
-    pt.visible = function (chr) {
+    pt.visible = function (x) {
 
-        return chr.rightLimit() > this.elem.scrollLeft() && chr.leftLimit() < this.elem.scrollLeft() + this.windowWidth;
+        return x > this.elem.scrollLeft() && x < this.elem.scrollLeft() + this.windowWidth;
 
     };
 

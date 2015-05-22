@@ -15,6 +15,8 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
      */
     pt.constructor = function (elem) {
 
+        var that = this;
+
         parent.constructor.call(this, elem);
 
         this.elem.mapEventOne(this, ONE);
@@ -31,6 +33,12 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         });
 
+        elem.on('user-loaded', function (e, user) {
+
+            elem.trigger('load-character', user.charId);
+
+        });
+
     };
 
 
@@ -39,6 +47,8 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         // ui parts
         this.menuButton = $('.menu-button').menuButton($('#map-menu'));
+
+        this.elem.trigger('load-user');
 
     };
 
