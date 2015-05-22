@@ -21,8 +21,6 @@ domain.map.FloorWalkerLoader = $.defineRole('floor-walker-loader', function (pt,
 
     pt.insertWalker = function (character) {
 
-        console.log('insertWalker');
-
         $('<img />', {
             addClass: 'floor-walker sub-door-knock',
             attr: {
