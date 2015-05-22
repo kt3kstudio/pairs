@@ -7,7 +7,7 @@
  * @class
  * @extends domain.common.Actor
  */
-domain.common.NormalSprite = $.defineActor(function (pt, parent) {
+domain.common.NormalSprite = $.defineActor(function (pt) {
     'use strict';
 
     var noop = function () {};

@@ -15,8 +15,6 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
      */
     pt.constructor = function (elem) {
 
-        var that = this;
-
         parent.constructor.call(this, elem);
 
         this.elem.mapEventOne(this, ONE);

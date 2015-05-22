@@ -4,7 +4,7 @@
  * @class
  * @extends domain.common.Actor
  */
-domain.map.Floor = subclass(domain.common.Actor, function (pt, parent) {
+domain.map.Floor = subclass(domain.common.Actor, function (pt) {
     'use strict';
 
     var FLOOR_MOVE_DUR = 400;
