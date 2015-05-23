@@ -25,7 +25,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         });
 
-        elem.on('floor-complete', function () {
+        elem.on('floor-loaded', function () {
 
             elem.trigger('start');
 
@@ -125,7 +125,6 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
     };
 
 
-    ONE.reload = 1;
     /**
      * Reloads the map scene.
      *
@@ -133,20 +132,14 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
      *
      * @return {Promise}
      */
-    pt.reload = function () {
+    ONE['scene-reload'] = 1;
+    pt['scene-reload'] = function () {
 
         return this.walkerFadeIntoDoor().then(function () {
 
             location.reload();
 
         });
-
-    };
-
-    ONE['scene-reload'] = 1;
-    pt['scene-reload'] = function () {
-
-        this.reload();
 
     };
 
