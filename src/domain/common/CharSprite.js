@@ -47,102 +47,6 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
 
         this.elem = elem;
 
-        this.characterRepository = new datadomain.CharacterRepository();
-
-    };
-
-
-    /**
-     * Loads the data from the persistent layer.
-     *
-     * @return {Promise}
-     */
-    pt.load = function () {
-
-        var that = this;
-
-        this.__loaded = this.characterRepository.getById(this.id).then(function (character) {
-
-            setTimeout(function () {
-
-                that.elem.trigger('character-loaded', [character]);
-
-            }, 40);
-
-            that.character = character;
-
-            return that;
-
-        });
-
-        return this.__loaded;
-
-    };
-
-
-    /**
-     * Returns the promise which resolves when finishied loading.
-     *
-     * @return {Promise}
-     */
-    pt.loaded = function () {
-
-        return this.__loaded;
-
-    };
-
-
-    /**
-     * Gets the CharPosition object.
-     *
-     * @return {datadomain.CharPosition}
-     */
-    pt.getPosition = function () {
-
-        return this.character.position;
-
-    };
-
-
-    /**
-     * Sets the CharPosition object.
-     */
-    pt.setPosition = function (position) {
-
-        this.character.position = position;
-
-        return this.save();
-
-    };
-
-
-    /**
-     * Sets the character's floorObjectId
-     *
-     * @param {String} floorObjectId The floor object id
-     */
-    pt.setFloorObjectId = function (floorObjectId) {
-
-        this.character.position.floorObjectId = floorObjectId;
-
-        return this.save();
-
-    };
-
-
-    /**
-     * Synchronize current state of the character into the localStorage.
-     */
-    pt.save = function () {
-
-        var that = this;
-
-        return this.characterRepository.save(this.character).then(function () {
-
-            return that;
-
-        });
-
     };
 
 
@@ -154,9 +58,12 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
     pt.setupDom = function () {
 
         return this.elem.addClass(this.cssClass).width(this.w).height(this.h).setPosition({
+
             // the center of bottom line of the image is the sprite's center.
             left: this.leftLimit(),
+
             top: this.y - this.h
+
         }).css('transition-timing-function', 'linear').attr('src', this.downImage || this.image);
 
     };
@@ -181,19 +88,15 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
 
 
     pt.getDirection = function (coordinate, to) {
+
         if (coordinate === 'x') {
-            if (to > this.x) {
-                return 'right';
-            } else {
-                return 'left';
-            }
-        } else {
-            if (to > this.y) {
-                return 'down';
-            } else {
-                return 'up';
-            }
+
+            return to > this.x ? 'right' : 'left';
+
         }
+
+        return to > this.y ? 'down' : 'up';
+
     };
 
     pt.moveTo = function (coordinate, to, dur) {
@@ -205,12 +108,17 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
         this.setDuration(dur);
 
         if (dir === 'up' || dir === 'down') {
+
             this.moveToY(dir, to);
+
         } else {
+
             this.moveToX(dir, to);
+
         }
 
         return wait(dur);
+
     };
 
 
@@ -220,7 +128,9 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
      * @return {Number} x value of the right limit of sprite
      */
     pt.rightLimit = function () {
+
         return this.x + this.w / 2;
+
     };
 
     /**
@@ -229,10 +139,13 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
      * @return {Number} x value of the left limit of sprite
      */
     pt.leftLimit = function () {
+
         return this.x - this.w / 2;
+
     };
 
     pt.moveToY = function (dir, to) {
+
         var offset = this.getOffset();
 
         this.y = to;
@@ -240,9 +153,12 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
         offset.top = to - this.h; // the center of bottom line is the sprite's coordinate.
 
         this.setOffset(offset);
+
     };
 
+
     pt.moveToX = function (dir, to) {
+
         var offset = this.getOffset();
 
         this.x = to;
@@ -250,7 +166,9 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
         offset.left = to - this.w / 2; // the center of bottom line is the sprite's coordinate.
 
         this.setOffset(offset);
+
     };
+
 
     pt.speak = function (speech, opts) {
 
@@ -286,6 +204,7 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
                 return sb.hide();
 
             });
+
         });
 
         return bubbleShown;
