@@ -18,7 +18,7 @@ domain.map.Camera = $.defineRole('camera', function (pt, parent) {
 
         var that = this;
 
-        elem.on('floor-complete', function () {
+        elem.on('floor-built', function () {
 
             that.scrollSet($('.wall').getActor().findById($('.floor-walker').attr('floor-object-id')).centerX());
 

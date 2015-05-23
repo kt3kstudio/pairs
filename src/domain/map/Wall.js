@@ -29,6 +29,8 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
 
             that.init();
 
+            that.elem.trigger('floor-built');
+
         });
 
     };
