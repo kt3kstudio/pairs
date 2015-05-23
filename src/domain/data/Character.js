@@ -1,7 +1,9 @@
 
 
 
-
+/**
+ * Character data interface on the screen (experimental).
+ */
 domain.data.Character = $.defineRole('character-repository', function (pt, parent) {
     'use strict';
 
