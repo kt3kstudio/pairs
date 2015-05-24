@@ -4,9 +4,9 @@
  * FloorWalker is the role of CharSprite which handles the behaviours of the character on the floor.
  *
  * @class
- * @extends domain.common.Actor
+ * @extends domain.common.CharSprite
  */
-domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
+domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt, parent) {
     'use strict';
 
     var ON = {};
@@ -19,7 +19,7 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
 
         parent.constructor.call(this, elem);
 
-        this.chr = new domain.common.Ma(elem);
+        //this.chr = new domain.common.Ma(elem);
 
         this.elem.mapEvent(this, ON);
 
@@ -35,14 +35,14 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
 
         this.current = wo;
 
-        var chr = this.chr;
+        this.x = wo.centerX();
+        this.y = wo.centerY();
 
-        chr.x = wo.centerX();
-        chr.y = wo.centerY();
+        var that = this;
 
         return wo.open().then(function () {
 
-            return chr.appear();
+            return that.appear();
 
         });
 
@@ -90,17 +90,17 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
 
         current.close();
 
-        return this.chr.moveTo('y', current.centerY() + goOutDistance, goOutDur).then(function () {
+        return this.moveTo('y', current.centerY() + goOutDistance, goOutDur).then(function () {
 
             that.elem.trigger('character-move', [wo.centerX(), moveOnCorridor]);
 
             wo.open();
 
-            return that.chr.moveTo('x', wo.centerX(), moveOnCorridor);
+            return that.moveTo('x', wo.centerX(), moveOnCorridor);
 
         }).then(function () {
 
-            return that.chr.moveTo('y', wo.centerY(), goIntoDur);
+            return that.moveTo('y', wo.centerY(), goIntoDur);
 
         }).then(function () {
 
@@ -108,7 +108,7 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
 
             wo.onGetWalker(that);
 
-            return that.chr.turn('down');
+            return that.turn('down');
 
         });
 
@@ -121,9 +121,9 @@ domain.map.FloorWalker = subclass(domain.common.Actor, function (pt, parent) {
     pt.getIntoDoor = function () {
         var that = this;
 
-        this.chr.turn('up');
+        this.turn('up');
 
-        return this.chr.disappear().then(function () {
+        return this.disappear().then(function () {
 
             return that.current.close();
 

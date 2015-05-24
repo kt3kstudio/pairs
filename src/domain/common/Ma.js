@@ -1,29 +1,32 @@
 
 /**
- * The sprite class of Ma (the protagonist).
+ * The sprite modifier of Ma (the protagonist).
  *
  * @class
- * @extends domain.common.CharSprite
  */
-domain.common.Ma = subclass(domain.common.CharSprite, function (pt) {
+domain.common.Ma = subclass(function (pt) {
     'use strict';
 
-    pt.id = 'ma';
-    pt.name = 'ma';
+    pt.constructor = function () {
 
-    pt.x = 0;
-    pt.y = 0;
-    pt.w = 40;
-    pt.h = 60;
+        this.id = 'ma';
+        this.name = 'ma';
 
-    pt.upImage = 'images/ma-B.svg';
-    pt.downImage = 'images/ma-F.svg';
-    pt.leftImage = 'images/ma-L.svg';
-    pt.rightImage = 'images/ma-R.svg';
+        this.x = 0;
+        this.y = 0;
+        this.w = 40;
+        this.h = 60;
 
-    pt.appearAnim = 'char-appear';
-    pt.appearDur = 1000;
-    pt.disappearAnim = 'char-disappear';
-    pt.disappearDur = 1000;
+        this.upImage = 'images/ma-B.svg';
+        this.downImage = 'images/ma-F.svg';
+        this.leftImage = 'images/ma-L.svg';
+        this.rightImage = 'images/ma-R.svg';
+
+        this.appearAnim = 'char-appear';
+        this.appearDur = 1000;
+        this.disappearAnim = 'char-disappear';
+        this.disappearDur = 1000;
+
+    };
 
 });

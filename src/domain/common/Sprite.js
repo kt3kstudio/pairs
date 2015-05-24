@@ -68,8 +68,8 @@ domain.common.Sprite = subclass(function (pt) {
     };
 
     pt.setOffset = function (offset) {
-        this.elem.css('top', offset.top + 'px');
-        this.elem.css('left', offset.left + 'px');
+        this.elem.css('top', offset.top);
+        this.elem.css('left', offset.left);
     };
 
 });

@@ -101,4 +101,49 @@ domain.common.NormalSprite = $.defineActor(function (pt) {
         });
     };
 
+
+    /**
+     * Sets the transition duratio of the sprite.
+     *
+     * @param {Number} dur
+     */
+    pt.setDuration = function (dur) {
+
+        this.elem.css('transition-duration', dur + 'ms').reflow();
+
+    };
+
+
+    /**
+     * Gets the offset of the sprite.
+     *
+     * @protected
+     * @return {Object}
+     */
+    pt.getOffset = function () {
+
+        return {
+            top: parseInt(this.elem.css('top')),
+            left: parseInt(this.elem.css('left'))
+        };
+
+    };
+
+    /**
+     * Sets the sprite's offset.
+     *
+     * @param {Object} offset
+     * @param {Number} offset.top
+     * @param {Number} offset.left
+     */
+    pt.setOffset = function (offset) {
+
+        this.elem.css('top', offset.top);
+        this.elem.css('left', offset.left);
+
+        return this;
+
+    };
+
+
 });

@@ -3,9 +3,9 @@
  * CharSprite class handles the character sprite.
  *
  * @class
- * @extends domain.common.Sprite
+ * @extends domain.common.NormalSprite
  */
-domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
+domain.common.CharSprite = subclass(domain.common.NormalSprite, function (pt, parent) {
     'use strict';
 
     var defaultSpeechTimeout = 5000;
@@ -39,13 +39,22 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
     pt.cssClass = 'sprite';
 
 
-    /**
-     * @constructor
-     * @param {datadomain.Character} character The character
-     */
     pt.constructor = function (elem) {
 
-        this.elem = elem;
+        parent.constructor.call(this, elem);
+
+        var charId = this.elem.attr('char-id');
+
+        CHAR_SPRITE_SELECTOR(charId).call(this);
+    };
+
+    var CHAR_SPRITE_SELECTOR = function (charId) {
+
+        var THE_TABLE = {
+            ma: domain.common.Ma
+        };
+
+        return THE_TABLE[charId];
 
     };
 
@@ -55,7 +64,7 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt) {
      *
      * @return {jQuery}
      */
-    pt.setupDom = function () {
+    pt.willShow = function () {
 
         return this.elem.addClass(this.cssClass).width(this.w).height(this.h).setPosition({
 
