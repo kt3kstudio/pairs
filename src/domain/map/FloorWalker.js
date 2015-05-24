@@ -65,6 +65,19 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt, parent
 
 
     /**
+     * Sets the floor object id.
+     *
+     * @param {String} floorObjectId
+     */
+    pt.setFloorObjectId = function (floorObjectId) {
+
+        this.elem.attr('floor-object-id', floorObjectId);
+        this.elem.trigger('set-character-floor-object-id', floorObjectId);
+
+    };
+
+
+    /**
      * Moves the character sprite to wall object
      *
      * @param {domain.map.WallObject} wo The wall object to go to
@@ -76,7 +89,7 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt, parent
 
         var current = this.current;
 
-        this.elem.trigger('set-character-floor-object-id', wo.id);
+        this.setFloorObjectId(wo.id);
 
         var goOutDur = 150;
         var moveOnCorridor = 300;
