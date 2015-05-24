@@ -19,8 +19,6 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt, parent
 
         parent.constructor.call(this, elem);
 
-        //this.chr = new domain.common.Ma(elem);
-
         this.elem.mapEvent(this, ON);
 
     };
