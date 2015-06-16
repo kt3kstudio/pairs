@@ -1,5 +1,17 @@
 # TODO
 
+- datadomain.LevelLock
+  - levelId
+  - unlock()
+  - isLocked()
+- datadomain.LevelLockCollection
+  - unlock(String)
+- datadomain.LevelLockRepository
+  - (LevelLockCollection)getByFloorId
+- datadomain.LevelLockFactory
+  - createFromObject
+  - createCollectionFromObjectList
+
 - Reimplement level
 
 - something should be always moving (dancing) in the map
