@@ -1,12 +1,5 @@
 # TODO
 
-- datadomain.LevelLock
-  - levelId
-  - unlock()
-  - isLocked()
-- datadomain.LevelLockCollection
-  - unlock(String)
-  - @private find(String)
 - datadomain.LevelLockRepository
   - (LevelLockCollection)getByFloorId
 - datadomain.LevelLockFactory
@@ -42,6 +35,13 @@
 
 
 # DONE
+- datadomain.LevelLock
+  - levelId
+  - unlock()
+  - isLocked()
+- datadomain.LevelLockCollection
+  - unlock(String)
+  - @private find(String)
 - think about the difference and similarity between context-base design and component-base design.
   - now these two overwrap each other very much and the difference is ambiguous.
   - nail down the best practice among the possible balances of these two.
