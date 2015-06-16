@@ -6,6 +6,7 @@
   - isLocked()
 - datadomain.LevelLockCollection
   - unlock(String)
+  - @private find(String)
 - datadomain.LevelLockRepository
   - (LevelLockCollection)getByFloorId
 - datadomain.LevelLockFactory
