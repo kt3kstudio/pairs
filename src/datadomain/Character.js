@@ -82,7 +82,7 @@ datadomain.Character = subclass(function (pt) {
 
         }
 
-        return new datadomain.LevelHistoryRepository().getByFloorId(this.position.floorId).then (function (histories) {
+        return new datadomain.LevelHistoryRepository(this.id).getByFloorId(this.position.floorId).then (function (histories) {
 
             that.histories = histories;
 
@@ -101,7 +101,7 @@ datadomain.Character = subclass(function (pt) {
 
         var that = this;
 
-        return new datadomain.LevelHistoryRepository().saveByFloorId(this.position.floorId, this.histories).then(function () {
+        return new datadomain.LevelHistoryRepository(this.id).saveByFloorId(this.position.floorId, this.histories).then(function () {
 
             return that;
 

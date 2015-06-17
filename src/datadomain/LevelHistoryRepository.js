@@ -2,7 +2,15 @@
 
 
 /**
- * LevelHistoryRepository is the repository class for LevelHistory model.
+ * LevelHistoryRepository is the repository class of LevelHistory.
+ *
+ * This repository saves and restores the LevelHistorys using infrastructure.storage persistence interface.
+ *
+ * The key of the storage is as follows:
+ *
+ * level-history-[charId]-[floorId]
+ *
+ * e.g. level-history-ma-7
  */
 datadomain.LevelHistoryRepository = subclass(function (pt) {
     'use strict';
@@ -10,9 +18,11 @@ datadomain.LevelHistoryRepository = subclass(function (pt) {
 
     /**
      * @constructor
+     * @param {String} charId The character id
      */
-    pt.constructor = function () {
+    pt.constructor = function (charId) {
 
+        this.charId = charId;
         this.factory = new datadomain.LevelHistoryFactory();
 
     };
@@ -28,7 +38,7 @@ datadomain.LevelHistoryRepository = subclass(function (pt) {
 
         var that = this;
 
-        return infrastructure.storage.get(this.createStorageKeyForFloorData(floorId), []).then(function (array) {
+        return infrastructure.storage.get(this.createStorageKey(floorId), []).then(function (array) {
 
             return that.factory.createCollectionFromArray(array);
 
@@ -40,11 +50,12 @@ datadomain.LevelHistoryRepository = subclass(function (pt) {
     /**
      * Creates storage key name for the floor.
      *
+     * @private
      * @param {String} floorId The floor id
      * @return {Promise}
      */
-    pt.createStorageKeyForFloorData = function (floorId) {
-        return 'level-history-' + floorId;
+    pt.createStorageKey = function (floorId) {
+        return 'level-history-' + this.charId + '-' + floorId;
     };
 
 });

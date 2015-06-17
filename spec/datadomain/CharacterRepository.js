@@ -51,7 +51,7 @@ describe('CharacterRepository', function () {
 
             });
 
-            when(infrastructure.storage.get)('level-history-7').then(function () {
+            when(infrastructure.storage.get)('level-history-ma-7').then(function () {
 
                 return Promise.resolve([]);
 
