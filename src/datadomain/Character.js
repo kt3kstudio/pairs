@@ -18,8 +18,9 @@ datadomain.Character = subclass(function (pt) {
      * @param {datadomain.CharPosition} position The position of the character
      * @param {datadomain.LevelHistoryCollection} histories The histories of the current floor
      * @param {datadomain.PlayingState} playingState The state of playing at the current level
+     * @param {datadomain.LevelLockCollection} locks The collection of the level locks
      */
-    pt.constructor = function (id, name, position, histories, playingState) {
+    pt.constructor = function (id, name, position, histories, playingState, locks) {
 
         /**
          * @property {String} id The id of the character
@@ -45,6 +46,11 @@ datadomain.Character = subclass(function (pt) {
          * @property {datadomain.PlayingState} playingState The state of playing at the current level
          */
         this.playingState = playingState;
+
+        /**
+         * @property {datadomain.LevelLockCollection} collection The collection of the locks
+         */
+        this.locks = locks;
 
     };
 
@@ -96,6 +102,44 @@ datadomain.Character = subclass(function (pt) {
         var that = this;
 
         return new datadomain.LevelHistoryRepository().saveByFloorId(this.position.floorId, this.histories).then(function () {
+
+            return that;
+
+        });
+    };
+
+
+    /**
+     * Reloads the level locks.
+     */
+    pt.reloadLocks = function () {
+
+        var that = this;
+
+        if (this.position == null) {
+
+            return Promise.resolve(this);
+
+        }
+
+        return new datadomain.LevelLockRepository(this.id).getByFloorId(this.position.floorId).then(function (locks) {
+
+            that.locks = locks;
+
+            return that;
+
+        });
+    };
+
+
+    /**
+     * Saves the current level locks.
+     */
+    pt.saveLocks = function () {
+
+        var that = this;
+
+        return new datadomain.LevelLockRepository(this.id).saveByFloorId(this.position.floorId).then(function () {
 
             return that;
 

@@ -63,6 +63,12 @@ describe('CharacterRepository', function () {
 
             });
 
+            when(infrastructure.storage.get)('level-lock-ma-7').then(function () {
+
+                return Promise.resolve([]);
+
+            });
+
             return repo.getById('ma').then(function (character) {
 
                 expect(character).to.be.instanceof(datadomain.Character);

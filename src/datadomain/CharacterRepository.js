@@ -57,7 +57,8 @@ datadomain.CharacterRepository = subclass(function (pt) {
 
                 character,
                 character.reloadHistories(),
-                character.reloadPlayingState()
+                character.reloadPlayingState(),
+                character.reloadLocks()
 
             ]);
 
