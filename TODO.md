@@ -1,10 +1,5 @@
 # TODO
 
-- datadomain.LevelLockRepository
-  - (LevelLockCollection)getByFloorId
-- datadomain.LevelLockFactory
-  - createFromObject
-  - createCollectionFromObjectList
 
 - Reimplement level
 
@@ -35,6 +30,12 @@
 
 
 # DONE
+- datadomain.LevelLockRepository
+  - (LevelLockCollection)getByFloorId(String)
+  - saveCollection(LevelLockCollection)
+- datadomain.LevelLockFactory
+  - createFromObject
+  - createCollectionFromObjectList
 - datadomain.LevelLock
   - levelId
   - unlock()
