@@ -1,6 +1,8 @@
 # TODO
 
 
+- LevelHistory persistence key does not have the char id in the key
+
 - Reimplement level
 
 - something should be always moving (dancing) in the map
