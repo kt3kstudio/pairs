@@ -139,7 +139,7 @@ datadomain.Character = subclass(function (pt) {
 
         var that = this;
 
-        return new datadomain.LevelLockRepository(this.id).saveByFloorId(this.position.floorId).then(function () {
+        return new datadomain.LevelLockRepository(this.id).saveByFloorId(this.position.floorId, this.locks).then(function () {
 
             return that;
 
