@@ -1,0 +1,96 @@
+<svg width="297" height="183" viewBox="0 0 297 183" xmlns="http://www.w3.org/2000/svg">
+    <title>
+        frog-run
+    </title>
+    <desc>
+        Created with Sketch.
+    </desc>
+    <g id="Page-1" class="default" fill="none" fill-rule="evenodd">
+        <g id="frog-run">
+            <g id="body">
+                <path d="M60.738 60.305c28.055 13.952-32.703 28.238 3.172 46.347 32.19 16.25 205.117 35.54 205.117 23.924 0-63.15-152.188-63.49-157.027-92.56C105.71.233 64.5-9.505 44.5 10.51 32.874 22.146.672-8.883.64 29.566.628 46.9 32.48 46.25 60.74 60.306z" id="Oval-1" fill="#019528"></path>
+                <ellipse id="Oval-2" fill="#261900" cx="72" cy="27.5" rx="15" ry="13.5"></ellipse>
+            </g>
+            <g id="legs" fill="#019528">
+                <g id="front-leg-right">
+                    <path d="M55.33 95.592l34.917 12.367s-55.03 40.925-64.918 34.632c-9.89-6.293 30-47 30-47z" id="Triangle-1"></path>
+                </g>
+                <g id="front-leg-left">
+                    <path d="M88.576 102.592l34.918 12.367s-55.03 40.925-64.918 34.632c-9.89-6.293 30-47 30-47z" id="Triangle-1-Copy"></path>
+                </g>
+                <g id="hind-leg-left">
+                    <path d="M170.543 121.447l50.264-3.432s19.554 53.64 8.033 63.514c-11.522 9.874-58.297-60.083-58.297-60.083z" id="Triangle-1-Copy-2"></path>
+                </g>
+                <g id="hind-leg-right">
+                    <path d="M215.25 118.344l24.223-7.617s11.94-6.035 26.5 7.617c9.722 25.09 14.562 56.23 5.402 58.66-10.794 2.866-56.125-58.66-56.125-58.66z" id="Triangle-1-Copy-3"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+<style>
+
+@keyframes anim_default_body {
+  0% { transform: translate(130px,100px) scale(1,1) rotate(0deg) translate(-130px,-100px) }
+  50% { transform: translate(130px,100px) scale(1,1) rotate(0deg) translate(-130px,-95px) }
+  100% { transform: translate(130px,100px) scale(1,1) rotate(0deg) translate(-130px,-100px) }
+}
+#body {
+  animation-name: anim_default_body;
+  animation-iteration-count: infinite;
+  animation-duration: 500ms;
+  animation-timing-function: undefined;
+  animation-direction: undefined;
+}
+
+@keyframes anim_default_front-leg-right {
+  0% { transform: translate(68px,108px) scale(1,1) rotate(0deg) translate(-68px,-108px) }
+  50% { transform: translate(68px,108px) scale(1,1) rotate(30deg) translate(-68px,-108px) }
+  100% { transform: translate(68px,108px) scale(1,1) rotate(0deg) translate(-68px,-108px) }
+}
+#front-leg-right {
+  animation-name: anim_default_front-leg-right;
+  animation-iteration-count: infinite;
+  animation-duration: 500ms;
+  animation-timing-function: undefined;
+  animation-direction: undefined;
+}
+
+@keyframes anim_default_front-leg-left {
+  0% { transform: translate(102px,115px) scale(1,1) rotate(0deg) translate(-102px,-115px) }
+  50% { transform: translate(102px,115px) scale(1,1) rotate(-30deg) translate(-102px,-115px) }
+  100% { transform: translate(102px,115px) scale(1,1) rotate(0deg) translate(-102px,-115px) }
+}
+#front-leg-left {
+  animation-name: anim_default_front-leg-left;
+  animation-iteration-count: infinite;
+  animation-duration: 500ms;
+  animation-timing-function: undefined;
+  animation-direction: undefined;
+}
+
+@keyframes anim_default_hind-leg-right {
+  0% { transform: translate(230px,120px) scale(1,1) rotate(0deg) translate(-230px,-120px) }
+  50% { transform: translate(230px,120px) scale(1,1) rotate(-20deg) translate(-237.51754096628727px,-122.73616114660535px) }
+  100% { transform: translate(230px,120px) scale(1,1) rotate(0deg) translate(-230px,-120px) }
+}
+#hind-leg-right {
+  animation-name: anim_default_hind-leg-right;
+  animation-iteration-count: infinite;
+  animation-duration: 500ms;
+  animation-timing-function: undefined;
+  animation-direction: undefined;
+}
+
+@keyframes anim_default_hind-leg-left {
+  0% { transform: translate(200px,130px) scale(1,1) rotate(0deg) translate(-200px,-130px) }
+  50% { transform: translate(200px,130px) scale(1,1) rotate(20deg) translate(-203.4202014332567px,-139.39692620785908px) }
+  100% { transform: translate(200px,130px) scale(1,1) rotate(0deg) translate(-200px,-130px) }
+}
+#hind-leg-left {
+  animation-name: anim_default_hind-leg-left;
+  animation-iteration-count: infinite;
+  animation-duration: 500ms;
+  animation-timing-function: undefined;
+  animation-direction: undefined;
+}
+</style></svg>
