@@ -22,10 +22,10 @@ domain.common.Ma = subclass(function (pt) {
         this.leftImage = 'images/ma-L.svg';
         this.rightImage = 'images/ma-R.svg';
 
-        this.appearAnim = 'char-appear';
-        this.appearDur = 1000;
-        this.disappearAnim = 'char-disappear';
-        this.disappearDur = 1000;
+        this.showAnim = 'char-appear';
+        this.showAnimDur = 1000;
+        this.hideAnim = 'char-disappear';
+        this.hideAnimDur = 1000;
 
     };
 

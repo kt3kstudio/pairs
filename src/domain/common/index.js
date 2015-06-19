@@ -1,4 +1,7 @@
 //= require ./Actor.js
 //= require ./Sprite.js
-//= require ./NormalSprite.js
+//= require ./Being.js
+//= require ./DimensionalBeing.js
+//= require ./StateSprite.js
+//= require ./CharSprite.js
 //= require_tree .

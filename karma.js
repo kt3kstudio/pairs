@@ -29,7 +29,10 @@ module.exports = function(config) {
       'src/namespaces.js',
       'src/domain/common/Sprite.js',
       'src/domain/common/Actor.js',
-      'src/domain/common/NormalSprite.js',
+      'src/domain/common/Being.js',
+      'src/domain/common/DimensionalBeing.js',
+      'src/domain/common/StateSprite.js',
+      'src/domain/common/CharSprite.js',
       'src/domain/map/WallObject.js',
       'src/util/jquery.js',
 
