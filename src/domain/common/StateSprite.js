@@ -20,6 +20,10 @@ domain.common.StateSprite = subclass(domain.common.DimensionalBeing, function (p
      */
     pt.setState = function (state) {
 
+        if (!this.stateImage) {
+            throw new Error('no stateImage in StateSprite.');
+        }
+
         var img = this.stateImage[state];
 
         if (!img) {
