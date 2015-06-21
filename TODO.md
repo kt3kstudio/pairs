@@ -1,5 +1,8 @@
 # TODO
 
+
+- DirectionalStateImageDimensionalBeing === Sprite
+
 - Switch dependency to mangrove
 
 - Reimplement level
