@@ -18,7 +18,7 @@ domain.level.Ball = (function () {
         this.setParent(parent);
     };
 
-    var ballPt = exports.prototype = new domain.common.Sprite();
+    var ballPt = exports.prototype = new domain.common.Sprite($('<img />'));
 
     ballPt.maxX = MAX;
     ballPt.maxY = MAX;

@@ -23,7 +23,7 @@ ui.level.Scoreboard = (function () {
     };
 
 
-    var sbPt = exports.prototype = new domain.common.Sprite();
+    var sbPt = exports.prototype = new domain.common.Sprite($('<div />'));
 
 
     sbPt.appearAnim = 'bom-appear';

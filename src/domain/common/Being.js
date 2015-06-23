@@ -12,6 +12,9 @@ domain.common.Being = $.defineActor(function (pt) {
 
     var noop = function () {};
 
+    /**
+     * @property {String} showAnim The animation name this elem showing with
+     */
     pt.showAnim = null;
     pt.showAnimDur = 500; // default 500ms
 

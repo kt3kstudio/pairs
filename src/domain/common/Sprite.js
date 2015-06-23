@@ -1,75 +1,90 @@
+
 /**
- * @class
- * @abstract
+ * Sprite (or DirectionalStateImageDimensionalBeing) class changes its image according to its direction and state.
  *
- * Sprite class handles the basic behaviours of any entity in the game.
+ * @class
+ * @extends domain.common.DimensionalBeing
  */
-domain.common.Sprite = subclass(function (pt) {
+domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = subclass(domain.common.DimensionalBeing, function (pt) {
     'use strict';
 
-
-    /** sprite's appearance animation */
-    pt.appearAnim = '';
-
-    /** sprite's appearance duration */
-    pt.appearDur = 400;
-
-    /** sprite's disappearance animation */
-    pt.disappearAnim = '';
-
-    /** sprite's disappearance duration */
-    pt.disappearDur = 400;
-
+    /**
+     * @property {String} state The state
+     */
+    pt.state = null;
 
     /**
-     * Appears the sprite.
-     *
-     * @param {Number} [dur] The duration of the animation
-     * @return {Promise} The end of the appearing animation
+     * @property {Object} stateImage The map of state to image url.
      */
-    pt.appear = function (dur) {
+    pt.dirStateImage = null;
 
-        this.setupDom();
+    /**
+     * @property {String} dir The direction
+     */
+    pt.dir = null;
 
-        return this.elem.anim(this.appearAnim, dur || this.appearDur);
+    /**
+     * Changes the direction the character currently heading for.
+     *
+     * @param {String} dir The direction
+     * @param {String} state The state
+     */
+    pt.setDirState = function (dir, state) {
+
+        dir = dir || this.dir;
+
+        state = state || this.state;
+
+        if (!this.dirStateImage) {
+            throw new Error('no image mapping in sprite.');
+        }
+
+        var img = this.dirStateImage[dir][state];
+
+        if (!img) {
+            throw new Error('illegal (dir, state): (' + dir + ', ' + state + ')');
+        }
+
+        this.applyImage(img);
 
     };
 
     /**
-     * Disappears the sprite.
+     * Applies the image to the element.
      *
-     * @param {Number} [dur] The duration of the animation
-     * @return {Promise} The end of the appearing animation
+     * @private
+     * @param {domain.common.Image} img
      */
-    pt.disappear = function (dur) {
-        var that = this;
+    pt.applyImage = function (img) {
 
-        return this.elem.anim(this.disappearAnim, dur || this.disappearDur).then(function (elem) {
+        var mirrorX = img.mirrorX;
+        var mirrorY = img.mirrorY;
+        var src = img.src;
 
-            elem.remove();
-            that.elem = null;
+        var transform;
 
-        });
-    };
+        if (mirrorX && mirrorY) {
 
+            transform = 'scale(-1, -1)';
 
-    pt.setDuration = function (dur) {
+        } else if (mirrorX) {
 
-        this.elem.css('transition-duration', dur + 'ms').reflow();
+            transform = 'scale(-1, 1)';
 
-    };
+        } else if (mirrorY) {
 
+            transform = 'scale(1, -1)';
 
-    pt.getOffset = function () {
-        return {
-            top: parseInt(this.elem.css('top')),
-            left: parseInt(this.elem.css('left'))
-        };
-    };
+        } else {
 
-    pt.setOffset = function (offset) {
-        this.elem.css('top', offset.top);
-        this.elem.css('left', offset.left);
+            transform = 'scale(1, 1)';
+
+        }
+
+        this.elem.css('transform', transform);
+
+        this.elem.attr('src', src);
+
     };
 
 });
