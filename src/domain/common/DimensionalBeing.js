@@ -85,9 +85,9 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
     /**
      * Sets the sprite's offset.
      *
-     * @param {Object} offset
-     * @param {Number} offset.top
-     * @param {Number} offset.left
+     * @param {Object} offset The offset
+     * @param {Number} offset.top The top of the offset
+     * @param {Number} offset.left The left of the offset
      */
     pt.setOffset = function (offset) {
 

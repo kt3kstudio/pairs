@@ -1,6 +1,9 @@
 
 
 
+/**
+ * The level lock model
+ */
 datadomain.LevelLock = subclass(function (pt) {
     'use strict';
 

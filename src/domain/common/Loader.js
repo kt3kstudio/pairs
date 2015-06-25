@@ -53,11 +53,15 @@ domain.common.Loader = $.defineRole(function (pt) {
     };
 
     /**
+     * The handler which is called before loading.
+     *
      * @abstract
      */
     pt.willLoad = function () {};
 
     /**
+     * The handler which is called after loading.
+     *
      * @abstract
      */
     pt.didLoad = function () {};

@@ -18,3 +18,6 @@ node_modules
 
 # test file
 /test.html
+
+# vim
+*.swp

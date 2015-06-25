@@ -53,7 +53,7 @@ domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = sub
      * Applies the image to the element.
      *
      * @private
-     * @param {domain.common.Image} img
+     * @param {domain.common.Image} img The image
      */
     pt.applyImage = function (img) {
 

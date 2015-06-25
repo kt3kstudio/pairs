@@ -22,6 +22,10 @@ domain.map.FloorLoader = $.assignClassComponent('floor-loader', subclass(domain.
 
     ONE['character-loaded'] = 1;
     /**
+     * Handler of character-loaded event. Load the floor by the character object.
+     *
+     * @param {Object} e The event
+     * @param {datadomain.Character} character The character
      */
     pt['character-loaded'] = function (e, character) {
 

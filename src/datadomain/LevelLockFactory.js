@@ -29,7 +29,7 @@ datadomain.LevelLockFactory = subclass(function (pt) {
     /**
      * Creates a LevelLockCollection from the list of the object.
      *
-     * @param {Array}
+     * @param {Array} objList The list of objects
      * @return {Array}
      */
     pt.createCollectionFromObjectList = function (objList) {

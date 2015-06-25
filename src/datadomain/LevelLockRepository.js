@@ -44,8 +44,8 @@ datadomain.LevelLockRepository = subclass(function (pt) {
     /**
      * Saves the collection of the locks by the floor id and char id.
      *
-     * @param {String} floorId
-     * @param {datadomain.FloorLockCollection} collection
+     * @param {String} floorId The floor id
+     * @param {datadomain.LevelLockCollection} collection The level lock collection
      */
     pt.saveByFloorId = function (floorId, collection) {
 
@@ -57,7 +57,7 @@ datadomain.LevelLockRepository = subclass(function (pt) {
      * Converts the collection of the locks to an object list.
      *
      * @private
-     * @param {datadomian.LevelLockCollection} collection
+     * @param {datadomain.LevelLockCollection} collection The level lock collection
      * @return {Array} the array of the objects
      */
     pt.toObjectList = function (collection) {

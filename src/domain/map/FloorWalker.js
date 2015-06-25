@@ -67,7 +67,7 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt, parent
     /**
      * Sets the floor object id.
      *
-     * @param {String} floorObjectId
+     * @param {String} floorObjectId The floor object id
      */
     pt.setFloorObjectId = function (floorObjectId) {
 
