@@ -57,33 +57,7 @@ domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = sub
      */
     pt.applyImage = function (img) {
 
-        var mirrorX = img.mirrorX;
-        var mirrorY = img.mirrorY;
-        var src = img.src;
-
-        var transform;
-
-        if (mirrorX && mirrorY) {
-
-            transform = 'scale(-1, -1)';
-
-        } else if (mirrorX) {
-
-            transform = 'scale(-1, 1)';
-
-        } else if (mirrorY) {
-
-            transform = 'scale(1, -1)';
-
-        } else {
-
-            transform = 'scale(1, 1)';
-
-        }
-
-        this.elem.css('transform', transform);
-
-        this.elem.attr('src', src);
+        img.apply(this.elem);
 
     };
 
