@@ -110,7 +110,7 @@ domain.common.Being = $.defineActor(function (pt) {
 
 
     /**
-     * Sets the transition duratio of the sprite.
+     * Sets the transition duration of the element.
      *
      * @param {Number} dur The duration
      */
