@@ -14,7 +14,7 @@ domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = sub
     pt.state = null;
 
     /**
-     * @property {Object} stateImage The map of state to image url.
+     * @property {Object} stateImage The map of state to image url. Object<Object<domain.common.Image>>
      */
     pt.dirStateImage = null;
 
