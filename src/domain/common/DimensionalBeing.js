@@ -33,18 +33,16 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
         this.elem
         .width(this.w)
         .height(this.h)
-        .setPosition({
-
-            // the center of bottom line of the image is the sprite's center.
-            left: this.leftLimit(),
-
-            top: this.y - this.h
-
-        })
         .css('position', 'absolute')
         .css('transition-timing-function', 'linear');
 
-        this.defaultImage.apply(this.elem);
+        this.updateOffset();
+
+        if (this.defaultImage != null) {
+
+            this.defaultImage.apply(this.elem);
+
+        }
 
         return this.elem;
 
@@ -52,7 +50,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
 
 
     /**
-     * Returns right limit x value.
+     * Gets the elem's right limit in px.
      *
      * @return {Number} x value of the right limit of sprite
      */
@@ -63,13 +61,31 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
     };
 
     /**
-     * Returns left limit x value.
+     * Gets the elem's left limit in px.
      *
      * @return {Number} x value of the left limit of sprite
      */
     pt.leftLimit = function () {
 
         return this.x - this.w / 2;
+
+    };
+
+    /**
+     * Gets the elem's top limit in px.
+     */
+    pt.topLimit = function () {
+
+        return this.y - this.h;
+
+    };
+
+    /**
+     * Gets the elem's bottom limit in px.
+     */
+    pt.bottomLimit = function () {
+
+        return this.y;
 
     };
 
@@ -89,8 +105,9 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
     };
 
     /**
-     * Sets the sprite's offset.
+     * Sets the elem's offset.
      *
+     * @protected
      * @param {Object} offset The offset
      * @param {Number} offset.top The top of the offset
      * @param {Number} offset.left The left of the offset
@@ -104,6 +121,46 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
 
     };
 
+    /**
+     * Updates the elem's offset according to current position.
+     *
+     * @protected
+     */
+    pt.updateOffset = function () {
+
+        return this.setOffset({
+            top: this.topLimit(),
+            left: this.leftLimit()
+        });
+
+    };
+
+    /**
+     * Moves the elem to the given y position.
+     *
+     * @param {Number} to The y position
+     */
+    pt.moveToY = function (to) {
+
+        this.y = to;
+
+        this.updateOffset();
+
+    };
+
+
+    /**
+     * Moves the elem to the given x position.
+     *
+     * @param {Number} to The x position
+     */
+    pt.moveToX = function (to) {
+
+        this.x = to;
+
+        this.updateOffset();
+
+    };
 
 
 });

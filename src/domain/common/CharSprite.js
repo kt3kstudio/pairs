@@ -87,40 +87,15 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt, parent) 
 
         if (dir === 'up' || dir === 'down') {
 
-            this.moveToY(dir, to);
+            this.moveToY(to);
 
         } else {
 
-            this.moveToX(dir, to);
+            this.moveToX(to);
 
         }
 
         return wait(dur);
-
-    };
-
-    pt.moveToY = function (dir, to) {
-
-        var offset = this.getOffset();
-
-        this.y = to;
-
-        offset.top = to - this.h; // the center of bottom line is the sprite's coordinate.
-
-        this.setOffset(offset);
-
-    };
-
-
-    pt.moveToX = function (dir, to) {
-
-        var offset = this.getOffset();
-
-        this.x = to;
-
-        offset.left = to - this.w / 2; // the center of bottom line is the sprite's coordinate.
-
-        this.setOffset(offset);
 
     };
 
