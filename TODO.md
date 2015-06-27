@@ -2,28 +2,27 @@
 
 
 
+- model FrogSprite
+
+- Unlocking
+
+- Reimplement level, using mangrove arch
+
+- goal expression at the start of the level
+  - show what is the goal of the level using cell icon itself
+
+### low pri
+- Ad integration
 - Switch dependency to mangrove
 
-- Reimplement level
-
-- something should be always moving (dancing) in the map
-  - maybe it has some silly interaction
-
-- goal denotation at the start of the level
-  - denotate what is the goal of the level using cell icons themselves
-
-- history loading
-
-- level, staircase unlocking
-
-- Ad integration
 
 # Idea
 - Char difference
   - ma - torus
   - ellen - sphere
   - emma - P2
-
+- something should be always moving (dancing) in the map
+  - maybe it has some silly interaction
 
 ## Artwork
 - finger - swipe tutorial
@@ -33,6 +32,7 @@
 
 
 # DONE
+- history loading
 - DirectionalStateImageDimensionalBeing === Sprite
 - LevelHistory persistence key does not have the char id in the key
 - datadomain.LevelLockRepository
