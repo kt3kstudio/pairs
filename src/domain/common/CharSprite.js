@@ -3,7 +3,7 @@
  * CharSprite class handles the character sprite.
  *
  * @class
- * @extends domain.common.DirSprite
+ * @extends domain.common.Sprite
  */
 domain.common.CharSprite = subclass(domain.common.Sprite, function (pt, parent) {
     'use strict';
