@@ -20,6 +20,9 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
     /** sprite's width */
     pt.h = 0;
 
+    /** sprite's default image */
+    pt.defaultImage = null;
+
     /**
      * Creates the dom of the character.
      *
@@ -27,7 +30,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
      */
     pt.willShow = function () {
 
-        return this.elem
+        this.elem
         .width(this.w)
         .height(this.h)
         .setPosition({
@@ -39,8 +42,11 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
 
         })
         .css('position', 'absolute')
-        .css('transition-timing-function', 'linear')
-        .attr('src', this.defaultImage);
+        .css('transition-timing-function', 'linear');
+
+        this.defaultImage.apply(this.elem);
+
+        return this.elem;
 
     };
 

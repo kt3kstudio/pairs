@@ -36,13 +36,17 @@ domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = sub
         state = state || this.state;
 
         if (!this.dirStateImage) {
+
             throw new Error('no image mapping in sprite.');
+
         }
 
         var img = this.dirStateImage[dir][state];
 
         if (!img) {
+
             throw new Error('illegal (dir, state): (' + dir + ', ' + state + ')');
+
         }
 
         this.applyImage(img);

@@ -3,9 +3,9 @@
  * CharSprite class handles the character sprite.
  *
  * @class
- * @extends domain.common.StateSprite
+ * @extends domain.common.DirSprite
  */
-domain.common.CharSprite = subclass(domain.common.StateSprite, function (pt, parent) {
+domain.common.CharSprite = subclass(domain.common.Sprite, function (pt, parent) {
     'use strict';
 
     var defaultSpeechTimeout = 5000;
@@ -31,13 +31,13 @@ domain.common.CharSprite = subclass(domain.common.StateSprite, function (pt, par
 
         CHAR_SPRITE_SELECTOR(charId).call(this);
 
-        this.defaultImage = this.downImage;
+        this.defaultImage = new domain.common.Image(this.downImage);
 
-        this.stateImage = {
-            up: this.upImage,
-            down: this.downImage,
-            left: this.leftImage,
-            right: this.rightImage
+        this.dirStateImage = {
+            up: {default: new domain.common.Image(this.upImage)},
+            down: {default: new domain.common.Image(this.downImage)},
+            left: {default: new domain.common.Image(this.leftImage)},
+            right: {default: new domain.common.Image(this.rightImage)}
         };
     };
 
@@ -60,7 +60,7 @@ domain.common.CharSprite = subclass(domain.common.StateSprite, function (pt, par
      */
     pt.turn = function (dir) {
 
-        this.setState(dir);
+        this.setDirState(dir, 'default');
 
     };
 
