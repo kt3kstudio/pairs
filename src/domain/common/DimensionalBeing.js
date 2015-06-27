@@ -8,19 +8,19 @@
 domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
     'use strict';
 
-    /** sprite's x coordinate value */
+    /** @property {Number} x sprite's x coordinate value */
     pt.x = 0;
 
-    /** sprite's y coordinate value */
+    /** @property {Number} y sprite's y coordinate value */
     pt.y = 0;
 
-    /** sprite's width */
+    /** @property {Number} w sprite's width */
     pt.w = 0;
 
-    /** sprite's width */
+    /** @property {Number} h sprite's width */
     pt.h = 0;
 
-    /** sprite's default image */
+    /** @property {domain.common.Image} defaultImage sprite's default image */
     pt.defaultImage = null;
 
     /**
