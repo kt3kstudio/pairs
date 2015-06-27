@@ -1,7 +1,6 @@
 # TODO
 
 
-- DirectionalStateImageDimensionalBeing === Sprite
 
 - Switch dependency to mangrove
 
@@ -34,6 +33,7 @@
 
 
 # DONE
+- DirectionalStateImageDimensionalBeing === Sprite
 - LevelHistory persistence key does not have the char id in the key
 - datadomain.LevelLockRepository
   - (LevelLockCollection)getByFloorId(String)

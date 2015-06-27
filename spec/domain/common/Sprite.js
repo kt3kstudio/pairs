@@ -45,6 +45,26 @@ describe('Sprite', function () {
 
         });
 
+        it('throws error when the image unavailable', function () {
+
+            expect(function () {
+                sprite.setDirState('foo', 'bar');
+            }).to.throw(Error);
+
+        });
+
+        it('throws error when the dir state image is not set at all', function () {
+
+            sprite.dirStateImage = null;
+
+            expect(function () {
+
+                sprite.setDirState('up', 'run');
+
+            }).to.throw(Error);
+
+        });
+
     });
 
 });
