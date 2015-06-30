@@ -10,37 +10,23 @@
 domain.common.Loader = $.defineRole(function (pt) {
     'use strict';
 
-    var resolved = Promise.resolve();
-
     /**
-     * Loads the floor in dom.
+     * Loads the contents.
      *
      * @param {Object} options The options to use for replacing placeholders in url
      */
-    pt.load = function (options) {
+    pt.load = function () {
 
         var that = this;
 
-        options = options || {};
+        return Promise.resolve(that.willLoad()).then(function () {
 
-        return resolved.then(function () {
+            return Promise.all([that.getUrl(), that.getMethod()]);
 
-            return that.willLoad();
+        }).then(function (data) {
 
-        }).then(function () {
-
-            var url = that.elem.attr('url');
-            var method = that.elem.attr('method') || 'get';
-
-            Object.keys(options).forEach(function (key) {
-
-                var value = options[key];
-
-                var placeholder = '{' + key + '}';
-
-                url = url.replace(placeholder, value);
-
-            });
+            var url = data[0];
+            var method = data[1];
 
             return Promise.resolve($.ajax({type: method, url: url}));
 
@@ -49,6 +35,28 @@ domain.common.Loader = $.defineRole(function (pt) {
             return that.didLoad(data);
 
         });
+
+    };
+
+    /**
+     * Gets the url to request.
+     *
+     * @return {String}
+     */
+    pt.getUrl = function () {
+
+        return this.elem.attr('url');
+
+    };
+
+    /**
+     * Gets the method of requesting.
+     *
+     * @return {String}
+     */
+    pt.getMethod = function () {
+
+        return this.elem.attr('method') || 'get';
 
     };
 

@@ -29,7 +29,21 @@ domain.map.FloorLoader = $.assignClassComponent('floor-loader', subclass(domain.
      */
     pt['character-loaded'] = function (e, character) {
 
-        this.load({floorId: character.position.floorId});
+        this.elem.attr('url', this.createUrlOfFloorId(character.position.floorId));
+
+        this.load();
+
+    };
+
+    /**
+     * Creates the url of the given floor id.
+     *
+     * @param {String} floorId
+     * @return {String}
+     */
+    pt.createUrlOfFloorId = function (floorId) {
+
+        return '/data/floor/' + floorId + '.html';
 
     };
 
