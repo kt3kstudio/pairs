@@ -30,7 +30,7 @@ domain.map.FloorWalkerLoader = $.defineRole('floor-walker-loader', function (pt,
             }
         }).appendTo(this.elem);
 
-        $('.cci').getRole('cci').init('floor-walker');
+        $.CC.init('floor-walker');
 
     };
 

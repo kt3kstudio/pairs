@@ -29,31 +29,33 @@ domain.map.FloorLoader = $.assignClassComponent('floor-loader', subclass(domain.
      */
     pt['character-loaded'] = function (e, character) {
 
-        this.elem.attr('url', this.createUrlOfFloorId(character.position.floorId));
+        this.elem.attr('data-floor-id', character.position.floorId);
 
         this.load();
 
     };
 
     /**
-     * Creates the url of the given floor id.
+     * Returns the url to request.
      *
-     * @param {String} floorId
      * @return {String}
      */
-    pt.createUrlOfFloorId = function (floorId) {
+    pt.getUrl = function () {
 
-        return '/data/floor/' + floorId + '.html';
+        return '/data/floor/' + this.elem.attr('data-floor-id') + '.html';
 
     };
 
+    /**
+     * After-handler of load.
+     */
     pt.didLoad = function (data) {
 
         var that = this;
 
         this.elem.prepend($(data));
 
-        return $('.cci').getRole('cci').init('door', 'staircase').then(function () {
+        return $.CC.init('door', 'staircase').then(function () {
 
             that.elem.trigger('floor-loaded');
 
