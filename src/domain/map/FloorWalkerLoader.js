@@ -11,9 +11,9 @@ domain.map.FloorWalkerLoader = $.defineRole('floor-walker-loader', function (pt,
 
         var that = this;
 
-        elem.on('character-loaded', function (e, character) {
+        elem.on('character-loaded', function (e) {
 
-            that.insertWalker(character);
+            that.insertWalker(e.character);
 
         });
 

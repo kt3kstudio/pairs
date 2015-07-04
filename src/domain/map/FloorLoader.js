@@ -9,31 +9,26 @@
 domain.map.FloorLoader = $.assignClassComponent('floor-loader', subclass(domain.common.Loader, function (pt, parent) {
     'use strict';
 
-    var ONE = {};
-
     pt.constructor = function (elem) {
 
         parent.constructor.call(this, elem);
 
-        this.elem.mapEventOne(this, ONE);
+        var that = this;
+
+        this.elem.streamOf('character-loaded').pipe(function (e) {
+
+            that.elem.attr('data-floor-id', e.character.position.floorId);
+
+            return that.load();
+
+        }).pipe(function () {
+
+            return 'floor-loaded';
+
+        }).emitInto(this.elem);
 
     };
 
-
-    ONE['character-loaded'] = 1;
-    /**
-     * Handler of character-loaded event. Load the floor by the character object.
-     *
-     * @param {Object} e The event
-     * @param {datadomain.Character} character The character
-     */
-    pt['character-loaded'] = function (e, character) {
-
-        this.elem.attr('data-floor-id', character.position.floorId);
-
-        this.load();
-
-    };
 
     /**
      * Returns the url to request.
@@ -51,15 +46,9 @@ domain.map.FloorLoader = $.assignClassComponent('floor-loader', subclass(domain.
      */
     pt.didLoad = function (data) {
 
-        var that = this;
-
         this.elem.prepend($(data));
 
-        return $.CC.init('door', 'staircase').then(function () {
-
-            that.elem.trigger('floor-loaded');
-
-        });
+        return $.CC.init('door', 'staircase');
 
     };
 

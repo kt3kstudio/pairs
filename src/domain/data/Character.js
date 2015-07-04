@@ -29,7 +29,9 @@ domain.data.Character = $.defineRole('character-repository', function (pt, paren
 
             that.character = character;
 
-            that.elem.trigger('character-loaded', [character]);
+            var ev = $.Event('character-loaded', {character: character});
+
+            that.elem.trigger(ev);
 
         });
 

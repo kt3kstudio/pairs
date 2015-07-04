@@ -77,6 +77,24 @@ describe('Rx', function () {
 
         });
 
+        describe('emitInto', function () {
+
+            it('supposes the observable is the stream of the event and emit them into the given element', function (done) {
+
+                var elem = $('<div />');
+
+                elem.on('click', function () {
+
+                    done();
+
+                });
+
+                Rx.Observable.of(1).map('click').emitInto(elem);
+
+            });
+
+        });
+
     });
 
 });
