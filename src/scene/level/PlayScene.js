@@ -46,9 +46,6 @@ scene.level.PlayScene = subclass(scene.common.Scene, function (pt) {
         this.scoreBoard = new ui.level.Scoreboard(pos.scoreboardDimension());
         this.menuButton = $('.menu-button').menuButton($('#level-menu'));
 
-        // debug things
-        this.fCounter = new debug.FusionCounter();
-
     };
 
 
@@ -85,11 +82,6 @@ scene.level.PlayScene = subclass(scene.common.Scene, function (pt) {
 
 
         }).pipe(function (fusionPair) {
-
-
-            that.fCounter.count(fusionPair);
-
-            console.log(that.fCounter.toString());
 
             that.scoreBoard.addScore(fusionPair.score());
 
