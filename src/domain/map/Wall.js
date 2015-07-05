@@ -10,8 +10,6 @@
 domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
     'use strict';
 
-    var ONE = {};
-
     /**
      * @constructor
      */
@@ -21,17 +19,13 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
 
         this.groundLevel = $(window).height() * (1 - domain.map.Floor.HEIGHT_RATE);
 
-        this.elem.mapEvent(this, ONE);
-
         var that = this;
 
-        this.elem.on('floor-loaded', function () {
+        this.elem.streamOf('floor-loaded').map(function () {
 
             that.init();
 
-            that.elem.trigger('floor-built');
-
-        });
+        }).map('floor-built').emitInto(this.elem);
 
     };
 
