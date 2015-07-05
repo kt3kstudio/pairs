@@ -4,7 +4,7 @@
  * @class
  * @extends domain.common.Actor
  */
-domain.map.WallObject = subclass(domain.common.Actor, function (pt, parent) {
+domain.map.WallObject = subclass(domain.common.DimensionalBeing, function (pt, parent) {
     'use strict';
 
     pt.constructor = function (elem) {
@@ -31,46 +31,16 @@ domain.map.WallObject = subclass(domain.common.Actor, function (pt, parent) {
     };
 
 
-    pt.setupDom = function () {
-
-        this.elem.width(this.w).height(this.h).css({position: 'absolute', left: this.x, top: this.y});
-
-    };
-
-
-    pt.rightLimit = function () {
-
-        return this.x + this.w;
-
-    };
-
-
     pt.centerX = function () {
 
-        return this.x + this.w / 2;
+        return this.x;
 
     };
 
     pt.centerY = function () {
 
-        return this.y + this.h;
+        return this.y;
 
-    };
-
-    pt.appear = function () {
-
-        this.setupDom();
-
-        return this.elem.anim(this.appearAnim, this.appearDur);
-
-    };
-
-    pt.disappear = function () {
-        var that = this;
-
-        return this.elem.anim(this.disappearAnim, this.disappearDur).then(function () {
-            that.elem.remove();
-        });
     };
 
     pt.open = function () {

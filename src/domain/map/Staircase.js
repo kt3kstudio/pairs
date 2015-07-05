@@ -11,11 +11,11 @@ domain.map.Staircase = subclass(domain.map.WallObject, function (pt, parent) {
 
     var STAIRCASE_ANIMATION_DUR = 400;
 
-    pt.appearAnim = 'door-appear';
-    pt.appearDur = STAIRCASE_ANIMATION_DUR;
+    pt.showAnim = 'door-appear';
+    pt.showAnimDur = STAIRCASE_ANIMATION_DUR;
 
-    pt.disappearAnim = 'door-disappear';
-    pt.disappearDur = STAIRCASE_ANIMATION_DUR;
+    pt.hideAnim = 'door-disappear';
+    pt.hideAnimDur = STAIRCASE_ANIMATION_DUR;
 
 
     pt.constructor = function (elem) {
@@ -30,9 +30,9 @@ domain.map.Staircase = subclass(domain.map.WallObject, function (pt, parent) {
     /**
      * Sets up the dom.
      */
-    pt.setupDom = function () {
+    pt.willShow = function () {
 
-        parent.setupDom.call(this);
+        parent.willShow.call(this);
 
         var that = this;
 

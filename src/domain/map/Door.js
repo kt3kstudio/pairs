@@ -21,11 +21,11 @@ domain.map.Door = subclass(domain.map.WallObject, function (pt, parent) {
 
 
 
-    pt.setupDom = function () {
+    pt.willShow = function () {
 
         var that = this;
 
-        parent.setupDom.call(this);
+        parent.willShow.call(this);
 
         this.elem.css('opcaity', 0);
 
@@ -83,10 +83,10 @@ domain.map.Door = subclass(domain.map.WallObject, function (pt, parent) {
 
     pt.doorActionDur = 400;
 
-    pt.appearAnim = 'door-appear';
-    pt.appearDur = DOOR_APPEAR_DUR;
-    pt.disappearAnim = 'door-disappear';
-    pt.disappearDur = DOOR_APPEAR_DUR;
+    pt.showAnim = 'door-appear';
+    pt.showAnimDur = DOOR_APPEAR_DUR;
+    pt.hideAnim = 'door-disappear';
+    pt.hideAnimDur = DOOR_APPEAR_DUR;
 
 });
 

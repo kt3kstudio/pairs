@@ -64,7 +64,6 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
 
         wo.y *= -1;
         wo.y += this.groundLevel;
-        wo.y -= wo.h;
 
     };
 
