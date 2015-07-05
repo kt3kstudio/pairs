@@ -13,14 +13,18 @@ describe('Being', function () {
 
         being = new domain.common.Being(elem);
 
+        being.showAnim = 'showing';
+        being.showAnimDur = 500;
+
+        being.hideAnim = 'abc';
+        being.hideAnimDur = 37;
+
     });
 
     describe('show', function () {
 
         it('calls anim method of elem property with showAnim and showAnimDur properties', function (done) {
 
-            being.showAnim = 'showing';
-            being.showAnimDur = 500;
 
             being.elem.anim = function (showAnim, showAnimDur) {
 
@@ -36,9 +40,6 @@ describe('Being', function () {
         });
 
         it('calls willShow before the main animation', function (done) {
-
-            being.showAnim = 'showing';
-            being.showAnimDur = 500;
 
             being.elem.anim = function () {
 
@@ -57,9 +58,6 @@ describe('Being', function () {
         });
 
         it('calls didShow after the main animation', function (done) {
-
-            being.showAnim = 'showing';
-            being.showAnimDur = 500;
 
             var animCalled = false;
 
@@ -84,7 +82,65 @@ describe('Being', function () {
     });
 
 
-    describe('hide', function () {});
+    describe('hide', function () {
+
+        it('calls anim method of the elem with hideAnim and hideAnimDur properties', function (done) {
+
+            being.elem.anim = function (hideAnim, hideAnimDur) {
+
+                expect(hideAnim).to.equal('abc');
+                expect(hideAnimDur).to.equal(37);
+
+                done();
+
+            };
+
+            being.hide();
+
+        });
+
+
+        it('calls willHide method before the anim method of the elem is called', function (done) {
+
+            being.elem.anim = function () {
+
+                expect(true).to.be.false;
+
+            };
+
+            being.willHide = function () {
+
+                done();
+
+            };
+
+            being.hide();
+
+        });
+
+        it('calls didHide method after the anim method of the elem is called', function () {
+
+            var animCalled = false;
+
+            being.elem.anim = function () {
+
+                animCalled = true;
+
+            };
+
+            being.didHide = function () {
+
+                expect(animCalled).to.be.true;
+
+            };
+
+            being.hide();
+
+        });
+    
+    });
+
+
     describe('appear', function () {});
     describe('disappear', function () {});
 
