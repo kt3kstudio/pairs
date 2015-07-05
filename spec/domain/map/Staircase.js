@@ -25,11 +25,11 @@ describe('domain.map.Staircase', function () {
     });
 
 
-    describe('setupDom', function () {
+    describe('willShow', function () {
 
         it('sets up the dom', function () {
 
-            this.staircase.setupDom();
+            this.staircase.willShow();
 
             // TODO: some assertion
 
@@ -38,7 +38,7 @@ describe('domain.map.Staircase', function () {
 
         it('binds to click event', function (done) {
 
-            this.staircase.setupDom();
+            this.staircase.willShow();
 
             this.staircase.elem.on('click', function () {
 

@@ -42,24 +42,6 @@ describe('domain.map.WallObject', function () {
     });
 
 
-    describe('setupDom', function () {
-
-        it('sets the dimensions of the element appropriately', function () {
-
-            var wo = new domain.map.WallObject(this.$dom);
-
-            wo.setupDom();
-
-            expect(this.$dom.width()).to.equal(100);
-            expect(this.$dom.height()).to.equal(80);
-            expect(this.$dom.css('top')).to.equal('300px');
-            expect(this.$dom.css('left')).to.equal('200px');
-
-        });
-
-    });
-
-
     describe('doorKnock', function () {
 
         it('triggers `door-knock` event with the first argument itself', function (done) {
@@ -81,18 +63,6 @@ describe('domain.map.WallObject', function () {
     });
 
 
-    describe('rightLimit', function () {
-
-        it('returns the right limit x-axis coordinate', function () {
-
-            var wo = new domain.map.WallObject(this.$dom);
-
-            expect(wo.rightLimit()).to.equal(300);
-
-        });
-
-    });
-
 
     describe('centerX', function () {
 
@@ -100,7 +70,7 @@ describe('domain.map.WallObject', function () {
 
             var wo = new domain.map.WallObject(this.$dom);
 
-            expect(wo.centerX()).to.equal(250);
+            expect(wo.centerX()).to.equal(200);
 
         });
 
@@ -113,76 +83,7 @@ describe('domain.map.WallObject', function () {
 
             var wo = new domain.map.WallObject(this.$dom);
 
-            expect(wo.centerY()).to.equal(380);
-
-        });
-
-    });
-
-
-    describe('appear', function () {
-
-        it('sets up the dom', function () {
-
-            var wo = new domain.map.WallObject(this.$dom);
-
-            wo.appear();
-
-            expect(this.$dom.width()).to.equal(100);
-            expect(this.$dom.height()).to.equal(80);
-            expect(this.$dom.css('top')).to.equal('300px');
-            expect(this.$dom.css('left')).to.equal('200px');
-
-        });
-
-        it('sets animation according to the appearAnim and AppearDur field', function () {
-            var wo = new domain.map.WallObject(this.$dom);
-
-            wo.appearAnim = 'appear';
-            wo.appearDur = 500;
-
-            return wo.appear().then(function () {
-
-                expect(wo.elem.css('-webkit-animation-name')).to.equal('appear');
-                //expect(wo.elem.css('-webkit-animation-duration')).to.equal('0.5s');
-
-            });
-
-        });
-
-    });
-
-
-    describe('disappear', function () {
-
-        it('sets animation according to the disappearAnim and disappearDur fields', function () {
-
-            var wo = new domain.map.WallObject(this.$dom);
-
-            wo.disappearAnim = 'disappear';
-            wo.disappearDur = 500;
-
-            return wo.disappear().then(function () {
-
-                expect(wo.elem.css('-webkit-animation-name')).to.equal('disappear');
-                //expect(wo.elem.css('-webkit-animation-duration')).to.equal('0.5s');
-
-            });
-
-        });
-
-        it('removes element from the document tree', function () {
-
-            var wo = new domain.map.WallObject(this.$dom);
-
-            wo.disappearAnim = 'disappear';
-            wo.disappearDur = 500;
-
-            return wo.disappear().then(function () {
-
-                expect(wo.elem[0].parentElement).to.not.exist;
-
-            });
+            expect(wo.centerY()).to.equal(300);
 
         });
 

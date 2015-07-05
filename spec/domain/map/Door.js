@@ -30,11 +30,11 @@ describe('domain.map.Door', function () {
     });
 
 
-    describe('setupDom', function () {
+    describe('willShow', function () {
 
         it('sets up the dom', function () {
 
-            this.door.setupDom();
+            this.door.willShow();
 
             expect(this.$dom.find('.doorknob').size()).to.equal(1);
             expect(this.$dom.find('.door-body').size()).to.equal(1);
@@ -45,7 +45,7 @@ describe('domain.map.Door', function () {
 
         it('binds doorKnock to click events of .door-body', function (done) {
 
-            this.door.setupDom();
+            this.door.willShow();
 
             this.door.doorKnock = function () {
 
@@ -59,7 +59,7 @@ describe('domain.map.Door', function () {
 
         it('binds goToLevel to click events of `.door-info-content button`', function (done) {
 
-            this.door.setupDom();
+            this.door.willShow();
 
             this.$dom.on('goToLevel', function () {
 
@@ -80,7 +80,7 @@ describe('domain.map.Door', function () {
 
             var that = this;
 
-            this.door.setupDom();
+            this.door.willShow();
 
             return this.door.open().then(function () {
 
@@ -95,7 +95,7 @@ describe('domain.map.Door', function () {
 
             var that = this;
 
-            this.door.setupDom();
+            this.door.willShow();
 
             this.$dom.on('door-knock', function () {
 
@@ -122,7 +122,7 @@ describe('domain.map.Door', function () {
 
             var that = this;
 
-            this.door.setupDom();
+            this.door.willShow();
 
             return this.door.open().then(function () {
                 
@@ -140,7 +140,7 @@ describe('domain.map.Door', function () {
 
             var that = this;
 
-            this.door.setupDom();
+            this.door.willShow();
 
             this.$dom.on('door-knock', function () {
 
