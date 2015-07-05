@@ -13,9 +13,20 @@ domain.map.FloorLoader = $.assignClassComponent('floor-loader', subclass(domain.
 
         parent.constructor.call(this, elem);
 
+        this.characterLoaded(this.elem.streamOf('character-loaded')).emitInto(this.elem);
+
+    };
+
+
+    /**
+     * @param {Rx.Observable} source The event stream
+     * @return {Rx.Observable}
+     */
+    pt.characterLoaded = function (source) {
+
         var that = this;
 
-        this.elem.streamOf('character-loaded').pipe(function (e) {
+        return source.pipe(function (e) {
 
             that.elem.attr('data-floor-id', e.character.position.floorId);
 
@@ -25,8 +36,7 @@ domain.map.FloorLoader = $.assignClassComponent('floor-loader', subclass(domain.
 
             return 'floor-loaded';
 
-        }).emitInto(this.elem);
-
+        });
     };
 
 
