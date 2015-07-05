@@ -12,6 +12,14 @@ domain.genetics.MeioticService = subclass(function (pt) {
 
     var GENES = ['f', 'm', 'a', 'w', 'b'];
 
+    var GENE_SCORE_TABLE = {
+        f: 1,
+        m: 1,
+        a: 8,
+        w: 64,
+        b: 512
+    };
+
 
     /**
      * Calculates the recombination the maternal gene and the paternal gene and returns a new gene.
@@ -84,19 +92,8 @@ domain.genetics.MeioticService = subclass(function (pt) {
 
     var virtualLengthOfMonon = function (monon) {
 
-        if (monon === 'm') {
-            return 1;
-        } else if (monon === 'f') {
-            return 1;
-        } else if (monon === 'a') {
-            return 8;
-        } else if (monon === 'w') {
-            return 64;
-        } else if (monon === 'b') {
-            return 512;
-        }
+        return GENE_SCORE_TABLE[monon] || 0;
 
-        return 0;
     };
 
 

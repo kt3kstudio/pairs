@@ -157,7 +157,11 @@ describe('MeioticService', function () {
             expect(meiosis.recombination('a', 'b')).to.equal('ab');
             expect(meiosis.recombination('a', 'bb')).to.equal('abb');
 
-            // TODO: write more
+            expect(meiosis.recombination('aaaa', 'aaaa')).to.equal('w');
+
+            expect(meiosis.recombination('wwww', 'wwww')).to.equal('b');
+
+            expect(meiosis.recombination('bbbb', 'bbbb')).to.equal('m');
 
         });
 
@@ -206,6 +210,7 @@ describe('MeioticService', function () {
             expect(meiosis.virtualLength('bwafm')).to.equal(586);
 
         });
+
     });
 
 });
