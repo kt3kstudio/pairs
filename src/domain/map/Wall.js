@@ -17,7 +17,7 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
 
         parent.constructor.call(this, elem);
 
-        this.groundLevel = $(window).height() * (1 - domain.map.Floor.HEIGHT_RATE);
+        this.groundLevel = $(window).height() * (1 - domain.map.Floorboard.HEIGHT_RATE);
 
         var that = this;
 

@@ -60,11 +60,11 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         var walker = this.elem.find('.floor-walker').getActor();
 
-        var floor = this.elem.find('.floor').getActor();
+        var floorboard = this.elem.find('.floorboard').getActor();
 
         var wall = this.elem.find('.wall').getActor();
 
-        return floor.appear().then(function () {
+        return floorboard.appear().then(function () {
 
             return wall.appear();
 
@@ -86,7 +86,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         return this.elem.find('.wall').getActor().disappear().then(function () {
 
-            that.elem.find('.floor').getActor().disappear();
+            that.elem.find('.floorboard').getActor().disappear();
 
             return ui.common.BackgroundService.turnBlack();
 
