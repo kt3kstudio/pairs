@@ -83,36 +83,46 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt, pa
 
     pt.willShow = function () {
 
-        var p = Promise.resolve();
+        return this.foldByFunc(function (item) {
 
-        this.items.forEach(function (item) {
+            item.appear();
 
-            p = p.then(function () {
-                item.appear();
-
-                return wait(100);
-            });
+            return wait(100);
 
         });
 
-        return p;
     };
+
 
     pt.willHide = function () {
 
-        var p = Promise.resolve();
+        return this.foldByFunc(function (item) {
 
-        this.items.forEach(function (item) {
+            item.disappear();
 
-            p = p.then(function () {
-                item.disappear();
-
-                return wait(100);
-            });
+            return wait(100);
 
         });
 
-        return p;
+    };
+
+
+    /**
+     * @private
+     * @param {Function} func The folding function of each item
+     */
+    pt.foldByFunc = function (func) {
+
+        return this.items.reduce(function (p, item) {
+
+            return p.then(function () {
+
+                return func(item)
+
+            });
+
+        }, Promise.resolve());
+
     };
 
 
