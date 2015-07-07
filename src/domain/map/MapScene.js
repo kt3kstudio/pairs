@@ -62,15 +62,15 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         var floorboard = this.elem.find('.floorboard').getActor();
 
-        var wall = this.elem.find('.wall').getActor();
+        var assets = this.elem.find('.floor-asset-collection').getActor();
 
         return floorboard.appear().then(function () {
 
-            return wall.appear();
+            return assets.appear();
 
         }).then(function () {
 
-            var wo = wall.findById(walker.getPosition().floorObjectId);
+            var wo = assets.findById(walker.getPosition().floorObjectId);
 
             return walker.appearAt(wo);
 
@@ -84,7 +84,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         var that = this;
 
-        return this.elem.find('.wall').getActor().disappear().then(function () {
+        return this.elem.find('.floor-asset-collection').getActor().disappear().then(function () {
 
             that.elem.find('.floorboard').getActor().disappear();
 

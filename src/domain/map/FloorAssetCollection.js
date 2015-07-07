@@ -5,9 +5,9 @@
  * It's also responsible for the position of the camera.
  *
  * @class
- * @extends domain.common.Actor
+ * @extends domain.common.Being
  */
-domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
+domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt, parent) {
     'use strict';
 
     /**
@@ -23,7 +23,7 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
 
         this.elem.streamOf('floor-loaded').map(function () {
 
-            that.init();
+            return that.init();
 
         }).map('floor-built').emitInto(this.elem);
 
@@ -32,15 +32,15 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
 
     pt.init = function () {
 
-        this.wos = this.elem.find('.staircase, .door').map(function () {
+        this.items = this.elem.find('.staircase, .door').map(function () {
 
             return $(this).getActor();
 
         }).toArray();
 
-        this.wos.forEach(function (wo) {
+        this.items.forEach(function (item) {
 
-            this.transformCoordinates(wo);
+            this.transformCoordinates(item);
 
         }, this);
 
@@ -52,12 +52,12 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
     /**
      * Transforms the y coordinate to fit to the floor level.
      *
-     * @param {domain.map.WallObject} wo The target WallObject
+     * @param {domain.map.FloorAsset} wo The target WallObject
      */
-    pt.transformCoordinates = function (wo) {
+    pt.transformCoordinates = function (asset) {
 
-        wo.y *= -1;
-        wo.y += this.groundLevel;
+        asset.y *= -1;
+        asset.y += this.groundLevel;
 
     };
 
@@ -77,32 +77,35 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
 
     pt.rightLimit = function () {
 
-        return Math.max.apply(Math, this.wos.map(function (wo) { return wo.rightLimit(); }));
+        return Math.max.apply(Math, this.items.map(function (item) { return item.rightLimit(); }));
 
     };
 
-    pt.appear = function () {
+    pt.willShow = function () {
 
         var p = Promise.resolve();
 
-        this.wos.forEach(function (wo) {
+        this.items.forEach(function (item) {
+
             p = p.then(function () {
-                wo.appear();
+                item.appear();
 
                 return wait(100);
             });
+
         });
 
         return p;
     };
 
-    pt.disappear = function () {
+    pt.willHide = function () {
+
         var p = Promise.resolve();
 
-        this.wos.forEach(function (wo) {
+        this.items.forEach(function (item) {
 
             p = p.then(function () {
-                wo.disappear();
+                item.disappear();
 
                 return wait(100);
             });
@@ -114,15 +117,17 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
 
 
     /**
-     * Find the wall object of the given id.
+     * Find the floor asset of the given id.
      *
      * @param {String} id The id of the wall object
      * @returns {domain.map.Door}
      */
     pt.findById = function (id) {
 
-        return this.wos.filter(function (wo) {
-            return wo.id === id;
+        return this.items.filter(function (item) {
+
+            return item.id === id;
+
         })[0];
 
     };
@@ -131,4 +136,4 @@ domain.map.Wall = subclass(domain.common.Actor, function (pt, parent) {
 
 
 
-$.assignClassComponent('wall', domain.map.Wall);
+$.assignClassComponent('floor-asset-collection', domain.map.FloorAssetCollection);
