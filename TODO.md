@@ -2,9 +2,8 @@
 
 
 
-- refactor domain.map.Floor
-
 - model FrogSprite
+  - Who loads it?
 
 - Unlocking
 
@@ -34,6 +33,7 @@
 
 
 # DONE
+- refactor domain.map.Floor
 - history loading
 - DirectionalStateImageDimensionalBeing === Sprite
 - LevelHistory persistence key does not have the char id in the key
