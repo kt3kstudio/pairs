@@ -117,7 +117,7 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt, pa
 
             return p.then(function () {
 
-                return func(item)
+                return func(item);
 
             });
 
