@@ -84,9 +84,9 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         var that = this;
 
-        return this.elem.find('.floor-asset-collection').getActor().disappear().then(function () {
+        return this.elem.find('.floor-asset-collection').getActor().hide().then(function () {
 
-            that.elem.find('.floorboard').getActor().disappear();
+            that.elem.find('.floorboard').getActor().hide();
 
             return ui.common.BackgroundService.turnBlack();
 
