@@ -2,7 +2,7 @@
 
 
 /**
- * Loader loads things.
+ * Loader provides loading capability.
  *
  * @class
  * @extends domain.common.Role
