@@ -58,7 +58,7 @@ domain.map.FloorLoader = $.assignClassComponent('floor-loader', subclass(domain.
 
         this.elem.prepend($(data));
 
-        return $.CC.init('door', 'staircase');
+        return $.CC.init(['door', 'staircase']);
 
     };
 
