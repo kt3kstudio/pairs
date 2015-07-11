@@ -20,11 +20,11 @@ module.exports = function(config) {
       'bower_components/info-pane/index.js',
       'bower_components/class-component/class-component.js',
       'bower_components/actor-system/actor-system.js',
-      'bower_components/class-component-initializer/class-component-initializer.js',
       'bower_components/event-hub/event-hub.js',
       'bower_components/event-twister/event-twister.js',
       'bower_components/es6-promise/promise.js',
       'bower_components/rxjs/dist/rx.lite.js',
+      'bower_components/class-component-initializer/class-component-initializer.js',
 
       'src/namespaces.js',
       'src/domain/common/Actor.js',
