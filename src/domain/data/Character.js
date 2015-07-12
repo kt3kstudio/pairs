@@ -4,7 +4,7 @@
 /**
  * Character data interface on the screen (experimental).
  */
-domain.data.Character = $.defineRole('character-repository', function (pt, parent) {
+domain.data.Character = $.CC.defineRole('character-repository', function (pt, parent) {
     'use strict';
 
     var ONE = {};

@@ -7,7 +7,7 @@
  * @class
  * @extends domain.common.Role
  */
-domain.common.Loader = $.defineRole(function (pt) {
+domain.common.Loader = $.CC.defineRole(function (pt) {
     'use strict';
 
     /**

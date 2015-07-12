@@ -2,7 +2,7 @@
 
 
 
-domain.map.FloorWalkerLoader = $.defineRole('floor-walker-loader', function (pt, parent) {
+domain.map.FloorWalkerLoader = $.CC.defineRole('floor-walker-loader', function (pt, parent) {
     'use strict';
 
     pt.constructor = function (elem) {

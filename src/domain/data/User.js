@@ -1,7 +1,7 @@
 
 
 
-domain.data.User = $.defineRole(function (pt, parent) {
+domain.data.User = $.CC.defineRole(function (pt, parent) {
     'use strict';
 
     var ONE = {};

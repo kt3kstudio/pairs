@@ -7,7 +7,7 @@
  * @class
  * @extends domain.common.Actor
  */
-domain.common.Being = $.defineActor(function (pt) {
+domain.common.Being = $.CC.defineActor(function (pt) {
     'use strict';
 
     var noop = function () {};
