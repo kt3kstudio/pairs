@@ -21,6 +21,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         setTimeout(function () {
 
+            // actual entry point
             elem.trigger('init');
 
         });
