@@ -32,22 +32,26 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         });
 
-        elem.on('user-loaded', function (e, user) {
-
-            elem.trigger('load-character', user.charId);
-
-        });
-
     };
 
 
     ONE.init = 1;
     pt.init = function () {
 
+        var that = this;
+
         // ui parts
         this.menuButton = $('.menu-button').menuButton($('#map-menu'));
 
-        this.elem.trigger('load-user');
+        return new datadomain.UserRepository().get().then(function (user) {
+
+            return new datadomain.CharacterRepository().getById(user.charId);
+
+        }).then(function (character) {
+
+            that.elem.trigger($.Event('character-loaded', {character: character}));
+
+        });
 
     };
 
