@@ -18,7 +18,6 @@ pages.level = {};
 // game logic domain
 domain = {};
 domain.common = {};
-domain.data = {};
 domain.splash = {};
 domain.title = {};
 domain.map = {};
