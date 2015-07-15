@@ -2,7 +2,7 @@
  * Floor class handles the behaviour of floor of the Map view
  *
  * @class
- * @extends domain.common.Actor
+ * @extends domain.common.Being
  */
 domain.map.Floorboard = subclass(domain.common.Being, function (pt) {
     'use strict';
