@@ -19,23 +19,24 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         this.elem.mapEventOne(this, ONE);
 
+        var that = this;
+
         setTimeout(function () {
 
             // actual entry point
-            elem.trigger('init');
+            that.init();
 
         });
 
         elem.on('floor-loaded', function () {
 
-            elem.trigger('start');
+            that.start();
 
         });
 
     };
 
 
-    ONE.init = 1;
     pt.init = function () {
 
         var that = this;
@@ -56,7 +57,6 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
     };
 
 
-    ONE.start = 1;
     pt.start = function () {
 
         this.menuButton.show();
