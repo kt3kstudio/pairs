@@ -20,7 +20,7 @@ domain.map.Camera = $.CC.defineRole('camera', function (pt, parent) {
 
         elem.on('floor-built', function () {
 
-            that.scrollSet($('.floor-asset-collection').getActor().findById($('.floor-walker').attr('floor-object-id')).centerX());
+            that.scrollSet($('.floor-asset-collection').getActor().findById($('.floor-walker').getActor().getPosition().floorObjectId).centerX());
 
         });
 

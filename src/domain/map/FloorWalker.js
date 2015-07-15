@@ -54,12 +54,14 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt, parent
     };
 
 
+    /**
+     * Gets the character's position.
+     *
+     * @return {datadomain.Position}
+     */
     pt.getPosition = function () {
 
-        return {
-            floorId: this.elem.attr('floor-id'),
-            floorObjectId: this.elem.attr('floor-object-id')
-        };
+        return this.character.position;
 
     };
 
@@ -71,8 +73,21 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt, parent
      */
     pt.setFloorObjectId = function (floorObjectId) {
 
-        this.elem.attr('floor-object-id', floorObjectId);
-        this.elem.trigger('set-character-floor-object-id', floorObjectId);
+        this.character.position.floorObjectId = floorObjectId;
+
+        this.saveCharacter(this.character);
+
+    };
+
+
+    /**
+     * Saves the character through event.
+     *
+     * @param {datadomain.Character} character The character
+     */
+    pt.saveCharacter = function (character) {
+
+        this.characterRepository.save(character);
 
     };
 

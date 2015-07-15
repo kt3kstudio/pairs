@@ -22,15 +22,14 @@ domain.map.FloorWalkerLoader = $.CC.defineRole('floor-walker-loader', function (
     pt.insertWalker = function (character) {
 
         $('<img />', {
-            addClass: 'floor-walker sub-door-knock',
-            attr: {
-                'char-id': character.id,
-                'floor-id': character.position.floorId,
-                'floor-object-id': character.position.floorObjectId
-            }
-        }).appendTo(this.elem);
 
-        $.CC.init('floor-walker');
+            addClass: 'floor-walker sub-door-knock',
+            appendTo: this.elem,
+            data: {character: character}
+
+        });
+
+        return $.CC.init('floor-walker', this.elem);
 
     };
 

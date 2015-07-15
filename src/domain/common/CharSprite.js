@@ -27,17 +27,21 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt, parent) 
 
         parent.constructor.call(this, elem);
 
-        var charId = this.elem.attr('char-id');
+        this.character = elem.data('character');
 
-        CHAR_SPRITE_SELECTOR(charId).call(this);
+        this.characterRepository = new datadomain.CharacterRepository();
+
+        CHAR_SPRITE_SELECTOR(this.character.id).call(this);
 
         this.defaultImage = new domain.common.Image(this.downImage);
 
         this.dirStateImage = {
+
             up: {default: new domain.common.Image(this.upImage)},
             down: {default: new domain.common.Image(this.downImage)},
             left: {default: new domain.common.Image(this.leftImage)},
             right: {default: new domain.common.Image(this.rightImage)}
+
         };
     };
 
