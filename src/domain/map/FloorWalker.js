@@ -26,19 +26,19 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt, parent
     /**
      * Makes the character appear in the scene
      *
-     * @param {domain.map.WallObject} wo The wall object
+     * @param {domain.map.FloorAsset} floorAsset The wall object
      * @return {Promise}
      */
-    pt.appearAt = function (wo) {
+    pt.appearAt = function (floorAsset) {
 
-        this.current = wo;
+        this.current = floorAsset;
 
-        this.x = wo.centerX();
-        this.y = wo.centerY();
+        this.x = floorAsset.centerX();
+        this.y = floorAsset.centerY();
 
         var that = this;
 
-        return wo.open().then(function () {
+        return floorAsset.open().then(function () {
 
             return that.appear();
 
@@ -47,9 +47,9 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt, parent
     };
 
     ON['door-knock'] = 1;
-    pt['door-knock'] = function (e, wo) {
+    pt['door-knock'] = function (e, floorAsset) {
 
-        this.moveToWallObject(wo);
+        this.moveToFloorAsset(floorAsset);
 
     };
 
@@ -95,16 +95,16 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt, parent
     /**
      * Moves the character sprite to wall object
      *
-     * @param {domain.map.WallObject} wo The wall object to go to
+     * @param {domain.map.FloorAsset} floorAsset The wall object to go to
      * @return {Promise}
      */
-    pt.moveToWallObject = function (wo) {
+    pt.moveToFloorAsset = function (floorAsset) {
 
         var that = this;
 
         var current = this.current;
 
-        this.setFloorObjectId(wo.id);
+        this.setFloorObjectId(floorAsset.id);
 
         var goOutDur = 150;
         var moveOnCorridor = 300;
@@ -118,21 +118,21 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt, parent
 
         return this.moveTo('y', current.centerY() + goOutDistance, goOutDur).then(function () {
 
-            that.elem.trigger('character-move', [wo.centerX(), moveOnCorridor]);
+            that.elem.trigger('character-move', [floorAsset.centerX(), moveOnCorridor]);
 
-            wo.open();
+            floorAsset.open();
 
-            return that.moveTo('x', wo.centerX(), moveOnCorridor);
-
-        }).then(function () {
-
-            return that.moveTo('y', wo.centerY(), goIntoDur);
+            return that.moveTo('x', floorAsset.centerX(), moveOnCorridor);
 
         }).then(function () {
 
-            that.current = wo;
+            return that.moveTo('y', floorAsset.centerY(), goIntoDur);
 
-            wo.onGetWalker(that);
+        }).then(function () {
+
+            that.current = floorAsset;
+
+            floorAsset.onGetWalker(that);
 
             return that.turn('down');
 
