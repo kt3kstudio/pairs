@@ -28,8 +28,6 @@ domain.map.FloorLoader = $.assignClassComponent('floor-loader', subclass($.CC.Ro
 
         return source.pipe(function (e) {
 
-            that.elem.attr('data-floor-id', e.character.position.floorId);
-
             return that.elem.spawn('/data/floor/' + e.character.position.floorId + '.html', 'door staircase', {prepend: true});
 
         }).pipe(function () {
