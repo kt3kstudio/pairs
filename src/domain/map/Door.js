@@ -2,9 +2,9 @@
  * Door class handles behaviour of the level's doors.
  *
  * @class
- * @extends domain.map.WallObject
+ * @extends domain.map.FloorAsset
  */
-domain.map.Door = subclass(domain.map.WallObject, function (pt, parent) {
+domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
     'use strict';
 
     var DOOR_APPEAR_DUR = 400;

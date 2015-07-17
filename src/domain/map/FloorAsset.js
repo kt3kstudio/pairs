@@ -1,10 +1,10 @@
 /**
- * WallObject is an abstract class which represents the something on the wall in the map view.
+ * FloorAsset is an abstract class which represents the something on the wall in the map view.
  *
  * @class
- * @extends domain.common.Actor
+ * @extends domain.common.DimensionalBeing
  */
-domain.map.WallObject = subclass(domain.common.DimensionalBeing, function (pt, parent) {
+domain.map.FloorAsset = subclass(domain.common.DimensionalBeing, function (pt, parent) {
     'use strict';
 
     pt.constructor = function (elem) {

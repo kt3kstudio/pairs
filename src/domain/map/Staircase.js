@@ -4,9 +4,9 @@
  * Staircase class represents the staircases in the map view.
  *
  * @class
- * @extends domain.map.WallObject
+ * @extends domain.map.FloorAsset
  */
-domain.map.Staircase = subclass(domain.map.WallObject, function (pt, parent) {
+domain.map.Staircase = subclass(domain.map.FloorAsset, function (pt, parent) {
     'use strict';
 
     var STAIRCASE_ANIMATION_DUR = 400;

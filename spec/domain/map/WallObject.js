@@ -1,13 +1,18 @@
 
 
 
-describe('domain.map.WallObject', function () {
+
+describe('domain.map.FloorAsset', function () {
     'use strict';
+
+    var floorAsset;
 
     beforeEach(function () {
 
         this.$dom = $('<div w="100" h="80" x="200" y="300" id="abc" />');
         this.$dom.appendTo(document.body);
+
+        floorAsset = new domain.map.FloorAsset(this.$dom);
 
     });
 
@@ -21,21 +26,17 @@ describe('domain.map.WallObject', function () {
 
         it('registers as actor', function () {
 
-            var wo = new domain.map.WallObject(this.$dom);
-
-            expect(this.$dom.getActor()).to.equal(wo);
+            expect(this.$dom.getActor()).to.equal(floorAsset);
 
         });
 
         it('gets w, h, x, y and id properties from the given dom', function () {
 
-            var wo = new domain.map.WallObject(this.$dom);
-
-            expect(wo.w).to.equal(100);
-            expect(wo.h).to.equal(80);
-            expect(wo.x).to.equal(200);
-            expect(wo.y).to.equal(300);
-            expect(wo.id).to.equal('abc');
+            expect(floorAsset.w).to.equal(100);
+            expect(floorAsset.h).to.equal(80);
+            expect(floorAsset.x).to.equal(200);
+            expect(floorAsset.y).to.equal(300);
+            expect(floorAsset.id).to.equal('abc');
 
         });
 
@@ -46,17 +47,15 @@ describe('domain.map.WallObject', function () {
 
         it('triggers `door-knock` event with the first argument itself', function (done) {
 
-            var wo = new domain.map.WallObject(this.$dom);
+            floorAsset.elem.one('door-knock', function (e, knocked) {
 
-            wo.elem.one('door-knock', function (e, knocked) {
-
-                expect(knocked).to.equal(wo);
+                expect(knocked).to.equal(floorAsset);
 
                 done();
 
             });
 
-            wo.doorKnock();
+            floorAsset.doorKnock();
 
         });
 
@@ -68,9 +67,7 @@ describe('domain.map.WallObject', function () {
 
         it('returns the center x-axis coodinate', function () {
 
-            var wo = new domain.map.WallObject(this.$dom);
-
-            expect(wo.centerX()).to.equal(200);
+            expect(floorAsset.centerX()).to.equal(200);
 
         });
 
@@ -81,9 +78,7 @@ describe('domain.map.WallObject', function () {
 
         it('returns the center y-axis coodinate', function () {
 
-            var wo = new domain.map.WallObject(this.$dom);
-
-            expect(wo.centerY()).to.equal(300);
+            expect(floorAsset.centerY()).to.equal(300);
 
         });
 
@@ -94,7 +89,7 @@ describe('domain.map.WallObject', function () {
 
         it('returns an empty promise', function () {
 
-            return new domain.map.WallObject(this.$dom).open();
+            return floorAsset.open();
 
         });
 
@@ -105,7 +100,7 @@ describe('domain.map.WallObject', function () {
 
         it('returns an empty promise', function () {
 
-            return new domain.map.WallObject(this.$dom).close();
+            return floorAsset.close();
 
         });
 
@@ -116,7 +111,7 @@ describe('domain.map.WallObject', function () {
 
         it('returns an empty promise', function () {
 
-            return new domain.map.WallObject(this.$dom).onGetWalker();
+            return floorAsset.onGetWalker();
 
         });
 

@@ -32,7 +32,7 @@ module.exports = function(config) {
       'src/domain/common/DimensionalBeing.js',
       'src/domain/common/Sprite.js',
       'src/domain/common/CharSprite.js',
-      'src/domain/map/WallObject.js',
+      'src/domain/map/FloorAsset.js',
       'src/util/jquery.js',
 
       'src/**/*.js',

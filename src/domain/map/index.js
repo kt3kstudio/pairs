@@ -1,2 +1,2 @@
-//= require ./WallObject.js
+//= require ./FloorAsset.js
 //= require_tree .
