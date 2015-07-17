@@ -9,6 +9,9 @@ domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
 
     var DOOR_APPEAR_DUR = 400;
 
+    /**
+     * @constructor
+     */
     pt.constructor = function (elem) {
 
         parent.constructor.call(this, elem);
@@ -17,13 +20,15 @@ domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
         this.star = 0;
         this.score = 0;
 
+        this.locked = true;
+
     };
 
 
-
+    /**
+     * @override
+     */
     pt.willShow = function () {
-
-        var that = this;
 
         parent.willShow.call(this);
 
@@ -31,21 +36,17 @@ domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
 
         this.$doorBody = $('<div />').addClass('door-body').appendTo(this.elem);
 
-        this.$doorBody.one('click', function () {
-
-            that.doorKnock();
-
-        });
-
         $('<div />').addClass('door-front').text(this.id).appendTo(this.$doorBody);
+
         $('<div />').addClass('doorknob').text('●').appendTo(this.$doorBody);
 
-
         this.infoPane = $('<div><div class="door-info-content"><p>' + this.id + '</p><hr /><p><small>♛ Best ♛</small><br />' + this.score + '</p><hr /></div></div>').addClass('door-info').css({
+
             width: '150px',
             height: '150px',
             top: '-200px',
             left: '-40px'
+
         }).appendTo(this.elem).infoPane(3, 5, {bgcolor: '#393F44'});
 
         $('<button />').text('▶').appendTo($('.door-info-content', this.infoPane.$dom)).click(function (event) {
@@ -55,30 +56,132 @@ domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
 
         });
 
+
+        if (!this.locked) {
+
+            this.enableDoorKnock();
+
+        } else {
+
+            return this.spawnFrog();
+
+        }
+
     };
 
+
+    /**
+     * Opens the door.
+     */
     pt.open = function () {
+
         this.infoPane.show();
+
         this.$doorBody
-        .addClass('open')
-        .off('click');
+        .addClass('open');
+
+        this.removeFrog();
+
+        this.disableDoorKnock();
 
         return wait(this.doorActionDur);
+
     };
 
+
+    /**
+     * Closes the door.
+     */
     pt.close = function () {
-        var that = this;
 
         this.infoPane.hide();
+
         this.$doorBody
-        .removeClass('open')
-        .one('click', function () {
+        .removeClass('open');
+
+        this.enableDoorKnock();
+
+        return wait(this.doorActionDur);
+
+    };
+
+
+    /**
+     * Unlocks the door.
+     */
+    pt.unlock = function () {
+
+        this.locked = false;
+
+        this.enableDoorKnock();
+
+        this.removeFrog();
+
+    };
+
+
+    /**
+     * Spawn the frog to the front of the door.
+     */
+    pt.spawnFrog = function () {
+
+        $('<img class="frog">').css({zIndex: 2}).appendTo(this.elem);
+
+        return $.CC.init('frog', this.elem).then(function (frogs) {
+
+            var frog = frogs[0];
+
+            if (frog) {
+
+                return $(frog).getActor().show();
+
+            }
+
+        });
+
+    };
+
+
+    /**
+     * Removes the frog in front of the door 
+     */
+    pt.removeFrog = function () {
+
+        var frog = this.elem.find('.frog').getActor();
+
+        if (frog == null) {
+
+            return;
+
+        }
+
+        frog.runAwayRight();  
+
+    };
+
+    /**
+     * Enables the door knock.
+     */
+    pt.enableDoorKnock = function () {
+
+        var that = this;
+
+        this.$doorBody.one('click', function () {
 
             that.doorKnock();
 
         });
 
-        return wait(this.doorActionDur);
+    };
+
+
+    /**
+     * Disables the door knock.
+     */
+    pt.disableDoorKnock = function () {
+
+        this.$doorBody.off('click');
+
     };
 
     pt.doorActionDur = 400;

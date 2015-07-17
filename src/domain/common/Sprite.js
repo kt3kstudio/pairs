@@ -5,7 +5,7 @@
  * @class
  * @extends domain.common.DimensionalBeing
  */
-domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = subclass(domain.common.DimensionalBeing, function (pt) {
+domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = subclass(domain.common.DimensionalBeing, function (pt, parent) {
     'use strict';
 
     /**
@@ -22,6 +22,36 @@ domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = sub
      * @property {String} dir The direction
      */
     pt.dir = null;
+
+
+    /**
+     * @property {domain.common.Image} defaultImage sprite's default image
+     */
+    pt.defaultImage = null;
+
+
+    pt.defaultDir = 'down';
+
+    pt.defaultState = 'default';
+
+
+    /**
+     * @override
+     */
+    pt.willShow = function () {
+
+        parent.willShow.call(this);
+
+        var defaultDirImage = this.dirStateImage[this.defaultDir];
+
+        if (defaultDirImage != null && defaultDirImage[this.defaultState] != null) {
+
+            defaultDirImage[this.defaultState].apply(this.elem);
+
+        }
+
+    };
+
 
     /**
      * Changes the direction the character currently heading for.

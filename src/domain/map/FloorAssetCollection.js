@@ -52,6 +52,7 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt, pa
     /**
      * Transforms the y coordinate to fit to the floor level.
      *
+     * @private
      * @param {domain.map.FloorAsset} asset The target FloorAsset
      */
     pt.transformCoordinates = function (asset) {
@@ -81,6 +82,9 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt, pa
 
     };
 
+    /**
+     * @override
+     */
     pt.willShow = function () {
 
         return this.foldByFunc(function (item) {
@@ -94,6 +98,9 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt, pa
     };
 
 
+    /**
+     * @override
+     */
     pt.willHide = function () {
 
         return this.foldByFunc(function (item) {

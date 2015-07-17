@@ -20,8 +20,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
     /** @property {Number} h sprite's width */
     pt.h = 0;
 
-    /** @property {domain.common.Image} defaultImage sprite's default image */
-    pt.defaultImage = null;
 
     /**
      * Creates the dom of the character.
@@ -37,14 +35,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
         .css('transition-timing-function', 'linear');
 
         this.updateOffset();
-
-        if (this.defaultImage != null) {
-
-            this.defaultImage.apply(this.elem);
-
-        }
-
-        return this.elem;
 
     };
 
@@ -159,6 +149,15 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
         this.x = to;
 
         this.updateOffset();
+
+    };
+
+
+    pt.setTransitionDuration = function (dur) {
+
+        this.elem.css('transition-duration', dur + 'ms').reflow();
+
+        return this;
 
     };
 
