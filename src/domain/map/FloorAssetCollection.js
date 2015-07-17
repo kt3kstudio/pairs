@@ -1,6 +1,6 @@
 
 /**
- * Wall class handles the position of wall and objects on wall.
+ * FloorAssetCollection class handles the position of wall and objects on wall.
  *
  * It's also responsible for the position of the camera.
  *
@@ -52,7 +52,7 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt, pa
     /**
      * Transforms the y coordinate to fit to the floor level.
      *
-     * @param {domain.map.FloorAsset} wo The target WallObject
+     * @param {domain.map.FloorAsset} asset The target FloorAsset
      */
     pt.transformCoordinates = function (asset) {
 
