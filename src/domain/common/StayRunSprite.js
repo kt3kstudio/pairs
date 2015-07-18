@@ -43,7 +43,6 @@ domain.common.StayRunSprite = subclass(domain.common.Sprite, function (pt, paren
         var isRight = dir === 'right';
 
         this.elem.css('transition-property', 'left, opacity');
-        this.elem.css('transition-timing-function', 'ease-in');
 
         this.setTransitionDuration(this.awayDur);
 
