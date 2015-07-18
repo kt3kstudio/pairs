@@ -21,17 +21,20 @@ describe('LevelLockCollection', function () {
 
         });
 
-        it('does nothing when the level of the given id is not found', function () {
+        it('creates a new lock object which is unlocked for the given level when the level of the given id is not found', function () {
 
             var lock0 = new datadomain.LevelLock('701', false);
             var lock1 = new datadomain.LevelLock('702', true);
 
             var collection = new datadomain.LevelLockCollection([lock0, lock1]);
 
-            collection.unlock('703'); // does nothing, does not throw
+            collection.unlock('703');
 
             expect(lock0.isLocked()).to.be.false;
             expect(lock1.isLocked()).to.be.true;
+
+            expect(collection.locks).to.have.length(3);
+            expect(collection.isLocked('703')).to.equal(false);
 
         });
 
@@ -51,14 +54,14 @@ describe('LevelLockCollection', function () {
 
         });
 
-        it('returns undefined if the level of the given id is not found', function () {
+        it('returns true if the level of the given id is not found', function () {
 
             var lock0 = new datadomain.LevelLock('701', false);
             var lock1 = new datadomain.LevelLock('702', true);
 
             var collection = new datadomain.LevelLockCollection([lock0, lock1]);
 
-            expect(collection.isLocked('703')).to.be.undefined;
+            expect(collection.isLocked('703')).to.be.true;
 
         });
 
