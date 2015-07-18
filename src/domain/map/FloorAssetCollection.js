@@ -4,6 +4,8 @@
  *
  * It's also responsible for the position of the camera.
  *
+ * Collective Component
+ *
  * @class
  * @extends domain.common.Being
  */

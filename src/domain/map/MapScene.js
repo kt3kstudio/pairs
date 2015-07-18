@@ -1,6 +1,8 @@
 /**
  * MapScene handles the scene of map
  *
+ * Application Class
+ *
  * @class
  * @extends domain.common.Actor
  */

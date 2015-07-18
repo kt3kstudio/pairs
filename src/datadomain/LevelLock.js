@@ -3,6 +3,8 @@
 
 /**
  * The level lock model
+ *
+ * @class
  */
 datadomain.LevelLock = subclass(function (pt) {
     'use strict';
@@ -14,12 +16,20 @@ datadomain.LevelLock = subclass(function (pt) {
 
     };
 
+    /**
+     * Returns if the level is locked.
+     *
+     * @return {Boolean}
+     */
     pt.isLocked = function () {
 
         return this.locked;
 
     };
 
+    /**
+     * Unlocks the level
+     */
     pt.unlock = function () {
 
         this.locked = false;

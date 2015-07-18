@@ -2,6 +2,8 @@
 /**
  * CharSprite class handles the character sprite.
  *
+ * Component
+ *
  * @class
  * @extends domain.common.Sprite
  */

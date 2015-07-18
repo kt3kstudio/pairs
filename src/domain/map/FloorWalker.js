@@ -3,7 +3,7 @@
 /**
  * FloorWalker is the role of CharSprite which handles the behaviours of the character on the floor.
  *
- * Service Class
+ * Service Component
  *
  * @class
  * @extends domain.common.CharSprite
