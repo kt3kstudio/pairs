@@ -27,6 +27,21 @@ describe('Sprite', function () {
 
     });
 
+    describe('willShow', function () {
+
+        it('sets the default state & dir image to the elem\'s src attr', function () {
+
+            sprite.defaultDir = 'up';
+            sprite.defaultState = 'stay';
+
+            sprite.willShow();
+
+            expect(sprite.elem.attr('src')).to.equal('up-stay.svg');
+
+        });
+
+    });
+
     describe('setDirState', function () {
 
         it('changes the image of elem according to the given dir and state', function () {

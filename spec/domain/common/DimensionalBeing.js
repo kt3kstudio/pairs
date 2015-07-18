@@ -48,16 +48,6 @@ describe('DimensionalBeing', function () {
 
         });
 
-        it('sets the image information when defaultImage property is set correctly', function () {
-
-            dim.defaultImage = new domain.common.Image('test.svg');
-
-            dim.willShow();
-
-            expect(dim.elem.attr('src')).to.equal('test.svg');
-
-        });
-
     });
 
     describe('rightLimit', function () {

@@ -43,7 +43,9 @@ describe('domain.map.Door', function () {
 
         });
 
-        it('binds doorKnock to click events of .door-body', function (done) {
+        it('binds doorKnock to click events of .door-body when unlocked', function (done) {
+
+            this.door.locked = false;
 
             this.door.willShow();
 
