@@ -59,7 +59,7 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt, parent
     /**
      * Gets the character's position.
      *
-     * @return {datadomain.Position}
+     * @return {datadomain.CharPosition}
      */
     pt.getPosition = function () {
 

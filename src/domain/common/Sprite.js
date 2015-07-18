@@ -36,6 +36,8 @@ domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = sub
 
 
     /**
+     * Adds the src attr of the elem if the default state dir image exists.
+     *
      * @override
      */
     pt.willShow = function () {

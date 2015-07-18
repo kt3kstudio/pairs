@@ -85,6 +85,8 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt, pa
     };
 
     /**
+     * Shows the floor assets.
+     *
      * @override
      */
     pt.willShow = function () {
@@ -101,6 +103,8 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt, pa
 
 
     /**
+     * Hides the floor assets.
+     *
      * @override
      */
     pt.willHide = function () {
@@ -117,6 +121,8 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt, pa
 
 
     /**
+     * Folds the items by the given function. This is the private utility method.
+     *
      * @private
      * @param {Function} func The folding function of each item
      */

@@ -26,6 +26,8 @@ domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
 
 
     /**
+     * Constructs the contents of the door. (Maybe not a good thing to do here)
+     *
      * @override
      */
     pt.willShow = function () {

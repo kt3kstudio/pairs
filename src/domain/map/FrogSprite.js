@@ -6,7 +6,7 @@
  * The sprite class of the frog (Obstacle creatures in front of the doors.
  * Some people call it dog).
  *
- * @extends domain.common.MonsterSprite
+ * @extends domain.common.StayRunSprite
  */
 domain.map.FrogSprite = subclass(domain.common.StayRunSprite, function (pt) {
     'use strict';

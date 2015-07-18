@@ -19,6 +19,8 @@ domain.map.FloorLoader = $.assignClassComponent('floor-loader', subclass($.CC.Ro
 
 
     /**
+     * Loads the floor assets from the url and output the floor-loaded event.
+     *
      * @param {Rx.Observable} source The event stream
      * @return {Rx.Observable}
      */
