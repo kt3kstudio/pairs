@@ -25,14 +25,17 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt, pa
 
         this.elem.streamOf('floor-loaded').map(function () {
 
-            return that.init();
+            return that.buildFloorAssets();
 
         }).map('floor-built').emitInto(this.elem);
 
     };
 
 
-    pt.init = function () {
+    /**
+     * Builds the floor assets.
+     */
+    pt.buildFloorAssets = function () {
 
         this.items = this.elem.find('.staircase, .door').map(function () {
 
