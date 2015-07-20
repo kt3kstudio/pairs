@@ -33,6 +33,11 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
     };
 
 
+    /**
+     * The entry point of the map scene.
+     *
+     * Loads things, initializes things in order, controls everything.
+     */
     pt.init = function () {
 
         var that = this;
@@ -48,9 +53,8 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
             that.elem.trigger($.Event('character-loaded', {character: character}));
 
-            var $floorAssets = that.elem.find('.floor-asset-collection');
 
-            return $floorAssets.spawn('/data/floor/' + character.position.floorId + '.html', 'door staircase', {prepend: true});
+            return that.elem.find('.floor-asset-collection').spawn('/data/floor/' + character.position.floorId + '.html', 'door staircase', {prepend: true});
 
         }).then(function () {
 
