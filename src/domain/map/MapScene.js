@@ -51,10 +51,21 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         }).then(function (character) {
 
-            that.elem.trigger($.Event('character-loaded', {character: character}));
+            var $floorAssets = that.elem.find('.floor-asset-collection');
 
+            $('<img />', {
 
-            return that.elem.find('.floor-asset-collection').spawn('/data/floor/' + character.position.floorId + '.html', 'door staircase', {prepend: true});
+                addClass: 'floor-walker sub-door-knock',
+                appendTo: $floorAssets,
+                data: {character: character}
+
+            });
+
+            var initWalker = $.CC.init('floor-walker', $floorAssets);
+
+            var spawnFloorAssets = $floorAssets.spawn('/data/floor/' + character.position.floorId + '.html', 'door staircase', {prepend: true});
+
+            return Promise.all([initWalker, spawnFloorAssets]);
 
         }).then(function () {
 
