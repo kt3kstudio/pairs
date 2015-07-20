@@ -2,15 +2,16 @@
 
 
 
-- model FrogSprite
-  - Who loads it?
 
 - Unlocking
 
-- Reimplement level, using mangrove arch
+- Reimplement splash, using CC arch
+- Reimplement title, using CC arch
+- Reimplement level, using CC arch
 
 - goal expression at the start of the level
   - show what is the goal of the level using cell icon itself
+  - the room resident show what they need to have in terms of cells
 
 ### low pri
 - Ad integration
@@ -33,6 +34,7 @@
 
 
 # DONE
+- model FrogSprite
 - refactor domain.map.Floor
 - history loading
 - DirectionalStateImageDimensionalBeing === Sprite
