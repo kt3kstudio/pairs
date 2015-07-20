@@ -77,19 +77,17 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt, parent
 
         this.character.position.floorObjectId = floorObjectId;
 
-        this.saveCharacter(this.character);
+        this.saveCharacter();
 
     };
 
 
     /**
-     * Saves the character through event.
-     *
-     * @param {datadomain.Character} character The character
+     * Saves the character data.
      */
-    pt.saveCharacter = function (character) {
+    pt.saveCharacter = function () {
 
-        this.characterRepository.save(character);
+        this.characterRepository.save(this.character);
 
     };
 
