@@ -9,27 +9,8 @@
  * @class
  * @extends domain.common.Being
  */
-domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt, parent) {
+domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
     'use strict';
-
-    /**
-     * @constructor
-     */
-    pt.constructor = function (elem) {
-
-        parent.constructor.call(this, elem);
-
-        this.groundLevel = $(window).height() * (1 - domain.map.Floorboard.HEIGHT_RATE);
-
-        var that = this;
-
-        this.elem.streamOf('floor-loaded').map(function () {
-
-            return that.buildFloorAssets();
-
-        }).map('floor-built').emitInto(this.elem);
-
-    };
 
 
     /**
@@ -43,13 +24,27 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt, pa
 
         }).toArray();
 
-        this.items.forEach(function (item) {
 
-            this.transformCoordinates(item);
+        this.items.forEach(function (floorAsset) {
+
+            this.transformCoordinates(floorAsset);
 
         }, this);
 
+
         this.expandRightLimit(180);
+
+    };
+
+
+    /**
+     * Calls the handler for each floor asset.
+     *
+     * @param {Function} callback The handler for each floor asset
+     */
+    pt.forEach = function (handler, thisArg) {
+
+        this.items.forEach(handler, thisArg);
 
     };
 
@@ -63,7 +58,7 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt, pa
     pt.transformCoordinates = function (asset) {
 
         asset.y *= -1;
-        asset.y += this.groundLevel;
+        asset.y += domain.map.Floorboard.groundLevel();
 
     };
 

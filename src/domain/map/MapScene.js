@@ -30,12 +30,6 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         });
 
-        elem.on('floor-built', function () {
-
-            that.start();
-
-        });
-
     };
 
 
@@ -53,6 +47,30 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
         }).then(function (character) {
 
             that.elem.trigger($.Event('character-loaded', {character: character}));
+
+            var $floorAssets = that.elem.find('.floor-asset-collection');
+
+            return $floorAssets.spawn('/data/floor/' + character.position.floorId + '.html', 'door staircase', {prepend: true});
+
+        }).then(function () {
+
+            var floorAssets = that.elem.find('.floor-asset-collection').getActor();
+
+            floorAssets.buildFloorAssets();
+
+            var character = that.elem.find('.floor-walker').getActor().character;
+
+            floorAssets.forEach(function (floorAsset) {
+
+                floorAsset.locked = character.locks.isLocked(floorAsset.id);
+
+            });
+
+            floorAssets.elem.trigger($.Event('floor-built'));
+
+        }).then(function () {
+
+            that.start();
 
         });
 
@@ -77,9 +95,9 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         }).then(function () {
 
-            var wo = assets.findById(walker.getPosition().floorObjectId);
+            var floorAsset = assets.findById(walker.getPosition().floorObjectId);
 
-            return walker.appearAt(wo);
+            return walker.appearAt(floorAsset);
 
         });
     };

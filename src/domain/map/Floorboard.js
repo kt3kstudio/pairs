@@ -11,10 +11,34 @@ domain.map.Floorboard = subclass(domain.common.Being, function (pt) {
 
     pt.constructor.HEIGHT_RATE = 0.35;
 
+
+    /**
+     * Returns the y coordinate of the ground line.
+     *
+     * @return {Number}
+     */
+    pt.constructor.groundLevel = function () {
+
+        return $(window).height() * (1 - pt.constructor.HEIGHT_RATE);
+
+    };
+
+
+    /**
+     * Returns the visual height of the ground on the screen.
+     *
+     * @return {Number}
+     */
+    pt.constructor.groundHeight = function () {
+
+        return $(window).height() * pt.constructor.HEIGHT_RATE;
+
+    };
+
     pt.willShow = function () {
 
-        this.elem.css('height', $(window).height() * pt.constructor.HEIGHT_RATE);
-        this.elem.css('top', $(window).height() * (1 - pt.constructor.HEIGHT_RATE));
+        this.elem.css('height', pt.constructor.groundHeight());
+        this.elem.css('top', pt.constructor.groundLevel());
         this.elem.css('transform', 'scale(1)');
 
         return wait(FLOORBOARD_MOVE_DUR);
