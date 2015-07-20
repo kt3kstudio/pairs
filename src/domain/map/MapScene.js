@@ -191,6 +191,32 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
     };
 
+
+    ONE.assetUnlock = 1;
+    pt.assetUnlock = function (e) {
+
+        var asset = e.floorAsset;
+
+        var camera = $('.camera').getRole('camera');
+
+        var walker = this.elem.find('.floor-walker').getActor();
+
+        return camera.scrollTo(asset.centerX(), 500).then(function () {
+
+            asset.removeFrog();
+            asset.locked = false;
+            asset.enableDoorKnock();
+
+            return wait(500);
+
+        }).then(function () {
+
+            camera.scrollTo(walker.x, 500);
+
+        });
+
+    };
+
 });
 
 

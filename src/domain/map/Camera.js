@@ -50,6 +50,14 @@ domain.map.Camera = $.CC.defineRole('camera', function (pt, parent) {
 
     };
 
+
+    /**
+     * Scrolls the camera focus to the given x in given duration.
+     *
+     * @param {Number} x
+     * @param {Number} dur
+     * @return {Promise}
+     */
     pt.scrollTo = function (x, dur) {
 
         this.elem.animate({scrollLeft: x - this.windowWidth / 2}, dur);
