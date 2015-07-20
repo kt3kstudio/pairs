@@ -81,6 +81,14 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
             });
 
+            var currentFloorAsset = floorAssets.findById(character.position.floorObjectId);
+
+            if (currentFloorAsset) {
+
+                currentFloorAsset.locked = false;
+
+            }
+
             floorAssets.elem.trigger($.Event('floor-built'));
 
         }).then(function () {

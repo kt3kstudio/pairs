@@ -56,4 +56,45 @@ domain.map.FloorAsset = subclass(domain.common.DimensionalBeing, function (pt, p
         return Promise.resolve();
     };
 
+
+    /**
+     * Spawn the frog to the front of the floor asset.
+     */
+    pt.spawnFrog = function () {
+
+        $('<img class="frog">').css({zIndex: 2}).appendTo(this.elem);
+
+        return $.CC.init('frog', this.elem).then(function (frogs) {
+
+            var frog = frogs[0];
+
+            if (frog) {
+
+                return $(frog).getActor().show();
+
+            }
+
+        });
+
+    };
+
+
+    /**
+     * Removes the frog in front of the floor asset.
+     */
+    pt.removeFrog = function () {
+
+        var frog = this.elem.find('.frog').getActor();
+
+        if (frog == null) {
+
+            return;
+
+        }
+
+        frog.runAwayRight();
+
+    };
+
+
 });

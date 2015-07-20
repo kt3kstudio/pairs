@@ -123,45 +123,6 @@ domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
 
 
     /**
-     * Spawn the frog to the front of the door.
-     */
-    pt.spawnFrog = function () {
-
-        $('<img class="frog">').css({zIndex: 2}).appendTo(this.elem);
-
-        return $.CC.init('frog', this.elem).then(function (frogs) {
-
-            var frog = frogs[0];
-
-            if (frog) {
-
-                return $(frog).getActor().show();
-
-            }
-
-        });
-
-    };
-
-
-    /**
-     * Removes the frog in front of the door 
-     */
-    pt.removeFrog = function () {
-
-        var frog = this.elem.find('.frog').getActor();
-
-        if (frog == null) {
-
-            return;
-
-        }
-
-        frog.runAwayRight();  
-
-    };
-
-    /**
      * Enables the door knock.
      */
     pt.enableDoorKnock = function () {

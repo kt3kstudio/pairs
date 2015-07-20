@@ -24,6 +24,8 @@ domain.map.Staircase = subclass(domain.map.FloorAsset, function (pt, parent) {
 
         this.goto = elem.data('goto'); // must be parsed position object, not string
 
+        this.locked = true;
+
     };
 
 
@@ -34,6 +36,25 @@ domain.map.Staircase = subclass(domain.map.FloorAsset, function (pt, parent) {
 
         parent.willShow.call(this);
 
+        if (this.locked) {
+
+            this.spawnFrog();
+
+        } else {
+
+            this.enableDoorKnock();
+
+        }
+
+
+    };
+
+
+    /**
+     * Enables the knock interaction.
+     */
+    pt.enableDoorKnock = function () {
+
         var that = this;
 
         this.elem.one('click', function () {
@@ -41,6 +62,16 @@ domain.map.Staircase = subclass(domain.map.FloorAsset, function (pt, parent) {
             that.doorKnock();
 
         });
+
+    };
+
+
+    /**
+     * Disables the knock interaction.
+     */
+    pt.disableDoorKnock = function () {
+
+        this.elem.off('click');
 
     };
 
