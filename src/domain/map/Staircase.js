@@ -47,14 +47,10 @@ domain.map.Staircase = subclass(domain.map.FloorAsset, function (pt, parent) {
 
     /**
      * Triggers the reload event.
-     *
-     * @param {domain.map.FloorWalker} walker The got walker
      */
     pt.onGetWalker = function () {
 
-        this.elem.trigger('set-character-position', this.goto);
-
-        this.elem.trigger('scene-reload');
+        this.elem.trigger($.Event('character-goto', {goto: this.goto}));
 
     };
 

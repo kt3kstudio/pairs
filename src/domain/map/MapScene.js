@@ -55,7 +55,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
             $('<img />', {
 
-                addClass: 'floor-walker sub-door-knock',
+                addClass: 'floor-walker sub-door-knock sub-character-goto',
                 appendTo: $floorAssets,
                 data: {character: character}
 

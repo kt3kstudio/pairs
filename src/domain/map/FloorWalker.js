@@ -56,6 +56,28 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt, parent
     };
 
 
+    ON['character-goto'] = 1;
+    /**
+     * Character goes to another floor.
+     *
+     * @param {Event} e The event object
+     */
+    pt['character-goto'] = function (e) {
+
+        this.character.position.floorId = e.goto.floorId;
+        this.character.position.floorObjectId = e.goto.floorObjectId;
+
+        var that = this;
+
+        this.saveCharacter().then(function () {
+
+            that.elem.trigger($.Event('scene-reload'));
+
+        });
+
+    };
+
+
     /**
      * Gets the character's position.
      *
@@ -87,7 +109,7 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt, parent
      */
     pt.saveCharacter = function () {
 
-        this.characterRepository.save(this.character);
+        return this.characterRepository.save(this.character);
 
     };
 
