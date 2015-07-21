@@ -1,24 +1,36 @@
 /**
+ * SplashScene controls the splash screen.
+ *
  * @class
- * PhaseController controls the phases of the splash page.
+ * @extends domain.common.Actor
  */
-scene.splash.SplashScene = subclass(scene.common.Scene, function (pt) {
+domain.splash.SplashScene = subclass(domain.common.Actor, function (pt, parent) {
     'use strict';
 
     var ANIM_DUR = 1400;
 
-    pt.start = function () {
+    var LOGOS = [
+        'images/kt3k-studio.svg',
+        'images/straw-logo.svg'
+    ];
+
+    pt.constructor = function (elem) {
+
+        parent.constructor.call(this, elem);
+
         var that = this;
 
-        var dur = ANIM_DUR;
+        setTimeout(function () {
 
-        $('body').on('click touchstart', this.goToTitle);
+            that.start().then(function () {
 
-        return this.logoAnim('images/kt3k-studio.svg', dur).then(function () {
+                that.goToTitle();
 
-            return that.logoAnim('images/straw-logo.svg', dur);
+            });
 
-        }).then(function () {
+        });
+
+        elem.on('click touchstart', function () {
 
             that.goToTitle();
 
@@ -26,24 +38,48 @@ scene.splash.SplashScene = subclass(scene.common.Scene, function (pt) {
 
     };
 
-    pt.goToTitle = function () {
-        location.replace('title.html');
+    pt.start = function () {
+
+        return LOGOS.reduce(function (promise, logo) {
+
+            return promise.then(function () {
+
+                return logoAnim(logo, ANIM_DUR);
+
+            });
+
+        }, Promise.resolve());
+
     };
 
-    pt.logoAnim = function (path, dur) {
-        var that = this;
+    /**
+     * The scene goes to the title.
+     */
+    pt.goToTitle = function () {
+
+        location.replace('title.html');
+
+    };
+
+    /**
+     * Animates the logo.
+     *
+     * @param {String} path The path of the image
+     * @param {Number} dur The duration of the animation
+     */
+    var logoAnim = function (path, dur) {
 
         return loadImage(path, 'splash-logo', document.body).then(function ($img) {
 
-            $img.one('click touchstart', function () {
-                that.goToTitle();
-            });
-
             return $img.anim('logo-anim', dur).then(function () {
+
                 $img.remove();
+
             });
 
         });
     };
 
 });
+
+$.CC.assign('splash-scene', domain.splash.SplashScene);
