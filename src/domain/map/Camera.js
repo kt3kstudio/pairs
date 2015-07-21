@@ -54,8 +54,8 @@ domain.map.Camera = $.CC.defineRole('camera', function (pt, parent) {
     /**
      * Scrolls the camera focus to the given x in given duration.
      *
-     * @param {Number} x
-     * @param {Number} dur
+     * @param {Number} x The x coordinate
+     * @param {Number} dur The duration
      * @return {Promise}
      */
     pt.scrollTo = function (x, dur) {
