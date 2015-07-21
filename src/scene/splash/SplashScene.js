@@ -38,6 +38,12 @@ domain.splash.SplashScene = subclass(domain.common.Actor, function (pt, parent) 
 
     };
 
+
+    /**
+     * Starts the splash scene.
+     *
+     * @return {Promise}
+     */
     pt.start = function () {
 
         return LOGOS.reduce(function (promise, logo) {
