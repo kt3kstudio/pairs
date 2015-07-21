@@ -1,21 +1,19 @@
 
 /**
- * @class
- *
  * TitleScene class handles the motions sequences of the title scene.
+ *
+ * @class
  */
-scene.title.TitleScene = (function () {
+domain.title.TitleScene = subclass(scene.common.Scene, function (pt) {
     'use strict';
 
-    var exports = function () {
+    pt.constructor = function () {
 
         this.menuButton = $('.menu-button').menuButton($('#title-menu'));
 
     };
 
-    var tsPt = exports.prototype = new scene.common.Scene();
-
-    tsPt.start = function () {
+    pt.start = function () {
 
         var that = this;
 
@@ -52,7 +50,7 @@ scene.title.TitleScene = (function () {
         });
     };
 
-    tsPt.reset = function () {
+    pt.reset = function () {
 
         this.fadeOut().then(function () {
 
@@ -61,7 +59,7 @@ scene.title.TitleScene = (function () {
         });
     };
 
-    tsPt.fadeOut = function () {
+    pt.fadeOut = function () {
 
         this.menuButton.hide();
 
@@ -74,7 +72,7 @@ scene.title.TitleScene = (function () {
         });
     };
 
-    tsPt.goToMap = function () {
+    pt.goToMap = function () {
 
         this.fadeOut().then(function () {
 
@@ -88,6 +86,4 @@ scene.title.TitleScene = (function () {
 
     };
 
-    return exports;
-
-}());
+});
