@@ -46,11 +46,21 @@ domain.splash.SplashScene = subclass(domain.common.Actor, function (pt, parent) 
      */
     pt.start = function () {
 
-        return LOGOS.reduce(function (promise, logo) {
+        return chainPromise(LOGOS, function (logo) {
+
+            return logoAnim(logo, ANIM_DUR);
+
+        });
+
+    };
+
+    var chainPromise = function (array, createPromise) {
+
+        return array.reduce(function (promise, item) {
 
             return promise.then(function () {
 
-                return logoAnim(logo, ANIM_DUR);
+                return createPromise(item);
 
             });
 
