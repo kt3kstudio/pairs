@@ -1,1 +1,1 @@
-//= require scene/title/
+//= require domain/title/TitleScene.js
