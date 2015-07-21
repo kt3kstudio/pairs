@@ -1,1 +1,1 @@
-//= require scene/splash/
+//= require domain/splash/SplashScene.js
