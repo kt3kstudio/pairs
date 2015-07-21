@@ -2,17 +2,12 @@
  * @class
  * PhaseController controls the phases of the splash page.
  */
-scene.splash.SplashScene = (function () {
+scene.splash.SplashScene = subclass(scene.common.Scene, function (pt) {
     'use strict';
 
     var ANIM_DUR = 1400;
 
-    var exports = function () {
-    };
-
-    var ssPt = exports.prototype = new scene.common.Scene();
-
-    ssPt.start = function () {
+    pt.start = function () {
         var that = this;
 
         var dur = ANIM_DUR;
@@ -31,11 +26,11 @@ scene.splash.SplashScene = (function () {
 
     };
 
-    ssPt.goToTitle = function () {
+    pt.goToTitle = function () {
         location.replace('title.html');
     };
 
-    ssPt.logoAnim = function (path, dur) {
+    pt.logoAnim = function (path, dur) {
         var that = this;
 
         return loadImage(path, 'splash-logo', document.body).then(function ($img) {
@@ -51,6 +46,4 @@ scene.splash.SplashScene = (function () {
         });
     };
 
-    return exports;
-
-}());
+});
