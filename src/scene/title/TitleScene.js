@@ -4,20 +4,33 @@
  *
  * @class
  */
-domain.title.TitleScene = subclass(scene.common.Scene, function (pt) {
+domain.title.TitleScene = subclass(domain.common.Actor, function (pt, parent) {
     'use strict';
 
-    pt.constructor = function () {
+    pt.constructor = function (elem) {
+
+        parent.constructor.call(this, elem);
 
         this.menuButton = $('.menu-button').menuButton($('#title-menu'));
 
+        var that = this;
+
+        setTimeout(function () {
+
+            that.start();
+
+        });
+
     };
 
+    /**
+     * Entry point of the title scene.
+     */
     pt.start = function () {
 
         var that = this;
 
-        loadImage('images/title-logo.svg', 'title-logo elem', '#main').then(function ($img) {
+        loadImage('images/title-logo.svg', 'title-logo elem', this.elem).then(function ($img) {
 
             return $img.anim('title-appear', 2000).then(function () {
 
@@ -34,7 +47,7 @@ domain.title.TitleScene = subclass(scene.common.Scene, function (pt) {
             $('<p />')
                 .text('GET UP')
                 .addClass('touch-here elem')
-                .appendTo('#main')
+                .appendTo(that.elem)
                 .click(function () {
 
                     that.goToMap();
@@ -87,3 +100,5 @@ domain.title.TitleScene = subclass(scene.common.Scene, function (pt) {
     };
 
 });
+
+$.CC.assign('title-scene', domain.title.TitleScene);
