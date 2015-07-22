@@ -6,5 +6,3 @@
 //= include domain/level/
 //= include scene/level/
 //= include ui/level/
-
-//= include debug/all.js
