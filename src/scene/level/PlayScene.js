@@ -1,8 +1,8 @@
 /**
+ * PlayScene controlls the main playing scene of the level page.
+ *
  * @class
  * @extends scene.common.Scene
- *
- * PlayScene controlls the main playing scene of the level page.
  */
 scene.level.PlayScene = subclass(scene.common.Scene, function (pt) {
     'use strict';

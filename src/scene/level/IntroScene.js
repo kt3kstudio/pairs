@@ -1,13 +1,14 @@
 
 /**
+ * IntroScene class handles the introduction scene of the level page.
+ *
  * @class
  * @extends scene.common.Scene
- * IntroScene class handles the introduction scene of the level page.
  */
-scene.level.IntroScene = (function () {
+scene.level.IntroScene = subclass(scene.common.Scene, function (pt) {
     'use strict';
 
-    var exports = function (prevScene) {
+    pt.constructor = function (prevScene) {
 
         this.character = prevScene.character;
         this.level = prevScene.level;
@@ -21,9 +22,7 @@ scene.level.IntroScene = (function () {
         this.ball = new domain.level.Ball(this.pos.fieldPosition(), {x: 1, y: 1}, '#main');
     };
 
-    var isPt = exports.prototype = new scene.common.Scene();
-
-    isPt.start = function () {
+    pt.start = function () {
 
         var that = this;
 
@@ -67,6 +66,4 @@ scene.level.IntroScene = (function () {
         });
     };
 
-    return exports;
-
-}());
+});

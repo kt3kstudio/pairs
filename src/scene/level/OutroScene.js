@@ -1,13 +1,15 @@
 
 /**
+ * OutroScene handles the scene after finishing main play.
+ *
  * @class
  * @extends scene.common.Scene
- * OutroScene handles the scene after finishing main play.
  */
-scene.level.OutroScene = (function () {
+scene.level.OutroScene = (scene.common.Scene, function (pt) {
     'use strict';
 
-    var exports = function (prevScene) {
+    pt.constructor = function (prevScene) {
+
         this.prevScene = prevScene;
 
         this.pos = this.prevScene.pos;
@@ -23,9 +25,7 @@ scene.level.OutroScene = (function () {
         this.resPane = new ui.level.ResultPane(panePos, panePos.width, panePos.height, '#main', '.wrapper');
     };
 
-    var osPt = exports.prototype = new scene.common.Scene();
-
-    osPt.start = function () {
+    pt.start = function () {
 
         var that = this;
 
@@ -97,6 +97,4 @@ scene.level.OutroScene = (function () {
         return this.ball.disappear();
     };
 
-    return exports;
-
-}());
+});
