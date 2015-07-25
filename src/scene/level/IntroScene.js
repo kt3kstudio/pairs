@@ -3,23 +3,63 @@
  * IntroScene class handles the introduction scene of the level page.
  *
  * @class
- * @extends scene.common.Scene
+ * @extends $.CC.Role
  */
-scene.level.IntroScene = subclass(scene.common.Scene, function (pt) {
+scene.level.IntroScene = subclass($.CC.Role, function (pt, parent) {
     'use strict';
 
-    pt.constructor = function (prevScene) {
+    pt.constructor = function (elem) {
 
-        this.character = prevScene.character;
-        this.level = prevScene.level;
+        parent.constructor.call(this, elem);
 
-        this.pos = new domain.level.PositionFactory();
+        var that = this;
 
-        this.paper = new domain.level.PieceOfPaper();
+        setTimeout(function () {
 
-        this.chr = prevScene.charSprite;
+            that.init();
 
-        this.ball = new domain.level.Ball(this.pos.fieldPosition(), {x: 1, y: 1}, '#main');
+        });
+
+    };
+
+    /**
+     * The entry point of the level scene.
+     *
+     * @return {Promise}
+     */
+    pt.init = function () {
+
+        var that = this;
+
+        return new datadomain.UserRepository().get().then(function (user) {
+
+            return new datadomain.CharacterRepository().getById(user.charId);
+
+        }).then(function (character) {
+
+            that.character = character;
+
+            return new datadomain.LevelRepository().getById(character.position.floorObjectId);
+
+        }).then(function (level) {
+
+            that.level = level;
+
+            that.pos = new domain.level.PositionFactory();
+
+            return Promise.all([
+
+                that.spawnBall(),
+                that.spawnPaper(),
+                that.spawnCharacter(that.character)
+
+            ]);
+
+        }).then(function () {
+
+            return that.start();
+
+        });
     };
 
     pt.start = function () {
@@ -28,26 +68,28 @@ scene.level.IntroScene = subclass(scene.common.Scene, function (pt) {
 
         var paperPos = this.pos.paperPosition();
 
+        this.chr = this.elem.find('.character-on-level').getActor();
+        this.paper = this.elem.find('.paper').getActor();
+        this.ball = this.elem.find('.ball').getActor();
+
+        console.log(paperPos);
+
         this.chr.x = paperPos.left;
         this.chr.y = 800;
 
-        this.chr.put();
+        this.chr.place();
 
         this.paper.x = paperPos.left;
         this.paper.y = paperPos.top;
 
-        this.paper.put();
+        this.paper.appear();
 
         ui.common.BackgroundService.turnWhite();
 
-        Promise.resolve().then(function () {
-
-            return that.chr.moveTo('y', paperPos.top, 600);
-
-        }).then(function () {
+        return this.chr.moveTo('y', paperPos.top, 600).then(function () {
 
             // the character takes the paper in the room.
-            that.paper.disappear(1000);
+            //that.paper.disappear(1000);
 
             var goals = $('<p />').text(that.level.goal.toString());
 
@@ -56,7 +98,7 @@ scene.level.IntroScene = subclass(scene.common.Scene, function (pt) {
 
         }).then(function () {
 
-            that.chr.disappear(1000);
+            //that.chr.disappear(1000);
             return that.ball.appear();
 
         }).then(function () {
@@ -64,6 +106,48 @@ scene.level.IntroScene = subclass(scene.common.Scene, function (pt) {
             return that.finish();
 
         });
+
+    };
+
+
+    /**
+     * Spawns the ball.
+     */
+    pt.spawnBall = function () {
+
+        $($('#tpl-ball').html()).data({
+
+            dimension: this.pos.fieldPosition(),
+            pos: {x: 1, y: 1}
+
+        }).appendTo(this.elem);
+
+        return $.CC.init('ball');
+
+    };
+
+    /**
+     * Spawns the paper.
+     */
+    pt.spawnPaper = function () {
+
+        $('<img class="paper" />').appendTo(this.elem);
+
+        return $.CC.init('paper');
+
+    };
+
+    /**
+     * Spawns the character sprite.
+     */
+    pt.spawnCharacter = function (character) {
+
+        $('<img class="character-on-level" />').appendTo(this.elem).data({character: character});
+
+        return $.CC.init('character-on-level');
+
     };
 
 });
+
+$.CC.assign('intro-scene', scene.level.IntroScene);

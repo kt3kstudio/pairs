@@ -1,94 +1,109 @@
 /**
- * @class
  * Ball class represents the ball inside the field of the level.
+ *
+ * @class
  */
-domain.level.Ball = (function () {
+domain.level.Ball = subclass(domain.common.Being, function (pt, parent) {
     'use strict';
 
     var TRANS_DUR = 300;
 
     var MAX = 3;
 
-    var exports = function (dimension, pos, parent) {
+    pt.constructor = function (elem) {
+
+        parent.constructor.call(this, elem);
+
+        var pos = elem.data('pos');
+
         this.x = pos.x;
         this.y = pos.y;
 
-        this.dimension = dimension;
+        this.dimension = elem.data('dimension'); 
 
-        this.setParent(parent);
     };
 
-    var ballPt = exports.prototype = new domain.common.Sprite($('<img />'));
+    pt.maxX = MAX;
+    pt.maxY = MAX;
 
-    ballPt.maxX = MAX;
-    ballPt.maxY = MAX;
+    pt.showAnim = 'ball-appear';
+    pt.showAnimDur = TRANS_DUR;
 
-    ballPt.createDom = function () {
-        this.$dom = $($('#tpl-ball').text()).css({
-            width: this.dimension.unit + 'px',
-            height: this.dimension.unit + 'px'
-        });
+    pt.hideAnim = 'ball-disappear';
+    pt.hideAnimDur = TRANS_DUR;
 
-        this.locate();
+    pt.locateDur = TRANS_DUR;
 
-        return this.$dom;
-    };
+    /**
+     * Moves the ball to the direction.
+     *
+     * @param {String} dir
+     * @return {Promise}
+     */
+    pt.move = function (dir) {
 
-    ballPt.appearAnim = 'ball-appear';
-    ballPt.appearDur = TRANS_DUR;
-
-    ballPt.disappearAnim = 'ball-disappear';
-    ballPt.disappearDur = TRANS_DUR;
-
-    ballPt.locateDur = TRANS_DUR;
-
-    ballPt.move = function (dir) {
         return this.setPos(this.posAhead(dir));
+
     };
 
-    ballPt.pos = function () {
+    pt.pos = function () {
+
         return {x: this.x, y: this.y};
+
     };
 
-    ballPt.posAhead = function (dir) {
+    pt.posAhead = function (dir) {
+
         switch (dir) {
             case 'up': return this.relativePos(0, -1);
             case 'down': return this.relativePos(0, 1);
             case 'left': return this.relativePos(-1, 0);
             case 'right': return this.relativePos(1, 0);
         }
+
     };
 
-    ballPt.relativePos = function (x, y) {
+    pt.relativePos = function (x, y) {
+
         return {x: (this.x + x + this.maxX) % this.maxX, y: (this. y + y + this.maxY) % this.maxY};
+
     };
 
-    ballPt.setPos = function (pos) {
+    pt.setPos = function (pos) {
+
         this.x = pos.x;
         this.y = pos.y;
 
         return this.locate();
+
     };
 
-    ballPt.locate = function () {
-        this.$dom.css('top', this.dimension.top + this.y * this.dimension.unit + 'px');
-        this.$dom.css('left', this.dimension.left + this.x * this.dimension.unit + 'px');
+    /**
+     * @private
+     */
+    pt.locate = function () {
+
+        this.elem.css('top', this.dimension.top + this.y * this.dimension.unit + 'px');
+        this.elem.css('left', this.dimension.left + this.x * this.dimension.unit + 'px');
 
         return wait(this.locateDur);
+
     };
 
-    ballPt.refuseToMove = function (dir) {
+    pt.refuseToMove = function (dir) {
+
         if (dir === 'up' || dir === 'down') {
 
-            return this.$dom.anim('ball-refuse-y', this.locateDur);
+            return this.elem.anim('ball-refuse-y', this.locateDur);
 
         } else {
 
-            return this.$dom.anim('ball-refuse-x', this.locateDur);
+            return this.elem.anim('ball-refuse-x', this.locateDur);
 
         }
+
     };
 
-    return exports;
+});
 
-}());
+$.CC.assign('ball', domain.level.Ball);

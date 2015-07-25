@@ -134,42 +134,7 @@ body: dark-bg
 
 </style>
 
-<script>
-var ps;
-var reload = false;
-
-// main
-$(function () {
-    'use strict';
-
-    new scene.level.LevelLoader().play().then(function (ll) {
-
-        return new scene.level.IntroScene(ll).play();
-
-    }).then(function (is) {
-
-        ps = new scene.level.PlayScene(is)
-        return ps.play();
-
-    }).then(function (ps) {
-
-        return new scene.level.OutroScene(ps).play();
-
-    }).then(function () {
-
-        if (reload) {
-            location.reload();
-            return;
-        }
-
-        history.back();
-
-    });
-});
-
-</script>
-
-<div id="main">
+<div id="main" class="intro-scene">
 
 <div class="wrapper"></div>
 
@@ -188,7 +153,7 @@ $(function () {
 <!-- templates, a bit old-fashioned templating -->
 <script type="text/template" id="tpl-ball">
   <svg
-    class="circle"
+    class="ball circle"
     width="100px"
     height="100px"
     viewBox="0 0 100 100">

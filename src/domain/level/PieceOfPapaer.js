@@ -1,14 +1,11 @@
 
 /**
+ * PieceOfPaper represents a piece of paper which is on the floor of each room (obsolete).
+ *
  * @class
  * @extends domain.common.CharSprite
- * PieceOfPaper represents a piece of paper which is on the floor of each room (level).
- *
- * On a piece of paper, the instruction for clearing the level is written down,
- * and ma will take it up & read it,
- * then the level will start.
  */
-domain.level.PieceOfPaper = subclass(domain.common.CharSprite, function (pt) {
+domain.level.Paper = subclass(domain.common.StaticSprite, function (pt) {
     'use strict';
 
     pt.x = 0;
@@ -17,10 +14,14 @@ domain.level.PieceOfPaper = subclass(domain.common.CharSprite, function (pt) {
     pt.h = 50;
 
     pt.image = 'images/paper.svg';
-    pt.cssClass = 'sprite piece-of-paper';
 
-    pt.appearAnim = 'paper-appear';
+    pt.showAnim = 'paper-appear';
+    pt.hideAnimDur = 500;
 
-    pt.disappearAnim = 'paper-disappear';
+    pt.hideAnim = 'paper-disappear';
+    pt.hideAnimDur = 500;
 
 });
+
+
+$.CC.assign('paper', domain.level.Paper);

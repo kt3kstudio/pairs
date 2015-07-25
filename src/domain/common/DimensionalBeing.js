@@ -21,12 +21,11 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
     pt.h = 0;
 
 
+
     /**
-     * Creates the dom of the character.
-     *
-     * @return {jQuery}
+     * Places the being with the appropriate dimension.
      */
-    pt.willShow = function () {
+    pt.place = function () {
 
         this.elem
         .width(this.w)
@@ -35,6 +34,18 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
         .css('transition-timing-function', 'linear');
 
         this.updateOffset();
+
+    };
+
+
+    /**
+     * Creates the dom of the character.
+     *
+     * @return {jQuery}
+     */
+    pt.willShow = function () {
+
+        this.place();
 
     };
 
