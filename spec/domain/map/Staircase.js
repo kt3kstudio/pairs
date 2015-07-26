@@ -55,9 +55,9 @@ describe('domain.map.Staircase', function () {
 
     describe('onGetWalker', function () {
 
-        it('triggers the scene-reload event', function (done) {
+        it('triggers the character-goto event', function (done) {
 
-            this.staircase.elem.on('scene-reload', function () {
+            this.staircase.elem.on('character-goto', function () {
 
                 done();
 
