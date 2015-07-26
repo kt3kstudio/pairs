@@ -103,4 +103,4 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
 
 });
 
-$.CC.assign('scoreboard', ui.level.Scoreboard)
+$.CC.assign('scoreboard', ui.level.Scoreboard);

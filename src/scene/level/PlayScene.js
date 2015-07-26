@@ -11,7 +11,7 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
     /**
      * Initializes the scene.
      */
-    pt.init = function (elem) {
+    pt.init = function () {
 
         var pos = this.pos = new domain.level.DimensionFactory();
 
@@ -55,7 +55,7 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
 
         $('<div class="scoreboard" />').appendTo(this.elem);
 
-    }
+    };
 
 
     /**

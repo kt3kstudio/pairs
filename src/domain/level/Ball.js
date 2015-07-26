@@ -19,7 +19,7 @@ domain.level.Ball = subclass(domain.common.Being, function (pt, parent) {
         this.x = pos.x;
         this.y = pos.y;
 
-        this.dimension = elem.data('dimension'); 
+        this.dimension = elem.data('dimension');
 
     };
 
@@ -33,7 +33,7 @@ domain.level.Ball = subclass(domain.common.Being, function (pt, parent) {
 
         this.locate();
 
-    }
+    };
 
     pt.maxX = MAX;
     pt.maxY = MAX;
