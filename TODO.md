@@ -1,13 +1,14 @@
 # TODO
 
 
+- Clean up around DimensionFactory
+  - Remame PositionFactory to DimensionFactory
+  - Return Dimension object, not Object object
 
+- Do OutroScene
 
-- Unlocking
-
-- Reimplement splash, using CC arch
-- Reimplement title, using CC arch
-- Reimplement level, using CC arch
+- Make residents
+  - Who suggest what they need for their rooms
 
 - goal expression at the start of the level
   - show what is the goal of the level using cell icon itself
@@ -34,6 +35,9 @@
 
 
 # DONE
+- Unlocking
+- Reimplement splash, using CC arch
+- Reimplement title, using CC arch
 - model FrogSprite
 - refactor domain.map.Floor
 - history loading
