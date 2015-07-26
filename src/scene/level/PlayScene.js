@@ -114,7 +114,7 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
 
             if (!that.exitQueue.theLastOneIsEvolved()) {
 
-                that.finish();
+                that.elem.getRole('outro-scene').init();
 
                 return new Promise(function () {});
 
@@ -175,7 +175,7 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
 
         }).then(function () {
 
-            console.log('start!');
+            console.log('swipe stream start!');
 
             return that.bindEventHandlers(that.swipe.getStream());
 

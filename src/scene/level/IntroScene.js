@@ -98,7 +98,7 @@ scene.level.IntroScene = subclass($.CC.Role, function (pt, parent) {
 
         }).then(function () {
 
-            that.chr.disappear(1000);
+            that.chr.hide(1000);
 
             return that.ball.appear();
 

@@ -5,31 +5,31 @@
  * @class
  * @extends scene.common.Scene
  */
-scene.level.OutroScene = (scene.common.Scene, function (pt) {
+scene.level.OutroScene = subclass(domain.common.Role, function (pt) {
     'use strict';
 
-    pt.constructor = function (prevScene) {
+    pt.init = function () {
 
-        this.prevScene = prevScene;
+        this.pos = new domain.level.DimensionFactory();
 
-        this.pos = this.prevScene.pos;
-
-        this.ball = new Ball(prevScene.ball);
-        this.chr = prevScene.chr;
-        this.field = prevScene.field;
-        this.menuButton = prevScene.menuButton;
-        this.scoreBoard = prevScene.scoreBoard;
+        this.ball = new Ball(this.elem.find('.ball').getActor());
+        this.chr = this.elem.find('.character-on-level').getActor();
+        this.field = this.elem.getRole('play-scene').field;
+        this.menuButton = this.elem.getRole('play-scene').menuButton;
+        this.scoreboard = this.elem.getRole('play-scene').scoreboard;
 
         var panePos = this.pos.resultPanePosition();
 
         this.resPane = new ui.level.ResultPane(panePos, panePos.width, panePos.height, '#main', '.wrapper');
+
+        this.start();
     };
 
     pt.start = function () {
 
         var that = this;
 
-        this.resPane.setScore(this.scoreBoard.score);
+        this.resPane.setScore(this.scoreboard.score);
 
         return this.resPane.show(30000000).then(function () {
 
@@ -37,7 +37,7 @@ scene.level.OutroScene = (scene.common.Scene, function (pt) {
 
             that.menuButton.hide();
 
-            that.scoreBoard.disappear();
+            that.scoreboard.disappear();
 
             return that.field.disappear();
 
@@ -66,7 +66,7 @@ scene.level.OutroScene = (scene.common.Scene, function (pt) {
 
         }).then(function () {
 
-            that.finish();
+            history.back();
 
         });
 
@@ -98,3 +98,6 @@ scene.level.OutroScene = (scene.common.Scene, function (pt) {
     };
 
 });
+
+
+$.CC.assign('outro-scene', scene.level.OutroScene);
