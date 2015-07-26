@@ -1,57 +1,78 @@
 
 /**
  * Scoreboard handles the behaviour of the score board of the level view.
+ *
+ * @class
+ * @extends domain.common.DimensionalBeing
  */
-ui.level.Scoreboard = (function () {
+ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, parent) {
     'use strict';
 
     var MARGIN = 4;
 
     /**
      * @constructor
-     * @param {Object} dimension The dimension of the scoreboard
-     * @param {Number} dimension.left
-     * @param {Number} dimension.top
-     * @param {Number} dimension.width
-     * @param {Number} dimension.height
+     * @param {jQuery} elem The scoreboard element
+     * @param {Object} elem.data.dimension The dimension of the scoreboard
+     * @param {Number} elem.data.dimension.left The left offset
+     * @param {Number} elem.data.dimension.top The top offset
+     * @param {Number} elem.data.dimension.width The width
+     * @param {Number} elem.data.dimension.height The height
      * @param {Number} [score=0] The score
      */
-    var exports = function (dimension, score) {
-        this.dim = dimension;
-        this.score = score || 0;
+    pt.constructor = function (elem) {
+
+        parent.constructor.call(this, elem);
+
+        this.score = 0;
         this.margin = MARGIN;
+
     };
 
 
-    var sbPt = exports.prototype = new domain.common.Sprite($('<div />'));
-
-
-    sbPt.appearAnim = 'bom-appear';
-    sbPt.appearDur = 400;
-    sbPt.disappearAnim = 'bom-disappear';
-    sbPt.disappearDur = 400;
+    pt.appearAnim = 'bom-appear';
+    pt.appearDur = 400;
+    pt.disappearAnim = 'bom-disappear';
+    pt.disappearDur = 400;
 
 
     /**
-     * Creates the dom for this class.
+     * Sets the dimension of the element.
+     *
+     * @param {domain.level.Dimension} dimension
+     */
+    pt.setDimension = function (dimension) {
+
+        this.dimension = dimension;
+
+    };
+
+
+    /**
+     * Set up the initial dom state.
      *
      * @return {jQuery}
      */
-    sbPt.createDom = function () {
-        this.$dom = $('<div />').addClass('board scoreboard').offset(this.dim)
-            .width(this.dim.width - this.margin * 2)
-            .height(this.dim.height - this.margin * 2)
-            .text(this.score);
+    pt.willShow = function () {
 
-        return this.$dom;
+        parent.willShow.call(this);
+
+        this.elem
+        .offset(this.dimension)
+        .width(this.dimension.width - this.margin * 2)
+        .height(this.dimension.height - this.margin * 2)
+        .text(this.score);
+
     };
 
 
     /**
      * Updates the scoreboard's number.
      */
-    sbPt.update = function () {
-        this.$dom.text(window.commaNumber(this.score));
+    pt.update = function () {
+
+        this.elem.text(window.commaNumber(this.score));
+
     };
 
     /**
@@ -59,12 +80,12 @@ ui.level.Scoreboard = (function () {
      *
      * @param {Number} score The score to add
      */
-    sbPt.addScore = function (score) {
+    pt.addScore = function (score) {
+
         this.score += score;
 
         this.update();
 
-        return this;
     };
 
     /**
@@ -72,14 +93,14 @@ ui.level.Scoreboard = (function () {
      *
      * @param {Number} score The score
      */
-    sbPt.setScore = function (score) {
+    pt.setScore = function (score) {
+
         this.score = score;
 
         this.update();
 
-        return this;
     };
 
-    return exports;
+});
 
-}());
+$.CC.assign('scoreboard', ui.level.Scoreboard)

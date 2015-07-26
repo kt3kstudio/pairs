@@ -1,8 +1,9 @@
 /**
+ * The factory class of the dimensions of various object on level scene.
+ *
  * @class
- * PositionFactory creates position objects of components in the level coordinate.
  */
-domain.level.PositionFactory = (function () {
+domain.level.DimensionFactory = domain.level.PositionFactory = (function () {
     'use strict';
 
     var TOP_UI_HEIGHT = 50; // the height of the score board at the top

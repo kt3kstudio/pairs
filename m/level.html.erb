@@ -134,14 +134,15 @@ body: dark-bg
 
 </style>
 
-<div id="main" class="intro-scene">
+<div id="main" class="intro-scene play-scene outro-scene">
 
-<div class="wrapper"></div>
+  <div class="scoreboard"></div>
+
+  <div class="wrapper"></div>
 
 </div>
 
 <img class="menu-button menu-hidden" src="images/menu-button.svg" />
-
 
 <!-- menu object -->
 <menus id="level-menu">
@@ -154,6 +155,7 @@ body: dark-bg
 <script type="text/template" id="tpl-ball">
   <svg
     class="ball circle"
+    style="display: none"
     width="100px"
     height="100px"
     viewBox="0 0 100 100">

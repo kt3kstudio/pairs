@@ -2,25 +2,24 @@
  * PlayScene controlls the main playing scene of the level page.
  *
  * @class
- * @extends scene.common.Scene
+ * @extends domain.common.Role
  */
-scene.level.PlayScene = subclass(scene.common.Scene, function (pt) {
+scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
     'use strict';
 
 
     /**
-     * @constructor
-     * @param {scene.common.Scene} prevScene
+     * Initializes the scene.
      */
-    pt.constructor = function (prevScene) {
+    pt.init = function (elem) {
 
-        var pos = this.pos = prevScene.pos;
+        var pos = this.pos = new domain.level.DimensionFactory();
 
         // continuous actors
-        this.ball = prevScene.ball;
-        this.character = prevScene.character;
-        this.level = prevScene.level;
-        this.chr = prevScene.chr;
+        this.ball = this.elem.find('.ball').getActor();
+        this.character = this.elem.find('.character-on-level').getActor().character;
+        this.level = this.elem.getRole('intro-scene').level;
+        this.chr = this.elem.find('.character-on-level').getActor();
 
         // prepare dimensions
         var fieldDimension = pos.fieldPosition();
@@ -43,10 +42,20 @@ scene.level.PlayScene = subclass(scene.common.Scene, function (pt) {
 
         // ui components
         this.swipe = new ui.level.SwipeEvent('.wrapper');
-        this.scoreBoard = new ui.level.Scoreboard(pos.scoreboardDimension());
+        this.scoreboard = this.elem.find('.scoreboard').getActor();
+        this.scoreboard.setDimension(pos.scoreboardDimension());
         this.menuButton = $('.menu-button').menuButton($('#level-menu'));
 
+        this.start();
+
     };
+
+
+    pt.spawnScoreboard = function () {
+
+        $('<div class="scoreboard" />').appendTo(this.elem);
+
+    }
 
 
     /**
@@ -83,7 +92,7 @@ scene.level.PlayScene = subclass(scene.common.Scene, function (pt) {
 
         }).pipe(function (fusionPair) {
 
-            that.scoreBoard.addScore(fusionPair.score());
+            that.scoreboard.addScore(fusionPair.score());
 
             return that.fusionService.performFusion(fusionPair);
 
@@ -134,7 +143,7 @@ scene.level.PlayScene = subclass(scene.common.Scene, function (pt) {
 
         var that = this;
 
-        this.scoreBoard.appear();
+        this.scoreboard.appear();
         this.menuButton.show();
 
         return this.field.appear().then(function () {
@@ -181,3 +190,6 @@ scene.level.PlayScene = subclass(scene.common.Scene, function (pt) {
 
 
 });
+
+
+$.CC.assign('play-scene', scene.level.PlayScene);

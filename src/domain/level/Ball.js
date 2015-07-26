@@ -23,6 +23,18 @@ domain.level.Ball = subclass(domain.common.Being, function (pt, parent) {
 
     };
 
+    pt.willShow = function () {
+
+        this.elem.css('display', 'inline');
+        this.elem.css('position', 'absolute');
+
+        this.elem.width(this.dimension.unit);
+        this.elem.height(this.dimension.unit);
+
+        this.locate();
+
+    }
+
     pt.maxX = MAX;
     pt.maxY = MAX;
 

@@ -7,7 +7,7 @@
  *
  * @class
  */
-domain.level.Dimension = subclass(function () {
+domain.level.Dimension = subclass(function (pt) {
     'use strict';
 
     /**

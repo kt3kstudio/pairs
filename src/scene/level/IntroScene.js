@@ -31,6 +31,8 @@ scene.level.IntroScene = subclass($.CC.Role, function (pt, parent) {
 
         var that = this;
 
+        this.pos = new domain.level.DimensionFactory();
+
         return new datadomain.UserRepository().get().then(function (user) {
 
             return new datadomain.CharacterRepository().getById(user.charId);
@@ -44,8 +46,6 @@ scene.level.IntroScene = subclass($.CC.Role, function (pt, parent) {
         }).then(function (level) {
 
             that.level = level;
-
-            that.pos = new domain.level.PositionFactory();
 
             return Promise.all([
 
@@ -72,8 +72,6 @@ scene.level.IntroScene = subclass($.CC.Role, function (pt, parent) {
         this.paper = this.elem.find('.paper').getActor();
         this.ball = this.elem.find('.ball').getActor();
 
-        console.log(paperPos);
-
         this.chr.x = paperPos.left;
         this.chr.y = 800;
 
@@ -84,12 +82,14 @@ scene.level.IntroScene = subclass($.CC.Role, function (pt, parent) {
 
         this.paper.appear();
 
-        ui.common.BackgroundService.turnWhite();
+        return ui.common.BackgroundService.turnWhite().then(function () {
 
-        return this.chr.moveTo('y', paperPos.top, 600).then(function () {
+            return that.chr.moveTo('y', paperPos.top, 600);
+
+        }).then(function () {
 
             // the character takes the paper in the room.
-            //that.paper.disappear(1000);
+            that.paper.disappear(1000);
 
             var goals = $('<p />').text(that.level.goal.toString());
 
@@ -98,12 +98,13 @@ scene.level.IntroScene = subclass($.CC.Role, function (pt, parent) {
 
         }).then(function () {
 
-            //that.chr.disappear(1000);
+            that.chr.disappear(1000);
+
             return that.ball.appear();
 
         }).then(function () {
 
-            return that.finish();
+            return that.elem.getRole('play-scene').init();
 
         });
 
@@ -112,6 +113,8 @@ scene.level.IntroScene = subclass($.CC.Role, function (pt, parent) {
 
     /**
      * Spawns the ball.
+     *
+     * @return {Promise}
      */
     pt.spawnBall = function () {
 
@@ -128,6 +131,8 @@ scene.level.IntroScene = subclass($.CC.Role, function (pt, parent) {
 
     /**
      * Spawns the paper.
+     *
+     * @return {Promise}
      */
     pt.spawnPaper = function () {
 
@@ -139,6 +144,8 @@ scene.level.IntroScene = subclass($.CC.Role, function (pt, parent) {
 
     /**
      * Spawns the character sprite.
+     *
+     * @return {Promise}
      */
     pt.spawnCharacter = function (character) {
 
