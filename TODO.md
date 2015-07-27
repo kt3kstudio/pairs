@@ -1,18 +1,16 @@
 # TODO
 
 
+- Code reading of level scene and further refactoring
+
 - Clean up around DimensionFactory
   - Remame PositionFactory to DimensionFactory
   - Return Dimension object, not Object object
 
-- Do OutroScene
-
-- Make residents
-  - Who suggest what they need for their rooms
-
-- goal expression at the start of the level
-  - show what is the goal of the level using cell icon itself
-  - the room resident show what they need to have in terms of cells
+[Make residents]
+- Who suggest what they need for their rooms
+- draw the residents in the notebook and pin it
+- gather ideas of the residents, the reason for them needing the
 
 ### low pri
 - Ad integration
@@ -35,6 +33,7 @@
 
 
 # DONE
+- Do OutroScene
 - Unlocking
 - Reimplement splash, using CC arch
 - Reimplement title, using CC arch
