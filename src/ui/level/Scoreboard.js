@@ -8,7 +8,7 @@
 ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, parent) {
     'use strict';
 
-    var MARGIN = 4;
+    var MARGIN = Math.floor(Math.random() * 6) + 4;
 
     /**
      * @constructor
@@ -30,10 +30,10 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
     };
 
 
-    pt.appearAnim = 'bom-appear';
-    pt.appearDur = 400;
-    pt.disappearAnim = 'bom-disappear';
-    pt.disappearDur = 400;
+    pt.showAnim = 'bom-appear';
+    pt.showAnimDur = 400;
+    pt.hideAnim = 'bom-disappear';
+    pt.hideAnimDur = 400;
 
 
     /**
@@ -58,7 +58,10 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
         parent.willShow.call(this);
 
         this.elem
-        .offset(this.dimension)
+        .css('top', this.dimension.top)
+        .css('left', this.dimension.left)
+        .css('line-height', this.dimension.height - this.margin * 2 + 'px')
+        .css('margin', this.margin + 'px')
         .width(this.dimension.width - this.margin * 2)
         .height(this.dimension.height - this.margin * 2)
         .text(this.score);
