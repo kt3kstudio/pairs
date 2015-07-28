@@ -3,7 +3,7 @@
  *
  * @class
  */
-domain.level.DimensionFactory = domain.level.PositionFactory = (function () {
+domain.level.DimensionFactory = (function () {
     'use strict';
 
     var TOP_UI_HEIGHT = 50; // the height of the score board at the top
