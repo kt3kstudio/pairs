@@ -1,7 +1,6 @@
 
 // application layer which controlls each scene
 scene = {};
-scene.common = {};
 scene.level = {};
 
 // application layer which contoll each page
