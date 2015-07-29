@@ -3,9 +3,6 @@
 
 - Code reading of level scene and further refactoring
 
-- Clean up around DimensionFactory
-  - Remame PositionFactory to DimensionFactory
-  - Return Dimension object, not Object object
 
 [Make residents]
 - Who suggest what they need for their rooms
@@ -33,6 +30,9 @@
 
 
 # DONE
+- Clean up around DimensionFactory
+  - Remame PositionFactory to DimensionFactory
+  - Return Dimension object, not Object object
 - Do OutroScene
 - Unlocking
 - Reimplement splash, using CC arch
