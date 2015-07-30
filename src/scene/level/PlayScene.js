@@ -30,7 +30,8 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
         // models
         this.cells = new domain.level.FieldCells(fieldDimension, '#main');
         this.cells.loadFromObjectList(this.level.cells.cells);
-        this.field = new domain.level.Field(fieldDimension);
+        this.field = $('.field-grid').getActor();
+        this.field.setDimension(fieldDimension);
 
         // services
         this.fps = new domain.level.FusionPreparationService(prepDimension);

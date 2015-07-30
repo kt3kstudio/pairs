@@ -1,46 +1,42 @@
 /**
- * @class
  * Field class represents the background field graphics.
  *
  * This class doesn't handle the mechanism above the field, which is the responsibility of FieldCells and BallMoveMobLeaveService classes.
+ *
+ * @class
  */
-domain.level.Field = (function () {
+domain.level.Field = subclass(domain.common.DimensionalBeing, function (pt) {
     'use strict';
 
-    var TRAN_DUR = 200;
+    pt.showAnim = 'field-appear';
+    pt.showAnimDur = 200;
 
-    var exports = function (metrics) {
+    pt.hideAnim = 'field-disappear';
+    pt.hideAnimDur = 400;
+
+    pt.setDimension = function (dimension) {
+
         var gutter = 6;
-        this.left = metrics.left - gutter;
-        this.top = metrics.top - gutter;
-        this.unit = metrics.unit;
-        this.width = metrics.width + gutter * 2;
-        this.dur = TRAN_DUR;
+
+        this.left = dimension.left - gutter;
+        this.top = dimension.top - gutter;
+        this.w = dimension.width + gutter * 2;
+        this.h = dimension.width + gutter * 2;
+
     };
 
-    var fPrototype = exports.prototype;
+    pt.leftLimit = function () {
 
-    fPrototype.appear = function () {
-        var that = this;
+        return this.left;
 
-        return loadImage('images/field.svg', 'field-grid', document.body).then(function ($img) {
-            that.$dom = $img;
-
-            $img.css('left', that.left + 'px');
-            $img.css('top', that.top + 'px');
-            $img.css('width', that.width + 'px');
-
-            return $img.anim('field-appear', that.dur);
-        });
     };
 
-    fPrototype.disappear = function () {
-        var that = this;
+    pt.topLimit = function () {
 
-        return this.$dom.anim('field-disappear', 400).then(function () {
-            that.$dom.remove();
-        });
+        return this.top;
+
     };
 
-    return exports;
-}());
+});
+
+$.CC.assign('field-grid', domain.level.Field);
