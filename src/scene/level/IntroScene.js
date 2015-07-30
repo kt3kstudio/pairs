@@ -89,7 +89,7 @@ scene.level.IntroScene = subclass($.CC.Role, function (pt, parent) {
         }).then(function () {
 
             // the character takes the paper in the room.
-            that.paper.disappear(1000);
+            that.paper.disappear();
 
             var goals = $('<p />').text(that.level.goal.toString());
 
@@ -98,7 +98,7 @@ scene.level.IntroScene = subclass($.CC.Role, function (pt, parent) {
 
         }).then(function () {
 
-            that.chr.hide(1000);
+            that.chr.hide();
 
             return that.ball.appear();
 
