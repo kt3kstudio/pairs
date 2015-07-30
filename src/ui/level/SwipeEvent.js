@@ -1,9 +1,9 @@
 /**
- * @class
- *
  * SwipeEvent class provides the stream of the swipe events.
+ *
+ * @class
  */
-ui.level.SwipeEvent = (function () {
+ui.level.SwipeEvent = subclass(function (pt) {
     'use strict';
 
 
@@ -11,12 +11,9 @@ ui.level.SwipeEvent = (function () {
      * @constructor
      * @param {String|HTMLElement} dom
      */
-    var exports = function (dom) {
+    pt.constructor = function (dom) {
         this.dom = dom;
     };
-
-
-    var sePt = exports.prototype;
 
     /**
      * Creates the swipe target dom.
@@ -24,7 +21,7 @@ ui.level.SwipeEvent = (function () {
      * @private
      * @return {jQuery}
      */
-    sePt.createDom = function () {
+    pt.createDom = function () {
         return $(this.dom).swipeCross();
     };
 
@@ -33,7 +30,7 @@ ui.level.SwipeEvent = (function () {
      *
      * @return {Rx.Observable}
      */
-    sePt.getStream = function () {
+    pt.getStream = function () {
 
         this.$dom = this.$dom || this.createDom();
 
@@ -56,7 +53,7 @@ ui.level.SwipeEvent = (function () {
     /**
      * Unbinds events.
      */
-    sePt.unbind = function () {
+    pt.unbind = function () {
 
         this.$dom.swipeCrossUnbind();
         delete this.$dom;
@@ -67,6 +64,4 @@ ui.level.SwipeEvent = (function () {
 
     };
 
-    return exports;
-
-}());
+});
