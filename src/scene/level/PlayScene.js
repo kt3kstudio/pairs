@@ -47,7 +47,15 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
         this.scoreboard.setDimension(pos.scoreboardDimension());
         this.menuButton = $('.menu-button').menuButton($('#level-menu'));
 
-        this.start();
+        var that = this;
+
+        this.start().then(function () {
+
+            that.character.clearPlayingState();
+
+            that.elem.getRole('outro-scene').init();
+
+        });
 
     };
 
@@ -110,14 +118,12 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
             return cell.isLastOne();
 
 
-        }).pipe(function () {
+        }).map(function () {
 
 
             if (!that.exitQueue.theLastOneIsEvolved()) {
 
-                that.elem.getRole('outro-scene').init();
-
-                return new Promise(function () {});
+                return;
 
             }
 
@@ -126,6 +132,10 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
 
             return that.cells.loadList(that.exitQueue.releaseCells()).appear();
 
+
+        }).takeWhile(function (x) {
+
+            return x != null;
 
         }).getPromise().then(function () {
 
@@ -180,15 +190,15 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
 
             return that.bindEventHandlers(that.swipe.getStream());
 
+        }).then(function () {
+
+            console.log('swipe stream finished!');
+
+            that.swipe.unbind();
+
         });
 
     };
-
-
-    pt.end = function () {
-        this.character.clearPlayingState();
-    };
-
 
 });
 
