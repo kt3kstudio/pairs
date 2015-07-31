@@ -41,6 +41,34 @@ describe('Rx', function () {
 
             });
 
+            it('flattens stream values if they are Observable or Promise', function (done) {
+
+                Rx.Observable.of(10, Rx.Observable.of(20, 30), Promise.resolve(40)).flattenObservable().toArray().forEach(function (x) {
+
+                    expect(x).to.eql([10, 20, 30, 40]);
+
+                    done();
+
+                });
+
+            });
+
+        });
+
+        describe('filterNull', function () {
+
+            it('filters null equivalents', function (done) {
+
+                Rx.Observable.of(1, null, 2, undefined, 3).filterNull().toArray().forEach(function (x) {
+
+                    expect(x).to.eql([1, 2, 3]);
+
+                    done();
+
+                });
+
+            });
+
         });
 
         describe('getPromise', function () {

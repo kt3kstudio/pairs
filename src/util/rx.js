@@ -53,7 +53,11 @@
      */
     Rx.Observable.prototype.flattenObservable = function () {
 
-        return this.map(wrapUnobservable).flatMap(function (x) { return x; });
+        return this.map(wrapUnobservable).flatMap(function (x) {
+
+            return x;
+
+        });
 
     };
 
