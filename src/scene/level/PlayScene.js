@@ -43,8 +43,11 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
 
         // ui components
         this.swipe = new ui.level.SwipeEvent('.wrapper');
+
+        // init scoreboard dimension
         this.scoreboard = this.elem.find('.scoreboard').getActor();
         this.scoreboard.setDimension(pos.scoreboardDimension());
+
         this.menuButton = $('.menu-button').menuButton($('#level-menu'));
 
         var that = this;
@@ -54,13 +57,6 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
             that.end();
 
         });
-
-    };
-
-
-    pt.spawnScoreboard = function () {
-
-        $('<div class="scoreboard" />').appendTo(this.elem);
 
     };
 
@@ -198,6 +194,10 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
 
     };
 
+
+    /**
+     * Ends the playing scene, clear playing data, and kicks the next scene.
+     */
     pt.end = function () {
 
         this.character.clearPlayingState();
