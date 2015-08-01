@@ -51,9 +51,7 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
 
         this.start().then(function () {
 
-            that.character.clearPlayingState();
-
-            that.elem.getRole('outro-scene').init();
+            that.end();
 
         });
 
@@ -197,6 +195,14 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
             that.swipe.unbind();
 
         });
+
+    };
+
+    pt.end = function () {
+
+        this.character.clearPlayingState();
+
+        this.elem.getRole('outro-scene').init();
 
     };
 

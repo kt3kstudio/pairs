@@ -148,8 +148,8 @@ body: dark-bg
 
 <!-- menu object -->
 <menus id="level-menu">
-  <menu src="images/back-button.svg" onclick="ps.finish();"></menu>
-  <menu src="images/reset-button.svg" onclick="ps.finish(); reload = true; "></menu>
+<menu src="images/back-button.svg" onclick="$('.play-scene').getRole('play-scene').end();"></menu>
+<menu src="images/reset-button.svg" onclick="$('.play-scene').getRole('play-scene').end(); reload = true; "></menu>
 </menus>
 
 
