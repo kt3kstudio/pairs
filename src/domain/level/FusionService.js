@@ -1,17 +1,17 @@
 /**
- * @class
- *
  * FusionService performs the fusion of the pair of cells.
+ *
+ * @class
  */
-domain.level.FusionService = (function () {
+domain.level.FusionService = subclass(function (pt) {
     'use strict';
 
-    var exports = function (metrics, dom) {
+    pt.constructor = function (metrics, dom) {
+
         this.metrics = metrics;
         this.$dom = $(dom);
-    };
 
-    var fusionPt = exports.prototype;
+    };
 
 
     /**
@@ -20,7 +20,7 @@ domain.level.FusionService = (function () {
      * @param {domain.level.FusionPair} pair The pair
      * @return {Promise} {Promise<domain.level.Cell>} The new cell
      */
-    fusionPt.performFusion = function (pair) {
+    pt.performFusion = function (pair) {
 
         var that = this;
 
@@ -29,6 +29,7 @@ domain.level.FusionService = (function () {
             return that.fusion(pair);
 
         });
+
     };
 
 
@@ -39,7 +40,8 @@ domain.level.FusionService = (function () {
      * @param {domain.level.FusionPair} pair The pair going to fusion reactor
      * @return {Promise} The end of the animation of going to the reactor
      */
-    fusionPt.getToReactor = function (pair) {
+    pt.getToReactor = function (pair) {
+
         var dur = 1000;
 
         if (pair.right) {
@@ -68,22 +70,26 @@ domain.level.FusionService = (function () {
      * @param {domain.level.FusionPair} pair The pair
      * @return {Promise} The new cell {Promise<domain.level.Cell>}
      */
-    fusionPt.fusion = function (pair) {
+    pt.fusion = function (pair) {
+
         var dur = 600;
 
         var cell = new domain.level.Cell(pair.newGene(), this.$dom).setDimension(this.metrics).setXY([0, 0]);
 
         if (pair.isLastOne()) {
+
             cell.setLastOne();
+
         }
 
         if (pair.isEvolving()) {
+
             cell.setEvolved();
+
         }
 
         return cell.appear(dur);
+
     };
 
-    return exports;
-
-}());
+});
