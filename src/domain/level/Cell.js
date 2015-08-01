@@ -1,19 +1,19 @@
 /**
- * @class
  * Cell class represents a unit (nim and neef) on the field of the level.
  *
  * This class can move along the given grid which is specified as the dimension object.
+ *
+ * @class
  */
-domain.level.Cell = (function () {
+domain.level.Cell = subclass(function (pt) {
     'use strict';
-
 
     /**
      * @constructor
      * @param {String} gene The gene string
      * @param {String|HTMLElement} parent The parent dom
      */
-    var exports = function (gene, parent) {
+    pt.constructor = function (gene, parent) {
 
         this.setGene(gene);
         this.setTransitionDuration(300);
@@ -23,15 +23,15 @@ domain.level.Cell = (function () {
         this.__isLastOne = false;
         this.__isEvolved = false;
 
-        exports.allList.push(this);
+        pt.constructor.allList.push(this);
     };
 
-    exports.allList = [];
+    pt.constructor.allList = [];
 
-    exports.disappear = function () {
+    pt.constructor.disappear = function () {
         var p = Promise.resolve();
 
-        exports.allList.forEach(function (cell) {
+        pt.constructor.allList.forEach(function (cell) {
             p = p.then(function () {
                 cell.disappear();
 
@@ -44,8 +44,6 @@ domain.level.Cell = (function () {
         });
     };
 
-    var cellPt = exports.prototype;
-
 
     /**
      * Sets the dimension.
@@ -53,7 +51,7 @@ domain.level.Cell = (function () {
      * @param {Object} dimension The dimension
      * @return {domain.level.Cell}
      */
-    cellPt.setDimension = function (dimension) {
+    pt.setDimension = function (dimension) {
         this.dimension = dimension;
         this.width = Math.floor(dimension.unit / 2);
         this.gutter = Math.floor(dimension.unit / 4);
@@ -68,14 +66,14 @@ domain.level.Cell = (function () {
      * @param {Number} dur The duration
      * @return {Promise}
      */
-    cellPt.setTransitionDuration = function (dur) {
+    pt.setTransitionDuration = function (dur) {
         this.locateDur = dur;
 
         return this.setTransitionDuration_();
     };
 
 
-    cellPt.setTransitionDuration_ = function () {
+    pt.setTransitionDuration_ = function () {
         if (this.$dom) {
             this.$dom.css('transition-duration', this.locateDur + 'ms');
         }
@@ -91,7 +89,7 @@ domain.level.Cell = (function () {
      * @param {String} gene The gene in string
      * @return {domain.level.Cell}
      */
-    cellPt.setGene = function (gene) {
+    pt.setGene = function (gene) {
         this.gene = gene;
 
         return this;
@@ -104,7 +102,7 @@ domain.level.Cell = (function () {
      * @param {Array} yx The array of [y, x]
      * @return {domain.level.Cell}
      */
-    cellPt.setXY = function (yx) {
+    pt.setXY = function (yx) {
         this.x = yx[1];
         this.y = yx[0];
 
@@ -117,7 +115,7 @@ domain.level.Cell = (function () {
      *
      * @return {domain.level.Cell}
      */
-    cellPt.setLastOne = function () {
+    pt.setLastOne = function () {
         this.__isLastOne = true;
 
         return this;
@@ -129,7 +127,7 @@ domain.level.Cell = (function () {
      *
      * @return {domain.level.Cell}
      */
-    cellPt.unsetLastOne = function () {
+    pt.unsetLastOne = function () {
         this.__isLastOne = false;
 
         return this;
@@ -141,14 +139,14 @@ domain.level.Cell = (function () {
      *
      * @return {Boolean}
      */
-    cellPt.isLastOne = function () {
+    pt.isLastOne = function () {
         return this.__isLastOne;
     };
 
     /**
      * Sets the flag of being evolved from the parents.
      */
-    cellPt.setEvolved = function () {
+    pt.setEvolved = function () {
         this.__evolved = true;
 
         return this;
@@ -158,7 +156,7 @@ domain.level.Cell = (function () {
     /**
      * Unsets the flag of being evolved.
      */
-    cellPt.unsetEvolved = function () {
+    pt.unsetEvolved = function () {
         this.__evolved = false;
 
         return this;
@@ -170,7 +168,7 @@ domain.level.Cell = (function () {
      *
      * @return {Boolean}
      */
-    cellPt.isEvolved = function () {
+    pt.isEvolved = function () {
 
         return this.__evolved;
 
@@ -183,7 +181,7 @@ domain.level.Cell = (function () {
      * @private
      * @return {String}
      */
-    cellPt.selectImage = function () {
+    pt.selectImage = function () {
         if (this.gene === 'f') {
             return 'images/neef.svg';
         }
@@ -214,7 +212,7 @@ domain.level.Cell = (function () {
      *
      * @return {jQuery}
      */
-    cellPt.createDom = function () {
+    pt.createDom = function () {
         var that = this;
 
         if (this.$dom) {
@@ -251,16 +249,16 @@ domain.level.Cell = (function () {
      *
      * For example, change the size of the dom.
      */
-    cellPt.remorph = function () {
+    pt.remorph = function () {
         this.$dom.css({
             'width': this.width + 'px',
             'height': this.width + 'px'
         });
     };
 
-    cellPt.appearDur = 500;
+    pt.appearDur = 500;
 
-    cellPt.appear = function () {
+    pt.appear = function () {
 
         var that = this;
 
@@ -278,9 +276,9 @@ domain.level.Cell = (function () {
 
     };
 
-    cellPt.disappearDur = 500;
+    pt.disappearDur = 500;
 
-    cellPt.disappear = function () {
+    pt.disappear = function () {
         var that = this;
 
         this.$dom.css('visibility', 'hidden');
@@ -292,30 +290,34 @@ domain.level.Cell = (function () {
         });
     };
 
-    cellPt.locate = function () {
+    pt.locate = function () {
         this.$dom.css('top', this.dimension.top+ this.dimension.unit * this.y + this.gutter + 'px');
         this.$dom.css('left', this.dimension.left+ this.dimension.unit * this.x + this.gutter + 'px');
 
         return wait(this.locateDur, this);
     };
 
-    cellPt.remove = function () {
+    pt.remove = function () {
+
         this.$dom.remove();
 
-        exports.allList.splice(exports.allList.indexOf(this), 1);
+        pt.constructor.allList.splice(pt.constructor.allList.indexOf(this), 1);
+
     };
 
-    cellPt.move = function (x, y) {
+    pt.move = function (x, y) {
+
         this.x += x;
         this.y += y;
 
         return this.locate();
+
     };
 
-    cellPt.up = function () { return this.move(0, -1); };
-    cellPt.down = function () { return this.move(0, 1); };
-    cellPt.left = function () { return this.move(-1, 0); };
-    cellPt.right = function () { return this.move(1, 0); };
+    pt.up = function () { return this.move(0, -1); };
+    pt.down = function () { return this.move(0, 1); };
+    pt.left = function () { return this.move(-1, 0); };
+    pt.right = function () { return this.move(1, 0); };
 
 
     /**
@@ -323,12 +325,10 @@ domain.level.Cell = (function () {
      *
      * @return {Object}
      */
-    cellPt.toObject = function () {
+    pt.toObject = function () {
 
         return {gene: this.gene};
 
     };
 
-    return exports;
-
-}());
+});
