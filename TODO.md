@@ -2,6 +2,7 @@
 
 
 - Code reading of level scene and further refactoring
+- Use magrove for Cell
 
 
 [Make residents]
