@@ -117,6 +117,7 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
 
             if (!that.exitQueue.theLastOneIsEvolved()) {
 
+                // this finishes the main stream and therefore resolves the promise
                 return;
 
             }
