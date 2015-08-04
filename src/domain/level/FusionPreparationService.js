@@ -1,18 +1,19 @@
 /**
- * @class
  * FusionPreparationService takes cells in sequence and move them into the preparation position. After that it emits the list of cells for the actual fusion.
+ *
+ * @class
  */
-domain.level.FusionPreparationService = (function () {
+domain.level.FusionPreparationService = subclass(function (pt) {
     'use strict';
 
     /**
      * @constructor
      */
-    var exports = function (dimension) {
-        this.stack = new PreparationStack(dimension);
-    };
+    pt.constructor = function (dimension) {
 
-    var fpsPt = exports.prototype;
+        this.stack = new PreparationStack(dimension);
+
+    };
 
 
     /**
@@ -21,7 +22,7 @@ domain.level.FusionPreparationService = (function () {
      * @param {domain.level.Cell} cell The cell
      * @return {Promise} {Promise<Array<domain.level.Cell>>}
      */
-    fpsPt.take = function (cell) {
+    pt.take = function (cell) {
 
         this.stack.push(cell);
 
@@ -36,72 +37,75 @@ domain.level.FusionPreparationService = (function () {
      * @class domain.level.FusionPreparationService.PreparationStack
      * @private
      */
-    var PreparationStack = function (dimension) {
-        this.dimension = dimension;
-        this.stack = [];
-        this.isFinished = false;
-    };
+    var PreparationStack = subclass(function (pt) {
 
-    var psPt = PreparationStack.prototype;
+        /**
+         * @constructor
+         */
+        pt.constructor = function (dimension) {
+            this.dimension = dimension;
+            this.stack = [];
+            this.isFinished = false;
+        };
 
-    /**
-     * The duration of going to fusion preparation position.
-     */
-    psPt.takeDur = 700;
-
-
-    /**
-     * Pushes to the stack.
-     *
-     * @param {domain.level.Cell} cell The cell
-     */
-    psPt.push = function (cell) {
-        this.isFinished = cell.isLastOne();
-
-        this.stack.push(this.locate(cell, this.stack.length));
-    };
+        /**
+         * The duration of going to fusion preparation position.
+         */
+        pt.takeDur = 700;
 
 
-    /**
-     * locate the cell at the index.
-     *
-     * @param {domain.level.Cell} cell The cell
-     * @param {Number} index The index
-     * @return {Promise}
-     */
-    psPt.locate = function (cell, index) {
+        /**
+         * Pushes to the stack.
+         *
+         * @param {domain.level.Cell} cell The cell
+         */
+        pt.push = function (cell) {
+            this.isFinished = cell.isLastOne();
 
-        cell.setDimension(this.dimension);
+            this.stack.push(this.locate(cell, this.stack.length));
+        };
 
-        cell.x = index;
-        cell.y = 0;
 
-        return cell.setTransitionDuration(this.takeDur).then(function () {
+        /**
+         * locate the cell at the index.
+         *
+         * @param {domain.level.Cell} cell The cell
+         * @param {Number} index The index
+         * @return {Promise}
+         */
+        pt.locate = function (cell, index) {
 
-            return cell.locate();
+            cell.setDimension(this.dimension);
 
-        });
+            cell.x = index;
+            cell.y = 0;
 
-    };
+            return cell.setTransitionDuration(this.takeDur).then(function () {
 
-    psPt.isPrepared = function () {
+                return cell.locate();
 
-        return this.isFinished || this.isFull();
+            });
 
-    };
+        };
 
-    psPt.isFull = function () {
+        pt.isPrepared = function () {
 
-        return this.stack.length >= 2;
+            return this.isFinished || this.isFull();
 
-    };
+        };
 
-    psPt.getStack = function () {
+        pt.isFull = function () {
 
-        return this.stack.splice(0);
+            return this.stack.length >= 2;
 
-    };
+        };
 
-    return exports;
+        pt.getStack = function () {
 
-}());
+            return this.stack.splice(0);
+
+        };
+
+    });
+
+});
