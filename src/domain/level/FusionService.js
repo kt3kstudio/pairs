@@ -3,13 +3,17 @@
  *
  * @class
  */
-domain.level.FusionService = subclass(function (pt) {
+domain.level.FusionService = subclass($.CC.Role, function (pt) {
     'use strict';
 
-    pt.constructor = function (metrics, dom) {
+    /**
+     * @param {domain.level.Dimension} dimension
+     */
+    pt.setDimension = function (dimension) {
 
-        this.metrics = metrics;
-        this.$dom = $(dom);
+        this.dimension = dimension;
+
+        return this;
 
     };
 
@@ -74,7 +78,7 @@ domain.level.FusionService = subclass(function (pt) {
 
         var dur = 600;
 
-        var cell = new domain.level.Cell(pair.newGene(), this.$dom).setDimension(this.metrics).setXY([0, 0]);
+        var cell = new domain.level.Cell(pair.newGene(), this.elem).setDimension(this.dimension).setXY([0, 0]);
 
         if (pair.isLastOne()) {
 
@@ -93,3 +97,5 @@ domain.level.FusionService = subclass(function (pt) {
     };
 
 });
+
+$.CC.assign('fusion-service', domain.level.FusionService);

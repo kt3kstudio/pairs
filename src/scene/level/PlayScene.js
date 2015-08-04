@@ -35,7 +35,7 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
 
         // services
         this.fps = new domain.level.FusionPreparationService(prepDimension);
-        this.fusionService = new domain.level.FusionService(fusionDimension, '#main');
+        this.fusionService = this.elem.getRole('fusion-service').setDimension(fusionDimension);
         this.exitQueue = new domain.level.ExitQueue(exitQueueDimension);
 
         // services
