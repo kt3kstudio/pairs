@@ -2,6 +2,7 @@
 
 
 describe('domain.level.Character', function () {
+    'use strict';
 
     beforeEach(function () {
 
