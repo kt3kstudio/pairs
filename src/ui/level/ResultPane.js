@@ -1,12 +1,12 @@
 
 
 /**
- * @class
  * ResultPane class handles the behaviour of the pane which appears when the game finished with a score.
+ *
+ * @class
  */
-ui.level.ResultPane = (function () {
+ui.level.ResultPane = subclass(function (pt) {
     'use strict';
-
 
     /**
      * @constructor
@@ -18,7 +18,8 @@ ui.level.ResultPane = (function () {
      * @param {String | HTMLElement | jQuery} parent The parent dom
      * @param {String | HTMLElement | jQuery} cancelDom The dom to which the pane's cancel event will be attached
      */
-    var exports = function (position, width, height, parent, cancelDom) {
+    pt.constructor = function (position, width, height, parent, cancelDom) {
+
         this.position = position;
         this.width = width;
         this.height = height;
@@ -26,11 +27,10 @@ ui.level.ResultPane = (function () {
         this.cancelDom = cancelDom;
         this.score = 0;
         this.star = 0;
+
     };
 
-    var rpPt = exports.prototype;
-
-    rpPt.setScore = function (score) {
+    pt.setScore = function (score) {
         this.score = score;
     };
 
@@ -39,11 +39,11 @@ ui.level.ResultPane = (function () {
      *
      * @param {Number} star The number of stars
      */
-    rpPt.setStar = function (star) {
+    pt.setStar = function (star) {
         this.star = star;
     };
 
-    rpPt.createDom = function () {
+    pt.createDom = function () {
 
         var $wrapper = $('<div />').addClass('result-pane')
 
@@ -68,7 +68,7 @@ ui.level.ResultPane = (function () {
      * @param {Number} timeout The time after which the pane hides itself
      * @return {Promise} The promise which resolves when the pane hides
      */
-    rpPt.show = function (timeout) {
+    pt.show = function (timeout) {
 
         var that = this;
 
@@ -93,12 +93,10 @@ ui.level.ResultPane = (function () {
      *
      * @return {Promise} The promise which resolves when the pane hides
      */
-    rpPt.hide = function () {
+    pt.hide = function () {
 
         return this.ip.hide();
 
     };
 
-    return exports;
-
-}());
+});
