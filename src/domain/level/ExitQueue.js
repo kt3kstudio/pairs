@@ -1,17 +1,17 @@
 /**
- * @class
- *
  * ExitQueue class represents the exit queue at the level view.
+ *
+ * @class
  */
-domain.level.ExitQueue= (function () {
+domain.level.ExitQueue = subclass(function (pt) {
     'use strict';
 
-    var exports = function (dimension) {
+    pt.constructor = function (dimension) {
+
         this.dimension = dimension;
         this.queue = [];
-    };
 
-    var eqPt = exports.prototype;
+    };
 
 
     /**
@@ -20,7 +20,7 @@ domain.level.ExitQueue= (function () {
      * @param {domain.level.Cell} cell The cell
      * @return {Promise} The promise resolves with the cell.
      */
-    eqPt.enqueue = function (cell) {
+    pt.enqueue = function (cell) {
 
         var that = this;
 
@@ -38,7 +38,7 @@ domain.level.ExitQueue= (function () {
      *
      * @return {Array}
      */
-    eqPt.releaseCells = function () {
+    pt.releaseCells = function () {
 
         return this.queue.splice(0).map(function (queuee) {
 
@@ -55,7 +55,7 @@ domain.level.ExitQueue= (function () {
      * @private
      * @return {Promise}
      */
-    eqPt.goForward = function () {
+    pt.goForward = function () {
 
         var d = 200 / this.queue.length;
 
@@ -74,7 +74,7 @@ domain.level.ExitQueue= (function () {
     /**
      * Sets dimension data to the queuee and push into internal queue.
      */
-    eqPt.involve = function (queuee) {
+    pt.involve = function (queuee) {
 
         this.queue.push(queuee);
 
@@ -87,7 +87,7 @@ domain.level.ExitQueue= (function () {
      *
      * @return {Boolean}
      */
-    eqPt.theLastOneIsEvolved = function () {
+    pt.theLastOneIsEvolved = function () {
 
         if (this.queue.length === 0) {
             return false;
@@ -99,85 +99,84 @@ domain.level.ExitQueue= (function () {
     };
 
     /**
+     * Queuee class is the role of the cell which is queued in the ExitQueue.
+     *
      * @class domain.level.ExitQueue.Queuee
      * @private
-     *
-     * Queue class is the role of the cell which is queued in the ExitQueue.
      */
+    var Queuee = subclass(function (pt) {
 
-    /*
-     * @constructor
-     * @param {domain.level.Cell} cell The queueing cell
-     */
-    var Queuee = function (cell) {
-        this.cell = cell;
-    };
-
-    var qPt = Queuee.prototype;
-
-
-    /**
-     * Goes forward in the queue.
-     */
-    qPt.goForward = function () {
-        if (this.cell.x < 4) {
-            this.cell.x += 1;
-        } else {
-            this.cell.y += 1;
-        }
-
-        return this;
-    };
-
-    /**
-     * Locates the cell.
-     */
-    qPt.locate = function () {
-        return this.cell.locate();
-    };
-
-    /**
-     * Removes the cell.
-     */
-    qPt.remove = function () {
-        this.cell.remove();
-    };
+        /*
+         * @constructor
+         * @param {domain.level.Cell} cell The queueing cell
+         */
+        pt.constructor = function (cell) {
+            this.cell = cell;
+        };
 
 
-    /**
-     * Goes to the origin of the queue dimension.
-     */
-    qPt.goOrigin = function () {
-        this.cell.x = -1;
-        this.cell.y = 0;
+        /**
+         * Goes forward in the queue.
+         */
+        pt.goForward = function () {
+            if (this.cell.x < 4) {
+                this.cell.x += 1;
+            } else {
+                this.cell.y += 1;
+            }
 
-        return this;
-    };
+            return this;
+        };
+
+        /**
+         * Locates the cell.
+         */
+        pt.locate = function () {
+            return this.cell.locate();
+        };
+
+        /**
+         * Removes the cell.
+         */
+        pt.remove = function () {
+            this.cell.remove();
+        };
 
 
-    /**
-     * Sets the transion duraiton.
-     *
-     * @param {Number} dur The duration
-     * @return {Promise} of domain.level.Cell
-     */
-    qPt.setTransitionDuration = function (dur) {
-        return this.cell.setTransitionDuration(dur);
-    };
+        /**
+         * Goes to the origin of the queue dimension.
+         */
+        pt.goOrigin = function () {
+            this.cell.x = -1;
+            this.cell.y = 0;
+
+            return this;
+        };
 
 
-    /**
-     * Sets the dimension.
-     *
-     * @param {Object} dimension The dimension
-     * @return {domain.level.ExitQueue.Queuee}
-     */
-    qPt.setDimension = function (dimension) {
-        this.cell.setDimension(dimension);
+        /**
+         * Sets the transion duraiton.
+         *
+         * @param {Number} dur The duration
+         * @return {Promise} of domain.level.Cell
+         */
+        pt.setTransitionDuration = function (dur) {
+            return this.cell.setTransitionDuration(dur);
+        };
 
-        return this;
-    };
 
-    return exports;
+        /**
+         * Sets the dimension.
+         *
+         * @param {Object} dimension The dimension
+         * @return {domain.level.ExitQueue.Queuee}
+         */
+        pt.setDimension = function (dimension) {
+            this.cell.setDimension(dimension);
 
-}());
+            return this;
+        };
+
+    });
+
+});
