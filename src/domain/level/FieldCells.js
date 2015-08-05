@@ -2,8 +2,9 @@
  * FieldCells class represents the grid positioned queues of cells around the field.
  *
  * @class
+ * @extends $.CC.Role
  */
-domain.level.FieldCells = subclass(function (pt) {
+domain.level.CellCollection = subclass($.CC.Role, function (pt, parent) {
     'use strict';
 
     /**
@@ -11,12 +12,21 @@ domain.level.FieldCells = subclass(function (pt) {
      * @param {Object} dimension The cell dimension
      * @param {String|HTMLElement} dom The dom to put Cell's dom
      */
-    pt.constructor = function (dimension, dom) {
+    pt.constructor = function (elem) {
+
+        parent.constructor.call(this, elem);
+
         this.cells = [];
 
-        this.$dom = $(dom);
+    };
+
+    /**
+     * @param {domain.level.Dimension} dimension
+     */
+    pt.setDimension = function (dimension) {
 
         this.dimension = dimension;
+
     };
 
     /**
@@ -29,7 +39,7 @@ domain.level.FieldCells = subclass(function (pt) {
 
         return new domain.level.Cell(
             bom.gene,
-            this.$dom
+            this.elem
         ).setDimension(this.dimension);
 
     };
@@ -229,3 +239,5 @@ domain.level.FieldCells = subclass(function (pt) {
     };
 
 });
+
+$.CC.assign('cell-collection', domain.level.CellCollection);

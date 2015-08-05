@@ -28,7 +28,8 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
         var fusionDimension = pos.fusionBoxPosition();
 
         // models
-        this.cells = new domain.level.FieldCells(fieldDimension, '#main');
+        this.cells = this.elem.getRole('cell-collection');
+        this.cells.setDimension(fieldDimension);
         this.cells.loadFromObjectList(this.level.cells.cells);
         this.field = $('.field-grid').getActor();
         this.field.setDimension(fieldDimension);
