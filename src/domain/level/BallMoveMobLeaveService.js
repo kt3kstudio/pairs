@@ -1,8 +1,8 @@
 /**
- * @class
  * BallMoveMobLeaveService provides the function to move ball and process field boms collectly.
+ * @class
  */
-domain.level.BallMoveMobLeaveService = (function () {
+domain.level.BallMoveMobLeaveService = subclass(function (pt) {
     'use strict';
 
     /**
@@ -10,14 +10,14 @@ domain.level.BallMoveMobLeaveService = (function () {
      * @param {domain.level.Ball} ball The ball
      * @param {Array} cells The cells
      */
-    var exports = function (ball, cells) {
+    pt.constructor = function (ball, cells) {
+
         this.ball = ball;
         this.mobs = new Mobs(cells);
 
         this.pmds = new domain.level.PossibleMoveDetectionService(this.ball, cells);
-    };
 
-    var bmsPrototype = exports.prototype;
+    };
 
     /**
      * Makes the ball move to the specified direction and a mob leave the field.
@@ -25,7 +25,7 @@ domain.level.BallMoveMobLeaveService = (function () {
      * @param {String} dir The direction the ball moves (up|down|right|left)
      * @returns {domain.level.Cell|Rx.Observable} A promise which resolves when the mob(bom) left the field
      */
-    bmsPrototype.ballMoveAndLeaveOne = function (dir) {
+    pt.ballMoveAndLeaveOne = function (dir) {
 
         // position interface
         // pos.x x-coordinate
@@ -50,7 +50,7 @@ domain.level.BallMoveMobLeaveService = (function () {
      *
      * @return {domain.level.Cell}
      */
-    bmsPrototype.leaveLastOneAtBall = function () {
+    pt.leaveLastOneAtBall = function () {
 
         return this.mobs.leave(this.ball.pos()).setLastOne();
 
@@ -62,7 +62,7 @@ domain.level.BallMoveMobLeaveService = (function () {
      * @param {Object} pos The position
      * @return {domain.level.Cell|Rx.Observable}
      */
-    bmsPrototype.leaveAtPos = function (pos) {
+    pt.leaveAtPos = function (pos) {
 
         var that = this;
 
@@ -103,57 +103,65 @@ domain.level.BallMoveMobLeaveService = (function () {
      * @class domain.level.BallMoveMobLeaveService.Mobs
      * @private
      */
-    var Mobs =
+    var Mobs = subclass(function (pt) {
 
 
-    /**
-     * @constructor
-     * @param {Array} cells The array of cells
-     */
-    function (cells) {
-        this.cells = cells;
-    };
+        /**
+         * @constructor
+         * @param {Array} cells The array of cells
+         */
+        pt.constructor = function (cells) {
 
-    var mobsPrototype = Mobs.prototype;
+            this.cells = cells;
 
-    /**
-     * Check if the field is empty of cells.
-     *
-     * @return {Boolean}
-     */
-    mobsPrototype.isEmpty = function () {
-        return this.cells.isEmpty();
-    };
+        };
 
-    /**
-     * Makes the cell at the position leave the field.
-     *
-     * @param {Object} pos The position
-     */
-    mobsPrototype.leave = function (pos) {
-        var w = this.cells.select(pos);
+        /**
+         * Check if the field is empty of cells.
+         *
+         * @return {Boolean}
+         */
+        pt.isEmpty = function () {
 
-        this.cells.remove(w);
+            return this.cells.isEmpty();
 
-        w = w[0];
+        };
 
-        this.cells.selectRange(pos).forEach(function (cell) {
-            cell.up();
-        });
+        /**
+         * Makes the cell at the position leave the field.
+         *
+         * @param {Object} pos The position
+         */
+        pt.leave = function (pos) {
 
-        return w;
-    };
+            var w = this.cells.select(pos);
+
+            this.cells.remove(w);
+
+            w = w[0];
+
+            this.cells.selectRange(pos).forEach(function (cell) {
+
+                cell.up();
+
+            });
+
+            return w;
+
+        };
 
 
-    /**
-     * Finds the cell at the position.
-     *
-     * @param {Object} pos The position
-     */
-    mobsPrototype.find = function (pos) {
-        return this.cells.find(pos);
-    };
+        /**
+         * Finds the cell at the position.
+         *
+         * @param {Object} pos The position
+         */
+        pt.find = function (pos) {
 
-    return exports;
+            return this.cells.find(pos);
 
-}());
+        };
+
+    });
+
+});
