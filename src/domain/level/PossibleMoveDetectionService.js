@@ -1,10 +1,10 @@
 
 /**
- * @class
- *
  * PossibleMoveDetectionService provides the functionality of detecting the possible moves in the play field.
+ *
+ * @class
  */
-domain.level.PossibleMoveDetectionService = (function () {
+domain.level.PossibleMoveDetectionService = subclass(function (pt) {
     'use strict';
 
     /**
@@ -12,19 +12,20 @@ domain.level.PossibleMoveDetectionService = (function () {
      * @param {domain.level.Ball} ball The ball
      * @param {domain.level.FieldCells} cells The field cells
      */
-    var exports = function (ball, cells) {
+    pt.constructor = function (ball, cells) {
+
         this.ball = ball;
         this.cells = cells;
-    };
 
-    var pmdsPt = exports.prototype;
+    };
 
     /**
      * Check if there is any space left in the play field.
      *
      * @returns {Boolean} true if possible move available
      */
-    pmdsPt.possible = function () {
+    pt.possible = function () {
+
         // if any of the next cells has a bom, then the next move is possible.
         if (this.cells.find(this.ball.posAhead('up'))) { return true; }
         if (this.cells.find(this.ball.posAhead('down'))) { return true; }
@@ -32,6 +33,7 @@ domain.level.PossibleMoveDetectionService = (function () {
         if (this.cells.find(this.ball.posAhead('right'))) { return true; }
 
         return false;
+
     };
 
     /**
@@ -39,10 +41,10 @@ domain.level.PossibleMoveDetectionService = (function () {
      *
      * @return {Boolean} true iff there is a cell at the ball
      */
-    pmdsPt.cellRemainsAtBall = function () {
+    pt.cellRemainsAtBall = function () {
+
         return this.cells.find(this.ball.pos()) != null;
+
     };
 
-    return exports;
-
-}());
+});
