@@ -3,9 +3,9 @@
  * OutroScene handles the scene after finishing main play.
  *
  * @class
- * @extends scene.common.Scene
+ * @extends $.CC.Role
  */
-scene.level.OutroScene = subclass(domain.common.Role, function (pt) {
+scene.level.OutroScene = subclass($.CC.Role, function (pt) {
     'use strict';
 
     pt.init = function () {
@@ -72,30 +72,37 @@ scene.level.OutroScene = subclass(domain.common.Role, function (pt) {
 
     };
 
-    // Ball role in OutroScene
-    var Ball = function (ball) {
-        this.ball = ball;
-    };
+    /**
+     * Ball role in OutroScene
+     *
+     * @private
+     * @class domain.level.OutroScene.Ball
+     */
+    var Ball = subclass(function (pt) {
 
-    var ballPt = Ball.prototype;
+        pt.constructor = function (ball) {
+            this.ball = ball;
+        };
 
-    ballPt.goCenterX = function () {
-        var pos = this.ball.pos();
-        pos.x = 1;
+        pt.goCenterX = function () {
+            var pos = this.ball.pos();
+            pos.x = 1;
 
-        return this.ball.setPos(pos);
-    };
+            return this.ball.setPos(pos);
+        };
 
-    ballPt.goCenterY = function () {
-        var pos = this.ball.pos();
-        pos.y = 1;
+        pt.goCenterY = function () {
+            var pos = this.ball.pos();
+            pos.y = 1;
 
-        return this.ball.setPos(pos);
-    };
+            return this.ball.setPos(pos);
+        };
 
-    ballPt.disappear = function () {
-        return this.ball.disappear();
-    };
+        pt.disappear = function () {
+            return this.ball.disappear();
+        };
+
+    });
 
 });
 
