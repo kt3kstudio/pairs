@@ -1,8 +1,9 @@
 /**
- * @class
  * FieldCells class represents the grid positioned queues of cells around the field.
+ *
+ * @class
  */
-domain.level.FieldCells = (function () {
+domain.level.FieldCells = subclass(function (pt) {
     'use strict';
 
     /**
@@ -10,7 +11,7 @@ domain.level.FieldCells = (function () {
      * @param {Object} dimension The cell dimension
      * @param {String|HTMLElement} dom The dom to put Cell's dom
      */
-    var exports = function (dimension, dom) {
+    pt.constructor = function (dimension, dom) {
         this.cells = [];
 
         this.$dom = $(dom);
@@ -18,15 +19,13 @@ domain.level.FieldCells = (function () {
         this.dimension = dimension;
     };
 
-    var fcPt = exports.prototype;
-
     /**
      * Create a cell from a bom object.
      *
      * @param {Object} bom The bom object
      * @return {domain.level.Cell}
      */
-    fcPt.createCellFromObject = function (bom) {
+    pt.createCellFromObject = function (bom) {
 
         return new domain.level.Cell(
             bom.gene,
@@ -40,7 +39,7 @@ domain.level.FieldCells = (function () {
      *
      * @return {Boolean}
      */
-    fcPt.isEmpty = function () {
+    pt.isEmpty = function () {
         return this.cells.length === 0;
     };
 
@@ -51,7 +50,7 @@ domain.level.FieldCells = (function () {
      * @param {Array} list The list of cells
      * @return {domain.level.FieldCells}
      */
-    fcPt.loadFromObjectList = function (list) {
+    pt.loadFromObjectList = function (list) {
 
         var indices = new util.FieldIndexGenerator().generate(list.length, this.usedIndices());
 
@@ -70,7 +69,7 @@ domain.level.FieldCells = (function () {
      * @param {Array} list The list of cells
      * @return {domain.level.FieldCells}
      */
-    fcPt.loadList = function (list) {
+    pt.loadList = function (list) {
 
         var indices = new util.FieldIndexGenerator().generate(list.length, this.usedIndices());
 
@@ -94,7 +93,7 @@ domain.level.FieldCells = (function () {
      *
      * @param {domain.level.Cell} cell The cell
      */
-    fcPt.push = function (cell) {
+    pt.push = function (cell) {
 
         this.cells.push(cell);
 
@@ -106,7 +105,7 @@ domain.level.FieldCells = (function () {
      *
      * @return {Promise} The promise which resolves with the last cell when it resolved
      */
-    fcPt.appear = function () {
+    pt.appear = function () {
 
         return this.cells.map(function (cell, i) {
 
@@ -128,7 +127,7 @@ domain.level.FieldCells = (function () {
      * @param {String} command The command
      * @param {Array} args The arguments
      */
-    fcPt.commandAll = function (command, args) {
+    pt.commandAll = function (command, args) {
 
         this.cells.forEach(function (cell) {
             cell[command](args);
@@ -143,7 +142,7 @@ domain.level.FieldCells = (function () {
      * @param {Object} pos The position
      * @return {Array}
      */
-    fcPt.select = function (pos) {
+    pt.select = function (pos) {
         return this.cells.filter(function (cell) {
             return cell.x === pos.x && cell.y === pos.y;
         });
@@ -156,7 +155,7 @@ domain.level.FieldCells = (function () {
      * @param {Object} pos The position.
      * @return {domain.level.Cell}
      */
-    fcPt.find = function (pos) {
+    pt.find = function (pos) {
         var cand = this.select(pos);
 
         if (cand.length === 0) {
@@ -173,7 +172,7 @@ domain.level.FieldCells = (function () {
      * @param {Object} pos The position
      * @return {Array}
      */
-    fcPt.selectRange = function (pos) {
+    pt.selectRange = function (pos) {
         return this.cells.filter(function (cell) {
             return cell.x === pos.x && cell.y > pos.y;
         });
@@ -184,7 +183,7 @@ domain.level.FieldCells = (function () {
      *
      * @param {Array} cells The cells
      */
-    fcPt.remove = function (cells) {
+    pt.remove = function (cells) {
         this.cells = this.cells.filter(function (cell) {
             return cells.indexOf(cell) < 0;
         });
@@ -195,7 +194,7 @@ domain.level.FieldCells = (function () {
      *
      * @return {Array}
      */
-    fcPt.usedIndices = function () {
+    pt.usedIndices = function () {
 
         return this.cells.map(function (cell) {
             return [cell.x, cell.y];
@@ -210,7 +209,7 @@ domain.level.FieldCells = (function () {
      * @param {Number} n The indent width
      * @return {String}
      */
-    fcPt.toJSON = function (n) {
+    pt.toJSON = function (n) {
         return JSON.stringify(this.toArray(), null, n);
     };
 
@@ -220,7 +219,7 @@ domain.level.FieldCells = (function () {
      *
      * @return {Array}
      */
-    fcPt.toArray = function () {
+    pt.toArray = function () {
         var indices = new util.FieldIndexGenerator().generate(this.cells.length);
 
         return indices.map(function (index) {
@@ -229,6 +228,4 @@ domain.level.FieldCells = (function () {
 
     };
 
-    return exports;
-
-}());
+});
