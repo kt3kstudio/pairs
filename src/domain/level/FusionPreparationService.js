@@ -20,13 +20,23 @@ domain.level.FusionPreparationService = subclass(function (pt) {
      * Takes cell into the fusion preparing position.
      *
      * @param {domain.level.Cell} cell The cell
-     * @return {Promise} {Promise<Array<domain.level.Cell>>}
+     * @return {Promise} {Promise<domain.level.FusionPair>}
      */
     pt.take = function (cell) {
 
         this.stack.push(cell);
 
-        return this.stack.isPrepared() ?  Promise.all(this.stack.getStack()) : null;
+        if (!this.stack.isPrepared()) {
+
+            return;
+
+        }
+
+        return Promise.all(this.stack.popAll()).then(function (array) {
+
+            return new domain.level.FusionPair(array[0], array[1]);
+
+        });
 
     };
 
@@ -43,9 +53,11 @@ domain.level.FusionPreparationService = subclass(function (pt) {
          * @constructor
          */
         pt.constructor = function (dimension) {
+
             this.dimension = dimension;
             this.stack = [];
             this.isFinished = false;
+
         };
 
         /**
@@ -60,9 +72,11 @@ domain.level.FusionPreparationService = subclass(function (pt) {
          * @param {domain.level.Cell} cell The cell
          */
         pt.push = function (cell) {
+
             this.isFinished = cell.isLastOne();
 
             this.stack.push(this.locate(cell, this.stack.length));
+
         };
 
 
@@ -100,7 +114,12 @@ domain.level.FusionPreparationService = subclass(function (pt) {
 
         };
 
-        pt.getStack = function () {
+        /**
+         * Pops all the cells.
+         *
+         * @return {Array<Promise<domain.level.Cell>>}
+         */
+        pt.popAll = function () {
 
             return this.stack.splice(0);
 

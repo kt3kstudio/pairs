@@ -31,6 +31,7 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
         this.cells = this.elem.getRole('cell-collection');
         this.cells.setDimension(fieldDimension);
         this.cells.loadFromObjectList(this.level.cells.cells);
+
         this.field = $('.field-grid').getActor();
         this.field.setDimension(fieldDimension);
 
@@ -88,13 +89,7 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
             return that.fps.take(cell);
 
 
-        }).filterNull().map(function (pairs) {
-
-
-            return new domain.level.FusionPair(pairs[0], pairs[1]);
-
-
-        }).pipe(function (fusionPair) {
+        }).filterNull().pipe(function (fusionPair) {
 
             that.scoreboard.addScore(fusionPair.score());
 
