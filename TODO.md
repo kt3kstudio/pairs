@@ -8,7 +8,8 @@
 [Make residents]
 - Who suggest what they need for their rooms
 - draw the residents in the notebook and pin it
-- gather ideas of the residents, the reason for them needing the
+- gather ideas of the residents, the reason for them needing the cells
+- give a meaning to the sequence of the residents
 
 ### low pri
 - Ad integration
