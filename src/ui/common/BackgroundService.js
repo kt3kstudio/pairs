@@ -1,11 +1,12 @@
 /**
- * @class
  * BackgroundService handles the animation of background colors.
+ *
+ * @class
  */
-ui.common.BackgroundService = (function () {
+ui.common.BackgroundService = subclass(function (pt) {
     'use strict';
 
-    var exports = {};
+    var exports = pt.constructor;
 
     exports.transDur = 700;
 
@@ -33,6 +34,4 @@ ui.common.BackgroundService = (function () {
         return wait(dur);
     };
 
-    return exports;
-
-}());
+});
