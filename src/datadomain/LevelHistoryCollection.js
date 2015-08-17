@@ -37,7 +37,7 @@ datadomain.LevelHistoryCollection = subclass(Array, function (pt) {
      * @param {String} levelId The level id
      * @return {datadomain.LevelHistory}
      */
-    pt.get = function (levelId) {
+    pt.getById = function (levelId) {
 
         return this.dict[levelId];
 
