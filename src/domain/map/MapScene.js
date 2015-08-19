@@ -79,6 +79,14 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
                 floorAsset.locked = character.locks.isLocked(floorAsset.id);
 
+                var history = character.histories.getById(floorAsset.id);
+
+                if (history) {
+
+                    floorAsset.score = history.score;
+
+                }
+
             });
 
             var currentFloorAsset = floorAssets.findById(character.position.floorObjectId);
