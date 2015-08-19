@@ -51,29 +51,60 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         }).then(function (character) {
 
-            var $floorAssets = that.elem.find('.floor-asset-collection');
+            return Promise.all([
 
-            $('<img />', {
+                that.initFloorWalker(character),
 
-                addClass: 'floor-walker sub-door-knock sub-character-goto',
-                appendTo: $floorAssets,
-                data: {character: character}
+                that.initFloorAssets(character)
 
-            });
-
-            var initWalker = $.CC.init('floor-walker', $floorAssets);
-
-            var spawnFloorAssets = $floorAssets.spawn('/data/floor/' + character.position.floorId + '.html', 'door staircase', {prepend: true});
-
-            return Promise.all([initWalker, spawnFloorAssets]);
+            ]);
 
         }).then(function () {
 
-            var floorAssets = that.elem.find('.floor-asset-collection').getActor();
+            that.elem.trigger($.Event('floor-built'));
+
+            that.start();
+
+        });
+
+    };
+
+
+    /**
+     * Initializes the floor walker.
+     *
+     * @param {datadomain.Character} character
+     */
+    pt.initFloorWalker = function (character) {
+
+        var $floorAssets = this.elem.find('.floor-asset-collection');
+
+        $('<img />', {
+
+            addClass: 'floor-walker sub-door-knock sub-character-goto',
+            appendTo: $floorAssets,
+            data: {character: character}
+
+        });
+
+        return $.CC.init('floor-walker', $floorAssets);
+
+    };
+
+    /**
+     * Initializes the floor assets.
+     *
+     * @param {datadomain.Character} character
+     */
+    pt.initFloorAssets = function (character) {
+
+        var $floorAssets = this.elem.find('.floor-asset-collection');
+
+        var floorAssets = $floorAssets.getActor();
+
+        return $floorAssets.spawn('/data/floor/' + character.position.floorId + '.html', 'door staircase', {prepend: true}).then(function () {
 
             floorAssets.buildFloorAssets();
-
-            var character = that.elem.find('.floor-walker').getActor().character;
 
             floorAssets.forEach(function (floorAsset) {
 
@@ -96,12 +127,6 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
                 currentFloorAsset.locked = false;
 
             }
-
-            floorAssets.elem.trigger($.Event('floor-built'));
-
-        }).then(function () {
-
-            that.start();
 
         });
 
