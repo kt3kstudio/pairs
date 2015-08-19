@@ -181,7 +181,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
     };
 
 
-    ONE['scene-reload'] = 1;
+    ONE.sceneReload = 1;
     /**
      * Reloads the map scene.
      *
@@ -189,7 +189,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
      *
      * @return {Promise}
      */
-    pt['scene-reload'] = function () {
+    pt.sceneReload = function () {
 
         return this.walkerFadeIntoDoor().then(function () {
 

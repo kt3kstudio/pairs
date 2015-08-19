@@ -71,7 +71,7 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt, parent
 
         this.saveCharacter().then(function () {
 
-            that.elem.trigger($.Event('scene-reload'));
+            that.elem.trigger($.Event('sceneReload'));
 
         });
 
