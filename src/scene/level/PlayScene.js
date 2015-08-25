@@ -121,7 +121,7 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
 
             that.character.playingState.bump();
 
-            return that.cells.loadList(that.exitQueue.releaseCells()).appear();
+            return that.cells.loadList(that.exitQueue.releaseCells()).resetShapeAndLocate();
 
 
         }).takeWhile(function (x) {

@@ -131,6 +131,24 @@ domain.level.CellCollection = subclass($.CC.Role, function (pt, parent) {
 
 
     /**
+     * Reset the shapes of the cells and locate them.
+     */
+    pt.resetShapeAndLocate = function () {
+
+        return this.cells.map(function (cell, i) {
+
+            return wait(i * 56).then(function () {
+
+                return cell.resetShapeAndLocate();
+
+            });
+
+        }).pop();
+
+    };
+
+
+    /**
      * Commands to all the cells.
      *
      * @private

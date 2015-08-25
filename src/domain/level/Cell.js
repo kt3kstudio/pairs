@@ -245,15 +245,19 @@ domain.level.Cell = subclass(function (pt) {
 
 
     /**
-     * Recreates the shape of the cell.
+     * Reset the shape of the cell.
      *
      * For example, change the size of the dom.
      */
-    pt.remorph = function () {
+    pt.resetShapeAndLocate = function () {
+
         this.$dom.css({
             'width': this.width + 'px',
             'height': this.width + 'px'
         });
+
+        return this.locate()
+
     };
 
     pt.appearDur = 500;
@@ -263,8 +267,6 @@ domain.level.Cell = subclass(function (pt) {
         var that = this;
 
         return Promise.resolve(this.createDom()).then(function () {
-
-            that.remorph();
 
             return Promise.all([that.locate(), that.$dom.anim('bom-appear', that.appearDur)]);
 
