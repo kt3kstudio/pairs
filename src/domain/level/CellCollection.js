@@ -27,6 +27,8 @@ domain.level.CellCollection = subclass($.CC.Role, function (pt, parent) {
 
         this.dimension = dimension;
 
+        return this;
+
     };
 
     /**
@@ -38,9 +40,11 @@ domain.level.CellCollection = subclass($.CC.Role, function (pt, parent) {
     pt.createCellFromObject = function (bom) {
 
         return new domain.level.Cell(
+
             bom.gene,
             this.elem
-        ).setDimension(this.dimension);
+
+        );
 
     };
 
@@ -50,33 +54,32 @@ domain.level.CellCollection = subclass($.CC.Role, function (pt, parent) {
      * @return {Boolean}
      */
     pt.isEmpty = function () {
+
         return this.cells.length === 0;
+
     };
 
 
     /**
      * Loads field cells from object list.
      *
-     * @param {Array} list The list of cells
+     * @param {Array} list The list of cells (Object)
      * @return {domain.level.FieldCells}
      */
     pt.loadFromObjectList = function (list) {
 
-        var indices = new util.FieldIndexGenerator().generate(list.length, this.usedIndices());
+        return this.loadList(list.map(function (obj) {
 
-        list.forEach(function (obj, i) {
+            return this.createCellFromObject(obj);
 
-            this.push(this.createCellFromObject(obj).setXY(indices[i]));
+        }, this));
 
-        }, this);
-
-        return this;
     };
 
     /**
      * Loads field cells from cell list.
      *
-     * @param {Array} list The list of cells
+     * @param {Array} list The list of cells (domain.level.Cell)
      * @return {domain.level.FieldCells}
      */
     pt.loadList = function (list) {
