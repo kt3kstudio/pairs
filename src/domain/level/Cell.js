@@ -293,8 +293,8 @@ domain.level.Cell = subclass(function (pt) {
     };
 
     pt.locate = function () {
-        this.$dom.css('top', this.dimension.top+ this.dimension.unit * this.y + this.gutter + 'px');
-        this.$dom.css('left', this.dimension.left+ this.dimension.unit * this.x + this.gutter + 'px');
+        this.$dom.css('top', this.dimension.top + this.dimension.unit * this.y + this.gutter + 'px');
+        this.$dom.css('left', this.dimension.left + this.dimension.unit * this.x + this.gutter + 'px');
 
         return wait(this.locateDur, this);
     };
@@ -320,17 +320,5 @@ domain.level.Cell = subclass(function (pt) {
     pt.down = function () { return this.move(0, 1); };
     pt.left = function () { return this.move(-1, 0); };
     pt.right = function () { return this.move(1, 0); };
-
-
-    /**
-     * Returns object representation of the cell.
-     *
-     * @return {Object}
-     */
-    pt.toObject = function () {
-
-        return {gene: this.gene};
-
-    };
 
 });
