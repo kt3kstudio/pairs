@@ -93,23 +93,11 @@ domain.level.CellCollection = subclass($.CC.Role, function (pt, parent) {
             .setDimension(this.dimension)
             .unsetLastOne();
 
-            this.push(cell);
+            this.cells.push(cell);
 
         }, this);
 
         return this;
-    };
-
-
-    /**
-     * Pushes a cell.
-     *
-     * @param {domain.level.Cell} cell The cell
-     */
-    pt.push = function (cell) {
-
-        this.cells.push(cell);
-
     };
 
 
@@ -152,31 +140,19 @@ domain.level.CellCollection = subclass($.CC.Role, function (pt, parent) {
 
 
     /**
-     * Commands to all the cells.
-     *
-     * @private
-     * @param {String} command The command
-     * @param {Array} args The arguments
-     */
-    pt.commandAll = function (command, args) {
-
-        this.cells.forEach(function (cell) {
-            cell[command](args);
-        });
-
-    };
-
-
-    /**
      * Selects all the cells at the position.
      *
      * @param {Object} pos The position
      * @return {Array}
      */
     pt.select = function (pos) {
+
         return this.cells.filter(function (cell) {
+
             return cell.x === pos.x && cell.y === pos.y;
+
         });
+
     };
 
 
@@ -187,13 +163,15 @@ domain.level.CellCollection = subclass($.CC.Role, function (pt, parent) {
      * @return {domain.level.Cell}
      */
     pt.find = function (pos) {
-        var cand = this.select(pos);
 
-        if (cand.length === 0) {
+        var candidates = this.select(pos);
+
+        if (candidates.length === 0) {
             return null;
         }
 
-        return cand[0];
+        return candidates[0];
+
     };
 
 
