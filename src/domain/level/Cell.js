@@ -256,7 +256,7 @@ domain.level.Cell = subclass(function (pt) {
             'height': this.width + 'px'
         });
 
-        return this.locate()
+        return this.locate();
 
     };
 
