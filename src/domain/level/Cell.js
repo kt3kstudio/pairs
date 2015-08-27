@@ -237,11 +237,6 @@ domain.level.Cell = subclass(function (pt) {
      */
     pt.resetShapeAndLocate = function () {
 
-        this.$dom.css({
-            'width': this.width + 'px',
-            'height': this.width + 'px'
-        });
-
         return this.locate();
 
     };
@@ -278,11 +273,35 @@ domain.level.Cell = subclass(function (pt) {
         });
     };
 
-    pt.locate = function () {
+    pt.updateDomRect = function () {
+
+        this.$dom.css({
+            'width': this.width + 'px',
+            'height': this.width + 'px'
+        });
+
+    };
+
+    pt.updateDomPosition = function () {
+
         this.$dom.css('top', this.dimension.top + this.dimension.unit * this.y + this.gutter + 'px');
         this.$dom.css('left', this.dimension.left + this.dimension.unit * this.x + this.gutter + 'px');
 
+    };
+
+    pt.updateDomDimension = function () {
+
+        this.updateDomRect();
+        this.updateDomPosition();
+
+    };
+
+    pt.locate = function () {
+
+        this.updateDomDimension();
+
         return wait(this.locateDur, this);
+
     };
 
     pt.remove = function () {
