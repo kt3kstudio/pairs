@@ -8,7 +8,7 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
     /**
      * @constructor
      * @param {domain.level.Ball} ball The ball
-     * @param {Array} cells The cells
+     * @param {domain.level.CellCollection} cells The cells
      */
     pt.constructor = function (ball, cells) {
 
@@ -108,7 +108,7 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
 
         /**
          * @constructor
-         * @param {Array} cells The array of cells
+         * @param {domain.level.CellCollection} cells The collection of cells
          */
         pt.constructor = function (cells) {
 
