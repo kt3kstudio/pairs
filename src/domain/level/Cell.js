@@ -15,7 +15,7 @@ domain.level.Cell = subclass(function (pt) {
      */
     pt.constructor = function (gene, parent) {
 
-        this.setGene(gene);
+        this.gene = gene;
         this.setTransitionDuration(300);
 
         this.parent = parent || 'body';
@@ -79,20 +79,6 @@ domain.level.Cell = subclass(function (pt) {
         }
 
         return wait(0, this);
-    };
-
-
-
-    /**
-     * Sets the gene.
-     *
-     * @param {String} gene The gene in string
-     * @return {domain.level.Cell}
-     */
-    pt.setGene = function (gene) {
-        this.gene = gene;
-
-        return this;
     };
 
 
