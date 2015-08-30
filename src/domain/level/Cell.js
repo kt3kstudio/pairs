@@ -16,7 +16,6 @@ domain.level.Cell = subclass(function (pt) {
     pt.constructor = function (gene, parent) {
 
         this.gene = gene;
-        this.setTransitionDuration(300);
 
         this.parent = parent || 'body';
 
@@ -58,6 +57,8 @@ domain.level.Cell = subclass(function (pt) {
     };
 
 
+    pt.transDur = 300;
+
     /**
      * Sets the transition duration.
      *
@@ -65,20 +66,14 @@ domain.level.Cell = subclass(function (pt) {
      * @return {Promise}
      */
     pt.setTransitionDuration = function (dur) {
-        this.locateDur = dur;
 
-        return this.setTransitionDuration_();
-    };
+        this.transDur = dur;
 
-
-    pt.setTransitionDuration_ = function () {
-        if (this.$dom) {
-            this.$dom.css('transition-duration', this.locateDur + 'ms');
-        }
+        this.$dom.css('transition-duration', this.transDur + 'ms');
 
         return wait(0, this);
-    };
 
+    };
 
     /**
      * Sets the coordinate
@@ -197,11 +192,8 @@ domain.level.Cell = subclass(function (pt) {
      * @return {jQuery}
      */
     pt.createDom = function () {
-        var that = this;
 
-        if (this.$dom) {
-            return this.$dom;
-        }
+        var that = this;
 
         var $dom = this.$dom = $('<object type="image/svg+xml" />').css({
             'position': 'absolute',
@@ -211,13 +203,15 @@ domain.level.Cell = subclass(function (pt) {
 
         $dom.attr('data', this.selectImage()).prependTo(this.parent);
 
-        return this.$dom.once('load').then(function () {
-            that.setTransitionDuration_();
+        return $dom.once('load').then(function () {
+
             that.updateDomDimension();
+
+            that.setTransitionDuration(300);
 
             var genes = that.gene.split('');
 
-            var $svg = $(that.$dom[0].contentDocument);
+            var $svg = $($dom[0].contentDocument);
 
             for (var i = 0; i < genes.length; i++) {
                 $('#' + i, $svg).attr('class', genes[i]);
@@ -225,6 +219,7 @@ domain.level.Cell = subclass(function (pt) {
 
             return $dom;
         });
+
     };
 
 
@@ -245,7 +240,7 @@ domain.level.Cell = subclass(function (pt) {
 
         var that = this;
 
-        return Promise.resolve(this.createDom()).then(function () {
+        return Promise.resolve(this.$dom || this.createDom()).then(function () {
 
             return Promise.all([that.updateDomDimension(), that.$dom.anim('bom-appear', that.appearDur)]);
 
@@ -278,7 +273,7 @@ domain.level.Cell = subclass(function (pt) {
             'height': this.width + 'px'
         });
 
-        return wait(this.locateDur, this);
+        return wait(this.transDur, this);
 
     };
 
@@ -287,7 +282,7 @@ domain.level.Cell = subclass(function (pt) {
         this.$dom.css('top', this.dimension.top + this.dimension.unit * this.y + this.gutter + 'px');
         this.$dom.css('left', this.dimension.left + this.dimension.unit * this.x + this.gutter + 'px');
 
-        return wait(this.locateDur, this);
+        return wait(this.transDur, this);
 
     };
 
