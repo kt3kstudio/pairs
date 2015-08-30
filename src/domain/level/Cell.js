@@ -29,19 +29,17 @@ domain.level.Cell = subclass(function (pt) {
     pt.constructor.allList = [];
 
     pt.constructor.disappear = function () {
-        var p = Promise.resolve();
 
-        pt.constructor.allList.forEach(function (cell) {
-            p = p.then(function () {
-                cell.disappear();
+        return pt.constructor.allList.map(function (cell, i) {
 
-                return wait(10);
+            wait(40 * i).then(function () {
+
+                return cell.disappear();
+
             });
-        });
 
-        return p.then(function () {
-            return wait(500);
-        });
+        }).pop();
+
     };
 
 
@@ -215,7 +213,7 @@ domain.level.Cell = subclass(function (pt) {
 
         return this.$dom.once('load').then(function () {
             that.setTransitionDuration_();
-            that.locate();
+            that.updateDomDimension();
 
             var genes = that.gene.split('');
 
@@ -237,7 +235,7 @@ domain.level.Cell = subclass(function (pt) {
      */
     pt.resetShapeAndLocate = function () {
 
-        return this.locate();
+        return this.updateDomDimension();
 
     };
 
@@ -249,7 +247,7 @@ domain.level.Cell = subclass(function (pt) {
 
         return Promise.resolve(this.createDom()).then(function () {
 
-            return Promise.all([that.locate(), that.$dom.anim('bom-appear', that.appearDur)]);
+            return Promise.all([that.updateDomDimension(), that.$dom.anim('bom-appear', that.appearDur)]);
 
         }).then(function () {
 
@@ -280,6 +278,8 @@ domain.level.Cell = subclass(function (pt) {
             'height': this.width + 'px'
         });
 
+        return wait(this.locateDur, this);
+
     };
 
     pt.updateDomPosition = function () {
@@ -287,20 +287,21 @@ domain.level.Cell = subclass(function (pt) {
         this.$dom.css('top', this.dimension.top + this.dimension.unit * this.y + this.gutter + 'px');
         this.$dom.css('left', this.dimension.left + this.dimension.unit * this.x + this.gutter + 'px');
 
+        return wait(this.locateDur, this);
+
     };
 
     pt.updateDomDimension = function () {
 
         this.updateDomRect();
-        this.updateDomPosition();
+
+        return this.updateDomPosition();
 
     };
 
     pt.locate = function () {
 
-        this.updateDomDimension();
-
-        return wait(this.locateDur, this);
+        return this.updateDomDimension();
 
     };
 
@@ -317,7 +318,7 @@ domain.level.Cell = subclass(function (pt) {
         this.x += x;
         this.y += y;
 
-        return this.locate();
+        return this.updateDomPosition();
 
     };
 
