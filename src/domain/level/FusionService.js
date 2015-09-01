@@ -78,7 +78,13 @@ domain.level.FusionService = subclass($.CC.Role, function (pt) {
 
         var dur = 600;
 
-        var cell = new domain.level.Cell(pair.newGene(), this.elem).setDimension(this.dimension).setXY([0, 0]);
+        var cellDom = $('<object class="cell" />')
+        .data('gene', pair.newGene())
+        .prependTo(this.elem);
+
+        $.CC.init('cell', this.elem);
+
+        var cell = cellDom.getActor().setDimension(this.dimension).setXY([0, 0]);
 
         if (pair.isLastOne()) {
 

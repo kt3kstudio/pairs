@@ -39,13 +39,9 @@ domain.level.CellCollection = subclass($.CC.Role, function (pt, parent) {
      */
     pt.createCellFromObject = function (bom) {
 
-        var cellDom = $('<object class="cell" />').data({gene: bom.gene}).appendTo(this.elem);
-
-        console.log(cellDom);
+        var cellDom = $('<object class="cell" />').data({gene: bom.gene}).prependTo(this.elem);
 
         $.CC.init('cell', this.elem);
-
-        window.cellDom = cellDom;
 
         return cellDom.getActor();
 
