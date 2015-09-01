@@ -39,12 +39,15 @@ domain.level.CellCollection = subclass($.CC.Role, function (pt, parent) {
      */
     pt.createCellFromObject = function (bom) {
 
-        return new domain.level.Cell(
+        var cellDom = $('<object class="cell" />').data({gene: bom.gene}).appendTo(this.elem);
 
-            bom.gene,
-            this.elem
+        console.log(cellDom);
 
-        );
+        $.CC.init('cell', this.elem);
+
+        window.cellDom = cellDom;
+
+        return cellDom.getActor();
 
     };
 
@@ -182,9 +185,13 @@ domain.level.CellCollection = subclass($.CC.Role, function (pt, parent) {
      * @return {Array}
      */
     pt.selectRange = function (pos) {
+
         return this.cells.filter(function (cell) {
+
             return cell.x === pos.x && cell.y > pos.y;
+
         });
+
     };
 
     /**
@@ -193,9 +200,13 @@ domain.level.CellCollection = subclass($.CC.Role, function (pt, parent) {
      * @param {Array} cells The cells
      */
     pt.remove = function (cells) {
+
         this.cells = this.cells.filter(function (cell) {
+
             return cells.indexOf(cell) < 0;
+
         });
+
     };
 
     /**
@@ -206,7 +217,9 @@ domain.level.CellCollection = subclass($.CC.Role, function (pt, parent) {
     pt.usedIndices = function () {
 
         return this.cells.map(function (cell) {
+
             return [cell.x, cell.y];
+
         });
 
     };

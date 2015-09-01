@@ -5,7 +5,7 @@
  *
  * @class
  */
-domain.level.Cell = subclass(function (pt) {
+domain.level.Cell = subclass($.CC.Actor, function (pt, parent) {
     'use strict';
 
     /**
@@ -13,11 +13,11 @@ domain.level.Cell = subclass(function (pt) {
      * @param {String} gene The gene string
      * @param {String|HTMLElement} parent The parent dom
      */
-    pt.constructor = function (gene, parent) {
+    pt.constructor = function (elem) {
 
-        this.gene = gene;
+        parent.constructor.call(this, elem);
 
-        this.parent = parent || 'body';
+        this.gene = elem.data('gene');
 
         this.__isLastOne = false;
         this.__isEvolved = false;
@@ -69,7 +69,7 @@ domain.level.Cell = subclass(function (pt) {
 
         this.transDur = dur;
 
-        this.$dom.css('transition-duration', this.transDur + 'ms');
+        this.elem.css('transition-duration', this.transDur + 'ms');
 
         return wait(0, this);
 
@@ -191,19 +191,21 @@ domain.level.Cell = subclass(function (pt) {
      *
      * @return {jQuery}
      */
-    pt.createDom = function () {
+    pt.willShow = function () {
 
         var that = this;
 
-        var $dom = this.$dom = $('<object type="image/svg+xml" />').css({
+        var elem = this.elem;
+
+        elem.css({
             'position': 'absolute',
             'width': this.width + 'px',
             'height': this.width + 'px'
         });
 
-        $dom.attr('data', this.selectImage()).prependTo(this.parent);
+        elem.attr('data', this.selectImage());
 
-        return $dom.once('load').then(function () {
+        return elem.once('load').then(function () {
 
             that.updateDomDimension();
 
@@ -211,13 +213,12 @@ domain.level.Cell = subclass(function (pt) {
 
             var genes = that.gene.split('');
 
-            var $svg = $($dom[0].contentDocument);
+            var $svg = $(elem[0].contentDocument);
 
             for (var i = 0; i < genes.length; i++) {
                 $('#' + i, $svg).attr('class', genes[i]);
             }
 
-            return $dom;
         });
 
     };
@@ -240,9 +241,9 @@ domain.level.Cell = subclass(function (pt) {
 
         var that = this;
 
-        return Promise.resolve(this.$dom || this.createDom()).then(function () {
+        return Promise.resolve(this.willShow()).then(function () {
 
-            return Promise.all([that.updateDomDimension(), that.$dom.anim('bom-appear', that.appearDur)]);
+            return Promise.all([that.updateDomDimension(), that.elem.anim('bom-appear', that.appearDur)]);
 
         }).then(function () {
 
@@ -257,18 +258,24 @@ domain.level.Cell = subclass(function (pt) {
     pt.disappear = function () {
         var that = this;
 
-        this.$dom.css('visibility', 'hidden');
+        this.elem.css('visibility', 'hidden');
 
-        return this.$dom.anim('bom-disappear', this.disappearDur).then(function () {
+        return this.elem.anim('bom-disappear', this.disappearDur).then(function () {
 
             that.remove();
 
         });
     };
 
+    pt.anim = function (animationName, duration) {
+
+        return this.elem.anim(animationName, duration);
+
+    };
+
     pt.updateDomRect = function () {
 
-        this.$dom.css({
+        this.elem.css({
             'width': this.width + 'px',
             'height': this.width + 'px'
         });
@@ -279,8 +286,8 @@ domain.level.Cell = subclass(function (pt) {
 
     pt.updateDomPosition = function () {
 
-        this.$dom.css('top', this.dimension.top + this.dimension.unit * this.y + this.gutter + 'px');
-        this.$dom.css('left', this.dimension.left + this.dimension.unit * this.x + this.gutter + 'px');
+        this.elem.css('top', this.dimension.top + this.dimension.unit * this.y + this.gutter + 'px');
+        this.elem.css('left', this.dimension.left + this.dimension.unit * this.x + this.gutter + 'px');
 
         return wait(this.transDur, this);
 
@@ -302,7 +309,7 @@ domain.level.Cell = subclass(function (pt) {
 
     pt.remove = function () {
 
-        this.$dom.remove();
+        this.elem.remove();
 
         pt.constructor.allList.splice(pt.constructor.allList.indexOf(this), 1);
 
@@ -323,3 +330,6 @@ domain.level.Cell = subclass(function (pt) {
     pt.right = function () { return this.move(1, 0); };
 
 });
+
+
+$.CC.assign('cell', domain.level.Cell);

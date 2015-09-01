@@ -50,7 +50,7 @@ domain.level.FusionService = subclass($.CC.Role, function (pt) {
 
         if (pair.right) {
 
-            pair.right.$dom.anim('get-to-reactor-right', dur).then(function () {
+            pair.right.anim('get-to-reactor-right', dur).then(function () {
 
                 return pair.right.remove();
 
@@ -58,7 +58,7 @@ domain.level.FusionService = subclass($.CC.Role, function (pt) {
 
         }
 
-        return pair.left.$dom.anim('get-to-reactor-left', dur).then(function () {
+        return pair.left.anim('get-to-reactor-left', dur).then(function () {
 
             pair.left.remove();
 
