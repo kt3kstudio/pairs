@@ -21,6 +21,13 @@ domain.common.Being = $.CC.defineActor(function (pt) {
     pt.willShow = noop;
     pt.didShow = noop;
 
+    /**
+     * 表示時アニメーションプロパティ (showAnim, showAnimDur) に従ってアニメーションさせる。
+     *
+     * 事前に willShow hook, 事後に didShow hook を呼び出す。
+     *
+     * @return {Promise}
+     */
     pt.show = function () {
 
         var that = this;
@@ -47,6 +54,13 @@ domain.common.Being = $.CC.defineActor(function (pt) {
     pt.willHide = noop;
     pt.didHide = noop;
 
+    /**
+     * 非表示時アニメーションプロパティ (showAnim, showAnimDur) に従ってアニメーションさせる。
+     *
+     * 事前に willHide hook, 事後に didHide hook を呼び出す。
+     *
+     * @return {Promise}
+     */
     pt.hide = function () {
 
         var that = this;
