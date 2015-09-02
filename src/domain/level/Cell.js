@@ -5,7 +5,7 @@
  *
  * @class
  */
-domain.level.Cell = subclass($.CC.Actor, function (pt, parent) {
+domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
     'use strict';
 
     /**
@@ -235,36 +235,16 @@ domain.level.Cell = subclass($.CC.Actor, function (pt, parent) {
 
     };
 
-    pt.appearDur = 500;
+    pt.showAnim = 'bom-appear';
+    pt.showAnimDur = 500;
 
-    pt.appear = function () {
+    pt.hideAnim = 'bom-disappear';
+    pt.hideAnimDur = 500;
 
-        var that = this;
+    pt.didAppear = function () {
 
-        return Promise.resolve(this.willShow()).then(function () {
+        return this;
 
-            return Promise.all([that.updateDomDimension(), that.elem.anim('bom-appear', that.appearDur)]);
-
-        }).then(function () {
-
-            return that;
-
-        });
-
-    };
-
-    pt.disappearDur = 500;
-
-    pt.disappear = function () {
-        var that = this;
-
-        this.elem.css('visibility', 'hidden');
-
-        return this.elem.anim('bom-disappear', this.disappearDur).then(function () {
-
-            that.remove();
-
-        });
     };
 
     pt.anim = function (animationName, duration) {
