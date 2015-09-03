@@ -71,7 +71,7 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
 
         this.elem.css('transition-duration', this.transDur + 'ms');
 
-        return wait(0, this);
+        return wait(0);
 
     };
 

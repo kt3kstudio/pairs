@@ -73,6 +73,8 @@ domain.level.ExitQueue = subclass(function (pt) {
 
     /**
      * Sets dimension data to the queuee and push into internal queue.
+     *
+     * @return {Promise}
      */
     pt.involve = function (queuee) {
 
