@@ -132,7 +132,7 @@ domain.level.ExitQueue = subclass(function (pt) {
          * Locates the cell.
          */
         pt.locate = function () {
-            return this.cell.locate();
+            return this.cell.updateDomDimension();
         };
 
         /**

@@ -281,12 +281,6 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
 
     };
 
-    pt.locate = function () {
-
-        return this.updateDomDimension();
-
-    };
-
     pt.remove = function () {
 
         this.elem.remove();

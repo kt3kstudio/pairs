@@ -85,7 +85,7 @@ domain.level.FusionPreparationService = subclass(function (pt) {
          *
          * @param {domain.level.Cell} cell The cell
          * @param {Number} index The index
-         * @return {Promise}
+         * @return {Promise<domain.level.Cell>}
          */
         pt.locate = function (cell, index) {
 
@@ -96,7 +96,11 @@ domain.level.FusionPreparationService = subclass(function (pt) {
 
             return cell.setTransitionDuration(this.takeDur).then(function () {
 
-                return cell.locate();
+                return cell.updateDomDimension();
+
+            }).then(function () {
+
+                return cell;
 
             });
 
