@@ -260,7 +260,7 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
             'height': this.width + 'px'
         });
 
-        return wait(this.transDur, this);
+        return wait(this.transDur);
 
     };
 
@@ -269,7 +269,7 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
         this.elem.css('top', this.dimension.top + this.dimension.unit * this.y + this.gutter + 'px');
         this.elem.css('left', this.dimension.left + this.dimension.unit * this.x + this.gutter + 'px');
 
-        return wait(this.transDur, this);
+        return wait(this.transDur);
 
     };
 

@@ -99,7 +99,11 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
         }).pipe(function (newCell) {
 
 
-            return that.exitQueue.enqueue(newCell);
+            return that.exitQueue.enqueue(newCell).then(function () {
+
+                return newCell;
+
+            });
 
 
         }).filter(function (cell) {
