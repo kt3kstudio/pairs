@@ -10,7 +10,7 @@ domain.level.PossibleMoveDetectionService = subclass(function (pt) {
     /**
      * @constructor
      * @param {domain.level.Ball} ball The ball
-     * @param {domain.level.FieldCells} cells The field cells
+     * @param {domain.level.CellCollection} cells The field cells
      */
     pt.constructor = function (ball, cells) {
 

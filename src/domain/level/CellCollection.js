@@ -1,5 +1,5 @@
 /**
- * FieldCells class represents the grid positioned queues of cells around the field.
+ * CellCollection class represents the grid positioned queues of cells around the field.
  *
  * @class
  * @extends $.CC.Role
@@ -63,7 +63,7 @@ domain.level.CellCollection = subclass($.CC.Role, function (pt, parent) {
      * Loads field cells from object list.
      *
      * @param {Array} list The list of cells (Object)
-     * @return {domain.level.FieldCells}
+     * @return {domain.level.CellCollection}
      */
     pt.loadFromObjectList = function (list) {
 
