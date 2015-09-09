@@ -13,7 +13,7 @@ datadomain.LevelHistory = subclass(function (pt) {
      * @constructor
      * @param {String} levelId The id of the level
      * @param {Number} score The score
-     * @param {Array<datadomain.Gene>} goalGenes The goal genes
+     * @param {datadomain.Gene[]} goalGenes The goal genes
      * @param {Boolean} cleared If cleared or not
      * @param {Date} clearedAt The datetime of the clear
      */
@@ -30,7 +30,7 @@ datadomain.LevelHistory = subclass(function (pt) {
         this.score = score;
 
         /**
-         * @property {Array<datadomain.Gene>} goalGenes The goal genes
+         * @property {datadomain.Gene[]} goalGenes The goal genes
          */
         this.goalGenes = goalGenes;
 
