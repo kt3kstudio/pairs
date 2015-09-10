@@ -6,22 +6,30 @@ describe('FusionPair', function () {
     var FusionPair = domain.level.FusionPair;
     var Cell = domain.level.Cell;
 
+    var createCell = function (gene) {
+
+        var div = $('<div class="cell">').data('gene', gene);
+
+        return new domain.level.Cell(div);
+
+    };
+
     describe('isEvolving', function () {
 
         it('returns true if the fusion is evolving and false otherwise', function () {
 
-            expect(new FusionPair(new Cell('f'), new Cell('f')).isEvolving()).to.be.false;
-            expect(new FusionPair(new Cell('m'), new Cell('m')).isEvolving()).to.be.false;
-            expect(new FusionPair(new Cell('f'), new Cell('m')).isEvolving()).to.be.true;
-            expect(new FusionPair(new Cell('m'), new Cell('f')).isEvolving()).to.be.true;
-            expect(new FusionPair(new Cell('fm'), new Cell('m')).isEvolving()).to.be.false;
-            expect(new FusionPair(new Cell('fm'), new Cell('f')).isEvolving()).to.be.true;
-            expect(new FusionPair(new Cell('mf'), new Cell('f')).isEvolving()).to.be.false;
-            expect(new FusionPair(new Cell('mf'), new Cell('m')).isEvolving()).to.be.true;
-            expect(new FusionPair(new Cell('fm'), new Cell('mf')).isEvolving()).to.be.true;
-            expect(new FusionPair(new Cell('fm'), new Cell('fm')).isEvolving()).to.be.true;
-            expect(new FusionPair(new Cell('mf'), new Cell('mf')).isEvolving()).to.be.true;
-            expect(new FusionPair(new Cell('mf'), new Cell('fm')).isEvolving()).to.be.true;
+            expect(new FusionPair(createCell('f'), createCell('f')).isEvolving()).to.be.false;
+            expect(new FusionPair(createCell('m'), createCell('m')).isEvolving()).to.be.false;
+            expect(new FusionPair(createCell('f'), createCell('m')).isEvolving()).to.be.true;
+            expect(new FusionPair(createCell('m'), createCell('f')).isEvolving()).to.be.true;
+            expect(new FusionPair(createCell('fm'), createCell('m')).isEvolving()).to.be.false;
+            expect(new FusionPair(createCell('fm'), createCell('f')).isEvolving()).to.be.true;
+            expect(new FusionPair(createCell('mf'), createCell('f')).isEvolving()).to.be.false;
+            expect(new FusionPair(createCell('mf'), createCell('m')).isEvolving()).to.be.true;
+            expect(new FusionPair(createCell('fm'), createCell('mf')).isEvolving()).to.be.true;
+            expect(new FusionPair(createCell('fm'), createCell('fm')).isEvolving()).to.be.true;
+            expect(new FusionPair(createCell('mf'), createCell('mf')).isEvolving()).to.be.true;
+            expect(new FusionPair(createCell('mf'), createCell('fm')).isEvolving()).to.be.true;
 
         });
 
