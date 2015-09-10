@@ -12,7 +12,7 @@ before_install:
   - bundle install
 
 script:
-- make lint
+- npm run lint
 - npm run ci
 
 after_success:
