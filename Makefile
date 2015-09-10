@@ -19,7 +19,7 @@ tree:
 	tree m src
 
 lines:
-	find src/ -name '*.js' | xargs wc
+	find src/ spec/ -name '*.js' | xargs wc
 
 lint:
 	jshint src spec
