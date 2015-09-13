@@ -4,7 +4,6 @@ describe('FusionPair', function () {
     'use strict';
 
     var FusionPair = domain.level.FusionPair;
-    var Cell = domain.level.Cell;
 
     var createCell = function (gene) {
 
