@@ -19,7 +19,6 @@
     "speech-bubble": "~0.1.2",
     "rxjs": "~2.3.24",
     "event-hub": "^3.0.0",
-    "event-twister": "^3.0.0",
     "class-component-initializer": "^2.3.0",
     "actor-system": "^4.0.0"
   }

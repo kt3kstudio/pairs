@@ -6,7 +6,6 @@
 //= require actor-system
 //= require class-component-initializer
 //= require event-hub
-//= require event-twister
 
 //= require namespaces.js
 
