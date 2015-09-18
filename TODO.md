@@ -1,8 +1,11 @@
 # TODO
 
+- Use class-component v5.2
 
 - Code reading of level scene and further refactoring
 - Use magrove for Cell
+- new model, LevelKey
+- new model, Guide
 
 
 [Make residents]
