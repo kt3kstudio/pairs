@@ -3,8 +3,6 @@
 //= require jquery
 //= require rxjs/dist/rx.lite.js
 //= require class-component
-//= require actor-system
-//= require class-component-initializer
 //= require event-hub
 
 //= require namespaces.js
