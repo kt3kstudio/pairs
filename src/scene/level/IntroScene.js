@@ -3,9 +3,9 @@
  * IntroScene class handles the introduction scene of the level page.
  *
  * @class
- * @extends $.CC.Role
+ * @extends domain.common.Role
  */
-scene.level.IntroScene = subclass($.CC.Role, function (pt, parent) {
+scene.level.IntroScene = subclass(domain.common.Role, function (pt, parent) {
     'use strict';
 
     pt.constructor = function (elem) {

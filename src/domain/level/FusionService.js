@@ -3,7 +3,7 @@
  *
  * @class
  */
-domain.level.FusionService = subclass($.CC.Role, function (pt) {
+domain.level.FusionService = subclass(domain.common.Role, function (pt) {
     'use strict';
 
     /**

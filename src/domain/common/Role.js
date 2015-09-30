@@ -6,4 +6,4 @@
  *
  * @class
  */
-domain.common.Role = $.CC.Role;
+domain.common.Role = Object;

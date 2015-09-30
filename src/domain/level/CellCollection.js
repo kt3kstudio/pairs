@@ -2,9 +2,9 @@
  * CellCollection class represents the grid positioned queues of cells around the field.
  *
  * @class
- * @extends $.CC.Role
+ * @extends domain.common.Role
  */
-domain.level.CellCollection = subclass($.CC.Role, function (pt, parent) {
+domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent) {
     'use strict';
 
     /**

@@ -3,9 +3,9 @@
  * OutroScene handles the scene after finishing main play.
  *
  * @class
- * @extends $.CC.Role
+ * @extends domain.common.Role
  */
-scene.level.OutroScene = subclass($.CC.Role, function (pt) {
+scene.level.OutroScene = subclass(domain.common.Role, function (pt) {
     'use strict';
 
     pt.init = function () {

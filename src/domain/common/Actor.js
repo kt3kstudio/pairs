@@ -6,4 +6,4 @@
  *
  * @class
  */
-domain.common.Actor = $.CC.Actor;
+domain.common.Actor = $.cc.Actor;
