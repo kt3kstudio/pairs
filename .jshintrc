@@ -36,7 +36,7 @@
 
         "$": false,
         "Rx": false,
-        "subclass": false,
+        "subclass": true,
 
         "expect": false,
         "assert": false,
