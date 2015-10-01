@@ -7,7 +7,7 @@
  * @class
  * @extends domain.common.Role
  */
-domain.map.Camera = $.CC.defineRole('camera', function (pt, parent) {
+domain.map.Camera = subclass(domain.common.Role, function (pt, parent) {
     'use strict';
 
     pt.constructor = function (elem) {
@@ -79,3 +79,5 @@ domain.map.Camera = $.CC.defineRole('camera', function (pt, parent) {
     };
 
 });
+
+$.cc.assign('camera', domain.map.Camera);

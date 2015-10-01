@@ -107,4 +107,4 @@ scene.level.OutroScene = subclass(domain.common.Role, function (pt) {
 });
 
 
-$.CC.assign('outro-scene', scene.level.OutroScene);
+$.cc.assign('outro-scene', scene.level.OutroScene);

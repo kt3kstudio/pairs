@@ -7,7 +7,7 @@
  * @class
  * @extends domain.common.Actor
  */
-domain.common.Being = $.CC.defineActor(function (pt) {
+domain.common.Being = subclass($.cc.Actor, function (pt) {
     'use strict';
 
     var noop = function () {};
@@ -133,8 +133,5 @@ domain.common.Being = $.CC.defineActor(function (pt) {
         this.elem.css('transition-duration', dur + 'ms').reflow();
 
     };
-
-
-
 
 });

@@ -210,4 +210,4 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
 });
 
 
-$.CC.assign('play-scene', scene.level.PlayScene);
+$.cc.assign('play-scene', scene.level.PlayScene);

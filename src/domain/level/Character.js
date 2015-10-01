@@ -22,4 +22,4 @@ domain.level.Character = subclass(domain.common.CharSprite, function (pt, parent
 
 });
 
-$.CC.assign('character-on-level', domain.level.Character);
+$.cc.assign('character-on-level', domain.level.Character);

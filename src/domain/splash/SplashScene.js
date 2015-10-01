@@ -98,4 +98,4 @@ domain.splash.SplashScene = subclass(domain.common.Actor, function (pt, parent) 
 
 });
 
-$.CC.assign('splash-scene', domain.splash.SplashScene);
+$.cc.assign('splash-scene', domain.splash.SplashScene);

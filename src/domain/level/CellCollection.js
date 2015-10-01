@@ -41,7 +41,7 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
 
         var cellDom = $('<object class="cell" />').data({gene: bom.gene}).prependTo(this.elem);
 
-        $.CC.init('cell', this.elem);
+        $.cc.init('cell', this.elem);
 
         return cellDom.getActor();
 
@@ -222,4 +222,4 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
 
 });
 
-$.CC.assign('cell-collection', domain.level.CellCollection);
+$.cc.assign('cell-collection', domain.level.CellCollection);

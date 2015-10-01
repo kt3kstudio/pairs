@@ -24,4 +24,4 @@ domain.level.Paper = subclass(domain.common.StaticSprite, function (pt) {
 });
 
 
-$.CC.assign('paper', domain.level.Paper);
+$.cc.assign('paper', domain.level.Paper);

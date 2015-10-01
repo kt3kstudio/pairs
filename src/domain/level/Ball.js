@@ -118,4 +118,4 @@ domain.level.Ball = subclass(domain.common.Being, function (pt, parent) {
 
 });
 
-$.CC.assign('ball', domain.level.Ball);
+$.cc.assign('ball', domain.level.Ball);

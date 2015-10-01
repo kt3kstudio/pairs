@@ -64,7 +64,7 @@ domain.map.FloorAsset = subclass(domain.common.DimensionalBeing, function (pt, p
 
         $('<img class="frog">').css({zIndex: 2}).appendTo(this.elem);
 
-        return $.CC.init('frog', this.elem).then(function (frogs) {
+        return $.cc.init('frog', this.elem).then(function (frogs) {
 
             var frog = frogs[0];
 

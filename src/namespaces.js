@@ -1,4 +1,6 @@
 
+subclass = $.cc.subclass;
+
 // application layer which controlls each scene
 scene = {};
 scene.level = {};

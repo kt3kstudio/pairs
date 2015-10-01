@@ -39,7 +39,7 @@ domain.title.TitleScene = subclass(domain.common.Actor, function (pt, parent) {
             });
 
         });
-        
+
         wait(500).then(function () {
 
             that.menuButton.show();
@@ -101,4 +101,4 @@ domain.title.TitleScene = subclass(domain.common.Actor, function (pt, parent) {
 
 });
 
-$.CC.assign('title-scene', domain.title.TitleScene);
+$.cc.assign('title-scene', domain.title.TitleScene);

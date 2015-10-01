@@ -181,4 +181,4 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt, parent
 });
 
 
-$.assignClassComponent('floor-walker', domain.map.FloorWalker);
+$.cc.assign('floor-walker', domain.map.FloorWalker);

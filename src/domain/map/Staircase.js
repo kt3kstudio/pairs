@@ -87,4 +87,4 @@ domain.map.Staircase = subclass(domain.map.FloorAsset, function (pt, parent) {
 
 });
 
-$.assignClassComponent('staircase', domain.map.Staircase);
+$.cc.assign('staircase', domain.map.Staircase);

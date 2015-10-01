@@ -39,4 +39,4 @@ domain.level.Field = subclass(domain.common.DimensionalBeing, function (pt) {
 
 });
 
-$.CC.assign('field-grid', domain.level.Field);
+$.cc.assign('field-grid', domain.level.Field);

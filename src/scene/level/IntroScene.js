@@ -125,7 +125,7 @@ scene.level.IntroScene = subclass(domain.common.Role, function (pt, parent) {
 
         }).appendTo(this.elem);
 
-        return $.CC.init('ball');
+        return $.cc.init('ball');
 
     };
 
@@ -138,7 +138,7 @@ scene.level.IntroScene = subclass(domain.common.Role, function (pt, parent) {
 
         $('<img class="paper" />').appendTo(this.elem);
 
-        return $.CC.init('paper');
+        return $.cc.init('paper');
 
     };
 
@@ -151,10 +151,10 @@ scene.level.IntroScene = subclass(domain.common.Role, function (pt, parent) {
 
         $('<img class="character-on-level" />').appendTo(this.elem).data({character: character});
 
-        return $.CC.init('character-on-level');
+        return $.cc.init('character-on-level');
 
     };
 
 });
 
-$.CC.assign('intro-scene', scene.level.IntroScene);
+$.cc.assign('intro-scene', scene.level.IntroScene);

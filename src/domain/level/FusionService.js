@@ -82,7 +82,7 @@ domain.level.FusionService = subclass(domain.common.Role, function (pt) {
         .data('gene', pair.newGene())
         .prependTo(this.elem);
 
-        $.CC.init('cell', this.elem);
+        $.cc.init('cell', this.elem);
 
         var cell = cellDom.getActor().setDimension(this.dimension).setXY([0, 0]);
 
@@ -104,4 +104,4 @@ domain.level.FusionService = subclass(domain.common.Role, function (pt) {
 
 });
 
-$.CC.assign('fusion-service', domain.level.FusionService);
+$.cc.assign('fusion-service', domain.level.FusionService);

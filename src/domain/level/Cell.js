@@ -306,4 +306,4 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
 });
 
 
-$.CC.assign('cell', domain.level.Cell);
+$.cc.assign('cell', domain.level.Cell);

@@ -159,4 +159,4 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
 
 
 
-$.assignClassComponent('floor-asset-collection', domain.map.FloorAssetCollection);
+$.cc.assign('floor-asset-collection', domain.map.FloorAssetCollection);

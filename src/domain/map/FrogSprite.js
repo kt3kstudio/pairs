@@ -25,4 +25,4 @@ domain.map.FrogSprite = subclass(domain.common.StayRunSprite, function (pt) {
 
 });
 
-$.CC.assign('frog', domain.map.FrogSprite);
+$.cc.assign('frog', domain.map.FrogSprite);

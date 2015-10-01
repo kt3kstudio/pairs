@@ -87,7 +87,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         });
 
-        return $.CC.init('floor-walker', $floorAssets);
+        return $.cc.init('floor-walker', $floorAssets);
 
     };
 
@@ -253,4 +253,4 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 });
 
 
-$.assignClassComponent('map-scene', domain.map.MapScene);
+$.cc.assign('map-scene', domain.map.MapScene);

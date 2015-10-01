@@ -156,4 +156,4 @@ domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
 
 });
 
-$.assignClassComponent('door', domain.map.Door);
+$.cc.assign('door', domain.map.Door);

@@ -56,4 +56,4 @@ domain.map.Floorboard = subclass(domain.common.Being, function (pt) {
 });
 
 
-$.assignClassComponent('floorboard', domain.map.Floorboard);
+$.cc.assign('floorboard', domain.map.Floorboard);
