@@ -62,19 +62,7 @@ domain.map.FloorAsset = subclass(domain.common.DimensionalBeing, function (pt, p
      */
     pt.spawnFrog = function () {
 
-        $('<img class="frog">').css({zIndex: 2}).appendTo(this.elem);
-
-        return $.cc.init('frog', this.elem).then(function (frogs) {
-
-            var frog = frogs[0];
-
-            if (frog) {
-
-                return $(frog).getActor().show();
-
-            }
-
-        });
+        $('<img />').css({zIndex: 2}).appendTo(this.elem).cc.init('frog').show();
 
     };
 
@@ -84,7 +72,7 @@ domain.map.FloorAsset = subclass(domain.common.DimensionalBeing, function (pt, p
      */
     pt.removeFrog = function () {
 
-        var frog = this.elem.find('.frog').getActor();
+        var frog = this.elem.find('.frog').cc.getActor();
 
         if (frog == null) {
 

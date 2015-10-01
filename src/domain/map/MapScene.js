@@ -100,7 +100,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         var $floorAssets = this.elem.find('.floor-asset-collection');
 
-        var floorAssets = $floorAssets.getActor();
+        var floorAssets = $floorAssets.cc.getActor();
 
         return $floorAssets.spawn('/data/floor/' + character.position.floorId + '.html', 'door staircase', {prepend: true}).then(function () {
 
@@ -139,11 +139,11 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         ui.common.BackgroundService.turnWhite();
 
-        var walker = this.elem.find('.floor-walker').getActor();
+        var walker = this.elem.find('.floor-walker').cc.getActor();
 
-        var floorboard = this.elem.find('.floorboard').getActor();
+        var floorboard = this.elem.find('.floorboard').cc.getActor();
 
-        var assets = this.elem.find('.floor-asset-collection').getActor();
+        var assets = this.elem.find('.floor-asset-collection').cc.getActor();
 
         return floorboard.appear().then(function () {
 
@@ -165,9 +165,9 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         var that = this;
 
-        return this.elem.find('.floor-asset-collection').getActor().hide().then(function () {
+        return this.elem.find('.floor-asset-collection').cc.getActor().hide().then(function () {
 
-            that.elem.find('.floorboard').getActor().hide();
+            that.elem.find('.floorboard').cc.getActor().hide();
 
             return ui.common.BackgroundService.turnBlack();
 
@@ -180,7 +180,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         var that = this;
 
-        return this.elem.find('.floor-walker').getActor().getIntoDoor().then(function () {
+        return this.elem.find('.floor-walker').cc.getActor().getIntoDoor().then(function () {
 
             return that.fadeOut();
 
@@ -230,9 +230,9 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         var asset = e.floorAsset;
 
-        var camera = $('.camera').getRole('camera');
+        var camera = $('.camera').cc.get('camera');
 
-        var walker = this.elem.find('.floor-walker').getActor();
+        var walker = this.elem.find('.floor-walker').cc.getActor();
 
         return camera.scrollTo(asset.centerX(), 500).then(function () {
 

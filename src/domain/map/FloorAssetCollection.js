@@ -20,7 +20,7 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
 
         this.items = this.elem.find('.staircase, .door').map(function () {
 
-            return $(this).getActor();
+            return $(this).cc.getActor();
 
         }).toArray();
 
