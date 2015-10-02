@@ -72,7 +72,15 @@ domain.map.FloorAsset = subclass(domain.common.DimensionalBeing, function (pt, p
      */
     pt.removeFrog = function () {
 
-        var frog = this.elem.find('.frog').cc.getActor();
+        var frogDom = this.elem.find('.frog');
+
+        if (frogDom.length === 0) {
+
+            return;
+
+        }
+
+        var frog = frogDom.cc.getActor();
 
         if (frog == null) {
 
