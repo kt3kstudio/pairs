@@ -87,7 +87,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         });
 
-        return $.cc.init('floor-walker', $floorAssets);
+        $.cc.init('floor-walker', $floorAssets);
 
     };
 
@@ -102,7 +102,11 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         var floorAssets = $floorAssets.cc.getActor();
 
-        return $floorAssets.spawn('/data/floor/' + character.position.floorId + '.html', 'door staircase', {prepend: true}).then(function () {
+        return Promise.resolve($.get('/data/floor/' + character.position.floorId + '.html')).then(function (data) {
+
+            $(data).prependTo($floorAssets);
+
+            $.cc.init('door staircase', $floorAssets);
 
             floorAssets.buildFloorAssets();
 
