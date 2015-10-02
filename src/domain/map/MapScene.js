@@ -51,13 +51,9 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         }).then(function (character) {
 
-            return Promise.all([
+            that.initFloorWalker(character);
 
-                that.initFloorWalker(character),
-
-                that.initFloorAssets(character)
-
-            ]);
+            return that.initFloorAssets(character);
 
         }).then(function () {
 
@@ -77,17 +73,13 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
      */
     pt.initFloorWalker = function (character) {
 
-        var $floorAssets = this.elem.find('.floor-asset-collection');
-
         $('<img />', {
 
-            addClass: 'floor-walker sub-door-knock sub-character-goto',
-            appendTo: $floorAssets,
+            addClass: 'sub-door-knock sub-character-goto',
+            appendTo: this.elem.find('.floor-asset-collection'),
             data: {character: character}
 
-        });
-
-        $.cc.init('floor-walker', $floorAssets);
+        }).cc.init('floor-walker');
 
     };
 
