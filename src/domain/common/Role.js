@@ -6,4 +6,8 @@
  *
  * @class
  */
-domain.common.Role = Object;
+domain.common.Role = function (elem) {
+
+    this.elem = elem;
+
+};
