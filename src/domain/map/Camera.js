@@ -20,7 +20,7 @@ domain.map.Camera = subclass(domain.common.Role, function (pt, parent) {
 
         elem.on('floor-built', function () {
 
-            that.scrollSet($('.floor-asset-collection').getActor().findById($('.floor-walker').getActor().getPosition().floorObjectId).centerX());
+            that.scrollSet($('.floor-asset-collection').cc.getActor().findById($('.floor-walker').cc.getActor().getPosition().floorObjectId).centerX());
 
         });
 
