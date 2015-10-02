@@ -43,7 +43,7 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
 
         $.cc.init('cell', this.elem);
 
-        return cellDom.getActor();
+        return cellDom.cc.getActor();
 
     };
 

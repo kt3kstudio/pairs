@@ -12,11 +12,11 @@ scene.level.OutroScene = subclass(domain.common.Role, function (pt) {
 
         this.pos = new domain.level.DimensionFactory();
 
-        this.ball = new Ball(this.elem.find('.ball').getActor());
-        this.chr = this.elem.find('.character-on-level').getActor();
-        this.field = this.elem.getRole('play-scene').field;
-        this.menuButton = this.elem.getRole('play-scene').menuButton;
-        this.scoreboard = this.elem.getRole('play-scene').scoreboard;
+        this.ball = new Ball(this.elem.find('.ball').cc.getActor());
+        this.chr = this.elem.find('.character-on-level').cc.getActor();
+        this.field = this.elem.cc.get('play-scene').field;
+        this.menuButton = this.elem.cc.get('play-scene').menuButton;
+        this.scoreboard = this.elem.cc.get('play-scene').scoreboard;
 
         var panePos = this.pos.resultPanePosition();
 

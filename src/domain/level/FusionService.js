@@ -84,7 +84,7 @@ domain.level.FusionService = subclass(domain.common.Role, function (pt) {
 
         $.cc.init('cell', this.elem);
 
-        var cell = cellDom.getActor().setDimension(this.dimension).setXY([0, 0]);
+        var cell = cellDom.cc.getActor().setDimension(this.dimension).setXY([0, 0]);
 
         if (pair.isLastOne()) {
 

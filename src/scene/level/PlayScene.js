@@ -16,10 +16,10 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
         var pos = this.pos = new domain.level.DimensionFactory();
 
         // continuous actors
-        this.ball = this.elem.find('.ball').getActor();
-        this.character = this.elem.find('.character-on-level').getActor().character;
-        this.level = this.elem.getRole('intro-scene').level;
-        this.chr = this.elem.find('.character-on-level').getActor();
+        this.ball = this.elem.find('.ball').cc.getActor();
+        this.character = this.elem.find('.character-on-level').cc.getActor().character;
+        this.level = this.elem.cc.get('intro-scene').level;
+        this.chr = this.elem.find('.character-on-level').cc.getActor();
 
         // prepare dimensions
         var fieldDimension = pos.fieldPosition();
@@ -28,16 +28,16 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
         var fusionDimension = pos.fusionBoxPosition();
 
         // models
-        this.cells = this.elem.getRole('cell-collection');
+        this.cells = this.elem.cc.get('cell-collection');
         this.cells.setDimension(fieldDimension);
         this.cells.loadFromObjectList(this.level.cells.cells);
 
-        this.field = $('.field-grid').getActor();
+        this.field = $('.field-grid').cc.getActor();
         this.field.setDimension(fieldDimension);
 
         // services
         this.fps = new domain.level.FusionPreparationService(prepDimension);
-        this.fusionService = this.elem.getRole('fusion-service').setDimension(fusionDimension);
+        this.fusionService = this.elem.cc.get('fusion-service').setDimension(fusionDimension);
         this.exitQueue = new domain.level.ExitQueue(exitQueueDimension);
 
         // services
@@ -47,7 +47,7 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
         this.swipe = new ui.level.SwipeEvent('.wrapper');
 
         // init scoreboard dimension
-        this.scoreboard = this.elem.find('.scoreboard').getActor();
+        this.scoreboard = this.elem.find('.scoreboard').cc.getActor();
         this.scoreboard.setDimension(pos.scoreboardDimension());
 
         this.menuButton = $('.menu-button').menuButton($('#level-menu'));
@@ -203,7 +203,7 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
 
         this.character.clearPlayingState();
 
-        this.elem.getRole('outro-scene').init();
+        this.elem.cc.get('outro-scene').init();
 
     };
 

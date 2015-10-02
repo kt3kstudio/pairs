@@ -47,15 +47,9 @@ scene.level.IntroScene = subclass(domain.common.Role, function (pt, parent) {
 
             that.level = level;
 
-            return Promise.all([
-
-                that.spawnBall(),
-                that.spawnPaper(),
-                that.spawnCharacter(that.character)
-
-            ]);
-
-        }).then(function () {
+            that.spawnBall();
+            that.spawnPaper();
+            that.spawnCharacter(that.character);
 
             return that.start();
 
@@ -68,9 +62,9 @@ scene.level.IntroScene = subclass(domain.common.Role, function (pt, parent) {
 
         var paperPos = this.pos.paperPosition();
 
-        this.chr = this.elem.find('.character-on-level').getActor();
-        this.paper = this.elem.find('.paper').getActor();
-        this.ball = this.elem.find('.ball').getActor();
+        this.chr = this.elem.find('.character-on-level').cc.getActor();
+        this.paper = this.elem.find('.paper').cc.getActor();
+        this.ball = this.elem.find('.ball').cc.getActor();
 
         this.chr.x = paperPos.left;
         this.chr.y = 800;
@@ -104,7 +98,7 @@ scene.level.IntroScene = subclass(domain.common.Role, function (pt, parent) {
 
         }).then(function () {
 
-            return that.elem.getRole('play-scene').init();
+            return that.elem.cc.get('play-scene').init();
 
         });
 
@@ -114,7 +108,7 @@ scene.level.IntroScene = subclass(domain.common.Role, function (pt, parent) {
     /**
      * Spawns the ball.
      *
-     * @return {Promise}
+     * @private
      */
     pt.spawnBall = function () {
 
@@ -123,35 +117,29 @@ scene.level.IntroScene = subclass(domain.common.Role, function (pt, parent) {
             dimension: this.pos.fieldPosition(),
             pos: {x: 1, y: 1}
 
-        }).appendTo(this.elem);
-
-        return $.cc.init('ball');
+        }).appendTo(this.elem).cc.init('ball');
 
     };
 
     /**
      * Spawns the paper.
      *
-     * @return {Promise}
+     * @private
      */
     pt.spawnPaper = function () {
 
-        $('<img class="paper" />').appendTo(this.elem);
-
-        return $.cc.init('paper');
+        $('<img />').appendTo(this.elem).cc.init('paper');
 
     };
 
     /**
      * Spawns the character sprite.
      *
-     * @return {Promise}
+     * @private
      */
     pt.spawnCharacter = function (character) {
 
-        $('<img class="character-on-level" />').appendTo(this.elem).data({character: character});
-
-        return $.cc.init('character-on-level');
+        $('<img />').appendTo(this.elem).data({character: character}).cc.init('character-on-level');
 
     };
 
