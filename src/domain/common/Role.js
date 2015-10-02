@@ -7,6 +7,7 @@
  * @class
  */
 domain.common.Role = function (elem) {
+    'use strict';
 
     this.elem = elem;
 
