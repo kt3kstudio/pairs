@@ -34,16 +34,17 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
     /**
      * Create a cell from a bom object.
      *
-     * @param {Object} bom The bom object
+     * @param {Object} obj The bom object
      * @return {domain.level.Cell}
      */
-    pt.createCellFromObject = function (bom) {
+    pt.createCellFromObject = function (obj) {
 
-        var cellDom = $('<object class="cell" />').data({gene: bom.gene}).prependTo(this.elem);
+        return $('<object />', {
 
-        $.cc.init('cell', this.elem);
+            data: {gene: obj.gene},
+            prependTo: this.elem
 
-        return cellDom.cc.getActor();
+        }).cc.init('cell');
 
     };
 
