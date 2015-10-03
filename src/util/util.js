@@ -10,6 +10,8 @@
      */
     var global = window;
 
+    global.util = {};
+
 
     /**
      * Returns a promise which resolves given milliseconds later with given object.
@@ -56,4 +58,25 @@
 
     };
 
-}());
+
+    /**
+     * Chains elements of the array as promise chain using the promise generating function.
+     *
+     * @param {Array} array The array
+     * @param {Function} createPromise The function for creating promise
+     */
+    global.util.chainPromise = function (array, createPromise) {
+
+        return array.reduce(function (promise, item) {
+
+            return promise.then(function () {
+
+                return createPromise(item);
+
+            });
+
+        }, Promise.resolve());
+
+    };
+
+})();

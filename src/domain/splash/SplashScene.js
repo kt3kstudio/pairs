@@ -22,11 +22,7 @@ domain.splash.SplashScene = subclass(domain.common.Actor, function (pt, parent) 
 
         setTimeout(function () {
 
-            that.start().then(function () {
-
-                that.goToTitle();
-
-            });
+            that.start();
 
         });
 
@@ -46,25 +42,17 @@ domain.splash.SplashScene = subclass(domain.common.Actor, function (pt, parent) 
      */
     pt.start = function () {
 
-        return chainPromise(LOGOS, function (logo) {
+        var self = this;
+
+        return util.chainPromise(LOGOS, function (logo) {
 
             return logoAnim(logo, ANIM_DUR);
 
+        }).then(function () {
+
+            self.goToTitle();
+
         });
-
-    };
-
-    var chainPromise = function (array, createPromise) {
-
-        return array.reduce(function (promise, item) {
-
-            return promise.then(function () {
-
-                return createPromise(item);
-
-            });
-
-        }, Promise.resolve());
 
     };
 
