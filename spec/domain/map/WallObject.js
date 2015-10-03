@@ -26,7 +26,7 @@ describe('domain.map.FloorAsset', function () {
 
         it('registers as actor', function () {
 
-            expect(this.$dom.getActor()).to.equal(floorAsset);
+            expect(this.$dom.cc.getActor()).to.equal(floorAsset);
 
         });
 
