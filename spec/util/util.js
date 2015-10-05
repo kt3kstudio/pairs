@@ -68,3 +68,29 @@ describe('commaNumber', function () {
         expect(window.commaNumber(123456789012)).to.equal('123,456,789,012');
     });
 });
+
+describe('util.chainPromise', function () {
+    'use strict';
+
+    it('chains the items of the array by tranforming them into promises using the given function', function () {
+
+        var x550 = false;
+        var x650 = false;
+
+        wait(550).then(function () { x550 = true; });
+        wait(650).then(function () { x650 = true; });
+
+        return util.chainPromise([100, 200, 300], function (n) {
+
+            return wait(n);
+
+        }).then(function () {
+
+            expect(x550).to.be.true;
+            expect(x650).to.be.false;
+
+        });
+
+    });
+
+});
