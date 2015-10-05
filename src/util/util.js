@@ -10,8 +10,6 @@
      */
     var global = window;
 
-    global.util = {};
-
 
     /**
      * Returns a promise which resolves given milliseconds later with given object.
