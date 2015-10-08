@@ -2,6 +2,7 @@
 //= require es6-promise
 //= require rxjs/dist/rx.lite.js
 //= require class-component
+//= require cc-event
 //= require event-hub
 
 //= require namespaces.js

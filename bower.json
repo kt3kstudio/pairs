@@ -18,8 +18,9 @@
     "info-pane": "~0.1.0",
     "speech-bubble": "~0.1.2",
     "rxjs": "~2.3.24",
-    "class-component": "~5.3.1",
+    "class-component": "~5.4.2",
     "event-hub": "~4.1.0",
-    "es6-promise": "~3.0.2"
+    "es6-promise": "~3.0.2",
+    "cc-event": "~1.0.1"
   }
 }
