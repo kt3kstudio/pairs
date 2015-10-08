@@ -70,7 +70,6 @@ describe('commaNumber', function () {
 });
 
 describe('util.chainPromise', function () {
-    'use strict';
 
     it('chains the items of the array by tranforming them into promises using the given function', function () {
 
