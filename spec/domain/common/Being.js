@@ -237,4 +237,15 @@ describe('Being', function () {
 
     });
 
+    describe('setDuration', function () {
+
+        it('sets the transition-duration css property to the given value in milliseconds', function () {
+
+            being.setDuration(500);
+
+            expect(elem.css('transition-duration')).to.equal('500ms');
+        });
+
+    });
+
 });
