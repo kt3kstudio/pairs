@@ -24,8 +24,6 @@
 
     "ci": "karma start karma.js --browsers PhantomJS",
 
-    "coverage": "karma start karma.js --single-run --reporters coverage,progress",
-
     "coveralls": "karma start karma.js --browsers PhantomJS --reporters coverage,coveralls",
     "prepush": "npm run lint"
 
