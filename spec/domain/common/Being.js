@@ -137,11 +137,104 @@ describe('Being', function () {
             being.hide();
 
         });
-    
+
     });
 
 
-    describe('appear', function () {});
-    describe('disappear', function () {});
+    describe('appear', function () {
+
+        it('calls willAppear before calling show method', function (done) {
+
+            var willAppearCalled = false;
+
+            being.willAppear = function () {
+
+                willAppearCalled = true;
+
+            };
+
+            being.show = function () {
+
+                expect(willAppearCalled).to.be.true;
+
+                done();
+
+            }
+
+            being.appear();
+
+        });
+
+        it('calls didAppear after calling show method', function (done) {
+
+            var showCalled = false;
+
+            being.didAppear = function () {
+
+                expect(showCalled).to.be.true;
+
+                done();
+
+            };
+
+            being.show = function () {
+
+                showCalled = true;
+
+            };
+
+            being.appear();
+
+        });
+
+    });
+
+    describe('disappear', function () {
+
+        it('calls willDisappear before calling hide', function (done) {
+
+            var willDisappearCalled = false;
+
+            being.willDisappear = function () {
+
+                willDisappearCalled = true;
+
+            };
+
+            being.hide = function () {
+
+                expect(willDisappearCalled).to.be.true;
+
+                done();
+
+            };
+
+            being.disappear();
+
+        });
+
+        it('calls didDisappear after calling hide', function (done) {
+
+            var hideCalled = false;
+
+            being.hide = function () {
+
+                hideCalled = true;
+
+            };
+
+            being.didDisappear = function () {
+
+                expect(hideCalled).to.be.true;
+
+                done();
+
+            };
+
+            being.disappear();
+
+        });
+
+    });
 
 });
