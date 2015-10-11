@@ -7,13 +7,6 @@
 domain.splash.SplashScene = subclass(domain.common.Actor, function (pt, parent) {
     'use strict';
 
-    var ANIM_DUR = 1400;
-
-    var LOGOS = [
-        'images/kt3k-studio.svg',
-        'images/straw-logo.svg'
-    ];
-
     pt.constructor = function (elem) {
 
         parent.constructor.call(this, elem);
@@ -22,31 +15,29 @@ domain.splash.SplashScene = subclass(domain.common.Actor, function (pt, parent) 
 
         setTimeout(function () {
 
-            that.start();
-
-        });
-
-        elem.on('click touchstart', function () {
-
-            that.goToTitle();
+            that.main();
 
         });
 
     };
 
-
-    /**
-     * Starts the splash scene.
-     *
-     * @return {Promise}
-     */
-    pt.start = function () {
+    pt.main = function () {
 
         var self = this;
 
-        return util.chainPromise(LOGOS, function (logo) {
+        return util.chainPromise(this.elem.find('.splash-logo').toArray(), function (item) {
 
-            return logoAnim(logo, ANIM_DUR);
+            var logo = $(item).cc.get('splash-logo');
+
+            return logo.appear().then(function () {
+
+                return wait(700);
+
+            }).then(function () {
+
+                return logo.disappear();
+
+            });
 
         }).then(function () {
 
@@ -54,7 +45,7 @@ domain.splash.SplashScene = subclass(domain.common.Actor, function (pt, parent) 
 
         });
 
-    };
+    }.event('cc-main');
 
     /**
      * The scene goes to the title.
@@ -63,26 +54,7 @@ domain.splash.SplashScene = subclass(domain.common.Actor, function (pt, parent) 
 
         location.replace('title.html');
 
-    };
-
-    /**
-     * Animates the logo.
-     *
-     * @param {String} path The path of the image
-     * @param {Number} dur The duration of the animation
-     */
-    var logoAnim = function (path, dur) {
-
-        return loadImage(path, 'splash-logo', document.body).then(function ($img) {
-
-            return $img.anim('logo-anim', dur).then(function () {
-
-                $img.remove();
-
-            });
-
-        });
-    };
+    }.event('click', '.splash-logo');
 
 });
 

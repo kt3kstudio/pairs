@@ -17,11 +17,17 @@ body: splash-scene
     opacity: 0;
 }
 
-@-webkit-keyframes logo-anim {
+@-webkit-keyframes logo-show {
     0%   { opacity: 0; transform: translate(0, -10px); }
-    25%  { opacity: 1; transform: translate(0,     0); }
-    75%  { opacity: 1; transform: translate(0,     0); }
+    100% { opacity: 1; transform: translate(0,     0); }
+}
+
+@-webkit-keyframes logo-hide {
+    0%   { opacity: 1; transform: translate(0,     0); }
     100% { opacity: 0; transform: translate(0,  10px); }
 }
 
 </style>
+
+<img class="splash-logo" src="images/kt3k-studio.svg" />
+<img class="splash-logo" src="images/straw-logo.svg" />
