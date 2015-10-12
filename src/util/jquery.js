@@ -72,48 +72,6 @@
     };
 
 
-
-    /**
-     * Map one time event handlers to events of the given event mapping.
-     *
-     * @param {Object} obj The mapped object
-     * @param {Object} mapping The mapping of the event
-     */
-    $.fn.mapEventOne = function (obj, mapping) {
-
-        var self = this;
-
-        Object.keys(mapping).forEach(function (key) {
-
-            self.one(key, obj[key].bind(obj));
-
-        });
-
-        return this;
-
-    };
-
-
-    /**
-     * Maps event handlers to events of the given event mapping.
-     *
-     * @param {Object} obj The mapped object
-     * @param {Object} mapping The mapping of the event
-     */
-    $.fn.mapEvent = function (obj, mapping) {
-
-        var self = this;
-
-        Object.keys(mapping).forEach(function (key) {
-
-            self.on(key, obj[key].bind(obj));
-
-        });
-
-        return this;
-
-    };
-
     /**
      * Returns a promise which resolves when image is loaded. Only works with `img` tag.
      *
