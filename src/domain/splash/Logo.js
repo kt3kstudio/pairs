@@ -1,7 +1,11 @@
 
 
 
-
+/**
+ * Logo animation componenent in the splash screen.
+ *
+ * @class
+ */
 domain.splash.Logo = $.cc.subclass(domain.common.Being, function (pt, parent) {
     'use strict';
 
@@ -14,6 +18,27 @@ domain.splash.Logo = $.cc.subclass(domain.common.Being, function (pt, parent) {
         this.__loaded__ = new Promise(function (resolve) {
 
             elem.on('load', resolve);
+
+        });
+
+    };
+
+    /**
+     * Performs splash screen's logo animation.
+     *
+     * @return {Promise}
+     */
+    pt.perform = function () {
+
+        var self = this;
+
+        return this.show().then(function () {
+
+            return wait(700);
+
+        }).then(function () {
+
+            return self.hide();
 
         });
 
