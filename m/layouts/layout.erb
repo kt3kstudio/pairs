@@ -9,6 +9,13 @@
 <script>window.config = <%= settings.config.to_json %></script>
 <script src="./javascripts/common.js"></script>
 <script src="./javascripts/<%= current_page.data.js %>"></script>
+<script>
+  $(function () {
+    setTimeout(function () {
+      $('.<%= current_page.data.main_scene %>').trigger('scene-start');
+    }, 50);
+  });
+</script>
 
 </head>
 <body class="<%= current_page.data.body %>">
