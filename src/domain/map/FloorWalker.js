@@ -8,22 +8,8 @@
  * @class
  * @extends domain.common.CharSprite
  */
-domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt, parent) {
+domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
     'use strict';
-
-    var ON = {};
-
-    /**
-     * @constructor
-     * @param {jQuery} elem
-     */
-    pt.constructor = function (elem) {
-
-        parent.constructor.call(this, elem);
-
-        this.elem.mapEvent(this, ON);
-
-    };
 
     /**
      * Makes the character appear in the scene
@@ -48,21 +34,19 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt, parent
 
     };
 
-    ON['door-knock'] = 1;
-    pt['door-knock'] = function (e, floorAsset) {
+    pt.doorKnock = function (e, floorAsset) {
 
         this.moveToFloorAsset(floorAsset);
 
-    };
+    }.event('door-knock');
 
 
-    ON['character-goto'] = 1;
     /**
      * Character goes to another floor.
      *
      * @param {Event} e The event object
      */
-    pt['character-goto'] = function (e) {
+    pt.characterGoto = function (e) {
 
         this.character.position.floorId = e.goto.floorId;
         this.character.position.floorObjectId = e.goto.floorObjectId;
@@ -75,7 +59,7 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt, parent
 
         });
 
-    };
+    }.event('character-goto');
 
 
     /**

@@ -6,39 +6,15 @@
  * @class
  * @extends domain.common.Actor
  */
-domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
+domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
     'use strict';
-
-    var ONE = {};
-
-    /**
-     * @constructor
-     * @param {jQuery} elem jQuery object
-     */
-    pt.constructor = function (elem) {
-
-        parent.constructor.call(this, elem);
-
-        this.elem.mapEventOne(this, ONE);
-
-        var that = this;
-
-        setTimeout(function () {
-
-            // actual entry point
-            that.init();
-
-        });
-
-    };
-
 
     /**
      * The entry point of the map scene.
      *
      * Loads things, initializes things in order, controls everything.
      */
-    pt.init = function () {
+    pt.main = function () {
 
         var that = this;
 
@@ -63,7 +39,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         });
 
-    };
+    }.event('scene-start');
 
 
     /**
@@ -185,7 +161,6 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
     };
 
 
-    ONE.goToLevel = 1;
     /**
      * Go to the specified level.
      *
@@ -199,10 +174,9 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         });
 
-    };
+    }.event('goToLevel');
 
 
-    ONE.sceneReload = 1;
     /**
      * Reloads the map scene.
      *
@@ -218,10 +192,9 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         });
 
-    };
+    }.event('sceneReload');
 
 
-    ONE.assetUnlock = 1;
     pt.assetUnlock = function (e) {
 
         var asset = e.floorAsset;
@@ -244,7 +217,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt, parent) {
 
         });
 
-    };
+    }.event('assetUnlock');
 
 });
 
