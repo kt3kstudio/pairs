@@ -11,9 +11,9 @@ domain.splash.SplashScene = subclass(domain.common.Role, function (pt) {
 
         var self = this;
 
-        this.elem.find('.splash-logo.studio').cc.get('splash-logo').perform().then(function () {
+        this.performSplash('studio').then(function () {
 
-            return self.elem.find('.splash-logo.straw').cc.get('splash-logo').perform();
+            return self.performSplash('straw');
 
         }).then(function () {
 
@@ -22,6 +22,16 @@ domain.splash.SplashScene = subclass(domain.common.Role, function (pt) {
         });
 
     }.event('scene-start');
+
+
+    /**
+     * Performs splash scene animation for the give class name element.
+     */
+    pt.performSplash = function (className) {
+
+        return this.elem.find('.splash-logo.' + className).cc.get('splash-logo').perform();
+
+    };
 
 
     /**
