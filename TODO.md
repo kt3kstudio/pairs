@@ -1,11 +1,8 @@
 # TODO
 
-- Use class-component v5.2
-
-- Code reading of level scene and further refactoring
-- Use magrove for Cell
-- new model, LevelKey
-- new model, Guide
+- new model LevelKey
+- new character Fairy
+- new character PinkyRabit
 
 
 [Make residents]
@@ -35,6 +32,9 @@
 
 
 # DONE
+- Code reading of level scene and further refactoring
+- Use magrove for Cell
+- Use class-component v5.2
 - Clean up around DimensionFactory
   - Remame PositionFactory to DimensionFactory
   - Return Dimension object, not Object object
