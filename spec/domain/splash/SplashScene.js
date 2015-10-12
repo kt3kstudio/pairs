@@ -15,6 +15,37 @@ describe('domain.common.SplashScene', function () {
     });
 
     describe('main', function () {
+
+        it('calls performSplash and goto the title', function () {
+
+            var classNames = [];
+
+            scene.performSplash = function (className) {
+
+                classNames.push(className);
+
+                return Promise.resolve();
+
+            };
+
+            var goToTitleCalled = false;
+
+            scene.goToTitle = function () {
+
+                goToTitleCalled = true;
+
+            };
+
+            return scene.main().then(function () {
+
+                expect(classNames).to.eql(['studio', 'straw']);
+
+                expect(goToTitleCalled).to.be.true;
+
+            });
+
+        });
+
     });
 
     describe('performSplash', function () {

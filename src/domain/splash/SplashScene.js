@@ -11,7 +11,7 @@ domain.splash.SplashScene = subclass(domain.common.Role, function (pt) {
 
         var self = this;
 
-        this.performSplash('studio').then(function () {
+        return this.performSplash('studio').then(function () {
 
             return self.performSplash('straw');
 
