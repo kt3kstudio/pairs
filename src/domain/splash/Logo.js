@@ -32,7 +32,7 @@ domain.splash.Logo = $.cc.subclass(domain.common.Being, function (pt) {
 
     pt.willShow = function () {
 
-        this.elem.imageLoaded();
+        return this.elem.imageLoaded();
 
     };
 
