@@ -159,7 +159,7 @@ describe('Being', function () {
 
                 done();
 
-            }
+            };
 
             being.appear();
 

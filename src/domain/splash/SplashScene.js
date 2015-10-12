@@ -4,7 +4,7 @@
  * @class
  * @extends domain.common.Actor
  */
-domain.splash.SplashScene = subclass(domain.common.Role, function (pt, parent) {
+domain.splash.SplashScene = subclass(domain.common.Role, function (pt) {
     'use strict';
 
     pt.main = function () {
