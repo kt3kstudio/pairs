@@ -6,22 +6,8 @@
  *
  * @class
  */
-domain.splash.Logo = $.cc.subclass(domain.common.Being, function (pt, parent) {
+domain.splash.Logo = $.cc.subclass(domain.common.Being, function (pt) {
     'use strict';
-
-    pt.constructor = function (elem) {
-
-        parent.constructor.apply(this, arguments);
-
-        elem.attr('src', elem.attr('src')); // Resets src to make sure it triggers `load` event.
-
-        this.__loaded__ = new Promise(function (resolve) {
-
-            elem.on('load', resolve);
-
-        });
-
-    };
 
     /**
      * Performs splash screen's logo animation.
@@ -46,7 +32,7 @@ domain.splash.Logo = $.cc.subclass(domain.common.Being, function (pt, parent) {
 
     pt.willShow = function () {
 
-        return this.__loaded__;
+        this.elem.imageLoaded();
 
     };
 

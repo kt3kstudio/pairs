@@ -114,6 +114,33 @@
 
     };
 
+    /**
+     * Returns a promise which resolves when image is loaded. Only works with `img` tag.
+     *
+     * @return {Promise}
+     */
+    $.fn.imageLoaded = function () {
+
+        var self = this;
+
+        return new Promise(function (resolve, reject) {
+
+            self.on('error', function () {
+
+                reject(new Error('image can not be loaded: ' + self.attr('src')));
+
+            });
+
+            self.on('load', function () {
+
+                resolve();
+
+            });
+
+            self.attr('src', self.attr('src'));
+
+        });
+    };
 
     /**
      * Sets the position
