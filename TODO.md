@@ -1,8 +1,10 @@
 # TODO
 
+- refactor menu-btn
+
 - new model LevelKey
 - new character Fairy
-- new character PinkyRabit
+- new character PinkyRabbit
 
 
 [Make residents]
