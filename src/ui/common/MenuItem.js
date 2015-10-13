@@ -2,19 +2,17 @@
  * @class
  * MenuItem handles the behaviour of items of the menu.
  */
-ui.common.MenuItem = (function () {
+ui.common.MenuItem = subclass(function (pt) {
     'use strict';
 
-    var exports = function (url, callback, init) {
+    pt.constructor = function (url, callback, init) {
         this.url = url;
 
         this.callback = callback;
         this.init = init;
     };
 
-    var miPrototype = exports.prototype;
-
-    miPrototype.show = function (from, to) {
+    pt.show = function (from, to) {
 
         var that = this;
 
@@ -35,7 +33,7 @@ ui.common.MenuItem = (function () {
         });
     };
 
-    miPrototype.hide = function (offset) {
+    pt.hide = function (offset) {
         var $dom = this.$dom;
 
         if ($dom == null) {
@@ -51,6 +49,4 @@ ui.common.MenuItem = (function () {
         return wait(50);
     };
 
-    return exports;
-
-}());
+});

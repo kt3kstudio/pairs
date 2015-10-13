@@ -2,7 +2,7 @@
  * @class
  * MenuButton handles the behaviour of the menu button.
  */
-ui.common.MenuButton = (function ($) {
+ui.common.MenuButton = subclass(function (pt) {
     'use strict';
 
     var TRANS_DUR = 800;
@@ -30,7 +30,7 @@ ui.common.MenuButton = (function ($) {
         return result;
     };
 
-    var exports = function ($dom) {
+    pt.constructor = function ($dom) {
         var that = this;
 
         this.$dom = $dom.on('click', function () {
@@ -41,15 +41,13 @@ ui.common.MenuButton = (function ($) {
         this.menus = [];
     };
 
-    var mbPrototype = exports.prototype;
-
-    mbPrototype.show = function () {
+    pt.show = function () {
         this.$dom.removeClass('menu-hidden');
 
         return wait(TRANS_DUR);
     };
 
-    mbPrototype.hide = function () {
+    pt.hide = function () {
 
         var that = this;
 
@@ -60,7 +58,9 @@ ui.common.MenuButton = (function ($) {
         });
     };
 
-    mbPrototype.openMenu = function () {
+    pt.openMenu = function () {
+
+        console.log('openMenu');
 
         this.closed = false;
 
@@ -83,7 +83,7 @@ ui.common.MenuButton = (function ($) {
 
     };
 
-    mbPrototype.closeMenu = function (offset) {
+    pt.closeMenu = function (offset) {
         console.log('close menu');
 
         this.closed = true;
@@ -113,7 +113,7 @@ ui.common.MenuButton = (function ($) {
 
     };
 
-    mbPrototype.toggleMenu = function () {
+    pt.toggleMenu = function () {
         if (this.closed) {
 
             return this.openMenu();
@@ -122,23 +122,25 @@ ui.common.MenuButton = (function ($) {
         return this.closeMenu();
     };
 
-    mbPrototype.addMenu = function (url, callback, init) {
+    pt.addMenu = function (url, callback, init) {
         this.menus.push(new ui.common.MenuItem(url, callback, init));
     };
 
-    mbPrototype.clearMenu = function () {
+    pt.clearMenu = function () {
         this.menus = [];
     };
 
 
     $.fn.menuButton = function (menus) {
+        console.log('menuButton');
+        console.log(menus);
         menus = menus || [];
 
         if (menus instanceof $) {
             return this.menuButtonFromNode(menus);
         }
 
-        var menuButton = new exports(this);
+        var menuButton = new ui.common.MenuButton(this);
 
         menus.forEach(function (menu) {
             var init;
@@ -176,6 +178,4 @@ ui.common.MenuButton = (function ($) {
         return this.menuButton(menus);
     };
 
-    return exports;
-
-}(window.jQuery));
+});
