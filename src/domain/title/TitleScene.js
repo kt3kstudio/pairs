@@ -13,14 +13,6 @@ domain.title.TitleScene = subclass(domain.common.Actor, function (pt, parent) {
 
         this.menuButton = $('.menu-button').menuButton($('#title-menu'));
 
-        var that = this;
-
-        setTimeout(function () {
-
-            that.start();
-
-        });
-
     };
 
     /**
@@ -61,7 +53,8 @@ domain.title.TitleScene = subclass(domain.common.Actor, function (pt, parent) {
                 });
 
         });
-    };
+
+    }.event('scene-start');
 
     pt.reset = function () {
 
