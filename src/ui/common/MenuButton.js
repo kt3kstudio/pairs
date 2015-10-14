@@ -129,13 +129,27 @@ ui.common.MenuButton = subclass(function (pt) {
     };
 
 
-    $.fn.menuButton = function (menus) {
+    $.fn.menuButton = function () {
 
-        return menuButtonFromNode(this, menus || $('#' + this.attr('menu')));
+        return menuButtonFromNode(this);
 
     };
 
-    var menuButtonFromNode = function (elem, menus) {
+    var menuButtonFromNode = function (elem) {
+
+        var menus;
+
+        if (elem.data('menu')) {
+
+            menus = elem.data('menu');
+
+        }
+
+        if (elem.attr('menu')) {
+
+            menus = $('#' + elem.attr('menu'));
+
+        }
 
         var array = menus.children().map(function () {
             var $dom = $(this);
@@ -154,7 +168,8 @@ ui.common.MenuButton = subclass(function (pt) {
             var init;
             if (menu.submenu) {
                 init = function () {
-                    this.menuButton = this.$dom.menuButton(menu.submenu);
+                    this.$dom.data('menu', menu.submenu);
+                    this.menuButton = this.$dom.menuButton();
                 };
             }
             menuButton.addMenu(menu.src, menu.onclick, init);
