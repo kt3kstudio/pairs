@@ -5,19 +5,45 @@
 ui.common.MenuItem = subclass(function (pt) {
     'use strict';
 
-    pt.constructor = function (url, callback, init) {
+    /**
+     * @param {String} url
+     * @param {Function} onclick
+     * @param {Function} init
+     */
+    pt.constructor = function (url, onclick, init) {
         this.url = url;
 
-        this.callback = callback;
+        this.onclick = onclick;
         this.init = init;
     };
+
+    /**
+     * Invokes custom onclick handler.
+     */
+    pt.handleOnClick = function () {
+
+        console.log('invoke onclick: ' + this.onclick);
+
+        if (typeof this.onclick !== 'string' || this.onclick === '') {
+
+            return;
+
+        }
+
+        eval(this.onclick);
+
+    }
 
     pt.show = function (from, to) {
 
         var that = this;
 
         return loadImage(this.url, 'menu-item hidden', document.body).then(function ($img) {
-            that.$dom = $img.offset(from).click(that.callback);
+            that.$dom = $img.offset(from).click(function () {
+
+                that.handleOnClick();
+
+            });
 
             if (typeof that.init === 'function') {
                 that.init($img);
@@ -42,11 +68,10 @@ ui.common.MenuItem = subclass(function (pt) {
 
         $dom.addClass('hidden').offset(offset);
 
-        wait(400).then(function () {
+        return wait(400).then(function () {
             $dom.remove();
         });
 
-        return wait(50);
     };
 
 });

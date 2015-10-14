@@ -52,9 +52,13 @@ ui.common.MenuButton = subclass(function (pt) {
         var that = this;
 
         return this.closeMenu().then(function () {
+
             return wait(300);
+
         }).then(function () {
+
             that.$dom.addClass('menu-hidden');
+
         });
     };
 
@@ -67,19 +71,15 @@ ui.common.MenuButton = subclass(function (pt) {
         var fromOffset = this.$dom.offset();
         var toOffsets = itemOffsets(this.$dom.offset(), this.menus.length);
 
-        return this.menus.reduce(function (p, menu) {
+        return Promise.all(this.menus.map(function (menu, i) {
 
-            return p.then(function () {
-                menu.show(fromOffset, toOffsets.pop());
+            return wait(50 * i).then(function () {
 
-                return wait(50);
+                menu.show(fromOffset, toOffsets[i]);
+
             });
 
-        }, Promise.resolve()).then(function () {
-
-            return wait(50);
-
-        });
+        }));
 
     };
 
@@ -94,7 +94,9 @@ ui.common.MenuButton = subclass(function (pt) {
 
             return p.then(function () {
 
-                var p = menu.hide(offset);
+                menu.hide(offset);
+
+                var p = wait(50);
 
                 if (menu.menuButton && !menu.menuButton.closed) {
                     p = p.then(function () {
@@ -105,11 +107,7 @@ ui.common.MenuButton = subclass(function (pt) {
                 return p;
             });
 
-        }, Promise.resolve()).then(function () {
-
-            return wait(0);
-
-        });
+        }, Promise.resolve());
 
     };
 
@@ -132,17 +130,27 @@ ui.common.MenuButton = subclass(function (pt) {
 
 
     $.fn.menuButton = function (menus) {
-        console.log('menuButton');
-        console.log(menus);
-        menus = menus || [];
 
-        if (menus instanceof $) {
-            return this.menuButtonFromNode(menus);
-        }
+        return menuButtonFromNode(this, menus || $('#' + this.attr('menu')));
 
-        var menuButton = new ui.common.MenuButton(this);
+    };
 
-        menus.forEach(function (menu) {
+    var menuButtonFromNode = function (elem, menus) {
+
+        var array = menus.children().map(function () {
+            var $dom = $(this);
+
+            return {
+                src: $(this).attr('src'),
+                onclick: $dom.attr('onclick'),
+                submenu: $dom
+            };
+
+        }).toArray();
+
+        var menuButton = new ui.common.MenuButton(elem);
+
+        array.forEach(function (menu) {
             var init;
             if (menu.submenu) {
                 init = function () {
@@ -153,29 +161,7 @@ ui.common.MenuButton = subclass(function (pt) {
         });
 
         return menuButton;
-    };
 
-    $.fn.menuButtonFromNode = function (node) {
-        var menus = node.children().map(function () {
-            var $dom = $(this);
-
-            var script = $dom.attr('onclick');
-
-            var onclick;
-
-            if (script != null && script !== '') {
-                onclick = function () { eval(script); };
-            }
-
-            return {
-                src: $(this).attr('src'),
-                onclick: onclick,
-                submenu: $dom
-            };
-
-        }).toArray();
-
-        return this.menuButton(menus);
     };
 
 });

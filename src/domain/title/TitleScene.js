@@ -11,7 +11,7 @@ domain.title.TitleScene = subclass(domain.common.Actor, function (pt, parent) {
 
         parent.constructor.call(this, elem);
 
-        this.menuButton = $('.menu-button').menuButton($('#title-menu'));
+        this.menuButton = $('.menu-button').menuButton();
 
     };
 
