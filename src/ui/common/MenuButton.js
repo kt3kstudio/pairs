@@ -30,10 +30,10 @@ ui.common.MenuButton = subclass(function (pt) {
         return result;
     };
 
-    pt.constructor = function ($dom) {
+    pt.constructor = function (elem) {
         var that = this;
 
-        this.$dom = $dom.on('click', function () {
+        this.elem = elem.on('click', function () {
             that.toggleMenu();
         });
 
@@ -42,7 +42,7 @@ ui.common.MenuButton = subclass(function (pt) {
     };
 
     pt.show = function () {
-        this.$dom.removeClass('menu-hidden');
+        this.elem.removeClass('menu-hidden');
 
         return wait(TRANS_DUR);
     };
@@ -57,7 +57,7 @@ ui.common.MenuButton = subclass(function (pt) {
 
         }).then(function () {
 
-            that.$dom.addClass('menu-hidden');
+            that.elem.addClass('menu-hidden');
 
         });
     };
@@ -68,8 +68,8 @@ ui.common.MenuButton = subclass(function (pt) {
 
         this.closed = false;
 
-        var fromOffset = this.$dom.offset();
-        var toOffsets = itemOffsets(this.$dom.offset(), this.menus.length);
+        var fromOffset = this.elem.offset();
+        var toOffsets = itemOffsets(this.elem.offset(), this.menus.length);
 
         return Promise.all(this.menus.map(function (menu, i) {
 
@@ -88,7 +88,7 @@ ui.common.MenuButton = subclass(function (pt) {
 
         this.closed = true;
 
-        offset = offset || this.$dom.offset();
+        offset = offset || this.elem.offset();
 
         return this.menus.reduce(function (p, menu) {
 
@@ -152,12 +152,12 @@ ui.common.MenuButton = subclass(function (pt) {
         }
 
         var array = menus.children().map(function () {
-            var $dom = $(this);
+            var elem = $(this);
 
             return {
-                src: $(this).attr('src'),
-                onclick: $dom.attr('onclick'),
-                submenu: $dom
+                src: elem.attr('src'),
+                onclick: elem.attr('onclick'),
+                submenu: elem
             };
 
         }).toArray();
@@ -165,14 +165,18 @@ ui.common.MenuButton = subclass(function (pt) {
         var menuButton = new ui.common.MenuButton(elem);
 
         array.forEach(function (menu) {
+
             var init;
+
             if (menu.submenu) {
                 init = function () {
                     this.$dom.data('menu', menu.submenu);
                     this.menuButton = this.$dom.menuButton();
                 };
             }
+
             menuButton.addMenu(menu.src, menu.onclick, init);
+
         });
 
         return menuButton;

@@ -15,6 +15,8 @@ ui.common.MenuItem = subclass(function (pt) {
 
         this.onclick = onclick;
         this.init = init;
+
+
     };
 
     /**
