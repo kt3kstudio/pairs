@@ -11,11 +11,11 @@ ui.common.MenuItem = subclass(function (pt) {
      * @param {Function} init
      */
     pt.constructor = function (url, onclick, init) {
+
         this.url = url;
 
         this.onclick = onclick;
         this.init = init;
-
 
     };
 
@@ -41,7 +41,7 @@ ui.common.MenuItem = subclass(function (pt) {
         var that = this;
 
         return loadImage(this.url, 'menu-item hidden', document.body).then(function ($img) {
-            that.$dom = $img.offset(from).click(function () {
+            that.elem = $img.offset(from).click(function () {
 
                 that.handleOnClick();
 
@@ -53,27 +53,29 @@ ui.common.MenuItem = subclass(function (pt) {
 
             return wait();
         }).then(function () {
-            that.$dom.offset(from);
+            that.elem.offset(from);
 
             return wait(50);
         }).then(function () {
-            that.$dom.removeClass('hidden').offset(to);
+            that.elem.removeClass('hidden').offset(to);
         });
     };
 
     pt.hide = function (offset) {
-        var $dom = this.$dom;
+        var elem = this.elem;
 
-        if ($dom == null) {
+        if (elem == null) {
             return;
         }
 
-        $dom.addClass('hidden').offset(offset);
+        elem.addClass('hidden').offset(offset);
 
         return wait(400).then(function () {
-            $dom.remove();
+            elem.remove();
         });
 
     };
 
 });
+
+$.cc.assign('menu-item', ui.common.MenuItem);

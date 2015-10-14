@@ -170,8 +170,8 @@ ui.common.MenuButton = subclass(function (pt) {
 
             if (menu.submenu) {
                 init = function () {
-                    this.$dom.data('menu', menu.submenu);
-                    this.menuButton = this.$dom.menuButton();
+                    this.elem.data('menu', menu.submenu);
+                    this.menuButton = this.elem.menuButton();
                 };
             }
 
