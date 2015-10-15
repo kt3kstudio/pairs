@@ -12,6 +12,6 @@
 //= require infrastructure.js
 //= require info-pane
 //= require speech-bubble
-//= require ui/common/
 //= require domain/common/
+//= require ui/common/
 //= require datadomain/

@@ -1,8 +1,9 @@
 /**
- * @class
  * MenuButton handles the behaviour of the menu button.
+ *
+ * @class
  */
-ui.common.MenuButton = subclass(function (pt) {
+ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
     'use strict';
 
     var TRANS_DUR = 800;
@@ -10,6 +11,7 @@ ui.common.MenuButton = subclass(function (pt) {
     var R = 60;
 
     var itemOffsets = function (offset, num) {
+
         var result = [];
 
         var gutter = Math.PI / 4 / num / num;
@@ -28,21 +30,40 @@ ui.common.MenuButton = subclass(function (pt) {
         }
 
         return result;
+
     };
 
     pt.constructor = function (elem) {
-        var that = this;
 
-        this.elem = elem.on('click', function () {
-            that.toggleMenu();
-        });
+        parent.constructor.apply(this, arguments);
 
         this.closed = true;
-        this.menus = [];
+
+        this.menus = this.getMenuItemSource().map(createMenuItem);
+
     };
 
+    pt.getMenuItemSource = function () {
+
+        if (this.elem.data('menu')) {
+
+            return this.elem.data('menu');
+
+        }
+
+        if (this.elem.attr('menu')) {
+
+            return $('#' + this.elem.attr('menu')).children().toArray();
+
+        }
+
+        throw new Error('no menu');
+
+    };
+
+
     pt.show = function () {
-        this.elem.removeClass('menu-hidden');
+        this.elem.removeClass('hidden');
 
         return wait(TRANS_DUR);
     };
@@ -57,7 +78,7 @@ ui.common.MenuButton = subclass(function (pt) {
 
         }).then(function () {
 
-            that.elem.addClass('menu-hidden');
+            that.elem.addClass('hidden');
 
         });
     };
@@ -75,7 +96,7 @@ ui.common.MenuButton = subclass(function (pt) {
 
             return wait(50 * i).then(function () {
 
-                menu.show(fromOffset, toOffsets[i]);
+                return menu.show(fromOffset, toOffsets[i]);
 
             });
 
@@ -84,6 +105,7 @@ ui.common.MenuButton = subclass(function (pt) {
     };
 
     pt.closeMenu = function (offset) {
+
         console.log('close menu');
 
         this.closed = true;
@@ -112,75 +134,44 @@ ui.common.MenuButton = subclass(function (pt) {
     };
 
     pt.toggleMenu = function () {
+
         if (this.closed) {
 
             return this.openMenu();
         }
 
         return this.closeMenu();
-    };
 
-    pt.addMenu = function (url, callback, init) {
-        this.menus.push(new ui.common.MenuItem(url, callback, init));
-    };
+    }.event('click');
 
-    pt.clearMenu = function () {
-        this.menus = [];
-    };
+    /**
+     * Creates a menu item from menu source item.
+     *
+     * @private
+     * @param {jQuery} menu
+     */
+    var createMenuItem = function (menu) {
 
+        menu = $(menu);
 
-    $.fn.menuButton = function () {
+        var menuItem = $('<img />', {attr: {src: menu.attr('src'), onclick: menu.attr('onclick')}}).appendTo('body').cc.init('menu-item');
 
-        return menuButtonFromNode(this);
+        var submenu = menu.children().toArray();
 
-    };
+        if (submenu && submenu.length) {
 
-    var menuButtonFromNode = function (elem) {
+            console.log(submenu);
 
-        var menus;
-
-        if (elem.data('menu')) {
-
-            menus = elem.data('menu');
-
-        }
-
-        if (elem.attr('menu')) {
-
-            menus = $('#' + elem.attr('menu'));
+            menuItem.elem.data('menu', submenu);
+            menuItem.menuButton = menuItem.elem.cc.init('menu-button');
 
         }
 
-        var array = menus.children().map(function () {
-            var elem = $(this);
-
-            return {
-                src: elem.attr('src'),
-                onclick: elem.attr('onclick'),
-                submenu: elem
-            };
-
-        }).toArray();
-
-        var menuButton = new ui.common.MenuButton(elem);
-
-        array.forEach(function (menu) {
-
-            var init;
-
-            if (menu.submenu) {
-                init = function () {
-                    this.elem.data('menu', menu.submenu);
-                    this.menuButton = this.elem.menuButton();
-                };
-            }
-
-            menuButton.addMenu(menu.src, menu.onclick, init);
-
-        });
-
-        return menuButton;
+        return menuItem;
 
     };
 
 });
+
+
+$.cc.assign('menu-button', ui.common.MenuButton)

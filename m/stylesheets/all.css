@@ -21,7 +21,7 @@ body {
     background-color: #191B1D;
 }
 
-.menu-button {
+.menu-button-root {
     position: absolute;
     z-index: 2;
     bottom: 15px;
@@ -31,7 +31,7 @@ body {
     transition-duration: 800ms;
 }
 
-.menu-button.menu-hidden {
+.menu-button-root.hidden {
     left: -50px;
 }
 

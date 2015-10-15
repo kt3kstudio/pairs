@@ -40,17 +40,17 @@ main_scene: title-scene
 
 <div class="title-scene"></div>
 
-<img class="menu-button menu-hidden" menu="title-menu" src="images/menu-button.svg" />
+<img class="menu-button-root menu-button hidden" menu="title-menu" src="images/menu-button.svg" />
 
 <menus id="title-menu">
-  <menu src="images/reset-button.svg" onclick="ts.reset();"></menu>
-  <menu src="images/reset-button.svg" onclick="ts.reset();"></menu>
+  <menu src="images/reset-button.svg" onclick="$('.title-scene').trigger('scene-reset');"></menu>
+  <menu src="images/reset-button.svg" onclick="$('.title-scene').trigger('scene-reset');"></menu>
   <menu src="images/menu-button.svg">
-    <menu src="images/reset-button.svg" onclick="ts.reset();"></menu>
+    <menu src="images/reset-button.svg" onclick="$('.title-scene').trigger('scene-reset');"></menu>
     <menu src="images/menu-button.svg">
-      <menu src="images/reset-button.svg" onclick="ts.reset();"></menu>
-      <menu src="images/reset-button.svg" onclick="ts.reset();"></menu>
-      <menu src="images/reset-button.svg" onclick="ts.reset();"></menu>
+      <menu src="images/reset-button.svg" onclick="$('.title-scene').trigger('scene-reset');"></menu>
+      <menu src="images/reset-button.svg" onclick="$('.title-scene').trigger('scene-reset');"></menu>
+      <menu src="images/reset-button.svg" onclick="$('.title-scene').trigger('scene-reset');"></menu>
       <menu src="images/back-button.svg" onclick="history.back()"></menu>
     </menu>
   </menu>

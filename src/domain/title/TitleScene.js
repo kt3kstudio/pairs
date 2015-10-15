@@ -11,7 +11,7 @@ domain.title.TitleScene = subclass(domain.common.Actor, function (pt, parent) {
 
         parent.constructor.call(this, elem);
 
-        this.menuButton = $('.menu-button').menuButton();
+        this.menuButton = $('.menu-button[menu="title-menu"]').cc.get('menu-button');
 
     };
 
@@ -63,7 +63,8 @@ domain.title.TitleScene = subclass(domain.common.Actor, function (pt, parent) {
             location.reload();
 
         });
-    };
+
+    }.event('scene-reset');
 
     pt.fadeOut = function () {
 
@@ -76,6 +77,7 @@ domain.title.TitleScene = subclass(domain.common.Actor, function (pt, parent) {
             return wait(100);
 
         });
+
     };
 
     pt.goToMap = function () {
