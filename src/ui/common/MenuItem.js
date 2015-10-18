@@ -2,8 +2,22 @@
  * @class
  * MenuItem handles the behaviour of items of the menu.
  */
-ui.common.MenuItem = subclass(domain.common.Role, function (pt) {
+ui.common.MenuItem = subclass(domain.common.Role, function (pt, parent) {
     'use strict';
+
+    pt.constructor = function () {
+
+        parent.constructor.apply(this, arguments);
+
+        var menu = this.elem.data('menu');
+
+        if (menu && menu.length) {
+
+            this.menuButton = this.elem.cc.init('menu-button');
+
+        }
+
+    };
 
     /**
      * Invokes custom onclick handler.

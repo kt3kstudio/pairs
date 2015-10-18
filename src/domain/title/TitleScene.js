@@ -4,14 +4,12 @@
  *
  * @class
  */
-domain.title.TitleScene = subclass(domain.common.Actor, function (pt, parent) {
+domain.title.TitleScene = subclass(domain.common.Actor, function (pt) {
     'use strict';
 
-    pt.constructor = function (elem) {
+    pt.getMenuBtn = function () {
 
-        parent.constructor.call(this, elem);
-
-        this.menuButton = $('.menu-button[menu="title-menu"]').cc.get('menu-button');
+        return $('.menu-button-root').cc.get('menu-button');
 
     };
 
@@ -34,7 +32,7 @@ domain.title.TitleScene = subclass(domain.common.Actor, function (pt, parent) {
 
         wait(500).then(function () {
 
-            that.menuButton.show();
+            that.getMenuBtn().show();
 
             $('<p />')
                 .text('GET UP')
@@ -52,7 +50,7 @@ domain.title.TitleScene = subclass(domain.common.Actor, function (pt, parent) {
 
                 });
 
-        });
+        }).catch(function (e) {console.log(e);});
 
     }.event('scene-start');
 
@@ -68,7 +66,7 @@ domain.title.TitleScene = subclass(domain.common.Actor, function (pt, parent) {
 
     pt.fadeOut = function () {
 
-        this.menuButton.hide();
+        this.getMenuBtn().hide();
 
         return $('.elem').css('opacity', 0).anim('disappear', 500).then(function () {
 

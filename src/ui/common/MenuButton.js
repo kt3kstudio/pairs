@@ -154,20 +154,19 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
 
         menu = $(menu);
 
-        var menuItem = $('<img />', {attr: {src: menu.attr('src'), onclick: menu.attr('onclick')}}).appendTo('body').cc.init('menu-item');
+        return $('<img />', {
 
-        var submenu = menu.children().toArray();
+            attr: {
+                src: menu.attr('src'),
+                onclick: menu.attr('onclick')
+            },
+            addClass: 'hidden',
+            appendTo: 'body',
+            data: {
+                menu: menu.children().toArray()
+            }
 
-        if (submenu && submenu.length) {
-
-            console.log(submenu);
-
-            menuItem.elem.data('menu', submenu);
-            menuItem.menuButton = menuItem.elem.cc.init('menu-button');
-
-        }
-
-        return menuItem;
+        }).cc.init('menu-item');
 
     };
 
