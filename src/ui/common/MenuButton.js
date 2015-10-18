@@ -33,7 +33,7 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
 
     };
 
-    pt.constructor = function (elem) {
+    pt.constructor = function () {
 
         parent.constructor.apply(this, arguments);
 
@@ -173,4 +173,4 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
 });
 
 
-$.cc.assign('menu-button', ui.common.MenuButton)
+$.cc.assign('menu-button', ui.common.MenuButton);
