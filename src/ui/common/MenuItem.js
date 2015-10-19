@@ -47,13 +47,11 @@ ui.common.MenuItem = subclass(domain.common.Role, function (pt, parent) {
 
         var that = this;
 
-        return this.elem.imageLoaded().then(function () {
+        that.elem.removeClass('hidden');
 
-            that.elem.removeClass('hidden');
+        that.setOffset(to);
 
-            that.setOffset(to);
-
-        });
+        return Promise.resolve();
     };
 
     /**
