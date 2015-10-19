@@ -37,6 +37,12 @@ ui.common.MenuItem = subclass(domain.common.Role, function (pt, parent) {
     }.event('click');
 
 
+    /**
+     * Shows the element moving towards the given offset
+     *
+     * @param {Object} to The offset to goes to.
+     * @return {Promise}
+     */
     pt.show = function (to) {
 
         var that = this;
@@ -50,6 +56,12 @@ ui.common.MenuItem = subclass(domain.common.Role, function (pt, parent) {
         });
     };
 
+    /**
+     * Sets the offset of the element
+     *
+     * @private
+     * @param {Object} offset
+     */
     pt.setOffset = function (offset) {
 
         this.elem.offset(offset);
@@ -62,14 +74,23 @@ ui.common.MenuItem = subclass(domain.common.Role, function (pt, parent) {
 
     };
 
+    /**
+     * Hides the menu item.
+     *
+     * @param {Object} offset The offset to hides
+     * @return {Promise}
+     */
     pt.hide = function (offset) {
 
-        this.elem.addClass('hidden').offset(offset);
+        this.elem.addClass('hidden');
+
+        this.setOffset(offset);
 
         var elem = this.elem;
 
         var p = wait(50);
 
+        // Hides child menus if exist
         if (elem.hasClass('menu-button')) {
 
             p = p.then(function () {

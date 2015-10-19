@@ -88,7 +88,11 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
 
     };
 
-
+    /**
+     * Shows the menu button.
+     *
+     * @return {Promise}
+     */
     pt.show = function () {
 
         this.elem.removeClass('hidden');
@@ -124,6 +128,11 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
         });
     };
 
+    /**
+     * Opens the menu.
+     *
+     * @return {Promise}
+     */
     pt.openMenu = function () {
 
         this.closed = false;
@@ -142,6 +151,11 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
 
     };
 
+    /**
+     * Closes the menu.
+     *
+     * @return {Promise}
+     */
     pt.closeMenu = function (offset) {
 
         if (this.closed) {
@@ -170,6 +184,9 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
 
     };
 
+    /**
+     * Toggles the menu's open/close state.
+     */
     pt.toggleMenu = function () {
 
         if (this.closed) {
