@@ -168,19 +168,11 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
 
         offset = offset || this.elem.offset();
 
-        var q = this.menus.reverse().reduce(function (p, menu) {
+        return Promise.all(this.menus.map(function (menu) {
 
-            return p.then(function () {
+            return menu.hide(offset);
 
-                return menu.hide(offset);
-
-            });
-
-        }, Promise.resolve());
-
-        this.menus.reverse();
-
-        return q;
+        }));
 
     };
 
