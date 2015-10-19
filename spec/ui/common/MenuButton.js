@@ -2,6 +2,7 @@
 
 
 describe('MenuButton', function () {
+    'use strict';
 
     var elem, menuBtn;
 
@@ -9,7 +10,7 @@ describe('MenuButton', function () {
 
         $('body').empty();
 
-        var menus = $('<menus id="test-menu"><menu src="" /><menu src="" ><menu /><menu /></menu></menus>').appendTo('body');
+        $('<menus id="test-menu"><menu src="" /><menu src="" ><menu /><menu /></menu></menus>').appendTo('body');
 
         elem = $('<img menu="test-menu" class="hidden" />');
 
