@@ -13,7 +13,7 @@ ui.common.MenuItem = subclass(domain.common.Role, function (pt, parent) {
 
         if (menu && menu.length) {
 
-            this.menuButton = this.elem.cc.init('menu-button');
+            this.elem.cc.init('menu-button');
 
         }
 
@@ -24,7 +24,7 @@ ui.common.MenuItem = subclass(domain.common.Role, function (pt, parent) {
      */
     pt.handleOnClick = function () {
 
-        var onclick = this.elem.attr('onclick');
+        var onclick = this.elem.data('onclick');
 
         if (typeof onclick !== 'string' || onclick === '') {
 
@@ -37,30 +37,50 @@ ui.common.MenuItem = subclass(domain.common.Role, function (pt, parent) {
     }.event('click');
 
 
-    pt.show = function (from, to) {
-
-        console.log('show: ' + to.left);
+    pt.show = function (to) {
 
         var that = this;
 
         return this.elem.imageLoaded().then(function () {
 
-            that.elem.offset(from);
+            that.elem.removeClass('hidden');
 
-            return wait(50);
-
-        }).then(function () {
-
-            that.elem.removeClass('hidden').offset(to);
+            that.setOffset(to);
 
         });
+    };
+
+    pt.setOffset = function (offset) {
+
+        this.elem.offset(offset);
+
+        if (this.elem.hasClass('menu-button')) {
+
+            this.elem.cc.get('menu-button').setOffset(offset);
+
+        }
+
     };
 
     pt.hide = function (offset) {
 
         this.elem.addClass('hidden').offset(offset);
 
-        return wait(400);
+        var elem = this.elem;
+
+        var p = wait(50);
+
+        if (elem.hasClass('menu-button')) {
+
+            p = p.then(function () {
+
+                return elem.cc.get('menu-button').closeMenu(offset);
+
+            });
+
+        }
+
+        return p;
 
     };
 

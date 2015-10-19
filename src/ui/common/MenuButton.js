@@ -39,10 +39,20 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
 
         this.closed = true;
 
-        this.menus = this.getMenuItemSource().map(createMenuItem);
+        this.menus = this.getMenuItemSource().map(function (menu) {
+
+            return this.createMenuItem(menu);
+
+        }, this);
 
     };
 
+
+    /**
+     * Gets item source doms.
+     *
+     * @return {jQuery[]}
+     */
     pt.getMenuItemSource = function () {
 
         if (this.elem.data('menu')) {
@@ -62,12 +72,41 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
     };
 
 
-    pt.show = function () {
-        this.elem.removeClass('hidden');
+    /**
+     * Sets the offset.
+     *
+     * @param {Number} offset.left The left offset
+     * @param {Number} offset.top The top offset
+     */
+    pt.setOffset = function (offset) {
 
-        return wait(TRANS_DUR);
+        this.menus.forEach(function (menu) {
+
+            menu.setOffset(offset);
+
+        });
+
     };
 
+
+    pt.show = function () {
+
+        this.elem.removeClass('hidden');
+
+        var that = this;
+
+        return wait(TRANS_DUR).then(function () {
+
+            that.setOffset(that.elem.offset());
+
+        });
+    };
+
+    /**
+     * Hides the menu button.
+     *
+     * @return {Promise}
+     */
     pt.hide = function () {
 
         var that = this;
@@ -80,23 +119,22 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
 
             that.elem.addClass('hidden');
 
+            return wait(TRANS_DUR);
+
         });
     };
 
     pt.openMenu = function () {
 
-        console.log('openMenu');
-
         this.closed = false;
 
-        var fromOffset = this.elem.offset();
         var toOffsets = itemOffsets(this.elem.offset(), this.menus.length);
 
         return Promise.all(this.menus.map(function (menu, i) {
 
             return wait(50 * i).then(function () {
 
-                return menu.show(fromOffset, toOffsets[i]);
+                return menu.show(toOffsets[i]);
 
             });
 
@@ -106,30 +144,29 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
 
     pt.closeMenu = function (offset) {
 
-        console.log('close menu');
+        if (this.closed) {
+
+            return Promise.resolve();
+
+        }
 
         this.closed = true;
 
         offset = offset || this.elem.offset();
 
-        return this.menus.reduce(function (p, menu) {
+        var q = this.menus.reverse().reduce(function (p, menu) {
 
             return p.then(function () {
 
-                menu.hide(offset);
+                return menu.hide(offset);
 
-                var p = wait(50);
-
-                if (menu.menuButton && !menu.menuButton.closed) {
-                    p = p.then(function () {
-                        return menu.menuButton.closeMenu(offset);
-                    });
-                }
-
-                return p;
             });
 
         }, Promise.resolve());
+
+        this.menus.reverse();
+
+        return q;
 
     };
 
@@ -150,20 +187,20 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
      * @private
      * @param {jQuery} menu
      */
-    var createMenuItem = function (menu) {
+    pt.createMenuItem = function (menu) {
 
         menu = $(menu);
 
         return $('<img />', {
 
             attr: {
-                src: menu.attr('src'),
-                onclick: menu.attr('onclick')
+                src: menu.attr('src')
             },
             addClass: 'hidden',
-            appendTo: 'body',
+            insertBefore: this.elem,
             data: {
-                menu: menu.children().toArray()
+                menu: menu.children().toArray(),
+                onclick: menu.attr('onclick')
             }
 
         }).cc.init('menu-item');

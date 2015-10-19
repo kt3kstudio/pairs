@@ -66,15 +66,17 @@ domain.title.TitleScene = subclass(domain.common.Actor, function (pt) {
 
     pt.fadeOut = function () {
 
-        this.getMenuBtn().hide();
+        var p = this.getMenuBtn().hide();
 
-        return $('.elem').css('opacity', 0).anim('disappear', 500).then(function () {
+        var q = $('.elem').css('opacity', 0).anim('disappear', 500).then(function () {
 
             $('.elem').remove();
 
             return wait(100);
 
         });
+
+        return Promise.all([p, q]);
 
     };
 
