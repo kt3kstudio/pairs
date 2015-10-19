@@ -19,7 +19,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
         var that = this;
 
         // ui parts
-        this.menuButton = $('.menu-button').menuButton();
+        this.menuButton = $('.menu-button-root').cc.get('menu-button');
 
         return new datadomain.UserRepository().get().then(function (user) {
 

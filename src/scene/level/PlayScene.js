@@ -50,7 +50,7 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
         this.scoreboard = this.elem.find('.scoreboard').cc.getActor();
         this.scoreboard.setDimension(pos.scoreboardDimension());
 
-        this.menuButton = $('.menu-button').menuButton();
+        this.menuButton = $('.menu-button-root').cc.get('menu-button');
 
         var that = this;
 
