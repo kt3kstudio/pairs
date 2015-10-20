@@ -5,14 +5,8 @@
  * @class
  * @extends domain.common.Role
  */
-scene.level.OutroScene = subclass(domain.common.Role, function (pt) {
+scene.level.OutroScene = subclass(scene.level.Context, function (pt) {
     'use strict';
-
-    pt.getMenuButton = function () {
-
-        return $('.menu-button-root').cc.get('menu-button');
-
-    };
 
     pt.init = function () {
 

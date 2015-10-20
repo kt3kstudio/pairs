@@ -3,24 +3,10 @@
  * IntroScene class handles the introduction scene of the level page.
  *
  * @class
- * @extends domain.common.Role
+ * @extends scene.level.Context
  */
-scene.level.IntroScene = subclass(domain.common.Role, function (pt, parent) {
+scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
     'use strict';
-
-    pt.constructor = function (elem) {
-
-        parent.constructor.call(this, elem);
-
-        var that = this;
-
-        setTimeout(function () {
-
-            that.init();
-
-        });
-
-    };
 
     /**
      * The entry point of the level scene.
@@ -54,7 +40,8 @@ scene.level.IntroScene = subclass(domain.common.Role, function (pt, parent) {
             return that.start();
 
         });
-    };
+
+    }.event('scene-start');
 
     pt.start = function () {
 
