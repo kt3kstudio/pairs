@@ -8,6 +8,13 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
     'use strict';
 
 
+    pt.getMenuButton = function () {
+
+        return $('.menu-button-root').cc.get('menu-button');
+
+    };
+
+
     /**
      * Initializes the scene.
      */
@@ -43,14 +50,9 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
         // services
         this.bms = new domain.level.BallMoveMobLeaveService(this.ball, this.cells);
 
-        // ui components
-        this.swipe = new ui.level.SwipeEvent('.wrapper');
-
         // init scoreboard dimension
         this.scoreboard = this.elem.find('.scoreboard').cc.getActor();
         this.scoreboard.setDimension(pos.scoreboardDimension());
-
-        this.menuButton = $('.menu-button-root').cc.get('menu-button');
 
         var that = this;
 
@@ -74,7 +76,6 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
         var that = this;
 
         return source.pipe(function (dir) {
-
 
             that.character.playingState.add(dir);
 
@@ -150,7 +151,7 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
         var that = this;
 
         this.scoreboard.appear();
-        this.menuButton.show();
+        this.getMenuButton().show();
 
         return this.field.appear().then(function () {
 
@@ -183,18 +184,44 @@ scene.level.PlayScene = subclass(domain.common.Role, function (pt) {
 
             console.log('swipe stream start!');
 
-            return that.bindEventHandlers(that.swipe.getStream());
+            return that.bindEventHandlers(that.getDirStream());
 
         }).then(function () {
 
             console.log('swipe stream finished!');
 
-            that.swipe.unbind();
+            that.removeSwipeField()
 
         });
 
     };
 
+    /**
+     * Gets the stream of direction symbols of the swipe field.
+     *
+     * @return {Rx.Observable}
+     */
+    pt.getDirStream = function () {
+
+        var field = $('.swipe-field');
+
+        return Rx.Observable.merge(
+            field.streamOf('swipeup').map('up'),
+            field.streamOf('swipedown').map('down'),
+            field.streamOf('swipeleft').map('left'),
+            field.streamOf('swiperight').map('right')
+        );
+
+    };
+
+    /**
+     * Removes the swipe field.
+     */
+    pt.removeSwipeField = function () {
+
+        $('.swipe-field').remove();
+
+    };
 
     /**
      * Ends the playing scene, clear playing data, and kicks the next scene.

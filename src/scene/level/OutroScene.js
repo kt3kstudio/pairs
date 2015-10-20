@@ -8,6 +8,12 @@
 scene.level.OutroScene = subclass(domain.common.Role, function (pt) {
     'use strict';
 
+    pt.getMenuButton = function () {
+
+        return $('.menu-button-root').cc.get('menu-button');
+
+    };
+
     pt.init = function () {
 
         this.pos = new domain.level.DimensionFactory();
@@ -15,7 +21,6 @@ scene.level.OutroScene = subclass(domain.common.Role, function (pt) {
         this.ball = new Ball(this.elem.find('.ball').cc.getActor());
         this.chr = this.elem.find('.character-on-level').cc.getActor();
         this.field = this.elem.cc.get('play-scene').field;
-        this.menuButton = this.elem.cc.get('play-scene').menuButton;
         this.scoreboard = this.elem.cc.get('play-scene').scoreboard;
 
         var panePos = this.pos.resultPanePosition();
@@ -35,7 +40,7 @@ scene.level.OutroScene = subclass(domain.common.Role, function (pt) {
 
             domain.level.Cell.disappear();
 
-            that.menuButton.hide();
+            that.getMenuButton().hide();
 
             that.scoreboard.disappear();
 
