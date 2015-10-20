@@ -182,7 +182,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
             console.log('swipe stream finished!');
 
-            that.removeSwipeField()
+            that.removeSwipeField();
 
         });
 
