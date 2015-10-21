@@ -17,6 +17,9 @@ module.exports = function(config) {
     files: [
       'bower_components/subclassjs/index.js',
       'bower_components/jquery/dist/jquery.js',
+      'bower_components/arrowkeys/arrowkeys.js',
+      'bower_components/swipe-event/swipe-event.js',
+      'bower_components/swipe-event/swipe-cross.js',
       'bower_components/info-pane/index.js',
       'bower_components/class-component/dist.js',
       'bower_components/cc-event/cc-event.js',
