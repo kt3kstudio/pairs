@@ -13,13 +13,11 @@ scene.level.OutroScene = subclass(scene.level.Context, function (pt) {
         this.pos = new domain.level.DimensionFactory();
 
         this.ball = new Ball(this.elem.find('.ball').cc.getActor());
-        this.chr = this.elem.find('.character-on-level').cc.getActor();
-        this.field = this.elem.cc.get('play-scene').field;
         this.scoreboard = this.elem.cc.get('play-scene').scoreboard;
 
         var panePos = this.pos.resultPanePosition();
 
-        this.resPane = new ui.level.ResultPane(panePos, panePos.width, panePos.height, '#main', '.wrapper');
+        this.resPane = new ui.level.ResultPane(panePos, panePos.width, panePos.height, '#main');
 
         this.start().then(function () {
 
@@ -44,7 +42,7 @@ scene.level.OutroScene = subclass(scene.level.Context, function (pt) {
 
             that.scoreboard.disappear();
 
-            return that.field.disappear();
+            return that.getField().disappear();
 
         }).then(function () {
 
@@ -57,13 +55,13 @@ scene.level.OutroScene = subclass(scene.level.Context, function (pt) {
         }).then(function () {
 
             return Promise.all([
-                that.chr.appear(400),
+                that.getCharacter().appear(400),
                 that.ball.disappear()
             ]);
 
         }).then(function () {
 
-            return that.chr.moveTo('y', 800, 1000);
+            return that.getCharacter().moveTo('y', 800, 1000);
 
         }).then(function () {
 

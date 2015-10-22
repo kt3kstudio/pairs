@@ -18,7 +18,6 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
         this.ball = this.elem.find('.ball').cc.getActor();
         this.character = this.elem.find('.character-on-level').cc.getActor().character;
         this.level = this.elem.cc.get('intro-scene').level;
-        this.chr = this.elem.find('.character-on-level').cc.getActor();
 
         // prepare dimensions
         var fieldDimension = pos.fieldPosition();
@@ -31,8 +30,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
         this.cells.setDimension(fieldDimension);
         this.cells.loadFromObjectList(this.level.cells.cells);
 
-        this.field = $('.field-grid').cc.getActor();
-        this.field.setDimension(fieldDimension);
+        this.getField().setDimension(fieldDimension);
 
         // services
         this.fps = new domain.level.FusionPreparationService(prepDimension);
@@ -145,9 +143,9 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
         this.scoreboard.appear();
         this.getMenuButton().show();
 
-        return this.field.appear().then(function () {
+        return this.getField().appear().then(function () {
 
-            return that.chr.speechEndPromise;
+            return that.getCharacter().speechEndPromise;
 
         }).then(function () {
 
