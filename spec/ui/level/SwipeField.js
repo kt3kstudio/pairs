@@ -24,7 +24,7 @@ describe('SwipeField', function () {
 
             if (c === 4) {
                 done();
-            };
+            }
 
         });
 
