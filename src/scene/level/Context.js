@@ -39,4 +39,50 @@ scene.level.Context = subclass(domain.common.Role, function (pt) {
         return this.elem.find('.character-on-level').cc.get('character-on-level');
     };
 
+    /**
+     * Gets the dimension factory.
+     *
+     * @return {domain.level.DimensionFactory}
+     */
+    pt.getDimensionFactory = function () {
+
+        this.dimFactory = this.dimFactory || new domain.level.DimensionFactory();
+
+        return this.dimFactory;
+
+    };
+
+    /**
+     * Gets the ball
+     *
+     * @return {domain.level.Ball}
+     */
+    pt.getBall = function () {
+
+        return this.elem.find('.ball').cc.get('ball');
+
+    };
+
+    /**
+     * Gets the paper.
+     *
+     * @return {domain.level.PieceOfPaper}
+     */
+    pt.getPaper = function () {
+
+        return this.elem.find('.paper').cc.get('paper');
+
+    };
+
+    /**
+     * Gets the scoreboard.
+     *
+     * @return {domain.level.Scoreboard}
+     */
+    pt.getScoreboard = function () {
+
+        return this.elem.find('.scoreboard').cc.get('scoreboard');
+
+    };
+
 });

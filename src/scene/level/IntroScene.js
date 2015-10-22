@@ -17,8 +17,6 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
 
         var that = this;
 
-        this.pos = new domain.level.DimensionFactory();
-
         return new datadomain.UserRepository().get().then(function (user) {
 
             return new datadomain.CharacterRepository().getById(user.charId);
@@ -47,45 +45,45 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
 
         var that = this;
 
-        var paperPos = this.pos.paperPosition();
+        var paperPos = this.getDimensionFactory().paperPosition();
 
-        this.chr = this.elem.find('.character-on-level').cc.getActor();
-        this.paper = this.elem.find('.paper').cc.getActor();
-        this.ball = this.elem.find('.ball').cc.getActor();
+        var paper = this.getPaper();
 
-        this.chr.x = paperPos.left;
-        this.chr.y = 800;
+        var chr = this.getCharacter();
 
-        this.chr.place();
+        chr.x = paperPos.left;
+        chr.y = 800;
 
-        this.paper.x = paperPos.left;
-        this.paper.y = paperPos.top;
+        chr.place();
 
-        this.paper.appear();
+        paper.x = paperPos.left;
+        paper.y = paperPos.top;
+
+        paper.appear();
 
         return ui.common.BackgroundService.turnWhite().then(function () {
 
-            return that.chr.moveTo('y', paperPos.top, 600);
+            return that.getCharacter().moveTo('y', paperPos.top, 600);
 
         }).then(function () {
 
             // the character takes the paper in the room.
-            that.paper.disappear();
+            that.getPaper().disappear();
 
             var goals = $('<p />').text(that.level.goal.toString());
 
             // the character read up the goals of the room
-            return that.chr.speak(goals, {cancelDom: '.wrapper'});
+            return that.getCharacter().speak(goals, {cancelDom: '.wrapper'});
 
         }).then(function () {
 
-            that.chr.hide();
+            that.getCharacter().hide();
 
-            return that.ball.appear();
+            return that.getBall().appear();
 
         }).then(function () {
 
-            return that.elem.cc.get('play-scene').init();
+            return that.elem.trigger('play-scene-start');
 
         });
 
@@ -101,7 +99,7 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
 
         $($('#tpl-ball').html()).data({
 
-            dimension: this.pos.fieldPosition(),
+            dimension: this.getDimensionFactory().fieldPosition(),
             pos: {x: 1, y: 1}
 
         }).appendTo(this.elem).cc.init('ball');

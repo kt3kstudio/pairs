@@ -12,37 +12,27 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
      */
     pt.init = function () {
 
-        var pos = this.pos = new domain.level.DimensionFactory();
-
         // continuous actors
-        this.ball = this.elem.find('.ball').cc.getActor();
-        this.character = this.elem.find('.character-on-level').cc.getActor().character;
+        this.character = this.getCharacter().character;
         this.level = this.elem.cc.get('intro-scene').level;
-
-        // prepare dimensions
-        var fieldDimension = pos.fieldPosition();
-        var prepDimension = pos.evalRoomPosition();
-        var exitQueueDimension = pos.queuePosition();
-        var fusionDimension = pos.fusionBoxPosition();
 
         // models
         this.cells = this.elem.cc.get('cell-collection');
-        this.cells.setDimension(fieldDimension);
+        this.cells.setDimension(this.getDimensionFactory().fieldPosition());
         this.cells.loadFromObjectList(this.level.cells.cells);
 
-        this.getField().setDimension(fieldDimension);
+        this.getField().setDimension(this.getDimensionFactory().fieldPosition());
 
         // services
-        this.fps = new domain.level.FusionPreparationService(prepDimension);
-        this.fusionService = this.elem.cc.get('fusion-service').setDimension(fusionDimension);
-        this.exitQueue = new domain.level.ExitQueue(exitQueueDimension);
+        this.fps = new domain.level.FusionPreparationService(this.getDimensionFactory().evalRoomPosition());
+        this.fusionService = this.elem.cc.get('fusion-service').setDimension(this.getDimensionFactory().fusionBoxPosition());
+        this.exitQueue = new domain.level.ExitQueue(this.getDimensionFactory().queuePosition());
 
         // services
-        this.bms = new domain.level.BallMoveMobLeaveService(this.ball, this.cells);
+        this.bms = new domain.level.BallMoveMobLeaveService(this.getBall(), this.cells);
 
         // init scoreboard dimension
-        this.scoreboard = this.elem.find('.scoreboard').cc.getActor();
-        this.scoreboard.setDimension(pos.scoreboardDimension());
+        this.getScoreboard().setDimension(this.getDimensionFactory().scoreboardDimension());
 
         var that = this;
 
@@ -52,7 +42,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
         });
 
-    };
+    }.event('play-scene-start');
 
 
     /**
@@ -82,7 +72,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
         }).filterNull().pipe(function (fusionPair) {
 
-            that.scoreboard.addScore(fusionPair.score());
+            that.getScoreboard().addScore(fusionPair.score());
 
             return that.fusionService.performFusion(fusionPair);
 
@@ -140,7 +130,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
         var that = this;
 
-        this.scoreboard.appear();
+        this.getScoreboard().appear();
         this.getMenuButton().show();
 
         return this.getField().appear().then(function () {
