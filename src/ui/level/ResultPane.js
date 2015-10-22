@@ -78,7 +78,7 @@ ui.level.ResultPane = subclass(function (pt) {
 
         return this.ip.show().then(function () {
 
-            return Promise.race([wait(timeout), $(that.cancelDom).once('click touchstart')]);
+            return Promise.race([wait(timeout), that.$dom.once('click touchstart')]);
 
         }).then(function () {
 

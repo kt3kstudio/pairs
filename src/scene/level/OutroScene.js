@@ -21,8 +21,14 @@ scene.level.OutroScene = subclass(scene.level.Context, function (pt) {
 
         this.resPane = new ui.level.ResultPane(panePos, panePos.width, panePos.height, '#main', '.wrapper');
 
-        this.start();
-    };
+        this.start().then(function () {
+
+            history.back();
+
+        });
+
+    }.event('play-scene-success play-scene-failure');
+
 
     pt.start = function () {
 
@@ -62,10 +68,6 @@ scene.level.OutroScene = subclass(scene.level.Context, function (pt) {
         }).then(function () {
 
             return ui.common.BackgroundService.turnBlack();
-
-        }).then(function () {
-
-            history.back();
 
         });
 

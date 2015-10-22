@@ -48,9 +48,9 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
         var that = this;
 
-        this.start().then(function () {
+        this.start().then(function (playerWon) {
 
-            that.end();
+            that.end(playerWon);
 
         });
 
@@ -61,9 +61,9 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
      * Binds event handlers to the stream.
      *
      * @param {Rx.Observable} source The source stream
-     * @return {Rx.Observer}
+     * @return {Promise}
      */
-    pt.bindEventHandlers = function (source) {
+    pt.playLoop = function (source) {
 
         var that = this;
 
@@ -127,7 +127,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
         }).getPromise().then(function () {
 
-            return wait(500);
+            return wait(0);
 
         });
 
@@ -165,7 +165,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
                     var dirs = round.map(function (dir, i) { return wait(i * 180, dir); });
 
-                    return that.bindEventHandlers(dirs.toFlatStream());
+                    return that.playLoop(dirs.toFlatStream());
 
                 });
 
@@ -176,7 +176,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
             console.log('swipe stream start!');
 
-            return that.bindEventHandlers(that.getDirStream());
+            return that.playLoop(that.getDirStream());
 
         }).then(function () {
 
@@ -217,12 +217,22 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
     /**
      * Ends the playing scene, clear playing data, and kicks the next scene.
+     *
+     * @param {Boolean} playerWon True if the player won the game
      */
-    pt.end = function () {
+    pt.end = function (playerWon) {
 
         this.character.clearPlayingState();
 
-        this.elem.cc.get('outro-scene').init();
+        if (playerWon) {
+
+            this.elem.trigger('play-scene-success');
+
+        } else {
+
+            this.elem.trigger('play-scene-failure');
+
+        }
 
     };
 
