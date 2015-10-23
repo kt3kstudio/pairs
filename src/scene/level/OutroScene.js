@@ -10,8 +10,6 @@ scene.level.OutroScene = subclass(scene.level.Context, function (pt) {
 
     pt.init = function () {
 
-        this.ball = new Ball(this.getBall());
-
         var panePos = this.getDimensionFactory().resultPanePosition();
 
         this.resPane = new ui.level.ResultPane(panePos, panePos.width, panePos.height, '#main');
@@ -43,17 +41,17 @@ scene.level.OutroScene = subclass(scene.level.Context, function (pt) {
 
         }).then(function () {
 
-            return that.ball.goCenterX();
+            return that.getBall().goCenterX();
 
         }).then(function () {
 
-            return that.ball.goCenterY();
+            return that.getBall().goCenterY();
 
         }).then(function () {
 
             return Promise.all([
                 that.getCharacter().appear(400),
-                that.ball.disappear()
+                that.getBall().disappear()
             ]);
 
         }).then(function () {
@@ -67,38 +65,6 @@ scene.level.OutroScene = subclass(scene.level.Context, function (pt) {
         });
 
     };
-
-    /**
-     * Ball role in OutroScene
-     *
-     * @private
-     * @class domain.level.OutroScene.Ball
-     */
-    var Ball = subclass(function (pt) {
-
-        pt.constructor = function (ball) {
-            this.ball = ball;
-        };
-
-        pt.goCenterX = function () {
-            var pos = this.ball.pos();
-            pos.x = 1;
-
-            return this.ball.setPos(pos);
-        };
-
-        pt.goCenterY = function () {
-            var pos = this.ball.pos();
-            pos.y = 1;
-
-            return this.ball.setPos(pos);
-        };
-
-        pt.disappear = function () {
-            return this.ball.disappear();
-        };
-
-    });
 
 });
 

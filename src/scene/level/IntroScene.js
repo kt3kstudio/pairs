@@ -41,6 +41,12 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
 
     }.event('scene-start');
 
+
+    /**
+     * Starts the scene
+     *
+     * @return {Promise}
+     */
     pt.start = function () {
 
         var that = this;

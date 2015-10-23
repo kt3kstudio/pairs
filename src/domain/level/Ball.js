@@ -12,9 +12,9 @@ domain.level.Ball = subclass(domain.common.Being, function (pt, parent) {
 
     pt.constructor = function (elem) {
 
-        parent.constructor.call(this, elem);
+        parent.constructor.apply(this, arguments);
 
-        var pos = elem.data('pos');
+        var pos = elem.data('pos') || {x: 1, y: 1};
 
         this.x = pos.x;
         this.y = pos.y;
@@ -56,6 +56,28 @@ domain.level.Ball = subclass(domain.common.Being, function (pt, parent) {
 
         return this.setPos(this.posAhead(dir));
 
+    };
+
+    /**
+     * Moves to the center in x dir.
+     *
+     * @return {Promise}
+     */
+    pt.goCenterX = function () {
+        this.x = 1;
+
+        return this.locate();
+    };
+
+    /**
+     * Moves to the center in y dir.
+     *
+     * @return {Promise}
+     */
+    pt.goCenterY = function () {
+        this.y = 1;
+
+        return this.locate();
     };
 
     pt.pos = function () {
