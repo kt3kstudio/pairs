@@ -8,24 +8,16 @@
 ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, parent) {
     'use strict';
 
-    var MARGIN = Math.floor(Math.random() * 6) + 4;
+    var MARGIN = 6;
 
     /**
      * @constructor
-     * @param {jQuery} elem The scoreboard element
-     * @param {Object} elem.data.dimension The dimension of the scoreboard
-     * @param {Number} elem.data.dimension.left The left offset
-     * @param {Number} elem.data.dimension.top The top offset
-     * @param {Number} elem.data.dimension.width The width
-     * @param {Number} elem.data.dimension.height The height
-     * @param {Number} [score=0] The score
      */
-    pt.constructor = function (elem) {
+    pt.constructor = function () {
 
-        parent.constructor.call(this, elem);
+        parent.constructor.apply(this, arguments);
 
         this.score = 0;
-        this.margin = MARGIN;
 
     };
 
@@ -45,7 +37,40 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
 
         this.dimension = dimension;
 
+        this.x = this.dimension.left;
+        this.y = this.dimension.top;
+
+        this.w = this.dimension.width - MARGIN * 2;
+        this.h = this.dimension.height - MARGIN * 2;
+
+        this.marginLeft = MARGIN;
+        this.marginTop = MARGIN;
+
     };
+
+    /**
+     * Returns the top limit of the sprite.
+     *
+     * @override
+     * @return {Number}
+     */
+    pt.topLimit = function () {
+
+        return this.y;
+
+    };
+
+    /**
+     * Returns the left limit of the sprite.
+     *
+     * @override
+     * @return {Number}
+     */
+    pt.leftLimit = function () {
+
+        return this.x;
+
+    }
 
 
     /**
@@ -58,12 +83,7 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
         parent.willShow.call(this);
 
         this.elem
-        .css('top', this.dimension.top)
-        .css('left', this.dimension.left)
-        .css('line-height', this.dimension.height - this.margin * 2 + 'px')
-        .css('margin', this.margin + 'px')
-        .width(this.dimension.width - this.margin * 2)
-        .height(this.dimension.height - this.margin * 2)
+        .css('line-height', this.h + 'px')
         .text(this.score);
 
     };

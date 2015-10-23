@@ -1,6 +1,6 @@
 
 /**
- * CharSprite class handles the character sprite.
+ * DimensionalBeing has its dimension.
  *
  * @class
  * @extends domain.common.Being
@@ -8,17 +8,35 @@
 domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
     'use strict';
 
-    /** @property {Number} x sprite's x coordinate value */
+    /**
+     * @property {Number} x sprite's x coordinate value
+     */
     pt.x = 0;
 
-    /** @property {Number} y sprite's y coordinate value */
+    /**
+     * @property {Number} y sprite's y coordinate value
+     */
     pt.y = 0;
 
-    /** @property {Number} w sprite's width */
+    /**
+     * @property {Number} w sprite's width
+     */
     pt.w = 0;
 
-    /** @property {Number} h sprite's width */
+    /**
+     * @property {Number} h sprite's width
+     */
     pt.h = 0;
+
+    /**
+     * @property {Number} marginLeft Sprite's left margin
+     */
+    pt.marginLeft = 0;
+
+    /**
+     * @property {Number} marginTop Sprite's top margin
+     */
+    pt.marginTop = 0;
 
 
 
@@ -30,6 +48,8 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
         this.elem
         .width(this.w)
         .height(this.h)
+        .css('margin-top', this.marginTop + 'px')
+        .css('margin-left', this.marginLeft + 'px')
         .css('position', 'absolute')
         .css('transition-timing-function', 'linear');
 
@@ -40,8 +60,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
 
     /**
      * Creates the dom of the character.
-     *
-     * @return {jQuery}
      */
     pt.willShow = function () {
 
@@ -118,8 +136,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
         this.elem.css('top', offset.top);
         this.elem.css('left', offset.left);
 
-        return this;
-
     };
 
     /**
@@ -129,7 +145,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
      */
     pt.updateOffset = function () {
 
-        return this.setOffset({
+        this.setOffset({
             top: this.topLimit(),
             left: this.leftLimit()
         });
