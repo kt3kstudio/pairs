@@ -22,7 +22,9 @@
      * Reflows the dom.
      */
     $.fn.reflow = function () {
-        $(this).size($(this).size());
+        var a = this.get(0).offsetHeight;
+
+        a++;
 
         return this;
     };
