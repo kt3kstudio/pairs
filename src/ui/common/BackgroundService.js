@@ -6,32 +6,49 @@
 ui.common.BackgroundService = subclass(function (pt) {
     'use strict';
 
-    var exports = pt.constructor;
+    var Dur = 700;
 
-    exports.transDur = 700;
+    /**
+     * Turns the bg color white.
+     *
+     * @param {Number} dur The duration
+     * @return {Promise}
+     */
+    pt.constructor.turnWhite = function (dur) {
 
-    exports.turnWhite = function (dur) {
-        dur = dur || exports.transDur;
+        return this.turn('', dur, false);
 
-        $(document.body).removeClass('dark-bg').css('background-color', '');
-
-        return wait(dur);
     };
 
-    exports.turnBlack = function (dur) {
-        dur = dur || exports.transDur;
+    /**
+     * Turns the bg color white.
+     *
+     * @param {Number} dur The duration
+     * @return {Promise}
+     */
+    pt.constructor.turnBlack = function (dur) {
 
-        $(document.body).addClass('dark-bg').css('background-color', '');
+        return this.turn('', dur, true);
 
-        return wait(dur);
     };
 
-    exports.turnYellow = function (dur) {
-        dur = dur || exports.transDur;
+    /**
+     * Turns the bg color to the given color.
+     *
+     * @private
+     * @param {String} color The color in css color
+     * @param {Number} dur The duration
+     * @param {Boolean} darkBg True if use dark background format
+     * @return {Promise}
+     */
+    pt.constructor.turn = function (color, dur, darkBg) {
 
-        $(document.body).removeClass('dark-bg').css('background-color', 'yellow');
+        dur = dur || Dur;
+
+        $(document.body).toggleClass('dark-bg', darkBg).css('background-color', color);
 
         return wait(dur);
+
     };
 
 });
