@@ -70,7 +70,7 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
 
         return this.x;
 
-    }
+    };
 
 
     /**
