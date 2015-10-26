@@ -16,19 +16,29 @@ domain.level.Dimension = subclass(function (pt) {
      */
     pt.constructor = function (obj) {
 
-        /** @property {Number} height The height */
+        /**
+         * @property {Number} height The height
+         */
         this.height = obj.height;
 
-        /** @property {Number} width The width */
+        /**
+         * @property {Number} width The width
+         */
         this.width = obj.width;
 
-        /** @property {Number} top The top offset */
+        /**
+         * @property {Number} top The top offset
+         */
         this.top = obj.top;
 
-        /** @property {Number} left The left offset */
+        /**
+         * @property {Number} left The left offset
+         */
         this.left = obj.left;
 
-        /** @property {Number} unit The unit of the (imaginary) belonging grid */
+        /**
+         * @property {Number} unit The unit of the (imaginary) belonging grid
+         */
         this.unit = obj.unit;
 
     };

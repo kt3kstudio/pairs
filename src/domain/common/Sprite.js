@@ -9,6 +9,22 @@ domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = sub
     'use strict';
 
     /**
+     * @override
+     * @property {Number} originX
+     *
+     * The image sprite's center is at the center(x=0.5) bottom(y=1) of the image.
+     */
+    pt.originX = 0.5;
+
+    /**
+     * @override
+     * @property {Number} originY
+     *
+     * The image sprite's center is at the center(x=0.5) bottom(y=1) of the image.
+     */
+    pt.originY = 1;
+
+    /**
      * @property {String} state The state
      */
     pt.state = null;

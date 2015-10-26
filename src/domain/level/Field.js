@@ -18,22 +18,10 @@ domain.level.Field = subclass(domain.common.DimensionalBeing, function (pt) {
 
         var gutter = 6;
 
-        this.left = dimension.left - gutter;
-        this.top = dimension.top - gutter;
+        this.x = dimension.left - gutter;
+        this.y = dimension.top - gutter;
         this.w = dimension.width + gutter * 2;
         this.h = dimension.width + gutter * 2;
-
-    };
-
-    pt.leftLimit = function () {
-
-        return this.left;
-
-    };
-
-    pt.topLimit = function () {
-
-        return this.top;
 
     };
 

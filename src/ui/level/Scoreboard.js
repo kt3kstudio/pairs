@@ -27,7 +27,7 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
     pt.hideAnim = 'bom-disappear';
     pt.hideAnimDur = 400;
 
-    pt.hideAnim = new domain.common.Animation('bom-disappear', {dur: 400});
+    //pt.hideAnim = new domain.common.Animation('bom-disappear', {dur: 400});
 
 
     /**
@@ -48,29 +48,8 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
         this.marginLeft = MARGIN;
         this.marginTop = MARGIN;
 
-    };
-
-    /**
-     * Returns the top limit of the sprite.
-     *
-     * @override
-     * @return {Number}
-     */
-    pt.topLimit = function () {
-
-        return this.y;
-
-    };
-
-    /**
-     * Returns the left limit of the sprite.
-     *
-     * @override
-     * @return {Number}
-     */
-    pt.leftLimit = function () {
-
-        return this.x;
+        this.originX = 0;
+        this.originY = 0;
 
     };
 

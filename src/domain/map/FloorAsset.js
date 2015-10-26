@@ -7,6 +7,10 @@
 domain.map.FloorAsset = subclass(domain.common.DimensionalBeing, function (pt, parent) {
     'use strict';
 
+    pt.originX = 0.5;
+
+    pt.originY = 1;
+
     pt.constructor = function (elem) {
 
         parent.constructor.call(this, elem);

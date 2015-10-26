@@ -38,6 +38,22 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
      */
     pt.marginTop = 0;
 
+    /**
+     * @property {Number} originX The x ratio of the origin in the rectangle.
+     *
+     * 0 means the origin is at the left edge.
+     * 1 means the origin is at the right edge.
+     */
+    pt.originX = 0;
+
+    /**
+     * @property {Number} originY The y ratio of the origin in the rectangle.
+     *
+     * 0 means the origin is at the top edge.
+     * 1 means the origin is at the bottom edge.
+     */
+    pt.originY = 0;
+
 
 
     /**
@@ -75,7 +91,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
      */
     pt.rightLimit = function () {
 
-        return this.x + this.w / 2;
+        return this.leftLimit() + this.w;
 
     };
 
@@ -86,7 +102,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
      */
     pt.leftLimit = function () {
 
-        return this.x - this.w / 2;
+        return this.x - this.w * this.originX;
 
     };
 
@@ -95,7 +111,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
      */
     pt.topLimit = function () {
 
-        return this.y - this.h;
+        return this.y - this.h * this.originY;
 
     };
 
@@ -104,7 +120,30 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
      */
     pt.bottomLimit = function () {
 
-        return this.y;
+        return this.topLimit() + this.h;
+
+    };
+
+
+    /**
+     * Gets the x of the center.
+     *
+     * @return {Number}
+     */
+    pt.centerX = function () {
+
+        return (this.leftLimit() + this.rightLimit()) / 2;
+
+    };
+
+    /**
+     * Gets the y of the center.
+     *
+     * @return {Number}
+     */
+    pt.centerY = function () {
+
+        return (this.topLimit() + this.bottomLimit()) / 2;
 
     };
 
