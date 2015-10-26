@@ -27,6 +27,8 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
     pt.hideAnim = 'bom-disappear';
     pt.hideAnimDur = 400;
 
+    pt.hideAnim = new domain.common.Animation('bom-disappear', {dur: 400});
+
 
     /**
      * Sets the dimension of the element.
@@ -75,16 +77,14 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
 
     /**
      * Set up the initial dom state.
-     *
-     * @return {jQuery}
      */
     pt.willShow = function () {
 
         parent.willShow.call(this);
 
-        this.elem
-        .css('line-height', this.h + 'px')
-        .text(this.score);
+        this.elem.css('line-height', this.h + 'px');
+
+        this.update();
 
     };
 
@@ -112,15 +112,13 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
     };
 
     /**
-     * Sets (overwrites) the score.
+     * Gets the current score.
      *
-     * @param {Number} score The score
+     * @return {Number}
      */
-    pt.setScore = function (score) {
+    pt.getScore = function () {
 
-        this.score = score;
-
-        this.update();
+        return this.score;
 
     };
 
