@@ -42,11 +42,11 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
         this.x = this.dimension.left;
         this.y = this.dimension.top;
 
-        this.w = this.dimension.width - MARGIN * 2;
-        this.h = this.dimension.height - MARGIN * 2;
+        this.w = this.dimension.width;
+        this.h = this.dimension.height;
 
-        this.marginLeft = MARGIN;
-        this.marginTop = MARGIN;
+        this.marginX = MARGIN;
+        this.marginY = MARGIN;
 
         this.originX = 0;
         this.originY = 0;
@@ -61,7 +61,7 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
 
         parent.willShow.call(this);
 
-        this.elem.css('line-height', this.h + 'px');
+        this.elem.css('line-height', this.h - this.marginY * 2 + 'px');
 
         this.update();
 

@@ -41,6 +41,27 @@ domain.level.Dimension = subclass(function (pt) {
          */
         this.unit = obj.unit;
 
+        this.originX = obj.originX;
+        this.originY = obj.originY;
+
+        this.unitX = obj.unitX;
+        this.unitY = obj.unitY;
+
+        this.marginX = obj.marginX;
+        this.marginY = obj.marginY;
+
+    };
+
+    pt.actualHeight = function () {
+
+        Math.max(0, this.height - this.marginY * 2);
+
+    };
+
+    pt.actualWidth = function () {
+
+        Math.max(0, this.width - this.marginX * 2);
+
     };
 
 });

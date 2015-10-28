@@ -29,14 +29,14 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
     pt.h = 0;
 
     /**
-     * @property {Number} marginLeft Sprite's left margin
+     * @property {Number} marginX Sprite's left margin
      */
-    pt.marginLeft = 0;
+    pt.marginX = 0;
 
     /**
-     * @property {Number} marginTop Sprite's top margin
+     * @property {Number} marginY Sprite's top margin
      */
-    pt.marginTop = 0;
+    pt.marginY = 0;
 
     /**
      * @property {Number} originX The x ratio of the origin in the rectangle.
@@ -54,6 +54,11 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
      */
     pt.originY = 0;
 
+    /**
+     */
+    pt.gridX = 0;
+    pt.gridY = 0;
+
 
 
     /**
@@ -62,10 +67,8 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
     pt.place = function () {
 
         this.elem
-        .width(this.w)
-        .height(this.h)
-        .css('margin-top', this.marginTop + 'px')
-        .css('margin-left', this.marginLeft + 'px')
+        .width(this.w - this.marginX * 2)
+        .height(this.h - this.marginY * 2)
         .css('position', 'absolute')
         .css('transition-timing-function', 'linear');
 
@@ -91,7 +94,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
      */
     pt.rightLimit = function () {
 
-        return this.leftLimit() + this.w;
+        return this.leftLimit() + this.w - this.marginX;
 
     };
 
@@ -102,7 +105,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
      */
     pt.leftLimit = function () {
 
-        return this.x - this.w * this.originX;
+        return this.x - this.w * this.originX + this.marginX;
 
     };
 
@@ -111,7 +114,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
      */
     pt.topLimit = function () {
 
-        return this.y - this.h * this.originY;
+        return this.y - this.h * this.originY + this.marginY;
 
     };
 
@@ -120,7 +123,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
      */
     pt.bottomLimit = function () {
 
-        return this.topLimit() + this.h;
+        return this.topLimit() + this.h - this.marginY;
 
     };
 
