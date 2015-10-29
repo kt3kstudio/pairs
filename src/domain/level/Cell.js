@@ -50,6 +50,7 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
      */
     pt.setDimension = function (dimension) {
         this.dimension = dimension;
+        this.height = Math.floor(dimension.unit / 2);
         this.width = Math.floor(dimension.unit / 2);
         this.gutter = Math.floor(dimension.unit / 4);
 
@@ -200,7 +201,7 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
         elem.css({
             'position': 'absolute',
             'width': this.width + 'px',
-            'height': this.width + 'px'
+            'height': this.height + 'px'
         });
 
         elem.attr('data', this.selectImage());
@@ -255,10 +256,7 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
 
     pt.updateDomRect = function () {
 
-        this.elem.css({
-            'width': this.width + 'px',
-            'height': this.width + 'px'
-        });
+        this.elem.width(this.width).height(this.height);
 
         return wait(this.transDur);
 
