@@ -198,7 +198,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
         this.elem.width(this.actualWidth());
         this.elem.height(this.actualHeight());
 
-    }
+    };
 
     /**
      * Moves the elem to the given y position.
