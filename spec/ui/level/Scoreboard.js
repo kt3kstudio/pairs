@@ -35,8 +35,10 @@ describe('Scoreboard', function () {
             expect(scoreboard.y).to.exist;
             expect(scoreboard.w).to.exist;
             expect(scoreboard.h).to.exist;
-            expect(scoreboard.marginLeft).to.exist;
-            expect(scoreboard.marginTop).to.exist;
+            expect(scoreboard.marginX).to.exist;
+            expect(scoreboard.marginY).to.exist;
+            expect(scoreboard.originX).to.exist;
+            expect(scoreboard.originY).to.exist;
 
         });
 

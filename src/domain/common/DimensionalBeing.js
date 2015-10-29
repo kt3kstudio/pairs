@@ -5,7 +5,7 @@
  * @class
  * @extends domain.common.Being
  */
-domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
+domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, parent) {
     'use strict';
 
     /**
@@ -59,30 +59,56 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
     pt.gridX = 0;
     pt.gridY = 0;
 
+    pt.constructor = function () {
+
+        parent.constructor.apply(this, arguments);
+
+        this.elem
+        .css('position', 'absolute')
+        .css('transition-timing-function', 'linear');
+
+    };
+
 
 
     /**
      * Places the being with the appropriate dimension.
      */
-    pt.place = function () {
+    pt.updateElem = function () {
 
-        this.elem
-        .width(this.w - this.marginX * 2)
-        .height(this.h - this.marginY * 2)
-        .css('position', 'absolute')
-        .css('transition-timing-function', 'linear');
-
+        this.updateRect();
         this.updateOffset();
+
+    };
+
+    /**
+     * Returns the actual width of the elem.
+     */
+    pt.actualWidth = function () {
+
+        return this.w - this.marginX * 2;
+
+    };
+
+
+    /**
+     * Returns the actual height of the elem.
+     */
+    pt.actualHeight = function () {
+
+        return this.h - this.marginY * 2;
 
     };
 
 
     /**
      * Creates the dom of the character.
+     *
+     * @override
      */
     pt.willShow = function () {
 
-        this.place();
+        this.updateElem();
 
     };
 
@@ -94,7 +120,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
      */
     pt.rightLimit = function () {
 
-        return this.leftLimit() + this.w - this.marginX;
+        return this.leftLimit() + this.actualWidth();
 
     };
 
@@ -123,7 +149,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
      */
     pt.bottomLimit = function () {
 
-        return this.topLimit() + this.h - this.marginY;
+        return this.topLimit() + this.actualHeight();
 
     };
 
@@ -151,48 +177,28 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt) {
     };
 
     /**
-     * Gets the offset of the sprite.
-     *
-     * @protected
-     * @return {Object}
-     */
-    pt.getOffset = function () {
-
-        return {
-            top: parseInt(this.elem.css('top')),
-            left: parseInt(this.elem.css('left'))
-        };
-
-    };
-
-    /**
-     * Sets the elem's offset.
-     *
-     * @protected
-     * @param {Object} offset The offset
-     * @param {Number} offset.top The top of the offset
-     * @param {Number} offset.left The left of the offset
-     */
-    pt.setOffset = function (offset) {
-
-        this.elem.css('top', offset.top);
-        this.elem.css('left', offset.left);
-
-    };
-
-    /**
      * Updates the elem's offset according to current position.
      *
      * @protected
      */
     pt.updateOffset = function () {
 
-        this.setOffset({
-            top: this.topLimit(),
-            left: this.leftLimit()
-        });
+        this.elem.css('top', this.topLimit());
+        this.elem.css('left', this.leftLimit());
 
     };
+
+    /**
+     * Updates the elem's width and height.
+     *
+     * @protected
+     */
+    pt.updateRect = function () {
+
+        this.elem.width(this.actualWidth());
+        this.elem.height(this.actualHeight());
+
+    }
 
     /**
      * Moves the elem to the given y position.

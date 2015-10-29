@@ -44,8 +44,11 @@ domain.level.Dimension = subclass(function (pt) {
         this.originX = obj.originX;
         this.originY = obj.originY;
 
-        this.unitX = obj.unitX;
-        this.unitY = obj.unitY;
+        this.gridUnitX = obj.gridUnitX;
+        this.gridUnitY = obj.gridUnitY;
+
+        this.gridX = obj.gridX;
+        this.gridY = obj.gridY;
 
         this.marginX = obj.marginX;
         this.marginY = obj.marginY;

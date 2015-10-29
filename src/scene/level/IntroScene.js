@@ -60,7 +60,7 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
         chr.x = paperPos.left;
         chr.y = 800;
 
-        chr.place();
+        chr.updateElem();
 
         paper.x = paperPos.left;
         paper.y = paperPos.top;
