@@ -1,10 +1,10 @@
 # TODO
 
-- refactor menu-btn
+- refactor dimension and gridDimension
 
 - new model LevelKey
 - new character Fairy
-- new character PinkyRabbit
+- new character PinkRabbit
 
 
 [Make residents]
@@ -34,6 +34,7 @@
 
 
 # DONE
+- refactor menu-btn
 - Code reading of level scene and further refactoring
 - Use magrove for Cell
 - Use class-component v5.2
