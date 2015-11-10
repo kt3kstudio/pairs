@@ -86,7 +86,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
      */
     pt.actualWidth = function () {
 
-        return this.w - this.marginX * 2;
+        return this.dimension.actualHeight();
 
     };
 
@@ -96,7 +96,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
      */
     pt.actualHeight = function () {
 
-        return this.h - this.marginY * 2;
+        return this.dimension.actualHeight();
 
     };
 
@@ -120,7 +120,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
      */
     pt.rightLimit = function () {
 
-        return this.leftLimit() + this.actualWidth();
+        return this.dimension.rightLimit(this.x);
 
     };
 
@@ -131,7 +131,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
      */
     pt.leftLimit = function () {
 
-        return this.x - this.w * this.originX + this.marginX;
+        return this.dimension.leftLimit(this.x);
 
     };
 
@@ -140,7 +140,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
      */
     pt.topLimit = function () {
 
-        return this.y - this.h * this.originY + this.marginY;
+        return this.dimension.topLimit(this.y);
 
     };
 
@@ -149,7 +149,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
      */
     pt.bottomLimit = function () {
 
-        return this.topLimit() + this.actualHeight();
+        return this.dimension.bottomLimit(this.y);
 
     };
 
@@ -161,7 +161,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
      */
     pt.centerX = function () {
 
-        return (this.leftLimit() + this.rightLimit()) / 2;
+        return this.dimension.centerX(this.x);
 
     };
 
@@ -172,7 +172,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
      */
     pt.centerY = function () {
 
-        return (this.topLimit() + this.bottomLimit()) / 2;
+        return this.dimension.centerY(this.y);
 
     };
 
@@ -183,8 +183,8 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
      */
     pt.updateOffset = function () {
 
-        this.elem.css('top', this.topLimit());
-        this.elem.css('left', this.leftLimit());
+        this.elem.css('top', this.dimension.topLimit(this.y));
+        this.elem.css('left', this.dimension.leftLimit(this.x));
 
     };
 
@@ -195,8 +195,8 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
      */
     pt.updateRect = function () {
 
-        this.elem.width(this.actualWidth());
-        this.elem.height(this.actualHeight());
+        this.elem.width(this.dimension.actualWidth());
+        this.elem.height(this.dimension.actualHeight());
 
     };
 
