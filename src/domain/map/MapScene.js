@@ -66,33 +66,13 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
      */
     pt.initFloorAssets = function (character) {
 
-        var $floorAssets = this.elem.find('.floor-asset-collection');
-
-        var floorAssets = $floorAssets.cc.getActor();
+        var floorAssets = this.elem.find('.floor-asset-collection').cc.getActor();
 
         return Promise.resolve($.get('/data/floor/' + character.position.floorId + '.html')).then(function (data) {
 
-            $(data).prependTo($floorAssets);
+            floorAssets.loadAssetsFromData(data);
 
-            $('.door, .staircase').attr('y', domain.map.Floorboard.groundLevel())
-
-            $.cc.init('door staircase', $floorAssets);
-
-            floorAssets.buildFloorAssets();
-
-            floorAssets.forEach(function (floorAsset) {
-
-                floorAsset.locked = character.locks.isLocked(floorAsset.id);
-
-                var history = character.histories.getById(floorAsset.id);
-
-                if (history) {
-
-                    floorAsset.score = history.score;
-
-                }
-
-            });
+            floorAssets.updateAssetsByLocksAndHistories(character.locks, character.histories)
 
             var currentFloorAsset = floorAssets.findById(character.position.floorObjectId);
 

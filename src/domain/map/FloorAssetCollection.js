@@ -10,55 +10,57 @@
  * @extends domain.common.Being
  */
 domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
-    'use strict';
-
+    'use strict'
 
     /**
-     * Builds the floor assets.
+     * Loads assets from the given string html data.
+     *
+     * @param {String} data The data
      */
-    pt.buildFloorAssets = function () {
+    pt.loadAssetsFromData = function (data) {
 
+        // prepend loaded (string) data to the elem
+        $(data).prependTo(this.elem)
+
+        // set y coordinate to doors and staircases
+        this.elem.find('.door, .staircase').attr('y', domain.map.Floorboard.groundLevel())
+
+        // init floor assets
+        $.cc.init('door staircase', this.elem)
+
+        // collect floor assets in the property
         this.items = this.elem.find('.staircase, .door').map(function () {
 
             return $(this).cc.getActor()
 
-        }).toArray();
+        }).toArray()
 
-        this.expandRightLimit(180)
+        // set floor width
+        this.elem.width(this.elem.find('.floor-data').data('floor-width'))
 
     }
 
 
     /**
-     * Calls the handler for each floor asset.
+     * Update the floor assets by the level locks and level histories.
      *
-     * @param {Function} callback The handler for each floor asset
+     * @param {datadomain.LevelLockCollection} locks The level locks
      */
-    pt.forEach = function (handler, thisArg) {
+    pt.updateAssetsByLocksAndHistories = function (locks, histories) {
 
-        this.items.forEach(handler, thisArg);
+        this.items.forEach(function (asset) {
 
-    };
+            asset.locked = locks.isLocked(asset.id)
 
+            var history = histories.getById(asset.id)
 
-    /**
-     * Expands the right limit of the wall div.
-     *
-     * @private
-     */
-    pt.expandRightLimit = function (val) {
+            if (history) {
 
-        var x = this.rightLimit() + val;
+                asset.score = history.score
+            }
+        })
+    }
 
-        this.elem.width(x);
-
-    };
-
-    pt.rightLimit = function () {
-
-        return Math.max.apply(Math, this.items.map(function (item) { return item.rightLimit(); }));
-
-    };
 
     /**
      * Shows the floor assets.
@@ -69,13 +71,13 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
 
         return this.foldByFunc(function (item) {
 
-            item.appear();
+            item.appear()
 
-            return wait(100);
+            return wait(100)
 
-        });
+        })
 
-    };
+    }
 
 
     /**
@@ -87,13 +89,13 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
 
         return this.foldByFunc(function (item) {
 
-            item.disappear();
+            item.disappear()
 
-            return wait(100);
+            return wait(100)
 
-        });
+        })
 
-    };
+    }
 
 
     /**
@@ -108,13 +110,13 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
 
             return p.then(function () {
 
-                return func(item);
+                return func(item)
 
-            });
+            })
 
-        }, Promise.resolve());
+        }, Promise.resolve())
 
-    };
+    }
 
 
     /**
@@ -127,14 +129,14 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
 
         return this.items.filter(function (item) {
 
-            return item.id === id;
+            return item.id === id
 
-        })[0];
+        })[0]
 
-    };
+    }
 
-});
+})
 
 
 
-$.cc.assign('floor-asset-collection', domain.map.FloorAssetCollection);
+$.cc.assign('floor-asset-collection', domain.map.FloorAssetCollection)
