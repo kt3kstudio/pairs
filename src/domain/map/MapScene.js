@@ -33,7 +33,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
 
         }).then(function () {
 
-            that.elem.trigger($.Event('floor-built'));
+            that.elem.trigger('floor-built');
 
             that.start();
 

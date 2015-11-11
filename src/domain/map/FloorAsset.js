@@ -5,24 +5,44 @@
  * @extends domain.common.DimensionalBeing
  */
 domain.map.FloorAsset = subclass(domain.common.DimensionalBeing, function (pt, parent) {
-    'use strict';
-
-    pt.originX = 0.5;
-
-    pt.originY = 1;
+    'use strict'
 
     pt.constructor = function (elem) {
 
-        parent.constructor.call(this, elem);
+        parent.constructor.call(this, elem)
 
-        this.w = +elem.attr('w');
-        this.h = +elem.attr('h');
-        this.x = +elem.attr('x');
-        this.y = +elem.attr('y');
+        this.x = +elem.attr('x')
+        this.y = 0
 
-        this.id = elem.attr('id');
+        this.dimension = new domain.common.Dimension({
+            width: this.getWidth(),
+            height: this.getHeight(),
+            ratioX: 0.5,
+            ratioY: 1
+        })
 
-    };
+        this.id = elem.attr('id')
+    }
+
+
+    /**
+     * Gets the width
+     *
+     * @return {Number}
+     */
+    pt.getWidth = function () {
+        return 80
+    }
+
+    /**
+     * Gets the height
+     *
+     * @return {Number}
+     */
+    pt.getHeight = function () {
+
+        return 100
+    }
 
 
     /**
@@ -30,35 +50,23 @@ domain.map.FloorAsset = subclass(domain.common.DimensionalBeing, function (pt, p
      */
     pt.doorKnock = function () {
 
-        this.elem.trigger('door-knock', [this]);
+        this.elem.trigger('door-knock', [this])
 
-    };
+    }
 
-
-    pt.centerX = function () {
-
-        return this.x;
-
-    };
-
-    pt.centerY = function () {
-
-        return this.y;
-
-    };
 
     pt.open = function () {
-        return Promise.resolve();
-    };
+        return Promise.resolve()
+    }
 
     pt.close = function () {
-        return Promise.resolve();
-    };
+        return Promise.resolve()
+    }
 
 
     pt.onGetWalker = function () {
-        return Promise.resolve();
-    };
+        return Promise.resolve()
+    }
 
 
     /**
@@ -66,9 +74,9 @@ domain.map.FloorAsset = subclass(domain.common.DimensionalBeing, function (pt, p
      */
     pt.spawnFrog = function () {
 
-        $('<img />').css({zIndex: 2}).appendTo(this.elem).cc.init('frog').show();
+        $('<img />').css({zIndex: 2}).appendTo(this.elem).cc.init('frog').show()
 
-    };
+    }
 
 
     /**
@@ -76,25 +84,25 @@ domain.map.FloorAsset = subclass(domain.common.DimensionalBeing, function (pt, p
      */
     pt.removeFrog = function () {
 
-        var frogDom = this.elem.find('.frog');
+        var frogDom = this.elem.find('.frog')
 
         if (frogDom.length === 0) {
 
-            return;
+            return
 
         }
 
-        var frog = frogDom.cc.getActor();
+        var frog = frogDom.cc.getActor()
 
         if (frog == null) {
 
-            return;
+            return
 
         }
 
-        frog.runAwayRight();
+        frog.runAwayRight()
 
-    };
+    }
 
 
-});
+})

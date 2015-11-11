@@ -19,45 +19,9 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
     pt.y = 0;
 
     /**
-     * @property {Number} w sprite's width
+     * @property {domain.commmon.Dimension} dimension The dimension of the rectangle
      */
-    pt.w = 0;
-
-    /**
-     * @property {Number} h sprite's width
-     */
-    pt.h = 0;
-
-    /**
-     * @property {Number} marginX Sprite's left margin
-     */
-    pt.marginX = 0;
-
-    /**
-     * @property {Number} marginY Sprite's top margin
-     */
-    pt.marginY = 0;
-
-    /**
-     * @property {Number} originX The x ratio of the origin in the rectangle.
-     *
-     * 0 means the origin is at the left edge.
-     * 1 means the origin is at the right edge.
-     */
-    pt.originX = 0;
-
-    /**
-     * @property {Number} originY The y ratio of the origin in the rectangle.
-     *
-     * 0 means the origin is at the top edge.
-     * 1 means the origin is at the bottom edge.
-     */
-    pt.originY = 0;
-
-    /**
-     */
-    pt.gridX = 0;
-    pt.gridY = 0;
+    pt.dimension = null;
 
     pt.constructor = function () {
 

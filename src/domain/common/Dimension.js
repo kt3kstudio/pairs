@@ -22,14 +22,14 @@ domain.common.Dimension = subclass(function (pt) {
      */
     pt.constructor = function (obj) {
 
-        this.width = obj.width
-        this.height = obj.height
+        this.width = obj.width || 100
+        this.height = obj.height || 100
 
-        this.ratioX = obj.ratioX
-        this.ratioY = obj.ratioY
+        this.ratioX = obj.ratioX || 0
+        this.ratioY = obj.ratioY || 0
 
-        this.marginX = obj.marginX
-        this.marginY = obj.marginY
+        this.marginX = obj.marginX || 0
+        this.marginY = obj.marginY || 0
 
     }
 
