@@ -20,21 +20,13 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
 
         this.items = this.elem.find('.staircase, .door').map(function () {
 
-            return $(this).cc.getActor();
+            return $(this).cc.getActor()
 
         }).toArray();
 
+        this.expandRightLimit(180)
 
-        this.items.forEach(function (floorAsset) {
-
-            this.transformCoordinates(floorAsset);
-
-        }, this);
-
-
-        this.expandRightLimit(180);
-
-    };
+    }
 
 
     /**
@@ -45,20 +37,6 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
     pt.forEach = function (handler, thisArg) {
 
         this.items.forEach(handler, thisArg);
-
-    };
-
-
-    /**
-     * Transforms the y coordinate to fit to the floor level.
-     *
-     * @private
-     * @param {domain.map.FloorAsset} asset The target FloorAsset
-     */
-    pt.transformCoordinates = function (asset) {
-
-        asset.y *= -1;
-        asset.y += domain.map.Floorboard.groundLevel();
 
     };
 

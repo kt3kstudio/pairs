@@ -12,7 +12,7 @@ domain.map.FloorAsset = subclass(domain.common.DimensionalBeing, function (pt, p
         parent.constructor.call(this, elem)
 
         this.x = +elem.attr('x')
-        this.y = 0
+        this.y = +elem.attr('y')
 
         this.dimension = new domain.common.Dimension({
             width: this.getWidth(),

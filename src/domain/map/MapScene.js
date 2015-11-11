@@ -74,6 +74,8 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
 
             $(data).prependTo($floorAssets);
 
+            $('.door, .staircase').attr('y', domain.map.Floorboard.groundLevel())
+
             $.cc.init('door staircase', $floorAssets);
 
             floorAssets.buildFloorAssets();
