@@ -5,7 +5,7 @@
  * @extends domain.common.Role
  */
 scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
-    'use strict';
+    'use strict'
 
     /**
      * Initializes the scene.
@@ -13,36 +13,36 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
     pt.init = function () {
 
         // continuous actors
-        this.character = this.getCharacter().character;
-        this.level = this.elem.cc.get('intro-scene').level;
+        this.character = this.getCharacter().character
+        this.level = this.elem.cc.get('intro-scene').level
 
         // models
-        this.cells = this.elem.cc.get('cell-collection');
-        this.cells.setDimension(this.getDimensionFactory().fieldPosition());
-        this.cells.loadFromObjectList(this.level.cells.cells);
+        this.cells = this.elem.cc.get('cell-collection')
+        this.cells.setDimension(this.getDimensionFactory().fieldPosition())
+        this.cells.loadFromObjectList(this.level.cells.cells)
 
-        this.getField().setDimension(this.getDimensionFactory().fieldPosition());
-
-        // services
-        this.fps = new domain.level.FusionPreparationService(this.getDimensionFactory().evalRoomPosition());
-        this.fusionService = this.elem.cc.get('fusion-service').setDimension(this.getDimensionFactory().fusionBoxPosition());
-        this.exitQueue = new domain.level.ExitQueue(this.getDimensionFactory().queuePosition());
+        this.getField().setDimension(this.getDimensionFactory().fieldPosition())
 
         // services
-        this.bms = new domain.level.BallMoveMobLeaveService(this.getBall(), this.cells);
+        this.fps = new domain.level.FusionPreparationService(this.getDimensionFactory().evalRoomPosition())
+        this.fusionService = this.elem.cc.get('fusion-service').setDimension(this.getDimensionFactory().fusionBoxPosition())
+        this.exitQueue = new domain.level.ExitQueue(this.getDimensionFactory().queuePosition())
+
+        // services
+        this.bms = new domain.level.BallMoveMobLeaveService(this.getBall(), this.cells)
 
         // init scoreboard dimension
-        this.getScoreboard().setDimension(this.getDimensionFactory().scoreboardDimension());
+        this.getScoreboard().setDimension(this.getDimensionFactory().scoreboardDimension())
 
-        var that = this;
+        var that = this
 
         this.start().then(function (playerWon) {
 
-            that.end(playerWon);
+            that.end(playerWon)
 
-        });
+        })
 
-    }.event('play-scene-start');
+    }.event('play-scene-start')
 
 
     /**
@@ -53,28 +53,28 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
      */
     pt.playLoop = function (source) {
 
-        var that = this;
+        var that = this
 
         return source.pipe(function (dir) {
 
-            that.character.playingState.add(dir);
+            that.character.playingState.add(dir)
 
-            that.character.savePlayingState();
+            that.character.savePlayingState()
 
-            return that.bms.ballMoveAndLeaveOne(dir);
+            return that.bms.ballMoveAndLeaveOne(dir)
 
 
         }).filterNull().pipe(function (cell) {
 
 
-            return that.fps.take(cell);
+            return that.fps.take(cell)
 
 
         }).filterNull().pipe(function (fusionPair) {
 
-            that.getScoreboard().addScore(fusionPair.score());
+            that.getScoreboard().addScore(fusionPair.score())
 
-            return that.fusionService.performFusion(fusionPair);
+            return that.fusionService.performFusion(fusionPair)
 
 
         }).pipe(function (newCell) {
@@ -82,15 +82,15 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
             return that.exitQueue.enqueue(newCell).then(function () {
 
-                return newCell;
+                return newCell
 
-            });
+            })
 
 
         }).filter(function (cell) {
 
 
-            return cell.isLastOne();
+            return cell.isLastOne()
 
 
         }).map(function () {
@@ -99,27 +99,27 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
             if (!that.exitQueue.theLastOneIsEvolved()) {
 
                 // this finishes the main stream and therefore resolves the promise
-                return;
+                return
 
             }
 
 
-            that.character.playingState.bump();
+            that.character.playingState.bump()
 
-            return that.cells.loadList(that.exitQueue.releaseCells()).resetShapeAndLocate();
+            return that.cells.loadList(that.exitQueue.releaseCells()).resetShapeAndLocate()
 
 
         }).takeWhile(function (x) {
 
-            return x != null;
+            return x != null
 
         }).getPromise().then(function () {
 
-            return wait(0);
+            return wait(0)
 
-        });
+        })
 
-    };
+    }
 
     /**
      * Starts the scene.
@@ -128,22 +128,22 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
      */
     pt.start = function () {
 
-        var that = this;
+        var that = this
 
-        this.getScoreboard().appear();
-        this.getMenuButton().show();
+        this.getScoreboard().appear()
+        this.getMenuButton().show()
 
         return this.getField().appear().then(function () {
 
-            return that.getCharacter().speechEndPromise;
+            return that.getCharacter().speechEndPromise
 
         }).then(function () {
 
-            return that.character.reloadPlayingState();
+            return that.character.reloadPlayingState()
 
         }).then(function () {
 
-            return that.cells.appear();
+            return that.cells.appear()
 
         }).then(function () {
 
@@ -151,30 +151,30 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
                 return promise.then(function () {
 
-                    var dirs = round.map(function (dir, i) { return wait(i * 180, dir); });
+                    var dirs = round.map(function (dir, i) { return wait(i * 180, dir) })
 
-                    return that.playLoop(dirs.toFlatStream());
+                    return that.playLoop(dirs.toFlatStream())
 
-                });
+                })
 
-            }, Promise.resolve());
+            }, Promise.resolve())
 
-
-        }).then(function () {
-
-            console.log('swipe stream start!');
-
-            return that.playLoop(that.getDirStream());
 
         }).then(function () {
 
-            console.log('swipe stream finished!');
+            console.log('swipe stream start!')
 
-            that.removeSwipeField();
+            return that.playLoop(that.getDirStream())
 
-        });
+        }).then(function () {
 
-    };
+            console.log('swipe stream finished!')
+
+            that.removeSwipeField()
+
+        })
+
+    }
 
     /**
      * Gets the stream of direction symbols of the swipe field.
@@ -183,25 +183,25 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
      */
     pt.getDirStream = function () {
 
-        var field = $('.swipe-field');
+        var field = $('.swipe-field')
 
         return Rx.Observable.merge(
             field.streamOf('swipeup').map('up'),
             field.streamOf('swipedown').map('down'),
             field.streamOf('swipeleft').map('left'),
             field.streamOf('swiperight').map('right')
-        );
+        )
 
-    };
+    }
 
     /**
      * Removes the swipe field.
      */
     pt.removeSwipeField = function () {
 
-        $('.swipe-field').remove();
+        $('.swipe-field').remove()
 
-    };
+    }
 
     /**
      * Ends the playing scene, clear playing data, and kicks the next scene.
@@ -210,21 +210,21 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
      */
     pt.end = function (playerWon) {
 
-        this.character.clearPlayingState();
+        this.character.clearPlayingState()
 
         if (playerWon) {
 
-            this.elem.trigger('play-scene-success');
+            this.elem.trigger('play-scene-success')
 
         } else {
 
-            this.elem.trigger('play-scene-failure');
+            this.elem.trigger('play-scene-failure')
 
         }
 
-    };
+    }
 
-});
+})
 
 
-$.cc.assign('play-scene', scene.level.PlayScene);
+$.cc.assign('play-scene', scene.level.PlayScene)

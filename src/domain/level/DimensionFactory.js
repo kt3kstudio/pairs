@@ -4,22 +4,22 @@
  * @class
  */
 domain.level.DimensionFactory = subclass(function (pt) {
-    'use strict';
+    'use strict'
 
-    var TOP_UI_HEIGHT = 50; // the height of the score board at the top
-    var BOTTOM_UI_HEIGHT = 50; // the height of the banner ad at the bottom of the screen
+    var TOP_UI_HEIGHT = 50 // the height of the score board at the top
+    var BOTTOM_UI_HEIGHT = 50 // the height of the banner ad at the bottom of the screen
 
     // height / width
-    var PLAY_FIELD_RATIO = 6 / 4;
+    var PLAY_FIELD_RATIO = 6 / 4
 
     /**
      * @constructor
      */
     pt.constructor = function () {
 
-        this.calc();
+        this.calc()
 
-    };
+    }
 
     /**
      * Calculates the available area in the current window.
@@ -28,13 +28,13 @@ domain.level.DimensionFactory = subclass(function (pt) {
      */
     pt.calcAvailableArea = function () {
 
-        var w = this.width = $(window).width();
-        var h = this.height = $(window).height();
+        var w = this.width = $(window).width()
+        var h = this.height = $(window).height()
 
-        this.availableHeight = h - TOP_UI_HEIGHT - BOTTOM_UI_HEIGHT;
-        this.availableWidth = w;
+        this.availableHeight = h - TOP_UI_HEIGHT - BOTTOM_UI_HEIGHT
+        this.availableWidth = w
 
-    };
+    }
 
 
     /**
@@ -44,22 +44,22 @@ domain.level.DimensionFactory = subclass(function (pt) {
      */
     pt.calcBestArea = function () {
 
-        this.calcAvailableArea();
+        this.calcAvailableArea()
 
         if (this.availableWidth * PLAY_FIELD_RATIO > this.availableHeight) {
 
             // height dominant screen
-            this.bestWidth = this.availableHeight / PLAY_FIELD_RATIO;
-            this.bestHeight = this.availableHeight;
+            this.bestWidth = this.availableHeight / PLAY_FIELD_RATIO
+            this.bestHeight = this.availableHeight
 
         } else {
 
             // width dominant screen
-            this.bestWidth = this.availableWidth;
-            this.bestHeight = this.availableWidth * PLAY_FIELD_RATIO;
+            this.bestWidth = this.availableWidth
+            this.bestHeight = this.availableWidth * PLAY_FIELD_RATIO
         }
 
-    };
+    }
 
 
     /**
@@ -69,9 +69,9 @@ domain.level.DimensionFactory = subclass(function (pt) {
      */
     pt.calcLeft = function () {
 
-        this.left = (this.width - this.bestWidth) / 2;
+        this.left = (this.width - this.bestWidth) / 2
 
-    };
+    }
 
 
     /**
@@ -81,14 +81,14 @@ domain.level.DimensionFactory = subclass(function (pt) {
      */
     pt.calc = function () {
 
-        this.calcBestArea();
-        this.calcLeft();
+        this.calcBestArea()
+        this.calcLeft()
 
-        this.UNIT = this.bestWidth / 4;
-        this.LEFT = this.left + this.UNIT / 2;
-        this.TOP = TOP_UI_HEIGHT;
+        this.UNIT = this.bestWidth / 4
+        this.LEFT = this.left + this.UNIT / 2
+        this.TOP = TOP_UI_HEIGHT
 
-    };
+    }
 
 
     /**
@@ -98,9 +98,9 @@ domain.level.DimensionFactory = subclass(function (pt) {
      */
     pt.topUIPosition = function () {
 
-        return new domain.level.Dimension({top: 0, left: this.left});
+        return new domain.level.Dimension({top: 0, left: this.left})
 
-    };
+    }
 
 
     /**
@@ -111,11 +111,11 @@ domain.level.DimensionFactory = subclass(function (pt) {
      */
     pt.gridPosition = function (x, y, w) {
 
-        var u = this.UNIT;
+        var u = this.UNIT
 
-        return new domain.level.Dimension({top: this.TOP + u * y, left: this.LEFT + u * x, unit: u, width: u * w});
+        return new domain.level.Dimension({top: this.TOP + u * y, left: this.LEFT + u * x, unit: u, width: u * w})
 
-    };
+    }
 
     /**
      * Returns the dimension for the field.
@@ -124,9 +124,9 @@ domain.level.DimensionFactory = subclass(function (pt) {
      */
     pt.fieldPosition = function () {
 
-        return this.gridPosition(0, 2, 3);
+        return this.gridPosition(0, 2, 3)
 
-    };
+    }
 
 
     /**
@@ -136,9 +136,9 @@ domain.level.DimensionFactory = subclass(function (pt) {
      */
     pt.evalRoomPosition = function () {
 
-        return this.gridPosition(0, 1, 2);
+        return this.gridPosition(0, 1, 2)
 
-    };
+    }
 
 
     /**
@@ -148,14 +148,14 @@ domain.level.DimensionFactory = subclass(function (pt) {
      */
     pt.queuePosition = function () {
 
-        var pos = this.gridPosition(1, 0, 1);
+        var pos = this.gridPosition(1, 0, 1)
 
-        pos.unit /= 2;
-        pos.left -= pos.unit / 4;
+        pos.unit /= 2
+        pos.left -= pos.unit / 4
 
-        return pos;
+        return pos
 
-    };
+    }
 
     /**
      * Returns the dimension for the fusion box.
@@ -164,14 +164,14 @@ domain.level.DimensionFactory = subclass(function (pt) {
      */
     pt.fusionBoxPosition = function () {
 
-        var pos = this.gridPosition(1, 1, 1);
+        var pos = this.gridPosition(1, 1, 1)
 
-        pos.unit /= 1.5;
-        pos.left -= pos.unit / 4;
+        pos.unit /= 1.5
+        pos.left -= pos.unit / 4
 
-        return pos;
+        return pos
 
-    };
+    }
 
 
     /**
@@ -181,9 +181,9 @@ domain.level.DimensionFactory = subclass(function (pt) {
      */
     pt.paperPosition = function () {
 
-        return new domain.level.Dimension({left: this.width / 2, top: this.TOP + this.UNIT * 4});
+        return new domain.level.Dimension({left: this.width / 2, top: this.TOP + this.UNIT * 4})
 
-    };
+    }
 
 
     /**
@@ -193,18 +193,18 @@ domain.level.DimensionFactory = subclass(function (pt) {
      */
     pt.resultPanePosition = function () {
 
-        var pos = this.gridPosition(0, 2, 3);
+        var pos = this.gridPosition(0, 2, 3)
 
-        pos.left = 15;
+        pos.left = 15
 
-        pos.height = pos.width;
-        pos.width = this.width;
+        pos.height = pos.width
+        pos.width = this.width
 
-        pos.width -= pos.left * 2;
+        pos.width -= pos.left * 2
 
-        return pos;
+        return pos
 
-    };
+    }
 
 
     /**
@@ -221,8 +221,8 @@ domain.level.DimensionFactory = subclass(function (pt) {
             width: this.bestWidth / 2,
             height: TOP_UI_HEIGHT
 
-        });
+        })
 
-    };
+    }
 
-});
+})

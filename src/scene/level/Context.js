@@ -5,7 +5,7 @@
  * @extends domain.common.Role
  */
 scene.level.Context = subclass(domain.common.Role, function (pt) {
-    'use strict';
+    'use strict'
 
     /**
      * Gets the menu button.
@@ -14,9 +14,9 @@ scene.level.Context = subclass(domain.common.Role, function (pt) {
      */
     pt.getMenuButton = function () {
 
-        return $('.menu-button-root').cc.get('menu-button');
+        return $('.menu-button-root').cc.get('menu-button')
 
-    };
+    }
 
     /**
      * Gets the field grid.
@@ -25,9 +25,9 @@ scene.level.Context = subclass(domain.common.Role, function (pt) {
      */
     pt.getField = function () {
 
-        return this.elem.find('.field-grid').cc.get('field-grid');
+        return this.elem.find('.field-grid').cc.get('field-grid')
 
-    };
+    }
 
     /**
      * Gets the character.
@@ -36,8 +36,8 @@ scene.level.Context = subclass(domain.common.Role, function (pt) {
      */
     pt.getCharacter = function () {
 
-        return this.elem.find('.character-on-level').cc.get('character-on-level');
-    };
+        return this.elem.find('.character-on-level').cc.get('character-on-level')
+    }
 
     /**
      * Gets the dimension factory.
@@ -46,11 +46,11 @@ scene.level.Context = subclass(domain.common.Role, function (pt) {
      */
     pt.getDimensionFactory = function () {
 
-        this.dimFactory = this.dimFactory || new domain.level.DimensionFactory();
+        this.dimFactory = this.dimFactory || new domain.level.DimensionFactory()
 
-        return this.dimFactory;
+        return this.dimFactory
 
-    };
+    }
 
     /**
      * Gets the ball
@@ -59,9 +59,9 @@ scene.level.Context = subclass(domain.common.Role, function (pt) {
      */
     pt.getBall = function () {
 
-        return this.elem.find('.ball').cc.get('ball');
+        return this.elem.find('.ball').cc.get('ball')
 
-    };
+    }
 
     /**
      * Gets the paper.
@@ -70,9 +70,9 @@ scene.level.Context = subclass(domain.common.Role, function (pt) {
      */
     pt.getPaper = function () {
 
-        return this.elem.find('.paper').cc.get('paper');
+        return this.elem.find('.paper').cc.get('paper')
 
-    };
+    }
 
     /**
      * Gets the scoreboard.
@@ -81,8 +81,8 @@ scene.level.Context = subclass(domain.common.Role, function (pt) {
      */
     pt.getScoreboard = function () {
 
-        return this.elem.find('.scoreboard').cc.get('scoreboard');
+        return this.elem.find('.scoreboard').cc.get('scoreboard')
 
-    };
+    }
 
-});
+})
