@@ -9,7 +9,7 @@
  * @extends domain.common.CharSprite
  */
 domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
-    'use strict';
+    'use strict'
 
     /**
      * Makes the character appear in the scene
@@ -19,26 +19,30 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
      */
     pt.appearAt = function (floorAsset) {
 
-        this.current = floorAsset;
+        this.current = floorAsset
 
-        this.x = floorAsset.centerX();
-        this.y = floorAsset.centerY();
+        this.x = floorAsset.x
+        this.y = floorAsset.y
 
-        var that = this;
+        var self = this
 
         return floorAsset.open().then(function () {
 
-            return that.appear();
+            return self.appear()
 
-        });
+        })
 
-    };
+    }
 
+    /**
+     * @param {$.Eevent} e The event
+     * @param {domain.map.FloorAsset} floorAsset The floor asset
+     */
     pt.doorKnock = function (e, floorAsset) {
 
-        this.moveToFloorAsset(floorAsset);
+        this.moveToFloorAsset(floorAsset)
 
-    }.event('door-knock');
+    }.event('door-knock')
 
 
     /**
@@ -48,18 +52,18 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
      */
     pt.characterGoto = function (e) {
 
-        this.character.position.floorId = e.goto.floorId;
-        this.character.position.floorObjectId = e.goto.floorObjectId;
+        this.character.position.floorId = e.goto.floorId
+        this.character.position.floorObjectId = e.goto.floorObjectId
 
-        var that = this;
+        var self = this
 
         this.saveCharacter().then(function () {
 
-            that.elem.trigger($.Event('sceneReload'));
+            self.elem.trigger($.Event('sceneReload'))
 
-        });
+        })
 
-    }.event('character-goto');
+    }.event('character-goto')
 
 
     /**
@@ -69,9 +73,9 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
      */
     pt.getPosition = function () {
 
-        return this.character.position;
+        return this.character.position
 
-    };
+    }
 
 
     /**
@@ -81,11 +85,11 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
      */
     pt.setFloorObjectId = function (floorObjectId) {
 
-        this.character.position.floorObjectId = floorObjectId;
+        this.character.position.floorObjectId = floorObjectId
 
-        this.saveCharacter();
+        this.saveCharacter()
 
-    };
+    }
 
 
     /**
@@ -93,9 +97,9 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
      */
     pt.saveCharacter = function () {
 
-        return this.characterRepository.save(this.character);
+        return this.characterRepository.save(this.character)
 
-    };
+    }
 
 
     /**
@@ -106,63 +110,63 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
      */
     pt.moveToFloorAsset = function (floorAsset) {
 
-        var that = this;
+        var self = this
 
-        var current = this.current;
+        var current = this.current
 
-        this.setFloorObjectId(floorAsset.id);
+        this.setFloorObjectId(floorAsset.id)
 
-        var goOutDur = 150;
-        var moveOnCorridor = 300;
-        var goIntoDur = goOutDur;
+        var goOutDur = 150
+        var moveOnCorridor = 300
+        var goIntoDur = goOutDur
 
-        var goOutDistance = 80;
+        var goOutDistance = 80
 
-        this.elem.trigger('character-focus', [current.centerX()]);
+        this.elem.trigger('character-focus', [current.x])
 
-        current.close();
+        current.close()
 
-        return this.moveTo('y', current.centerY() + goOutDistance, goOutDur).then(function () {
+        return this.moveTo('y', current.y + goOutDistance, goOutDur).then(function () {
 
-            that.elem.trigger('character-move', [floorAsset.centerX(), moveOnCorridor]);
+            self.elem.trigger('character-move', [floorAsset.x, moveOnCorridor])
 
-            floorAsset.open();
+            floorAsset.open()
 
-            return that.moveTo('x', floorAsset.centerX(), moveOnCorridor);
-
-        }).then(function () {
-
-            return that.moveTo('y', floorAsset.centerY(), goIntoDur);
+            return self.moveTo('x', floorAsset.x, moveOnCorridor)
 
         }).then(function () {
 
-            that.current = floorAsset;
+            return self.moveTo('y', floorAsset.y, goIntoDur)
 
-            floorAsset.onGetWalker(that);
+        }).then(function () {
 
-            return that.turn('down');
+            self.current = floorAsset
 
-        });
+            floorAsset.onGetWalker(self)
 
-    };
+            return self.turn('down')
+
+        })
+
+    }
 
 
     /**
      * Gets the character into the door.
      */
     pt.getIntoDoor = function () {
-        var that = this;
+        var self = this
 
-        this.turn('up');
+        this.turn('up')
 
         return this.disappear().then(function () {
 
-            return that.current.close();
+            return self.current.close()
 
-        });
-    };
+        })
+    }
 
-});
+})
 
 
-$.cc.assign('floor-walker', domain.map.FloorWalker);
+$.cc.assign('floor-walker', domain.map.FloorWalker)

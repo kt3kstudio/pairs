@@ -14,8 +14,8 @@ domain.map.FrogSprite = subclass(domain.common.StayRunSprite, function (pt, pare
     pt.leftStayImage = 'images/frog-stay.out.svg'
     pt.leftRunImage = 'images/frog-run.out.svg'
 
-    pt.awayDur = 400;
-    pt.awayAnimDur = 400;
+    pt.awayDur = 400
+    pt.awayAnimDur = 400
 
     pt.constructor = function () {
 

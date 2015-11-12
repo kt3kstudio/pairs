@@ -7,41 +7,34 @@
 domain.map.FloorAsset = subclass(domain.common.DimensionalBeing, function (pt, parent) {
     'use strict'
 
-    pt.constructor = function (elem) {
-
-        parent.constructor.call(this, elem)
-
-        this.x = +elem.attr('x')
-        this.y = +elem.attr('y')
-
-        this.dimension = new domain.common.Dimension({
-            width: this.getWidth(),
-            height: this.getHeight(),
-            ratioX: 0.5,
-            ratioY: 1
-        })
-
-        this.id = elem.attr('id')
-    }
-
+    /**
+     * @override
+     */
+    pt.width = 80
 
     /**
-     * Gets the width
-     *
-     * @return {Number}
+     * @override
      */
-    pt.getWidth = function () {
-        return 80
-    }
+    pt.height = 100
 
     /**
-     * Gets the height
-     *
-     * @return {Number}
+     * @override
      */
-    pt.getHeight = function () {
+    pt.ratioX = 0.5
 
-        return 100
+    /**
+     * @override
+     */
+    pt.ratioY = 1
+
+    pt.constructor = function () {
+
+        parent.constructor.apply(this, arguments)
+
+        this.x = +this.elem.attr('x')
+        this.y = +this.elem.attr('y')
+
+        this.id = this.elem.attr('id')
     }
 
 

@@ -6,7 +6,7 @@
  * @extends domain.common.DimensionalBeing
  */
 domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = subclass(domain.common.DimensionalBeing, function (pt, parent) {
-    'use strict';
+    'use strict'
 
     /**
      * @override
@@ -14,7 +14,7 @@ domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = sub
      *
      * The image sprite's center is at the center(x=0.5) bottom(y=1) of the image.
      */
-    pt.originX = 0.5;
+    pt.ratioX = 0.5
 
     /**
      * @override
@@ -22,33 +22,32 @@ domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = sub
      *
      * The image sprite's center is at the center(x=0.5) bottom(y=1) of the image.
      */
-    pt.originY = 1;
+    pt.ratioY = 1
 
     /**
      * @property {String} state The state
      */
-    pt.state = null;
+    pt.state = null
 
     /**
      * @property {Object} stateImage The map of state to image url. Object<Object<domain.common.Image>>
      */
-    pt.dirStateImage = null;
+    pt.dirStateImage = null
 
     /**
      * @property {String} dir The direction
      */
-    pt.dir = null;
-
+    pt.dir = null
 
     /**
      * @property {domain.common.Image} defaultImage sprite's default image
      */
-    pt.defaultImage = null;
+    pt.defaultImage = null
 
 
-    pt.defaultDir = 'down';
+    pt.defaultDir = 'down'
 
-    pt.defaultState = 'default';
+    pt.defaultState = 'default'
 
 
     /**
@@ -58,17 +57,17 @@ domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = sub
      */
     pt.willShow = function () {
 
-        parent.willShow.call(this);
+        parent.willShow.call(this)
 
-        var defaultDirImage = this.dirStateImage[this.defaultDir];
+        var defaultDirImage = this.dirStateImage[this.defaultDir]
 
         if (defaultDirImage != null && defaultDirImage[this.defaultState] != null) {
 
-            defaultDirImage[this.defaultState].apply(this.elem);
+            defaultDirImage[this.defaultState].apply(this.elem)
 
         }
 
-    };
+    }
 
 
     /**
@@ -79,27 +78,27 @@ domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = sub
      */
     pt.setDirState = function (dir, state) {
 
-        dir = dir || this.dir;
+        dir = dir || this.dir
 
-        state = state || this.state;
+        state = state || this.state
 
         if (!this.dirStateImage) {
 
-            throw new Error('no image mapping in sprite.');
+            throw new Error('no image mapping in sprite.')
 
         }
 
-        var img = this.dirStateImage[dir][state];
+        var img = this.dirStateImage[dir][state]
 
         if (!img) {
 
-            throw new Error('illegal (dir, state): (' + dir + ', ' + state + ')');
+            throw new Error('illegal (dir, state): (' + dir + ', ' + state + ')')
 
         }
 
-        this.applyImage(img);
+        this.applyImage(img)
 
-    };
+    }
 
     /**
      * Applies the image to the element.
@@ -109,8 +108,8 @@ domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = sub
      */
     pt.applyImage = function (img) {
 
-        img.apply(this.elem);
+        img.apply(this.elem)
 
-    };
+    }
 
-});
+})

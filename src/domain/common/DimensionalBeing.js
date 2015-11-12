@@ -27,6 +27,15 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
 
         parent.constructor.apply(this, arguments);
 
+        this.dimension = new domain.common.Dimension({
+            width: this.width,
+            height: this.height,
+            ratioX: this.ratioX,
+            ratioY: this.ratioY,
+            marginX: this.marginX,
+            marginY: this.marginY
+        })
+
         this.elem
         .css('position', 'absolute')
         .css('transition-timing-function', 'linear');
