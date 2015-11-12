@@ -6,28 +6,32 @@
  * @extends domain.common.DimensionalBeing
  */
 ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, parent) {
-    'use strict';
+    'use strict'
 
-    var MARGIN = 6;
+    pt.ratioX = 0
+    pt.ratioY = 0
+
+    pt.marginX = 6
+    pt.marginY = 6
 
     /**
      * @constructor
      */
     pt.constructor = function () {
 
-        parent.constructor.apply(this, arguments);
+        parent.constructor.apply(this, arguments)
 
-        this.score = 0;
+        this.score = 0
 
-    };
+    }
 
 
-    pt.showAnim = 'bom-appear';
-    pt.showAnimDur = 400;
-    pt.hideAnim = 'bom-disappear';
-    pt.hideAnimDur = 400;
+    pt.showAnim = 'bom-appear'
+    pt.showAnimDur = 400
+    pt.hideAnim = 'bom-disappear'
+    pt.hideAnimDur = 400
 
-    //pt.hideAnim = new domain.common.Animation('bom-disappear', {dur: 400});
+    //pt.hideAnim = new domain.common.Animation('bom-disappear', {dur: 400})
 
 
     /**
@@ -37,21 +41,13 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
      */
     pt.setDimension = function (dimension) {
 
-        this.dimension = dimension;
+        this.x = dimension.left
+        this.y = dimension.top
 
-        this.x = this.dimension.left;
-        this.y = this.dimension.top;
+        this.dimension.width = dimension.width
+        this.dimension.height = dimension.height
 
-        this.w = this.dimension.width;
-        this.h = this.dimension.height;
-
-        this.marginX = MARGIN;
-        this.marginY = MARGIN;
-
-        this.originX = 0;
-        this.originY = 0;
-
-    };
+    }
 
 
     /**
@@ -59,13 +55,13 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
      */
     pt.willShow = function () {
 
-        parent.willShow.call(this);
+        parent.willShow.call(this)
 
-        this.elem.css('line-height', this.h - this.marginY * 2 + 'px');
+        this.elem.css('line-height', this.dimension.actualHeight() + 'px')
 
-        this.update();
+        this.update()
 
-    };
+    }
 
 
     /**
@@ -73,9 +69,9 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
      */
     pt.update = function () {
 
-        this.elem.text(window.commaNumber(this.score));
+        this.elem.text(window.commaNumber(this.score))
 
-    };
+    }
 
     /**
      * Add the score to the total score.
@@ -84,11 +80,11 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
      */
     pt.addScore = function (score) {
 
-        this.score += score;
+        this.score += score
 
-        this.update();
+        this.update()
 
-    };
+    }
 
     /**
      * Gets the current score.
@@ -97,10 +93,10 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
      */
     pt.getScore = function () {
 
-        return this.score;
+        return this.score
 
-    };
+    }
 
-});
+})
 
-$.cc.assign('scoreboard', ui.level.Scoreboard);
+$.cc.assign('scoreboard', ui.level.Scoreboard)

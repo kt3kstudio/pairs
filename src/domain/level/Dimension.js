@@ -8,7 +8,7 @@
  * @class
  */
 domain.level.Dimension = subclass(function (pt) {
-    'use strict';
+    'use strict'
 
     /**
      * @constructor
@@ -19,52 +19,40 @@ domain.level.Dimension = subclass(function (pt) {
         /**
          * @property {Number} height The height
          */
-        this.height = obj.height;
+        this.height = obj.height
 
         /**
          * @property {Number} width The width
          */
-        this.width = obj.width;
+        this.width = obj.width
 
         /**
          * @property {Number} top The top offset
          */
-        this.top = obj.top;
+        this.top = obj.top
 
         /**
          * @property {Number} left The left offset
          */
-        this.left = obj.left;
+        this.left = obj.left
 
         /**
          * @property {Number} unit The unit of the (imaginary) belonging grid
          */
-        this.unit = obj.unit;
+        this.unit = obj.unit
 
-        this.originX = obj.originX;
-        this.originY = obj.originY;
+        this.originX = obj.originX
+        this.originY = obj.originY
 
-        this.gridUnitX = obj.gridUnitX;
-        this.gridUnitY = obj.gridUnitY;
+        this.gridUnitX = obj.gridUnitX
+        this.gridUnitY = obj.gridUnitY
 
-        this.gridX = obj.gridX;
-        this.gridY = obj.gridY;
+        this.gridX = obj.gridX
+        this.gridY = obj.gridY
 
-        this.marginX = obj.marginX;
-        this.marginY = obj.marginY;
+        this.marginX = obj.marginX
+        this.marginY = obj.marginY
 
-    };
+    }
 
-    pt.actualHeight = function () {
-
-        Math.max(0, this.height - this.marginY * 2);
-
-    };
-
-    pt.actualWidth = function () {
-
-        Math.max(0, this.width - this.marginX * 2);
-
-    };
-
-});
+})
