@@ -24,8 +24,8 @@ domain.level.Field = subclass(domain.common.DimensionalBeing, function (pt) {
         this.dimension.width = dimension.width
         this.dimension.height = dimension.width
 
-        this.marginX = -6
-        this.marginY = -6
+        this.dimension.marginX = -5
+        this.dimension.marginY = -5
 
     }
 
