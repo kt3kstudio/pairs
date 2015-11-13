@@ -15,9 +15,9 @@ domain.level.DimensionFactory = subclass(function (pt) {
     /**
      * @constructor
      */
-    pt.constructor = function () {
+    pt.constructor = function (width, height) {
 
-        this.calc()
+        this.calc(width, height)
 
     }
 
@@ -26,10 +26,10 @@ domain.level.DimensionFactory = subclass(function (pt) {
      *
      * @private
      */
-    pt.calcAvailableArea = function () {
+    pt.calcAvailableArea = function (width, height) {
 
-        var w = this.width = $(window).width()
-        var h = this.height = $(window).height()
+        var w = this.width = width
+        var h = this.height = height
 
         this.availableHeight = h - TOP_UI_HEIGHT - BOTTOM_UI_HEIGHT
         this.availableWidth = w
@@ -42,9 +42,9 @@ domain.level.DimensionFactory = subclass(function (pt) {
      *
      * @private
      */
-    pt.calcBestArea = function () {
+    pt.calcBestArea = function (width, height) {
 
-        this.calcAvailableArea()
+        this.calcAvailableArea(width, height)
 
         if (this.availableWidth * PLAY_FIELD_RATIO > this.availableHeight) {
 
@@ -79,9 +79,9 @@ domain.level.DimensionFactory = subclass(function (pt) {
      *
      * @private
      */
-    pt.calc = function () {
+    pt.calc = function (width, height) {
 
-        this.calcBestArea()
+        this.calcBestArea(width, height)
         this.calcLeft()
 
         this.UNIT = this.bestWidth / 4

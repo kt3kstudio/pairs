@@ -46,7 +46,7 @@ scene.level.Context = subclass(domain.common.Role, function (pt) {
      */
     pt.getDimensionFactory = function () {
 
-        this.dimFactory = this.dimFactory || new domain.level.DimensionFactory()
+        this.dimFactory = this.dimFactory || new domain.level.DimensionFactory($(window).width(), $(window).height())
 
         return this.dimFactory
 
