@@ -22,56 +22,49 @@ domain.level.DimensionFactory = subclass(function (pt) {
     }
 
     /**
-     * Calculates the available area in the current window.
+     * Gets the available area in the current window.
      *
      * @private
+     * @return {Object}
      */
-    pt.calcAvailableArea = function (width, height) {
+    pt.getAvailableArea = function (width, height) {
 
-        var w = this.width = width
-        var h = this.height = height
-
-        this.availableHeight = h - TOP_UI_HEIGHT - BOTTOM_UI_HEIGHT
-        this.availableWidth = w
-
-    }
-
-
-    /**
-     * Calculates the best fitting playable area for the level scene.
-     *
-     * @private
-     */
-    pt.calcBestArea = function (width, height) {
-
-        this.calcAvailableArea(width, height)
-
-        if (this.availableWidth * PLAY_FIELD_RATIO > this.availableHeight) {
-
-            // height dominant screen
-            this.bestWidth = this.availableHeight / PLAY_FIELD_RATIO
-            this.bestHeight = this.availableHeight
-
-        } else {
-
-            // width dominant screen
-            this.bestWidth = this.availableWidth
-            this.bestHeight = this.availableWidth * PLAY_FIELD_RATIO
+        return {
+            height: height - TOP_UI_HEIGHT - BOTTOM_UI_HEIGHT,
+            width: width
         }
 
     }
 
 
     /**
-     * Calculates the leftmost position.
+     * Gets the best fitting playable area for the level scene.
      *
      * @private
      */
-    pt.calcLeft = function () {
+    pt.getBestArea = function (width, height) {
 
-        this.left = (this.width - this.bestWidth) / 2
+        var available = this.getAvailableArea(width, height)
+
+        if (available.width * PLAY_FIELD_RATIO > available.height) {
+
+            // height dominant screen
+            return {
+                width: available.height / PLAY_FIELD_RATIO,
+                height: available.height
+            }
+
+        } else {
+
+            // width dominant screen
+            return {
+                width: available.width,
+                height: available.width * PLAY_FIELD_RATIO
+            }
+        }
 
     }
+
 
 
     /**
@@ -81,10 +74,11 @@ domain.level.DimensionFactory = subclass(function (pt) {
      */
     pt.calc = function (width, height) {
 
-        this.calcBestArea(width, height)
-        this.calcLeft()
+        var bestArea = this.getBestArea(width, height)
 
-        this.UNIT = this.bestWidth / 4
+        this.left = (width - bestArea.width) / 2
+
+        this.UNIT = bestArea.width / 4
         this.LEFT = this.left + this.UNIT / 2
         this.TOP = TOP_UI_HEIGHT
 
@@ -181,7 +175,7 @@ domain.level.DimensionFactory = subclass(function (pt) {
      */
     pt.paperPosition = function () {
 
-        return new domain.level.Dimension({left: this.width / 2, top: this.TOP + this.UNIT * 4})
+        return new domain.level.Dimension({left: this.LEFT + this.UNIT * 1.5, top: this.TOP + this.UNIT * 4})
 
     }
 
@@ -195,12 +189,10 @@ domain.level.DimensionFactory = subclass(function (pt) {
 
         var pos = this.gridPosition(0, 2, 3)
 
-        pos.left = 15
+        pos.left = this.left
 
         pos.height = pos.width
-        pos.width = this.width
-
-        pos.width -= pos.left * 2
+        pos.width = this.UNIT * 4
 
         return pos
 
@@ -218,7 +210,7 @@ domain.level.DimensionFactory = subclass(function (pt) {
 
             left: this.left,
             top: 0,
-            width: this.bestWidth / 2,
+            width: this.UNIT * 2,
             height: TOP_UI_HEIGHT
 
         })
