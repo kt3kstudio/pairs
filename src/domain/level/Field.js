@@ -6,25 +6,29 @@
  * @class
  */
 domain.level.Field = subclass(domain.common.DimensionalBeing, function (pt) {
-    'use strict';
+    'use strict'
 
-    pt.showAnim = 'field-appear';
-    pt.showAnimDur = 200;
+    pt.showAnim = 'field-appear'
+    pt.showAnimDur = 200
 
-    pt.hideAnim = 'field-disappear';
-    pt.hideAnimDur = 400;
+    pt.hideAnim = 'field-disappear'
+    pt.hideAnimDur = 400
 
+    /**
+     * @param {domain.level.Dimension} dimension The dimension of the position
+     */
     pt.setDimension = function (dimension) {
 
-        var gutter = 6;
+        this.x = dimension.left
+        this.y = dimension.top
+        this.dimension.width = dimension.width
+        this.dimension.height = dimension.width
 
-        this.x = dimension.left - gutter;
-        this.y = dimension.top - gutter;
-        this.w = dimension.width + gutter * 2;
-        this.h = dimension.width + gutter * 2;
+        this.marginX = -6
+        this.marginY = -6
 
-    };
+    }
 
-});
+})
 
-$.cc.assign('field-grid', domain.level.Field);
+$.cc.assign('field-grid', domain.level.Field)
