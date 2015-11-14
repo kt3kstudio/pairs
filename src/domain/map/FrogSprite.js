@@ -21,8 +21,8 @@ domain.map.FrogSprite = subclass(domain.common.StayRunSprite, function (pt, pare
 
         parent.constructor.apply(this, arguments)
 
-        this.x = 40
-        this.y = 100
+        this.x = 35
+        this.y = 110
 
         this.dimension = new domain.common.Dimension({
             width: 100,
