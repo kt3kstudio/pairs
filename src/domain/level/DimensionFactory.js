@@ -9,9 +9,6 @@ domain.level.DimensionFactory = subclass(function (pt) {
     var TOP_UI_HEIGHT = 50 // the height of the score board at the top
     var BOTTOM_UI_HEIGHT = 50 // the height of the banner ad at the bottom of the screen
 
-    // height / width
-    var PLAY_FIELD_RATIO = 6 / 4
-
     /**
      * @constructor
      */
@@ -22,17 +19,19 @@ domain.level.DimensionFactory = subclass(function (pt) {
     }
 
     /**
-     * Gets the available area in the current window.
+     * Gets the available dimension in the play scene.
      *
      * @private
      * @return {Object}
      */
-    pt.getAvailableArea = function (width, height) {
+    pt.getAvailableDimension = function (width, height) {
 
-        return {
-            height: height - TOP_UI_HEIGHT - BOTTOM_UI_HEIGHT,
-            width: width
-        }
+        return new domain.common.Dimension({
+            width: width,
+            height: height,
+            marginTop: TOP_UI_HEIGHT,
+            marginBottom: BOTTOM_UI_HEIGHT
+        })
 
     }
 
@@ -42,26 +41,14 @@ domain.level.DimensionFactory = subclass(function (pt) {
      *
      * @private
      */
-    pt.getBestArea = function (width, height) {
+    pt.getBestDimension = function (width, height) {
 
-        var available = this.getAvailableArea(width, height)
+        var available = this.getAvailableDimension(width, height)
 
-        if (available.width * PLAY_FIELD_RATIO > available.height) {
-
-            // height dominant screen
-            return {
-                width: available.height / PLAY_FIELD_RATIO,
-                height: available.height
-            }
-
-        } else {
-
-            // width dominant screen
-            return {
-                width: available.width,
-                height: available.width * PLAY_FIELD_RATIO
-            }
-        }
+        return new domain.common.Dimension({
+            width: 4,
+            height: 6
+        }).similarInnerTangent(available.actualWidth(), available.actualHeight())
 
     }
 
@@ -74,11 +61,11 @@ domain.level.DimensionFactory = subclass(function (pt) {
      */
     pt.calc = function (width, height) {
 
-        var bestArea = this.getBestArea(width, height)
+        var bestDim = this.getBestDimension(width, height)
 
-        this.left = (width - bestArea.width) / 2
+        this.left = (width - bestDim.actualWidth()) / 2
 
-        this.UNIT = bestArea.width / 4
+        this.UNIT = bestDim.actualWidth() / 4
         this.LEFT = this.left + this.UNIT / 2
         this.TOP = TOP_UI_HEIGHT
 
