@@ -32,10 +32,10 @@ domain.common.Dimension = subclass(function (pt) {
         this.marginX = obj.marginX || 0
         this.marginY = obj.marginY || 0
 
-        this.marginTop = obj.marginTop || this.marginY
-        this.marginRight = obj.marginRight || this.marginX
-        this.marginBottom = obj.marginBottom || this.marginY
-        this.marginLeft = obj.marginLeft || this.marginX
+        this.marginTop = obj.marginTop || 0
+        this.marginRight = obj.marginRight || 0
+        this.marginBottom = obj.marginBottom || 0
+        this.marginLeft = obj.marginLeft || 0
 
     }
 
@@ -46,7 +46,7 @@ domain.common.Dimension = subclass(function (pt) {
      */
     pt.actualHeight = function () {
 
-        return this.height - this.marginTop - this.marginBottom
+        return this.height - this.getMarginTop() - this.getMarginBottom()
 
     }
 
@@ -57,7 +57,51 @@ domain.common.Dimension = subclass(function (pt) {
      */
     pt.actualWidth = function () {
 
-        return this.width - this.marginLeft - this.marginRight
+        return this.width - this.getMarginLeft() - this.getMarginRight()
+
+    }
+
+    /**
+     * Returns the top margin.
+     *
+     * @return {Number}
+     */
+    pt.getMarginTop = function () {
+
+        return this.marginTop || this.marginY
+
+    }
+
+    /**
+     * Returns the right margin.
+     *
+     * @return {Number}
+     */
+    pt.getMarginRight = function () {
+
+        return this.marginRight || this.marginX
+
+    }
+
+    /**
+     * Returns the bottom margin.
+     *
+     * @return {Number}
+     */
+    pt.getMarginBottom = function () {
+
+        return this.marginBottom || this.marginY
+
+    }
+
+    /**
+     * Returns the left margin.
+     *
+     * @return {Number}
+     */
+    pt.getMarginLeft = function () {
+
+        return this.marginLeft || this.marginX
 
     }
 
@@ -69,7 +113,7 @@ domain.common.Dimension = subclass(function (pt) {
      */
     pt.topLimit = function (y) {
 
-        return y - this.height * this.ratioY + this.marginTop
+        return y - this.height * this.ratioY + this.getMarginTop()
 
     }
 
@@ -93,7 +137,7 @@ domain.common.Dimension = subclass(function (pt) {
      */
     pt.leftLimit = function (x) {
 
-        return x - this.width * this.ratioX + this.marginLeft
+        return x - this.width * this.ratioX + this.getMarginLeft()
 
     }
 
@@ -153,6 +197,8 @@ domain.common.Dimension = subclass(function (pt) {
             height: height,
             ratioX: this.ratioX,
             ratioY: this.ratioY,
+            marginX: this.marginX,
+            marginY: this.marginY,
             marginTop: this.marginTop,
             marginRight: this.marginRight,
             marginBottom: this.marginBottom,
