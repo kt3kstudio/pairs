@@ -16,6 +16,10 @@ domain.common.Dimension = subclass(function (pt) {
      * @param {Number} obj.ratioY The ratio of vertical position of the rectangle. ratioY == 0 means the top limit of the rectangle is x. ratioY == 1 means the bottom limit of the rectangle is x.
      * @param {Number} obj.marginX The horizontal margin
      * @param {Number} obj.marginY The vertical margin
+     * @param {Number} obj.marginTop The top margin
+     * @param {Number} obj.marginRight The right margin
+     * @param {Number} obj.marginBottom The bottom margin
+     * @param {Number} obj.marginLeft The left margin
      */
     pt.constructor = function (obj) {
 
@@ -28,6 +32,11 @@ domain.common.Dimension = subclass(function (pt) {
         this.marginX = obj.marginX || 0
         this.marginY = obj.marginY || 0
 
+        this.marginTop = obj.marginTop || this.marginY
+        this.marginRight = obj.marginRight || this.marginX
+        this.marginBottom = obj.marginBottom || this.marginY
+        this.marginLeft = obj.marginLeft || this.marginX
+
     }
 
     /**
@@ -37,7 +46,7 @@ domain.common.Dimension = subclass(function (pt) {
      */
     pt.actualHeight = function () {
 
-        return this.height - this.marginY * 2
+        return this.height - this.marginTop - this.marginBottom
 
     }
 
@@ -48,7 +57,7 @@ domain.common.Dimension = subclass(function (pt) {
      */
     pt.actualWidth = function () {
 
-        return this.width - this.marginX * 2
+        return this.width - this.marginLeft - this.marginRight
 
     }
 
@@ -60,7 +69,7 @@ domain.common.Dimension = subclass(function (pt) {
      */
     pt.topLimit = function (y) {
 
-        return y - this.height * this.ratioY + this.marginY
+        return y - this.height * this.ratioY + this.marginTop
 
     }
 
@@ -84,7 +93,7 @@ domain.common.Dimension = subclass(function (pt) {
      */
     pt.leftLimit = function (x) {
 
-        return x - this.width * this.ratioX + this.marginX
+        return x - this.width * this.ratioX + this.marginLeft
 
     }
 
@@ -144,8 +153,10 @@ domain.common.Dimension = subclass(function (pt) {
             height: height,
             ratioX: this.ratioX,
             ratioY: this.ratioY,
-            marginX: this.marginX,
-            marginY: this.marginY
+            marginTop: this.marginTop,
+            marginRight: this.marginRight,
+            marginBottom: this.marginBottom,
+            marginLeft: this.marginLeft
         })
 
     }
