@@ -125,26 +125,23 @@ domain.common.Dimension = subclass(function (pt) {
     }
 
     /**
-     * Returns an similar dimension which is the inner tangent rectangle's dimension of the rectangle of the given width and height.
+     * Returns an dimension of the similar rectangle which is the inner tangent of the rectangle of the given width and height.
      *
      * @param {Number} width The width of the target outer rectangle
      * @param {Number} height The height of the target outer rectangle
      * @return {domain.common.Dimension}
      */
-    pt.innerTangentSimilar = function (width, height) {
-
-        var scaledWidth = width
-        var scaledHeight = height
+    pt.similarInnerTangent = function (width, height) {
 
         if (width / height > this.width / this.height) {
-            scaledWidth *= this.width / this.height
+            width = height * this.width / this.height
         } else {
-            scaledHeight *= this.width / this.height
+            height = width * this.height / this.width
         }
 
         return new this.constructor({
-            width: scaledWidth,
-            height: scaledHeight,
+            width: width,
+            height: height,
             ratioX: this.ratioX,
             ratioY: this.ratioY,
             marginX: this.marginX,
@@ -161,7 +158,7 @@ domain.common.Dimension = subclass(function (pt) {
      */
     pt.fitInto = function (width, height) {
 
-        var innerTangent = this.innerTangent(width, height)
+        var innerTangent = this.similarInnerTangent(width, height)
 
         this.width = innerTangent.width
         this.height = innerTangent.height
