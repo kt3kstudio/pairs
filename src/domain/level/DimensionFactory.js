@@ -153,7 +153,7 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
             left: this.main.left,
             top: 0,
             width: this.UNIT * 2,
-            height: TOP_UI_HEIGHT
+            height: this.top
 
         })
 

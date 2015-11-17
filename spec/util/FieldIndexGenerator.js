@@ -20,7 +20,7 @@ describe('FieldIndexGenerator', function () {
 
     })
 
-    it("generates the list of indices which doesn't contain used items", function () {
+    it('generates the list of indices which doesn\'t contain used items', function () {
       var fig = new util.FieldIndexGenerator()
 
       var list = fig.generate(7, [[0, 0], [1, 0], [2, 0]])
