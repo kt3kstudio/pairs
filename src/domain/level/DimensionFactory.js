@@ -12,9 +12,21 @@ domain.level.DimensionFactory = subclass(function (pt) {
     /**
      * @constructor
      */
-    pt.constructor = function (width, height) {
+    pt.constructor = function () {
 
-        this.calc(width, height)
+        this.top = TOP_UI_HEIGHT
+        this.right = 0
+        this.bottom = BOTTOM_UI_HEIGHT
+        this.left = 0
+
+        this.widthRate = 4
+        this.heightRate = 6
+
+        this.calc()
+
+        this.UNIT = this.main.width / 4
+        this.LEFT = this.main.left + this.main.width / 8
+        this.TOP = this.main.top
 
     }
 
@@ -22,15 +34,19 @@ domain.level.DimensionFactory = subclass(function (pt) {
      * Gets the available dimension in the play scene.
      *
      * @private
-     * @return {Object}
+     * @param {Number} width The width of the target area
+     * @param {Number} height The height of the target area
+     * @return {domain.common.Dimension}
      */
     pt.getAvailableDimension = function (width, height) {
 
         return new domain.common.Dimension({
             width: width,
             height: height,
-            marginTop: TOP_UI_HEIGHT,
-            marginBottom: BOTTOM_UI_HEIGHT
+            marginTop: this.top,
+            marginRight: this.right,
+            marginBottom: this.bottom,
+            marginLeft: this.left
         })
 
     }
@@ -40,14 +56,14 @@ domain.level.DimensionFactory = subclass(function (pt) {
      * Gets the best fitting playable area for the level scene.
      *
      * @private
+     * @param {domain.common.Dimension}
+     * @return {domain.common.Dimension}
      */
-    pt.getBestDimension = function (width, height) {
-
-        var available = this.getAvailableDimension(width, height)
+    pt.getBestDimension = function (available) {
 
         return new domain.common.Dimension({
-            width: 4,
-            height: 6
+            width: this.widthRate,
+            height: this.heightRate
         }).similarInnerTangent(available.actualWidth(), available.actualHeight())
 
     }
@@ -61,13 +77,18 @@ domain.level.DimensionFactory = subclass(function (pt) {
      */
     pt.calc = function (width, height) {
 
-        var bestDim = this.getBestDimension(width, height)
+        var available = this.getAvailableDimension($(window).width(), $(window).height())
 
-        this.left = (width - bestDim.actualWidth()) / 2
+        var bestDim = this.getBestDimension(available)
 
-        this.UNIT = bestDim.actualWidth() / 4
-        this.LEFT = this.left + this.UNIT / 2
-        this.TOP = TOP_UI_HEIGHT
+        this.main = {}
+
+        this.main.top = this.top + (available.actualHeight() - bestDim.actualHeight()) / 2
+        this.main.left = this.left + (available.actualWidth() - bestDim.actualWidth()) / 2
+        this.main.bottom = this.main.top + bestDim.actualHeight()
+        this.main.right = this.main.left + bestDim.actualWidth()
+        this.main.width = bestDim.actualWidth()
+        this.main.height = bestDim.actualHeight()
 
     }
 
@@ -79,7 +100,7 @@ domain.level.DimensionFactory = subclass(function (pt) {
      */
     pt.topUIPosition = function () {
 
-        return new domain.level.Dimension({top: 0, left: this.left})
+        return new domain.level.Dimension({top: 0, left: this.main.left})
 
     }
 
@@ -176,7 +197,7 @@ domain.level.DimensionFactory = subclass(function (pt) {
 
         var pos = this.gridPosition(0, 2, 3)
 
-        pos.left = this.left
+        pos.left = this.main.left
 
         pos.height = pos.width
         pos.width = this.UNIT * 4
@@ -195,7 +216,7 @@ domain.level.DimensionFactory = subclass(function (pt) {
 
         return new domain.level.Dimension({
 
-            left: this.left,
+            left: this.main.left,
             top: 0,
             width: this.UNIT * 2,
             height: TOP_UI_HEIGHT
