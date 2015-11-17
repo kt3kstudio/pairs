@@ -9,7 +9,7 @@ describe('domain.map.FloorAsset', function () {
 
     beforeEach(function () {
 
-        this.$dom = $('<div w="100" h="80" x="200" y="300" id="abc" />');
+        this.$dom = $('<div x="200" y="300" id="abc" />');
         this.$dom.appendTo(document.body);
 
         floorAsset = new domain.map.FloorAsset(this.$dom);
@@ -32,8 +32,6 @@ describe('domain.map.FloorAsset', function () {
 
         it('gets w, h, x, y and id properties from the given dom', function () {
 
-            expect(floorAsset.w).to.equal(100);
-            expect(floorAsset.h).to.equal(80);
             expect(floorAsset.x).to.equal(200);
             expect(floorAsset.y).to.equal(300);
             expect(floorAsset.id).to.equal('abc');
@@ -78,7 +76,7 @@ describe('domain.map.FloorAsset', function () {
 
         it('returns the center y-axis coodinate', function () {
 
-            expect(floorAsset.centerY()).to.equal(300);
+            expect(floorAsset.centerY()).to.equal(250);
 
         });
 

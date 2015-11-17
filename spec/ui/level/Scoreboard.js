@@ -31,14 +31,10 @@ describe('Scoreboard', function () {
                 height: 200
             });
 
-            expect(scoreboard.x).to.exist;
-            expect(scoreboard.y).to.exist;
-            expect(scoreboard.w).to.exist;
-            expect(scoreboard.h).to.exist;
-            expect(scoreboard.marginX).to.exist;
-            expect(scoreboard.marginY).to.exist;
-            expect(scoreboard.originX).to.exist;
-            expect(scoreboard.originY).to.exist;
+            expect(scoreboard.x).to.equal(0);
+            expect(scoreboard.y).to.equal(0);
+            expect(scoreboard.dimension.width).to.equal(100);
+            expect(scoreboard.dimension.height).to.equal(200);
 
         });
 

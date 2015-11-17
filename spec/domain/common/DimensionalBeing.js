@@ -16,8 +16,8 @@ describe('DimensionalBeing', function () {
 
         dim.x = 30;
         dim.y = 40;
-        dim.w = 10;
-        dim.h = 20;
+        dim.dimension.width = 10;
+        dim.dimension.height = 20;
 
     });
 
