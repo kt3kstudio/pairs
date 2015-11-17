@@ -4,219 +4,193 @@
  * @class
  */
 ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
-    'use strict';
+  'use strict'
 
-    var TRANS_DUR = 800;
+  var TRANS_DUR = 800
 
-    var R = 60;
+  var R = 60
 
-    var itemOffsets = function (offset, num) {
+  var itemOffsets = function (offset, num) {
+    var result = []
 
-        var result = [];
+    var gutter = Math.PI / 4 / num / num
 
-        var gutter = Math.PI / 4 / num / num;
+    var urad = num > 1 ? (Math.PI / 2 - gutter * 2) / (num - 1) : 0
 
-        var urad = num > 1 ? (Math.PI / 2 - gutter * 2) / (num - 1) : 0;
+    var r = R * Math.sqrt(num)
 
-        var r = R * Math.sqrt(num);
+    for (var i = 0; i < num; i++) {
+      var rad = urad * i
+      var cos = r * Math.cos(rad + gutter)
+      var sin = r * Math.sin(rad + gutter)
 
-        for (var i = 0; i < num; i++) {
-            var rad = urad * i;
-            var cos = r * Math.cos(rad + gutter);
-            var sin = r * Math.sin(rad + gutter);
+      var res = {left: offset.left + cos, top: offset.top - sin}
+      result.push(res)
+    }
 
-            var res = {left: offset.left + cos, top: offset.top - sin};
-            result.push(res);
-        }
+    return result
 
-        return result;
+  }
 
-    };
+  pt.constructor = function () {
+    parent.constructor.apply(this, arguments)
 
-    pt.constructor = function () {
+    this.closed = true
 
-        parent.constructor.apply(this, arguments);
+    this.menus = this.getMenuItemSource().map(function (menu) {
+      return this.createMenuItem(menu)
 
-        this.closed = true;
+    }, this)
 
-        this.menus = this.getMenuItemSource().map(function (menu) {
+  }
 
-            return this.createMenuItem(menu);
+  /**
+   * Gets item source doms.
+   *
+   * @return {jQuery[]}
+   */
+  pt.getMenuItemSource = function () {
+    if (this.elem.data('menu')) {
+      return this.elem.data('menu')
 
-        }, this);
+    }
 
-    };
+    if (this.elem.attr('menu')) {
+      return $('#' + this.elem.attr('menu')).children().toArray()
 
+    }
 
-    /**
-     * Gets item source doms.
-     *
-     * @return {jQuery[]}
-     */
-    pt.getMenuItemSource = function () {
+    throw new Error('no menu')
 
-        if (this.elem.data('menu')) {
+  }
 
-            return this.elem.data('menu');
+  /**
+   * Sets the offset.
+   *
+   * @param {Number} offset.left The left offset
+   * @param {Number} offset.top The top offset
+   */
+  pt.setOffset = function (offset) {
+    this.menus.forEach(function (menu) {
+      menu.setOffset(offset)
 
-        }
+    })
 
-        if (this.elem.attr('menu')) {
+  }
 
-            return $('#' + this.elem.attr('menu')).children().toArray();
+  /**
+   * Shows the menu button.
+   *
+   * @return {Promise}
+   */
+  pt.show = function () {
+    this.elem.removeClass('hidden')
 
-        }
+    var that = this
 
-        throw new Error('no menu');
+    return wait(TRANS_DUR).then(function () {
+      that.setOffset(that.elem.offset())
 
-    };
+    })
+  }
 
+  /**
+   * Hides the menu button.
+   *
+   * @return {Promise}
+   */
+  pt.hide = function () {
+    var that = this
 
-    /**
-     * Sets the offset.
-     *
-     * @param {Number} offset.left The left offset
-     * @param {Number} offset.top The top offset
-     */
-    pt.setOffset = function (offset) {
+    return this.closeMenu().then(function () {
+      return wait(300)
 
-        this.menus.forEach(function (menu) {
+    }).then(function () {
+      that.elem.addClass('hidden')
 
-            menu.setOffset(offset);
+      return wait(TRANS_DUR)
 
-        });
+    })
+  }
 
-    };
+  /**
+   * Opens the menu.
+   *
+   * @return {Promise}
+   */
+  pt.openMenu = function () {
+    this.closed = false
 
-    /**
-     * Shows the menu button.
-     *
-     * @return {Promise}
-     */
-    pt.show = function () {
+    var toOffsets = itemOffsets(this.elem.offset(), this.menus.length)
 
-        this.elem.removeClass('hidden');
+    return Promise.all(this.menus.map(function (menu, i) {
+      return wait(50 * i).then(function () {
+        return menu.show(toOffsets[i])
 
-        var that = this;
+      })
 
-        return wait(TRANS_DUR).then(function () {
+    }))
 
-            that.setOffset(that.elem.offset());
+  }
 
-        });
-    };
+  /**
+   * Closes the menu.
+   *
+   * @return {Promise}
+   */
+  pt.closeMenu = function (offset) {
+    if (this.closed) {
+      return Promise.resolve()
 
-    /**
-     * Hides the menu button.
-     *
-     * @return {Promise}
-     */
-    pt.hide = function () {
+    }
 
-        var that = this;
+    this.closed = true
 
-        return this.closeMenu().then(function () {
+    offset = offset || this.elem.offset()
 
-            return wait(300);
+    return Promise.all(this.menus.map(function (menu) {
+      return menu.hide(offset)
 
-        }).then(function () {
+    }))
 
-            that.elem.addClass('hidden');
+  }
 
-            return wait(TRANS_DUR);
+  /**
+   * Toggles the menu's open/close state.
+   */
+  pt.toggleMenu = function () {
+    if (this.closed) {
+      return this.openMenu()
+    }
 
-        });
-    };
+    return this.closeMenu()
 
-    /**
-     * Opens the menu.
-     *
-     * @return {Promise}
-     */
-    pt.openMenu = function () {
+  }.event('click')
 
-        this.closed = false;
+  /**
+   * Creates a menu item from menu source item.
+   *
+   * @private
+   * @param {jQuery} menu
+   */
+  pt.createMenuItem = function (menu) {
+    menu = $(menu)
 
-        var toOffsets = itemOffsets(this.elem.offset(), this.menus.length);
+    return $('<img />', {
+      attr: {
+        src: menu.attr('src')
+      },
+      addClass: 'hidden',
+      insertBefore: this.elem,
+      data: {
+        menu: menu.children().toArray(),
+        onclick: menu.attr('onclick')
+      }
 
-        return Promise.all(this.menus.map(function (menu, i) {
+    }).cc.init('menu-item')
 
-            return wait(50 * i).then(function () {
+  }
 
-                return menu.show(toOffsets[i]);
+})
 
-            });
-
-        }));
-
-    };
-
-    /**
-     * Closes the menu.
-     *
-     * @return {Promise}
-     */
-    pt.closeMenu = function (offset) {
-
-        if (this.closed) {
-
-            return Promise.resolve();
-
-        }
-
-        this.closed = true;
-
-        offset = offset || this.elem.offset();
-
-        return Promise.all(this.menus.map(function (menu) {
-
-            return menu.hide(offset);
-
-        }));
-
-    };
-
-    /**
-     * Toggles the menu's open/close state.
-     */
-    pt.toggleMenu = function () {
-
-        if (this.closed) {
-
-            return this.openMenu();
-        }
-
-        return this.closeMenu();
-
-    }.event('click');
-
-    /**
-     * Creates a menu item from menu source item.
-     *
-     * @private
-     * @param {jQuery} menu
-     */
-    pt.createMenuItem = function (menu) {
-
-        menu = $(menu);
-
-        return $('<img />', {
-
-            attr: {
-                src: menu.attr('src')
-            },
-            addClass: 'hidden',
-            insertBefore: this.elem,
-            data: {
-                menu: menu.children().toArray(),
-                onclick: menu.attr('onclick')
-            }
-
-        }).cc.init('menu-item');
-
-    };
-
-});
-
-
-$.cc.assign('menu-button', ui.common.MenuButton);
+$.cc.assign('menu-button', ui.common.MenuButton)

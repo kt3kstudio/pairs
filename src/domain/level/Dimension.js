@@ -1,5 +1,3 @@
-
-
 /**
  * Dimension class shows the way to layout the element.
  *
@@ -8,51 +6,50 @@
  * @class
  */
 domain.level.Dimension = subclass(function (pt) {
-    'use strict'
+  'use strict'
+
+  /**
+   * @constructor
+   * @param {Object} obj
+   */
+  pt.constructor = function (obj) {
+    /**
+     * @property {Number} height The height
+     */
+    this.height = obj.height
 
     /**
-     * @constructor
-     * @param {Object} obj
+     * @property {Number} width The width
      */
-    pt.constructor = function (obj) {
+    this.width = obj.width
 
-        /**
-         * @property {Number} height The height
-         */
-        this.height = obj.height
+    /**
+     * @property {Number} top The top offset
+     */
+    this.top = obj.top
 
-        /**
-         * @property {Number} width The width
-         */
-        this.width = obj.width
+    /**
+     * @property {Number} left The left offset
+     */
+    this.left = obj.left
 
-        /**
-         * @property {Number} top The top offset
-         */
-        this.top = obj.top
+    /**
+     * @property {Number} unit The unit of the (imaginary) belonging grid
+     */
+    this.unit = obj.unit
 
-        /**
-         * @property {Number} left The left offset
-         */
-        this.left = obj.left
+    this.originX = obj.originX
+    this.originY = obj.originY
 
-        /**
-         * @property {Number} unit The unit of the (imaginary) belonging grid
-         */
-        this.unit = obj.unit
+    this.gridUnitX = obj.gridUnitX
+    this.gridUnitY = obj.gridUnitY
 
-        this.originX = obj.originX
-        this.originY = obj.originY
+    this.gridX = obj.gridX
+    this.gridY = obj.gridY
 
-        this.gridUnitX = obj.gridUnitX
-        this.gridUnitY = obj.gridUnitY
+    this.marginX = obj.marginX
+    this.marginY = obj.marginY
 
-        this.gridX = obj.gridX
-        this.gridY = obj.gridY
-
-        this.marginX = obj.marginX
-        this.marginY = obj.marginY
-
-    }
+  }
 
 })

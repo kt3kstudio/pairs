@@ -1,25 +1,19 @@
-
-
-
 domain.level.Character = subclass(domain.common.CharSprite, function (pt, parent) {
-    'use strict';
+  'use strict'
 
+  pt.willShow = function () {
+    parent.willShow.call(this)
 
-    pt.willShow = function () {
+    this.elem.css('display', 'inline')
+  }
 
-        parent.willShow.call(this);
+  pt.didHide = function () {
+    parent.didHide.call(this)
 
-        this.elem.css('display', 'inline');
-    };
+    this.elem.css('display', 'none')
 
-    pt.didHide = function () {
+  }
 
-        parent.didHide.call(this);
+})
 
-        this.elem.css('display', 'none');
-
-    };
-
-});
-
-$.cc.assign('character-on-level', domain.level.Character);
+$.cc.assign('character-on-level', domain.level.Character)

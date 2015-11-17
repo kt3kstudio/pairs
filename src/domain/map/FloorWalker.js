@@ -1,5 +1,3 @@
-
-
 /**
  * FloorWalker is the role of CharSprite which handles the behaviours of the character on the floor.
  *
@@ -9,164 +7,144 @@
  * @extends domain.common.CharSprite
  */
 domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
-    'use strict'
+  'use strict'
 
-    /**
-     * Makes the character appear in the scene
-     *
-     * @param {domain.map.FloorAsset} floorAsset The wall object
-     * @return {Promise}
-     */
-    pt.appearAt = function (floorAsset) {
+  /**
+   * Makes the character appear in the scene
+   *
+   * @param {domain.map.FloorAsset} floorAsset The wall object
+   * @return {Promise}
+   */
+  pt.appearAt = function (floorAsset) {
+    this.current = floorAsset
 
-        this.current = floorAsset
+    this.x = floorAsset.x
+    this.y = floorAsset.y
 
-        this.x = floorAsset.x
-        this.y = floorAsset.y
+    var self = this
 
-        var self = this
+    return floorAsset.open().then(function () {
+      return self.appear()
 
-        return floorAsset.open().then(function () {
+    })
 
-            return self.appear()
+  }
 
-        })
+  /**
+   * @param {$.Eevent} e The event
+   * @param {domain.map.FloorAsset} floorAsset The floor asset
+   */
+  pt.doorKnock = function (e, floorAsset) {
+    this.moveToFloorAsset(floorAsset)
 
-    }
+  }.event('door-knock')
 
-    /**
-     * @param {$.Eevent} e The event
-     * @param {domain.map.FloorAsset} floorAsset The floor asset
-     */
-    pt.doorKnock = function (e, floorAsset) {
+  /**
+   * Character goes to another floor.
+   *
+   * @param {Event} e The event object
+   */
+  pt.characterGoto = function (e) {
+    this.character.position.floorId = e.goto.floorId
+    this.character.position.floorObjectId = e.goto.floorObjectId
 
-        this.moveToFloorAsset(floorAsset)
+    var self = this
 
-    }.event('door-knock')
+    this.saveCharacter().then(function () {
+      self.elem.trigger($.Event('sceneReload'))
 
+    })
 
-    /**
-     * Character goes to another floor.
-     *
-     * @param {Event} e The event object
-     */
-    pt.characterGoto = function (e) {
+  }.event('character-goto')
 
-        this.character.position.floorId = e.goto.floorId
-        this.character.position.floorObjectId = e.goto.floorObjectId
+  /**
+   * Gets the character's position.
+   *
+   * @return {datadomain.CharPosition}
+   */
+  pt.getPosition = function () {
+    return this.character.position
 
-        var self = this
+  }
 
-        this.saveCharacter().then(function () {
+  /**
+   * Sets the floor object id.
+   *
+   * @param {String} floorObjectId The floor object id
+   */
+  pt.setFloorObjectId = function (floorObjectId) {
+    this.character.position.floorObjectId = floorObjectId
 
-            self.elem.trigger($.Event('sceneReload'))
+    this.saveCharacter()
 
-        })
+  }
 
-    }.event('character-goto')
+  /**
+   * Saves the character data.
+   */
+  pt.saveCharacter = function () {
+    return this.characterRepository.save(this.character)
 
+  }
 
-    /**
-     * Gets the character's position.
-     *
-     * @return {datadomain.CharPosition}
-     */
-    pt.getPosition = function () {
+  /**
+   * Moves the character sprite to wall object
+   *
+   * @param {domain.map.FloorAsset} floorAsset The wall object to go to
+   * @return {Promise}
+   */
+  pt.moveToFloorAsset = function (floorAsset) {
+    var self = this
 
-        return this.character.position
+    var current = this.current
 
-    }
+    this.setFloorObjectId(floorAsset.id)
 
+    var goOutDur = 150
+    var moveOnCorridor = 300
+    var goIntoDur = goOutDur
 
-    /**
-     * Sets the floor object id.
-     *
-     * @param {String} floorObjectId The floor object id
-     */
-    pt.setFloorObjectId = function (floorObjectId) {
+    var goOutDistance = 80
 
-        this.character.position.floorObjectId = floorObjectId
+    this.elem.trigger('character-focus', [current.x])
 
-        this.saveCharacter()
+    current.close()
 
-    }
+    return this.moveTo('y', current.y + goOutDistance, goOutDur).then(function () {
+      self.elem.trigger('character-move', [floorAsset.x, moveOnCorridor])
 
+      floorAsset.open()
 
-    /**
-     * Saves the character data.
-     */
-    pt.saveCharacter = function () {
+      return self.moveTo('x', floorAsset.x, moveOnCorridor)
 
-        return this.characterRepository.save(this.character)
+    }).then(function () {
+      return self.moveTo('y', floorAsset.y, goIntoDur)
 
-    }
+    }).then(function () {
+      self.current = floorAsset
 
+      floorAsset.onGetWalker(self)
 
-    /**
-     * Moves the character sprite to wall object
-     *
-     * @param {domain.map.FloorAsset} floorAsset The wall object to go to
-     * @return {Promise}
-     */
-    pt.moveToFloorAsset = function (floorAsset) {
+      return self.turn('down')
 
-        var self = this
+    })
 
-        var current = this.current
+  }
 
-        this.setFloorObjectId(floorAsset.id)
+  /**
+   * Gets the character into the door.
+   */
+  pt.getIntoDoor = function () {
+    var self = this
 
-        var goOutDur = 150
-        var moveOnCorridor = 300
-        var goIntoDur = goOutDur
+    this.turn('up')
 
-        var goOutDistance = 80
+    return this.disappear().then(function () {
+      return self.current.close()
 
-        this.elem.trigger('character-focus', [current.x])
-
-        current.close()
-
-        return this.moveTo('y', current.y + goOutDistance, goOutDur).then(function () {
-
-            self.elem.trigger('character-move', [floorAsset.x, moveOnCorridor])
-
-            floorAsset.open()
-
-            return self.moveTo('x', floorAsset.x, moveOnCorridor)
-
-        }).then(function () {
-
-            return self.moveTo('y', floorAsset.y, goIntoDur)
-
-        }).then(function () {
-
-            self.current = floorAsset
-
-            floorAsset.onGetWalker(self)
-
-            return self.turn('down')
-
-        })
-
-    }
-
-
-    /**
-     * Gets the character into the door.
-     */
-    pt.getIntoDoor = function () {
-        var self = this
-
-        this.turn('up')
-
-        return this.disappear().then(function () {
-
-            return self.current.close()
-
-        })
-    }
+    })
+  }
 
 })
-
 
 $.cc.assign('floor-walker', domain.map.FloorWalker)

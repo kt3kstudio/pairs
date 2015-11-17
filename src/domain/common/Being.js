@@ -1,6 +1,3 @@
-
-
-
 /**
  * Actor with visual representation which has the phases, such as show/hide, appear/disappear.
  *
@@ -8,130 +5,113 @@
  * @extends domain.common.Actor
  */
 domain.common.Being = subclass($.cc.Actor, function (pt) {
-    'use strict';
+  'use strict'
 
-    var noop = function () {};
+  var noop = function () {}
 
-    /**
-     * @property {String} showAnim The animation name this elem showing with
-     */
-    pt.showAnim = null;
-    pt.showAnimDur = 500; // default 500ms
+  /**
+   * @property {String} showAnim The animation name this elem showing with
+   */
+  pt.showAnim = null
+  pt.showAnimDur = 500 // default 500ms
 
-    pt.willShow = noop;
-    pt.didShow = noop;
+  pt.willShow = noop
+  pt.didShow = noop
 
-    /**
-     * 表示時アニメーションプロパティ (showAnim, showAnimDur) に従ってアニメーションさせる。
-     *
-     * 事前に willShow hook, 事後に didShow hook を呼び出す。
-     *
-     * @return {Promise}
-     */
-    pt.show = function () {
+  /**
+   * 表示時アニメーションプロパティ (showAnim, showAnimDur) に従ってアニメーションさせる。
+   *
+   * 事前に willShow hook, 事後に didShow hook を呼び出す。
+   *
+   * @return {Promise}
+   */
+  pt.show = function () {
+    var that = this
 
-        var that = this;
+    return Promise.resolve(that.willShow()).then(function () {
+      if (that.showAnim && that.showAnimDur) {
+        return that.elem.anim(that.showAnim, that.showAnimDur)
 
-        return Promise.resolve(that.willShow()).then(function () {
+      }
 
-            if (that.showAnim && that.showAnimDur) {
+    }).then(function () {
+      return that.didShow()
 
-                return that.elem.anim(that.showAnim, that.showAnimDur);
+    })
 
-            }
+  }
 
-        }).then(function () {
+  pt.hideAnim = null
+  pt.hideAnimDur = 500 // default 500ms
 
-            return that.didShow();
+  pt.willHide = noop
+  pt.didHide = noop
 
-        });
+  /**
+   * 非表示時アニメーションプロパティ (showAnim, showAnimDur) に従ってアニメーションさせる。
+   *
+   * 事前に willHide hook, 事後に didHide hook を呼び出す。
+   *
+   * @return {Promise}
+   */
+  pt.hide = function () {
+    var that = this
 
-    };
+    return Promise.resolve(that.willHide()).then(function () {
+      if (that.hideAnim && that.hideAnimDur) {
+        return that.elem.anim(that.hideAnim, that.hideAnimDur)
 
-    pt.hideAnim = null;
-    pt.hideAnimDur = 500; // default 500ms
+      }
 
-    pt.willHide = noop;
-    pt.didHide = noop;
+    }).then(function () {
+      return that.didHide()
 
-    /**
-     * 非表示時アニメーションプロパティ (showAnim, showAnimDur) に従ってアニメーションさせる。
-     *
-     * 事前に willHide hook, 事後に didHide hook を呼び出す。
-     *
-     * @return {Promise}
-     */
-    pt.hide = function () {
+    })
 
-        var that = this;
+  }
 
-        return Promise.resolve(that.willHide()).then(function () {
+  pt.willAppear = noop
+  pt.didAppear = noop
 
-            if (that.hideAnim && that.hideAnimDur) {
+  pt.appear = function () {
+    var that = this
 
-                return that.elem.anim(that.hideAnim, that.hideAnimDur);
+    return Promise.resolve(that.willAppear()).then(function () {
+      return that.show()
 
-            }
+    }).then(function () {
+      return that.didAppear()
 
-        }).then(function () {
+    })
 
-            return that.didHide();
+  }
 
-        });
+  pt.willDisappear = noop
+  pt.didDisappear = noop
 
-    };
+  pt.disappear = function () {
+    var that = this
 
-    pt.willAppear = noop;
-    pt.didAppear = noop;
+    return Promise.resolve(that.willDisappear()).then(function () {
+      return that.hide()
 
-    pt.appear = function () {
+    }).then(function () {
+      return that.didDisappear()
 
-        var that = this;
+    }).then(function () {
+      that.elem.remove()
 
-        return Promise.resolve(that.willAppear()).then(function () {
+    })
+  }
 
-            return that.show();
+  /**
+   * Sets the transition duration of the element.
+   *
+   * @param {Number} dur The duration
+   */
+  pt.setDuration = function (dur) {
+    this.elem.css('transition-duration', dur + 'ms').reflow()
 
-        }).then(function () {
+  }
 
-            return that.didAppear();
-
-        });
-
-    };
-
-    pt.willDisappear = noop;
-    pt.didDisappear = noop;
-
-    pt.disappear = function () {
-
-        var that = this;
-
-        return Promise.resolve(that.willDisappear()).then(function () {
-
-            return that.hide();
-
-        }).then(function () {
-
-            return that.didDisappear();
-
-        }).then(function () {
-
-            that.elem.remove();
-
-        });
-    };
-
-
-    /**
-     * Sets the transition duration of the element.
-     *
-     * @param {Number} dur The duration
-     */
-    pt.setDuration = function (dur) {
-
-        this.elem.css('transition-duration', dur + 'ms').reflow();
-
-    };
-
-});
+})

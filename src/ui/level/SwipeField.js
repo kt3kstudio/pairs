@@ -4,22 +4,21 @@
  * @class
  */
 ui.level.SwipeField = subclass(domain.common.Role, function (pt, parent) {
-    'use strict';
+  'use strict'
 
-    pt.constructor = function (elem) {
+  pt.constructor = function (elem) {
+    parent.constructor.apply(this, arguments)
 
-        parent.constructor.apply(this, arguments);
+    this.elem.swipeCross()
+    $(document).arrowkeys()
 
-        this.elem.swipeCross();
-        $(document).arrowkeys();
+    $(document).on('upkey', function () { elem.trigger('swipeup'); })
+    $(document).on('downkey', function () { elem.trigger('swipedown'); })
+    $(document).on('leftkey', function () { elem.trigger('swipeleft'); })
+    $(document).on('rightkey', function () { elem.trigger('swiperight'); })
 
-        $(document).on('upkey', function () { elem.trigger('swipeup'); });
-        $(document).on('downkey', function () { elem.trigger('swipedown'); });
-        $(document).on('leftkey', function () { elem.trigger('swipeleft'); });
-        $(document).on('rightkey', function () { elem.trigger('swiperight'); });
+  }
 
-    };
+})
 
-});
-
-$.cc.assign('swipe-field', ui.level.SwipeField);
+$.cc.assign('swipe-field', ui.level.SwipeField)

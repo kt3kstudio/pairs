@@ -5,97 +5,85 @@
  * @extends domain.common.DimensionalBeing
  */
 domain.map.FloorAsset = subclass(domain.common.DimensionalBeing, function (pt, parent) {
-    'use strict'
+  'use strict'
 
-    /**
-     * @override
-     */
-    pt.width = 80
+  /**
+   * @override
+   */
+  pt.width = 80
 
-    /**
-     * @override
-     */
-    pt.height = 100
+  /**
+   * @override
+   */
+  pt.height = 100
 
-    /**
-     * @override
-     */
-    pt.ratioX = 0.5
+  /**
+   * @override
+   */
+  pt.ratioX = 0.5
 
-    /**
-     * @override
-     */
-    pt.ratioY = 1
+  /**
+   * @override
+   */
+  pt.ratioY = 1
 
-    pt.constructor = function () {
+  pt.constructor = function () {
+    parent.constructor.apply(this, arguments)
 
-        parent.constructor.apply(this, arguments)
+    this.x = +this.elem.attr('x')
+    this.y = +this.elem.attr('y')
 
-        this.x = +this.elem.attr('x')
-        this.y = +this.elem.attr('y')
+    this.id = this.elem.attr('id')
+  }
 
-        this.id = this.elem.attr('id')
-    }
+  /**
+   * Knocks the door (figuratively).
+   */
+  pt.doorKnock = function () {
+    this.elem.trigger('door-knock', [this])
 
+  }
 
-    /**
-     * Knocks the door (figuratively).
-     */
-    pt.doorKnock = function () {
+  pt.open = function () {
+    return Promise.resolve()
+  }
 
-        this.elem.trigger('door-knock', [this])
+  pt.close = function () {
+    return Promise.resolve()
+  }
 
-    }
+  pt.onGetWalker = function () {
+    return Promise.resolve()
+  }
 
+  /**
+   * Spawn the frog to the front of the floor asset.
+   */
+  pt.spawnFrog = function () {
+    $('<img />').css({zIndex: 2}).appendTo(this.elem).cc.init('frog').show()
 
-    pt.open = function () {
-        return Promise.resolve()
-    }
+  }
 
-    pt.close = function () {
-        return Promise.resolve()
-    }
+  /**
+   * Removes the frog in front of the floor asset.
+   */
+  pt.removeFrog = function () {
+    var frogDom = this.elem.find('.frog')
 
-
-    pt.onGetWalker = function () {
-        return Promise.resolve()
-    }
-
-
-    /**
-     * Spawn the frog to the front of the floor asset.
-     */
-    pt.spawnFrog = function () {
-
-        $('<img />').css({zIndex: 2}).appendTo(this.elem).cc.init('frog').show()
-
-    }
-
-
-    /**
-     * Removes the frog in front of the floor asset.
-     */
-    pt.removeFrog = function () {
-
-        var frogDom = this.elem.find('.frog')
-
-        if (frogDom.length === 0) {
-
-            return
-
-        }
-
-        var frog = frogDom.cc.getActor()
-
-        if (frog == null) {
-
-            return
-
-        }
-
-        frog.runAwayRight()
+    if (frogDom.length === 0) {
+      return
 
     }
 
+    var frog = frogDom.cc.getActor()
+
+    if (frog == null) {
+      return
+
+    }
+
+    frog.runAwayRight()
+
+  }
 
 })

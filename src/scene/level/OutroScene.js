@@ -1,4 +1,3 @@
-
 /**
  * OutroScene handles the scene after finishing main play.
  *
@@ -6,67 +5,56 @@
  * @extends domain.common.Role
  */
 scene.level.OutroScene = subclass(scene.level.Context, function (pt) {
-    'use strict'
+  'use strict'
 
-    pt.init = function () {
+  pt.init = function () {
+    var panePos = this.getDimensionFactory().resultPanePosition()
 
-        var panePos = this.getDimensionFactory().resultPanePosition()
+    this.resPane = new ui.level.ResultPane(panePos, panePos.width, panePos.height, '#main')
 
-        this.resPane = new ui.level.ResultPane(panePos, panePos.width, panePos.height, '#main')
+    this.start().then(function () {
+      history.back()
 
-        this.start().then(function () {
+    })
 
-            history.back()
+  }.event('play-scene-success play-scene-failure')
 
-        })
+  pt.start = function () {
+    var that = this
 
-    }.event('play-scene-success play-scene-failure')
+    this.resPane.setScore(this.getScoreboard().score)
 
+    return this.resPane.show(30000000).then(function () {
+      domain.level.Cell.disappear()
 
-    pt.start = function () {
+      that.getMenuButton().hide()
 
-        var that = this
+      that.getScoreboard().disappear()
 
-        this.resPane.setScore(this.getScoreboard().score)
+      return that.getField().disappear()
 
-        return this.resPane.show(30000000).then(function () {
+    }).then(function () {
+      return that.getBall().goCenterX()
 
-            domain.level.Cell.disappear()
+    }).then(function () {
+      return that.getBall().goCenterY()
 
-            that.getMenuButton().hide()
+    }).then(function () {
+      return Promise.all([
+        that.getCharacter().appear(400),
+        that.getBall().disappear()
+      ])
 
-            that.getScoreboard().disappear()
+    }).then(function () {
+      return that.getCharacter().moveTo('y', 800, 1000)
 
-            return that.getField().disappear()
+    }).then(function () {
+      return ui.common.BackgroundService.turnBlack()
 
-        }).then(function () {
+    })
 
-            return that.getBall().goCenterX()
-
-        }).then(function () {
-
-            return that.getBall().goCenterY()
-
-        }).then(function () {
-
-            return Promise.all([
-                that.getCharacter().appear(400),
-                that.getBall().disappear()
-            ])
-
-        }).then(function () {
-
-            return that.getCharacter().moveTo('y', 800, 1000)
-
-        }).then(function () {
-
-            return ui.common.BackgroundService.turnBlack()
-
-        })
-
-    }
+  }
 
 })
-
 
 $.cc.assign('outro-scene', scene.level.OutroScene)

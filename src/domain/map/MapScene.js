@@ -7,201 +7,170 @@
  * @extends domain.common.Actor
  */
 domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
-    'use strict';
+  'use strict'
 
-    /**
-     * The entry point of the map scene.
-     *
-     * Loads things, initializes things in order, controls everything.
-     */
-    pt.main = function () {
+  /**
+   * The entry point of the map scene.
+   *
+   * Loads things, initializes things in order, controls everything.
+   */
+  pt.main = function () {
+    var that = this
 
-        var that = this;
+    // ui parts
+    this.menuButton = $('.menu-button-root').cc.get('menu-button')
 
-        // ui parts
-        this.menuButton = $('.menu-button-root').cc.get('menu-button');
+    return new datadomain.UserRepository().get().then(function (user) {
+      return new datadomain.CharacterRepository().getById(user.charId)
 
-        return new datadomain.UserRepository().get().then(function (user) {
+    }).then(function (character) {
+      that.initFloorWalker(character)
 
-            return new datadomain.CharacterRepository().getById(user.charId);
+      return that.initFloorAssets(character)
 
-        }).then(function (character) {
+    }).then(function () {
+      that.elem.trigger('floor-built')
 
-            that.initFloorWalker(character);
+      that.start()
 
-            return that.initFloorAssets(character);
+    })
 
-        }).then(function () {
+  }.event('scene-start')
 
-            that.elem.trigger('floor-built');
+  /**
+   * Initializes the floor walker.
+   *
+   * @param {datadomain.Character} character
+   */
+  pt.initFloorWalker = function (character) {
+    $('<img />', {
+      addClass: 'sub-door-knock sub-character-goto',
+      appendTo: this.elem.find('.floor-asset-collection'),
+      data: {character: character}
 
-            that.start();
+    }).cc.init('floor-walker')
 
-        });
+  }
 
-    }.event('scene-start');
+  /**
+   * Initializes the floor assets.
+   *
+   * @param {datadomain.Character} character
+   */
+  pt.initFloorAssets = function (character) {
+    var floorAssets = this.elem.find('.floor-asset-collection').cc.getActor()
 
+    return Promise.resolve($.get('/data/floor/' + character.position.floorId + '.html')).then(function (data) {
+      floorAssets.loadAssetsFromData(data)
 
-    /**
-     * Initializes the floor walker.
-     *
-     * @param {datadomain.Character} character
-     */
-    pt.initFloorWalker = function (character) {
+      floorAssets.updateAssetsByLocksAndHistories(character.locks, character.histories)
 
-        $('<img />', {
+      var currentFloorAsset = floorAssets.findById(character.position.floorObjectId)
 
-            addClass: 'sub-door-knock sub-character-goto',
-            appendTo: this.elem.find('.floor-asset-collection'),
-            data: {character: character}
+      if (currentFloorAsset) {
+        currentFloorAsset.locked = false
 
-        }).cc.init('floor-walker');
+      }
 
-    };
+    })
 
-    /**
-     * Initializes the floor assets.
-     *
-     * @param {datadomain.Character} character
-     */
-    pt.initFloorAssets = function (character) {
+  }
 
-        var floorAssets = this.elem.find('.floor-asset-collection').cc.getActor();
+  pt.start = function () {
+    this.menuButton.show()
 
-        return Promise.resolve($.get('/data/floor/' + character.position.floorId + '.html')).then(function (data) {
+    ui.common.BackgroundService.turnWhite()
 
-            floorAssets.loadAssetsFromData(data);
+    var walker = this.elem.find('.floor-walker').cc.getActor()
 
-            floorAssets.updateAssetsByLocksAndHistories(character.locks, character.histories)
+    var floorboard = this.elem.find('.floorboard').cc.getActor()
 
-            var currentFloorAsset = floorAssets.findById(character.position.floorObjectId);
+    var assets = this.elem.find('.floor-asset-collection').cc.getActor()
 
-            if (currentFloorAsset) {
+    return floorboard.appear().then(function () {
+      return assets.appear()
 
-                currentFloorAsset.locked = false;
+    }).then(function () {
+      var floorAsset = assets.findById(walker.getPosition().floorObjectId)
 
-            }
+      return walker.appearAt(floorAsset)
 
-        });
+    })
+  }
 
-    };
+  pt.fadeOut = function () {
+    this.menuButton.hide()
 
+    var that = this
 
-    pt.start = function () {
+    return this.elem.find('.floor-asset-collection').cc.getActor().hide().then(function () {
+      that.elem.find('.floorboard').cc.getActor().hide()
 
-        this.menuButton.show();
+      return ui.common.BackgroundService.turnBlack()
 
-        ui.common.BackgroundService.turnWhite();
+    })
 
-        var walker = this.elem.find('.floor-walker').cc.getActor();
+  }
 
-        var floorboard = this.elem.find('.floorboard').cc.getActor();
+  pt.walkerFadeIntoDoor = function () {
+    var that = this
 
-        var assets = this.elem.find('.floor-asset-collection').cc.getActor();
+    return this.elem.find('.floor-walker').cc.getActor().getIntoDoor().then(function () {
+      return that.fadeOut()
 
-        return floorboard.appear().then(function () {
+    })
 
-            return assets.appear();
+  }
 
-        }).then(function () {
+  /**
+   * Go to the specified level.
+   *
+   * @param {String} level The level
+   */
+  pt.goToLevel = function () {
+    return this.walkerFadeIntoDoor().then(function () {
+      location.href = 'level.html'
 
-            var floorAsset = assets.findById(walker.getPosition().floorObjectId);
+    })
 
-            return walker.appearAt(floorAsset);
+  }.event('goToLevel')
 
-        });
-    };
+  /**
+   * Reloads the map scene.
+   *
+   * This is typically used when the the floor is changed.
+   *
+   * @return {Promise}
+   */
+  pt.sceneReload = function () {
+    return this.walkerFadeIntoDoor().then(function () {
+      location.reload()
 
+    })
 
-    pt.fadeOut = function () {
+  }.event('sceneReload')
 
-        this.menuButton.hide();
+  pt.assetUnlock = function (e) {
+    var asset = e.floorAsset
 
-        var that = this;
+    var camera = $('.camera').cc.get('camera')
 
-        return this.elem.find('.floor-asset-collection').cc.getActor().hide().then(function () {
+    var walker = this.elem.find('.floor-walker').cc.getActor()
 
-            that.elem.find('.floorboard').cc.getActor().hide();
+    return camera.scrollTo(asset.centerX(), 500).then(function () {
+      asset.removeFrog()
+      asset.locked = false
+      asset.enableDoorKnock()
 
-            return ui.common.BackgroundService.turnBlack();
+      return wait(500)
 
-        });
+    }).then(function () {
+      camera.scrollTo(walker.x, 500)
 
-    };
+    })
 
+  }.event('assetUnlock')
 
-    pt.walkerFadeIntoDoor = function () {
+})
 
-        var that = this;
-
-        return this.elem.find('.floor-walker').cc.getActor().getIntoDoor().then(function () {
-
-            return that.fadeOut();
-
-        });
-
-    };
-
-
-    /**
-     * Go to the specified level.
-     *
-     * @param {String} level The level
-     */
-    pt.goToLevel = function () {
-
-        return this.walkerFadeIntoDoor().then(function () {
-
-            location.href = 'level.html';
-
-        });
-
-    }.event('goToLevel');
-
-
-    /**
-     * Reloads the map scene.
-     *
-     * This is typically used when the the floor is changed.
-     *
-     * @return {Promise}
-     */
-    pt.sceneReload = function () {
-
-        return this.walkerFadeIntoDoor().then(function () {
-
-            location.reload();
-
-        });
-
-    }.event('sceneReload');
-
-
-    pt.assetUnlock = function (e) {
-
-        var asset = e.floorAsset;
-
-        var camera = $('.camera').cc.get('camera');
-
-        var walker = this.elem.find('.floor-walker').cc.getActor();
-
-        return camera.scrollTo(asset.centerX(), 500).then(function () {
-
-            asset.removeFrog();
-            asset.locked = false;
-            asset.enableDoorKnock();
-
-            return wait(500);
-
-        }).then(function () {
-
-            camera.scrollTo(walker.x, 500);
-
-        });
-
-    }.event('assetUnlock');
-
-});
-
-
-$.cc.assign('map-scene', domain.map.MapScene);
+$.cc.assign('map-scene', domain.map.MapScene)
