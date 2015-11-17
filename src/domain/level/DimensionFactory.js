@@ -75,7 +75,7 @@ domain.level.DimensionFactory = subclass(function (pt) {
      *
      * @private
      */
-    pt.calc = function (width, height) {
+    pt.calc = function () {
 
         var available = this.getAvailableDimension($(window).width(), $(window).height())
 
