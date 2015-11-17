@@ -1,65 +1,53 @@
-
-
-
 describe('UserRepository', function () {
-    'use strict';
+  'use strict'
 
-    beforeEach(function () {
+  beforeEach(function () {
+    window.infrastructure = {}
 
-        window.infrastructure = {};
+    window.infrastructure.storage = {
+      get: spy(function () {}),
+      set: spy(function () {})
+    }
 
-        window.infrastructure.storage = {
-            get: spy(function () {}),
-            set: spy(function () {})
-        };
+    this.repo = new datadomain.UserRepository()
 
-        this.repo = new datadomain.UserRepository();
+  })
 
-    });
+  describe('save', function () {
+    it('calls the set of the infrastructure', function () {
+      var user = new datadomain.UserFactory().createFromObject({})
 
-    describe('save', function () {
+      when(infrastructure.storage.set)().then(function () {
+        return Promise.resolve({})
 
-        it('calls the set of the infrastructure', function () {
+      })
 
-            var user = new datadomain.UserFactory().createFromObject({});
+      return this.repo.save(user).then(function (user) {
+        expect(user).to.be.instanceof(datadomain.User)
 
-            when(infrastructure.storage.set)().then(function () {
+        verify(infrastructure.storage.set)('LD-user-key')
 
-                return Promise.resolve({});
+      })
 
-            });
+    })
 
-            return this.repo.save(user).then(function (user) {
+  })
 
-                expect(user).to.be.instanceof(datadomain.User);
+  describe('get', function () {
+    it('gets the User', function () {
+      when(infrastructure.storage.get)('LD-user-key').then(function () {
+        return Promise.resolve({charId: 'ma'})
 
-                verify(infrastructure.storage.set)('LD-user-key');
+      })
 
-            });
+      return this.repo.get().then(function (user) {
+        expect(user).to.be.instanceof(datadomain.User)
+        expect(user.charId).to.equal('ma')
 
-        });
+      })
 
-    });
+    })
 
-    describe('get', function () {
+  })
 
-        it('gets the User', function () {
-
-            when(infrastructure.storage.get)('LD-user-key').then(function () {
-
-                return Promise.resolve({charId: 'ma'});
-
-            });
-
-            return this.repo.get().then(function (user) {
-
-                expect(user).to.be.instanceof(datadomain.User);
-                expect(user.charId).to.equal('ma');
-
-            });
-
-        });
-
-    });
-
-});
+})

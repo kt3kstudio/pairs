@@ -1,118 +1,100 @@
-
-
-
 /**
  * The repository of Character.
  *
  */
 datadomain.CharacterRepository = subclass(function (pt) {
-    'use strict';
+  'use strict'
 
-    var STORAGE_KEY = 'character-';
+  var STORAGE_KEY = 'character-'
 
-    /**
-     * Saves the character.
-     *
-     * @param {datadomain.Character} character The Character
-     * @return {Promise}
-     */
-    pt.save = function (character) {
+  /**
+   * Saves the character.
+   *
+   * @param {datadomain.Character} character The Character
+   * @return {Promise}
+   */
+  pt.save = function (character) {
+    var obj = this.toObject(character)
 
-        var obj = this.toObject(character);
+    return infrastructure.storage.set(STORAGE_KEY + character.id, obj).then(function () {
+      return character
 
-        return infrastructure.storage.set(STORAGE_KEY + character.id, obj).then(function () {
+    })
 
-            return character;
+  }
 
-        });
+  /**
+   * Gets a character by the id.
+   *
+   * @param {String} id The id
+   * @return {Promise} A promise of a character
+   */
+  pt.getById = function (id) {
+    return infrastructure.storage.get(STORAGE_KEY + id, null).then(function (obj) {
+      var character
 
-    };
+      var factory = new datadomain.CharacterFactory()
 
+      if (obj == null) {
+        character = factory.createInitialById(id)
 
-    /**
-     * Gets a character by the id.
-     *
-     * @param {String} id The id
-     * @return {Promise} A promise of a character
-     */
-    pt.getById = function (id) {
+      } else {
+        character = factory.createFromObject(obj)
 
-        return infrastructure.storage.get(STORAGE_KEY + id, null).then(function (obj) {
+      }
 
-            var character;
+      return Promise.all([
 
-            var factory = new datadomain.CharacterFactory();
+        character,
+        character.reloadHistories(),
+        character.reloadPlayingState(),
+        character.reloadLocks()
 
-            if (obj == null) {
+      ])
 
-                character = factory.createInitialById(id);
+    }).then(function (array) {
+      return array[0]
 
-            } else {
+    })
 
-                character = factory.createFromObject(obj);
+  }
 
-            }
+  /**
+   * @private
+   * Converts the Character object into js object.
+   *
+   * @param {datadomain.Character} character The Character
+   * @return {Object}
+   */
+  pt.toObject = function (character) {
+    return {
+      id: character.id,
+      name: character.name,
+      position: this.positionToObject(character.position)
 
-            return Promise.all([
+    }
 
-                character,
-                character.reloadHistories(),
-                character.reloadPlayingState(),
-                character.reloadLocks()
+  }
 
-            ]);
+  /**
+   * @private
+   * Converts the CharPosition object into js object.
+   *
+   * @param {datadomain.CharPosition} position The position
+   * @return {Object}
+   */
+  pt.positionToObject = function (position) {
+    if (position == null) {
+      return null
 
-        }).then(function (array) {
+    }
 
-            return array[0];
+    return {
+      floorId: position.floorId,
+      floorObjectId: position.floorObjectId
 
-        });
+    }
 
-    };
+  }
 
-
-    /**
-     * @private
-     * Converts the Character object into js object.
-     *
-     * @param {datadomain.Character} character The Character
-     * @return {Object}
-     */
-    pt.toObject = function (character) {
-
-        return {
-
-            id: character.id,
-            name: character.name,
-            position: this.positionToObject(character.position)
-
-        };
-
-    };
-
-
-    /**
-     * @private
-     * Converts the CharPosition object into js object.
-     *
-     * @param {datadomain.CharPosition} position The position
-     * @return {Object}
-     */
-    pt.positionToObject = function (position) {
-
-        if (position == null) {
-
-            return null;
-
-        }
-
-        return {
-
-            floorId: position.floorId,
-            floorObjectId: position.floorObjectId
-
-        };
-
-    };
-
-});
+})

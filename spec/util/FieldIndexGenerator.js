@@ -1,50 +1,45 @@
-
-
 describe('FieldIndexGenerator', function () {
-    'use strict';
+  'use strict'
 
-    describe('generate', function () {
+  describe('generate', function () {
+    it('generates the list of indices', function () {
+      var fig = new util.FieldIndexGenerator()
 
-        it('generates the list of indices', function () {
+      var list = fig.generate(7)
 
-            var fig = new util.FieldIndexGenerator();
+      expect(list).to.be.instanceof(Array)
+      expect(list).to.deep.equal([
+        [0, 0],
+        [0, 1],
+        [0, 2],
+        [1, 2],
+        [1, 1],
+        [1, 0],
+        [2, 0]
+      ])
 
-            var list = fig.generate(7);
+    })
 
-            expect(list).to.be.instanceof(Array);
-            expect(list).to.deep.equal([
-                [0, 0],
-                [0, 1],
-                [0, 2],
-                [1, 2],
-                [1, 1],
-                [1, 0],
-                [2, 0]
-            ]);
+    it("generates the list of indices which doesn't contain used items", function () {
+      var fig = new util.FieldIndexGenerator()
 
-        });
+      var list = fig.generate(7, [[0, 0], [1, 0], [2, 0]])
 
-        it('generates the list of indices which doesn\'t contain used items', function () {
+      expect(list).to.deep.equal([
+        // [0, 0],
+        [0, 1],
+        [0, 2],
+        [1, 2],
+        [1, 1],
+        // [1, 0],
+        // [2, 0],
+        [2, 1],
+        [2, 2],
+        [3, 2]
+      ])
 
-            var fig = new util.FieldIndexGenerator();
+    })
 
-            var list = fig.generate(7, [[0, 0], [1, 0], [2, 0]]);
+  })
 
-            expect(list).to.deep.equal([
-                //[0, 0],
-                [0, 1],
-                [0, 2],
-                [1, 2],
-                [1, 1],
-                //[1, 0],
-                //[2, 0],
-                [2, 1],
-                [2, 2],
-                [3, 2]
-            ]);
-
-        });
-
-    });
-
-});
+})

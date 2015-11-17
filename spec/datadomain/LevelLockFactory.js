@@ -1,57 +1,47 @@
-
-
-
-
 describe('LevelLockFactory', function () {
-    'use strict';
+  'use strict'
 
-    var factory = null;
+  var factory = null
 
-    beforeEach(function () {
+  beforeEach(function () {
+    factory = new datadomain.LevelLockFactory()
 
-        factory = new datadomain.LevelLockFactory();
+  })
 
-    });
+  describe('createFromObject', function () {
+    it('creates a LevelLock from the object', function () {
+      var lock = factory.createFromObject({
+        locked: false,
+        levelId: '701'
+      })
 
-    describe('createFromObject', function () {
+      expect(lock).to.be.instanceof(datadomain.LevelLock)
 
-        it('creates a LevelLock from the object', function () {
+    })
 
-            var lock = factory.createFromObject({
-                locked: false,
-                levelId: '701'
-            });
+    it('returns null if the given parameter is null', function () {
+      var lock = factory.createFromObject(null)
 
-            expect(lock).to.be.instanceof(datadomain.LevelLock);
+      expect(lock).to.be.null
 
-        });
+    })
 
-        it('returns null if the given parameter is null', function () {
+  })
 
-            var lock = factory.createFromObject(null);
+  describe('createCollectionFromObjectList', function () {
+    it('creates a LevelLockCollection from the list of the objects', function () {
+      var locks = factory.createCollectionFromObjectList([{
+        levelId: '701',
+        locked: false
+      }, {
+        levelId: '702',
+        locked: true
+      }])
 
-            expect(lock).to.be.null;
+      expect(locks).to.be.instanceof(datadomain.LevelLockCollection)
 
-        });
-            
-    });
+    })
 
-    describe('createCollectionFromObjectList', function () {
+  })
 
-        it('creates a LevelLockCollection from the list of the objects', function () {
-
-            var locks = factory.createCollectionFromObjectList([{
-                levelId: '701',
-                locked: false
-            }, {
-                levelId: '702',
-                locked: true
-            }]);
-
-            expect(locks).to.be.instanceof(datadomain.LevelLockCollection);
-
-        });
-
-    });
-
-});
+})

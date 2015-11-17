@@ -1,26 +1,21 @@
-
-
-
-
 /**
  * UserStatistics is the collection class of user statistics info.
  *
  */
 datadomain.UserStatistics = subclass(function (pt) {
-    'use strict';
+  'use strict'
 
+  /**
+   * @constructor
+   * @param {Object} opts The options
+   * @param {Number} [opts.launchTimes] The number of the launches of the app
+   */
+  pt.constuctor = function (opts) {
     /**
-     * @constructor
-     * @param {Object} opts The options
-     * @param {Number} [opts.launchTimes] The number of the launches of the app
+     * @property {Number} launchTimes The number of the launches of the app
      */
-    pt.constuctor = function (opts) {
+    this.launchTimes = opts.launchTimes
 
-        /**
-         * @property {Number} launchTimes The number of the launches of the app
-         */
-        this.launchTimes = opts.launchTimes;
+  }
 
-    };
-
-});
+})

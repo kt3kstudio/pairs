@@ -1,46 +1,38 @@
-
-
-
 /**
  * The collection class of LevelHistory.
  *
  * @class
  */
 datadomain.LevelHistoryCollection = subclass(Array, function (pt) {
-    'use strict';
+  'use strict'
 
+  /**
+   * @constructor
+   *
+   * @param {Array} list The array of the LevelHistories
+   */
+  pt.constructor = function (list) {
+    list = list || []
 
-    /**
-     * @constructor
-     *
-     * @param {Array} list The array of the LevelHistories
-     */
-    pt.constructor = function (list) {
+    this.dict = {}
 
-        list = list || [];
+    list.forEach(function (history, i) {
+      this[i] = history
+      this.dict[history.levelId] = history
 
-        this.dict = {};
+    }, this)
 
-        list.forEach(function (history, i) {
+  }
 
-            this[i] = history;
-            this.dict[history.levelId] = history;
+  /**
+   * Gets a LevelHistory by the id
+   *
+   * @param {String} levelId The level id
+   * @return {datadomain.LevelHistory}
+   */
+  pt.getById = function (levelId) {
+    return this.dict[levelId]
 
-        }, this);
+  }
 
-    };
-
-
-    /**
-     * Gets a LevelHistory by the id
-     *
-     * @param {String} levelId The level id
-     * @return {datadomain.LevelHistory}
-     */
-    pt.getById = function (levelId) {
-
-        return this.dict[levelId];
-
-    };
-
-});
+})

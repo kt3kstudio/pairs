@@ -1,26 +1,20 @@
-
-
-
-
 /**
  * Factory class of User
  */
 datadomain.UserFactory = subclass(function (pt) {
-    'use strict';
+  'use strict'
 
-    var DEFAULT_CHAR_ID = 'ma';
+  var DEFAULT_CHAR_ID = 'ma'
 
-    pt.createFromObject = function (obj) {
+  pt.createFromObject = function (obj) {
+    obj = obj || {}
 
-        obj = obj || {};
+    if (obj.charId == null) {
+      obj.charId = DEFAULT_CHAR_ID
+    }
 
-        if (obj.charId == null) {
+    return new datadomain.User(obj.charId, new datadomain.UserStatistics(obj.stat))
 
-            obj.charId = DEFAULT_CHAR_ID;
-        }
+  }
 
-        return new datadomain.User(obj.charId, new datadomain.UserStatistics(obj.stat));
-
-    };
-
-});
+})
