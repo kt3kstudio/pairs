@@ -6,17 +6,14 @@
 domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, function (pt) {
     'use strict'
 
-    var TOP_UI_HEIGHT = 50 // the height of the score board at the top
-    var BOTTOM_UI_HEIGHT = 50 // the height of the banner ad at the bottom of the screen
-
     /**
      * @constructor
      */
     pt.constructor = function () {
 
-        this.top = TOP_UI_HEIGHT
+        this.top = 50 // the height of the score board at the top
         this.right = 0
-        this.bottom = BOTTOM_UI_HEIGHT
+        this.bottom = 50 // the height of the banner ad at the bottom of the screen
         this.left = 0
 
         this.widthRate = 4
