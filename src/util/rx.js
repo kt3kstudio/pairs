@@ -117,7 +117,7 @@
    *
    * @return {Rx.Observable}
    */
-  Array.prototype.toFlatStream = function () {
+  window.Array.prototype.toFlatStream = function () {
     return Rx.Observable.of.apply(null, this).flattenObservable()
   }
-}(Rx))
+}(window.Rx))

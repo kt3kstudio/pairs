@@ -1,27 +1,27 @@
 
-subclass = $.cc.subclass
+window.subclass = $.cc.subclass
 
 // application layer which controlls each scene
-scene = {}
-scene.level = {}
+window.scene = {}
+window.scene.level = {}
 
 // game logic domain
-domain = {}
-domain.common = {}
-domain.splash = {}
-domain.title = {}
-domain.map = {}
-domain.level = {}
-domain.genetics = {}
+window.domain = {}
+window.domain.common = {}
+window.domain.splash = {}
+window.domain.title = {}
+window.domain.map = {}
+window.domain.level = {}
+window.domain.genetics = {}
 
 // game data domain
-datadomain = {}
-datadomain.goal = {}
+window.datadomain = {}
+window.datadomain.goal = {}
 
 // ui domain
-ui = {}
-ui.common = {}
-ui.level = {}
+window.ui = {}
+window.ui.common = {}
+window.ui.level = {}
 
 // util (infrastructure layer)
-util = {}
+window.util = {}
