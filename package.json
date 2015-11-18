@@ -8,31 +8,23 @@
     "doc": "doc"
   },
   "scripts": {
-
     "build": "bundle exec middleman build",
-
     "start": "bundle exec middleman",
-
     "lint": "jshint src spec",
-
     "test": "karma start karma.js",
-
     "doc": "jsduck --config=.jsduck.dev.json",
-
     "doc-release": "git rm -rf doc/v* ; jsduck --config=.jsduck.release.json ; git add doc",
     "lines": "find src/ spec/ -name '*.js' | xargs wc",
-
     "ci": "karma start karma.js --browsers PhantomJS",
-
     "coveralls": "karma start karma.js --browsers PhantomJS --reporters coverage,coveralls",
     "prepush": "npm run lint"
-
   },
   "author": "Yoshiya Hinosawa <stibium121@gmail.com> (https://twitter.com/kt3k)",
   "license": "MIT",
   "devDependencies": {
     "chai": "^1.10.0",
     "husky": "^0.8.1",
+    "jshint": "^2.8.0",
     "karma": "^0.12.28",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^0.1.7",
