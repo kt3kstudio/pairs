@@ -29,12 +29,10 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
     // collect floor assets in the property
     this.items = this.elem.find('.staircase, .door').map(function () {
       return $(this).cc.getActor()
-
     }).toArray()
 
     // set floor width
     this.elem.width(this.elem.find('.floor-data').data('floor-width'))
-
   }
 
   /**
@@ -64,9 +62,7 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
       item.appear()
 
       return wait(100)
-
     })
-
   }
 
   /**
@@ -79,9 +75,7 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
       item.disappear()
 
       return wait(100)
-
     })
-
   }
 
   /**
@@ -94,11 +88,8 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
     return this.items.reduce(function (p, item) {
       return p.then(function () {
         return func(item)
-
       })
-
     }, Promise.resolve())
-
   }
 
   /**
@@ -110,11 +101,8 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
   pt.findById = function (id) {
     return this.items.filter(function (item) {
       return item.id === id
-
     })[0]
-
   }
-
 })
 
 $.cc.assign('floor-asset-collection', domain.map.FloorAssetCollection)

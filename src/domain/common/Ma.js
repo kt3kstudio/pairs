@@ -24,7 +24,5 @@ domain.common.Ma = subclass(function (pt) {
     this.showAnimDur = 1000
     this.hideAnim = 'char-disappear'
     this.hideAnimDur = 1000
-
   }
-
 })

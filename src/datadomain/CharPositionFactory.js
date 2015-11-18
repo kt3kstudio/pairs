@@ -15,12 +15,9 @@ datadomain.CharPositionFactory = subclass(function (pt) {
    */
   pt.createStartPosition = function () {
     return new datadomain.CharPosition(
-
       START_FLOOR_ID,
       START_FLOOR_OBJECT_ID
-
     )
-
   }
 
   /**
@@ -32,16 +29,11 @@ datadomain.CharPositionFactory = subclass(function (pt) {
   pt.createFromObject = function (obj) {
     if (obj == null) {
       return this.createStartPosition()
-
     }
 
     return new datadomain.CharPosition(
-
       obj.floorId,
       obj.floorObjectId
-
     )
-
   }
-
 })

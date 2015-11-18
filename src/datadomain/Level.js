@@ -30,5 +30,4 @@ datadomain.Level = subclass(function (pt) {
      */
     this.cells = cells
   }
-
 })

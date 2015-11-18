@@ -13,11 +13,9 @@ datadomain.LevelLockFactory = subclass(function (pt) {
   pt.createFromObject = function (obj) {
     if (obj == null) {
       return null
-
     }
 
     return new datadomain.LevelLock(obj.levelId, obj.locked)
-
   }
 
   /**
@@ -31,9 +29,6 @@ datadomain.LevelLockFactory = subclass(function (pt) {
 
     return new datadomain.LevelLockCollection(objList.map(function (obj) {
       return this.createFromObject(obj)
-
     }, this))
-
   }
-
 })

@@ -26,7 +26,7 @@ util.FieldIndexGenerator = subclass(function (pt) {
     var ip = new IndexPointer(this.max)
 
     used = used || []
-    used = used.map(function (x) { return x.toString(); })
+    used = used.map(function (x) { return x.toString() })
 
     while (results.length < need) {
       if (used.indexOf(ip.get().toString()) === -1) {
@@ -34,7 +34,6 @@ util.FieldIndexGenerator = subclass(function (pt) {
       }
 
       ip.next()
-
     }
 
     return results
@@ -74,27 +73,18 @@ util.FieldIndexGenerator = subclass(function (pt) {
       if (this.x % 2 === 0) {
         if (this.y >= this.maxIndex) {
           this.x += 1
-
         } else {
           this.y += 1
-
         }
-
       } else {
         if (this.y <= 0) {
           this.x += 1
-
         } else {
           this.y -= 1
-
         }
-
       }
 
       return this.get()
-
     }
-
   })
-
 })

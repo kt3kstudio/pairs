@@ -19,7 +19,6 @@ datadomain.User = subclass(function (pt) {
      * @property {datadomain.UserStatistics} stat The statisctics of the user activity
      */
     this.stat = stat
-
   }
 
   /**
@@ -29,7 +28,5 @@ datadomain.User = subclass(function (pt) {
    */
   pt.setCharId = function (charId) {
     this.charId = charId
-
   }
-
 })

@@ -20,7 +20,6 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
     parent.constructor.apply(this, arguments)
 
     this.score = 0
-
   }
 
   pt.showAnim = 'bom-appear'
@@ -41,7 +40,6 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
 
     this.dimension.width = dimension.width
     this.dimension.height = dimension.height
-
   }
 
   /**
@@ -53,7 +51,6 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
     this.elem.css('line-height', this.dimension.actualHeight() + 'px')
 
     this.update()
-
   }
 
   /**
@@ -61,7 +58,6 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
    */
   pt.update = function () {
     this.elem.text(window.commaNumber(this.score))
-
   }
 
   /**
@@ -73,7 +69,6 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
     this.score += score
 
     this.update()
-
   }
 
   /**
@@ -83,9 +78,7 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
    */
   pt.getScore = function () {
     return this.score
-
   }
-
 })
 
 $.cc.assign('scoreboard', ui.level.Scoreboard)

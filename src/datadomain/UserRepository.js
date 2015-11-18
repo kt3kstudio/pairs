@@ -6,17 +6,12 @@ datadomain.UserRepository = subclass(function (pt) {
   pt.save = function (user) {
     return infrastructure.storage.set(KEY, user).then(function () {
       return user
-
     })
-
   }
 
   pt.get = function () {
     return infrastructure.storage.get(KEY, {}).then(function (data) {
       return new datadomain.UserFactory().createFromObject(data)
-
     })
-
   }
-
 })

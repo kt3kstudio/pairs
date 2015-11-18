@@ -30,11 +30,8 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
     return pt.constructor.allList.map(function (cell, i) {
       wait(40 * i).then(function () {
         return cell.disappear()
-
       })
-
     }).pop()
-
   }
 
   /**
@@ -66,7 +63,6 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
     this.elem.css('transition-duration', this.transDur + 'ms')
 
     return wait(0)
-
   }
 
   /**
@@ -138,7 +134,6 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
    */
   pt.isEvolved = function () {
     return this.__evolved
-
   }
 
   /**
@@ -203,9 +198,7 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
       for (var i = 0; i < genes.length; i++) {
         $('#' + i, $svg).attr('class', genes[i])
       }
-
     })
-
   }
 
   /**
@@ -215,7 +208,6 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
    */
   pt.resetShapeAndLocate = function () {
     return this.updateDomDimension()
-
   }
 
   pt.showAnim = 'bom-appear'
@@ -226,19 +218,16 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
 
   pt.didAppear = function () {
     return this
-
   }
 
   pt.anim = function (animationName, duration) {
     return this.elem.anim(animationName, duration)
-
   }
 
   pt.updateDomRect = function () {
     this.elem.width(this.width).height(this.height)
 
     return wait(this.transDur)
-
   }
 
   pt.updateDomPosition = function () {
@@ -246,21 +235,18 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
     this.elem.css('left', this.dimension.left + this.dimension.unit * this.x + this.gutter + 'px')
 
     return wait(this.transDur)
-
   }
 
   pt.updateDomDimension = function () {
     this.updateDomRect()
 
     return this.updateDomPosition()
-
   }
 
   pt.remove = function () {
     this.elem.remove()
 
     pt.constructor.allList.splice(pt.constructor.allList.indexOf(this), 1)
-
   }
 
   pt.move = function (x, y) {
@@ -268,14 +254,12 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
     this.y += y
 
     return this.updateDomPosition()
-
   }
 
-  pt.up = function () { return this.move(0, -1); }
-  pt.down = function () { return this.move(0, 1); }
-  pt.left = function () { return this.move(-1, 0); }
-  pt.right = function () { return this.move(1, 0); }
-
+  pt.up = function () { return this.move(0, -1) }
+  pt.down = function () { return this.move(0, 1) }
+  pt.left = function () { return this.move(-1, 0) }
+  pt.right = function () { return this.move(1, 0) }
 })
 
 $.cc.assign('cell', domain.level.Cell)

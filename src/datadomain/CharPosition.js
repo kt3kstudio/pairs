@@ -19,7 +19,6 @@ datadomain.CharPosition = subclass(function (pt) {
      * @property {String} floorObjectId The id of the floor object
      */
     this.floorObjectId = floorObjectId
-
   }
 
   /**
@@ -33,5 +32,4 @@ datadomain.CharPosition = subclass(function (pt) {
       floorObjectId: this.floorObjectId
     }
   }
-
 })

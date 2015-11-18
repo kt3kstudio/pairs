@@ -24,7 +24,6 @@ domain.common.DimensionFactory = subclass(function (pt) {
       marginBottom: this.bottom,
       marginLeft: this.left
     })
-
   }
 
   /**
@@ -39,7 +38,6 @@ domain.common.DimensionFactory = subclass(function (pt) {
       width: this.widthRate,
       height: this.heightRate
     }).similarInnerTangent(available.actualWidth(), available.actualHeight())
-
   }
 
   /**
@@ -60,7 +58,5 @@ domain.common.DimensionFactory = subclass(function (pt) {
     this.main.right = this.main.left + bestDim.actualWidth()
     this.main.width = bestDim.actualWidth()
     this.main.height = bestDim.actualHeight()
-
   }
-
 })

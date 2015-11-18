@@ -15,7 +15,5 @@ datadomain.UserStatistics = subclass(function (pt) {
      * @property {Number} launchTimes The number of the launches of the app
      */
     this.launchTimes = opts.launchTimes
-
   }
-
 })

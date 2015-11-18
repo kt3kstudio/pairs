@@ -27,9 +27,6 @@ datadomain.CellFactory = subclass(function (pt) {
 
     return new datadomain.CellCollection(array.map(function (obj) {
       return that.createFromObject(obj)
-
     }))
-
   }
-
 })

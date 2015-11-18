@@ -41,7 +41,6 @@
    */
   Rx.Observable.prototype.pipe = function (f) {
     return this.map(f).flattenObservable()
-
   }
 
   /**
@@ -52,9 +51,7 @@
   Rx.Observable.prototype.flattenObservable = function () {
     return this.map(wrapUnobservable).flatMap(function (x) {
       return x
-
     })
-
   }
 
   /**
@@ -65,9 +62,7 @@
   Rx.Observable.prototype.filterNull = function () {
     return this.filter(function (x) {
       return x != null
-
     })
-
   }
 
   /**
@@ -81,17 +76,12 @@
     return new Promise(function (resolve, reject) {
       source.takeLast(1).subscribe(function (x) {
         resolve(x)
-
       }, function (error) {
         reject(error)
-
       }, function () {
         resolve()
-
       })
-
     })
-
   }
 
   /**
@@ -107,9 +97,7 @@
 
     return source.forEach(function (event) {
       dom.trigger(event)
-
     })
-
   }
 
   /**
@@ -131,7 +119,5 @@
    */
   Array.prototype.toFlatStream = function () {
     return Rx.Observable.of.apply(null, this).flattenObservable()
-
   }
-
 }(Rx))

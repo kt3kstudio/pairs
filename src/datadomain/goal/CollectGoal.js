@@ -24,5 +24,4 @@ datadomain.goal.CollectGoal = (function () {
   }
 
   return exports
-
 }())

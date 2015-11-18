@@ -41,7 +41,6 @@ domain.map.FloorAsset = subclass(domain.common.DimensionalBeing, function (pt, p
    */
   pt.doorKnock = function () {
     this.elem.trigger('door-knock', [this])
-
   }
 
   pt.open = function () {
@@ -61,7 +60,6 @@ domain.map.FloorAsset = subclass(domain.common.DimensionalBeing, function (pt, p
    */
   pt.spawnFrog = function () {
     $('<img />').css({zIndex: 2}).appendTo(this.elem).cc.init('frog').show()
-
   }
 
   /**
@@ -72,18 +70,14 @@ domain.map.FloorAsset = subclass(domain.common.DimensionalBeing, function (pt, p
 
     if (frogDom.length === 0) {
       return
-
     }
 
     var frog = frogDom.cc.getActor()
 
     if (frog == null) {
       return
-
     }
 
     frog.runAwayRight()
-
   }
-
 })

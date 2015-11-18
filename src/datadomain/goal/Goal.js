@@ -27,5 +27,4 @@ datadomain.goal.Goal = (function () {
   gPt.toString = function () {}
 
   return exports
-
 }())

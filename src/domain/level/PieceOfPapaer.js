@@ -19,7 +19,6 @@ domain.level.Paper = subclass(domain.common.StaticSprite, function (pt) {
 
   pt.hideAnim = 'paper-disappear'
   pt.hideAnimDur = 500
-
 })
 
 $.cc.assign('paper', domain.level.Paper)

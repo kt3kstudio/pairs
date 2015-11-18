@@ -23,7 +23,6 @@ datadomain.PlayingState = subclass(function (pt) {
    */
   pt.bump = function () {
     this.rounds.unshift([])
-
   }
 
   /**
@@ -37,7 +36,6 @@ datadomain.PlayingState = subclass(function (pt) {
     this.bump()
 
     return rounds
-
   }
 
   /**
@@ -48,5 +46,4 @@ datadomain.PlayingState = subclass(function (pt) {
   pt.add = function (dir) {
     this.rounds[0].push(dir)
   }
-
 })

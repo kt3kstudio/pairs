@@ -39,7 +39,6 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt, parent) 
       down: {default: new domain.common.Image(this.downImage)},
       left: {default: new domain.common.Image(this.leftImage)},
       right: {default: new domain.common.Image(this.rightImage)}
-
     }
   }
 
@@ -47,9 +46,7 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt, parent) 
     var THE_TABLE = {
       ma: domain.common.Ma
     }
-
     return THE_TABLE[charId]
-
   }
 
   /**
@@ -59,17 +56,14 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt, parent) 
    */
   pt.turn = function (dir) {
     this.setDirState(dir, 'default')
-
   }
 
   pt.getDirection = function (coordinate, to) {
     if (coordinate === 'x') {
       return to > this.x ? 'right' : 'left'
-
     }
 
     return to > this.y ? 'down' : 'up'
-
   }
 
   pt.moveTo = function (coordinate, to, dur) {
@@ -81,14 +75,10 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt, parent) 
 
     if (dir === 'up' || dir === 'down') {
       this.moveToY(to)
-
     } else {
       this.moveToX(to)
-
     }
-
     return wait(dur)
-
   }
 
   pt.speak = function (speech, opts) {
@@ -105,7 +95,6 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt, parent) 
       partitionY: 2,
       partitionX: 10,
       duration: 600
-
     }).show()
 
     this.speechEndPromise = bubbleShown.then(function (sb) {
@@ -113,18 +102,12 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt, parent) 
         setTimeout(resolve, timeout)
 
         $(cancelDom).one('click touchstart', resolve)
-
       }).then(function () {
         $(cancelDom).off('click touchstart')
 
         return sb.hide()
-
       })
-
     })
-
     return bubbleShown
-
   }
-
 })

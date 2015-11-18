@@ -12,13 +12,11 @@ ui.level.SwipeField = subclass(domain.common.Role, function (pt, parent) {
     this.elem.swipeCross()
     $(document).arrowkeys()
 
-    $(document).on('upkey', function () { elem.trigger('swipeup'); })
-    $(document).on('downkey', function () { elem.trigger('swipedown'); })
-    $(document).on('leftkey', function () { elem.trigger('swipeleft'); })
-    $(document).on('rightkey', function () { elem.trigger('swiperight'); })
-
+    $(document).on('upkey', function () { elem.trigger('swipeup') })
+    $(document).on('downkey', function () { elem.trigger('swipedown') })
+    $(document).on('leftkey', function () { elem.trigger('swipeleft') })
+    $(document).on('rightkey', function () { elem.trigger('swiperight') })
   }
-
 })
 
 $.cc.assign('swipe-field', ui.level.SwipeField)

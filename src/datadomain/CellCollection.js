@@ -14,5 +14,4 @@ datadomain.CellCollection = subclass(function (pt) {
      */
     this.cells = cells
   }
-
 })

@@ -14,5 +14,4 @@ datadomain.Cell = subclass(function (pt) {
      */
     this.gene = gene
   }
-
 })

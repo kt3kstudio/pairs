@@ -25,9 +25,7 @@ domain.level.Field = subclass(domain.common.DimensionalBeing, function (pt) {
 
     this.dimension.marginX = -5
     this.dimension.marginY = -5
-
   }
-
 })
 
 $.cc.assign('field-grid', domain.level.Field)

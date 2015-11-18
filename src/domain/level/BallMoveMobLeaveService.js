@@ -15,7 +15,6 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
     this.mobs = new Mobs(cells)
 
     this.pmds = new domain.level.PossibleMoveDetectionService(this.ball, cells)
-
   }
 
   /**
@@ -39,7 +38,6 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
     this.ball.move(dir)
 
     return this.leaveAtPos(pos)
-
   }
 
   /**
@@ -49,7 +47,6 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
    */
   pt.leaveLastOneAtBall = function () {
     return this.mobs.leave(this.ball.pos()).setLastOne()
-
   }
 
   /**
@@ -65,7 +62,6 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
 
     if (this.pmds.possible()) {
       return mob
-
     }
 
     console.log('no more move!')
@@ -75,15 +71,12 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
 
       return [mob, wait(600).then(function () {
         return that.leaveLastOneAtBall()
-
       })].toFlatStream()
-
     }
 
     console.log('no cell left')
 
     return mob.setLastOne()
-
   }
 
   /**
@@ -101,7 +94,6 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
      */
     pt.constructor = function (cells) {
       this.cells = cells
-
     }
 
     /**
@@ -111,7 +103,6 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
      */
     pt.isEmpty = function () {
       return this.cells.isEmpty()
-
     }
 
     /**
@@ -128,11 +119,9 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
 
       this.cells.selectRange(pos).forEach(function (cell) {
         cell.up()
-
       })
 
       return w
-
     }
 
     /**
@@ -142,9 +131,6 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
      */
     pt.find = function (pos) {
       return this.cells.find(pos)
-
     }
-
   })
-
 })

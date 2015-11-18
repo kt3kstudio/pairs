@@ -27,9 +27,7 @@ domain.common.StayRunSprite = subclass(domain.common.Sprite, function (pt, paren
         stay: new domain.common.Image(this.leftStayImage, true),
         run: new domain.common.Image(this.leftRunImage, true)
       }
-
     }
-
   }
 
   pt.runAway = function (dir) {
@@ -53,22 +51,16 @@ domain.common.StayRunSprite = subclass(domain.common.Sprite, function (pt, paren
       that.elem.css('opacity', 0)
 
       return wait(that.awayAnimDur)
-
     }).then(function () {
       that.elem.remove()
-
     })
-
   }
 
   pt.runAwayRight = function () {
     return this.runAway('right')
-
   }
 
   pt.runAwayLeft = function () {
     return this.runAway('left')
-
   }
-
 })

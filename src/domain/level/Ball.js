@@ -19,7 +19,6 @@ domain.level.Ball = subclass(domain.common.Being, function (pt, parent) {
     this.y = pos.y
 
     this.dimension = elem.data('dimension')
-
   }
 
   pt.willShow = function () {
@@ -30,7 +29,6 @@ domain.level.Ball = subclass(domain.common.Being, function (pt, parent) {
     this.elem.height(this.dimension.unit)
 
     this.locate()
-
   }
 
   pt.maxX = MAX
@@ -52,7 +50,6 @@ domain.level.Ball = subclass(domain.common.Being, function (pt, parent) {
    */
   pt.move = function (dir) {
     return this.setPos(this.posAhead(dir))
-
   }
 
   /**
@@ -79,7 +76,6 @@ domain.level.Ball = subclass(domain.common.Being, function (pt, parent) {
 
   pt.pos = function () {
     return {x: this.x, y: this.y}
-
   }
 
   pt.posAhead = function (dir) {
@@ -89,12 +85,10 @@ domain.level.Ball = subclass(domain.common.Being, function (pt, parent) {
       case 'left': return this.relativePos(-1, 0)
       case 'right': return this.relativePos(1, 0)
     }
-
   }
 
   pt.relativePos = function (x, y) {
     return {x: (this.x + x + this.maxX) % this.maxX, y: (this.y + y + this.maxY) % this.maxY}
-
   }
 
   pt.setPos = function (pos) {
@@ -102,7 +96,6 @@ domain.level.Ball = subclass(domain.common.Being, function (pt, parent) {
     this.y = pos.y
 
     return this.locate()
-
   }
 
   /**
@@ -113,20 +106,15 @@ domain.level.Ball = subclass(domain.common.Being, function (pt, parent) {
     this.elem.css('left', this.dimension.left + this.x * this.dimension.unit + 'px')
 
     return wait(this.locateDur)
-
   }
 
   pt.refuseToMove = function (dir) {
     if (dir === 'up' || dir === 'down') {
       return this.elem.anim('ball-refuse-y', this.locateDur)
-
     } else {
       return this.elem.anim('ball-refuse-x', this.locateDur)
-
     }
-
   }
-
 })
 
 $.cc.assign('ball', domain.level.Ball)

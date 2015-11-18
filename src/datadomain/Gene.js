@@ -14,7 +14,6 @@ datadomain.Gene = subclass(function (pt) {
    */
   pt.constructor = function (gene) {
     this.gene = gene
-
   }
 
   /**
@@ -25,7 +24,5 @@ datadomain.Gene = subclass(function (pt) {
    */
   pt.equals = function (gene) {
     return gene instanceof datadomain.Gene && this.gene === gene.gene
-
   }
-
 })

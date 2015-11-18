@@ -25,9 +25,7 @@ domain.map.FrogSprite = subclass(domain.common.StayRunSprite, function (pt, pare
       ratioX: 0.5,
       ratioY: 1
     })
-
   }
-
 })
 
 $.cc.assign('frog', domain.map.FrogSprite)

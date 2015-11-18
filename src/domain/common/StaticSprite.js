@@ -7,7 +7,5 @@ domain.common.StaticSprite = subclass(domain.common.Sprite, function (pt, parent
     this.dirStateImage = {
       down: { default: new domain.common.Image(this.image) }
     }
-
   }
-
 })

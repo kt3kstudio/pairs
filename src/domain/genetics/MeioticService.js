@@ -32,7 +32,6 @@ domain.genetics.MeioticService = subclass(function (pt) {
 
       // add an ankh for the reward of over 8 recombination
       newGene += 'a'
-
     }
 
     if (newGene.length >= 8) {
@@ -41,7 +40,6 @@ domain.genetics.MeioticService = subclass(function (pt) {
 
       // add a wheel for the reward of over 8 recombination
       newGene += 'w'
-
     }
 
     if (newGene.length >= 8) {
@@ -50,16 +48,13 @@ domain.genetics.MeioticService = subclass(function (pt) {
 
       // add a bat for the reward of over 8 recombination
       newGene += 'b'
-
     }
 
     if (newGene.length >= 8) {
-      newGene = 'm'; // He is Adam.
-
+      newGene = 'm' // Returns to the beginning
     }
 
     return newGene
-
   }
 
   /**
@@ -71,27 +66,20 @@ domain.genetics.MeioticService = subclass(function (pt) {
   pt.virtualLength = function (gene) {
     return sumArray(GENES.map(function (c) {
       return countChar(gene, c) * virtualLengthOfMonon(c)
-
     }))
-
   }
 
   var virtualLengthOfMonon = function (monon) {
     return GENE_SCORE_TABLE[monon] || 0
-
   }
 
   var countChar = function (string, c) {
     return string.split(c).length - 1
-
   }
 
   var sumArray = function (array) {
     return array.reduce(function (n, m) {
       return n + m
-
     })
-
   }
-
 })

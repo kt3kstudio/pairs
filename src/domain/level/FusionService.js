@@ -13,7 +13,6 @@ domain.level.FusionService = subclass(domain.common.Role, function (pt) {
     this.dimension = dimension
 
     return this
-
   }
 
   /**
@@ -27,9 +26,7 @@ domain.level.FusionService = subclass(domain.common.Role, function (pt) {
 
     return this.getToReactor(pair).then(function () {
       return that.fusion(pair)
-
     })
-
   }
 
   /**
@@ -45,16 +42,12 @@ domain.level.FusionService = subclass(domain.common.Role, function (pt) {
     if (pair.right) {
       pair.right.anim('get-to-reactor-right', dur).then(function () {
         return pair.right.remove()
-
       })
-
     }
 
     return pair.left.anim('get-to-reactor-left', dur).then(function () {
       pair.left.remove()
-
     })
-
   }
 
   /**
@@ -70,23 +63,18 @@ domain.level.FusionService = subclass(domain.common.Role, function (pt) {
     var cell = $('<object />', {
       data: {gene: pair.newGene()},
       prependTo: this.elem
-
     }).cc.init('cell').setDimension(this.dimension).setXY([0, 0])
 
     if (pair.isLastOne()) {
       cell.setLastOne()
-
     }
 
     if (pair.isEvolving()) {
       cell.setEvolved()
-
     }
 
     return cell.appear(dur)
-
   }
-
 })
 
 $.cc.assign('fusion-service', domain.level.FusionService)

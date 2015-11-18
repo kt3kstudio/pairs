@@ -24,9 +24,7 @@ datadomain.PlayingStateRepository = subclass(function (pt) {
       }
 
       return new datadomain.PlayingState(data.charId, data.levelId, data.rounds)
-
     })
-
   }
 
   /**
@@ -37,9 +35,7 @@ datadomain.PlayingStateRepository = subclass(function (pt) {
   pt.save = function (playingState) {
     return infrastructure.storage.set(PLAYING_DATA_KEY + playingState.charId, this.toObject(playingState)).then(function () {
       return playingState
-
     })
-
   }
 
   /**
@@ -50,7 +46,6 @@ datadomain.PlayingStateRepository = subclass(function (pt) {
    */
   pt.clearByCharId = function (id) {
     return infrastructure.storage.set(PLAYING_DATA_KEY + id, null)
-
   }
 
   /**
@@ -66,7 +61,5 @@ datadomain.PlayingStateRepository = subclass(function (pt) {
       levelId: playingState.levelId,
       rounds: playingState.rounds
     }
-
   }
-
 })

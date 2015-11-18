@@ -53,9 +53,7 @@
     return new Promise(function (resolve) {
       that.one(events, function (event) {
         resolve(event)
-
       })
-
     })
   }
 
@@ -80,16 +78,13 @@
     return new Promise(function (resolve, reject) {
       self.on('error', function () {
         reject(new Error('image can not be loaded: ' + self.attr('src')))
-
       })
 
       self.on('load', function () {
         resolve()
-
       })
 
       self.attr('src', self.attr('src'))
-
     })
   }
 
@@ -101,7 +96,5 @@
     this.css('top', position.top)
 
     return this
-
   }
-
 }(window.jQuery))

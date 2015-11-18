@@ -16,7 +16,6 @@ ui.common.BackgroundService = subclass(function (pt) {
    */
   pt.constructor.turnWhite = function (dur) {
     return this.turn('', dur, false)
-
   }
 
   /**
@@ -27,7 +26,6 @@ ui.common.BackgroundService = subclass(function (pt) {
    */
   pt.constructor.turnBlack = function (dur) {
     return this.turn('', dur, true)
-
   }
 
   /**
@@ -45,7 +43,5 @@ ui.common.BackgroundService = subclass(function (pt) {
     $(document.body).toggleClass('dark-bg', darkBg).css('background-color', color)
 
     return wait(dur)
-
   }
-
 })

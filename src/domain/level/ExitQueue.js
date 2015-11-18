@@ -9,7 +9,6 @@ domain.level.ExitQueue = subclass(function (pt) {
   pt.constructor = function (dimension) {
     this.dimension = dimension
     this.queue = []
-
   }
 
   /**
@@ -23,9 +22,7 @@ domain.level.ExitQueue = subclass(function (pt) {
 
     return this.involve(new Queuee(cell)).then(function () {
       return that.goForward()
-
     })
-
   }
 
   /**
@@ -36,9 +33,7 @@ domain.level.ExitQueue = subclass(function (pt) {
   pt.releaseCells = function () {
     return this.queue.splice(0).map(function (queuee) {
       return queuee.cell
-
     })
-
   }
 
   /**
@@ -56,7 +51,6 @@ domain.level.ExitQueue = subclass(function (pt) {
       return wait(i * d).then(function () {
         return queuee.locate()
       })
-
     }).pop()
   }
 
@@ -159,7 +153,5 @@ domain.level.ExitQueue = subclass(function (pt) {
 
       return this
     }
-
   })
-
 })

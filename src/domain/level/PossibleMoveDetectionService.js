@@ -14,7 +14,6 @@ domain.level.PossibleMoveDetectionService = subclass(function (pt) {
   pt.constructor = function (ball, cells) {
     this.ball = ball
     this.cells = cells
-
   }
 
   /**
@@ -24,13 +23,12 @@ domain.level.PossibleMoveDetectionService = subclass(function (pt) {
    */
   pt.possible = function () {
     // if any of the next cells has a bom, then the next move is possible.
-    if (this.cells.find(this.ball.posAhead('up'))) { return true; }
-    if (this.cells.find(this.ball.posAhead('down'))) { return true; }
-    if (this.cells.find(this.ball.posAhead('left'))) { return true; }
-    if (this.cells.find(this.ball.posAhead('right'))) { return true; }
+    if (this.cells.find(this.ball.posAhead('up'))) { return true }
+    if (this.cells.find(this.ball.posAhead('down'))) { return true }
+    if (this.cells.find(this.ball.posAhead('left'))) { return true }
+    if (this.cells.find(this.ball.posAhead('right'))) { return true }
 
     return false
-
   }
 
   /**
@@ -40,7 +38,5 @@ domain.level.PossibleMoveDetectionService = subclass(function (pt) {
    */
   pt.cellRemainsAtBall = function () {
     return this.cells.find(this.ball.pos()) != null
-
   }
-
 })

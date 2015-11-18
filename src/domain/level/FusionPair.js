@@ -18,17 +18,14 @@ domain.level.FusionPair = subclass(function (pt) {
     this.right = right
 
     this.meiosis = meiosis || (meiosis = new domain.genetics.MeioticService())
-
   }
 
   var getGene = function (cell) {
     return cell ? cell.gene : ''
-
   }
 
   var isLastOne = function (cell) {
     return cell ? cell.isLastOne() : false
-
   }
 
   /**
@@ -42,7 +39,6 @@ domain.level.FusionPair = subclass(function (pt) {
     this.__newGene__ = this.__newGene__ || this.meiosis.recombination(this.leftGene(), this.rightGene())
 
     return this.__newGene__
-
   }
 
   /**
@@ -56,7 +52,6 @@ domain.level.FusionPair = subclass(function (pt) {
     var newLength = this.meiosis.virtualLength(this.newGene())
 
     return newLength > prevLength
-
   }
 
   /**
@@ -66,7 +61,6 @@ domain.level.FusionPair = subclass(function (pt) {
    */
   pt.isLastOne = function () {
     return isLastOne(this.left) || isLastOne(this.right)
-
   }
 
   /**
@@ -76,7 +70,6 @@ domain.level.FusionPair = subclass(function (pt) {
    */
   pt.leftGene = function () {
     return getGene(this.left)
-
   }
 
   /**
@@ -86,7 +79,6 @@ domain.level.FusionPair = subclass(function (pt) {
    */
   pt.rightGene = function () {
     return getGene(this.right)
-
   }
 
   /**
@@ -104,7 +96,5 @@ domain.level.FusionPair = subclass(function (pt) {
     }
 
     return score
-
   }
-
 })

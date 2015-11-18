@@ -39,7 +39,5 @@ datadomain.LevelHistory = subclass(function (pt) {
      * @property {Date} clearedAt The datetime of the clear
      */
     this.clearedAt = clearedAt
-
   }
-
 })

@@ -11,7 +11,6 @@ domain.level.FusionPreparationService = subclass(function (pt) {
    */
   pt.constructor = function (dimension) {
     this.stack = new PreparationStack(dimension)
-
   }
 
   /**
@@ -25,14 +24,11 @@ domain.level.FusionPreparationService = subclass(function (pt) {
 
     if (!this.stack.isPrepared()) {
       return
-
     }
 
     return Promise.all(this.stack.popAll()).then(function (array) {
       return new domain.level.FusionPair(array[0], array[1])
-
     })
-
   }
 
   /**
@@ -49,7 +45,6 @@ domain.level.FusionPreparationService = subclass(function (pt) {
       this.dimension = dimension
       this.stack = []
       this.isFinished = false
-
     }
 
     /**
@@ -66,7 +61,6 @@ domain.level.FusionPreparationService = subclass(function (pt) {
       this.isFinished = cell.isLastOne()
 
       this.stack.push(this.locate(cell, this.stack.length))
-
     }
 
     /**
@@ -84,22 +78,17 @@ domain.level.FusionPreparationService = subclass(function (pt) {
 
       return cell.setTransitionDuration(this.takeDur).then(function () {
         return cell.updateDomDimension()
-
       }).then(function () {
         return cell
-
       })
-
     }
 
     pt.isPrepared = function () {
       return this.isFinished || this.isFull()
-
     }
 
     pt.isFull = function () {
       return this.stack.length >= 2
-
     }
 
     /**
@@ -109,9 +98,6 @@ domain.level.FusionPreparationService = subclass(function (pt) {
      */
     pt.popAll = function () {
       return this.stack.splice(0)
-
     }
-
   })
-
 })

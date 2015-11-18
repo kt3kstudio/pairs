@@ -15,12 +15,10 @@ datadomain.LevelHistoryFactory = subclass(function (pt) {
 
     if (!(array instanceof Array)) {
       array = []
-
     }
 
     return new datadomain.LevelHistoryCollection(array.map(function (obj) {
       return that.createFromObject(obj)
-
     }))
   }
 
@@ -32,15 +30,11 @@ datadomain.LevelHistoryFactory = subclass(function (pt) {
    */
   pt.createFromObject = function (obj) {
     return new datadomain.LevelHistory(
-
       obj.levelName,
       obj.score,
       obj.highestGene,
       obj.cleared,
       obj.clearedAt
-
     )
-
   }
-
 })

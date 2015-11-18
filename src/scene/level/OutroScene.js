@@ -14,9 +14,7 @@ scene.level.OutroScene = subclass(scene.level.Context, function (pt) {
 
     this.start().then(function () {
       history.back()
-
     })
-
   }.event('play-scene-success play-scene-failure')
 
   pt.start = function () {
@@ -32,29 +30,21 @@ scene.level.OutroScene = subclass(scene.level.Context, function (pt) {
       that.getScoreboard().disappear()
 
       return that.getField().disappear()
-
     }).then(function () {
       return that.getBall().goCenterX()
-
     }).then(function () {
       return that.getBall().goCenterY()
-
     }).then(function () {
       return Promise.all([
         that.getCharacter().appear(400),
         that.getBall().disappear()
       ])
-
     }).then(function () {
       return that.getCharacter().moveTo('y', 800, 1000)
-
     }).then(function () {
       return ui.common.BackgroundService.turnBlack()
-
     })
-
   }
-
 })
 
 $.cc.assign('outro-scene', scene.level.OutroScene)

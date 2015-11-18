@@ -14,7 +14,6 @@ scene.level.Context = subclass(domain.common.Role, function (pt) {
    */
   pt.getMenuButton = function () {
     return $('.menu-button-root').cc.get('menu-button')
-
   }
 
   /**
@@ -24,7 +23,6 @@ scene.level.Context = subclass(domain.common.Role, function (pt) {
    */
   pt.getField = function () {
     return this.elem.find('.field-grid').cc.get('field-grid')
-
   }
 
   /**
@@ -45,7 +43,6 @@ scene.level.Context = subclass(domain.common.Role, function (pt) {
     this.dimFactory = this.dimFactory || new domain.level.DimensionFactory()
 
     return this.dimFactory
-
   }
 
   /**
@@ -55,7 +52,6 @@ scene.level.Context = subclass(domain.common.Role, function (pt) {
    */
   pt.getBall = function () {
     return this.elem.find('.ball').cc.get('ball')
-
   }
 
   /**
@@ -65,7 +61,6 @@ scene.level.Context = subclass(domain.common.Role, function (pt) {
    */
   pt.getPaper = function () {
     return this.elem.find('.paper').cc.get('paper')
-
   }
 
   /**
@@ -75,7 +70,5 @@ scene.level.Context = subclass(domain.common.Role, function (pt) {
    */
   pt.getScoreboard = function () {
     return this.elem.find('.scoreboard').cc.get('scoreboard')
-
   }
-
 })

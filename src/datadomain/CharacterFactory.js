@@ -16,7 +16,6 @@ datadomain.CharacterFactory = subclass(function (pt) {
       obj.name,
       new datadomain.CharPositionFactory().createFromObject(obj.position)
     )
-
   }
 
   /**
@@ -32,25 +31,20 @@ datadomain.CharacterFactory = subclass(function (pt) {
         'Ma',
         new datadomain.CharPositionFactory().createFromObject()
       )
-
     } else if (id === 'ellen') {
       return new datadomain.Character(
         id,
         'Ellen',
         new datadomain.CharPositionFactory().createFromObject()
       )
-
     } else if (id === 'emma') {
       return new datadomain.Character(
         id,
         'Emma',
         new datadomain.CharPositionFactory().createFromObject()
       )
-
     }
 
     throw new Error('unknown character: ' + id)
-
   }
-
 })

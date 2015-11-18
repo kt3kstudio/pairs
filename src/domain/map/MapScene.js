@@ -22,19 +22,15 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
 
     return new datadomain.UserRepository().get().then(function (user) {
       return new datadomain.CharacterRepository().getById(user.charId)
-
     }).then(function (character) {
       that.initFloorWalker(character)
 
       return that.initFloorAssets(character)
-
     }).then(function () {
       that.elem.trigger('floor-built')
 
       that.start()
-
     })
-
   }.event('scene-start')
 
   /**
@@ -47,9 +43,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
       addClass: 'sub-door-knock sub-character-goto',
       appendTo: this.elem.find('.floor-asset-collection'),
       data: {character: character}
-
     }).cc.init('floor-walker')
-
   }
 
   /**
@@ -69,11 +63,8 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
 
       if (currentFloorAsset) {
         currentFloorAsset.locked = false
-
       }
-
     })
-
   }
 
   pt.start = function () {
@@ -89,12 +80,10 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
 
     return floorboard.appear().then(function () {
       return assets.appear()
-
     }).then(function () {
       var floorAsset = assets.findById(walker.getPosition().floorObjectId)
 
       return walker.appearAt(floorAsset)
-
     })
   }
 
@@ -107,9 +96,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
       that.elem.find('.floorboard').cc.getActor().hide()
 
       return ui.common.BackgroundService.turnBlack()
-
     })
-
   }
 
   pt.walkerFadeIntoDoor = function () {
@@ -117,9 +104,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
 
     return this.elem.find('.floor-walker').cc.getActor().getIntoDoor().then(function () {
       return that.fadeOut()
-
     })
-
   }
 
   /**
@@ -130,9 +115,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
   pt.goToLevel = function () {
     return this.walkerFadeIntoDoor().then(function () {
       location.href = 'level.html'
-
     })
-
   }.event('goToLevel')
 
   /**
@@ -145,9 +128,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
   pt.sceneReload = function () {
     return this.walkerFadeIntoDoor().then(function () {
       location.reload()
-
     })
-
   }.event('sceneReload')
 
   pt.assetUnlock = function (e) {
@@ -163,14 +144,10 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
       asset.enableDoorKnock()
 
       return wait(500)
-
     }).then(function () {
       camera.scrollTo(walker.x, 500)
-
     })
-
   }.event('assetUnlock')
-
 })
 
 $.cc.assign('map-scene', domain.map.MapScene)

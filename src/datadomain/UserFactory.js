@@ -14,7 +14,5 @@ datadomain.UserFactory = subclass(function (pt) {
     }
 
     return new datadomain.User(obj.charId, new datadomain.UserStatistics(obj.stat))
-
   }
-
 })

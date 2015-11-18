@@ -16,7 +16,6 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
     parent.constructor.call(this, elem)
 
     this.cells = []
-
   }
 
   /**
@@ -26,7 +25,6 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
     this.dimension = dimension
 
     return this
-
   }
 
   /**
@@ -39,9 +37,7 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
     return $('<object />', {
       data: {gene: obj.gene},
       prependTo: this.elem
-
     }).cc.init('cell')
-
   }
 
   /**
@@ -51,7 +47,6 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
    */
   pt.isEmpty = function () {
     return this.cells.length === 0
-
   }
 
   /**
@@ -63,9 +58,7 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
   pt.loadFromObjectList = function (list) {
     return this.loadList(list.map(function (obj) {
       return this.createCellFromObject(obj)
-
     }, this))
-
   }
 
   /**
@@ -84,7 +77,6 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
         .unsetLastOne()
 
       this.cells.push(cell)
-
     }, this)
 
     return this
@@ -99,11 +91,8 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
     return this.cells.map(function (cell, i) {
       return wait(i * 56).then(function () {
         cell.appear()
-
       })
-
     }).pop()
-
   }
 
   /**
@@ -113,11 +102,8 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
     return this.cells.map(function (cell, i) {
       return wait(i * 56).then(function () {
         return cell.resetShapeAndLocate()
-
       })
-
     }).pop()
-
   }
 
   /**
@@ -129,9 +115,7 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
   pt.select = function (pos) {
     return this.cells.filter(function (cell) {
       return cell.x === pos.x && cell.y === pos.y
-
     })
-
   }
 
   /**
@@ -148,7 +132,6 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
     }
 
     return candidates[0]
-
   }
 
   /**
@@ -160,9 +143,7 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
   pt.selectRange = function (pos) {
     return this.cells.filter(function (cell) {
       return cell.x === pos.x && cell.y > pos.y
-
     })
-
   }
 
   /**
@@ -173,9 +154,7 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
   pt.remove = function (cells) {
     this.cells = this.cells.filter(function (cell) {
       return cells.indexOf(cell) < 0
-
     })
-
   }
 
   /**
@@ -186,11 +165,8 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
   pt.usedIndices = function () {
     return this.cells.map(function (cell) {
       return [cell.x, cell.y]
-
     })
-
   }
-
 })
 
 $.cc.assign('cell-collection', domain.level.CellCollection)

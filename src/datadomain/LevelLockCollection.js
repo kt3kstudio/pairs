@@ -9,7 +9,6 @@ datadomain.LevelLockCollection = subclass(function (pt) {
    */
   pt.constructor = function (locks) {
     this.locks = locks || []
-
   }
 
   /**
@@ -22,16 +21,13 @@ datadomain.LevelLockCollection = subclass(function (pt) {
   pt.find = function (levelId) {
     var locks = this.locks.filter(function (lock) {
       return lock.levelId === levelId
-
     })
 
     if (locks.length === 0) {
       return null
-
     }
 
     return locks[0]
-
   }
 
   /**
@@ -46,18 +42,15 @@ datadomain.LevelLockCollection = subclass(function (pt) {
       lock.unlock()
 
       return
-
     }
 
     // Create a new lock object if it doesn't exist
     lock = new datadomain.LevelLockFactory().createFromObject({
       levelId: levelId,
       locked: false
-
     })
 
     this.locks.push(lock)
-
   }
 
   /**
@@ -72,11 +65,8 @@ datadomain.LevelLockCollection = subclass(function (pt) {
     if (!lock) {
       // If lock object doesn't exist, then it means the level is locked.
       return true
-
     }
 
     return lock.isLocked()
-
   }
-
 })

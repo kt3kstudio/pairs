@@ -18,7 +18,6 @@ domain.map.Floorboard = subclass(domain.common.Being, function (pt) {
    */
   pt.constructor.groundLevel = function () {
     return $(window).height() * (1 - pt.constructor.HEIGHT_RATE)
-
   }
 
   /**
@@ -28,7 +27,6 @@ domain.map.Floorboard = subclass(domain.common.Being, function (pt) {
    */
   pt.constructor.groundHeight = function () {
     return $(window).height() * pt.constructor.HEIGHT_RATE
-
   }
 
   pt.willShow = function () {
@@ -37,16 +35,13 @@ domain.map.Floorboard = subclass(domain.common.Being, function (pt) {
     this.elem.css('transform', 'scale(1)')
 
     return wait(FLOORBOARD_MOVE_DUR)
-
   }
 
   pt.willHide = function () {
     this.elem.css('transform', 'scale(1, 0)')
 
     return wait(FLOORBOARD_MOVE_DUR)
-
   }
-
 })
 
 $.cc.assign('floorboard', domain.map.Floorboard)

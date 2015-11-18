@@ -29,7 +29,6 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
     }
 
     return result
-
   }
 
   pt.constructor = function () {
@@ -39,9 +38,7 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
 
     this.menus = this.getMenuItemSource().map(function (menu) {
       return this.createMenuItem(menu)
-
     }, this)
-
   }
 
   /**
@@ -52,16 +49,13 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
   pt.getMenuItemSource = function () {
     if (this.elem.data('menu')) {
       return this.elem.data('menu')
-
     }
 
     if (this.elem.attr('menu')) {
       return $('#' + this.elem.attr('menu')).children().toArray()
-
     }
 
     throw new Error('no menu')
-
   }
 
   /**
@@ -73,9 +67,7 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
   pt.setOffset = function (offset) {
     this.menus.forEach(function (menu) {
       menu.setOffset(offset)
-
     })
-
   }
 
   /**
@@ -90,7 +82,6 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
 
     return wait(TRANS_DUR).then(function () {
       that.setOffset(that.elem.offset())
-
     })
   }
 
@@ -104,12 +95,10 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
 
     return this.closeMenu().then(function () {
       return wait(300)
-
     }).then(function () {
       that.elem.addClass('hidden')
 
       return wait(TRANS_DUR)
-
     })
   }
 
@@ -126,11 +115,8 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
     return Promise.all(this.menus.map(function (menu, i) {
       return wait(50 * i).then(function () {
         return menu.show(toOffsets[i])
-
       })
-
     }))
-
   }
 
   /**
@@ -141,7 +127,6 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
   pt.closeMenu = function (offset) {
     if (this.closed) {
       return Promise.resolve()
-
     }
 
     this.closed = true
@@ -150,9 +135,7 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
 
     return Promise.all(this.menus.map(function (menu) {
       return menu.hide(offset)
-
     }))
-
   }
 
   /**
@@ -164,7 +147,6 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
     }
 
     return this.closeMenu()
-
   }.event('click')
 
   /**
@@ -186,11 +168,8 @@ ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
         menu: menu.children().toArray(),
         onclick: menu.attr('onclick')
       }
-
     }).cc.init('menu-item')
-
   }
-
 })
 
 $.cc.assign('menu-button', ui.common.MenuButton)

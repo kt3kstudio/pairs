@@ -12,9 +12,7 @@ ui.common.MenuItem = subclass(domain.common.Role, function (pt, parent) {
 
     if (menu && menu.length) {
       this.elem.cc.init('menu-button')
-
     }
-
   }
 
   /**
@@ -25,11 +23,9 @@ ui.common.MenuItem = subclass(domain.common.Role, function (pt, parent) {
 
     if (typeof onclick !== 'string' || onclick === '') {
       return
-
     }
 
-    eval(onclick)
-
+    window.eval(onclick)
   }.event('click')
 
   /**
@@ -59,9 +55,7 @@ ui.common.MenuItem = subclass(domain.common.Role, function (pt, parent) {
 
     if (this.elem.hasClass('menu-button')) {
       this.elem.cc.get('menu-button').setOffset(offset)
-
     }
-
   }
 
   /**
@@ -83,15 +77,11 @@ ui.common.MenuItem = subclass(domain.common.Role, function (pt, parent) {
     if (elem.hasClass('menu-button')) {
       p = p.then(function () {
         return elem.cc.get('menu-button').closeMenu(offset)
-
       })
-
     }
 
     return p
-
   }
-
 })
 
 $.cc.assign('menu-item', ui.common.MenuItem)

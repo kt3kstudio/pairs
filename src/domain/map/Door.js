@@ -20,7 +20,6 @@ domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
     this.score = 0
 
     this.locked = true
-
   }
 
   /**
@@ -44,23 +43,18 @@ domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
       height: '150px',
       top: '-200px',
       left: '-40px'
-
     }).appendTo(this.elem).infoPane(3, 5, {bgcolor: '#393F44'})
 
     $('<button />').text('▶').appendTo($('.door-info-content', this.infoPane.$dom)).click(function (event) {
       event.preventDefault()
       $(this).trigger('goToLevel')
-
     })
 
     if (!this.locked) {
       this.enableDoorKnock()
-
     } else {
       return this.spawnFrog()
-
     }
-
   }
 
   /**
@@ -77,7 +71,6 @@ domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
     this.disableDoorKnock()
 
     return wait(this.doorActionDur)
-
   }
 
   /**
@@ -92,7 +85,6 @@ domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
     this.enableDoorKnock()
 
     return wait(this.doorActionDur)
-
   }
 
   /**
@@ -104,7 +96,6 @@ domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
     this.enableDoorKnock()
 
     this.removeFrog()
-
   }
 
   /**
@@ -115,9 +106,7 @@ domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
 
     this.$doorBody.one('click', function () {
       that.doorKnock()
-
     })
-
   }
 
   /**
@@ -125,7 +114,6 @@ domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
    */
   pt.disableDoorKnock = function () {
     this.$doorBody.off('click')
-
   }
 
   pt.doorActionDur = 400
@@ -134,7 +122,6 @@ domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
   pt.showAnimDur = DOOR_APPEAR_DUR
   pt.hideAnim = 'door-disappear'
   pt.hideAnimDur = DOOR_APPEAR_DUR
-
 })
 
 $.cc.assign('door', domain.map.Door)

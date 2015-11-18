@@ -9,7 +9,6 @@ datadomain.LevelLock = subclass(function (pt) {
   pt.constructor = function (levelId, locked) {
     this.levelId = levelId
     this.locked = locked
-
   }
 
   /**
@@ -19,7 +18,6 @@ datadomain.LevelLock = subclass(function (pt) {
    */
   pt.isLocked = function () {
     return this.locked
-
   }
 
   /**
@@ -27,7 +25,5 @@ datadomain.LevelLock = subclass(function (pt) {
    */
   pt.unlock = function () {
     this.locked = false
-
   }
-
 })

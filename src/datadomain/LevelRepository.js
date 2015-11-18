@@ -16,9 +16,7 @@ datadomain.LevelRepository = subclass(function (pt) {
     return new Promise(function (resolve) {
       $.getJSON(that.levelUrl(id)).then(function (data) {
         resolve(new datadomain.LevelFactory().createFromObject(data))
-
       })
-
     })
   }
 
@@ -32,5 +30,4 @@ datadomain.LevelRepository = subclass(function (pt) {
   pt.levelUrl = function (id) {
     return 'data/level/' + id + '.json'
   }
-
 })

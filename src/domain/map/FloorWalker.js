@@ -25,9 +25,7 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
 
     return floorAsset.open().then(function () {
       return self.appear()
-
     })
-
   }
 
   /**
@@ -36,7 +34,6 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
    */
   pt.doorKnock = function (e, floorAsset) {
     this.moveToFloorAsset(floorAsset)
-
   }.event('door-knock')
 
   /**
@@ -52,9 +49,7 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
 
     this.saveCharacter().then(function () {
       self.elem.trigger($.Event('sceneReload'))
-
     })
-
   }.event('character-goto')
 
   /**
@@ -64,7 +59,6 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
    */
   pt.getPosition = function () {
     return this.character.position
-
   }
 
   /**
@@ -76,7 +70,6 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
     this.character.position.floorObjectId = floorObjectId
 
     this.saveCharacter()
-
   }
 
   /**
@@ -84,7 +77,6 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
    */
   pt.saveCharacter = function () {
     return this.characterRepository.save(this.character)
-
   }
 
   /**
@@ -116,19 +108,15 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
       floorAsset.open()
 
       return self.moveTo('x', floorAsset.x, moveOnCorridor)
-
     }).then(function () {
       return self.moveTo('y', floorAsset.y, goIntoDur)
-
     }).then(function () {
       self.current = floorAsset
 
       floorAsset.onGetWalker(self)
 
       return self.turn('down')
-
     })
-
   }
 
   /**
@@ -141,10 +129,8 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
 
     return this.disappear().then(function () {
       return self.current.close()
-
     })
   }
-
 })
 
 $.cc.assign('floor-walker', domain.map.FloorWalker)

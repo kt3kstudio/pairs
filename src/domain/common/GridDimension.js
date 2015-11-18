@@ -16,7 +16,5 @@ domain.common.GridDimension = subclass(function (pt) {
     this.top = options.top
     this.width = options.width
     this.height = options.height
-
   }
-
 })

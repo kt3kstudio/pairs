@@ -37,9 +37,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
     this.start().then(function (playerWon) {
       that.end(playerWon)
-
     })
-
   }.event('play-scene-start')
 
   /**
@@ -57,43 +55,32 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
       that.character.savePlayingState()
 
       return that.bms.ballMoveAndLeaveOne(dir)
-
     }).filterNull().pipe(function (cell) {
       return that.fps.take(cell)
-
     }).filterNull().pipe(function (fusionPair) {
       that.getScoreboard().addScore(fusionPair.score())
 
       return that.fusionService.performFusion(fusionPair)
-
     }).pipe(function (newCell) {
       return that.exitQueue.enqueue(newCell).then(function () {
         return newCell
-
       })
-
     }).filter(function (cell) {
       return cell.isLastOne()
-
     }).map(function () {
       if (!that.exitQueue.theLastOneIsEvolved()) {
         // this finishes the main stream and therefore resolves the promise
         return
-
       }
 
       that.character.playingState.bump()
 
       return that.cells.loadList(that.exitQueue.releaseCells()).resetShapeAndLocate()
-
     }).takeWhile(function (x) {
       return x != null
-
     }).getPromise().then(function () {
       return wait(0)
-
     })
-
   }
 
   /**
@@ -109,36 +96,27 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
     return this.getField().appear().then(function () {
       return that.getCharacter().speechEndPromise
-
     }).then(function () {
       return that.character.reloadPlayingState()
-
     }).then(function () {
       return that.cells.appear()
-
     }).then(function () {
       return that.character.playingState.release().reduce(function (promise, round) {
         return promise.then(function () {
           var dirs = round.map(function (dir, i) { return wait(i * 180, dir) })
 
           return that.playLoop(dirs.toFlatStream())
-
         })
-
       }, Promise.resolve())
-
     }).then(function () {
       console.log('swipe stream start!')
 
       return that.playLoop(that.getDirStream())
-
     }).then(function () {
       console.log('swipe stream finished!')
 
       that.removeSwipeField()
-
     })
-
   }
 
   /**
@@ -155,7 +133,6 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
       field.streamOf('swipeleft').map('left'),
       field.streamOf('swiperight').map('right')
     )
-
   }
 
   /**
@@ -163,7 +140,6 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
    */
   pt.removeSwipeField = function () {
     $('.swipe-field').remove()
-
   }
 
   /**
@@ -176,14 +152,10 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
     if (playerWon) {
       this.elem.trigger('play-scene-success')
-
     } else {
       this.elem.trigger('play-scene-failure')
-
     }
-
   }
-
 })
 
 $.cc.assign('play-scene', scene.level.PlayScene)

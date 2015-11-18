@@ -24,7 +24,6 @@ ui.level.ResultPane = subclass(function (pt) {
     this.cancelDom = cancelDom
     this.score = 0
     this.star = 0
-
   }
 
   pt.setScore = function (score) {
@@ -71,12 +70,9 @@ ui.level.ResultPane = subclass(function (pt) {
 
     return this.ip.show().then(function () {
       return Promise.race([wait(timeout), that.$dom.once('click touchstart')])
-
     }).then(function () {
       return that.hide()
-
     })
-
   }
 
   /**
@@ -86,7 +82,5 @@ ui.level.ResultPane = subclass(function (pt) {
    */
   pt.hide = function () {
     return this.ip.hide()
-
   }
-
 })

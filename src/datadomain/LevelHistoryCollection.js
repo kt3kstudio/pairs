@@ -19,9 +19,7 @@ datadomain.LevelHistoryCollection = subclass(Array, function (pt) {
     list.forEach(function (history, i) {
       this[i] = history
       this.dict[history.levelId] = history
-
     }, this)
-
   }
 
   /**
@@ -32,7 +30,5 @@ datadomain.LevelHistoryCollection = subclass(Array, function (pt) {
    */
   pt.getById = function (levelId) {
     return this.dict[levelId]
-
   }
-
 })

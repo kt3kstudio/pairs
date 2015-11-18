@@ -30,5 +30,4 @@ datadomain.goal.GoalFactory = subclass(function (pt) {
       case 'S': return new datadomain.goal.ScoreGoal(obj.type, obj.opts)
     }
   }
-
 })

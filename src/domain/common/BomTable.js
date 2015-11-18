@@ -14,6 +14,6 @@ domain.common.BomTable = (function () {
     4: 'quatron',
     5: 'penton',
     6: 'hexton',
-    7: 'septon',
+    7: 'septon'
   }
 }())

@@ -16,29 +16,23 @@ domain.map.Camera = subclass(domain.common.Role, function (pt, parent) {
 
     elem.on('floor-built', function () {
       that.scrollSet($('.floor-asset-collection').cc.getActor().findById($('.floor-walker').cc.getActor().getPosition().floorObjectId).centerX())
-
     })
 
     elem.on('character-focus', function (e, x) {
       if (!that.visible(x)) {
         that.scrollSet(x)
-
       }
-
     })
 
     elem.on('character-move', function (e, to, dur) {
       that.scrollTo(to, dur)
-
     })
-
   }
 
   pt.scrollSet = function (x) {
     this.elem.scrollLeft(x - this.windowWidth / 2)
 
     return this
-
   }
 
   /**
@@ -52,7 +46,6 @@ domain.map.Camera = subclass(domain.common.Role, function (pt, parent) {
     this.elem.animate({scrollLeft: x - this.windowWidth / 2}, dur)
 
     return wait(dur)
-
   }
 
   /**
@@ -63,9 +56,7 @@ domain.map.Camera = subclass(domain.common.Role, function (pt, parent) {
    */
   pt.visible = function (x) {
     return x > this.elem.scrollLeft() && x < this.elem.scrollLeft() + this.windowWidth
-
   }
-
 })
 
 $.cc.assign('camera', domain.map.Camera)

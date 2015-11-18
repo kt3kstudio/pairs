@@ -19,7 +19,6 @@ datadomain.LevelHistoryRepository = subclass(function (pt) {
   pt.constructor = function (charId) {
     this.charId = charId
     this.factory = new datadomain.LevelHistoryFactory()
-
   }
 
   /**
@@ -33,9 +32,7 @@ datadomain.LevelHistoryRepository = subclass(function (pt) {
 
     return infrastructure.storage.get(this.createStorageKey(floorId), []).then(function (array) {
       return that.factory.createCollectionFromArray(array)
-
     })
-
   }
 
   /**
@@ -48,5 +45,4 @@ datadomain.LevelHistoryRepository = subclass(function (pt) {
   pt.createStorageKey = function (floorId) {
     return 'level-history-' + this.charId + '-' + floorId
   }
-
 })

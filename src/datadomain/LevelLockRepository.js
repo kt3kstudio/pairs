@@ -17,7 +17,6 @@ datadomain.LevelLockRepository = subclass(function (pt) {
    */
   pt.constructor = function (charId) {
     this.charId = charId
-
   }
 
   /**
@@ -30,7 +29,6 @@ datadomain.LevelLockRepository = subclass(function (pt) {
   pt.getByFloorId = function (floorId) {
     return infrastructure.storage.get(this.createStorageKey(floorId), []).then(function (objList) {
       return new datadomain.LevelLockFactory().createCollectionFromObjectList(objList)
-
     })
   }
 
@@ -42,7 +40,6 @@ datadomain.LevelLockRepository = subclass(function (pt) {
    */
   pt.saveByFloorId = function (floorId, collection) {
     return infrastructure.storage.set(this.createStorageKey(floorId), this.toObjectList(collection))
-
   }
 
   /**
@@ -55,9 +52,7 @@ datadomain.LevelLockRepository = subclass(function (pt) {
   pt.toObjectList = function (collection) {
     return collection.locks.map(function (lock) {
       return this.toObject(lock)
-
     }, this)
-
   }
 
   /**
@@ -72,7 +67,6 @@ datadomain.LevelLockRepository = subclass(function (pt) {
       levelId: lock.levelId,
       locked: lock.locked
     }
-
   }
 
   /**
@@ -85,7 +79,5 @@ datadomain.LevelLockRepository = subclass(function (pt) {
    */
   pt.createStorageKey = function (floorId) {
     return 'level-lock-' + this.charId + '-' + floorId
-
   }
-
 })

@@ -31,14 +31,10 @@ domain.common.Being = subclass($.cc.Actor, function (pt) {
     return Promise.resolve(that.willShow()).then(function () {
       if (that.showAnim && that.showAnimDur) {
         return that.elem.anim(that.showAnim, that.showAnimDur)
-
       }
-
     }).then(function () {
       return that.didShow()
-
     })
-
   }
 
   pt.hideAnim = null
@@ -60,14 +56,10 @@ domain.common.Being = subclass($.cc.Actor, function (pt) {
     return Promise.resolve(that.willHide()).then(function () {
       if (that.hideAnim && that.hideAnimDur) {
         return that.elem.anim(that.hideAnim, that.hideAnimDur)
-
       }
-
     }).then(function () {
       return that.didHide()
-
     })
-
   }
 
   pt.willAppear = noop
@@ -78,12 +70,9 @@ domain.common.Being = subclass($.cc.Actor, function (pt) {
 
     return Promise.resolve(that.willAppear()).then(function () {
       return that.show()
-
     }).then(function () {
       return that.didAppear()
-
     })
-
   }
 
   pt.willDisappear = noop
@@ -94,13 +83,10 @@ domain.common.Being = subclass($.cc.Actor, function (pt) {
 
     return Promise.resolve(that.willDisappear()).then(function () {
       return that.hide()
-
     }).then(function () {
       return that.didDisappear()
-
     }).then(function () {
       that.elem.remove()
-
     })
   }
 
@@ -111,7 +97,5 @@ domain.common.Being = subclass($.cc.Actor, function (pt) {
    */
   pt.setDuration = function (dur) {
     this.elem.css('transition-duration', dur + 'ms').reflow()
-
   }
-
 })

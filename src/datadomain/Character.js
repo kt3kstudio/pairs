@@ -47,7 +47,6 @@ datadomain.Character = subclass(function (pt) {
      * @property {datadomain.LevelLockCollection} collection The collection of the locks
      */
     this.locks = locks
-
   }
 
   /**
@@ -57,7 +56,6 @@ datadomain.Character = subclass(function (pt) {
    */
   pt.setPosition = function (position) {
     this.position = position
-
   }
 
   /**
@@ -70,14 +68,12 @@ datadomain.Character = subclass(function (pt) {
 
     if (this.position == null) {
       return Promise.resolve(this)
-
     }
 
     return new datadomain.LevelHistoryRepository(this.id).getByFloorId(this.position.floorId).then(function (histories) {
       that.histories = histories
 
       return that
-
     })
   }
 
@@ -91,7 +87,6 @@ datadomain.Character = subclass(function (pt) {
 
     return new datadomain.LevelHistoryRepository(this.id).saveByFloorId(this.position.floorId, this.histories).then(function () {
       return that
-
     })
   }
 
@@ -103,14 +98,12 @@ datadomain.Character = subclass(function (pt) {
 
     if (this.position == null) {
       return Promise.resolve(this)
-
     }
 
     return new datadomain.LevelLockRepository(this.id).getByFloorId(this.position.floorId).then(function (locks) {
       that.locks = locks
 
       return that
-
     })
   }
 
@@ -122,7 +115,6 @@ datadomain.Character = subclass(function (pt) {
 
     return new datadomain.LevelLockRepository(this.id).saveByFloorId(this.position.floorId, this.locks).then(function () {
       return that
-
     })
   }
 
@@ -138,9 +130,7 @@ datadomain.Character = subclass(function (pt) {
       that.playingState = playingState
 
       return that
-
     })
-
   }
 
   /**
@@ -153,9 +143,7 @@ datadomain.Character = subclass(function (pt) {
 
     return new datadomain.PlayingStateRepository().save(this.playingState).then(function () {
       return that
-
     })
-
   }
 
   /**
@@ -165,7 +153,5 @@ datadomain.Character = subclass(function (pt) {
    */
   pt.clearPlayingState = function () {
     return new datadomain.PlayingStateRepository().clearByCharId(this.id)
-
   }
-
 })

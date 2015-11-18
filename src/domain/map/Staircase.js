@@ -18,10 +18,9 @@ domain.map.Staircase = subclass(domain.map.FloorAsset, function (pt, parent) {
   pt.constructor = function (elem) {
     parent.constructor.call(this, elem)
 
-    this.goto = elem.data('goto'); // must be parsed position object, not string
+    this.goto = elem.data('goto') // must be parsed position object, not string
 
     this.locked = true
-
   }
 
   /**
@@ -32,12 +31,9 @@ domain.map.Staircase = subclass(domain.map.FloorAsset, function (pt, parent) {
 
     if (this.locked) {
       this.spawnFrog()
-
     } else {
       this.enableDoorKnock()
-
     }
-
   }
 
   /**
@@ -48,9 +44,7 @@ domain.map.Staircase = subclass(domain.map.FloorAsset, function (pt, parent) {
 
     this.elem.one('click', function () {
       that.doorKnock()
-
     })
-
   }
 
   /**
@@ -58,7 +52,6 @@ domain.map.Staircase = subclass(domain.map.FloorAsset, function (pt, parent) {
    */
   pt.disableDoorKnock = function () {
     this.elem.off('click')
-
   }
 
   /**
@@ -66,9 +59,7 @@ domain.map.Staircase = subclass(domain.map.FloorAsset, function (pt, parent) {
    */
   pt.onGetWalker = function () {
     this.elem.trigger($.Event('character-goto', {goto: this.goto}))
-
   }
-
 })
 
 $.cc.assign('staircase', domain.map.Staircase)

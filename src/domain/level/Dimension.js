@@ -49,7 +49,5 @@ domain.level.Dimension = subclass(function (pt) {
 
     this.marginX = obj.marginX
     this.marginY = obj.marginY
-
   }
-
 })

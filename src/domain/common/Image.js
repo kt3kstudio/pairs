@@ -17,7 +17,6 @@ domain.common.Image = subclass(function (pt) {
 
     this.scaleX = this.mirrorX ? -1 : 1
     this.scaleY = this.mirrorY ? -1 : 1
-
   }
 
   /**
@@ -29,7 +28,6 @@ domain.common.Image = subclass(function (pt) {
     elem.css('transform', this.makeTransform())
 
     elem.attr('src', this.src)
-
   }
 
   /**
@@ -40,7 +38,5 @@ domain.common.Image = subclass(function (pt) {
    */
   pt.makeTransform = function () {
     return 'scale(' + this.scaleX + ', ' + this.scaleY + ')'
-
   }
-
 })

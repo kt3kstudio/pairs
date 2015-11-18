@@ -59,9 +59,7 @@ domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = sub
 
     if (defaultDirImage != null && defaultDirImage[this.defaultState] != null) {
       defaultDirImage[this.defaultState].apply(this.elem)
-
     }
-
   }
 
   /**
@@ -77,18 +75,15 @@ domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = sub
 
     if (!this.dirStateImage) {
       throw new Error('no image mapping in sprite.')
-
     }
 
     var img = this.dirStateImage[dir][state]
 
     if (!img) {
       throw new Error('illegal (dir, state): (' + dir + ', ' + state + ')')
-
     }
 
     this.applyImage(img)
-
   }
 
   /**
@@ -99,7 +94,5 @@ domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = sub
    */
   pt.applyImage = function (img) {
     img.apply(this.elem)
-
   }
-
 })

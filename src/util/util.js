@@ -20,7 +20,6 @@
     return new window.Promise(function (resolve) {
       setTimeout(resolve.bind(null, result), n)
     })
-
   }
 
   /**
@@ -36,7 +35,6 @@
           resolve($img)
         })
     })
-
   }
 
   /**
@@ -47,7 +45,6 @@
    */
   global.commaNumber = function (number) {
     return number.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')
-
   }
 
   /**
@@ -60,11 +57,7 @@
     return array.reduce(function (promise, item) {
       return promise.then(function () {
         return createPromise(item)
-
       })
-
     }, Promise.resolve())
-
   }
-
 })()

@@ -10,7 +10,5 @@ datadomain.LevelFactory = subclass(function (pt) {
       new datadomain.goal.GoalFactory().createFromObject(obj.goal),
       new datadomain.CellFactory().createCollectionFromArray(obj.cells)
     )
-
   }
-
 })

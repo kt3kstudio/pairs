@@ -18,9 +18,7 @@ datadomain.CharacterRepository = subclass(function (pt) {
 
     return infrastructure.storage.set(STORAGE_KEY + character.id, obj).then(function () {
       return character
-
     })
-
   }
 
   /**
@@ -37,26 +35,19 @@ datadomain.CharacterRepository = subclass(function (pt) {
 
       if (obj == null) {
         character = factory.createInitialById(id)
-
       } else {
         character = factory.createFromObject(obj)
-
       }
 
       return Promise.all([
-
         character,
         character.reloadHistories(),
         character.reloadPlayingState(),
         character.reloadLocks()
-
       ])
-
     }).then(function (array) {
       return array[0]
-
     })
-
   }
 
   /**
@@ -71,9 +62,7 @@ datadomain.CharacterRepository = subclass(function (pt) {
       id: character.id,
       name: character.name,
       position: this.positionToObject(character.position)
-
     }
-
   }
 
   /**
@@ -86,15 +75,11 @@ datadomain.CharacterRepository = subclass(function (pt) {
   pt.positionToObject = function (position) {
     if (position == null) {
       return null
-
     }
 
     return {
       floorId: position.floorId,
       floorObjectId: position.floorObjectId
-
     }
-
   }
-
 })

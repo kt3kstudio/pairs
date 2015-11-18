@@ -37,7 +37,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
     this.elem
       .css('position', 'absolute')
       .css('transition-timing-function', 'linear')
-
   }
 
   /**
@@ -46,7 +45,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
   pt.updateElem = function () {
     this.updateRect()
     this.updateOffset()
-
   }
 
   /**
@@ -54,7 +52,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
    */
   pt.actualWidth = function () {
     return this.dimension.actualHeight()
-
   }
 
   /**
@@ -62,7 +59,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
    */
   pt.actualHeight = function () {
     return this.dimension.actualHeight()
-
   }
 
   /**
@@ -72,7 +68,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
    */
   pt.willShow = function () {
     this.updateElem()
-
   }
 
   /**
@@ -82,7 +77,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
    */
   pt.rightLimit = function () {
     return this.dimension.rightLimit(this.x)
-
   }
 
   /**
@@ -92,7 +86,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
    */
   pt.leftLimit = function () {
     return this.dimension.leftLimit(this.x)
-
   }
 
   /**
@@ -100,7 +93,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
    */
   pt.topLimit = function () {
     return this.dimension.topLimit(this.y)
-
   }
 
   /**
@@ -108,7 +100,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
    */
   pt.bottomLimit = function () {
     return this.dimension.bottomLimit(this.y)
-
   }
 
   /**
@@ -118,7 +109,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
    */
   pt.centerX = function () {
     return this.dimension.centerX(this.x)
-
   }
 
   /**
@@ -128,7 +118,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
    */
   pt.centerY = function () {
     return this.dimension.centerY(this.y)
-
   }
 
   /**
@@ -139,7 +128,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
   pt.updateOffset = function () {
     this.elem.css('top', this.dimension.topLimit(this.y))
     this.elem.css('left', this.dimension.leftLimit(this.x))
-
   }
 
   /**
@@ -150,7 +138,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
   pt.updateRect = function () {
     this.elem.width(this.dimension.actualWidth())
     this.elem.height(this.dimension.actualHeight())
-
   }
 
   /**
@@ -162,7 +149,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
     this.y = to
 
     this.updateOffset()
-
   }
 
   /**
@@ -174,14 +160,11 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
     this.x = to
 
     this.updateOffset()
-
   }
 
   pt.setTransitionDuration = function (dur) {
     this.elem.css('transition-duration', dur + 'ms').reflow()
 
     return this
-
   }
-
 })
