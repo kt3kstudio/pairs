@@ -11,9 +11,7 @@ describe('LevelLockRepository', function () {
     window.infrastructure.storage = {
       set: spy(function () {}),
       get: spy(function () {})
-
     }
-
   })
 
   describe('getByFloorId', function () {
@@ -26,17 +24,13 @@ describe('LevelLockRepository', function () {
           levelId: '702',
           locked: true
         }])
-
       })
 
       return repo.getByFloorId('7').then(function (collection) {
         expect(collection).to.be.instanceof(datadomain.LevelLockCollection)
         expect(collection.locks).to.have.length(2)
-
       })
-
     })
-
   })
 
   describe('saveByFloorId', function () {
@@ -45,13 +39,9 @@ describe('LevelLockRepository', function () {
 
       when(infrastructure.storage.set)('level-lock-ma-7').then(function () {
         return Promise.resolve({})
-
       })
 
       return repo.saveByFloorId('7', collection)
-
     })
-
   })
-
 })

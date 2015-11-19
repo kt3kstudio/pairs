@@ -1,95 +1,65 @@
-
-
-
-
-
 describe('domain.splash.Logo', function () {
-    'use strict';
+  'use strict'
 
-    var elem, logo;
+  var elem, logo
 
-    beforeEach(function () {
+  beforeEach(function () {
+    elem = $('<img />')
 
-        elem = $('<img />');
+    logo = elem.cc.init('splash-logo')
+  })
 
-        logo = elem.cc.init('splash-logo');
+  describe('perform', function () {
+    it('shows and hides the component', function () {
+      var showCalled = false
+      var hideCalled = false
 
-    });
+      logo.show = function () {
+        showCalled = true
 
-    describe('perform', function () {
+        expect(hideCalled).to.be.false
 
-        it('shows and hides the component', function () {
+        return Promise.resolve()
+      }
 
-            var showCalled = false;
-            var hideCalled = false;
+      logo.hide = function () {
+        expect(showCalled).to.be.true
 
-            logo.show = function () {
+        hideCalled = true
 
-                showCalled = true;
+        return Promise.resolve()
+      }
 
-                expect(hideCalled).to.be.false;
+      return logo.perform().then(function () {
+        expect(showCalled).to.be.true
+        expect(hideCalled).to.be.true
+      })
+    })
+  })
 
-                return Promise.resolve();
+  describe('willShow', function () {
+    it('returns the imageLoaded promise', function () {
+      var dummyPromise = Promise.resolve()
 
-            };
+      logo.elem = {imageLoaded: function () { return dummyPromise }}
 
-            logo.hide = function () {
+      expect(logo.willShow()).to.equal(dummyPromise)
+    })
+  })
 
-                expect(showCalled).to.be.true;
+  describe('didShow', function () {
+    it('sets opacity 1', function () {
+      logo.didShow()
 
-                hideCalled = true;
+      expect(logo.elem.css('opacity')).to.equal('1')
+    })
+  })
 
-                return Promise.resolve();
+  describe('didHide', function () {
+    it('sets opacity 0', function () {
+      logo.didHide()
 
-            };
-
-            return logo.perform().then(function () {
-
-                expect(showCalled).to.be.true;
-                expect(hideCalled).to.be.true;
-
-            });
-
-        });
-
-    });
-
-    describe('willShow', function () {
-
-        it('returns the imageLoaded promise', function () {
-
-            var dummyPromise = Promise.resolve();
-
-            logo.elem = {imageLoaded: function () { return dummyPromise; }};
-
-            expect(logo.willShow()).to.equal(dummyPromise);
-
-        });
-
-    });
-
-    describe('didShow', function () {
-
-        it('sets opacity 1', function () {
-
-            logo.didShow();
-
-            expect(logo.elem.css('opacity')).to.equal('1');
-
-        });
-
-    });
-
-    describe('didHide', function () {
-
-        it('sets opacity 0', function () {
-
-            logo.didHide();
-
-            expect(logo.elem.css('opacity')).to.equal('0');
-
-        });
-
-    });
-
-});
+      expect(logo.elem.css('opacity')).to.equal('0')
+    })
+  })
+})

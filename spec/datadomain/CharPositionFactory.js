@@ -11,9 +11,7 @@ describe('CharPositionFactory', function () {
 
       expect(position.floorId).to.equal('7')
       expect(position.floorObjectId).to.equal('701')
-
     })
-
   })
 
   describe('createFromObject', function () {
@@ -27,9 +25,6 @@ describe('CharPositionFactory', function () {
 
       expect(position.floorId).to.equal('8')
       expect(position.floorObjectId).to.equal('802')
-
     })
-
   })
-
 })

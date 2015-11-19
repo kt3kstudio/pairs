@@ -12,9 +12,7 @@ describe('datadomain', function () {
 
         expect(cell).to.be.instanceof(datadomain.Cell)
         expect(cell.gene).to.equal('f')
-
       })
-
     })
 
     describe('createCollectionFromArray', function () {
@@ -30,13 +28,8 @@ describe('datadomain', function () {
 
         cells.cells.forEach(function (cell) {
           expect(cell).to.be.instanceof(datadomain.Cell)
-
         })
-
       })
-
     })
-
   })
-
 })

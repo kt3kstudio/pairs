@@ -6,11 +6,9 @@ describe('LevelHistoryCollection', function () {
 
   beforeEach(function () {
     this.collection = new LevelHistoryCollection([
-
       new LevelHistory('701'),
       new LevelHistory('702'),
-      new LevelHistory('703'),
-
+      new LevelHistory('703')
     ])
   })
 
@@ -20,9 +18,6 @@ describe('LevelHistoryCollection', function () {
 
       expect(lv702).to.be.instanceof(datadomain.LevelHistory)
       expect(lv702.levelId).to.equal('702')
-
     })
-
   })
-
 })

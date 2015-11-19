@@ -1,3 +1,1 @@
-
-infrastructure = {};
-infrastructure.xyz = {};
+window.infrastructure = {}

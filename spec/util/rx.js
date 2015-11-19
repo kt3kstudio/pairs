@@ -10,26 +10,20 @@ describe('Rx', function () {
         expect(Rx.helpers.isObservableLike(1)).to.be.false()
         expect(Rx.helpers.isObservableLike('string')).to.be.false()
         expect(Rx.helpers.isObservableLike([])).to.be.false()
-
       })
-
     })
-
   })
 
   describe('Observable', function () {
     describe('pipe', function () {
       it('returns Observable', function () {
-        expect(Rx.Observable.of(1).pipe(function (x) { return x; })).to.be.instanceof(Rx.Observable)
-
+        expect(Rx.Observable.of(1).pipe(function (x) { return x })).to.be.instanceof(Rx.Observable)
       })
-
     })
 
     describe('flattenObservable', function () {
       it('returns Observable', function () {
         expect(Rx.Observable.of(1, new Promise(function () {})).flattenObservable()).to.be.instanceof(Rx.Observable)
-
       })
 
       it('flattens stream values if they are Observable or Promise', function (done) {
@@ -37,11 +31,8 @@ describe('Rx', function () {
           expect(x).to.eql([10, 20, 30, 40])
 
           done()
-
         })
-
       })
-
     })
 
     describe('filterNull', function () {
@@ -50,17 +41,13 @@ describe('Rx', function () {
           expect(x).to.eql([1, 2, 3])
 
           done()
-
         })
-
       })
-
     })
 
     describe('getPromise', function () {
       it('returns a promise', function () {
         expect(Rx.Observable.of(1).getPromise()).to.be.instanceof(Promise)
-
       })
 
       it('returns a promise which resolves with the last value', function (done) {
@@ -68,9 +55,7 @@ describe('Rx', function () {
           expect(x).to.equal(7)
 
           done()
-
         })
-
       })
 
       it('returns a promise which resolves with undefined when observable is empty', function (done) {
@@ -78,11 +63,8 @@ describe('Rx', function () {
           expect(x).to.be.undefined
 
           done()
-
         })
-
       })
-
     })
 
     describe('emitInto', function () {
@@ -91,17 +73,12 @@ describe('Rx', function () {
 
         elem.on('click', function () {
           done()
-
         })
 
         Rx.Observable.of(1).map('click').emitInto(elem)
-
       })
-
     })
-
   })
-
 })
 
 describe('Array', function () {
@@ -109,7 +86,5 @@ describe('Array', function () {
     it('returns a stream', function () {
       expect([1, 2, new Promise(function () {})].toFlatStream()).to.be.instanceof(Rx.Observable)
     })
-
   })
-
 })

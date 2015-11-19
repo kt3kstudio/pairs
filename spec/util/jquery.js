@@ -9,9 +9,6 @@ describe('$', function () {
 
       expect(div.css('left')).to.equal('100px')
       expect(div.css('top')).to.equal('160px')
-
     })
-
   })
-
 })

@@ -53,9 +53,20 @@
       "$",
       "Rx",
       "describe",
+      "before",
       "beforeEach",
+      "afterEach",
       "it",
-      "expect"
+      "expect",
+      "assert",
+      "when",
+      "verify",
+      "spy"
+    ],
+    "ignore": [
+      "p",
+      "m",
+      "doc"
     ]
   }
 }

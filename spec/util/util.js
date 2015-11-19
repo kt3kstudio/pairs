@@ -9,9 +9,7 @@ describe('wait', function () {
 
     return p.then(function () {
       expect(+new Date() - t).to.be.within(250, 400)
-
     })
-
   })
 })
 
@@ -26,15 +24,11 @@ describe('$', function () {
 
       stream.forEach(function () {
         done()
-
       })
 
       $dom.trigger('an-event')
-
     })
-
   })
-
 })
 
 describe('commaNumber', function () {
@@ -59,18 +53,14 @@ describe('util.chainPromise', function () {
     var x550 = false
     var x650 = false
 
-    wait(550).then(function () { x550 = true; })
-    wait(650).then(function () { x650 = true; })
+    wait(550).then(function () { x550 = true })
+    wait(650).then(function () { x650 = true })
 
     return util.chainPromise([100, 200, 300], function (n) {
       return wait(n)
-
     }).then(function () {
       expect(x550).to.be.true
       expect(x650).to.be.false
-
     })
-
   })
-
 })

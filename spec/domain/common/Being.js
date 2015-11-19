@@ -1,251 +1,174 @@
-
-
-
 describe('Being', function () {
-    'use strict';
+  'use strict'
 
-    var elem;
-    var being;
+  var elem
+  var being
 
-    beforeEach(function () {
+  beforeEach(function () {
+    elem = $('<div />')
 
-        elem = $('<div />');
+    being = new domain.common.Being(elem)
 
-        being = new domain.common.Being(elem);
+    being.showAnim = 'showing'
+    being.showAnimDur = 500
 
-        being.showAnim = 'showing';
-        being.showAnimDur = 500;
+    being.hideAnim = 'abc'
+    being.hideAnimDur = 37
+  })
 
-        being.hideAnim = 'abc';
-        being.hideAnimDur = 37;
+  describe('show', function () {
+    it('calls anim method of elem property with showAnim and showAnimDur properties', function (done) {
+      being.elem.anim = function (showAnim, showAnimDur) {
+        expect(showAnim).to.equal('showing')
+        expect(showAnimDur).to.equal(500)
 
-    });
+        done()
+      }
 
-    describe('show', function () {
+      being.show()
+    })
 
-        it('calls anim method of elem property with showAnim and showAnimDur properties', function (done) {
+    it('calls willShow before the main animation', function (done) {
+      being.elem.anim = function () {
+        done(new Error('main animation should not called before willShow'))
+      }
 
+      being.willShow = function () {
+        done()
+      }
 
-            being.elem.anim = function (showAnim, showAnimDur) {
+      being.show()
+    })
 
-                expect(showAnim).to.equal('showing');
-                expect(showAnimDur).to.equal(500);
+    it('calls didShow after the main animation', function (done) {
+      var animCalled = false
 
-                done();
+      being.elem.anim = function () {
+        animCalled = true
+      }
 
-            };
+      being.didShow = function () {
+        expect(animCalled).to.be.true
 
-            being.show();
+        done()
+      }
 
-        });
+      being.show()
+    })
+  })
 
-        it('calls willShow before the main animation', function (done) {
+  describe('hide', function () {
+    it('calls anim method of the elem with hideAnim and hideAnimDur properties', function (done) {
+      being.elem.anim = function (hideAnim, hideAnimDur) {
+        expect(hideAnim).to.equal('abc')
+        expect(hideAnimDur).to.equal(37)
 
-            being.elem.anim = function () {
+        done()
+      }
 
-                done(new Error('main animation should not called before willShow'));
+      being.hide()
+    })
 
-            };
+    it('calls willHide method before the anim method of the elem is called', function (done) {
+      being.elem.anim = function () {
+        expect(true).to.be.false
+      }
 
-            being.willShow = function () {
+      being.willHide = function () {
+        done()
+      }
 
-                done();
+      being.hide()
+    })
 
-            };
+    it('calls didHide method after the anim method of the elem is called', function () {
+      var animCalled = false
 
-            being.show();
+      being.elem.anim = function () {
+        animCalled = true
+      }
 
-        });
+      being.didHide = function () {
+        expect(animCalled).to.be.true
+      }
 
-        it('calls didShow after the main animation', function (done) {
+      being.hide()
+    })
+  })
 
-            var animCalled = false;
+  describe('appear', function () {
+    it('calls willAppear before calling show method', function (done) {
+      var willAppearCalled = false
 
-            being.elem.anim = function () {
+      being.willAppear = function () {
+        willAppearCalled = true
+      }
 
-                animCalled = true;
+      being.show = function () {
+        expect(willAppearCalled).to.be.true
 
-            };
+        done()
+      }
 
-            being.didShow = function () {
+      being.appear()
+    })
 
-                expect(animCalled).to.be.true;
+    it('calls didAppear after calling show method', function (done) {
+      var showCalled = false
 
-                done();
+      being.didAppear = function () {
+        expect(showCalled).to.be.true
 
-            };
+        done()
+      }
 
-            being.show();
+      being.show = function () {
+        showCalled = true
+      }
 
-        });
+      being.appear()
+    })
+  })
 
-    });
+  describe('disappear', function () {
+    it('calls willDisappear before calling hide', function (done) {
+      var willDisappearCalled = false
 
+      being.willDisappear = function () {
+        willDisappearCalled = true
+      }
 
-    describe('hide', function () {
+      being.hide = function () {
+        expect(willDisappearCalled).to.be.true
 
-        it('calls anim method of the elem with hideAnim and hideAnimDur properties', function (done) {
+        done()
+      }
 
-            being.elem.anim = function (hideAnim, hideAnimDur) {
+      being.disappear()
+    })
 
-                expect(hideAnim).to.equal('abc');
-                expect(hideAnimDur).to.equal(37);
+    it('calls didDisappear after calling hide', function (done) {
+      var hideCalled = false
 
-                done();
+      being.hide = function () {
+        hideCalled = true
+      }
 
-            };
+      being.didDisappear = function () {
+        expect(hideCalled).to.be.true
 
-            being.hide();
+        done()
+      }
 
-        });
+      being.disappear()
+    })
+  })
 
+  describe('setDuration', function () {
+    it('sets the transition-duration css property to the given value in milliseconds', function () {
+      being.setDuration(500)
 
-        it('calls willHide method before the anim method of the elem is called', function (done) {
-
-            being.elem.anim = function () {
-
-                expect(true).to.be.false;
-
-            };
-
-            being.willHide = function () {
-
-                done();
-
-            };
-
-            being.hide();
-
-        });
-
-        it('calls didHide method after the anim method of the elem is called', function () {
-
-            var animCalled = false;
-
-            being.elem.anim = function () {
-
-                animCalled = true;
-
-            };
-
-            being.didHide = function () {
-
-                expect(animCalled).to.be.true;
-
-            };
-
-            being.hide();
-
-        });
-
-    });
-
-
-    describe('appear', function () {
-
-        it('calls willAppear before calling show method', function (done) {
-
-            var willAppearCalled = false;
-
-            being.willAppear = function () {
-
-                willAppearCalled = true;
-
-            };
-
-            being.show = function () {
-
-                expect(willAppearCalled).to.be.true;
-
-                done();
-
-            };
-
-            being.appear();
-
-        });
-
-        it('calls didAppear after calling show method', function (done) {
-
-            var showCalled = false;
-
-            being.didAppear = function () {
-
-                expect(showCalled).to.be.true;
-
-                done();
-
-            };
-
-            being.show = function () {
-
-                showCalled = true;
-
-            };
-
-            being.appear();
-
-        });
-
-    });
-
-    describe('disappear', function () {
-
-        it('calls willDisappear before calling hide', function (done) {
-
-            var willDisappearCalled = false;
-
-            being.willDisappear = function () {
-
-                willDisappearCalled = true;
-
-            };
-
-            being.hide = function () {
-
-                expect(willDisappearCalled).to.be.true;
-
-                done();
-
-            };
-
-            being.disappear();
-
-        });
-
-        it('calls didDisappear after calling hide', function (done) {
-
-            var hideCalled = false;
-
-            being.hide = function () {
-
-                hideCalled = true;
-
-            };
-
-            being.didDisappear = function () {
-
-                expect(hideCalled).to.be.true;
-
-                done();
-
-            };
-
-            being.disappear();
-
-        });
-
-    });
-
-    describe('setDuration', function () {
-
-        it('sets the transition-duration css property to the given value in milliseconds', function () {
-
-            being.setDuration(500);
-
-            expect(elem.css('transition-duration')).to.equal('500ms');
-        });
-
-    });
-
-});
+      expect(elem.css('transition-duration')).to.equal('500ms')
+    })
+  })
+})

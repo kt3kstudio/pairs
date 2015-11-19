@@ -1,20 +1,19 @@
-
 infrastructure.storage = (function () {
-    'use strict';
+  'use strict'
 
-    var exports = {};
+  var exports = {}
 
-    exports.get = function (key, defaultValue) {
-        var value = localStorage.getItem(key);
+  exports.get = function (key, defaultValue) {
+    var value = window.localStorage.getItem(key)
 
-        return Promise.resolve(value != null ? JSON.parse(value) : defaultValue);
-    };
+    return Promise.resolve(value != null ? JSON.parse(value) : defaultValue)
+  }
 
-    exports.set = function (key, value) {
-        localStorage.setItem(key, JSON.stringify(value));
+  exports.set = function (key, value) {
+    window.localStorage.setItem(key, JSON.stringify(value))
 
-        return Promise.resolve(true);
-    };
+    return Promise.resolve(true)
+  }
 
-    return exports;
-}());
+  return exports
+}())

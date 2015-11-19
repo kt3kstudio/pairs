@@ -4,7 +4,6 @@ describe('datadomain', function () {
   describe('LevelFactory', function () {
     it('exists', function () {
       expect(datadomain.LevelFactory).to.exist
-
     })
 
     var factory = new datadomain.LevelFactory()
@@ -22,15 +21,10 @@ describe('datadomain', function () {
           }, {
             gene: 'm'
           }]
-
         })
 
         expect(level).to.be.instanceof(datadomain.Level)
-
       })
-
     })
-
   })
-
 })

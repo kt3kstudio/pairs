@@ -5,7 +5,6 @@ describe('LevelLockFactory', function () {
 
   beforeEach(function () {
     factory = new datadomain.LevelLockFactory()
-
   })
 
   describe('createFromObject', function () {
@@ -16,16 +15,13 @@ describe('LevelLockFactory', function () {
       })
 
       expect(lock).to.be.instanceof(datadomain.LevelLock)
-
     })
 
     it('returns null if the given parameter is null', function () {
       var lock = factory.createFromObject(null)
 
       expect(lock).to.be.null
-
     })
-
   })
 
   describe('createCollectionFromObjectList', function () {
@@ -39,9 +35,6 @@ describe('LevelLockFactory', function () {
       }])
 
       expect(locks).to.be.instanceof(datadomain.LevelLockCollection)
-
     })
-
   })
-
 })

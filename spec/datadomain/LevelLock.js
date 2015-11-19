@@ -8,9 +8,7 @@ describe('LevelLock', function () {
 
       expect(lock0.isLocked()).to.be.false
       expect(lock1.isLocked()).to.be.true
-
     })
-
   })
 
   describe('unlock', function () {
@@ -20,9 +18,6 @@ describe('LevelLock', function () {
       lock0.unlock()
 
       expect(lock0.isLocked()).to.be.false
-
     })
-
   })
-
 })

@@ -1,167 +1,111 @@
-
-
-
 describe('domain.map.Door', function () {
-    'use strict';
+  'use strict'
 
-    beforeEach(function () {
+  beforeEach(function () {
+    this.$dom = $('<div w="100" h="90" x="200" y="300" level="701" id="701" />')
+    this.$dom.appendTo(document.body)
 
-        this.$dom = $('<div w="100" h="90" x="200" y="300" level="701" id="701" />');
-        this.$dom.appendTo(document.body);
+    this.door = new domain.map.Door(this.$dom)
+  })
 
-        this.door = new domain.map.Door(this.$dom);
+  afterEach(function () {
+    this.$dom.remove()
+  })
 
-    });
+  describe('constructor', function () {
+    it('sets level property', function () {
+      expect(this.door.level).to.equal('701')
+    })
+  })
 
-    afterEach(function () {
+  describe('willShow', function () {
+    it('sets up the dom', function () {
+      this.door.willShow()
 
-        this.$dom.remove();
+      expect(this.$dom.find('.doorknob').size()).to.equal(1)
+      expect(this.$dom.find('.door-body').size()).to.equal(1)
+      expect(this.$dom.find('.door-info-content').size()).to.equal(1)
+      expect(this.$dom.find('.door-info-content button').size()).to.equal(1)
+    })
 
-    });
+    it('binds doorKnock to click events of .door-body when unlocked', function (done) {
+      this.door.locked = false
 
-    describe('constructor', function () {
+      this.door.willShow()
 
-        it('sets level property', function () {
+      this.door.doorKnock = function () {
+        done()
+      }
 
-            expect(this.door.level).to.equal('701');
+      this.$dom.find('.door-body').trigger('click')
+    })
 
-        });
+    it('binds goToLevel to click events of `.door-info-content button`', function (done) {
+      this.door.willShow()
 
-    });
+      this.$dom.on('goToLevel', function () {
+        done()
+      })
 
+      this.$dom.find('.door-info-content button').trigger('click')
+    })
+  })
 
-    describe('willShow', function () {
+  describe('open', function () {
+    it('opens the door', function () {
+      var that = this
 
-        it('sets up the dom', function () {
+      this.door.willShow()
 
-            this.door.willShow();
+      return this.door.open().then(function () {
+        expect(that.$dom.find('.door-body').hasClass('open')).to.be.true
+      })
+    })
 
-            expect(this.$dom.find('.doorknob').size()).to.equal(1);
-            expect(this.$dom.find('.door-body').size()).to.equal(1);
-            expect(this.$dom.find('.door-info-content').size()).to.equal(1);
-            expect(this.$dom.find('.door-info-content button').size()).to.equal(1);
+    it('unbinds the click event on the .door-body', function (done) {
+      var that = this
 
-        });
+      this.door.willShow()
 
-        it('binds doorKnock to click events of .door-body when unlocked', function (done) {
+      this.$dom.on('door-knock', function () {
+        assert(false)
+      })
 
-            this.door.locked = false;
+      return this.door.open().then(function () {
+        that.$dom.find('.door-body').trigger('click')
 
-            this.door.willShow();
+        setTimeout(done, 300)
+      })
+    })
+  })
 
-            this.door.doorKnock = function () {
+  describe('close', function () {
+    it('closes the door', function () {
+      var that = this
 
-                done();
+      this.door.willShow()
 
-            };
+      return this.door.open().then(function () {
+        return that.door.close()
+      }).then(function () {
+        expect(that.$dom.find('.door-body').hasClass('open')).to.be.false
+      })
+    })
 
-            this.$dom.find('.door-body').trigger('click');
+    it('binds doorKnock to click events of .door-body', function (done) {
+      var that = this
 
-        });
+      this.door.willShow()
 
-        it('binds goToLevel to click events of `.door-info-content button`', function (done) {
-
-            this.door.willShow();
-
-            this.$dom.on('goToLevel', function () {
-
-                done();
-
-            });
-
-            this.$dom.find('.door-info-content button').trigger('click');
-
-        });
-
-    });
-
-
-    describe('open', function () {
-
-        it('opens the door', function () {
-
-            var that = this;
-
-            this.door.willShow();
-
-            return this.door.open().then(function () {
-
-                expect(that.$dom.find('.door-body').hasClass('open')).to.be.true;
-
-            });
-
-        });
-
-
-        it('unbinds the click event on the .door-body', function (done) {
-
-            var that = this;
-
-            this.door.willShow();
-
-            this.$dom.on('door-knock', function () {
-
-                assert(false);
-
-            });
-
-            return this.door.open().then(function () {
-
-                that.$dom.find('.door-body').trigger('click');
-
-                setTimeout(done, 300);
-
-            });
-
-        });
-
-    });
-
-
-    describe('close', function () {
-
-        it('closes the door', function () {
-
-            var that = this;
-
-            this.door.willShow();
-
-            return this.door.open().then(function () {
-                
-                return that.door.close();
-
-            }).then(function () {
-
-                expect(that.$dom.find('.door-body').hasClass('open')).to.be.false;
-
-            });
-
-        });
-
-        it('binds doorKnock to click events of .door-body', function (done) {
-
-            var that = this;
-
-            this.door.willShow();
-
-            this.$dom.on('door-knock', function () {
-
-                done();
-
-            });
-
-            return this.door.open().then(function () {
-
-                return that.door.close();
-
-            }).then(function () {
-
-                that.$dom.find('.door-body').trigger('click');
-
-            });
-
-        });
-
-    });
-
-});
+      this.$dom.on('door-knock', function () {
+        done()
+      })
+
+      return this.door.open().then(function () {
+        return that.door.close()
+      }).then(function () {
+        that.$dom.find('.door-body').trigger('click')
+      })
+    })
+  })
+})

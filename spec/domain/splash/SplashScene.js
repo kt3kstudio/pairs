@@ -1,78 +1,55 @@
-
-
-
 describe('domain.common.SplashScene', function () {
-    'use strict';
+  'use strict'
 
-    var elem, scene;
+  var elem, scene
 
-    beforeEach(function () {
+  beforeEach(function () {
+    elem = $('<dvi />')
 
-        elem = $('<dvi />');
+    scene = elem.cc.init('splash-scene')
+  })
 
-        scene = elem.cc.init('splash-scene');
+  describe('main', function () {
+    it('calls performSplash and goto the title', function () {
+      var classNames = []
 
-    });
+      scene.performSplash = function (className) {
+        classNames.push(className)
 
-    describe('main', function () {
+        return Promise.resolve()
+      }
 
-        it('calls performSplash and goto the title', function () {
+      var goToTitleCalled = false
 
-            var classNames = [];
+      scene.goToTitle = function () {
+        goToTitleCalled = true
+      }
 
-            scene.performSplash = function (className) {
+      return scene.main().then(function () {
+        expect(classNames).to.eql(['studio', 'straw'])
 
-                classNames.push(className);
+        expect(goToTitleCalled).to.be.true
+      })
+    })
+  })
 
-                return Promise.resolve();
+  describe('performSplash', function () {
+    it('performs the logo of the given class name', function () {
+      var logo = $('<img class="foo" />').appendTo(elem).cc.init('splash-logo')
 
-            };
+      var logoPerformed = false
 
-            var goToTitleCalled = false;
+      logo.perform = function () {
+        logoPerformed = true
 
-            scene.goToTitle = function () {
+        return Promise.resolve()
+      }
 
-                goToTitleCalled = true;
+      scene.performSplash('foo')
 
-            };
+      expect(logoPerformed).to.be.true
+    })
+  })
 
-            return scene.main().then(function () {
-
-                expect(classNames).to.eql(['studio', 'straw']);
-
-                expect(goToTitleCalled).to.be.true;
-
-            });
-
-        });
-
-    });
-
-    describe('performSplash', function () {
-
-        it('performs the logo of the given class name', function () {
-
-            var logo = $('<img class="foo" />').appendTo(elem).cc.init('splash-logo');
-
-            var logoPerformed = false;
-
-            logo.perform = function () {
-
-                logoPerformed = true;
-
-                return Promise.resolve();
-
-            };
-
-            scene.performSplash('foo');
-
-            expect(logoPerformed).to.be.true;
-
-        });
-
-    });
-
-    describe('goToTitle', function () {
-    });
-
-});
+  describe('goToTitle', function () {})
+})
