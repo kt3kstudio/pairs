@@ -1,4 +1,5 @@
-# long-dream-core v0.2.0 [![Build Status](https://travis-ci.org/kt3kstudio/long-dream-core.svg?branch=gh-pages)](https://travis-ci.org/kt3kstudio/long-dream-core) [![Coverage Status](https://coveralls.io/repos/kt3kstudio/long-dream-core/badge.png?branch=gh-pages)](https://coveralls.io/r/kt3kstudio/long-dream-core?branch=gh-pages)
+# long-dream-core v0.2.0 [![Build Status](https://travis-ci.org/kt3kstudio/long-dream-core.svg?branch=gh-pages)](https://travis-ci.org/kt3kstudio/long-dream-core) [![Coverage Status](https://coveralls.io/repos/kt3kstudio/long-dream-core/badge.png?branch=gh-pages)](https://coveralls.io/r/kt3kstudio/long-dream-core?branch=gh-pages) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+
 
 > A puzzle game on straw platform
 
