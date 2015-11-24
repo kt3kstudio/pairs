@@ -37,38 +37,6 @@
     "mocha": "^2.1.0",
     "souffle-cli": "^2.0.0"
   },
-  "standard": {
-    "globals": [
-      "domain",
-      "ui",
-      "util",
-      "scene",
-      "datadomain",
-      "infrastructure",
-      "location",
-      "history",
-      "subclass",
-      "wait",
-      "loadImage",
-      "$",
-      "Rx",
-      "describe",
-      "before",
-      "beforeEach",
-      "afterEach",
-      "it",
-      "expect",
-      "assert",
-      "when",
-      "verify",
-      "spy"
-    ],
-    "ignore": [
-      "p",
-      "m",
-      "doc"
-    ]
-  },
   "souffle": {
     "globals": [
       "domain",
