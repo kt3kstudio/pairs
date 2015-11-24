@@ -4,29 +4,29 @@
  * @class
  */
 datadomain.CellFactory = subclass(function (pt) {
-  'use strict'
+    'use strict'
 
-  /**
-   * Creates a cell from the object.
-   *
-   * @param {Object} obj The object
-   * @return {datadomain.Cell}
-   */
-  pt.createFromObject = function (obj) {
-    return new datadomain.Cell(obj.gene)
-  }
+    /**
+     * Creates a cell from the object.
+     *
+     * @param {Object} obj The object
+     * @return {datadomain.Cell}
+     */
+    pt.createFromObject = function (obj) {
+        return new datadomain.Cell(obj.gene)
+    }
 
-  /**
-   * Creates a collection of the cells from the array.
-   *
-   * @param {Array} array The array
-   * @return {datadomain.CellCollection}
-   */
-  pt.createCollectionFromArray = function (array) {
-    var that = this
+    /**
+     * Creates a collection of the cells from the array.
+     *
+     * @param {Array} array The array
+     * @return {datadomain.CellCollection}
+     */
+    pt.createCollectionFromArray = function (array) {
+        var that = this
 
-    return new datadomain.CellCollection(array.map(function (obj) {
-      return that.createFromObject(obj)
-    }))
-  }
+        return new datadomain.CellCollection(array.map(function (obj) {
+            return that.createFromObject(obj)
+        }))
+    }
 })

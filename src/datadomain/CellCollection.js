@@ -2,16 +2,16 @@
  * The collection class of Cell.
  */
 datadomain.CellCollection = subclass(function (pt) {
-  'use strict'
+    'use strict'
 
-  /**
-   * @constructor
-   * @param {Array} cells The array of cells
-   */
-  pt.constructor = function (cells) {
     /**
-     * @property {Array} cells The array of the cells
+     * @constructor
+     * @param {Array} cells The array of cells
      */
-    this.cells = cells
-  }
+    pt.constructor = function (cells) {
+        /**
+         * @property {Array} cells The array of the cells
+         */
+        this.cells = cells
+    }
 })

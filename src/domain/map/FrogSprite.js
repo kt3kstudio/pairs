@@ -5,27 +5,27 @@
  * @extends domain.common.StayRunSprite
  */
 domain.map.FrogSprite = subclass(domain.common.StayRunSprite, function (pt, parent) {
-  'use strict'
+    'use strict'
 
-  pt.leftStayImage = 'images/frog-stay.out.svg'
-  pt.leftRunImage = 'images/frog-run.out.svg'
+    pt.leftStayImage = 'images/frog-stay.out.svg'
+    pt.leftRunImage = 'images/frog-run.out.svg'
 
-  pt.awayDur = 400
-  pt.awayAnimDur = 400
+    pt.awayDur = 400
+    pt.awayAnimDur = 400
 
-  pt.constructor = function () {
-    parent.constructor.apply(this, arguments)
+    pt.constructor = function () {
+        parent.constructor.apply(this, arguments)
 
-    this.x = 35
-    this.y = 110
+        this.x = 35
+        this.y = 110
 
-    this.dimension = new domain.common.Dimension({
-      width: 100,
-      height: 50,
-      ratioX: 0.5,
-      ratioY: 1
-    })
-  }
+        this.dimension = new domain.common.Dimension({
+            width: 100,
+            height: 50,
+            ratioX: 0.5,
+            ratioY: 1
+        })
+    }
 })
 
 $.cc.assign('frog', domain.map.FrogSprite)

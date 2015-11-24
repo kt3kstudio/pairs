@@ -6,26 +6,26 @@
  * @class
  */
 domain.level.Field = subclass(domain.common.DimensionalBeing, function (pt) {
-  'use strict'
+    'use strict'
 
-  pt.showAnim = 'field-appear'
-  pt.showAnimDur = 200
+    pt.showAnim = 'field-appear'
+    pt.showAnimDur = 200
 
-  pt.hideAnim = 'field-disappear'
-  pt.hideAnimDur = 400
+    pt.hideAnim = 'field-disappear'
+    pt.hideAnimDur = 400
 
-  /**
-   * @param {domain.level.Dimension} dimension The dimension of the position
-   */
-  pt.setDimension = function (dimension) {
-    this.x = dimension.left
-    this.y = dimension.top
-    this.dimension.width = dimension.width
-    this.dimension.height = dimension.width
+    /**
+     * @param {domain.level.Dimension} dimension The dimension of the position
+     */
+    pt.setDimension = function (dimension) {
+        this.x = dimension.left
+        this.y = dimension.top
+        this.dimension.width = dimension.width
+        this.dimension.height = dimension.width
 
-    this.dimension.marginX = -5
-    this.dimension.marginY = -5
-  }
+        this.dimension.marginX = -5
+        this.dimension.marginY = -5
+    }
 })
 
 $.cc.assign('field-grid', domain.level.Field)

@@ -1,4 +1,3 @@
-
 window.subclass = $.cc.subclass
 
 // application layer which controlls each scene

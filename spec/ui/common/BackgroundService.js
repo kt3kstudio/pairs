@@ -1,25 +1,25 @@
 describe('BackgroundService', function () {
-  'use strict'
+    'use strict'
 
-  describe('turnBlack', function () {
-    it('adds the dark-bg class to the body and returns a promise', function () {
-      $('body').removeClass('dark-bg')
+    describe('turnBlack', function () {
+        it('adds the dark-bg class to the body and returns a promise', function () {
+            $('body').removeClass('dark-bg')
 
-      var p = ui.common.BackgroundService.turnBlack()
+            var p = ui.common.BackgroundService.turnBlack()
 
-      expect($('body').hasClass('dark-bg')).to.be.true
-      expect(p).to.be.instanceof(Promise)
+            expect($('body').hasClass('dark-bg')).to.be.true
+            expect(p).to.be.instanceof(Promise)
+        })
     })
-  })
 
-  describe('turnWhite', function () {
-    it('removes the dark-bg class from the body and returns a promise', function () {
-      $('body').addClass('dark-bg')
+    describe('turnWhite', function () {
+        it('removes the dark-bg class from the body and returns a promise', function () {
+            $('body').addClass('dark-bg')
 
-      var p = ui.common.BackgroundService.turnWhite()
+            var p = ui.common.BackgroundService.turnWhite()
 
-      expect($('body').hasClass('dark-bg')).to.be.false
-      expect(p).to.be.instanceof(Promise)
+            expect($('body').hasClass('dark-bg')).to.be.false
+            expect(p).to.be.instanceof(Promise)
+        })
     })
-  })
 })

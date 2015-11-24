@@ -7,130 +7,130 @@
  * @extends domain.common.CharSprite
  */
 domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
-  'use strict'
+    'use strict'
 
-  /**
-   * Makes the character appear in the scene
-   *
-   * @param {domain.map.FloorAsset} floorAsset The wall object
-   * @return {Promise}
-   */
-  pt.appearAt = function (floorAsset) {
-    this.current = floorAsset
+    /**
+     * Makes the character appear in the scene
+     *
+     * @param {domain.map.FloorAsset} floorAsset The wall object
+     * @return {Promise}
+     */
+    pt.appearAt = function (floorAsset) {
+        this.current = floorAsset
 
-    this.x = floorAsset.x
-    this.y = floorAsset.y
+        this.x = floorAsset.x
+        this.y = floorAsset.y
 
-    var self = this
+        var self = this
 
-    return floorAsset.open().then(function () {
-      return self.appear()
-    })
-  }
+        return floorAsset.open().then(function () {
+            return self.appear()
+        })
+    }
 
-  /**
-   * @param {$.Eevent} e The event
-   * @param {domain.map.FloorAsset} floorAsset The floor asset
-   */
-  pt.doorKnock = function (e, floorAsset) {
-    this.moveToFloorAsset(floorAsset)
-  }.event('door-knock')
+    /**
+     * @param {$.Eevent} e The event
+     * @param {domain.map.FloorAsset} floorAsset The floor asset
+     */
+    pt.doorKnock = function (e, floorAsset) {
+        this.moveToFloorAsset(floorAsset)
+    }.event('door-knock')
 
-  /**
-   * Character goes to another floor.
-   *
-   * @param {Event} e The event object
-   */
-  pt.characterGoto = function (e) {
-    this.character.position.floorId = e.goto.floorId
-    this.character.position.floorObjectId = e.goto.floorObjectId
+    /**
+     * Character goes to another floor.
+     *
+     * @param {Event} e The event object
+     */
+    pt.characterGoto = function (e) {
+        this.character.position.floorId = e.goto.floorId
+        this.character.position.floorObjectId = e.goto.floorObjectId
 
-    var self = this
+        var self = this
 
-    this.saveCharacter().then(function () {
-      self.elem.trigger($.Event('sceneReload'))
-    })
-  }.event('character-goto')
+        this.saveCharacter().then(function () {
+            self.elem.trigger($.Event('sceneReload'))
+        })
+    }.event('character-goto')
 
-  /**
-   * Gets the character's position.
-   *
-   * @return {datadomain.CharPosition}
-   */
-  pt.getPosition = function () {
-    return this.character.position
-  }
+    /**
+     * Gets the character's position.
+     *
+     * @return {datadomain.CharPosition}
+     */
+    pt.getPosition = function () {
+        return this.character.position
+    }
 
-  /**
-   * Sets the floor object id.
-   *
-   * @param {String} floorObjectId The floor object id
-   */
-  pt.setFloorObjectId = function (floorObjectId) {
-    this.character.position.floorObjectId = floorObjectId
+    /**
+     * Sets the floor object id.
+     *
+     * @param {String} floorObjectId The floor object id
+     */
+    pt.setFloorObjectId = function (floorObjectId) {
+        this.character.position.floorObjectId = floorObjectId
 
-    this.saveCharacter()
-  }
+        this.saveCharacter()
+    }
 
-  /**
-   * Saves the character data.
-   */
-  pt.saveCharacter = function () {
-    return this.characterRepository.save(this.character)
-  }
+    /**
+     * Saves the character data.
+     */
+    pt.saveCharacter = function () {
+        return this.characterRepository.save(this.character)
+    }
 
-  /**
-   * Moves the character sprite to wall object
-   *
-   * @param {domain.map.FloorAsset} floorAsset The wall object to go to
-   * @return {Promise}
-   */
-  pt.moveToFloorAsset = function (floorAsset) {
-    var self = this
+    /**
+     * Moves the character sprite to wall object
+     *
+     * @param {domain.map.FloorAsset} floorAsset The wall object to go to
+     * @return {Promise}
+     */
+    pt.moveToFloorAsset = function (floorAsset) {
+        var self = this
 
-    var current = this.current
+        var current = this.current
 
-    this.setFloorObjectId(floorAsset.id)
+        this.setFloorObjectId(floorAsset.id)
 
-    var goOutDur = 150
-    var moveOnCorridor = 300
-    var goIntoDur = goOutDur
+        var goOutDur = 150
+        var moveOnCorridor = 300
+        var goIntoDur = goOutDur
 
-    var goOutDistance = 80
+        var goOutDistance = 80
 
-    this.elem.trigger('character-focus', [current.x])
+        this.elem.trigger('character-focus', [current.x])
 
-    current.close()
+        current.close()
 
-    return this.moveTo('y', current.y + goOutDistance, goOutDur).then(function () {
-      self.elem.trigger('character-move', [floorAsset.x, moveOnCorridor])
+        return this.moveTo('y', current.y + goOutDistance, goOutDur).then(function () {
+            self.elem.trigger('character-move', [floorAsset.x, moveOnCorridor])
 
-      floorAsset.open()
+            floorAsset.open()
 
-      return self.moveTo('x', floorAsset.x, moveOnCorridor)
-    }).then(function () {
-      return self.moveTo('y', floorAsset.y, goIntoDur)
-    }).then(function () {
-      self.current = floorAsset
+            return self.moveTo('x', floorAsset.x, moveOnCorridor)
+        }).then(function () {
+            return self.moveTo('y', floorAsset.y, goIntoDur)
+        }).then(function () {
+            self.current = floorAsset
 
-      floorAsset.onGetWalker(self)
+            floorAsset.onGetWalker(self)
 
-      return self.turn('down')
-    })
-  }
+            return self.turn('down')
+        })
+    }
 
-  /**
-   * Gets the character into the door.
-   */
-  pt.getIntoDoor = function () {
-    var self = this
+    /**
+     * Gets the character into the door.
+     */
+    pt.getIntoDoor = function () {
+        var self = this
 
-    this.turn('up')
+        this.turn('up')
 
-    return this.disappear().then(function () {
-      return self.current.close()
-    })
-  }
+        return this.disappear().then(function () {
+            return self.current.close()
+        })
+    }
 })
 
 $.cc.assign('floor-walker', domain.map.FloorWalker)

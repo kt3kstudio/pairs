@@ -35,9 +35,43 @@
     "karma-phantomjs-launcher": "^0.1.4",
     "karma-spec-reporter": "0.0.16",
     "mocha": "^2.1.0",
+    "souffle": "^0.1.5",
+    "souffle-cli": "^1.2.0",
     "standard": "^5.4.1"
   },
   "standard": {
+    "globals": [
+      "domain",
+      "ui",
+      "util",
+      "scene",
+      "datadomain",
+      "infrastructure",
+      "location",
+      "history",
+      "subclass",
+      "wait",
+      "loadImage",
+      "$",
+      "Rx",
+      "describe",
+      "before",
+      "beforeEach",
+      "afterEach",
+      "it",
+      "expect",
+      "assert",
+      "when",
+      "verify",
+      "spy"
+    ],
+    "ignore": [
+      "p",
+      "m",
+      "doc"
+    ]
+  },
+  "souffle": {
     "globals": [
       "domain",
       "ui",

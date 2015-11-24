@@ -3,17 +3,17 @@
  *
  */
 datadomain.UserStatistics = subclass(function (pt) {
-  'use strict'
+    'use strict'
 
-  /**
-   * @constructor
-   * @param {Object} opts The options
-   * @param {Number} [opts.launchTimes] The number of the launches of the app
-   */
-  pt.constuctor = function (opts) {
     /**
-     * @property {Number} launchTimes The number of the launches of the app
+     * @constructor
+     * @param {Object} opts The options
+     * @param {Number} [opts.launchTimes] The number of the launches of the app
      */
-    this.launchTimes = opts.launchTimes
-  }
+    pt.constuctor = function (opts) {
+        /**
+         * @property {Number} launchTimes The number of the launches of the app
+         */
+        this.launchTimes = opts.launchTimes
+    }
 })
