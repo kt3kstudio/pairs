@@ -36,7 +36,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
         })
 
         this.elem
-            .css('position', 'absolute')
+            .css('position', 'absolute') // Except `position: absolute`, this class doesn't make sense.
             .css('transition-timing-function', 'linear')
 
     }
@@ -145,7 +145,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
     /**
      * Updates the elem's offset according to current position.
      *
-     * @protected
+     * @private
      */
     pt.updateOffset = function () {
 
@@ -157,12 +157,28 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
     /**
      * Updates the elem's width and height.
      *
-     * @protected
+     * @private
      */
     pt.updateRect = function () {
 
         this.elem.width(this.dimension.actualWidth())
         this.elem.height(this.dimension.actualHeight())
+
+    }
+
+    /**
+     * Updates the actual elem dom according to the current dimension.
+     * Returns a promise which resolves with the transitionDuration milliseconds.
+     *
+     * @protected
+     * @return {Promise}
+     */
+    pt.updateElem = function () {
+
+        this.updateRect()
+        this.updateOffset()
+
+        return wait(this.transitionDuration)
 
     }
 
@@ -175,7 +191,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
 
         this.y = to
 
-        this.updateOffset()
+        return this.updateElem()
 
     }
 
@@ -188,15 +204,20 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
 
         this.x = to
 
-        this.updateOffset()
+        return this.updateElem()
 
     }
 
+    /**
+     * Sets the transition duration.
+     *
+     * @param {Number} dur The transition duration
+     */
     pt.setTransitionDuration = function (dur) {
 
-        this.elem.css('transition-duration', dur + 'ms').reflow()
+        this.transitionDuration = dur
 
-        return this
+        this.elem.css('transition-duration', dur + 'ms').reflow()
 
     }
 
