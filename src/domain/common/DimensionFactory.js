@@ -16,6 +16,7 @@ domain.common.DimensionFactory = subclass(function (pt) {
      * @return {domain.common.Dimension}
      */
     pt.getAvailableDimension = function (width, height) {
+
         return new domain.common.Dimension({
             width: width,
             height: height,
@@ -24,6 +25,7 @@ domain.common.DimensionFactory = subclass(function (pt) {
             marginBottom: this.bottom,
             marginLeft: this.left
         })
+
     }
 
     /**
@@ -34,10 +36,14 @@ domain.common.DimensionFactory = subclass(function (pt) {
      * @return {domain.common.Dimension}
      */
     pt.getBestDimension = function (available) {
+
         return new domain.common.Dimension({
+
             width: this.widthRate,
             height: this.heightRate
+
         }).similarInnerTangent(available.actualWidth(), available.actualHeight())
+
     }
 
     /**
@@ -46,6 +52,7 @@ domain.common.DimensionFactory = subclass(function (pt) {
      * @protected
      */
     pt.calcMainArea = function () {
+
         var available = this.getAvailableDimension($(window).width(), $(window).height())
 
         var bestDim = this.getBestDimension(available)
@@ -58,5 +65,7 @@ domain.common.DimensionFactory = subclass(function (pt) {
         this.main.right = this.main.left + bestDim.actualWidth()
         this.main.width = bestDim.actualWidth()
         this.main.height = bestDim.actualHeight()
+
     }
+
 })

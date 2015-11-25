@@ -13,15 +13,21 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
      * @return {Promise}
      */
     pt.init = function () {
+
         var that = this
 
         return new datadomain.UserRepository().get().then(function (user) {
+
             return new datadomain.CharacterRepository().getById(user.charId)
+
         }).then(function (character) {
+
             that.character = character
 
             return new datadomain.LevelRepository().getById(character.position.floorObjectId)
+
         }).then(function (level) {
+
             that.level = level
 
             that.spawnBall()
@@ -29,7 +35,9 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
             that.spawnCharacter(that.character)
 
             return that.start()
+
         })
+
     }.event('scene-start')
 
     /**
@@ -38,6 +46,7 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
      * @return {Promise}
      */
     pt.start = function () {
+
         var that = this
 
         var paperPos = this.getDimensionFactory().paperPosition()
@@ -57,7 +66,9 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
         paper.appear()
 
         return ui.common.BackgroundService.turnWhite().then(function () {
+
             return that.getCharacter().moveTo('y', paperPos.top, 600)
+
         }).then(function () {
             // the character takes the paper in the room.
             that.getPaper().disappear()
@@ -66,13 +77,19 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
 
             // the character read up the goals of the room
             return that.getCharacter().speak(goals, {cancelDom: '.wrapper'})
+
         }).then(function () {
+
             that.getCharacter().hide()
 
             return that.getBall().appear()
+
         }).then(function () {
+
             return that.elem.trigger('play-scene-start')
+
         })
+
     }
 
     /**
@@ -81,10 +98,14 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
      * @private
      */
     pt.spawnBall = function () {
+
         $($('#tpl-ball').html()).data({
+
             dimension: this.getDimensionFactory().fieldPosition(),
             pos: {x: 1, y: 1}
+
         }).appendTo(this.elem).cc.init('ball')
+
     }
 
     /**
@@ -93,7 +114,9 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
      * @private
      */
     pt.spawnPaper = function () {
+
         $('<img />').appendTo(this.elem).cc.init('paper')
+
     }
 
     /**
@@ -102,8 +125,11 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
      * @private
      */
     pt.spawnCharacter = function (character) {
+
         $('<img />').appendTo(this.elem).data({character: character}).cc.init('character-on-level')
+
     }
+
 })
 
 $.cc.assign('intro-scene', scene.level.IntroScene)

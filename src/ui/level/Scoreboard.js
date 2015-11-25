@@ -17,9 +17,11 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
      * @constructor
      */
     pt.constructor = function () {
+
         parent.constructor.apply(this, arguments)
 
         this.score = 0
+
     }
 
     pt.showAnim = 'bom-appear'
@@ -35,29 +37,35 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
      * @param {domain.level.Dimension} dimension
      */
     pt.setDimension = function (dimension) {
+
         this.x = dimension.left
         this.y = dimension.top
 
         this.dimension.width = dimension.width
         this.dimension.height = dimension.height
+
     }
 
     /**
      * Set up the initial dom state.
      */
     pt.willShow = function () {
+
         parent.willShow.call(this)
 
         this.elem.css('line-height', this.dimension.actualHeight() + 'px')
 
         this.update()
+
     }
 
     /**
      * Updates the scoreboard's number.
      */
     pt.update = function () {
+
         this.elem.text(window.commaNumber(this.score))
+
     }
 
     /**
@@ -66,9 +74,11 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
      * @param {Number} score The score to add
      */
     pt.addScore = function (score) {
+
         this.score += score
 
         this.update()
+
     }
 
     /**
@@ -77,8 +87,11 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
      * @return {Number}
      */
     pt.getScore = function () {
+
         return this.score
+
     }
+
 })
 
 $.cc.assign('scoreboard', ui.level.Scoreboard)
