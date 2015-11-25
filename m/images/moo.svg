@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="69px" height="50px" viewBox="0 0 69 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.4.2 (15855) - http://www.bohemiancoding.com/sketch -->
+    <title>moo</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Artboard-4" sketch:type="MSArtboardGroup" transform="translate(-114.000000, -299.000000)">
+            <g id="moo" sketch:type="MSLayerGroup" transform="translate(110.000000, 299.000000)">
+                <ellipse id="Oval-26-Copy" fill="#27A582" sketch:type="MSShapeGroup" transform="translate(57.500000, 38.000000) scale(-1, 1) rotate(-27.000000) translate(-57.500000, -38.000000) " cx="57.5" cy="38" rx="16.5" ry="10"></ellipse>
+                <ellipse id="Oval-26-Copy-2" fill="#27A582" sketch:type="MSShapeGroup" transform="translate(19.500000, 38.000000) rotate(-27.000000) translate(-19.500000, -38.000000) " cx="19.5" cy="38" rx="16.5" ry="10"></ellipse>
+                <path d="M39,43.859375 C52.254834,43.859375 63,39.5832611 63,25.5 C63,11.4167389 52.254834,0 39,0 C25.745166,0 15,11.4167389 15,25.5 C15,39.5832611 25.745166,43.859375 39,43.859375 Z" id="Oval-25" fill="#2FC59C" sketch:type="MSShapeGroup"></path>
+                <ellipse id="Oval-100" fill="#450909" sketch:type="MSShapeGroup" transform="translate(24.211985, 31.758266) rotate(-14.000000) translate(-24.211985, -31.758266) " cx="24.2119855" cy="31.7582658" rx="2.5" ry="3.25"></ellipse>
+                <ellipse id="Oval-100" fill="#450909" sketch:type="MSShapeGroup" transform="translate(54.288015, 31.758266) scale(-1, 1) rotate(-14.000000) translate(-54.288015, -31.758266) " cx="54.2880145" cy="31.7582658" rx="2.5" ry="3.25"></ellipse>
+                <polygon id="Star-1" stroke="#0B0A0A" fill="#A31D1D" sketch:type="MSShapeGroup" points="24 19.25 21.0610737 20.9495935 21.6223587 17.3497967 19.2447174 14.8004065 22.5305369 14.2752033 24 11 25.4694631 14.2752033 28.7552826 14.8004065 26.3776413 17.3497967 26.9389263 20.9495935 "></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
