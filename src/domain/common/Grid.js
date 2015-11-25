@@ -3,10 +3,9 @@
  *
  * The unit of a grid means the rectangle from x_0 to x_1 and from y_0 to x_1
  * The cell of a grid means the rectangle which is put on each grid point.
+ * The cell size is just a recommendation of the size of cell.
  *
- * Usually cell width and height are equal to or less then unit width and height resp.,
- * but this isn't necessarilly so. If the cell width is greater than the unit width, then
- * each cell could overwrap with the next ones.
+ * Usually cell width and height are equal to or less then unit width and height respectively.
  *
  * @class
  */
@@ -23,31 +22,38 @@ domain.common.Grid = subclass(function (pt) {
      * @param {Number} options.cellHeight The height of the cell
      */
     pt.constructor = function (options) {
+
         this.x = options.left
         this.y = options.top
         this.unitWidth = options.unitWidth
         this.unitHeight = options.unitHeight
         this.cellWidth = options.cellWidth
         this.cellHeight = options.cellHeight
+
     }
 
     /**
-     * Gets the x of the given grid x position.
+     * Gets the x of the given grid m position.
      *
-     * @param {Number} x The x position (Integer)
+     * @param {Number} m The m position (Integer)
      * @return {Number}
      */
-    pt.getX = function (x) {
-        return this.x + this.unitWidth * x
+    pt.getX = function (m) {
+
+        return this.x + this.unitWidth * m
+
     }
 
     /**
-     * Gets the y of the given grid y position.
+     * Gets the y of the given grid n position.
      *
-     * @param {Number} y The y position (Integer)
+     * @param {Number} n The n position (Integer)
      * @return {Number}
      */
-    pt.getY = function (y) {
-        return this.y + this.unitHeight * y
+    pt.getY = function (n) {
+
+        return this.y + this.unitHeight * n
+
     }
+
 })
