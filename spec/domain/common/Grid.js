@@ -5,8 +5,8 @@ describe('domain.common.Grid', function () {
 
     beforeEach(function () {
         grid = new domain.common.Grid({
-            left: 100,
-            top: 200,
+            x: 100,
+            y: 200,
             unitWidth: 100,
             unitHeight: 100,
             cellWidth: 50,

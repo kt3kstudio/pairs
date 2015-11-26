@@ -23,8 +23,10 @@ domain.common.Grid = subclass(function (pt) {
      */
     pt.constructor = function (options) {
 
-        this.x = options.left
-        this.y = options.top
+        options = options || {}
+
+        this.x = options.x
+        this.y = options.y
         this.unitWidth = options.unitWidth
         this.unitHeight = options.unitHeight
         this.cellWidth = options.cellWidth
