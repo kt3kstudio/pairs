@@ -7,14 +7,6 @@ describe('DimensionFactory', function () {
         factory = new domain.level.DimensionFactory()
     })
 
-    describe('topUIPosition', function () {
-        it('returns the dimension for the top UIs', function () {
-            var dimension = factory.topUIPosition()
-
-            expect(dimension).to.be.instanceof(domain.level.Dimension)
-        })
-    })
-
     describe('fieldPosition', function () {
         it('returns the dimension for the field', function () {
             var dimension = factory.fieldPosition()

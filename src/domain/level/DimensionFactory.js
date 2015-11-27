@@ -28,17 +28,6 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
     }
 
     /**
-     * Returns the dimension for the top ui component.
-     *
-     * @return {domain.level.Dimension}
-     */
-    pt.topUIPosition = function () {
-
-        return new domain.level.Dimension({top: 0, left: this.main.left})
-
-    }
-
-    /**
      * Returns the dimension for an object in the grid positions.
      *
      * @private
