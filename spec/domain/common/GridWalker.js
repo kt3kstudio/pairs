@@ -14,7 +14,7 @@ describe('GridWalker', function () {
             unitWidth: 300,
             unitHeight: 400,
             cellWidth: 500,
-            cellHeight: 600,
+            cellHeight: 600
         }))
 
     })
