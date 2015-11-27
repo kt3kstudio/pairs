@@ -17,6 +17,7 @@ ui.level.ResultPane = subclass(function (pt) {
      * @param {String | HTMLElement | jQuery} cancelDom The dom to which the pane's cancel event will be attached
      */
     pt.constructor = function (position, width, height, parent, cancelDom) {
+
         this.position = position
         this.width = width
         this.height = height
@@ -24,10 +25,18 @@ ui.level.ResultPane = subclass(function (pt) {
         this.cancelDom = cancelDom
         this.score = 0
         this.star = 0
+
     }
 
+    /**
+     * Sets the score.
+     *
+     * @param {Number} score The score to set
+     */
     pt.setScore = function (score) {
+
         this.score = score
+
     }
 
     /**
@@ -36,10 +45,13 @@ ui.level.ResultPane = subclass(function (pt) {
      * @param {Number} star The number of stars
      */
     pt.setStar = function (star) {
+
         this.star = star
+
     }
 
     pt.createDom = function () {
+
         var $wrapper = $('<div />').addClass('result-pane')
 
             .width(this.width).height(this.height)
@@ -53,6 +65,7 @@ ui.level.ResultPane = subclass(function (pt) {
             .css({opacity: 0, position: 'relative'}).appendTo($wrapper)
 
         return $wrapper.appendTo(this.parent)
+
     }
 
     /**
@@ -62,6 +75,7 @@ ui.level.ResultPane = subclass(function (pt) {
      * @return {Promise} The promise which resolves when the pane hides
      */
     pt.show = function (timeout) {
+
         var that = this
 
         this.$dom = this.$dom || this.createDom()
@@ -69,10 +83,15 @@ ui.level.ResultPane = subclass(function (pt) {
         this.ip = this.$dom.infoPane(9, 7)
 
         return this.ip.show().then(function () {
+
             return Promise.race([wait(timeout), that.$dom.once('click touchstart')])
+
         }).then(function () {
+
             return that.hide()
+
         })
+
     }
 
     /**
@@ -81,6 +100,9 @@ ui.level.ResultPane = subclass(function (pt) {
      * @return {Promise} The promise which resolves when the pane hides
      */
     pt.hide = function () {
+
         return this.ip.hide()
+
     }
+
 })
