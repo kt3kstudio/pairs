@@ -60,6 +60,13 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
 
     }
 
+    /**
+     * Moves to the given grid position.
+     *
+     * @param {Number} m The horizontal grid position
+     * @param {Number} n The vertical grid position
+     * @return {Promise}
+     */
     pt.moveToGridPosition = function (m, n) {
 
         this.moveToM(m)
