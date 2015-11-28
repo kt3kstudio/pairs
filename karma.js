@@ -12,7 +12,6 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            'bower_components/subclassjs/index.js',
             'bower_components/jquery/dist/jquery.js',
             'bower_components/arrowkeys/arrowkeys.js',
             'bower_components/swipe-event/swipe-event.js',
