@@ -3,28 +3,23 @@
  *
  * @class
  */
-ui.level.ResultPane = subclass(function (pt) {
+ui.level.ResultPane = subclass(domain.common.DimensionalBeing, function (pt, parent) {
     'use strict'
 
-    /**
-     * @constructor
-     * @param {Object} position
-     * @param {Number} position.left The left offset
-     * @param {Number} position.top The top offset
-     * @param {Number} width The width
-     * @param {Number} height The height
-     * @param {String | HTMLElement | jQuery} parent The parent dom
-     * @param {String | HTMLElement | jQuery} cancelDom The dom to which the pane's cancel event will be attached
-     */
-    pt.constructor = function (position, width, height, parent, cancelDom) {
+    pt.score = 0
+    pt.star = 0
 
-        this.position = position
-        this.width = width
-        this.height = height
-        this.parent = parent
-        this.cancelDom = cancelDom
-        this.score = 0
-        this.star = 0
+    /**
+     * Sets the rectangle.
+     *
+     * @param {domain.common.Rect} rect The rectangle layout
+     */
+    pt.setRect = function (rect) {
+
+        this.x = rect.left
+        this.y = rect.top
+        this.dimension.width = rect.width()
+        this.dimension.height = rect.height()
 
     }
 
@@ -50,21 +45,19 @@ ui.level.ResultPane = subclass(function (pt) {
 
     }
 
-    pt.createDom = function () {
+    pt.willShow = function () {
 
-        var $wrapper = $('<div />').addClass('result-pane')
+        $('<div />', {
+            addClass: 'result-content',
+            text: 'score = ' + this.score,
+            css: {
+                opacity: 0,
+                position: 'relative'
+            },
+            appendTo: this.elem
+        })
 
-            .width(this.width).height(this.height)
-
-            .css({left: this.position.left, top: this.position.top, position: 'absolute'})
-
-        $('<div />').addClass('result-content')
-
-            .text('score = ' + this.score)
-
-            .css({opacity: 0, position: 'relative'}).appendTo($wrapper)
-
-        return $wrapper.appendTo(this.parent)
+        return parent.willShow.apply(this, arguments)
 
     }
 
@@ -76,33 +69,33 @@ ui.level.ResultPane = subclass(function (pt) {
      */
     pt.show = function (timeout) {
 
-        var that = this
+        var self = this
 
-        this.$dom = this.$dom || this.createDom()
+        return parent.show.apply(this, arguments).then(function () {
 
-        this.ip = this.$dom.infoPane(9, 7)
-
-        return this.ip.show().then(function () {
-
-            return Promise.race([wait(timeout), that.$dom.once('click touchstart')])
-
-        }).then(function () {
-
-            return that.hide()
+            return self.showInfoPane(timeout)
 
         })
 
     }
 
-    /**
-     * Hides the result pane.
-     *
-     * @return {Promise} The promise which resolves when the pane hides
-     */
-    pt.hide = function () {
+    pt.showInfoPane = function (timeout) {
 
-        return this.ip.hide()
+        var self = this
 
+        var info = this.elem.infoPane(9, 7)
+
+        return info.show().then(function () {
+
+            return Promise.race([wait(timeout), self.elem.once('click touchstart')])
+
+        }).then(function () {
+
+            return info.hide()
+
+        })
     }
 
 })
+
+$.cc.assign('result-pane', ui.level.ResultPane)

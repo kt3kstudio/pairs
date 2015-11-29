@@ -86,4 +86,15 @@ scene.level.Context = subclass(domain.common.Role, function (pt) {
 
     }
 
+    /**
+     * Gets the result pane.
+     *
+     * @return {ui.level.ResultPane}
+     */
+    pt.getResultPane = function () {
+
+        return this.elem.find('.result-pane').cc.get('result-pane')
+
+    }
+
 })
