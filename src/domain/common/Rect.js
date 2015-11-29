@@ -8,10 +8,10 @@ domain.common.Rect = subclass(function (pt) {
 
     /**
      * @param {Object} options
-     * @param {Number} options.top
-     * @param {Number} options.right
-     * @param {Number} options.bottom
-     * @param {Number} options.left
+     * @param {Number} options.top The top position
+     * @param {Number} options.right The right position
+     * @param {Number} options.bottom The bottom position
+     * @param {Number} options.left The left position
      */
     pt.constructor = function (options) {
 
@@ -29,7 +29,7 @@ domain.common.Rect = subclass(function (pt) {
      */
     pt.width = function () {
 
-        return this.bottom - this.top
+        return this.right - this.left
 
     }
 
@@ -40,7 +40,7 @@ domain.common.Rect = subclass(function (pt) {
      */
     pt.height = function () {
 
-        return this.right - this.left
+        return this.bottom - this.top
 
     }
 
