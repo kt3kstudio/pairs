@@ -48,10 +48,10 @@ describe('DimensionFactory', function () {
     })
 
     describe('resultPanePosition', function () {
-        it('returns the dimension for the result pane', function () {
+        it('returns a rect for the result pane', function () {
             var dimension = factory.resultPanePosition()
 
-            expect(dimension).to.be.instanceof(domain.level.Dimension)
+            expect(dimension).to.be.instanceof(domain.common.Rect)
         })
     })
 

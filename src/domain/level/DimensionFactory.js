@@ -21,8 +21,8 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
 
         this.calcMainArea()
 
-        this.UNIT = this.main.width / 4
-        this.LEFT = this.main.left + this.main.width / 8
+        this.UNIT = this.main.width() / 4
+        this.LEFT = this.main.left + this.main.width() / 8
         this.TOP = this.main.top
 
     }
@@ -109,18 +109,11 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
     /**
      * Returns the dimension for the result pane.
      *
-     * @return {domain.level.Dimension}
+     * @return {domain.common.Rect}
      */
     pt.resultPanePosition = function () {
 
-        var pos = this.gridPosition(0, 2, 3)
-
-        pos.left = this.main.left
-
-        pos.height = pos.width
-        pos.width = this.UNIT * 4
-
-        return pos
+        return this.main
 
     }
 

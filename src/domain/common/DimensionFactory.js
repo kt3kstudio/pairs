@@ -57,14 +57,15 @@ domain.common.DimensionFactory = subclass(function (pt) {
 
         var bestDim = this.getBestDimension(available)
 
-        this.main = {}
+        var mainTop = this.top + (available.actualHeight() - bestDim.actualHeight()) / 2
+        var mainLeft = this.left + (available.actualWidth() - bestDim.actualWidth()) / 2
 
-        this.main.top = this.top + (available.actualHeight() - bestDim.actualHeight()) / 2
-        this.main.left = this.left + (available.actualWidth() - bestDim.actualWidth()) / 2
-        this.main.bottom = this.main.top + bestDim.actualHeight()
-        this.main.right = this.main.left + bestDim.actualWidth()
-        this.main.width = bestDim.actualWidth()
-        this.main.height = bestDim.actualHeight()
+        this.main = new domain.common.Rect({
+            top: mainTop,
+            left: mainLeft,
+            bottom: mainTop + bestDim.actualHeight(),
+            right: mainLeft + bestDim.actualWidth()
+        })
 
     }
 
