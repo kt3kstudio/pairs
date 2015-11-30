@@ -111,9 +111,15 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
      *
      * @return {domain.common.Rect}
      */
-    pt.resultPanePosition = function () {
+    pt.resultPaneRect = function () {
 
-        return this.main
+        return new domain.common.Rect({
+            left: this.main.left,
+            top: this.main.top + this.UNIT,
+            right: this.main.right,
+            bottom: this.main.bottom,
+
+        })
 
     }
 
@@ -122,13 +128,13 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
      *
      * @return {domain.level.Dimension}
      */
-    pt.scoreboardDimension = function () {
+    pt.scoreboardRect = function () {
 
-        return new domain.level.Dimension({
+        return new domain.common.Rect({
             left: this.main.left,
             top: 0,
-            width: this.UNIT * 2,
-            height: this.top
+            right: this.main.left + this.UNIT * 2,
+            bottom: this.top
         })
 
     }

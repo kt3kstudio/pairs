@@ -16,7 +16,7 @@ scene.level.OutroScene = subclass(scene.level.Context, function (pt) {
 
         var resPane = this.getResultPane()
 
-        resPane.setRect(this.getDimensionFactory().resultPanePosition())
+        resPane.setRect(this.getDimensionFactory().resultPaneRect())
         resPane.setScore(this.getScoreboard().score)
 
         return this.getResultPane().show(30000000).then(function () {

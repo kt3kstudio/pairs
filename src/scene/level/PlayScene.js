@@ -31,7 +31,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
         this.bms = new domain.level.BallMoveMobLeaveService(this.getBall(), this.cells)
 
         // init scoreboard dimension
-        this.getScoreboard().setDimension(this.getDimensionFactory().scoreboardDimension())
+        this.getScoreboard().setRect(this.getDimensionFactory().scoreboardRect())
 
         var that = this
 

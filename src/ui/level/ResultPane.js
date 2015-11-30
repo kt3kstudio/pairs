@@ -45,6 +45,9 @@ ui.level.ResultPane = subclass(domain.common.DimensionalBeing, function (pt, par
 
     }
 
+    /**
+     * @override
+     */
     pt.willShow = function () {
 
         $('<div />', {
@@ -79,6 +82,12 @@ ui.level.ResultPane = subclass(domain.common.DimensionalBeing, function (pt, par
 
     }
 
+    /**
+     * Shows the info pane with the given timeout.
+     *
+     * @param {Number} timeout
+     * @return {Promise}
+     */
     pt.showInfoPane = function (timeout) {
 
         var self = this

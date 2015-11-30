@@ -34,15 +34,15 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
     /**
      * Sets the dimension of the element.
      *
-     * @param {domain.level.Dimension} dimension
+     * @param {domain.common.Rect} rect
      */
-    pt.setDimension = function (dimension) {
+    pt.setRect = function (rect) {
 
-        this.x = dimension.left
-        this.y = dimension.top
+        this.x = rect.left
+        this.y = rect.top
 
-        this.dimension.width = dimension.width
-        this.dimension.height = dimension.height
+        this.dimension.width = rect.width()
+        this.dimension.height = rect.height()
 
     }
 
