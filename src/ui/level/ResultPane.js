@@ -10,20 +10,6 @@ ui.level.ResultPane = subclass(domain.common.DimensionalBeing, function (pt, par
     pt.star = 0
 
     /**
-     * Sets the rectangle.
-     *
-     * @param {domain.common.Rect} rect The rectangle layout
-     */
-    pt.setRect = function (rect) {
-
-        this.x = rect.left
-        this.y = rect.top
-        this.dimension.width = rect.width()
-        this.dimension.height = rect.height()
-
-    }
-
-    /**
      * Sets the score.
      *
      * @param {Number} score The score to set

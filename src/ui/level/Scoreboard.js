@@ -32,21 +32,6 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
     // pt.hideAnim = new domain.common.Animation('bom-disappear', {dur: 400})
 
     /**
-     * Sets the dimension of the element.
-     *
-     * @param {domain.common.Rect} rect
-     */
-    pt.setRect = function (rect) {
-
-        this.x = rect.left
-        this.y = rect.top
-
-        this.dimension.width = rect.width()
-        this.dimension.height = rect.height()
-
-    }
-
-    /**
      * Set up the initial dom state.
      */
     pt.willShow = function () {

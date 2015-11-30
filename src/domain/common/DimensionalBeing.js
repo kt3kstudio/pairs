@@ -221,4 +221,21 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
 
     }
 
+    /**
+     * Sets the guiding rect and update the x, y and dimension to fit into the given rect.
+     *
+     * @param {domain.common.Rect} rect
+     */
+    pt.setRect = function (rect) {
+
+        this.rect = rect
+
+        this.x = rect.left + rect.width() * this.dimension.ratioX
+        this.y = rect.top + rect.height() * this.dimension.ratioY
+
+        this.dimension.width = rect.width()
+        this.dimension.height = rect.height()
+
+    }
+
 })
