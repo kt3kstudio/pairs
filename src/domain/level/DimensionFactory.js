@@ -117,8 +117,7 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
             left: this.main.left,
             top: this.main.top + this.UNIT,
             right: this.main.right,
-            bottom: this.main.bottom,
-
+            bottom: this.main.bottom
         })
 
     }
