@@ -41,14 +41,30 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
 
     }
 
+    pt.playGrid = function () {
+
+        return new domain.common.Grid({
+            x: this.main.left + this.UNIT,
+            y: this.TOP + this.UNIT * 2.5,
+            unitWidth: this.UNIT,
+            unitHeight: this.UNIT
+        })
+
+    }
+
     /**
      * Returns the dimension for the field.
      *
      * @return {domain.level.Dimension}
      */
-    pt.fieldPosition = function () {
+    pt.fieldRect = function () {
 
-        return this.gridPosition(0, 2, 3)
+        return new domain.common.Rect({
+            left: this.LEFT,
+            right: this.LEFT + this.UNIT * 3,
+            top: this.TOP + this.UNIT * 2,
+            bottom: this.TOP + this.UNIT * 5
+        })
 
     }
 
@@ -57,7 +73,7 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
      *
      * @return {domain.level.Dimension}
      */
-    pt.evalRoomPosition = function () {
+    pt.evalRoomGrid = function () {
 
         return this.gridPosition(0, 1, 2)
 
@@ -68,7 +84,7 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
      *
      * @return {domain.level.Dimension}
      */
-    pt.queuePosition = function () {
+    pt.queueGrid = function () {
 
         var pos = this.gridPosition(1, 0, 1)
 
@@ -84,7 +100,7 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
      *
      * @return {domain.level.Dimension}
      */
-    pt.fusionBoxPosition = function () {
+    pt.fusionBoxGrid = function () {
 
         var pos = this.gridPosition(1, 1, 1)
 

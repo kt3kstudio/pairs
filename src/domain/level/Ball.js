@@ -3,7 +3,7 @@
  *
  * @class
  */
-domain.level.Ball = subclass(domain.common.Being, function (pt, parent) {
+domain.level.Ball = subclass(domain.common.GridWalker, function (pt, parent) {
     'use strict'
 
     var TRANS_DUR = 300
@@ -11,24 +11,15 @@ domain.level.Ball = subclass(domain.common.Being, function (pt, parent) {
     var MAX = 3
 
     pt.constructor = function (elem) {
+
         parent.constructor.apply(this, arguments)
 
-        var pos = elem.data('pos') || {x: 1, y: 1}
+        var pos = elem.data('pos') || {m: 1, n: 1}
 
-        this.x = pos.x
-        this.y = pos.y
+        this.setGrid(elem.data('grid'), pos.m, pos.n)
 
-        this.dimension = elem.data('dimension')
-    }
-
-    pt.willShow = function () {
         this.elem.css('display', 'inline')
-        this.elem.css('position', 'absolute')
 
-        this.elem.width(this.dimension.unit)
-        this.elem.height(this.dimension.unit)
-
-        this.locate()
     }
 
     pt.maxX = MAX
@@ -40,8 +31,6 @@ domain.level.Ball = subclass(domain.common.Being, function (pt, parent) {
     pt.hideAnim = 'ball-disappear'
     pt.hideAnimDur = TRANS_DUR
 
-    pt.locateDur = TRANS_DUR
-
     /**
      * Moves the ball to the direction.
      *
@@ -49,7 +38,9 @@ domain.level.Ball = subclass(domain.common.Being, function (pt, parent) {
      * @return {Promise}
      */
     pt.move = function (dir) {
+
         return this.setPos(this.posAhead(dir))
+
     }
 
     /**
@@ -58,9 +49,9 @@ domain.level.Ball = subclass(domain.common.Being, function (pt, parent) {
      * @return {Promise}
      */
     pt.goCenterX = function () {
-        this.x = 1
 
-        return this.locate()
+        return this.moveToM(1)
+
     }
 
     /**
@@ -69,52 +60,50 @@ domain.level.Ball = subclass(domain.common.Being, function (pt, parent) {
      * @return {Promise}
      */
     pt.goCenterY = function () {
-        this.y = 1
 
-        return this.locate()
-    }
+        return this.moveToN(1)
 
-    pt.pos = function () {
-        return {x: this.x, y: this.y}
     }
 
     pt.posAhead = function (dir) {
+
         switch (dir) {
+
             case 'up': return this.relativePos(0, -1)
             case 'down': return this.relativePos(0, 1)
             case 'left': return this.relativePos(-1, 0)
             case 'right': return this.relativePos(1, 0)
+
         }
+
     }
 
-    pt.relativePos = function (x, y) {
-        return {x: (this.x + x + this.maxX) % this.maxX, y: (this.y + y + this.maxY) % this.maxY}
+    pt.relativePos = function (m, n) {
+
+        return {m: (this.m + m + this.maxX) % this.maxX, n: (this.n + n + this.maxY) % this.maxY}
+
     }
 
     pt.setPos = function (pos) {
-        this.x = pos.x
-        this.y = pos.y
 
-        return this.locate()
-    }
+        this.moveToGridPosition(pos.m, pos.n)
 
-    /**
-     * @private
-     */
-    pt.locate = function () {
-        this.elem.css('top', this.dimension.top + this.y * this.dimension.unit + 'px')
-        this.elem.css('left', this.dimension.left + this.x * this.dimension.unit + 'px')
-
-        return wait(this.locateDur)
     }
 
     pt.refuseToMove = function (dir) {
+
         if (dir === 'up' || dir === 'down') {
-            return this.elem.anim('ball-refuse-y', this.locateDur)
+
+            return this.elem.anim('ball-refuse-y', TRANS_DUR)
+
         } else {
-            return this.elem.anim('ball-refuse-x', this.locateDur)
+
+            return this.elem.anim('ball-refuse-x', TRANS_DUR)
+
         }
+
     }
+
 })
 
 $.cc.assign('ball', domain.level.Ball)
