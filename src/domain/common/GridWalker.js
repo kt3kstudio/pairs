@@ -118,7 +118,7 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
      */
     pt.moveOnGrid = function (distM, distN) {
 
-        return this.moveToGridPosition(this.m + diffM, this.n + diffN)
+        return this.moveToGridPosition(this.m + distM, this.n + distN)
 
     }
 
