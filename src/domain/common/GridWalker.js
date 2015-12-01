@@ -15,22 +15,52 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
     pt.n = 0
 
     /**
+     * Sets
      * @param {domain.common.Grid} grid The grid layout info
+     * @param {Number} [m] The horizontal grid position
+     * @param {Number} [n] The vertical grid position
      */
-    pt.setGrid = function (grid) {
+    pt.setGrid = function (grid, m, n) {
 
         this.grid = grid
+
+        this.setGridPosition(m, n)
 
     }
 
     /**
-     * Fits the dimension into the (grid.cellWidth, grid.cellHeight)
+     * Sets the grid position.
+     *
+     * @param {Number} [m] The horizontal grid position
+     * @param {Number} [n] The vertical grid position
+     */
+    pt.setGridPosition = function (m, n) {
+
+        if (m) {
+
+            this.m = m
+
+        }
+
+        if (n) {
+
+            this.n = n
+
+        }
+
+    }
+
+    /**
+     * Fits the dimension into the (grid.cellWidth, grid.cellHeight) and moves to the current grid position.
      *
      * @return {Promise}
      */
     pt.fitToGrid = function () {
 
         this.dimension.fitInto(this.grid.cellWidth, this.grid.cellHeight)
+
+        this.x = this.grid.getX(this.m)
+        this.y = this.grid.getY(this.n)
 
         return this.updateElem()
 
@@ -44,7 +74,9 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
      */
     pt.moveToM = function (m) {
 
-        return this.moveToX(this.grid.getX(this.m = m))
+        this.x = this.grid.getX(this.m = m)
+
+        return this.updateElem()
 
     }
 
@@ -56,7 +88,9 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
      */
     pt.moveToN = function (n) {
 
-        return this.moveToY(this.grid.getY(this.n = n))
+        this.y = this.grid.getY(this.n = n)
+
+        return this.updateElem()
 
     }
 
@@ -69,10 +103,51 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
      */
     pt.moveToGridPosition = function (m, n) {
 
-        this.moveToM(m)
+        this.setGridPosition(m, n)
 
-        return this.moveToN(n)
+        return this.updateElem()
 
     }
+
+    /**
+     * Moves along the grid.
+     *
+     * @param {Number} diffM The move distance along the horizontal line
+     * @param {Number} diffN The move distance along the vertical line
+     * @return {Promise}
+     */
+    pt.moveOnGrid = function (distM, distN) {
+
+        return this.moveToGridPosition(this.m + diffM, this.n + diffN)
+
+    }
+
+    /**
+     * Moves a unit upward along the grid.
+     *
+     * @return {Promise}
+     */
+    pt.moveUpOnGrid = function () { return this.moveOnGrid(0, -1) }
+
+    /**
+     * Moves a unit upward along the grid.
+     *
+     * @return {Promise}
+     */
+    pt.moveRightOnGrid = function () { return this.moveOnGrid(1, 0) }
+
+    /**
+     * Moves a unit upward along the grid.
+     *
+     * @return {Promise}
+     */
+    pt.moveDownOnGrid = function () { return this.moveOnGrid(0, 1) }
+
+    /**
+     * Moves a unit upward along the grid.
+     *
+     * @return {Promise}
+     */
+    pt.moveLeftOnGrid = function () { return this.moveOnGrid(-1, 0) }
 
 })

@@ -21,13 +21,15 @@ describe('GridWalker', function () {
 
     describe('setGrid', function () {
 
-        it('sets the grid', function () {
+        it('sets the grid and grid positions', function () {
 
             var grid = new domain.common.Grid()
 
-            walker.setGrid(grid)
+            walker.setGrid(grid, 1, 2)
 
             expect(walker.grid).to.equal(grid)
+            expect(walker.m).to.equal(1)
+            expect(walker.n).to.equal(2)
 
         })
 

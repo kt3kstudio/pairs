@@ -20,6 +20,8 @@ domain.common.Grid = subclass(function (pt) {
      * @param {Number} options.unitHeight The height of the unit
      * @param {Number} options.cellWidth The width of the cell
      * @param {Number} options.cellHeight The height of the cell
+     * @param {Number} options.modX The mod of the horizontal grid position
+     * @param {Number} options.modY The mod of the vertical grid position
      */
     pt.constructor = function (options) {
 
