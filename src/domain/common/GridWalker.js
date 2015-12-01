@@ -5,6 +5,12 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
     'use strict'
 
     /**
+     * @override
+     */
+    pt.ratioX = 0.5
+    pt.ratioY = 0.5
+
+    /**
      * @property {Number} m The horizontal grid position
      */
     pt.m = 0
@@ -13,6 +19,15 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
      * @property {Number} n The vertical grid position
      */
     pt.n = 0
+
+    /**
+     * @override
+     */
+    pt.willShow = function () {
+
+        return this.fitToGrid()
+
+    }
 
     /**
      * Sets

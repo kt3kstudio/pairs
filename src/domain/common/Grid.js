@@ -31,8 +31,8 @@ domain.common.Grid = subclass(function (pt) {
         this.y = options.y
         this.unitWidth = options.unitWidth
         this.unitHeight = options.unitHeight
-        this.cellWidth = options.cellWidth
-        this.cellHeight = options.cellHeight
+        this.cellWidth = options.cellWidth || this.unitWidth
+        this.cellHeight = options.cellHeight || this.unitHeight
 
     }
 
