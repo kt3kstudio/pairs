@@ -11,21 +11,21 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
      * Initializes the scene.
      */
     pt.init = function () {
-        // continuous actors
+
         this.character = this.getCharacter().character
         this.level = this.elem.cc.get('intro-scene').level
 
         // models
         this.cells = this.elem.cc.get('cell-collection')
-        this.cells.setDimension(this.getDimensionFactory().fieldPosition())
+        this.cells.setGrid(this.getDimensionFactory().playGrid())
         this.cells.loadFromObjectList(this.level.cells.cells)
 
-        this.getField().setDimension(this.getDimensionFactory().fieldPosition())
+        this.getField().setRect(this.getDimensionFactory().fieldRect())
 
         // services
-        this.fps = new domain.level.FusionPreparationService(this.getDimensionFactory().evalRoomPosition())
-        this.fusionService = this.elem.cc.get('fusion-service').setDimension(this.getDimensionFactory().fusionBoxPosition())
-        this.exitQueue = new domain.level.ExitQueue(this.getDimensionFactory().queuePosition())
+        this.fps = new domain.level.FusionPreparationService(this.getDimensionFactory().evalRoomGrid())
+        this.fusionService = this.elem.cc.get('fusion-service').setGrid(this.getDimensionFactory().fusionBoxGrid())
+        this.exitQueue = new domain.level.ExitQueue(this.getDimensionFactory().queueGrid())
 
         // services
         this.bms = new domain.level.BallMoveMobLeaveService(this.getBall(), this.cells)
@@ -36,8 +36,11 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
         var that = this
 
         this.start().then(function (playerWon) {
+
             that.end(playerWon)
+
         })
+
     }.event('play-scene-start')
 
     /**
@@ -47,6 +50,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
      * @return {Promise}
      */
     pt.playLoop = function (source) {
+
         var that = this
 
         return source.pipe(function (dir) {

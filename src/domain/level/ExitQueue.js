@@ -6,9 +6,14 @@
 domain.level.ExitQueue = subclass(function (pt) {
     'use strict'
 
-    pt.constructor = function (dimension) {
-        this.dimension = dimension
+    /**
+     * @param {domain.common.Grid} grid The grid
+     */
+    pt.constructor = function (grid) {
+
+        this.grid = grid
         this.queue = []
+
     }
 
     /**
@@ -18,11 +23,15 @@ domain.level.ExitQueue = subclass(function (pt) {
      * @return {Promise} The promise resolves with the cell.
      */
     pt.enqueue = function (cell) {
+
         var that = this
 
         return this.involve(new Queuee(cell)).then(function () {
+
             return that.goForward()
+
         })
+
     }
 
     /**
@@ -31,9 +40,13 @@ domain.level.ExitQueue = subclass(function (pt) {
      * @return {Array}
      */
     pt.releaseCells = function () {
+
         return this.queue.splice(0).map(function (queuee) {
+
             return queuee.cell
+
         })
+
     }
 
     /**
@@ -43,14 +56,19 @@ domain.level.ExitQueue = subclass(function (pt) {
      * @return {Promise}
      */
     pt.goForward = function () {
+
         var d = 200 / this.queue.length
 
         return this.queue.map(function (queuee, i) {
+
             queuee.goForward()
 
             return wait(i * d).then(function () {
+
                 return queuee.locate()
+
             })
+
         }).pop()
     }
 
@@ -60,9 +78,11 @@ domain.level.ExitQueue = subclass(function (pt) {
      * @return {Promise}
      */
     pt.involve = function (queuee) {
+
         this.queue.push(queuee)
 
-        return queuee.goOrigin().setDimension(this.dimension).setTransitionDuration(600)
+        return queuee.goOrigin().setGrid(this.grid).setTransitionDuration(600)
+
     }
 
     /**
@@ -71,13 +91,17 @@ domain.level.ExitQueue = subclass(function (pt) {
      * @return {Boolean}
      */
     pt.theLastOneIsEvolved = function () {
+
         if (this.queue.length === 0) {
+
             return false
+
         }
 
         var cell = this.queue[this.queue.length - 1].cell
 
         return cell.isLastOne() && cell.isEvolved()
+
     }
 
     /**
@@ -92,44 +116,58 @@ domain.level.ExitQueue = subclass(function (pt) {
          * @param {domain.level.Cell} cell The queueing cell
          */
         pt.constructor = function (cell) {
+
             this.cell = cell
+
         }
 
         /**
          * Goes forward in the queue.
          */
         pt.goForward = function () {
+
             if (this.cell.x < 4) {
+
                 this.cell.x += 1
+
             } else {
+
                 this.cell.y += 1
+
             }
 
             return this
+
         }
 
         /**
          * Locates the cell.
          */
         pt.locate = function () {
-            return this.cell.updateDomDimension()
+
+            return this.cell.updateElem()
+
         }
 
         /**
          * Removes the cell.
          */
         pt.remove = function () {
+
             this.cell.remove()
+
         }
 
         /**
          * Goes to the origin of the queue dimension.
          */
         pt.goOrigin = function () {
+
             this.cell.x = -1
             this.cell.y = 0
 
             return this
+
         }
 
         /**
@@ -139,19 +177,23 @@ domain.level.ExitQueue = subclass(function (pt) {
          * @return {Promise} of domain.level.Cell
          */
         pt.setTransitionDuration = function (dur) {
+
             return this.cell.setTransitionDuration(dur)
+
         }
 
         /**
          * Sets the dimension.
          *
-         * @param {Object} dimension The dimension
+         * @param {domain.common.Grid} grid The grid
          * @return {domain.level.ExitQueue.Queuee}
          */
-        pt.setDimension = function (dimension) {
-            this.cell.setDimension(dimension)
+        pt.setGrid = function (grid) {
+
+            this.cell.setGrid(grid)
 
             return this
+
         }
     })
 })

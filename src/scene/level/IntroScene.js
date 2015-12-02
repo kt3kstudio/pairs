@@ -99,10 +99,10 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
      */
     pt.spawnBall = function () {
 
-        $($('#tpl-ball').html()).data({
+        $($('#tpl-ball').html()).css({display: 'none'}).data({
 
-            dimension: this.getDimensionFactory().fieldPosition(),
-            pos: {x: 1, y: 1}
+            grid: this.getDimensionFactory().playGrid(),
+            pos: {m: 1, n: 1}
 
         }).appendTo(this.elem).cc.init('ball')
 

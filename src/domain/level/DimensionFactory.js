@@ -75,7 +75,12 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
      */
     pt.evalRoomGrid = function () {
 
-        return this.gridPosition(0, 1, 2)
+        return new domain.common.Grid({
+            x: this.main.left + this.UNIT,
+            y: this.TOP + this.UNIT * 1.5,
+            unitWidth: this.UNIT * 2,
+            unitHeight: this.UNIT * 2
+        })
 
     }
 

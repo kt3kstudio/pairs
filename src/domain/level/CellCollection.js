@@ -19,10 +19,10 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
     }
 
     /**
-     * @param {domain.level.Dimension} dimension
+     * @param {domain.common.Grid} grid
      */
-    pt.setDimension = function (dimension) {
-        this.dimension = dimension
+    pt.setGrid = function (grid) {
+        this.grid = grid
 
         return this
     }
@@ -68,18 +68,20 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
      * @return {domain.level.FieldCells}
      */
     pt.loadList = function (list) {
+
         var indices = new util.FieldIndexGenerator().generate(list.length, this.usedIndices())
 
         list.forEach(function (cell, i) {
-            cell
-                .setXY(indices[i])
-                .setDimension(this.dimension)
-                .unsetLastOne()
+
+            cell.setGrid(this.grid, indices[0], indices[1])
+            cell.unsetLastOne()
 
             this.cells.push(cell)
+
         }, this)
 
         return this
+
     }
 
     /**

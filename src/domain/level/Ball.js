@@ -18,8 +18,6 @@ domain.level.Ball = subclass(domain.common.GridWalker, function (pt, parent) {
 
         this.setGrid(elem.data('grid'), pos.m, pos.n)
 
-        this.elem.css('display', 'inline')
-
     }
 
     pt.maxX = MAX
@@ -30,6 +28,17 @@ domain.level.Ball = subclass(domain.common.GridWalker, function (pt, parent) {
 
     pt.hideAnim = 'ball-disappear'
     pt.hideAnimDur = TRANS_DUR
+
+    pt.willShow = function () {
+
+        var elem = this.elem
+
+        return parent.willShow.apply(this, arguments).then(function () {
+
+            elem.css('display', 'inline')
+
+        })
+    }
 
     /**
      * Moves the ball to the direction.

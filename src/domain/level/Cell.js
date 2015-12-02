@@ -5,7 +5,7 @@
  *
  * @class
  */
-domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
+domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
     'use strict'
 
     /**
@@ -40,7 +40,7 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
      * @param {Object} dimension The dimension
      * @return {domain.level.Cell}
      */
-    pt.setDimension = function (dimension) {
+    pt._setDimension = function (dimension) {
         this.dimension = dimension
         this.height = Math.floor(dimension.unit / 2)
         this.width = Math.floor(dimension.unit / 2)
@@ -71,7 +71,7 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
      * @param {Array} yx The array of [y, x]
      * @return {domain.level.Cell}
      */
-    pt.setXY = function (yx) {
+    pt._setXY = function (yx) {
         this.x = yx[1]
         this.y = yx[0]
 
@@ -174,20 +174,20 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
      * @return {jQuery}
      */
     pt.willShow = function () {
+
         var that = this
 
         var elem = this.elem
 
-        elem.css({
-            'position': 'absolute',
-            'width': this.width + 'px',
-            'height': this.height + 'px'
-        })
+        parent.willShow.apply(this, arguments).then(function () {
 
-        elem.attr('data', this.selectImage())
+            elem.attr('data', that.selectImage())
 
-        return elem.once('load').then(function () {
-            that.updateDomDimension()
+            return elem.once('load')
+
+        }).then(function () {
+
+            that.updateElem()
 
             that.setTransitionDuration(300)
 
@@ -196,9 +196,13 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
             var $svg = $(elem[0].contentDocument)
 
             for (var i = 0; i < genes.length; i++) {
+
                 $('#' + i, $svg).attr('class', genes[i])
+
             }
+
         })
+
     }
 
     /**
@@ -207,7 +211,9 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
      * For example, change the size of the dom.
      */
     pt.resetShapeAndLocate = function () {
-        return this.updateDomDimension()
+
+        return this.updateElem()
+
     }
 
     pt.showAnim = 'bom-appear'
@@ -217,49 +223,30 @@ domain.level.Cell = subclass(domain.common.Being, function (pt, parent) {
     pt.hideAnimDur = 500
 
     pt.didAppear = function () {
+
         return this
+
     }
 
     pt.anim = function (animationName, duration) {
+
         return this.elem.anim(animationName, duration)
-    }
 
-    pt.updateDomRect = function () {
-        this.elem.width(this.width).height(this.height)
-
-        return wait(this.transDur)
-    }
-
-    pt.updateDomPosition = function () {
-        this.elem.css('top', this.dimension.top + this.dimension.unit * this.y + this.gutter + 'px')
-        this.elem.css('left', this.dimension.left + this.dimension.unit * this.x + this.gutter + 'px')
-
-        return wait(this.transDur)
-    }
-
-    pt.updateDomDimension = function () {
-        this.updateDomRect()
-
-        return this.updateDomPosition()
     }
 
     pt.remove = function () {
+
         this.elem.remove()
 
         pt.constructor.allList.splice(pt.constructor.allList.indexOf(this), 1)
+
     }
 
-    pt.move = function (x, y) {
-        this.x += x
-        this.y += y
+    pt.up = function () { return this.moveUpOnGrid() }
+    pt.down = function () { return this.moveDownOnGrid }
+    pt.left = function () { return this.moveLeftOnGrid }
+    pt.right = function () { return this.moveRightOnGrid }
 
-        return this.updateDomPosition()
-    }
-
-    pt.up = function () { return this.move(0, -1) }
-    pt.down = function () { return this.move(0, 1) }
-    pt.left = function () { return this.move(-1, 0) }
-    pt.right = function () { return this.move(1, 0) }
 })
 
 $.cc.assign('cell', domain.level.Cell)

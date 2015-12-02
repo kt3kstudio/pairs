@@ -8,9 +8,12 @@ domain.level.FusionPreparationService = subclass(function (pt) {
 
     /**
      * @constructor
+     * @param {domain.common.Grid} grid The grid
      */
-    pt.constructor = function (dimension) {
-        this.stack = new PreparationStack(dimension)
+    pt.constructor = function (grid) {
+
+        this.stack = new PreparationStack(grid)
+
     }
 
     /**
@@ -20,15 +23,21 @@ domain.level.FusionPreparationService = subclass(function (pt) {
      * @return {Promise} {Promise<domain.level.FusionPair>}
      */
     pt.take = function (cell) {
+
         this.stack.push(cell)
 
         if (!this.stack.isPrepared()) {
+
             return
+
         }
 
         return Promise.all(this.stack.popAll()).then(function (array) {
+
             return new domain.level.FusionPair(array[0], array[1])
+
         })
+
     }
 
     /**
@@ -40,11 +49,14 @@ domain.level.FusionPreparationService = subclass(function (pt) {
     var PreparationStack = subclass(function (pt) {
         /**
          * @constructor
+         * @param {domain.common.Grid} grid The grid
          */
-        pt.constructor = function (dimension) {
-            this.dimension = dimension
+        pt.constructor = function (grid) {
+
+            this.grid = grid
             this.stack = []
             this.isFinished = false
+
         }
 
         /**
@@ -58,9 +70,11 @@ domain.level.FusionPreparationService = subclass(function (pt) {
          * @param {domain.level.Cell} cell The cell
          */
         pt.push = function (cell) {
+
             this.isFinished = cell.isLastOne()
 
             this.stack.push(this.locate(cell, this.stack.length))
+
         }
 
         /**
@@ -71,24 +85,34 @@ domain.level.FusionPreparationService = subclass(function (pt) {
          * @return {Promise<domain.level.Cell>}
          */
         pt.locate = function (cell, index) {
-            cell.setDimension(this.dimension)
+
+            cell.setGrid(this.grid)
 
             cell.x = index
             cell.y = 0
 
             return cell.setTransitionDuration(this.takeDur).then(function () {
-                return cell.updateDomDimension()
+
+                return cell.fitIntoGrid()
+
             }).then(function () {
+
                 return cell
+
             })
+
         }
 
         pt.isPrepared = function () {
+
             return this.isFinished || this.isFull()
+
         }
 
         pt.isFull = function () {
+
             return this.stack.length >= 2
+
         }
 
         /**
@@ -97,7 +121,11 @@ domain.level.FusionPreparationService = subclass(function (pt) {
          * @return {Array<Promise<domain.level.Cell>>}
          */
         pt.popAll = function () {
+
             return this.stack.splice(0)
+
         }
+
     })
+
 })

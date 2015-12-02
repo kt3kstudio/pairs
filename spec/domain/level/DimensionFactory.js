@@ -9,49 +9,49 @@ describe('DimensionFactory', function () {
 
     })
 
-    describe('fieldPosition', function () {
+    describe('fieldRect', function () {
 
-        it('returns the dimension for the field', function () {
+        it('returns the rect for the field', function () {
 
-            var dimension = factory.fieldPosition()
+            var dimension = factory.fieldRect()
 
-            expect(dimension).to.be.instanceof(domain.level.Dimension)
-
-        })
-
-    })
-
-    describe('evalRoomPosition', function () {
-
-        it('returns the dimension for the evaluation place', function () {
-
-            var dimension = factory.evalRoomPosition()
-
-            expect(dimension).to.be.instanceof(domain.level.Dimension)
+            expect(dimension).to.be.instanceof(domain.common.Rect)
 
         })
 
     })
 
-    describe('queuePosition', function () {
+    describe('evalRoomGrid', function () {
 
-        it('returns the dimension for the queue', function () {
+        it('returns the grid for the evaluation place', function () {
 
-            var dimension = factory.queuePosition()
+            var dimension = factory.evalRoomGrid()
 
-            expect(dimension).to.be.instanceof(domain.level.Dimension)
+            expect(dimension).to.be.instanceof(domain.common.Grid)
 
         })
 
     })
 
-    describe('fusionBoxPosition', function () {
+    describe('queueGrid', function () {
 
-        it('returns the dimension for the fusion place', function () {
+        it('returns the grid for the queue', function () {
 
-            var dimension = factory.fusionBoxPosition()
+            var dimension = factory.queueGrid()
 
-            expect(dimension).to.be.instanceof(domain.level.Dimension)
+            expect(dimension).to.be.instanceof(domain.common.Grid)
+
+        })
+
+    })
+
+    describe('fusionBoxGrid', function () {
+
+        it('returns the grid for the fusion place', function () {
+
+            var dimension = factory.fusionBoxGrid()
+
+            expect(dimension).to.be.instanceof(domain.common.Grid)
 
         })
 
@@ -69,7 +69,7 @@ describe('DimensionFactory', function () {
 
     })
 
-    describe('resultPanePosition', function () {
+    describe('resultPaneRect', function () {
 
         it('returns a rect for the result pane', function () {
 

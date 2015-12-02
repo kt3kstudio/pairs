@@ -5,7 +5,7 @@
  *
  * @class
  */
-domain.level.Field = subclass(domain.common.DimensionalBeing, function (pt) {
+domain.level.Field = subclass(domain.common.DimensionalBeing, function (pt, parent) {
     'use strict'
 
     pt.showAnim = 'field-appear'
@@ -15,17 +15,17 @@ domain.level.Field = subclass(domain.common.DimensionalBeing, function (pt) {
     pt.hideAnimDur = 400
 
     /**
-     * @param {domain.level.Dimension} dimension The dimension of the position
+     * @param {domain.common.Rect} rect The rect to fit into
      */
-    pt.setDimension = function (dimension) {
-        this.x = dimension.left
-        this.y = dimension.top
-        this.dimension.width = dimension.width
-        this.dimension.height = dimension.width
+    pt.setRect = function (rect) {
+
+        parent.setRect.apply(this, arguments)
 
         this.dimension.marginX = -5
         this.dimension.marginY = -5
+
     }
+
 })
 
 $.cc.assign('field-grid', domain.level.Field)
