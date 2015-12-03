@@ -16,6 +16,7 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
      * @return {Promise}
      */
     pt.appearAt = function (floorAsset) {
+
         this.current = floorAsset
 
         this.x = floorAsset.x
@@ -24,8 +25,11 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
         var self = this
 
         return floorAsset.open().then(function () {
+
             return self.show()
+
         })
+
     }
 
     /**
@@ -33,7 +37,9 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
      * @param {domain.map.FloorAsset} floorAsset The floor asset
      */
     pt.doorKnock = function (e, floorAsset) {
+
         this.moveToFloorAsset(floorAsset)
+
     }.event('door-knock')
 
     /**
@@ -42,14 +48,18 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
      * @param {Event} e The event object
      */
     pt.characterGoto = function (e) {
+
         this.character.position.floorId = e.goto.floorId
         this.character.position.floorObjectId = e.goto.floorObjectId
 
         var self = this
 
         this.saveCharacter().then(function () {
+
             self.elem.trigger($.Event('sceneReload'))
+
         })
+
     }.event('character-goto')
 
     /**
@@ -58,7 +68,9 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
      * @return {datadomain.CharPosition}
      */
     pt.getPosition = function () {
+
         return this.character.position
+
     }
 
     /**
@@ -67,16 +79,20 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
      * @param {String} floorObjectId The floor object id
      */
     pt.setFloorObjectId = function (floorObjectId) {
+
         this.character.position.floorObjectId = floorObjectId
 
         this.saveCharacter()
+
     }
 
     /**
      * Saves the character data.
      */
     pt.saveCharacter = function () {
+
         return this.characterRepository.save(this.character)
+
     }
 
     /**
@@ -86,6 +102,7 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
      * @return {Promise}
      */
     pt.moveToFloorAsset = function (floorAsset) {
+
         var self = this
 
         var current = this.current
@@ -103,33 +120,44 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
         current.close()
 
         return this.moveTo('y', current.y + goOutDistance, goOutDur).then(function () {
+
             self.elem.trigger('character-move', [floorAsset.x, moveOnCorridor])
 
             floorAsset.open()
 
             return self.moveTo('x', floorAsset.x, moveOnCorridor)
+
         }).then(function () {
+
             return self.moveTo('y', floorAsset.y, goIntoDur)
+
         }).then(function () {
+
             self.current = floorAsset
 
             floorAsset.onGetWalker(self)
 
             return self.turn('down')
+
         })
+
     }
 
     /**
      * Gets the character into the door.
      */
     pt.getIntoDoor = function () {
+
         var self = this
 
         this.turn('up')
 
         return this.disappear().then(function () {
+
             return self.current.close()
+
         })
+
     }
 })
 
