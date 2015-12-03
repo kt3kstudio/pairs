@@ -40,8 +40,6 @@ domain.common.Being = subclass($.cc.Actor, function (pt) {
 
             }
 
-            that.elem.css('visibility', 'visible')
-
             return p
 
         }).then(function () {
@@ -79,8 +77,6 @@ domain.common.Being = subclass($.cc.Actor, function (pt) {
                 p = that.elem.anim(that.hideAnim, dur || that.hideAnimDur)
 
             }
-
-            that.elem.css('visibility', 'hidden')
 
             return p
 
