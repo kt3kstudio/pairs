@@ -53,13 +53,17 @@ domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = sub
      * @override
      */
     pt.willShow = function () {
+
         parent.willShow.call(this)
 
         var defaultDirImage = this.dirStateImage[this.defaultDir]
 
         if (defaultDirImage != null && defaultDirImage[this.defaultState] != null) {
-            defaultDirImage[this.defaultState].apply(this.elem)
+
+            this.applyImage(defaultDirImage[this.defaultState])
+
         }
+
     }
 
     /**
@@ -69,21 +73,27 @@ domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = sub
      * @param {String} state The state
      */
     pt.setDirState = function (dir, state) {
+
         dir = dir || this.dir
 
         state = state || this.state
 
         if (!this.dirStateImage) {
+
             throw new Error('no image mapping in sprite.')
+
         }
 
         var img = this.dirStateImage[dir][state]
 
         if (!img) {
+
             throw new Error('illegal (dir, state): (' + dir + ', ' + state + ')')
+
         }
 
         this.applyImage(img)
+
     }
 
     /**
@@ -93,6 +103,9 @@ domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = sub
      * @param {domain.common.Image} img The image
      */
     pt.applyImage = function (img) {
+
         img.apply(this.elem)
+
     }
+
 })
