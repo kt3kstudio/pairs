@@ -6,7 +6,7 @@
 domain.level.Ball = subclass(domain.common.GridWalker, function (pt, parent) {
     'use strict'
 
-    var TRANS_DUR = 300
+    var TRANS_DUR = 150
 
     var MAX = 3
 
@@ -17,6 +17,7 @@ domain.level.Ball = subclass(domain.common.GridWalker, function (pt, parent) {
         var pos = elem.data('pos') || {m: 1, n: 1}
 
         this.setGrid(elem.data('grid'), pos.m, pos.n)
+        this.setTransitionDuration(TRANS_DUR)
 
     }
 
