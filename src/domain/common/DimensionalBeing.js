@@ -35,8 +35,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
             marginY: this.marginY
         })
 
-        this.elem
-            .css('position', 'absolute') // Except `position: absolute`, this class doesn't make sense.
+        this.elem.css('position', 'absolute') // Except `position: absolute`, this class doesn't make sense.
 
     }
 

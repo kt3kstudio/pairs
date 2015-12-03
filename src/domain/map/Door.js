@@ -118,10 +118,9 @@ domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
 
     pt.doorActionDur = 400
 
-    pt.showAnim = 'door-appear'
-    pt.showAnimDur = DOOR_APPEAR_DUR
-    pt.hideAnim = 'door-disappear'
-    pt.hideAnimDur = DOOR_APPEAR_DUR
+    pt.showAnim = new domain.common.Animation('door-appear', DOOR_APPEAR_DUR)
+    pt.hideAnim = new domain.common.Animation('door-disappear', DOOR_APPEAR_DUR)
+
 })
 
 $.cc.assign('door', domain.map.Door)

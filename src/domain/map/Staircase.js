@@ -9,11 +9,9 @@ domain.map.Staircase = subclass(domain.map.FloorAsset, function (pt, parent) {
 
     var STAIRCASE_ANIMATION_DUR = 400
 
-    pt.showAnim = 'door-appear'
-    pt.showAnimDur = STAIRCASE_ANIMATION_DUR
+    pt.showAnim = new domain.common.Animation('door-appear', STAIRCASE_ANIMATION_DUR)
 
-    pt.hideAnim = 'door-disappear'
-    pt.hideAnimDur = STAIRCASE_ANIMATION_DUR
+    pt.hideAnim = new domain.common.Animation('door-disappear', STAIRCASE_ANIMATION_DUR)
 
     pt.constructor = function (elem) {
         parent.constructor.call(this, elem)

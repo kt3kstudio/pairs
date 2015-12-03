@@ -207,11 +207,9 @@ domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
 
     }
 
-    pt.showAnim = 'bom-appear'
-    pt.showAnimDur = 500
+    pt.showAnim = new domain.common.Animation('bom-appear', 500)
 
-    pt.hideAnim = 'bom-disappear'
-    pt.hideAnimDur = 500
+    pt.hideAnim = new domain.common.Animation('bom-disappear', 500)
 
     pt.didAppear = function () {
 

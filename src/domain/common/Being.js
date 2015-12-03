@@ -10,16 +10,15 @@ domain.common.Being = subclass($.cc.Actor, function (pt) {
     var noop = function () {}
 
     /**
-     * @property {String} showAnim The animation name this elem showing with
+     * @property {domain.common.Animation} showAnim The animation name this elem showing with
      */
     pt.showAnim = null
-    pt.showAnimDur = 500 // default 500ms
 
     pt.willShow = noop
     pt.didShow = noop
 
     /**
-     * 表示時アニメーションプロパティ (showAnim, showAnimDur) に従ってアニメーションさせる。
+     * 表示時アニメーションプロパティ (showAnim) に従ってアニメーションさせる。
      *
      * 事前に willShow hook, 事後に didShow hook を呼び出す。
      *
@@ -34,9 +33,9 @@ domain.common.Being = subclass($.cc.Actor, function (pt) {
 
             var p
 
-            if (that.showAnim && that.showAnimDur) {
+            if (that.showAnim != null) {
 
-                p = that.elem.anim(that.showAnim, dur || that.showAnimDur)
+                p = that.showAnim.apply(that.elem)
 
             }
 
@@ -51,13 +50,12 @@ domain.common.Being = subclass($.cc.Actor, function (pt) {
     }
 
     pt.hideAnim = null
-    pt.hideAnimDur = 500 // default 500ms
 
     pt.willHide = noop
     pt.didHide = noop
 
     /**
-     * 非表示時アニメーションプロパティ (showAnim, showAnimDur) に従ってアニメーションさせる。
+     * 非表示時アニメーションプロパティ (hideAnim) に従ってアニメーションさせる。
      *
      * 事前に willHide hook, 事後に didHide hook を呼び出す。
      *
@@ -72,9 +70,9 @@ domain.common.Being = subclass($.cc.Actor, function (pt) {
 
             var p
 
-            if (that.hideAnim && that.hideAnimDur) {
+            if (that.hideAnim != null) {
 
-                p = that.elem.anim(that.hideAnim, dur || that.hideAnimDur)
+                p = that.hideAnim.apply(that.elem)
 
             }
 

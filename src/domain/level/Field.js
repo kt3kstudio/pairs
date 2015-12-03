@@ -8,11 +8,9 @@
 domain.level.Field = subclass(domain.common.DimensionalBeing, function (pt, parent) {
     'use strict'
 
-    pt.showAnim = 'field-appear'
-    pt.showAnimDur = 200
+    pt.showAnim = new domain.common.Animation('field-appear', 200)
 
-    pt.hideAnim = 'field-disappear'
-    pt.hideAnimDur = 400
+    pt.hideAnim = new domain.common.Animation('field-disappear', 400)
 
     /**
      * @param {domain.common.Rect} rect The rect to fit into

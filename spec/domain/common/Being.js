@@ -5,95 +5,134 @@ describe('Being', function () {
     var being
 
     beforeEach(function () {
+
         elem = $('<div />')
 
         being = new domain.common.Being(elem)
 
-        being.showAnim = 'showing'
-        being.showAnimDur = 500
+        being.showAnim = new domain.common.Animation('showing', 500)
 
-        being.hideAnim = 'abc'
-        being.hideAnimDur = 37
+        being.hideAnim = new domain.common.Animation('abc', 37)
+
     })
 
     describe('show', function () {
-        it('calls anim method of elem property with showAnim and showAnimDur properties', function (done) {
-            being.elem.anim = function (showAnim, showAnimDur) {
-                expect(showAnim).to.equal('showing')
-                expect(showAnimDur).to.equal(500)
+
+        it('applies the show animation to the elem', function (done) {
+
+            being.showAnim.apply = function (elem) {
+
+                expect(elem).to.equal(being.elem)
 
                 done()
+
             }
 
-            being.show()
+            being.show().catch(function (e) {
+                console.log(e)
+                console.log(e.stack)
+            })
+
         })
 
         it('calls willShow before the main animation', function (done) {
-            being.elem.anim = function () {
+
+            being.showAnim.apply = function () {
+
                 done(new Error('main animation should not called before willShow'))
+
             }
 
             being.willShow = function () {
+
                 done()
+
             }
 
             being.show()
+
         })
 
         it('calls didShow after the main animation', function (done) {
+
             var animCalled = false
 
-            being.elem.anim = function () {
+            being.showAnim.apply = function () {
+
                 animCalled = true
+
             }
 
             being.didShow = function () {
+
                 expect(animCalled).to.be.true
 
                 done()
+
             }
 
             being.show()
+
         })
+
     })
 
     describe('hide', function () {
-        it('calls anim method of the elem with hideAnim and hideAnimDur properties', function (done) {
-            being.elem.anim = function (hideAnim, hideAnimDur) {
-                expect(hideAnim).to.equal('abc')
-                expect(hideAnimDur).to.equal(37)
+
+        it('applies the hide animation to the elem', function (done) {
+
+            being.hideAnim.apply = function (elem) {
+
+                expect(elem).to.equal(being.elem)
 
                 done()
+
             }
 
             being.hide()
+
         })
 
-        it('calls willHide method before the anim method of the elem is called', function (done) {
-            being.elem.anim = function () {
+        it('calls willHide method before the main animation', function (done) {
+
+            being.hideAnim.apply = function () {
+
                 expect(true).to.be.false
+
             }
 
             being.willHide = function () {
+
                 done()
+
             }
 
             being.hide()
+
         })
 
-        it('calls didHide method after the anim method of the elem is called', function () {
+        it('calls didHide method after the main animation', function (done) {
+
             var animCalled = false
 
-            being.elem.anim = function () {
+            being.hideAnim.apply = function () {
+
                 animCalled = true
+
             }
 
             being.didHide = function () {
+
                 expect(animCalled).to.be.true
+
+                done()
+
             }
 
             being.hide()
+
         })
+
     })
 
     describe('disappear', function () {

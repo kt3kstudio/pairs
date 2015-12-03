@@ -24,12 +24,8 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
 
     }
 
-    pt.showAnim = 'bom-appear'
-    pt.showAnimDur = 400
-    pt.hideAnim = 'bom-disappear'
-    pt.hideAnimDur = 400
-
-    // pt.hideAnim = new domain.common.Animation('bom-disappear', {dur: 400})
+    pt.showAnim = new domain.common.Animation('bom-appear', 400)
+    pt.hideAnim = new domain.common.Animation('bom-disappear', 400)
 
     /**
      * Set up the initial dom state.

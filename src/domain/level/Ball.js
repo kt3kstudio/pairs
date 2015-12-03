@@ -24,11 +24,9 @@ domain.level.Ball = subclass(domain.common.GridWalker, function (pt, parent) {
     pt.maxX = MAX
     pt.maxY = MAX
 
-    pt.showAnim = 'ball-appear'
-    pt.showAnimDur = TRANS_DUR
+    pt.showAnim = new domain.common.Animation('ball-appear', TRANS_DUR)
 
-    pt.hideAnim = 'ball-disappear'
-    pt.hideAnimDur = TRANS_DUR
+    pt.hideAnim = new domain.common.Animation('ball-disappear', TRANS_DUR)
 
     pt.willShow = function () {
 

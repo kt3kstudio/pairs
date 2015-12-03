@@ -7,6 +7,7 @@ domain.common.Ma = subclass(function (pt) {
     'use strict'
 
     pt.constructor = function () {
+
         this.id = 'ma'
         this.name = 'ma'
 
@@ -20,9 +21,9 @@ domain.common.Ma = subclass(function (pt) {
         this.leftImage = 'images/ma-L.svg'
         this.rightImage = 'images/ma-R.svg'
 
-        this.showAnim = 'char-appear'
-        this.showAnimDur = 1000
-        this.hideAnim = 'char-disappear'
-        this.hideAnimDur = 1000
+        this.showAnim = new domain.common.Animation('char-appear', 1000)
+        this.hideAnim = new domain.common.Animation('char-disappear', 1000)
+
     }
+
 })

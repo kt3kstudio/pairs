@@ -36,7 +36,6 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
 
             this.ball.refuseToMove(dir)
 
-
             return null
 
         }

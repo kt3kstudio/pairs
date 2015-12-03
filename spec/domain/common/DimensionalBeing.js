@@ -37,13 +37,6 @@ describe('DimensionalBeing', function () {
 
         })
 
-        it('sets the transition-timing-function of the element to linear', function () {
-
-            dim.willShow()
-            expect(dim.elem.css('transition-timing-function')).to.equal('linear')
-
-        })
-
     })
 
     describe('rightLimit', function () {
