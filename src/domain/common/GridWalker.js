@@ -6,12 +6,15 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
 
     /**
      * @override
+     * @property
      */
     pt.ratioX = 0.5
-    pt.ratioY = 0.5
 
-    pt.cellRatioX = 1
-    pt.cellRatioY = 1
+    /**
+     * @override
+     * @property
+     */
+    pt.ratioY = 0.5
 
     /**
      * @property {Number} m The horizontal grid position
@@ -22,6 +25,16 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
      * @property {Number} n The vertical grid position
      */
     pt.n = 0
+
+    /**
+     * @property {Number} cellRatioX The ratio of how much the grid walker occupies the given cell width (default: 1)
+     */
+    pt.cellRatioX = 1
+
+    /**
+     * @property {Number} cellRatioX The ratio of how much the grid walker occupies the given cell height (default: 1)
+     */
+    pt.cellRatioY = 1
 
     /**
      * @override
@@ -54,13 +67,13 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
      */
     pt.setGridPosition = function (m, n) {
 
-        if (m) {
+        if (typeof m === 'number') {
 
             this.m = m
 
         }
 
-        if (n) {
+        if (typeof n === 'number') {
 
             this.n = n
 

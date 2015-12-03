@@ -45,23 +45,6 @@ domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
 
     }
 
-    /**
-     * Sets the dimension.
-     *
-     * @param {Object} dimension The dimension
-     * @return {domain.level.Cell}
-     */
-    pt._setDimension = function (dimension) {
-
-        this.dimension = dimension
-        this.height = Math.floor(dimension.unit / 2)
-        this.width = Math.floor(dimension.unit / 2)
-        this.gutter = Math.floor(dimension.unit / 4)
-
-        return this
-
-    }
-
     pt.transDur = 300
 
     /**
@@ -77,21 +60,6 @@ domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
         this.elem.css('transition-duration', this.transDur + 'ms')
 
         return wait(0)
-
-    }
-
-    /**
-     * Sets the coordinate
-     *
-     * @param {Array} yx The array of [y, x]
-     * @return {domain.level.Cell}
-     */
-    pt._setXY = function (yx) {
-
-        this.x = yx[1]
-        this.y = yx[0]
-
-        return this
 
     }
 
