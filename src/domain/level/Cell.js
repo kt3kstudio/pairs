@@ -8,12 +8,16 @@
 domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
     'use strict'
 
+    pt.cellRatioX = 0.65
+    pt.cellRatioY = 0.65
+
     /**
      * @constructor
      * @param {String} gene The gene string
      * @param {String|HTMLElement} parent The parent dom
      */
     pt.constructor = function (elem) {
+
         parent.constructor.call(this, elem)
 
         this.gene = elem.data('gene')
@@ -22,16 +26,23 @@ domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
         this.__isEvolved = false
 
         pt.constructor.allList.push(this)
+
     }
 
     pt.constructor.allList = []
 
     pt.constructor.disappear = function () {
+
         return pt.constructor.allList.map(function (cell, i) {
+
             wait(40 * i).then(function () {
+
                 return cell.disappear()
+
             })
+
         }).pop()
+
     }
 
     /**
@@ -41,12 +52,14 @@ domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
      * @return {domain.level.Cell}
      */
     pt._setDimension = function (dimension) {
+
         this.dimension = dimension
         this.height = Math.floor(dimension.unit / 2)
         this.width = Math.floor(dimension.unit / 2)
         this.gutter = Math.floor(dimension.unit / 4)
 
         return this
+
     }
 
     pt.transDur = 300
@@ -58,11 +71,13 @@ domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
      * @return {Promise}
      */
     pt.setTransitionDuration = function (dur) {
+
         this.transDur = dur
 
         this.elem.css('transition-duration', this.transDur + 'ms')
 
         return wait(0)
+
     }
 
     /**
@@ -72,10 +87,12 @@ domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
      * @return {domain.level.Cell}
      */
     pt._setXY = function (yx) {
+
         this.x = yx[1]
         this.y = yx[0]
 
         return this
+
     }
 
     /**
@@ -84,9 +101,11 @@ domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
      * @return {domain.level.Cell}
      */
     pt.setLastOne = function () {
+
         this.__isLastOne = true
 
         return this
+
     }
 
     /**
@@ -95,9 +114,11 @@ domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
      * @return {domain.level.Cell}
      */
     pt.unsetLastOne = function () {
+
         this.__isLastOne = false
 
         return this
+
     }
 
     /**
@@ -106,25 +127,31 @@ domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
      * @return {Boolean}
      */
     pt.isLastOne = function () {
+
         return this.__isLastOne
+
     }
 
     /**
      * Sets the flag of being evolved from the parents.
      */
     pt.setEvolved = function () {
+
         this.__evolved = true
 
         return this
+
     }
 
     /**
      * Unsets the flag of being evolved.
      */
     pt.unsetEvolved = function () {
+
         this.__evolved = false
 
         return this
+
     }
 
     /**
@@ -133,7 +160,9 @@ domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
      * @return {Boolean}
      */
     pt.isEvolved = function () {
+
         return this.__evolved
+
     }
 
     /**
@@ -143,29 +172,41 @@ domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
      * @return {String}
      */
     pt.selectImage = function () {
+
         if (this.gene === 'f') {
+
             return 'images/neef.svg'
+
         }
 
         if (this.gene === 'm') {
+
             return 'images/nim.svg'
+
         }
 
         if (this.gene === 'a') {
+
             return 'images/ankh.svg'
+
         }
 
         if (this.gene === 'w') {
+
             return 'images/wheel.svg'
+
         }
 
         if (this.gene === 'b') {
+
             return 'images/box.svg'
+
         }
 
         var cellKind = domain.common.BomTable[this.gene.length]
 
         return 'images/' + cellKind + '.svg'
+
     }
 
     /**
@@ -179,7 +220,7 @@ domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
 
         var elem = this.elem
 
-        parent.willShow.apply(this, arguments).then(function () {
+        return parent.willShow.apply(this, arguments).then(function () {
 
             elem.attr('data', that.selectImage())
 
@@ -187,7 +228,7 @@ domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
 
         }).then(function () {
 
-            that.updateElem()
+            that.fitToGrid()
 
             that.setTransitionDuration(300)
 
@@ -243,9 +284,9 @@ domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
     }
 
     pt.up = function () { return this.moveUpOnGrid() }
-    pt.down = function () { return this.moveDownOnGrid }
-    pt.left = function () { return this.moveLeftOnGrid }
-    pt.right = function () { return this.moveRightOnGrid }
+    pt.down = function () { return this.moveDownOnGrid() }
+    pt.left = function () { return this.moveLeftOnGrid() }
+    pt.right = function () { return this.moveRightOnGrid() }
 
 })
 

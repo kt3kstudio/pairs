@@ -91,9 +91,11 @@ main_scene: intro-scene
 
 @-webkit-keyframes bom-appear {
     0% { opacity: 0; transform: translate(0, 10px); }
+    100% { opacity: 1; transform: translate(0, 0); }
 }
 
 @-webkit-keyframes bom-disappear {
+    0% { opacity: 1; transform: translate(0, 0); }
     100% { opacity: 0; transform: translate(0, 10px); }
 }
 

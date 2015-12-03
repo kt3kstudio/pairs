@@ -10,6 +10,9 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
     pt.ratioX = 0.5
     pt.ratioY = 0.5
 
+    pt.cellRatioX = 1
+    pt.cellRatioY = 1
+
     /**
      * @property {Number} m The horizontal grid position
      */
@@ -72,7 +75,7 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
      */
     pt.fitToGrid = function () {
 
-        this.dimension.fitInto(this.grid.cellWidth, this.grid.cellHeight)
+        this.dimension.fitInto(this.grid.cellWidth * this.cellRatioX, this.grid.cellHeight * this.cellRatioY)
 
         this.x = this.grid.getX(this.m)
         this.y = this.grid.getY(this.n)
