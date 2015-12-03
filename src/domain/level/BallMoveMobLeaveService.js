@@ -27,9 +27,6 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
      */
     pt.ballMoveAndLeaveOne = function (dir) {
 
-        // position interface
-        // pos.x x-coordinate
-        // pos.y y-coordinate
         var pos = this.ball.posAhead(dir)
 
         if (this.mobs.find(pos) == null) {
