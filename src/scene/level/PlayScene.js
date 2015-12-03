@@ -116,10 +116,10 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
     pt.start = function () {
         var that = this
 
-        this.getScoreboard().appear()
+        this.getScoreboard().show()
         this.getMenuButton().show()
 
-        return this.getField().appear().then(function () {
+        return this.getField().show().then(function () {
 
             return that.getCharacter().speechEndPromise
 

@@ -96,72 +96,31 @@ describe('Being', function () {
         })
     })
 
-    describe('appear', function () {
-        it('calls willAppear before calling show method', function (done) {
-            var willAppearCalled = false
-
-            being.willAppear = function () {
-                willAppearCalled = true
-            }
-
-            being.show = function () {
-                expect(willAppearCalled).to.be.true
-
-                done()
-            }
-
-            being.appear()
-        })
-
-        it('calls didAppear after calling show method', function (done) {
-            var showCalled = false
-
-            being.didAppear = function () {
-                expect(showCalled).to.be.true
-
-                done()
-            }
-
-            being.show = function () {
-                showCalled = true
-            }
-
-            being.appear()
-        })
-    })
-
     describe('disappear', function () {
-        it('calls willDisappear before calling hide', function (done) {
-            var willDisappearCalled = false
 
-            being.willDisappear = function () {
-                willDisappearCalled = true
-            }
+        it('hides and removes the element', function () {
 
-            being.hide = function () {
-                expect(willDisappearCalled).to.be.true
+            var hideCalled
 
-                done()
-            }
+            being.hide = function (dur) {
 
-            being.disappear()
-        })
+                expect(dur).to.equal(15)
 
-        it('calls didDisappear after calling hide', function (done) {
-            var hideCalled = false
-
-            being.hide = function () {
                 hideCalled = true
+
+                return Promise.resolve()
+
             }
 
-            being.didDisappear = function () {
+            return being.disappear(15).then(function () {
+
                 expect(hideCalled).to.be.true
+                expect(being.elem.parent().length).to.equal(0)
 
-                done()
-            }
+            })
 
-            being.disappear()
         })
+
     })
 
 })

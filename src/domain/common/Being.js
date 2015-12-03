@@ -23,9 +23,10 @@ domain.common.Being = subclass($.cc.Actor, function (pt) {
      *
      * 事前に willShow hook, 事後に didShow hook を呼び出す。
      *
+     * @param {Number} dur The duration of the animation
      * @return {Promise}
      */
-    pt.show = function () {
+    pt.show = function (dur) {
 
         var that = this
 
@@ -35,7 +36,7 @@ domain.common.Being = subclass($.cc.Actor, function (pt) {
 
             if (that.showAnim && that.showAnimDur) {
 
-                p = that.elem.anim(that.showAnim, that.showAnimDur)
+                p = that.elem.anim(that.showAnim, dur || that.showAnimDur)
 
             }
 
@@ -62,9 +63,10 @@ domain.common.Being = subclass($.cc.Actor, function (pt) {
      *
      * 事前に willHide hook, 事後に didHide hook を呼び出す。
      *
+     * @param {Number} dur The duration of the animation
      * @return {Promise}
      */
-    pt.hide = function () {
+    pt.hide = function (dur) {
 
         var that = this
 
@@ -74,7 +76,7 @@ domain.common.Being = subclass($.cc.Actor, function (pt) {
 
             if (that.hideAnim && that.hideAnimDur) {
 
-                p = that.elem.anim(that.hideAnim, that.hideAnimDur)
+                p = that.elem.anim(that.hideAnim, dur || that.hideAnimDur)
 
             }
 
@@ -90,43 +92,19 @@ domain.common.Being = subclass($.cc.Actor, function (pt) {
 
     }
 
-    pt.willAppear = noop
-    pt.didAppear = noop
-
-    pt.appear = function () {
-
-        var that = this
-
-        return Promise.resolve(that.willAppear()).then(function () {
-
-            return that.show()
-
-        }).then(function () {
-
-            return that.didAppear()
-
-        })
-
-    }
-
-    pt.willDisappear = noop
-    pt.didDisappear = noop
-
-    pt.disappear = function () {
+    /**
+     * Hides and removes the component.
+     *
+     * @param {Number} dur The duration of the animation
+     * @return {Promise}
+     */
+    pt.disappear = function (dur) {
 
         var that = this
 
-        return Promise.resolve(that.willDisappear()).then(function () {
+        return this.hide(dur).then(function () {
 
-            return that.hide()
-
-        }).then(function () {
-
-            return that.didDisappear()
-
-        }).then(function () {
-
-            that.elem.remove()
+            return that.elem.remove()
 
         })
 

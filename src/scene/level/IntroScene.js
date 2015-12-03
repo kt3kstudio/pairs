@@ -63,7 +63,7 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
         paper.x = paperPos.left
         paper.y = paperPos.top
 
-        paper.appear()
+        paper.show()
 
         return ui.common.BackgroundService.turnWhite().then(function () {
 
@@ -82,7 +82,7 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
 
             that.getCharacter().hide()
 
-            return that.getBall().appear()
+            return that.getBall().show()
 
         }).then(function () {
 

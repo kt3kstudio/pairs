@@ -94,8 +94,14 @@ domain.level.FusionService = subclass(domain.common.Role, function (pt) {
 
         }
 
-        return cell.appear(dur)
+        return cell.show(dur).then(function () {
+
+            return cell
+
+        })
+
     }
+
 })
 
 $.cc.assign('fusion-service', domain.level.FusionService)
