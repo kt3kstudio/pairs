@@ -40,7 +40,7 @@ scene.level.OutroScene = subclass(scene.level.Context, function (pt) {
         }).then(function () {
 
             return Promise.all([
-                that.getCharacter().appear(400),
+                that.getCharacter().show(400),
                 that.getBall().disappear()
             ])
 

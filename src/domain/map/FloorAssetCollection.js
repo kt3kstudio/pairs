@@ -59,7 +59,7 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
      */
     pt.willShow = function () {
         return this.foldByFunc(function (item) {
-            item.appear()
+            item.show()
 
             return wait(100)
         })

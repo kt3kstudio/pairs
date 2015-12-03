@@ -78,8 +78,8 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
 
         var assets = this.elem.find('.floor-asset-collection').cc.getActor()
 
-        return floorboard.appear().then(function () {
-            return assets.appear()
+        return floorboard.show().then(function () {
+            return assets.show()
         }).then(function () {
             var floorAsset = assets.findById(walker.getPosition().floorObjectId)
 

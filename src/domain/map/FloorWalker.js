@@ -24,7 +24,7 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
         var self = this
 
         return floorAsset.open().then(function () {
-            return self.appear()
+            return self.show()
         })
     }
 
