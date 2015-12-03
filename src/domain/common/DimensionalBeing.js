@@ -42,16 +42,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
     }
 
     /**
-     * Places the being with the appropriate dimension.
-     */
-    pt.updateElem = function () {
-
-        this.updateRect()
-        this.updateOffset()
-
-    }
-
-    /**
      * Returns the actual width of the elem.
      */
     pt.actualWidth = function () {
@@ -170,7 +160,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
      * Updates the actual elem dom according to the current dimension.
      * Returns a promise which resolves with the transitionDuration milliseconds.
      *
-     * @protected
      * @return {Promise}
      */
     pt.updateElem = function () {

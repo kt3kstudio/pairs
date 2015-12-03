@@ -79,7 +79,9 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
             x: this.main.left + this.UNIT,
             y: this.TOP + this.UNIT * 1.5,
             unitWidth: this.UNIT * 2,
-            unitHeight: this.UNIT * 2
+            unitHeight: this.UNIT * 2,
+            cellWidth: this.UNIT * 0.7,
+            cellHeight: this.UNIT* 0.7
         })
 
     }
@@ -90,13 +92,18 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
      * @return {domain.level.Dimension}
      */
     pt.queueGrid = function () {
-
+/*
         var pos = this.gridPosition(1, 0, 1)
 
         pos.unit /= 2
         pos.left -= pos.unit / 4
-
-        return pos
+*/
+        return new domain.common.Grid({
+            x: this.main.left + this.UNIT * 2,
+            y: this.TOP + this.UNIT * 0.5,
+            unitWidth: this.UNIT * 0.5,
+            unitHeight: this.UNIT * 0.5
+        })
 
     }
 
@@ -112,7 +119,12 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
         pos.unit /= 1.5
         pos.left -= pos.unit / 4
 
-        return pos
+        return new domain.common.Grid({
+            x: this.main.left + this.UNIT * 2,
+            y: this.TOP + this.UNIT * 1.5,
+            unitWidth: this.UNIT * 0.5,
+            unitHeight: this.UNIT * 0.5
+        })
 
     }
 

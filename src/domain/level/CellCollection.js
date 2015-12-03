@@ -109,7 +109,7 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
 
             return wait(i * 56).then(function () {
 
-                cell.appear()
+                cell.show()
 
             })
 
@@ -144,7 +144,7 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
 
         return this.cells.filter(function (cell) {
 
-            return cell.x === pos.x && cell.y === pos.y
+            return cell.m === pos.m && cell.n === pos.n
 
         })
 
@@ -180,7 +180,7 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
 
         return this.cells.filter(function (cell) {
 
-            return cell.x === pos.x && cell.y > pos.y
+            return cell.m === pos.m && cell.n > pos.n
 
         })
 
@@ -210,7 +210,7 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
 
         return this.cells.map(function (cell) {
 
-            return [cell.x, cell.y]
+            return [cell.m, cell.n]
 
         })
 

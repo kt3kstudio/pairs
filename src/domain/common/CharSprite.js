@@ -71,7 +71,7 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt, parent) 
 
         this.turn(dir)
 
-        this.setDuration(dur)
+        this.setTransitionDuration(dur)
 
         if (dir === 'up' || dir === 'down') {
             this.moveToY(to)

@@ -99,6 +99,17 @@ domain.level.Ball = subclass(domain.common.GridWalker, function (pt, parent) {
 
     }
 
+    /**
+     * Gets the current grid position.
+     *
+     * @return {Object}
+     */
+    pt.pos = function () {
+
+        return {m: this.m, n: this.n}
+
+    }
+
     pt.refuseToMove = function (dir) {
 
         if (dir === 'up' || dir === 'down') {

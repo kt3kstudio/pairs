@@ -82,6 +82,20 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
     }
 
     /**
+     * Updates the element's dom state using the current grid state info.
+     *
+     * @return {Promise}
+     */
+    pt.updateElemOnGrid = function () {
+
+        this.x = this.grid.getX(this.m)
+        this.y = this.grid.getY(this.n)
+
+        return this.updateElem()
+
+    }
+
+    /**
      * Fits the dimension into the (grid.cellWidth, grid.cellHeight) and moves to the current grid position.
      *
      * @return {Promise}
@@ -90,10 +104,7 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
 
         this.dimension.fitInto(this.grid.cellWidth * this.cellRatioX, this.grid.cellHeight * this.cellRatioY)
 
-        this.x = this.grid.getX(this.m)
-        this.y = this.grid.getY(this.n)
-
-        return this.updateElem()
+        return this.updateElemOnGrid()
 
     }
 
@@ -136,7 +147,7 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
 
         this.setGridPosition(m, n)
 
-        return this.updateElem()
+        return this.updateElemOnGrid()
 
     }
 

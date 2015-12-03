@@ -45,24 +45,6 @@ domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
 
     }
 
-    pt.transDur = 300
-
-    /**
-     * Sets the transition duration.
-     *
-     * @param {Number} dur The duration
-     * @return {Promise}
-     */
-    pt.setTransitionDuration = function (dur) {
-
-        this.transDur = dur
-
-        this.elem.css('transition-duration', this.transDur + 'ms')
-
-        return wait(0)
-
-    }
-
     /**
      * Sets the flag of the last one.
      *
@@ -192,13 +174,13 @@ domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
 
             elem.attr('data', that.selectImage())
 
+            that.setTransitionDuration(300)
+
             return elem.once('load')
 
         }).then(function () {
 
             that.fitToGrid()
-
-            that.setTransitionDuration(300)
 
             var genes = that.gene.split('')
 
@@ -221,7 +203,7 @@ domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
      */
     pt.resetShapeAndLocate = function () {
 
-        return this.updateElem()
+        return this.fitToGrid()
 
     }
 

@@ -11,10 +11,12 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
      * @param {domain.level.CellCollection} cells The cells
      */
     pt.constructor = function (ball, cells) {
+
         this.ball = ball
         this.mobs = new Mobs(cells)
 
         this.pmds = new domain.level.PossibleMoveDetectionService(this.ball, cells)
+
     }
 
     /**
@@ -24,20 +26,25 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
      * @returns {domain.level.Cell|Rx.Observable} A promise which resolves when the mob(bom) left the field
      */
     pt.ballMoveAndLeaveOne = function (dir) {
+
         // position interface
         // pos.x x-coordinate
         // pos.y y-coordinate
         var pos = this.ball.posAhead(dir)
 
         if (this.mobs.find(pos) == null) {
+
             this.ball.refuseToMove(dir)
 
+
             return null
+
         }
 
         this.ball.move(dir)
 
         return this.leaveAtPos(pos)
+
     }
 
     /**
@@ -46,7 +53,9 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
      * @return {domain.level.Cell}
      */
     pt.leaveLastOneAtBall = function () {
+
         return this.mobs.leave(this.ball.pos()).setLastOne()
+
     }
 
     /**
@@ -56,27 +65,35 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
      * @return {domain.level.Cell|Rx.Observable}
      */
     pt.leaveAtPos = function (pos) {
+
         var that = this
 
         var mob = this.mobs.leave(pos)
 
         if (this.pmds.possible()) {
+
             return mob
+
         }
 
         console.log('no more move!')
 
         if (this.pmds.cellRemainsAtBall()) {
+
             console.log('cell remains at ball')
 
             return [mob, wait(600).then(function () {
+
                 return that.leaveLastOneAtBall()
+
             })].toFlatStream()
+
         }
 
         console.log('no cell left')
 
         return mob.setLastOne()
+
     }
 
     /**
@@ -88,12 +105,15 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
      * @private
      */
     var Mobs = subclass(function (pt) {
+
         /**
          * @constructor
          * @param {domain.level.CellCollection} cells The collection of cells
          */
         pt.constructor = function (cells) {
+
             this.cells = cells
+
         }
 
         /**
@@ -102,7 +122,9 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
          * @return {Boolean}
          */
         pt.isEmpty = function () {
+
             return this.cells.isEmpty()
+
         }
 
         /**
@@ -111,6 +133,7 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
          * @param {Object} pos The position
          */
         pt.leave = function (pos) {
+
             var w = this.cells.select(pos)
 
             this.cells.remove(w)
@@ -118,10 +141,13 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
             w = w[0]
 
             this.cells.selectRange(pos).forEach(function (cell) {
+
                 cell.up()
+
             })
 
             return w
+
         }
 
         /**
@@ -130,7 +156,11 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
          * @param {Object} pos The position
          */
         pt.find = function (pos) {
+
             return this.cells.find(pos)
+
         }
+
     })
+
 })

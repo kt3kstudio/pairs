@@ -26,15 +26,29 @@ domain.common.Being = subclass($.cc.Actor, function (pt) {
      * @return {Promise}
      */
     pt.show = function () {
+
         var that = this
 
         return Promise.resolve(that.willShow()).then(function () {
+
+            var p
+
             if (that.showAnim && that.showAnimDur) {
-                return that.elem.anim(that.showAnim, that.showAnimDur)
+
+                p = that.elem.anim(that.showAnim, that.showAnimDur)
+
             }
+
+            that.elem.css('visibility', 'visible')
+
+            return p
+
         }).then(function () {
+
             return that.didShow()
+
         })
+
     }
 
     pt.hideAnim = null
@@ -51,51 +65,71 @@ domain.common.Being = subclass($.cc.Actor, function (pt) {
      * @return {Promise}
      */
     pt.hide = function () {
+
         var that = this
 
         return Promise.resolve(that.willHide()).then(function () {
+
+            var p
+
             if (that.hideAnim && that.hideAnimDur) {
-                return that.elem.anim(that.hideAnim, that.hideAnimDur)
+
+                p = that.elem.anim(that.hideAnim, that.hideAnimDur)
+
             }
+
+            that.elem.css('visibility', 'hidden')
+
+            return p
+
         }).then(function () {
+
             return that.didHide()
+
         })
+
     }
 
     pt.willAppear = noop
     pt.didAppear = noop
 
     pt.appear = function () {
+
         var that = this
 
         return Promise.resolve(that.willAppear()).then(function () {
+
             return that.show()
+
         }).then(function () {
+
             return that.didAppear()
+
         })
+
     }
 
     pt.willDisappear = noop
     pt.didDisappear = noop
 
     pt.disappear = function () {
+
         var that = this
 
         return Promise.resolve(that.willDisappear()).then(function () {
+
             return that.hide()
+
         }).then(function () {
+
             return that.didDisappear()
+
         }).then(function () {
+
             that.elem.remove()
+
         })
+
     }
 
-    /**
-     * Sets the transition duration of the element.
-     *
-     * @param {Number} dur The duration
-     */
-    pt.setDuration = function (dur) {
-        this.elem.css('transition-duration', dur + 'ms').reflow()
-    }
 })

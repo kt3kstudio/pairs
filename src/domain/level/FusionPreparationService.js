@@ -88,14 +88,12 @@ domain.level.FusionPreparationService = subclass(function (pt) {
 
             cell.setGrid(this.grid)
 
-            cell.x = index
-            cell.y = 0
+            cell.m = index
+            cell.n = 0
 
-            return cell.setTransitionDuration(this.takeDur).then(function () {
+            cell.setTransitionDuration(this.takeDur)
 
-                return cell.fitIntoGrid()
-
-            }).then(function () {
+            return cell.fitToGrid().then(function () {
 
                 return cell
 
