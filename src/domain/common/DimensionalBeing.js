@@ -37,7 +37,6 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
 
         this.elem
             .css('position', 'absolute') // Except `position: absolute`, this class doesn't make sense.
-            .css('transition-timing-function', 'linear')
 
     }
 
