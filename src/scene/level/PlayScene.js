@@ -53,15 +53,16 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
         var that = this
 
-        return source.pipe(function (dir) {
+        source.forEach(function (dir) {
 
             that.character.playingState.add(dir)
 
             that.character.savePlayingState()
+        })
 
-            return that.bms.ballMoveAndLeaveOne(dir)
+        var cellStream = this.bms.processDirStream(source)
 
-        }).filterNull().pipe(function (cell) {
+        return cellStream.pipe(function (cell) {
 
             return that.fps.take(cell)
 
@@ -114,6 +115,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
      * @return {Promise}
      */
     pt.start = function () {
+
         var that = this
 
         this.getScoreboard().show()

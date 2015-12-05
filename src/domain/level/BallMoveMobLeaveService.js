@@ -20,6 +20,24 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
     }
 
     /**
+     * Processes the stream of direction and returns the stream of cells.
+     *
+     * @param {Rx.Observable<String>} stream The stream of directions
+     * @return {Rx.Observable<domain.level.Cell>}
+     */
+    pt.processDirStream = function (stream) {
+
+        var self = this
+
+        return stream.pipe(function (dir) {
+
+            return self.ballMoveAndLeaveOne(dir)
+
+        }).filterNull()
+
+    }
+
+    /**
      * Makes the ball move to the specified direction and a mob leave the field.
      *
      * @param {String} dir The direction the ball moves (up|down|right|left)
