@@ -24,6 +24,26 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
 
     }
 
+    /**
+     * Hooks the score retrieving process to the fusion pair stream.
+     *
+     * @param {Rx.Observable<domain.level.FusionPair>} fusionPairStream
+     * @return {Rx.Observable<domain.level.FusionPair>}
+     */
+    pt.hookToFusionPairStream = function (fusionPairStream) {
+
+        var self = this
+
+        return fusionPairStream.map(function (fusionPair) {
+
+            self.addScore(fusionPair.score())
+
+            return fusionPair
+
+        })
+
+    }
+
     pt.showAnim = new domain.common.Animation('bom-appear', 400)
     pt.hideAnim = new domain.common.Animation('bom-disappear', 400)
 

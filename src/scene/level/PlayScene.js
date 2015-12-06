@@ -44,39 +44,47 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
     }.event('play-scene-start')
 
     /**
+     * Records the stream of the directions.
+     *
+     * @param {Rx.Observable<String>} dirs
+     */
+    pt.recordDirStream = function (dirStream) {
+
+        var self = this
+
+        dirStream.forEach(function (dir) {
+
+            self.character.playingState.add(dir)
+
+            self.character.savePlayingState()
+
+        })
+
+    }
+
+    /**
      * Binds event handlers to the stream.
      *
-     * @param {Rx.Observable} dirs The stream of directions
+     * @param {Rx.Observable} dirStream The stream of directions
      * @return {Promise}
      */
-    pt.playLoop = function (dirs) {
+    pt.playLoop = function (dirStream) {
 
         var that = this
 
-        dirs.forEach(function (dir) {
-
-            that.character.playingState.add(dir)
-
-            that.character.savePlayingState()
-        })
-
-        var cellStream = this.bms.processDirStream(dirs)
+        var cellStream = this.bms.processDirStream(dirStream)
 
         var fusionPairStream = this.fps.processCellStream(cellStream)
 
-        fusionPairStream = fusionPairStream.map(function (fusionPair) {
-
-            that.getScoreboard().addScore(fusionPair.score())
-
-            return fusionPair
-
-        })
+        fusionPairStream = this.getScoreboard().hookToFusionPairStream(fusionPairStream)
 
         var newCellStream = this.fusionService.processFusionPairStream(fusionPairStream)
 
         var releasedCellListStream = this.exitQueue.processNewCellStream(newCellStream)
 
         return releasedCellListStream.pipe(function (cells) {
+
+            that.character.playingState.bump()
 
             return that.cells.loadList(cells).resetShapeAndLocate()
 
@@ -124,9 +132,13 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
         }).then(function () {
 
-            console.log('swipe stream start!')
+            console.log('user swipe start!')
 
-            return that.playLoop(that.getUserSwipeStream())
+            var userDirStream = that.getUserSwipeStream()
+
+            that.recordDirStream(userDirStream)
+
+            return that.playLoop(userDirStream)
 
         }).then(function () {
 
