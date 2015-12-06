@@ -64,46 +64,23 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
         var fusionPairStream = this.fps.processCellStream(cellStream)
 
-        return fusionPairStream.pipe(function (fusionPair) {
+        fusionPairStream = fusionPairStream.map(function (fusionPair) {
 
             that.getScoreboard().addScore(fusionPair.score())
 
-            return that.fusionService.performFusion(fusionPair)
-
-        }).pipe(function (newCell) {
-
-            return that.exitQueue.enqueue(newCell).then(function () {
-
-                return newCell
-
-            })
-
-        }).filter(function (cell) {
-
-            return cell.isLastOne()
-
-        }).map(function () {
-
-            if (!that.exitQueue.theLastOneIsEvolved()) {
-
-                // this finishes the main stream and therefore resolves the promise
-                return
-
-            }
-
-            that.character.playingState.bump()
-
-            return that.cells.loadList(that.exitQueue.releaseCells()).resetShapeAndLocate()
-
-        }).takeWhile(function (x) {
-
-            return x != null
-
-        }).getPromise().then(function () {
-
-            return wait(0)
+            return fusionPair
 
         })
+
+        var newCellStream = this.fusionService.processFusionPairStream(fusionPairStream)
+
+        var releasedCellListStream = this.exitQueue.processNewCellStream(newCellStream)
+
+        return releasedCellListStream.pipe(function (cells) {
+
+            return that.cells.loadList(cells).resetShapeAndLocate()
+
+        }).getPromise()
 
     }
 

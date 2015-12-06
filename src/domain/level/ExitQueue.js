@@ -17,6 +17,47 @@ domain.level.ExitQueue = subclass(function (pt) {
     }
 
     /**
+     * Processes the new cell stream and returns a stream of arrays of exiting cells.
+     *
+     * @param {Rx.Observable<domain.level.Cell>} newCellStream The stream of the new cells
+     * @return {Rx.Observable<domain.level.Cell[]>}
+     */
+    pt.processNewCellStream = function (newCellStream) {
+
+        var self = this
+
+        return newCellStream.pipe(function (newCell) {
+
+            return self.enqueue(newCell).then(function () {
+
+                return newCell
+
+            })
+
+        }).filter(function (newCell) {
+
+            return newCell.isLastOne()
+
+        }).map(function () {
+
+            if (self.theLastOneIsEvolved()) {
+
+                return self.releaseCells()
+
+            }
+
+            // this finishes the stream
+            return null
+
+        }).takeWhile(function (releasedCells) {
+
+            return releasedCells != null
+
+        })
+
+    }
+
+    /**
      * Enqueues the cell.
      *
      * @param {domain.level.Cell} cell The cell

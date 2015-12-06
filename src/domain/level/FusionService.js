@@ -18,6 +18,24 @@ domain.level.FusionService = subclass(domain.common.Role, function (pt) {
     }
 
     /**
+     * Processes the funsion pair stream and returns the stream of new born cells
+     *
+     * @param {Rx.Observable<domain.level.FusionPair>}
+     * @return {Rx.Observable<domain.level.Cell>}
+     */
+    pt.processFusionPairStream = function (fusionPairStream) {
+
+        var self = this
+
+        return fusionPairStream.pipe(function (fusionPair) {
+
+            return self.performFusion(fusionPair)
+
+        })
+
+    }
+
+    /**
      * Performs fusion.
      *
      * @param {domain.level.FusionPair} pair The pair
