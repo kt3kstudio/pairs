@@ -33,13 +33,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
         // init scoreboard dimension
         this.getScoreboard().setRect(this.getDimensionFactory().scoreboardRect())
 
-        var that = this
-
-        this.start().then(function (playerWon) {
-
-            that.end(playerWon)
-
-        })
+        this.start()
 
     }.event('play-scene-start')
 
@@ -63,14 +57,32 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
     }
 
     /**
+     * Hooks the playing state bump to the stream
+     *
+     * @param {Rx.Observable} stream The stream
+     * @return {Rx.Observable}
+     */
+    pt.hookPlayingStateBumping = function (stream) {
+
+        var self = this
+
+        return stream.filter(function () {
+
+            self.character.playingState.bump()
+
+            return true
+
+        })
+
+    }
+
+    /**
      * Binds event handlers to the stream.
      *
      * @param {Rx.Observable} dirStream The stream of directions
      * @return {Promise}
      */
     pt.playLoop = function (dirStream) {
-
-        var that = this
 
         var cellStream = this.bms.processDirStream(dirStream)
 
@@ -80,15 +92,11 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
         var newCellStream = this.fusionService.processFusionPairStream(fusionPairStream)
 
-        var releasedCellListStream = this.exitQueue.processNewCellStream(newCellStream)
+        var releasedCellStream = this.exitQueue.processNewCellStream(newCellStream)
 
-        return releasedCellListStream.pipe(function (cells) {
+        releasedCellStream = this.hookPlayingStateBumping(releasedCellStream)
 
-            that.character.playingState.bump()
-
-            return that.cells.loadList(cells).resetShapeAndLocate()
-
-        }).getPromise()
+        return this.cells.processCellStream(releasedCellStream).getPromise()
 
     }
 
@@ -145,6 +153,10 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
             console.log('swipe stream finished!')
 
             that.removeSwipeField()
+
+        }).then(function (playerWon) {
+
+            that.end(playerWon)
 
         })
 

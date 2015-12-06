@@ -99,6 +99,24 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
     }
 
     /**
+     * Processes the stream of released cells from the exit queue.
+     *
+     * @param {Rx.Observable<domain.level.Cell[]>}
+     * @return {Rx.Observable}
+     */
+    pt.processCellStream = function (releasedCellStream) {
+
+        var self = this
+
+        return releasedCellStream.pipe(function (releasedCells) {
+
+            return self.loadList(releasedCells).resetShapeAndLocate()
+
+        })
+
+    }
+
+    /**
      * Appears all the cells
      *
      * @return {Promise} The promise which resolves with the last cell when it resolved
