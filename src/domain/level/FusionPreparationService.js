@@ -17,6 +17,24 @@ domain.level.FusionPreparationService = subclass(function (pt) {
     }
 
     /**
+     * Processes the cell stream and returns the fusion pair stream.
+     *
+     * @param {Rx.Observable<domain.level.Cell>} cellStream
+     * @return {Rx.Observable<domain.lavel.FunsionPair>}
+     */
+    pt.processCellStream = function (cellStream) {
+
+        var self = this
+
+        return cellStream.pipe(function (cell) {
+
+            return self.take(cell)
+
+        }).filterNull()
+
+    }
+
+    /**
      * Takes cell into the fusion preparing position.
      *
      * @param {domain.level.Cell} cell The cell

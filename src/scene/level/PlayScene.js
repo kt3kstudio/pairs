@@ -46,27 +46,25 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
     /**
      * Binds event handlers to the stream.
      *
-     * @param {Rx.Observable} source The source stream
+     * @param {Rx.Observable} dirs The stream of directions
      * @return {Promise}
      */
-    pt.playLoop = function (source) {
+    pt.playLoop = function (dirs) {
 
         var that = this
 
-        source.forEach(function (dir) {
+        dirs.forEach(function (dir) {
 
             that.character.playingState.add(dir)
 
             that.character.savePlayingState()
         })
 
-        var cellStream = this.bms.processDirStream(source)
+        var cellStream = this.bms.processDirStream(dirs)
 
-        return cellStream.pipe(function (cell) {
+        var fusionPairStream = this.fps.processCellStream(cellStream)
 
-            return that.fps.take(cell)
-
-        }).filterNull().pipe(function (fusionPair) {
+        return fusionPairStream.pipe(function (fusionPair) {
 
             that.getScoreboard().addScore(fusionPair.score())
 

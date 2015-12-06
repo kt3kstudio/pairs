@@ -22,14 +22,14 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
     /**
      * Processes the stream of direction and returns the stream of cells.
      *
-     * @param {Rx.Observable<String>} stream The stream of directions
+     * @param {Rx.Observable<String>} dirStream The stream of directions
      * @return {Rx.Observable<domain.level.Cell>}
      */
-    pt.processDirStream = function (stream) {
+    pt.processDirStream = function (dirStream) {
 
         var self = this
 
-        return stream.pipe(function (dir) {
+        return dirStream.pipe(function (dir) {
 
             return self.ballMoveAndLeaveOne(dir)
 
