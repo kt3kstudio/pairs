@@ -101,11 +101,22 @@
     }
 
     /**
-     * Rx.Observer
+     * Hooks the function to the stream
      *
-     * @class Rx.Observer
+     * @param {Function} f The hooking function
+     * @return {Rx.Observable}
      */
-    Rx.Observer
+    Rx.Observable.prototype.hook = function (f) {
+
+        return this.filter(function (item) {
+
+            f(item)
+
+            return true
+
+        })
+
+    }
 
     /**
      * Array.
