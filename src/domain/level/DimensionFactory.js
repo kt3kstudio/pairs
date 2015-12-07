@@ -27,20 +27,6 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
 
     }
 
-    /**
-     * Returns the dimension for an object in the grid positions.
-     *
-     * @private
-     * @return {domain.level.Dimension}
-     */
-    pt.gridPosition = function (x, y, w) {
-
-        var u = this.UNIT
-
-        return new domain.level.Dimension({top: this.TOP + u * y, left: this.LEFT + u * x, unit: u, width: u * w})
-
-    }
-
     pt.playGrid = function () {
 
         return new domain.common.Grid({
@@ -55,7 +41,7 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
     /**
      * Returns the dimension for the field.
      *
-     * @return {domain.level.Dimension}
+     * @return {domain.common.Rect}
      */
     pt.fieldRect = function () {
 
@@ -71,7 +57,7 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
     /**
      * Returns the dimension for the evaluation room.
      *
-     * @return {domain.level.Dimension}
+     * @return {domain.common.Grid}
      */
     pt.evalRoomGrid = function () {
 
@@ -89,7 +75,7 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
     /**
      * Returns the dimension for the exit queue. (The unit is a bit smaller.)
      *
-     * @return {domain.level.Dimension}
+     * @return {domain.common.Grid}
      */
     pt.queueGrid = function () {
 
@@ -105,14 +91,9 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
     /**
      * Returns the dimension for the fusion box.
      *
-     * @return {domain.level.Dimension}
+     * @return {domain.common.Grid}
      */
     pt.fusionBoxGrid = function () {
-
-        var pos = this.gridPosition(1, 1, 1)
-
-        pos.unit /= 1.5
-        pos.left -= pos.unit / 4
 
         return new domain.common.Grid({
             x: this.main.left + this.UNIT * 2,
@@ -153,7 +134,7 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
     /**
      * Returns the dimension for the scoreboard.
      *
-     * @return {domain.level.Dimension}
+     * @return {domain.common.Rect}
      */
     pt.scoreboardRect = function () {
 
