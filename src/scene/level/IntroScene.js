@@ -14,6 +14,21 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
      */
     pt.init = function () {
 
+        var self = this
+
+        this.load().then(function () {
+
+            self.start()
+
+        })
+
+    }.event('scene-start')
+
+    /**
+     * Loads the data
+     */
+    pt.load = function () {
+
         var that = this
 
         return new datadomain.UserRepository().get().then(function (user) {
@@ -30,15 +45,9 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
 
             that.level = level
 
-            that.spawnBall()
-            that.spawnPaper()
-            that.spawnCharacter(that.character)
-
-            return that.start()
-
         })
 
-    }.event('scene-start')
+    }
 
     /**
      * Starts the scene
@@ -48,6 +57,10 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
     pt.start = function () {
 
         var that = this
+
+        this.spawnBall()
+        this.spawnPaper()
+        this.spawnCharacter(that.character)
 
         var paperPos = this.getDimensionFactory().paperPosition()
 
