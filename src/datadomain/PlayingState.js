@@ -13,16 +13,20 @@ datadomain.PlayingState = subclass(function (pt) {
      * @param {Array} [rounds] The directions
      */
     pt.constructor = function (charId, levelId, rounds) {
+
         this.charId = charId
         this.levelId = levelId
         this.rounds = rounds || [[]]
+
     }
 
     /**
      * Moves to the next round.
      */
     pt.bump = function () {
+
         this.rounds.unshift([])
+
     }
 
     /**
@@ -31,11 +35,13 @@ datadomain.PlayingState = subclass(function (pt) {
      * @return {Array} The array of round data
      */
     pt.release = function () {
+
         var rounds = this.rounds.splice(0).reverse()
 
         this.bump()
 
         return rounds
+
     }
 
     /**
@@ -44,6 +50,8 @@ datadomain.PlayingState = subclass(function (pt) {
      * @param {String} dir The direction
      */
     pt.add = function (dir) {
+
         this.rounds[0].push(dir)
+
     }
 })
