@@ -27,7 +27,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
         this.fusionService = this.elem.cc.get('fusion-service').setGrid(this.getDimensionFactory().fusionBoxGrid())
         this.exitQueue = new domain.level.ExitQueue(this.getDimensionFactory().queueGrid())
 
-        // services
+        // ball move service
         this.bms = new domain.level.BallMoveMobLeaveService(this.getBall(), this.cells)
 
         // init scoreboard dimension
@@ -101,6 +101,40 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
     }
 
     /**
+     * Replays the saved playing state.
+     *
+     * @return {Promise}
+     */
+    pt.replayRounds = function () {
+
+        return that.character.playingState.rounds.reduce(function (promise, round) {
+
+            return promise.then(function () {
+
+                var dirs = round.map(function (dir, i) { return wait(i * 180, dir) })
+
+                return that.playLoop(dirs.toFlatStream())
+
+            })
+
+        }, Promise.resolve())
+
+    }
+
+    /**
+     * @return {Promise}
+     */
+    pt.userPlay = function () {
+
+        var userDirStream = this.getUserSwipeStream()
+
+        this.recordDirStream(userDirStream)
+
+        return this.playLoop(userDirStream)
+
+    }
+
+    /**
      * Starts the scene.
      *
      * @return {Promise}
@@ -126,37 +160,19 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
         }).then(function () {
 
-            return that.character.playingState.release().reduce(function (promise, round) {
-
-                return promise.then(function () {
-
-                    var dirs = round.map(function (dir, i) { return wait(i * 180, dir) })
-
-                    return that.playLoop(dirs.toFlatStream())
-
-                })
-
-            }, Promise.resolve())
+            return that.replayRounds()
 
         }).then(function () {
 
-            console.log('user swipe start!')
-
-            var userDirStream = that.getUserSwipeStream()
-
-            that.recordDirStream(userDirStream)
-
-            return that.playLoop(userDirStream)
+            return that.userPlay()
 
         }).then(function () {
 
-            console.log('swipe stream finished!')
-
-            that.removeSwipeField()
+            return that.removeSwipeField()
 
         }).then(function (playerWon) {
 
-            that.end(playerWon)
+            return that.end(playerWon)
 
         })
 
@@ -198,15 +214,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
         this.character.clearPlayingState()
 
-        if (playerWon) {
-
-            this.elem.trigger('play-scene-success')
-
-        } else {
-
-            this.elem.trigger('play-scene-failure')
-
-        }
+        this.elem.trigger(playerWon ? 'play-scene-success' : 'play-scene-failure')
 
     }
 
