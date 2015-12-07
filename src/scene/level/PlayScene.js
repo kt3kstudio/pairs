@@ -107,13 +107,15 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
      */
     pt.replayRounds = function () {
 
-        return that.character.playingState.rounds.reduce(function (promise, round) {
+        var self = this
+
+        return this.character.playingState.rounds.reduce(function (promise, round) {
 
             return promise.then(function () {
 
                 var dirs = round.map(function (dir, i) { return wait(i * 180, dir) })
 
-                return that.playLoop(dirs.toFlatStream())
+                return self.playLoop(dirs.toFlatStream())
 
             })
 
