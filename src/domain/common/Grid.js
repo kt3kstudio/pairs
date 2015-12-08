@@ -16,12 +16,10 @@ domain.common.Grid = subclass(function (pt) {
      * @param {Object} options The options
      * @param {Number} options.x The x coordinate
      * @param {Number} options.y The y coordinate
-     * @param {Number} options.unitWidth The width of the unit
-     * @param {Number} options.unitHeight The height of the unit
-     * @param {Number} options.cellWidth The width of the cell
-     * @param {Number} options.cellHeight The height of the cell
-     * @param {Number} options.modX The mod of the horizontal grid position
-     * @param {Number} options.modY The mod of the vertical grid position
+     * @param {Number} [options.unitWidth] The width of the unit
+     * @param {Number} [options.unitHeight] The height of the unit
+     * @param {Number} [options.cellWidth] The width of the cell
+     * @param {Number} [options.cellHeight] The height of the cell
      */
     pt.constructor = function (options) {
 
@@ -29,8 +27,8 @@ domain.common.Grid = subclass(function (pt) {
 
         this.x = options.x
         this.y = options.y
-        this.unitWidth = options.unitWidth
-        this.unitHeight = options.unitHeight
+        this.unitWidth = options.unitWidth || 0
+        this.unitHeight = options.unitHeight || 0
         this.cellWidth = options.cellWidth || this.unitWidth
         this.cellHeight = options.cellHeight || this.unitHeight
 
