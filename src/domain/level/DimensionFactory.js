@@ -105,13 +105,16 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
     }
 
     /**
-     * Returns the dimension for the paper.
+     * Returns the grid for the paper.
      *
-     * @return {domain.level.Dimension}
+     * @return {domain.common.Grid}
      */
-    pt.paperPosition = function () {
+    pt.paperGrid = function () {
 
-        return new domain.level.Dimension({left: this.LEFT + this.UNIT * 1.5, top: this.TOP + this.UNIT * 4})
+        return new domain.common.Grid({
+            x: this.LEFT + this.UNIT * 1.5,
+            y: this.TOP + this.UNIT * 4
+        })
 
     }
 
