@@ -84,27 +84,29 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
     /**
      * Updates the element's dom state using the current grid state info.
      *
+     * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
-    pt.updateElemOnGrid = function () {
+    pt.updateElemOnGrid = function (dur) {
 
         this.x = this.grid.getX(this.m)
         this.y = this.grid.getY(this.n)
 
-        return this.updateElem()
+        return this.updateElem(dur)
 
     }
 
     /**
      * Fits the dimension into the (grid.cellWidth, grid.cellHeight) and moves to the current grid position.
      *
+     * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
-    pt.fitToGrid = function () {
+    pt.fitToGrid = function (dur) {
 
         this.dimension.fitInto(this.grid.cellWidth * this.cellRatioX, this.grid.cellHeight * this.cellRatioY)
 
-        return this.updateElemOnGrid()
+        return this.updateElemOnGrid(dur)
 
     }
 
@@ -112,13 +114,14 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
      * Moves to the horizontal grid positon m.
      *
      * @param {Number} m The horizontal grid position
+     * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
-    pt.moveToM = function (m) {
+    pt.moveToM = function (m, dur) {
 
         this.x = this.grid.getX(this.m = m)
 
-        return this.updateElem()
+        return this.updateElem(dur)
 
     }
 
@@ -126,13 +129,14 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
      * Moves to the vertical grid position n.
      *
      * @param {Number} n The vertical grid position
+     * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
-    pt.moveToN = function (n) {
+    pt.moveToN = function (n, dur) {
 
         this.y = this.grid.getY(this.n = n)
 
-        return this.updateElem()
+        return this.updateElem(dur)
 
     }
 
@@ -141,13 +145,14 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
      *
      * @param {Number} m The horizontal grid position
      * @param {Number} n The vertical grid position
+     * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
-    pt.moveToGridPosition = function (m, n) {
+    pt.moveToGridPosition = function (m, n, dur) {
 
         this.setGridPosition(m, n)
 
-        return this.updateElemOnGrid()
+        return this.updateElemOnGrid(dur)
 
     }
 
@@ -156,40 +161,60 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
      *
      * @param {Number} diffM The move distance along the horizontal line
      * @param {Number} diffN The move distance along the vertical line
+     * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
-    pt.moveOnGrid = function (distM, distN) {
+    pt.moveOnGrid = function (distM, distN, dur) {
 
-        return this.moveToGridPosition(this.m + distM, this.n + distN)
+        return this.moveToGridPosition(this.m + distM, this.n + distN, dur)
 
     }
 
     /**
      * Moves a unit upward along the grid.
      *
+     * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
-    pt.moveUpOnGrid = function () { return this.moveOnGrid(0, -1) }
+    pt.moveUpOnGrid = function (dur) {
+
+        return this.moveOnGrid(0, -1, dur)
+
+    }
 
     /**
      * Moves a unit upward along the grid.
      *
+     * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
-    pt.moveRightOnGrid = function () { return this.moveOnGrid(1, 0) }
+    pt.moveRightOnGrid = function (dur) {
+
+        return this.moveOnGrid(1, 0, dur)
+
+    }
 
     /**
      * Moves a unit upward along the grid.
      *
+     * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
-    pt.moveDownOnGrid = function () { return this.moveOnGrid(0, 1) }
+    pt.moveDownOnGrid = function (dur) {
+
+        return this.moveOnGrid(0, 1, dur)
+    }
 
     /**
      * Moves a unit upward along the grid.
      *
+     * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
-    pt.moveLeftOnGrid = function () { return this.moveOnGrid(-1, 0) }
+    pt.moveLeftOnGrid = function (dur) {
+
+        return this.moveOnGrid(-1, 0, dur)
+
+    }
 
 })
