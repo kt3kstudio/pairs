@@ -24,6 +24,7 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt, parent) 
     pt.rightImage = ''
 
     pt.constructor = function (elem) {
+
         parent.constructor.call(this, elem)
 
         this.character = elem.data('character')
@@ -40,13 +41,17 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt, parent) 
             left: {default: new domain.common.Image(this.leftImage)},
             right: {default: new domain.common.Image(this.rightImage)}
         }
+
     }
 
     var CHAR_SPRITE_SELECTOR = function (charId) {
+
         var THE_TABLE = {
             ma: domain.common.Ma
         }
+
         return THE_TABLE[charId]
+
     }
 
     /**
@@ -55,18 +60,25 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt, parent) 
      * @param {String} dir The direction (one of up, down, left or right)
      */
     pt.turn = function (dir) {
+
         this.setDirState(dir, 'default')
+
     }
 
     pt.getDirection = function (coordinate, to) {
+
         if (coordinate === 'x') {
+
             return to > this.x ? 'right' : 'left'
+
         }
 
         return to > this.y ? 'down' : 'up'
+
     }
 
     pt.moveTo = function (coordinate, to, dur) {
+
         var dir = this.getDirection(coordinate, to)
 
         this.turn(dir)
@@ -74,14 +86,76 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt, parent) 
         this.setTransitionDuration(dur)
 
         if (dir === 'up' || dir === 'down') {
+
             this.moveToY(to)
+
         } else {
+
             this.moveToX(to)
+
         }
+
         return wait(dur)
+
     }
 
+    /**
+     * Moves a unit upward along the grid.
+     *
+     * @return {Promise}
+     */
+    pt.moveUpOnGrid = function () {
+
+        this.turn('up')
+
+        return parent.moveUpOnGrid.apply(this, arguments)
+
+    }
+
+    /**
+     * Moves a unit upward along the grid.
+     *
+     * @return {Promise}
+     */
+    pt.moveRightOnGrid = function () {
+
+        this.turn('right')
+
+        return parent.moveRightOnGrid.apply(this, arguments)
+
+    }
+
+    /**
+     * Moves a unit upward along the grid.
+     *
+     * @return {Promise}
+     */
+    pt.moveDownOnGrid = function () {
+
+        this.turn('down')
+
+        return parent.moveDownOnGrid.apply(this, arguments)
+
+    }
+
+    /**
+     * Moves a unit upward along the grid.
+     *
+     * @return {Promise}
+     */
+    pt.moveLeftOnGrid = function () {
+
+        this.turn('left')
+
+        return parent.moveLeftOnGrid.apply(this, arguments)
+
+    }
+
+    /**
+     * Speaks the phrase
+     */
     pt.speak = function (speech, opts) {
+
         opts = opts || {}
 
         var cancelDom = opts.cancelDom || this.elem
@@ -98,16 +172,25 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt, parent) 
         }).show()
 
         this.speechEndPromise = bubbleShown.then(function (sb) {
+
             return new Promise(function (resolve) {
+
                 setTimeout(resolve, timeout)
 
                 $(cancelDom).one('click touchstart', resolve)
+
             }).then(function () {
+
                 $(cancelDom).off('click touchstart')
 
                 return sb.hide()
+
             })
+
         })
+
         return bubbleShown
+
     }
+
 })
