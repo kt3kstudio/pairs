@@ -4,7 +4,7 @@
  * @class
  * @extends domain.common.DimensionalBeing
  */
-domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = subclass(domain.common.DimensionalBeing, function (pt, parent) {
+domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = subclass(domain.common.GridWalker, function (pt, parent) {
     'use strict'
 
     /**
