@@ -62,29 +62,26 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
         this.spawnPaper()
         this.spawnCharacter(that.character)
 
-        var paperGrid = this.getDimensionFactory().paperGrid()
-
-        console.log(paperGrid)
+        var centerGrid = this.getDimensionFactory().centerGrid()
 
         var paper = this.getPaper()
 
         var chr = this.getCharacter()
 
-        chr.x = paperGrid.x
-        chr.y = 800
+        chr.setGrid(centerGrid, 0, 1)
 
-        chr.updateElem()
+        chr.fitToGrid()
 
-        paper.x = paperGrid.x
-        paper.y = paperGrid.y
+        paper.setGrid(centerGrid, 0, 0)
 
         paper.show()
 
         return ui.common.BackgroundService.turnWhite().then(function () {
 
-            return that.getCharacter().moveTo('y', paperGrid.y, 600)
+            return that.getCharacter().moveUpOnGrid(600)
 
         }).then(function () {
+
             // the character takes the paper in the room.
             that.getPaper().disappear()
 

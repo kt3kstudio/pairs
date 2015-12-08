@@ -109,11 +109,14 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
      *
      * @return {domain.common.Grid}
      */
-    pt.paperGrid = function () {
+    pt.centerGrid = function () {
 
         return new domain.common.Grid({
             x: this.LEFT + this.UNIT * 1.5,
-            y: this.TOP + this.UNIT * 4
+            y: this.TOP + this.UNIT * 4,
+            unitHeight: this.UNIT * 2 + 50 + 200,
+            cellWidth: 70,
+            cellHeight: 70
         })
 
     }
