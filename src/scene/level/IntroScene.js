@@ -10,15 +10,25 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
     /**
      * The entry point of the level scene.
      *
+     * @protected
      * @return {Promise}
      */
-    pt.init = function () {
+    pt.main = function () {
 
         var self = this
 
         this.load().then(function () {
 
-            self.start()
+            return self.setUp()
+
+        }).then(function () {
+
+            return self.start()
+
+        }).then(function () {
+
+            // goes to next scene
+            return that.elem.trigger('play-scene-start')
 
         })
 
@@ -26,10 +36,13 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
 
     /**
      * Loads the data
+     *
+     * @protected
+     * @return {Promise}
      */
     pt.load = function () {
 
-        var that = this
+        var self = this
 
         return new datadomain.UserRepository().get().then(function (user) {
 
@@ -37,15 +50,37 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
 
         }).then(function (character) {
 
-            that.character = character
+            self.character = character
 
             return new datadomain.LevelRepository().getById(character.position.floorObjectId)
 
         }).then(function (level) {
 
-            that.level = level
+            self.level = level
 
         })
+
+    }
+
+    /**
+     * Sets up the components.
+     *
+     * @protected
+     * @return {Promise}
+     */
+    pt.setUp = function () {
+
+        this.spawnBall()
+        this.spawnPaper()
+        this.spawnCharacter(this.character)
+
+        var centerGrid = this.getDimensionFactory().centerGrid()
+
+        this.getPaper().setGrid(centerGrid, 0, 0)
+
+        this.getCharacter().setGrid(centerGrid, 0, 1)
+
+        this.getCharacter().fitToGrid()
 
     }
 
@@ -58,23 +93,7 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
 
         var that = this
 
-        this.spawnBall()
-        this.spawnPaper()
-        this.spawnCharacter(that.character)
-
-        var centerGrid = this.getDimensionFactory().centerGrid()
-
-        var paper = this.getPaper()
-
-        var chr = this.getCharacter()
-
-        chr.setGrid(centerGrid, 0, 1)
-
-        chr.fitToGrid()
-
-        paper.setGrid(centerGrid, 0, 0)
-
-        paper.show()
+        this.getPaper().show()
 
         return ui.common.BackgroundService.turnWhite().then(function () {
 
@@ -95,10 +114,6 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
             that.getCharacter().hide()
 
             return that.getBall().show()
-
-        }).then(function () {
-
-            return that.elem.trigger('play-scene-start')
 
         })
 
