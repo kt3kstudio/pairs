@@ -158,9 +158,16 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
      * Updates the actual elem dom according to the current dimension.
      * Returns a promise which resolves with the transitionDuration milliseconds.
      *
+     * @param {Number} [dur] The
      * @return {Promise}
      */
-    pt.updateElem = function () {
+    pt.updateElem = function (dur) {
+
+        if (dur) {
+
+            this.setTransitionDuration(dur)
+
+        }
 
         this.updateRect()
         this.updateOffset()
