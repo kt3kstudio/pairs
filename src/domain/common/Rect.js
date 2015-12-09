@@ -44,4 +44,22 @@ domain.common.Rect = subclass(function (pt) {
 
     }
 
+    /**
+     * Gets the horizontal center.
+     */
+    pt.centerX = function () {
+
+        return this.left + this.width() / 2
+
+    }
+
+    /**
+     * Gets the vertical center.
+     */
+    pt.centerY = function () {
+
+        return this.top + this.height() / 2
+
+    }
+
 })
