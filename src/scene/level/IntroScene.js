@@ -17,6 +17,8 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
 
         var self = this
 
+        this.layoutManager = new scene.level.IntroSceneLayoutManager()
+
         this.load().then(function () {
 
             return self.setUp()
@@ -74,7 +76,7 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
         this.spawnPaper()
         this.spawnCharacter(this.character)
 
-        var centerGrid = this.getDimensionFactory().centerGrid()
+        var centerGrid = this.layoutManager.centerGrid()
 
         this.getPaper().setGrid(centerGrid, 0, 0)
 
