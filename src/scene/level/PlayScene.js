@@ -8,9 +8,30 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
     'use strict'
 
     /**
-     * Initializes the scene.
+     * The entry point
      */
-    pt.init = function () {
+    pt.main = function () {
+
+        var self = this
+
+        this.setUp()
+
+        return this.start().then(function () {
+
+            return self.start()
+
+        }).then(function (playerWon) {
+
+            return self.end(playerWon)
+
+        })
+
+    }.event('play-scene-start')
+
+    /**
+     * Sets up the components.
+     */
+    pt.setUp = function () {
 
         this.character = this.getCharacter().character
         this.level = this.elem.cc.get('intro-scene').level
@@ -33,9 +54,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
         // init scoreboard dimension
         this.getScoreboard().setRect(this.getDimensionFactory().scoreboardRect())
 
-        this.start()
-
-    }.event('play-scene-start')
+    }
 
     /**
      * Records the stream of the directions.
@@ -171,10 +190,6 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
         }).then(function () {
 
             return that.removeSwipeField()
-
-        }).then(function (playerWon) {
-
-            return that.end(playerWon)
 
         })
 
