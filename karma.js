@@ -27,8 +27,11 @@ module.exports = function (config) {
             'src/domain/common/Actor.js',
             'src/domain/common/Being.js',
             'src/domain/common/DimensionalBeing.js',
+            'src/domain/common/GridWalker.js',
             'src/domain/common/Sprite.js',
             'src/domain/common/CharSprite.js',
+            'src/domain/common/Rect.js',
+            'src/domain/common/DimensionFactory.js',
             'src/domain/map/FloorAsset.js',
             'src/util/jquery.js',
 
