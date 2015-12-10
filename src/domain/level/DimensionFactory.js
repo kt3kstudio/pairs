@@ -3,34 +3,32 @@
  *
  * @class
  */
-domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, function (pt) {
+domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, function (pt, parent) {
     'use strict'
+
+    pt.marginTop = 50 // the height of the score board at the top
+    pt.marginBottom = 50 // the height of the banner ad at the bottom of the screen
+
+    pt.widthRate = 2
+    pt.heightRate = 3
 
     /**
      * @constructor
      */
     pt.constructor = function () {
 
-        this.top = 50 // the height of the score board at the top
-        this.right = 0
-        this.bottom = 50 // the height of the banner ad at the bottom of the screen
-        this.left = 0
+        parent.constructor.apply(this, arguments)
 
-        this.widthRate = 4
-        this.heightRate = 6
-
-        this.calcMainArea()
-
-        this.UNIT = this.main.width() / 4
-        this.LEFT = this.main.left + this.main.width() / 8
-        this.TOP = this.main.top
+        this.UNIT = this.width() / 4
+        this.LEFT = this.left + this.width() / 8
+        this.TOP = this.top
 
     }
 
     pt.playGrid = function () {
 
         return new domain.common.Grid({
-            x: this.main.left + this.UNIT,
+            x: this.left + this.UNIT,
             y: this.TOP + this.UNIT * 2.5,
             unitWidth: this.UNIT,
             unitHeight: this.UNIT
@@ -62,7 +60,7 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
     pt.evalRoomGrid = function () {
 
         return new domain.common.Grid({
-            x: this.main.left + this.UNIT,
+            x: this.left + this.UNIT,
             y: this.TOP + this.UNIT * 1.5,
             unitWidth: this.UNIT * 2,
             unitHeight: this.UNIT * 2,
@@ -80,7 +78,7 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
     pt.queueGrid = function () {
 
         return new domain.common.Grid({
-            x: this.main.left + this.UNIT * 2,
+            x: this.left + this.UNIT * 2,
             y: this.TOP + this.UNIT * 0.5,
             unitWidth: this.UNIT * 0.5,
             unitHeight: this.UNIT * 0.5
@@ -96,7 +94,7 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
     pt.fusionBoxGrid = function () {
 
         return new domain.common.Grid({
-            x: this.main.left + this.UNIT * 2,
+            x: this.left + this.UNIT * 2,
             y: this.TOP + this.UNIT * 1.5,
             unitWidth: this.UNIT * 0.5,
             unitHeight: this.UNIT * 0.5
@@ -112,10 +110,10 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
     pt.resultPaneRect = function () {
 
         return new domain.common.Rect({
-            left: this.main.left,
-            top: this.main.top + this.UNIT,
-            right: this.main.right,
-            bottom: this.main.bottom
+            left: this.left,
+            top: this.top + this.UNIT,
+            right: this.right,
+            bottom: this.bottom
         })
 
     }
@@ -128,9 +126,9 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
     pt.scoreboardRect = function () {
 
         return new domain.common.Rect({
-            left: this.main.left,
+            left: this.left,
             top: 0,
-            right: this.main.left + this.UNIT * 2,
+            right: this.left + this.UNIT * 2,
             bottom: this.top
         })
 

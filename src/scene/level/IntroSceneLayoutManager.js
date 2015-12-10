@@ -6,26 +6,11 @@
 scene.level.IntroSceneLayoutManager = subclass(domain.common.DimensionFactory, function (pt) {
     'use strict'
 
-    /**
-     * @constructor
-     */
-    pt.constructor = function () {
+    pt.top = 50
+    pt.bottom = 50
 
-        this.top = 50 // the height of the score board at the top
-        this.right = 0
-        this.bottom = 50 // the height of the banner ad at the bottom of the screen
-        this.left = 0
-
-        this.widthRate = 4
-        this.heightRate = 6
-
-        this.calcMainArea()
-
-        this.UNIT = this.main.width() / 4
-        this.LEFT = this.main.left + this.main.width() / 8
-        this.TOP = this.main.top
-
-    }
+    pt.widthRate = 2
+    pt.heightRate = 3
 
     /**
      * Returns the grid for the paper.
@@ -35,12 +20,18 @@ scene.level.IntroSceneLayoutManager = subclass(domain.common.DimensionFactory, f
     pt.centerGrid = function () {
 
         return new domain.common.Grid({
-            x: this.main.centerX(),
-            y: this.TOP + this.UNIT * 4,
-            unitHeight: this.UNIT * 2 + 50 + 200,
+            x: this.centerX(),
+            y: this.top + this.width(),
+            unitHeight: this.width() / 2 + 50 + 200,
             cellWidth: 70,
             cellHeight: 70
         })
+
+    }
+
+    pt.residentGrid = function () {
+
+        return
 
     }
 
