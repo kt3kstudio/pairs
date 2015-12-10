@@ -16,11 +16,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
         this.setUp()
 
-        return this.start().then(function () {
-
-            return self.start()
-
-        }).then(function (playerWon) {
+        return this.start().then(function (playerWon) {
 
             return self.end(playerWon)
 
