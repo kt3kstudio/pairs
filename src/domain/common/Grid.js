@@ -58,4 +58,26 @@ domain.common.Grid = subclass(function (pt) {
 
     }
 
+    /**
+     * Shifts the grid by the given grid numbers
+     *
+     * @param {Number} m The horizontal shift number
+     * @param {Number} n The vertical shift number
+     * @return {domain.common.Grid}
+     */
+    pt.shift = function (m, n) {
+
+        return new domain.common.Grid({
+
+            x: this.x + this.unitWidth * m,
+            y: this.y + this.unitHeight * n,
+            unitWidth: this.unitWidth,
+            unitHeight: this.unitHeight,
+            cellWidth: this.cellWidth,
+            cellHeight: this.cellHeight
+
+        })
+
+    }
+
 })
