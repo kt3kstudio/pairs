@@ -84,4 +84,28 @@ domain.common.DimensionFactory = subclass(domain.common.Rect, function (pt) {
 
     }
 
+    /**
+     * Creates a grid with the given options.
+     *
+     * @param {Object} options The options
+     * @return {domain.common.Grid}
+     */
+    pt.grid = function (options) {
+
+        return new domain.common.Grid(options)
+
+    }
+
+    /**
+     * Creates a rect with the given options.
+     *
+     * @param {Object} options The options
+     * @return {domain.common.Rect}
+     */
+    pt.rect = function (options) {
+
+        return new domain.common.Rect(options)
+
+    }
+
 })

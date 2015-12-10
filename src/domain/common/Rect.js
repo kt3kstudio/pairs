@@ -62,4 +62,45 @@ domain.common.Rect = subclass(function (pt) {
 
     }
 
+    /**
+     * [experimental]
+     *
+     * Returns a sub rectangular divided by the given partition numbers.
+     *
+     * @example
+     *  rect.subrect(3, 4)
+     *
+     * @param {Number} partitionX The horizontal partition number
+     * @param {Number} partitionY The vertical partition number
+     * @return {domain.common.Rect}
+     */
+    pt.subrect = function (partitionX, partitionY) {
+
+        return new domain.common.Rect({
+            top: this.top,
+            left: this.left,
+            right: this.left + this.width() / (partitionX || 1),
+            bottom: this.top + this.height() / (partitionY || 1)
+        })
+
+    }
+
+    /**
+     * [experimental]
+     *
+     * Returns a grid
+     *
+     * @return {domain.common.Grid}
+     */
+    pt.toGrid = function () {
+
+        return new domain.common.Grid({
+            x: this.left + this.width() / 2,
+            y: this.top + this.height() / 2,
+            unitWidth: this.width(),
+            unitWidth: this.height()
+        })
+
+    }
+
 })

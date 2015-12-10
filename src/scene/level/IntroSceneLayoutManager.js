@@ -19,12 +19,14 @@ scene.level.IntroSceneLayoutManager = subclass(domain.common.DimensionFactory, f
      */
     pt.centerGrid = function () {
 
-        return new domain.common.Grid({
+        return this.grid({
+
             x: this.centerX(),
             y: this.top + this.width(),
             unitHeight: this.width() / 2 + 50 + 200,
             cellWidth: 70,
             cellHeight: 70
+
         })
 
     }

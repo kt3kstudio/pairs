@@ -27,11 +27,13 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
 
     pt.playGrid = function () {
 
-        return new domain.common.Grid({
+        return this.grid({
+
             x: this.left + this.UNIT,
             y: this.TOP + this.UNIT * 2.5,
             unitWidth: this.UNIT,
             unitHeight: this.UNIT
+
         })
 
     }
@@ -43,11 +45,13 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
      */
     pt.fieldRect = function () {
 
-        return new domain.common.Rect({
+        return this.rect({
+
             left: this.LEFT,
             right: this.LEFT + this.UNIT * 3,
             top: this.TOP + this.UNIT * 2,
             bottom: this.TOP + this.UNIT * 5
+
         })
 
     }
@@ -59,13 +63,15 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
      */
     pt.evalRoomGrid = function () {
 
-        return new domain.common.Grid({
+        return this.grid({
+
             x: this.left + this.UNIT,
             y: this.TOP + this.UNIT * 1.5,
             unitWidth: this.UNIT * 2,
             unitHeight: this.UNIT * 2,
             cellWidth: this.UNIT * 1.7,
             cellHeight: this.UNIT * 1.7
+
         })
 
     }
@@ -77,11 +83,13 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
      */
     pt.queueGrid = function () {
 
-        return new domain.common.Grid({
+        return this.grid({
+
             x: this.left + this.UNIT * 2,
             y: this.TOP + this.UNIT * 0.5,
             unitWidth: this.UNIT * 0.5,
             unitHeight: this.UNIT * 0.5
+
         })
 
     }
@@ -93,11 +101,13 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
      */
     pt.fusionBoxGrid = function () {
 
-        return new domain.common.Grid({
+        return this.grid({
+
             x: this.left + this.UNIT * 2,
             y: this.TOP + this.UNIT * 1.5,
             unitWidth: this.UNIT * 0.5,
             unitHeight: this.UNIT * 0.5
+
         })
 
     }
@@ -109,11 +119,13 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
      */
     pt.resultPaneRect = function () {
 
-        return new domain.common.Rect({
+        return this.rect({
+
             left: this.left,
             top: this.top + this.UNIT,
             right: this.right,
             bottom: this.bottom
+
         })
 
     }
@@ -125,11 +137,13 @@ domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, functio
      */
     pt.scoreboardRect = function () {
 
-        return new domain.common.Rect({
+        return this.rect({
+
             left: this.left,
             top: 0,
             right: this.left + this.UNIT * 2,
             bottom: this.top
+
         })
 
     }
