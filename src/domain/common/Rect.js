@@ -68,23 +68,28 @@ domain.common.Rect = subclass(function (pt) {
      * Returns a sub rectangular divided by the given partition numbers and of the given position
      *
      * @example
-     *  rect.subrect(3, 4)
+     *  rect.subrect({
+     *      partition: [3, 4],
+     *      get: [0, 2]
+     *  })
      *
-     * @param {Number} [options.partition.x=1] The horizontal partition number
-     * @param {Number} [options.partition.y=1] The vertical partition number
-     * @param {Number} [options.get.x=0] The horizontal position to get
-     * @param {Number} [options.get.y=0] The vertical position to get
+     * @param {Number} [options.partition[0]=1] The horizontal partition number
+     * @param {Number} [options.partition[1]=1] The vertical partition number
+     * @param {Number} [options.get[0]=0] The horizontal position to get
+     * @param {Number} [options.get[1]=0] The vertical position to get
      * @return {domain.common.Rect}
      */
     pt.subrect = function (options) {
 
-        var partition = options.partition || {}
-        var get = options.get || {}
+        options = options || {}
 
-        var partX = partition.x || 1
-        var partY = partition.y || 1
-        var getX = get.x || 0
-        var getY = get.y || 0
+        var partition = options.partition || []
+        var get = options.get || []
+
+        var partX = partition[0] || 1
+        var partY = partition[1] || 1
+        var getX = get[0] || 0
+        var getY = get[1] || 0
 
         var unitX = this.width() / partX
         var unitY = this.height() / partY
