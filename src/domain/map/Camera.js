@@ -27,10 +27,16 @@ domain.map.Camera = subclass(domain.common.Role, function (pt, parent) {
 
     }
 
-    pt.focusOnCharacter = function () {
+    /**
+     * Moves the camera to the given position if the position isn't visible.
+     *
+     * @param {$.Event} e The event object
+     * @param {Number} x The horizontal position
+     */
+    pt.focusToX = function (e, x) {
 
-        if (!that.visible(x)) {
-            that.scrollSet(x)
+        if (!this.visible(x)) {
+            this.scrollSet(x)
         }
 
     }.event('character-focus')
