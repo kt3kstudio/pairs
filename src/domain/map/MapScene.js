@@ -18,8 +18,55 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
 
         var self = this
 
-        // ui parts
-        this.menuButton = $('.menu-button-root').cc.get('menu-button')
+        return this.load().then(function () {
+
+            self.setUp()
+
+            self.start()
+
+        })
+
+    }.event('scene-start')
+
+    /**
+     * Gets the menu button
+     *
+     * @return {ui.common.MenuButton}
+     */
+    pt.getMenuButton = function () {
+
+        return $('.menu-button-root').cc.get('menu-button')
+
+    }
+
+    /**
+     * Gets the floor asset collection.
+     *
+     * @return {domain.map.FloorAssetCollection}
+     */
+    pt.getFloorAssets = function () {
+
+        return this.elem.find('.floor-asset-collection').cc.getActor()
+
+    }
+
+    /**
+     * Gets the camera.
+     *
+     * @return {domain.map.Camera}
+     */
+    pt.getCamera = function () {
+
+        return this.elem.cc.get('camera')
+
+    }
+
+    /**
+     * Loads the data for the scene.
+     */
+    pt.load = function () {
+
+        var self = this
 
         return new datadomain.UserRepository().get().then(function (user) {
 
@@ -27,19 +74,30 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
 
         }).then(function (character) {
 
-            self.initFloorWalker(character)
+            self.character = character
 
-            return self.initFloorAssets(character)
+            return Promise.resolve($.get('/data/floor/' + character.position.floorId + '.html'))
 
-        }).then(function () {
+        }).then(function (data) {
 
-            self.elem.trigger('floor-built')
-
-            self.start()
+            self.floorData = data
 
         })
 
-    }.event('scene-start')
+    }
+
+    /**
+     * Sets up the components
+     */
+    pt.setUp = function () {
+
+        this.initFloorWalker(this.character)
+
+        this.initFloorAssets(this.character)
+
+        this.getCamera().setUp()
+
+    }
 
     /**
      * Initializes the floor walker.
@@ -49,9 +107,11 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
     pt.initFloorWalker = function (character) {
 
         $('<img />', {
+
             addClass: 'sub-door-knock sub-character-goto',
             appendTo: this.elem.find('.floor-asset-collection'),
             data: {character: character}
+
         }).cc.init('floor-walker')
 
     }
@@ -63,29 +123,23 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
      */
     pt.initFloorAssets = function (character) {
 
-        var floorAssets = this.elem.find('.floor-asset-collection').cc.getActor()
+        this.getFloorAssets().loadAssetsFromData(this.floorData)
 
-        return Promise.resolve($.get('/data/floor/' + character.position.floorId + '.html')).then(function (data) {
+        this.getFloorAssets().updateAssetsByLocksAndHistories(character.locks, character.histories)
 
-            floorAssets.loadAssetsFromData(data)
+        var currentFloorAsset = this.getFloorAssets().findById(character.position.floorObjectId)
 
-            floorAssets.updateAssetsByLocksAndHistories(character.locks, character.histories)
+        if (currentFloorAsset) {
 
-            var currentFloorAsset = floorAssets.findById(character.position.floorObjectId)
+            currentFloorAsset.locked = false
 
-            if (currentFloorAsset) {
-
-                currentFloorAsset.locked = false
-
-            }
-
-        })
+        }
 
     }
 
     pt.start = function () {
 
-        this.menuButton.show()
+        this.getMenuButton().show()
 
         ui.common.BackgroundService.turnWhite()
 
@@ -111,7 +165,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
 
     pt.fadeOut = function () {
 
-        this.menuButton.hide()
+        this.getMenuButton().hide()
 
         var that = this
 
