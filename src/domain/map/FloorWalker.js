@@ -34,7 +34,6 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
 
             self.turn('down')
 
-
             return self.show()
 
         })
