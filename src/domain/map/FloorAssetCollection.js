@@ -17,6 +17,7 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
      * @param {String} data The data
      */
     pt.loadAssetsFromData = function (data) {
+
         // prepend loaded (string) data to the elem
         $(data).prependTo(this.elem)
 
@@ -28,11 +29,14 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
 
         // collect floor assets in the property
         this.items = this.elem.find('.staircase, .door').map(function () {
+
             return $(this).cc.getActor()
+
         }).toArray()
 
         // set floor width
         this.elem.width(this.elem.find('.floor-data').data('floor-width'))
+
     }
 
     /**
@@ -41,15 +45,21 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
      * @param {datadomain.LevelLockCollection} locks The level locks
      */
     pt.updateAssetsByLocksAndHistories = function (locks, histories) {
+
         this.items.forEach(function (asset) {
+
             asset.locked = locks.isLocked(asset.id)
 
             var history = histories.getById(asset.id)
 
             if (history) {
+
                 asset.score = history.score
+
             }
+
         })
+
     }
 
     /**
@@ -58,11 +68,15 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
      * @override
      */
     pt.willShow = function () {
+
         return this.foldByFunc(function (item) {
+
             item.show()
 
             return wait(100)
+
         })
+
     }
 
     /**
@@ -71,11 +85,15 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
      * @override
      */
     pt.willHide = function () {
+
         return this.foldByFunc(function (item) {
+
             item.disappear()
 
             return wait(100)
+
         })
+
     }
 
     /**
@@ -85,11 +103,17 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
      * @param {Function} func The folding function of each item
      */
     pt.foldByFunc = function (func) {
+
         return this.items.reduce(function (p, item) {
+
             return p.then(function () {
+
                 return func(item)
+
             })
+
         }, Promise.resolve())
+
     }
 
     /**
@@ -99,10 +123,15 @@ domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
      * @returns {domain.map.Door}
      */
     pt.findById = function (id) {
+
         return this.items.filter(function (item) {
+
             return item.id === id
+
         })[0]
+
     }
+
 })
 
 $.cc.assign('floor-asset-collection', domain.map.FloorAssetCollection)
