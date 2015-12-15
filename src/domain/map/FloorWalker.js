@@ -9,6 +9,12 @@
 domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
     'use strict'
 
+    pt.willShow = function () {
+
+        return this.updateElem()
+
+    }
+
     /**
      * Makes the character appear in the scene
      *
@@ -25,6 +31,9 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
         var self = this
 
         return floorAsset.open().then(function () {
+
+            self.turn('down')
+
 
             return self.show()
 
@@ -109,7 +118,7 @@ domain.map.FloorWalker = subclass(domain.common.CharSprite, function (pt) {
 
         this.setFloorObjectId(floorAsset.id)
 
-        var goOutDur = 150
+        var goOutDur = 220
         var moveOnCorridor = 300
         var goIntoDur = goOutDur
 
