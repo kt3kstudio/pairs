@@ -21,9 +21,7 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
 
         this.load().then(function () {
 
-            return self.setUp()
-
-        }).then(function () {
+            self.setUp()
 
             return self.start()
 
