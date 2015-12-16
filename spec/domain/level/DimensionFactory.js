@@ -57,18 +57,6 @@ describe('DimensionFactory', function () {
 
     })
 
-    describe('paperPosition', function () {
-
-        it('returns the dimension for the paper', function () {
-
-            var dimension = factory.paperPosition()
-
-            expect(dimension).to.be.instanceof(domain.level.Dimension)
-
-        })
-
-    })
-
     describe('resultPaneRect', function () {
 
         it('returns a rect for the result pane', function () {
