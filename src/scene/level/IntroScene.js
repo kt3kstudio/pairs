@@ -28,7 +28,7 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
         }).then(function () {
 
             // goes to next scene
-            return self.elem.trigger('play-scene-start')
+            return self.elem.trigger('main.play-scene')
 
         })
 

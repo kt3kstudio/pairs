@@ -16,13 +16,9 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
         this.setUp()
 
-        return this.start().then(function (playerWon) {
+        return this.start()
 
-            return self.end(playerWon)
-
-        })
-
-    }.event('play-scene-start')
+    }.event('main.play-scene')
 
     /**
      * Sets up the components.
@@ -187,6 +183,10 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
 
             return that.removeSwipeField()
 
+        }).then(function () {
+
+            that.elem.trigger('finish.play-scene')
+
         })
 
     }
@@ -223,13 +223,13 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
      *
      * @param {Boolean} playerWon True if the player won the game
      */
-    pt.end = function (playerWon) {
+    pt.finish = function (e, playerWon) {
 
         this.character.clearPlayingState()
 
         this.elem.trigger(playerWon ? 'play-scene-success' : 'play-scene-failure')
 
-    }
+    }.event('finish.play-scene')
 
 })
 
