@@ -1,12 +1,15 @@
 /**
  * MapScene handles the scene of map
  *
- * Application Class
+ * Responsibility:
+ * - interaction between services
+ * - interaction between view and model
+ * - sequence of multi agents perfomance
  *
  * @class
- * @extends domain.common.Actor
+ * @extends domain.common.Role
  */
-domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
+domain.map.MapScene = subclass(domain.common.Role, function (pt) {
     'use strict'
 
     /**
@@ -22,7 +25,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
 
             self.setUp()
 
-            self.start()
+            return self.start()
 
         })
 
@@ -33,33 +36,35 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
      *
      * @return {ui.common.MenuButton}
      */
-    pt.getMenuButton = function () {
-
-        return $('.menu-button-root').cc.get('menu-button')
-
-    }
+    pt.getMenuButton = function () { return $('.menu-button-root').cc.get('menu-button') }
 
     /**
      * Gets the floor asset collection.
      *
      * @return {domain.map.FloorAssetCollection}
      */
-    pt.getFloorAssets = function () {
-
-        return this.elem.find('.floor-asset-collection').cc.getActor()
-
-    }
+    pt.getFloorAssets = function () { return this.elem.find('.floor-asset-collection').cc.getActor() }
 
     /**
      * Gets the camera.
      *
      * @return {domain.map.Camera}
      */
-    pt.getCamera = function () {
+    pt.getCamera = function () { return this.elem.cc.get('camera') }
 
-        return this.elem.cc.get('camera')
+    /**
+     * Gets the floor walker.
+     *
+     * @return {domain.map.FloorWalker}
+     */
+    pt.getWalker = function () { return this.elem.find('.floor-walker').cc.getActor() }
 
-    }
+    /**
+     * Gets the floorboard.
+     *
+     * @return {domain.map.Floorboard}
+     */
+    pt.getFloorboard = function () { return this.elem.find('.floorboard').cc.getActor() }
 
     /**
      * Loads the data for the scene.
@@ -139,25 +144,21 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
 
     pt.start = function () {
 
+        var self = this
+
         this.getMenuButton().show()
 
         ui.common.BackgroundService.turnWhite()
 
-        var walker = this.elem.find('.floor-walker').cc.getActor()
+        return this.getFloorboard().show().then(function () {
 
-        var floorboard = this.elem.find('.floorboard').cc.getActor()
-
-        var assets = this.elem.find('.floor-asset-collection').cc.getActor()
-
-        return floorboard.show().then(function () {
-
-            return assets.show()
+            return self.getFloorAssets().show()
 
         }).then(function () {
 
-            var floorAsset = assets.findById(walker.getPosition().floorObjectId)
+            var floorAsset = self.getFloorAssets().findById(self.getWalker().getPosition().floorObjectId)
 
-            return walker.appearAt(floorAsset)
+            return self.getWalker().appearAt(floorAsset)
 
         })
 
@@ -167,11 +168,11 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
 
         this.getMenuButton().hide()
 
-        var that = this
+        var self = this
 
-        return this.elem.find('.floor-asset-collection').cc.getActor().hide().then(function () {
+        return this.getFloorAssets().hide().then(function () {
 
-            that.elem.find('.floorboard').cc.getActor().hide()
+            self.getFloorboard().hide()
 
             return ui.common.BackgroundService.turnBlack()
 
@@ -181,11 +182,11 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
 
     pt.walkerFadeIntoDoor = function () {
 
-        var that = this
+        var self = this
 
-        return this.elem.find('.floor-walker').cc.getActor().getIntoDoor().then(function () {
+        return this.getWalker().getIntoDoor().then(function () {
 
-            return that.fadeOut()
+            return self.fadeOut()
 
         })
 
@@ -225,13 +226,11 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
 
     pt.assetUnlock = function (e) {
 
+        var self = this
+
         var asset = e.floorAsset
 
-        var camera = $('.camera').cc.get('camera')
-
-        var walker = this.elem.find('.floor-walker').cc.getActor()
-
-        return camera.scrollTo(asset.centerX(), 500).then(function () {
+        return this.getCamera().scrollTo(asset.centerX(), 500).then(function () {
 
             asset.removeFrog()
             asset.locked = false
@@ -241,7 +240,7 @@ domain.map.MapScene = subclass(domain.common.Actor, function (pt) {
 
         }).then(function () {
 
-            camera.scrollTo(walker.x, 500)
+            self.getCamera().scrollTo(self.getWalker().x, 500)
 
         })
 
