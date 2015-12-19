@@ -14,7 +14,7 @@ scene.level.Context = subclass(domain.common.SceneContext, function (pt) {
      */
     pt.getMenuButton = function () {
 
-        return $('.menu-button-root').cc.get('menu-button')
+        return this.getGlobal('.menu-button-root', 'menu-button')
 
     }
 
@@ -25,7 +25,7 @@ scene.level.Context = subclass(domain.common.SceneContext, function (pt) {
      */
     pt.getField = function () {
 
-        return this.elem.find('.field-grid').cc.get('field-grid')
+        return this.get('field-grid')
 
     }
 
@@ -36,7 +36,7 @@ scene.level.Context = subclass(domain.common.SceneContext, function (pt) {
      */
     pt.getCharacter = function () {
 
-        return this.elem.find('.character-on-level').cc.get('character-on-level')
+        return this.get('character-on-level')
 
     }
 
@@ -60,7 +60,7 @@ scene.level.Context = subclass(domain.common.SceneContext, function (pt) {
      */
     pt.getBall = function () {
 
-        return this.elem.find('.ball').cc.get('ball')
+        return this.get('ball')
 
     }
 
@@ -71,7 +71,7 @@ scene.level.Context = subclass(domain.common.SceneContext, function (pt) {
      */
     pt.getPaper = function () {
 
-        return this.elem.find('.paper').cc.get('paper')
+        return this.get('paper')
 
     }
 
@@ -82,7 +82,7 @@ scene.level.Context = subclass(domain.common.SceneContext, function (pt) {
      */
     pt.getScoreboard = function () {
 
-        return this.elem.find('.scoreboard').cc.get('scoreboard')
+        return this.get('scoreboard')
 
     }
 
@@ -93,7 +93,7 @@ scene.level.Context = subclass(domain.common.SceneContext, function (pt) {
      */
     pt.getResultPane = function () {
 
-        return this.elem.find('.result-pane').cc.get('result-pane')
+        return this.get('result-pane')
 
     }
 

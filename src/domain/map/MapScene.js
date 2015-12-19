@@ -28,35 +28,35 @@ domain.map.MapScene = subclass(domain.common.SceneContext, function (pt, parent)
      *
      * @return {ui.common.MenuButton}
      */
-    pt.getMenuButton = function () { return $('.menu-button-root').cc.get('menu-button') }
+    pt.getMenuButton = function () { return this.getGlobal('.menu-button-root', 'menu-button') }
 
     /**
      * Gets the floor asset collection.
      *
      * @return {domain.map.FloorAssetCollection}
      */
-    pt.getFloorAssets = function () { return this.elem.find('.floor-asset-collection').cc.getActor() }
+    pt.getFloorAssets = function () { return this.get('floor-asset-collection') }
 
     /**
      * Gets the camera.
      *
      * @return {domain.map.Camera}
      */
-    pt.getCamera = function () { return this.elem.cc.get('camera') }
+    pt.getCamera = function () { return this.getAtElem('camera') }
 
     /**
      * Gets the floor walker.
      *
      * @return {domain.map.FloorWalker}
      */
-    pt.getWalker = function () { return this.elem.find('.floor-walker').cc.getActor() }
+    pt.getWalker = function () { return this.get('floor-walker') }
 
     /**
      * Gets the floorboard.
      *
      * @return {domain.map.Floorboard}
      */
-    pt.getFloorboard = function () { return this.elem.find('.floorboard').cc.getActor() }
+    pt.getFloorboard = function () { return this.get('floorboard') }
 
     /**
      * Loads the data for the scene.

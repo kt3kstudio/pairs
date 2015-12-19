@@ -44,5 +44,31 @@ domain.common.SceneContext = subclass(domain.common.Role, function (pt) {
      */
     pt.start = function () {}
 
+    /**
+     * Gets the class component of the given name inside the element.
+     */
+    pt.get = function (className) {
+
+        return this.elem.find('.' + className).cc.get(className)
+    }
+
+    /**
+     * Gets the class component of the given name at the element.
+     */
+    pt.getAtElem = function (className) {
+
+        return this.elem.cc.get(className)
+
+    }
+
+    /**
+     * Gets the class component of the given name at the given selector
+     */
+    pt.getGlobal = function (selector, className) {
+
+        return $(selector).cc.get(className)
+
+    }
+
 })
 
