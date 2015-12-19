@@ -88,7 +88,7 @@ domain.map.MapScene = subclass(domain.common.SceneContext, function (pt, parent)
      */
     pt.setUp = function () {
 
-        this.initFloorWalker(this.character)
+        this.spawnFloorWalker(this.character)
 
         this.initFloorAssets(this.character)
 
@@ -101,7 +101,7 @@ domain.map.MapScene = subclass(domain.common.SceneContext, function (pt, parent)
      *
      * @param {datadomain.Character} character
      */
-    pt.initFloorWalker = function (character) {
+    pt.spawnFloorWalker = function (character) {
 
         $('<img />', {
 
