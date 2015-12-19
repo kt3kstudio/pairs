@@ -4,11 +4,17 @@
  * @class
  * @extends domain.common.Role
  */
-scene.level.OutroScene = subclass(scene.level.Context, function (pt) {
+scene.level.OutroScene = subclass(scene.level.Context, function (pt, parent) {
     'use strict'
 
+    pt.main = function () {
+
+        parent.main.apply(this, arguments)
+
+    }.event('play-scene-success play-scene-failure')
+
     /**
-     * Stars the scene.
+     * Starts the scene.
      */
     pt.start = function () {
 
@@ -58,7 +64,7 @@ scene.level.OutroScene = subclass(scene.level.Context, function (pt) {
 
         })
 
-    }.event('play-scene-success play-scene-failure')
+    }
 
 })
 

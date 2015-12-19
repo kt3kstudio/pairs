@@ -4,7 +4,7 @@
  * @class
  * @extends scene.level.Context
  */
-scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
+scene.level.IntroScene = subclass(scene.level.Context, function (pt, parent) {
     'use strict'
 
     /**
@@ -15,22 +15,7 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
      */
     pt.main = function () {
 
-        var self = this
-
-        this.layoutManager = new scene.level.IntroSceneLayoutManager()
-
-        this.load().then(function () {
-
-            self.setUp()
-
-            return self.start()
-
-        }).then(function () {
-
-            // goes to next scene
-            return self.elem.trigger('main.play-scene')
-
-        })
+        parent.main.apply(this, arguments)
 
     }.event('scene-start')
 
@@ -69,6 +54,8 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
      * @return {Promise}
      */
     pt.setUp = function () {
+
+        this.layoutManager = new scene.level.IntroSceneLayoutManager()
 
         this.spawnBall()
         this.spawnPaper()
@@ -114,6 +101,10 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt) {
             that.getCharacter().hide()
 
             return that.getBall().show()
+
+        }).then(function () {
+
+            that.elem.trigger('main.play-scene')
 
         })
 

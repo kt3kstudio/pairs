@@ -4,7 +4,7 @@
  * @class
  * @extends domain.common.Role
  */
-scene.level.Context = subclass(domain.common.Role, function (pt) {
+scene.level.Context = subclass(domain.common.SceneContext, function (pt) {
     'use strict'
 
     /**

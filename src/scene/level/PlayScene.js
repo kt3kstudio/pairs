@@ -4,7 +4,7 @@
  * @class
  * @extends domain.common.Role
  */
-scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
+scene.level.PlayScene = subclass(scene.level.Context, function (pt, parent) {
     'use strict'
 
     /**
@@ -12,11 +12,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt) {
      */
     pt.main = function () {
 
-        var self = this
-
-        this.setUp()
-
-        return this.start()
+        parent.main.apply(this, arguments)
 
     }.event('main.play-scene')
 

@@ -9,7 +9,7 @@
  * @class
  * @extends domain.common.Role
  */
-domain.map.MapScene = subclass(domain.common.Role, function (pt) {
+domain.map.MapScene = subclass(domain.common.SceneContext, function (pt, parent) {
     'use strict'
 
     /**
@@ -19,15 +19,7 @@ domain.map.MapScene = subclass(domain.common.Role, function (pt) {
      */
     pt.main = function () {
 
-        var self = this
-
-        return this.load().then(function () {
-
-            self.setUp()
-
-            return self.start()
-
-        })
+        parent.main.apply(this, arguments)
 
     }.event('scene-start')
 
