@@ -6,7 +6,6 @@
 scene.level.IntroSceneLayout = subclass(domain.common.DimensionFactory, function (pt) {
     'use strict'
 
-    pt.top = 50
     pt.bottom = 50
 
     pt.widthRate = 2
@@ -31,6 +30,11 @@ scene.level.IntroSceneLayout = subclass(domain.common.DimensionFactory, function
 
     }
 
+    /**
+     * Returns the grid for residents.
+     *
+     * @return {domain.common.Grid}
+     */
     pt.residentGrid = function () {
 
         return
