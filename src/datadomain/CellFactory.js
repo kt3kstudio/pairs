@@ -13,7 +13,9 @@ datadomain.CellFactory = subclass(function (pt) {
      * @return {datadomain.Cell}
      */
     pt.createFromObject = function (obj) {
+
         return new datadomain.Cell(obj.gene)
+
     }
 
     /**
@@ -23,10 +25,15 @@ datadomain.CellFactory = subclass(function (pt) {
      * @return {datadomain.CellCollection}
      */
     pt.createCollectionFromArray = function (array) {
+
         var that = this
 
         return new datadomain.CellCollection(array.map(function (obj) {
+
             return that.createFromObject(obj)
+
         }))
+
     }
+
 })
