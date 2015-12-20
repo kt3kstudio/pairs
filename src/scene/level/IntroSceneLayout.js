@@ -3,7 +3,7 @@
  *
  * @class
  */
-scene.level.IntroSceneLayoutManager = subclass(domain.common.DimensionFactory, function (pt) {
+scene.level.IntroSceneLayout = subclass(domain.common.DimensionFactory, function (pt) {
     'use strict'
 
     pt.top = 50

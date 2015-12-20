@@ -14,45 +14,52 @@ scene.level.OutroScene = subclass(scene.level.Context, function (pt, parent) {
     }.event('play-scene-success play-scene-failure')
 
     /**
+     * Sets up the scene.
+     */
+    pt.setUp = function () {
+
+        var layout = new scene.level.PlaySceneLayout()
+
+        this.getResultPane().setRect(layout.resultPaneRect())
+        this.getResultPane().setScore(this.getScoreboard().score)
+
+    }
+
+    /**
      * Starts the scene.
      */
     pt.start = function () {
 
-        var that = this
-
-        var resPane = this.getResultPane()
-
-        resPane.setRect(this.getDimensionFactory().resultPaneRect())
-        resPane.setScore(this.getScoreboard().score)
+        var self = this
 
         return this.getResultPane().show(30000000).then(function () {
 
             domain.level.Cell.disappear()
 
-            that.getMenuButton().hide()
+            self.getMenuButton().hide()
 
-            that.getScoreboard().disappear()
+            self.getScoreboard().disappear()
 
-            return that.getField().disappear()
-
-        }).then(function () {
-
-            return that.getBall().goCenterX()
+            return self.getField().disappear()
 
         }).then(function () {
 
-            return that.getBall().goCenterY()
+            return self.getBall().goCenterX()
+
+        }).then(function () {
+
+            return self.getBall().goCenterY()
 
         }).then(function () {
 
             return Promise.all([
-                that.getCharacter().show(400),
-                that.getBall().disappear()
+                self.getCharacter().show(400),
+                self.getBall().disappear()
             ])
 
         }).then(function () {
 
-            return that.getCharacter().moveTo('y', 800, 1000)
+            return self.getCharacter().moveTo('y', 800, 1000)
 
         }).then(function () {
 

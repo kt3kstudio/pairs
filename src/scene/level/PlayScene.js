@@ -21,26 +21,28 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt, parent) {
      */
     pt.setUp = function () {
 
+        var layout = new scene.level.PlaySceneLayout()
+
         this.character = this.getCharacter().character
         this.level = this.elem.cc.get('intro-scene').level
 
         // models
         this.cells = this.elem.cc.get('cell-collection')
-        this.cells.setGrid(this.getDimensionFactory().playGrid())
+        this.cells.setGrid(layout.playGrid())
         this.cells.loadFromObjectList(this.level.cells.cells)
 
-        this.getField().setRect(this.getDimensionFactory().fieldRect())
+        this.getField().setRect(layout.fieldRect())
 
         // services
-        this.fps = new domain.level.FusionPreparationService(this.getDimensionFactory().evalRoomGrid())
-        this.fusionService = this.elem.cc.get('fusion-service').setGrid(this.getDimensionFactory().fusionBoxGrid())
-        this.exitQueue = new domain.level.ExitQueue(this.getDimensionFactory().queueGrid())
+        this.fps = new domain.level.FusionPreparationService(layout.evalRoomGrid())
+        this.fusionService = this.elem.cc.get('fusion-service').setGrid(layout.fusionBoxGrid())
+        this.exitQueue = new domain.level.ExitQueue(layout.queueGrid())
 
         // ball move service
         this.bms = new domain.level.BallMoveMobLeaveService(this.getBall(), this.cells)
 
         // init scoreboard dimension
-        this.getScoreboard().setRect(this.getDimensionFactory().scoreboardRect())
+        this.getScoreboard().setRect(layout.scoreboardRect())
 
     }
 

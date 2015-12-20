@@ -55,13 +55,13 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt, parent) {
      */
     pt.setUp = function () {
 
-        this.layoutManager = new scene.level.IntroSceneLayoutManager()
+        var layout = new scene.level.IntroSceneLayout()
 
         this.spawnBall()
         this.spawnPaper()
         this.spawnCharacter(this.character)
 
-        var centerGrid = this.layoutManager.centerGrid()
+        var centerGrid = layout.centerGrid()
 
         this.getPaper().setGrid(centerGrid, 0, 0)
 
@@ -117,9 +117,11 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt, parent) {
      */
     pt.spawnBall = function () {
 
+        var playSceneLayout = new scene.level.PlaySceneLayout()
+
         $($('#tpl-ball').html()).css({display: 'none'}).data({
 
-            grid: this.getDimensionFactory().playGrid(),
+            grid: playSceneLayout.playGrid(),
             pos: {m: 1, n: 1}
 
         }).appendTo(this.elem).cc.init('ball')

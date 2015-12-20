@@ -3,7 +3,7 @@
  *
  * @class
  */
-domain.level.DimensionFactory = subclass(domain.common.DimensionFactory, function (pt, parent) {
+scene.level.PlaySceneLayout = subclass(domain.common.DimensionFactory, function (pt, parent) {
     'use strict'
 
     pt.marginTop = 50 // the height of the score board at the top

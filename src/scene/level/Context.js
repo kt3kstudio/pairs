@@ -41,19 +41,6 @@ scene.level.Context = subclass(domain.common.SceneContext, function (pt) {
     }
 
     /**
-     * Gets the dimension factory.
-     *
-     * @return {domain.level.DimensionFactory}
-     */
-    pt.getDimensionFactory = function () {
-
-        this.dimFactory = this.dimFactory || new domain.level.DimensionFactory()
-
-        return this.dimFactory
-
-    }
-
-    /**
      * Gets the ball
      *
      * @return {domain.level.Ball}
