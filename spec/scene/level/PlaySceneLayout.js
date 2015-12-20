@@ -1,11 +1,11 @@
-describe('DimensionFactory', function () {
+describe('scene.level.PlaySceneLayout', function () {
     'use strict'
 
     var factory
 
     before(function () {
 
-        factory = new domain.level.DimensionFactory()
+        factory = new scene.level.PlaySceneLayout()
 
     })
 
