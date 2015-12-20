@@ -77,7 +77,6 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
      * Loads field cells from cell list.
      *
      * @param {Array} list The list of cells (domain.level.Cell)
-     * @return {domain.level.FieldCells}
      */
     pt.loadList = function (list) {
 
@@ -93,8 +92,6 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
             this.cells.push(cell)
 
         }, this)
-
-        return this
 
     }
 

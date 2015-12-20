@@ -1,3 +1,8 @@
+/**
+ * The main character on the level scene.
+ *
+ * @class
+ */
 domain.level.Character = subclass(domain.common.CharSprite, function (pt, parent) {
     'use strict'
 

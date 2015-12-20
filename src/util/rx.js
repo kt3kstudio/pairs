@@ -88,7 +88,7 @@
      * Emit to the given dom element. assume the observable is a stream of the event.
      *
      * @param {jQuery|HTMLElement|String} dom The dom to emit event
-     * @return {Rx.Observer}
+     * @return {Object}
      */
     Rx.Observable.prototype.emitInto = function (dom) {
         dom = $(dom)

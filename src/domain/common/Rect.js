@@ -63,20 +63,16 @@ domain.common.Rect = subclass(function (pt) {
     }
 
     /**
-     * [experimental]
-     *
      * Returns a sub rectangular divided by the given partition numbers and of the given position
      *
-     * @example
      *  rect.subrect({
      *      partition: [3, 4],
      *      get: [0, 2]
      *  })
      *
-     * @param {Number} [options.partition[0]=1] The horizontal partition number
-     * @param {Number} [options.partition[1]=1] The vertical partition number
-     * @param {Number} [options.get[0]=0] The horizontal position to get
-     * @param {Number} [options.get[1]=0] The vertical position to get
+     * @param {Object} [options] The options
+     * @param {Number[]} [options.partition] The horizontal partition number and vertical number.
+     * @param {Number[]} [options.get] The horizontal position and vertical position
      * @return {domain.common.Rect}
      */
     pt.subrect = function (options) {

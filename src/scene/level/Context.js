@@ -54,7 +54,7 @@ scene.level.Context = subclass(domain.common.SceneContext, function (pt) {
     /**
      * Gets the paper.
      *
-     * @return {domain.level.PieceOfPaper}
+     * @return {domain.level.Paper}
      */
     pt.getPaper = function () {
 
@@ -65,7 +65,7 @@ scene.level.Context = subclass(domain.common.SceneContext, function (pt) {
     /**
      * Gets the scoreboard.
      *
-     * @return {domain.level.Scoreboard}
+     * @return {ui.level.Scoreboard}
      */
     pt.getScoreboard = function () {
 

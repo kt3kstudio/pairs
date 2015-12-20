@@ -18,7 +18,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
     pt.y = 0
 
     /**
-     * @property {domain.commmon.Dimension} dimension The dimension of the rectangle
+     * @property {domain.common.Dimension} dimension The dimension of the rectangle
      */
     pt.dimension = null
 
