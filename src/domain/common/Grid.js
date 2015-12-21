@@ -59,6 +59,28 @@ domain.common.Grid = subclass(function (pt) {
     }
 
     /**
+     * Returns the translated grid by the given distances.
+     *
+     * @param {Number} m The horizontal translate distance
+     * @param {Number} n The vertical translate distance
+     * @return {domain.common.Grid}
+     */
+    pt.translated = function (x, y) {
+
+        return new domain.common.Grid({
+
+            x: this.x + x,
+            y: this.y + y,
+            unitWidth: this.unitWidth,
+            unitHeight: this.unitHeight,
+            cellWidth: this.cellWidth,
+            cellHeight: this.cellHeight
+
+        })
+
+    }
+
+    /**
      * Returns the shifted grid by the given grid numbers
      *
      * @param {Number} m The horizontal shift number
@@ -67,14 +89,29 @@ domain.common.Grid = subclass(function (pt) {
      */
     pt.shifted = function (m, n) {
 
+        return this.translated(this.unitWidth * m, this.unitHeight * n)
+
+    }
+
+    /**
+     * Returns the subgrid devided by the given horizontal and vertical numbers.
+     *
+     * @param {Number} m The horizontal division number
+     * @param {Number} n The vertical division number
+     */
+    pt.subgrid = function (m, n) {
+
+        m = m || 1
+        n = n || 1
+
         return new domain.common.Grid({
 
-            x: this.x + this.unitWidth * m,
-            y: this.y + this.unitHeight * n,
-            unitWidth: this.unitWidth,
-            unitHeight: this.unitHeight,
-            cellWidth: this.cellWidth,
-            cellHeight: this.cellHeight
+            x: this.x,
+            y: this.y,
+            unitWidth: this.unitWidth / m,
+            unitHeight: this.unitHeight / n,
+            cellWidth: this.cellWidth / m,
+            cellHeight: this.cellHeight / n
 
         })
 
