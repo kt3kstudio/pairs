@@ -22,7 +22,14 @@
   "author": "Yoshiya Hinosawa <stibium121@gmail.com> (https://twitter.com/kt3k)",
   "license": "MIT",
   "devDependencies": {
+    "babel-preset-es2015": "^6.3.13",
+    "babel-register": "^6.3.13",
+    "browserify": "^12.0.1",
+    "bulbo": "^1.0.0",
     "chai": "^1.10.0",
+    "gulp-front-matter": "^1.3.0",
+    "gulp-load-plugins": "^1.1.0",
+    "gulp-wrap": "^0.11.0",
     "husky": "^0.8.1",
     "karma": "^0.12.28",
     "karma-chai": "^0.1.0",
@@ -67,6 +74,11 @@
       "p",
       "m",
       "doc"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "es2015"
     ]
   }
 }
