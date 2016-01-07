@@ -16,11 +16,8 @@ node_modules
 # coverage
 /coverage
 
-# test file
-/test.html
-
-# vim
-*.swp
-
 # npm debug
 /npm-debug.log
+
+# bulbo build
+/build
