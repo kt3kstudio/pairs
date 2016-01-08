@@ -9,6 +9,8 @@ asset('m/*.html', {base: 'm/'})(src => src
   .pipe($.frontMatter())
   .pipe($.wrap({src: 'm/layouts/layout.nunjucks'}, {configJSON: JSON.stringify(config)}, {engine: 'nunjucks'})))
 
-asset('m/stylesheets/**/*.*', {base: 'm/'})
-asset('m/data/**/*.*', {base: 'm/'})
-asset('m/images/**/*.*', {base: 'm/'})
+asset([
+  'm/data/**/*.*',
+  'm/images/**/*.*',
+  'm/stylesheets/**/*.*'
+], {base: 'm/'})
