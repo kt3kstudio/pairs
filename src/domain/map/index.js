@@ -1,2 +1,5 @@
-// = require ./FloorAsset.js
-// = require_tree .
+require('./FloorAsset')
+require('./Camera')
+require('./Door')
+require('./FloorAsset')
+require('./FloorAsset')

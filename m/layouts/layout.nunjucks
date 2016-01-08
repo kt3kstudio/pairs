@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <title>{{ file.frontMatter.title }}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="./stylesheets/all.css" />
+
+    <script>window.config = {{ configJSON | safe }}</script>
+    <script src="./javascripts/common.js"></script>
+    <script src="./javascripts/{{ file.frontMatter.js }}"></script>
+    <script>
+      $(function () {
+        setTimeout(function () {
+          $('.{{ file.frontMatter.main_scene }}').trigger('scene-start');
+        }, 50);
+      });
+    </script>
+
+  </head>
+  <body class="{{ file.frontMatter.body }}">
+    {{ contents }}
+  </body>
+</html>

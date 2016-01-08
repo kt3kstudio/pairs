@@ -1,1 +1,1 @@
-//= require domain/map/
+import '../../src/domain/map'

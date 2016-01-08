@@ -1,6 +1,14 @@
 import {asset} from 'bulbo'
+import loadPlugins from 'gulp-load-plugins'
+const $ = loadPlugins()
+const config = {lang: 'en'}
 
-asset('m/**/*.js')
-asset('m/**/*.erb')
-asset('m/**/*.css')
-asset('m/**/*.svg')
+asset('m/**/*.js', {base: 'm/'})
+
+asset('m/*.html', {base: 'm/'})(src => src
+  .pipe($.frontMatter())
+  .pipe($.wrap({src: 'm/layouts/layout.nunjucks'}, {configJSON: JSON.stringify(config)}, {engine: 'nunjucks'})))
+
+asset('m/stylesheets/**/*.*', {base: 'm/'})
+asset('m/data/**/*.*', {base: 'm/'})
+asset('m/images/**/*.*', {base: 'm/'})
