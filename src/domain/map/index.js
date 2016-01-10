@@ -1,5 +1,9 @@
-require('./FloorAsset')
-require('./Camera')
-require('./Door')
-require('./FloorAsset')
-require('./FloorAsset')
+import './FloorAsset'
+import './Camera'
+import './Door'
+import './FloorAssetCollection'
+import './FloorWalker'
+import './Floorboard'
+import './FrogSprite'
+import './MapScene'
+import './Staircase'

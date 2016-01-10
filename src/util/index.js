@@ -1,1 +1,4 @@
-// = require_tree .
+import './FieldIndexGenerator'
+import './jquery'
+import './rx'
+import './util'

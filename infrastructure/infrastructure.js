@@ -1,2 +1,2 @@
-// = require namespace.js
-// = require_tree .
+require('./namespace')
+require('./storage')
