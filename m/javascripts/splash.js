@@ -1,2 +1,1 @@
-//= require domain/splash/
-a
+import '../../src/domain/splash'

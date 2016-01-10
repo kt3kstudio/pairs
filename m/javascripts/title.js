@@ -1,1 +1,1 @@
-//= require domain/title/TitleScene.js
+import '../../src/domain/title/TitleScene'

@@ -1,1 +1,2 @@
-// = require_tree .
+import './Logo'
+import './SplashScene'
