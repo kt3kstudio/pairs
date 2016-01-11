@@ -7,9 +7,7 @@ branches:
     - gh-pages
 
 before_install:
-  - npm install -g bower karma-cli
-  - bower install
-  - bundle install
+  - npm install -g karma-cli
 
 script:
 - npm run lint
