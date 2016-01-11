@@ -1,8 +1,8 @@
-//= include arrowkeys
-//= include swipe-event/swipe-event.js
-//= include swipe-event/swipe-cross.js
+import 'arrowkeys'
+import 'swipe-event/swipe-event'
+import 'swipe-event/swipe-cross'
 
-//= include domain/genetics/
-//= include domain/level/
-//= include scene/level/
-//= include ui/level/
+import '../../src/domain/genetics'
+import '../../src/domain/level'
+import '../../src/scene/level'
+import '../../src/ui/level'

@@ -22,6 +22,7 @@
   "author": "Yoshiya Hinosawa <stibium121@gmail.com> (https://twitter.com/kt3k)",
   "license": "MIT",
   "devDependencies": {
+    "arrowkeys": "^0.2.1",
     "babel-preset-es2015": "^6.3.13",
     "babel-register": "^6.3.13",
     "babelify": "^7.2.0",
@@ -53,6 +54,7 @@
     "rx-lite": "^4.0.7",
     "souffle-cli": "^2.0.2",
     "subclassjs": "^1.3.0",
+    "swipe-event": "^0.4.1",
     "through": "^2.3.8"
   },
   "souffle": {

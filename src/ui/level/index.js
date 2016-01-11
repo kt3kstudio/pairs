@@ -1,1 +1,3 @@
-// = require_tree .
+import './ResultPane'
+import './Scoreboard'
+import './SwipeField'

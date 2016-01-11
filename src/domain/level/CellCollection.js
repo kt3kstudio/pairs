@@ -107,7 +107,9 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
 
         return releasedCellStream.pipe(function (releasedCells) {
 
-            return self.loadList(releasedCells).resetShapeAndLocate()
+            self.loadList(releasedCells)
+
+            return self.resetShapeAndLocate()
 
         })
 
@@ -134,6 +136,8 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
 
     /**
      * Reset the shapes of the cells and locate them.
+     *
+     * @return {Promise}
      */
     pt.resetShapeAndLocate = function () {
 
