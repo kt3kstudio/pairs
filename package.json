@@ -8,8 +8,8 @@
     "doc": "doc"
   },
   "scripts": {
-    "build": "bundle exec middleman build",
-    "start": "bundle exec middleman",
+    "build": "bulbo build",
+    "start": "bulbo serve",
     "lint": "souffle",
     "test": "karma start karma.js",
     "doc": "jsduck --config=.jsduck.dev.json",
