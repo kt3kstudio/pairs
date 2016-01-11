@@ -12,11 +12,11 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            'm/javascripts/common.js',
-            'm/javascripts/splash.js',
-            'm/javascripts/title.js',
-            'm/javascripts/map.js',
-            'm/javascripts/level.js',
+            'site/javascripts/common.js',
+            'site/javascripts/splash.js',
+            'site/javascripts/title.js',
+            'site/javascripts/map.js',
+            'site/javascripts/level.js',
 
             'spec/helper/polyfill.js',
             'spec/helper/reset.js',
@@ -31,7 +31,7 @@ module.exports = function (config) {
         ],
 
         preprocessors: {
-            'm/**/*.js': ['browserify']
+            'site/**/*.js': ['browserify']
         },
 
         browserify: {
