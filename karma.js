@@ -1,16 +1,11 @@
-// Karma configuration
-// Generated on Fri Dec 26 2014 15:31:45 GMT+0900 (KST)
+'use stric'
 
 module.exports = function (config) {
     config.set({
-        // base path that will be used to resolve all patterns (eg. files, exclude)
         basePath: '',
 
-        // frameworks to use
-        // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
         frameworks: ['mocha', 'chai', 'jsmockito-jshamcrest', 'browserify'],
 
-        // list of files / patterns to load in the browser
         files: [
             'site/javascripts/common.js',
             'site/javascripts/splash.js',
@@ -24,9 +19,7 @@ module.exports = function (config) {
             'spec/**/*.js'
         ],
 
-        // list of files to exclude
         exclude: [
-            'src/**/*index.js',
             '**/*.swp'
         ],
 
@@ -36,7 +29,9 @@ module.exports = function (config) {
 
         browserify: {
             debug: true,
-            transform: ['babelify']
+            transform: [ require('browserify-istanbul')({
+                instrumenter: require('isparta')
+            })]
         },
 
         coverageReporter: {
