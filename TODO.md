@@ -1,10 +1,12 @@
 # TODO
 
-- refactor dimension and gridDimension
-
-- new model LevelKey
-- new character Fairy
-- new character PinkRabbit
+- separate SPRITE_MODULE
+  - name?
+  - spn
+- Residents
+  - MooSprite
+  - moo layout in level.scene context
+  - resident sprite
 
 
 [Make residents]
@@ -15,7 +17,6 @@
 
 ### low pri
 - Ad integration
-- Switch dependency to mangrove
 
 
 # Idea
@@ -23,17 +24,16 @@
   - ma - torus
   - ellen - sphere
   - emma - P2
-- something should be always moving (dancing) in the map
-  - maybe it has some silly interaction
 
 ## Artwork
 - finger - swipe tutorial
   - use free finger icon out there
 
-- backgrounds
-
 
 # DONE
+- new Artwork Moo
+- new model LevelKey
+- refactor dimension and gridDimension
 - refactor menu-btn
 - Code reading of level scene and further refactoring
 - Use magrove for Cell
