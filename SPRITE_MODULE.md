@@ -1,22 +1,15 @@
-wait
-reflow
-domain.common.Being
-domain.common.Dimension
-domain.common.DimensionalBeing
-domain.common.Grid
-domain.common.GridWalker
-domain.common.Animation
-
-$.st.wait
-$.st.reflow
-$.st.Being
-$.st.Dimension
-$.st.DimensionalBeing
-$.st.DimensionFactory
-$.st.Rect
-$.st.Grid
-$.st.GridWalker
-$.st.Animation
-$.st.Image
-$.st.Sprite
-$.st.CharSprite
+spn.wait
+spn.reflow private
+spn.Actor private
+spn.Role private
+spn.Being private
+spn.Dimension
+spn.DimensionalBeing private
+spn.DimensionFactory
+spn.Rect
+spn.Grid
+spn.GridWalker
+spn.Animation
+spn.Image
+spn.Sprite
+spn.CharSprite
