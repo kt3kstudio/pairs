@@ -1,8 +1,7 @@
 # TODO
 
 - separate SPRITE_MODULE
-  - name?
-  - spn
+  - name: spn
 - Residents
   - MooSprite
   - moo layout in level.scene context
