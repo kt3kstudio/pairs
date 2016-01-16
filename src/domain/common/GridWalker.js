@@ -46,7 +46,8 @@ domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt
     }
 
     /**
-     * Sets
+     * Sets the grid and the position in it.
+     *
      * @param {domain.common.Grid} grid The grid layout info
      * @param {Number} [m] The horizontal grid position
      * @param {Number} [n] The vertical grid position
