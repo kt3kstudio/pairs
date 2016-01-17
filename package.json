@@ -23,6 +23,7 @@
   "license": "MIT",
   "devDependencies": {
     "arrowkeys": "^0.2.1",
+    "babel-eslint": "^4.1.6",
     "babel-preset-es2015-and-decorators": "^1.2.1",
     "babel-register": "^6.3.13",
     "babelify": "^7.2.0",
@@ -55,12 +56,13 @@
     "nunjucks": "^2.3.0",
     "patapata": "^1.0.0",
     "rx-lite": "^4.0.7",
-    "souffle-cli": "^2.0.2",
+    "souffle-cli": "^3.1.0",
     "subclassjs": "^1.3.0",
     "swipe-event": "^0.4.1",
     "through": "^2.3.8"
   },
   "souffle": {
+    "parser": "babel-eslint",
     "globals": [
       "domain",
       "ui",
