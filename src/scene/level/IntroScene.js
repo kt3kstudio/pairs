@@ -1,11 +1,12 @@
+const event = $.cc.event
+
 /**
  * IntroScene class handles the introduction scene of the level page.
  *
  * @class
  * @extends scene.level.Context
  */
-scene.level.IntroScene = subclass(scene.level.Context, function (pt, parent) {
-    'use strict'
+class IntroScene extends scene.level.Context {
 
     /**
      * The entry point of the level scene.
@@ -13,11 +14,12 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt, parent) {
      * @protected
      * @return {Promise}
      */
-    pt.main = function () {
+    @event('scene-start')
+    main() {
 
-        parent.main.apply(this, arguments)
+        super.main()
 
-    }.event('scene-start')
+    }
 
     /**
      * Loads the data
@@ -25,25 +27,21 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt, parent) {
      * @protected
      * @return {Promise}
      */
-    pt.load = function () {
+    load() {
 
-        var self = this
+        return new datadomain.UserRepository().get()
 
-        return new datadomain.UserRepository().get().then(function (user) {
+        .then(user => new datadomain.CharacterRepository().getById(user.charId))
 
-            return new datadomain.CharacterRepository().getById(user.charId)
+        .then(character => {
 
-        }).then(function (character) {
-
-            self.character = character
+            this.character = character
 
             return new datadomain.LevelRepository().getById(character.position.floorObjectId)
 
-        }).then(function (level) {
-
-            self.level = level
-
         })
+
+        .then(level => this.level = level)
 
     }
 
@@ -53,7 +51,7 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt, parent) {
      * @protected
      * @return {Promise}
      */
-    pt.setUp = function () {
+    setUp() {
 
         var layout = new scene.level.IntroSceneLayout()
 
@@ -76,37 +74,35 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt, parent) {
      *
      * @return {Promise}
      */
-    pt.start = function () {
-
-        var that = this
+    start() {
 
         this.getPaper().show()
 
-        return ui.common.BackgroundService.turnWhite().then(function () {
+        return ui.common.BackgroundService.turnWhite()
 
-            return that.getCharacter().moveUpOnGrid(600)
+        .then(() => this.getCharacter().moveUpOnGrid(600))
 
-        }).then(function () {
+        .then(() => {
 
             // the character takes the paper in the room.
-            that.getPaper().disappear()
+            this.getPaper().disappear()
 
-            var goals = $('<p />').text(that.level.goal.toString())
+            var goals = $('<p />').text(this.level.goal.toString())
 
             // the character read up the goals of the room
-            return that.getCharacter().speak(goals, {cancelDom: '.wrapper'})
-
-        }).then(function () {
-
-            that.getCharacter().hide()
-
-            return that.getBall().show()
-
-        }).then(function () {
-
-            that.elem.trigger('main.play-scene')
+            return this.getCharacter().speak(goals, {cancelDom: '.wrapper'})
 
         })
+
+        .then(() => {
+
+            this.getCharacter().hide()
+
+            return this.getBall().show()
+
+        })
+
+        .then(() => this.elem.trigger('main.play-scene'))
 
     }
 
@@ -115,7 +111,7 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt, parent) {
      *
      * @private
      */
-    pt.spawnBall = function () {
+    spawnBall() {
 
         var playSceneLayout = new scene.level.PlaySceneLayout()
 
@@ -133,7 +129,7 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt, parent) {
      *
      * @private
      */
-    pt.spawnPaper = function () {
+    spawnPaper() {
 
         $('<img />').appendTo(this.elem).cc.init('paper')
 
@@ -144,12 +140,12 @@ scene.level.IntroScene = subclass(scene.level.Context, function (pt, parent) {
      *
      * @private
      */
-    pt.spawnCharacter = function (character) {
+    spawnCharacter(character) {
 
         $('<img />').appendTo(this.elem).data({character: character}).cc.init('character-on-level')
 
     }
 
-})
+}
 
-$.cc.assign('intro-scene', scene.level.IntroScene)
+$.cc.assign('intro-scene', IntroScene)
