@@ -1,8 +1,5 @@
 /**
  * SplashScene controls the splash screen.
- *
- * @class
- * @extends domain.common.Actor
  */
 domain.splash.SplashScene = subclass(domain.common.Role, function (pt) {
     'use strict'

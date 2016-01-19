@@ -1,4 +1,3 @@
-import './Actor'
 import './Being'
 import './DimensionalBeing'
 import './GridWalker'

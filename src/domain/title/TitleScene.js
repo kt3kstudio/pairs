@@ -1,9 +1,9 @@
+import Actor from '../common/Actor'
+
 /**
  * TitleScene class handles the motions sequences of the title scene.
- *
- * @class
  */
-domain.title.TitleScene = subclass(domain.common.Actor, function (pt) {
+domain.title.TitleScene = subclass(Actor, function (pt) {
     'use strict'
 
     pt.getMenuBtn = function () {

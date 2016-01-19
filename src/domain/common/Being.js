@@ -1,10 +1,9 @@
+import Actor from './Actor'
+
 /**
  * Actor with visual representation which has the phases, such as show/hide, appear/disappear.
- *
- * @class
- * @extends domain.common.Actor
  */
-domain.common.Being = subclass($.cc.Actor, function (pt) {
+domain.common.Being = subclass(Actor, function (pt) {
     'use strict'
 
     var noop = function () {}
