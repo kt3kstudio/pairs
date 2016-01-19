@@ -4,15 +4,14 @@
  * @class
  * @extends domain.common.Role
  */
-scene.level.Context = subclass(domain.common.SceneContext, function (pt) {
-    'use strict'
+export default class Context extends domain.common.SceneContext {
 
     /**
      * Gets the menu button.
      *
      * @return {ui.common.MenuButton}
      */
-    pt.getMenuButton = function () {
+    getMenuButton() {
 
         return this.getGlobal('.menu-button-root', 'menu-button')
 
@@ -23,7 +22,7 @@ scene.level.Context = subclass(domain.common.SceneContext, function (pt) {
      *
      * @return {domain.level.Field}
      */
-    pt.getField = function () {
+    getField() {
 
         return this.get('field-grid')
 
@@ -34,7 +33,7 @@ scene.level.Context = subclass(domain.common.SceneContext, function (pt) {
      *
      * @return {domain.level.Character}
      */
-    pt.getCharacter = function () {
+    getCharacter() {
 
         return this.get('character-on-level')
 
@@ -45,7 +44,7 @@ scene.level.Context = subclass(domain.common.SceneContext, function (pt) {
      *
      * @return {domain.level.Ball}
      */
-    pt.getBall = function () {
+    getBall() {
 
         return this.get('ball')
 
@@ -56,7 +55,7 @@ scene.level.Context = subclass(domain.common.SceneContext, function (pt) {
      *
      * @return {domain.level.Paper}
      */
-    pt.getPaper = function () {
+    getPaper() {
 
         return this.get('paper')
 
@@ -67,7 +66,7 @@ scene.level.Context = subclass(domain.common.SceneContext, function (pt) {
      *
      * @return {ui.level.Scoreboard}
      */
-    pt.getScoreboard = function () {
+    getScoreboard() {
 
         return this.get('scoreboard')
 
@@ -78,10 +77,10 @@ scene.level.Context = subclass(domain.common.SceneContext, function (pt) {
      *
      * @return {ui.level.ResultPane}
      */
-    pt.getResultPane = function () {
+    getResultPane() {
 
         return this.get('result-pane')
 
     }
 
-})
+}

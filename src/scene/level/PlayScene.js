@@ -1,25 +1,29 @@
+import Context from './Context'
+
+const event = $.cc.event
+
 /**
  * PlayScene controlls the main playing scene of the level page.
  *
  * @class
  * @extends domain.common.Role
  */
-scene.level.PlayScene = subclass(scene.level.Context, function (pt, parent) {
-    'use strict'
+class PlayScene extends Context {
 
     /**
      * The entry point
      */
-    pt.main = function () {
+    @event('main.play-scene')
+    main() {
 
-        parent.main.apply(this, arguments)
+        super.main()
 
-    }.event('main.play-scene')
+    }
 
     /**
      * Sets up the components.
      */
-    pt.setUp = function () {
+    setUp() {
 
         var layout = new scene.level.PlaySceneLayout()
 
@@ -51,15 +55,13 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt, parent) {
      *
      * @param {Rx.Observable<String>} dirs
      */
-    pt.recordDirStream = function (dirStream) {
-
-        var self = this
+    recordDirStream(dirStream) {
 
         dirStream.forEach(function (dir) {
 
-            self.character.playingState.add(dir)
+            this.character.playingState.add(dir)
 
-            self.character.savePlayingState()
+            this.character.savePlayingState()
 
         })
 
@@ -71,13 +73,11 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt, parent) {
      * @param {Rx.Observable} stream The stream
      * @return {Rx.Observable}
      */
-    pt.hookPlayingStateBumping = function (stream) {
-
-        var self = this
+    hookPlayingStateBumping(stream) {
 
         return stream.filter(function () {
 
-            self.character.playingState.bump()
+            this.character.playingState.bump()
 
             return true
 
@@ -91,7 +91,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt, parent) {
      * @param {Rx.Observable} dirStream The stream of directions
      * @return {Promise}
      */
-    pt.playLoop = function (dirStream) {
+    playLoop(dirStream) {
 
         var cellStream = this.bms.processDirStream(dirStream)
 
@@ -114,28 +114,24 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt, parent) {
      *
      * @return {Promise}
      */
-    pt.replayRounds = function () {
+    replayRounds() {
 
-        var self = this
+        return this.character.playingState.rounds.reduce((promise, round) =>
 
-        return this.character.playingState.rounds.reduce(function (promise, round) {
+            promise.then(() =>
 
-            return promise.then(function () {
+                this.playLoop(round.map((dir, i) => wait(i * 180, dir)).toFlatStream())
 
-                var dirs = round.map(function (dir, i) { return wait(i * 180, dir) })
+            ), Promise.resolve()
 
-                return self.playLoop(dirs.toFlatStream())
-
-            })
-
-        }, Promise.resolve())
+        )
 
     }
 
     /**
      * @return {Promise}
      */
-    pt.userPlay = function () {
+    userPlay() {
 
         var userDirStream = this.getUserSwipeStream()
 
@@ -150,42 +146,26 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt, parent) {
      *
      * @return {Promise}
      */
-    pt.start = function () {
-
-        var that = this
+    start() {
 
         this.getScoreboard().show()
         this.getMenuButton().show()
 
-        return this.getField().show().then(function () {
+        return this.getField().show()
 
-            return that.getCharacter().speechEndPromise
+        .then(() => this.getCharacter().speechEndPromise)
 
-        }).then(function () {
+        .then(() => this.character.reloadPlayingState())
 
-            return that.character.reloadPlayingState()
+        .then(() => this.cells.appear())
 
-        }).then(function () {
+        .then(() => this.replayRounds())
 
-            return that.cells.appear()
+        .then(() => this.userPlay())
 
-        }).then(function () {
+        .then(() => this.removeSwipeField())
 
-            return that.replayRounds()
-
-        }).then(function () {
-
-            return that.userPlay()
-
-        }).then(function () {
-
-            return that.removeSwipeField()
-
-        }).then(function () {
-
-            that.elem.trigger('finish.play-scene')
-
-        })
+        .then(() => this.elem.trigger('finish.play-scene'))
 
     }
 
@@ -194,7 +174,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt, parent) {
      *
      * @return {Rx.Observable}
      */
-    pt.getUserSwipeStream = function () {
+    getUserSwipeStream() {
 
         var field = $('.swipe-field')
 
@@ -210,7 +190,7 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt, parent) {
     /**
      * Removes the swipe field.
      */
-    pt.removeSwipeField = function () {
+    removeSwipeField() {
 
         $('.swipe-field').remove()
 
@@ -219,16 +199,18 @@ scene.level.PlayScene = subclass(scene.level.Context, function (pt, parent) {
     /**
      * Ends the playing scene, clear playing data, and kicks the next scene.
      *
+     * @param {Event} e The event object (unused)
      * @param {Boolean} playerWon True if the player won the game
      */
-    pt.finish = function (e, playerWon) {
+    @event('finish.play-scene')
+    finish(e, playerWon) {
 
         this.character.clearPlayingState()
 
         this.elem.trigger(playerWon ? 'play-scene-success' : 'play-scene-failure')
 
-    }.event('finish.play-scene')
+    }
 
-})
+}
 
-$.cc.assign('play-scene', scene.level.PlayScene)
+$.cc.assign('play-scene', PlayScene)

@@ -1,3 +1,5 @@
+import Context from './Context'
+
 const event = $.cc.event
 
 /**
@@ -6,7 +8,7 @@ const event = $.cc.event
  * @class
  * @extends scene.level.Context
  */
-class IntroScene extends scene.level.Context {
+class IntroScene extends Context {
 
     /**
      * The entry point of the level scene.
