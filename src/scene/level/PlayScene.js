@@ -1,4 +1,5 @@
 import Context from './Context'
+import PlaySceneLayout from './PlaySceneLayout'
 
 const event = $.cc.event
 
@@ -25,7 +26,7 @@ class PlayScene extends Context {
      */
     setUp() {
 
-        var layout = new scene.level.PlaySceneLayout()
+        var layout = new PlaySceneLayout()
 
         this.character = this.getCharacter().character
         this.level = this.elem.cc.get('intro-scene').level
@@ -57,7 +58,7 @@ class PlayScene extends Context {
      */
     recordDirStream(dirStream) {
 
-        dirStream.forEach(function (dir) {
+        dirStream.forEach((dir) => {
 
             this.character.playingState.add(dir)
 
@@ -75,7 +76,7 @@ class PlayScene extends Context {
      */
     hookPlayingStateBumping(stream) {
 
-        return stream.filter(function () {
+        return stream.filter(() => {
 
             this.character.playingState.bump()
 

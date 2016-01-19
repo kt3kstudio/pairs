@@ -8,31 +8,41 @@ domain.common.DimensionFactory = subclass(domain.common.Rect, function (pt) {
     'use strict'
 
     /**
-     * @property {Number} marginTop The top margin for the main area.
-     */
-    pt.marginTop = 0
-
-    /**
-     * @property {Number} marginRight The right margin for the main area.
-     */
-    pt.marginRight = 0
-
-    /**
-     * @property {Number} marginBottom The bottom margin for the main area.
-     */
-    pt.marginBottom = 0
-
-    /**
-     * @property {Number} marginLeft The left margin for the main area.
-     */
-    pt.marginLeft = 0
-
-    /**
      * Calculates things which are needed for providing the dimensions of the objects in the level scene.
      *
      * @protected
      */
-    pt.constructor = function () {
+    pt.constructor = function ({marginLeft, marginTop, marginRight, marginBottom, widthRate, heightRate} = {}) {
+
+        /**
+         * @property {Number} marginLeft The left margin for the main area.
+         */
+        this.marginLeft = marginLeft || 0
+
+        /**
+         * @property {Number} marginTop The top margin for the main area.
+         */
+        this.marginTop = marginTop || 0
+
+        /**
+         * @property {Number} marginRight The right margin for the main area.
+         */
+        this.marginRight = marginRight || 0
+
+        /**
+         * @property {Number} marginBottom The bottom margin for the main area.
+         */
+        this.marginBottom = marginBottom || 0
+
+        /**
+         * @property {number} heightRate The rate of the width of the main area
+         */
+        this.widthRate = widthRate || 1
+
+        /**
+         * @property {number} heightRate The rate of the height of the main area
+         */
+        this.heightRate = heightRate || 1
 
         var available = this.getAvailableDimension($(window).width(), $(window).height())
 

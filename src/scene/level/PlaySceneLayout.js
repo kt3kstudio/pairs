@@ -3,21 +3,19 @@
  *
  * @class
  */
-scene.level.PlaySceneLayout = subclass(domain.common.DimensionFactory, function (pt, parent) {
-    'use strict'
-
-    pt.marginTop = 50 // the height of the score board at the top
-    pt.marginBottom = 50 // the height of the banner ad at the bottom of the screen
-
-    pt.widthRate = 2
-    pt.heightRate = 3
+export default class PlaySceneLayout extends domain.common.DimensionFactory {
 
     /**
      * @constructor
      */
-    pt.constructor = function () {
+    constructor() {
 
-        parent.constructor.apply(this, arguments)
+        super({
+            marginTop: 50, // The top ui component height
+            marginBottom: 50, // The ad safety zone
+            widthRate: 2,
+            heightRate: 3
+        })
 
         this.UNIT = this.width() / 4
         this.LEFT = this.left + this.width() / 8
@@ -25,7 +23,7 @@ scene.level.PlaySceneLayout = subclass(domain.common.DimensionFactory, function 
 
     }
 
-    pt.playGrid = function () {
+    playGrid() {
 
         return this.grid({
 
@@ -43,7 +41,7 @@ scene.level.PlaySceneLayout = subclass(domain.common.DimensionFactory, function 
      *
      * @return {domain.common.Rect}
      */
-    pt.fieldRect = function () {
+    fieldRect() {
 
         return this.rect({
 
@@ -61,7 +59,7 @@ scene.level.PlaySceneLayout = subclass(domain.common.DimensionFactory, function 
      *
      * @return {domain.common.Grid}
      */
-    pt.evalRoomGrid = function () {
+    evalRoomGrid() {
 
         return this.grid({
 
@@ -81,7 +79,7 @@ scene.level.PlaySceneLayout = subclass(domain.common.DimensionFactory, function 
      *
      * @return {domain.common.Grid}
      */
-    pt.queueGrid = function () {
+    queueGrid() {
 
         return this.grid({
 
@@ -99,7 +97,7 @@ scene.level.PlaySceneLayout = subclass(domain.common.DimensionFactory, function 
      *
      * @return {domain.common.Grid}
      */
-    pt.fusionBoxGrid = function () {
+    fusionBoxGrid() {
 
         return this.grid({
 
@@ -117,7 +115,7 @@ scene.level.PlaySceneLayout = subclass(domain.common.DimensionFactory, function 
      *
      * @return {domain.common.Rect}
      */
-    pt.resultPaneRect = function () {
+    resultPaneRect() {
 
         return this.rect({
 
@@ -135,7 +133,7 @@ scene.level.PlaySceneLayout = subclass(domain.common.DimensionFactory, function 
      *
      * @return {domain.common.Rect}
      */
-    pt.scoreboardRect = function () {
+    scoreboardRect() {
 
         return this.rect({
 
@@ -148,4 +146,4 @@ scene.level.PlaySceneLayout = subclass(domain.common.DimensionFactory, function 
 
     }
 
-})
+}

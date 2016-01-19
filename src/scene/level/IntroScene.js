@@ -1,4 +1,6 @@
 import Context from './Context'
+import IntroSceneLayout from './IntroSceneLayout'
+import PlaySceneLayout from './PlaySceneLayout'
 
 const event = $.cc.event
 
@@ -55,7 +57,7 @@ class IntroScene extends Context {
      */
     setUp() {
 
-        var layout = new scene.level.IntroSceneLayout()
+        var layout = new IntroSceneLayout()
 
         this.spawnBall()
         this.spawnPaper()
@@ -115,7 +117,7 @@ class IntroScene extends Context {
      */
     spawnBall() {
 
-        var playSceneLayout = new scene.level.PlaySceneLayout()
+        var playSceneLayout = new PlaySceneLayout()
 
         $($('#tpl-ball').html()).css({display: 'none'}).data({
 

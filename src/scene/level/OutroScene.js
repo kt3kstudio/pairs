@@ -1,4 +1,5 @@
 import Context from './context'
+import PlaySceneLayout from './PlaySceneLayout'
 const event = $.cc.event
 
 /**
@@ -23,7 +24,7 @@ class OutroScene extends Context {
      */
     setUp() {
 
-        var layout = new scene.level.PlaySceneLayout()
+        var layout = new PlaySceneLayout()
 
         this.getResultPane().setRect(layout.resultPaneRect())
         this.getResultPane().setScore(this.getScoreboard().score)

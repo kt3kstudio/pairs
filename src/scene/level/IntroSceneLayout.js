@@ -1,22 +1,23 @@
 /**
  * The layout manager for intro scene
- *
- * @class
  */
-scene.level.IntroSceneLayout = subclass(domain.common.DimensionFactory, function (pt) {
-    'use strict'
+export default class IntroSceneLayout extends domain.common.DimensionFactory {
 
-    pt.bottom = 50
+    constructor() {
 
-    pt.widthRate = 2
-    pt.heightRate = 3
+        super({
+            marginBottom: 50, // The ad safety zone
+            widthRate: 2,
+            heightRate: 3
+        })
+    }
 
     /**
      * Returns the grid for the paper.
      *
      * @return {domain.common.Grid}
      */
-    pt.centerGrid = function () {
+    centerGrid() {
 
         return this.grid({
 
@@ -35,10 +36,10 @@ scene.level.IntroSceneLayout = subclass(domain.common.DimensionFactory, function
      *
      * @return {domain.common.Grid}
      */
-    pt.residentGrid = function () {
+    residentGrid() {
 
         return
 
     }
 
-})
+}
