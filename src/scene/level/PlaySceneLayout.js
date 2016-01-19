@@ -1,9 +1,11 @@
+import DimensionFactory from '../../domain/common/DimensionFactory'
+
 /**
  * The factory class of the dimensions of various object on level scene.
  *
  * @class
  */
-export default class PlaySceneLayout extends domain.common.DimensionFactory {
+export default class PlaySceneLayout extends DimensionFactory {
 
     /**
      * @constructor

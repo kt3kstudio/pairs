@@ -1,7 +1,9 @@
+import DimensionFactory from '../../domain/common/DimensionFactory'
+
 /**
  * The layout manager for intro scene
  */
-export default class IntroSceneLayout extends domain.common.DimensionFactory {
+export default class IntroSceneLayout extends DimensionFactory {
 
     constructor() {
 

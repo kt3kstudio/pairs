@@ -4,15 +4,16 @@
  * @abstract
  * @class
  */
-domain.common.DimensionFactory = subclass(domain.common.Rect, function (pt) {
-    'use strict'
+export default class DimensionFactory extends domain.common.Rect {
 
     /**
      * Calculates things which are needed for providing the dimensions of the objects in the level scene.
      *
      * @protected
      */
-    pt.constructor = function ({marginLeft, marginTop, marginRight, marginBottom, widthRate, heightRate} = {}) {
+    constructor({marginLeft, marginTop, marginRight, marginBottom, widthRate, heightRate} = {}) {
+
+        super({})
 
         /**
          * @property {Number} marginLeft The left margin for the main area.
@@ -63,7 +64,7 @@ domain.common.DimensionFactory = subclass(domain.common.Rect, function (pt) {
      * @param {Number} height The height of the target area
      * @return {domain.common.Dimension}
      */
-    pt.getAvailableDimension = function (width, height) {
+    getAvailableDimension(width, height) {
 
         return new domain.common.Dimension({
             width: width,
@@ -83,7 +84,7 @@ domain.common.DimensionFactory = subclass(domain.common.Rect, function (pt) {
      * @param {domain.common.Dimension}
      * @return {domain.common.Dimension}
      */
-    pt.getBestDimension = function (available) {
+    getBestDimension(available) {
 
         return new domain.common.Dimension({
 
@@ -100,7 +101,7 @@ domain.common.DimensionFactory = subclass(domain.common.Rect, function (pt) {
      * @param {Object} options The options
      * @return {domain.common.Grid}
      */
-    pt.grid = function (options) {
+    grid(options) {
 
         return new domain.common.Grid(options)
 
@@ -112,10 +113,10 @@ domain.common.DimensionFactory = subclass(domain.common.Rect, function (pt) {
      * @param {Object} options The options
      * @return {domain.common.Rect}
      */
-    pt.rect = function (options) {
+    rect(options) {
 
         return new domain.common.Rect(options)
 
     }
 
-})
+}
