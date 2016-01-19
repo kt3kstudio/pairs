@@ -17,7 +17,7 @@ export default class IntroSceneLayout extends DimensionFactory {
     /**
      * Returns the grid for the paper.
      *
-     * @return {domain.common.Grid}
+     * @return {Grid}
      */
     centerGrid() {
 
@@ -36,7 +36,7 @@ export default class IntroSceneLayout extends DimensionFactory {
     /**
      * Returns the grid for residents.
      *
-     * @return {domain.common.Grid}
+     * @return {Grid}
      */
     residentGrid() {
 

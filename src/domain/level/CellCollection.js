@@ -21,7 +21,7 @@ domain.level.CellCollection = subclass(domain.common.Role, function (pt, parent)
     }
 
     /**
-     * @param {domain.common.Grid} grid
+     * @param {Grid} grid
      */
     pt.setGrid = function (grid) {
 

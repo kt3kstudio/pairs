@@ -1,3 +1,5 @@
+import Grid from '../common/Grid'
+
 /**
  * FloorAsset is an abstract class which represents the something on the wall in the map view.
  *
@@ -72,7 +74,7 @@ domain.map.FloorAsset = subclass(domain.common.DimensionalBeing, function (pt, p
 
         var frog = $('<img />').css({zIndex: 2}).appendTo(this.elem).cc.init('frog')
 
-        frog.setGrid(new domain.common.Grid({x: 35, y: 130}))
+        frog.setGrid(new Grid({x: 35, y: 130}))
 
         frog.show()
 

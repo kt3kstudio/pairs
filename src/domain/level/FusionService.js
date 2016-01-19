@@ -7,7 +7,7 @@ domain.level.FusionService = subclass(domain.common.Role, function (pt) {
     'use strict'
 
     /**
-     * @param {domain.common.Grid} grid The grid
+     * @param {Grid} grid The grid
      */
     pt.setGrid = function (grid) {
 

@@ -218,7 +218,7 @@ domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, par
     /**
      * Sets the guiding rect and update the x, y and dimension to fit into the given rect.
      *
-     * @param {domain.common.Rect} rect
+     * @param {Rect} rect
      */
     pt.setRect = function (rect) {
 

@@ -9,28 +9,24 @@
  *
  * @class
  */
-domain.common.Grid = subclass(function (pt) {
-    'use strict'
+export default class Grid {
 
     /**
-     * @param {Object} options The options
-     * @param {Number} options.x The x coordinate
-     * @param {Number} options.y The y coordinate
-     * @param {Number} [options.unitWidth] The width of the unit
-     * @param {Number} [options.unitHeight] The height of the unit
-     * @param {Number} [options.cellWidth] The width of the cell
-     * @param {Number} [options.cellHeight] The height of the cell
+     * @param {Number} x The x coordinate
+     * @param {Number} y The y coordinate
+     * @param {Number} [unitWidth] The width of the unit
+     * @param {Number} [unitHeight] The height of the unit
+     * @param {Number} [cellWidth] The width of the cell
+     * @param {Number} [cellHeight] The height of the cell
      */
-    pt.constructor = function (options) {
+    constructor({x, y, unitWidth, unitHeight, cellWidth, cellHeight} = {}) {
 
-        options = options || {}
-
-        this.x = options.x
-        this.y = options.y
-        this.unitWidth = options.unitWidth || 0
-        this.unitHeight = options.unitHeight || 0
-        this.cellWidth = options.cellWidth || this.unitWidth
-        this.cellHeight = options.cellHeight || this.unitHeight
+        this.x = x
+        this.y = y
+        this.unitWidth = unitWidth || 0
+        this.unitHeight = unitHeight || 0
+        this.cellWidth = cellWidth || this.unitWidth
+        this.cellHeight = cellHeight || this.unitHeight
 
     }
 
@@ -40,7 +36,7 @@ domain.common.Grid = subclass(function (pt) {
      * @param {Number} m The m position (Integer)
      * @return {Number}
      */
-    pt.getX = function (m) {
+    getX(m) {
 
         return this.x + this.unitWidth * m
 
@@ -52,7 +48,7 @@ domain.common.Grid = subclass(function (pt) {
      * @param {Number} n The n position (Integer)
      * @return {Number}
      */
-    pt.getY = function (n) {
+    getY(n) {
 
         return this.y + this.unitHeight * n
 
@@ -63,11 +59,11 @@ domain.common.Grid = subclass(function (pt) {
      *
      * @param {Number} m The horizontal translate distance
      * @param {Number} n The vertical translate distance
-     * @return {domain.common.Grid}
+     * @return {Grid}
      */
-    pt.translated = function (x, y) {
+    translated(x, y) {
 
-        return new domain.common.Grid({
+        return new Grid({
 
             x: this.x + x,
             y: this.y + y,
@@ -85,9 +81,9 @@ domain.common.Grid = subclass(function (pt) {
      *
      * @param {Number} m The horizontal shift number
      * @param {Number} n The vertical shift number
-     * @return {domain.common.Grid}
+     * @return {Grid}
      */
-    pt.shifted = function (m, n) {
+    shifted(m, n) {
 
         return this.translated(this.unitWidth * m, this.unitHeight * n)
 
@@ -96,15 +92,12 @@ domain.common.Grid = subclass(function (pt) {
     /**
      * Returns the subgrid devided by the given horizontal and vertical numbers.
      *
-     * @param {Number} m The horizontal division number
-     * @param {Number} n The vertical division number
+     * @param {Number} [m=1] The horizontal division number
+     * @param {Number} [n=1] The vertical division number
      */
-    pt.subgrid = function (m, n) {
+    subgrid(m = 1, n = 1) {
 
-        m = m || 1
-        n = n || 1
-
-        return new domain.common.Grid({
+        return new Grid({
 
             x: this.x,
             y: this.y,
@@ -117,4 +110,4 @@ domain.common.Grid = subclass(function (pt) {
 
     }
 
-})
+}

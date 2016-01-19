@@ -7,7 +7,7 @@ domain.level.ExitQueue = subclass(function (pt) {
     'use strict'
 
     /**
-     * @param {domain.common.Grid} grid The grid
+     * @param {Grid} grid The grid
      */
     pt.constructor = function (grid) {
 
@@ -137,7 +137,7 @@ domain.level.ExitQueue = subclass(function (pt) {
         /*
          * @constructor
          * @param {domain.level.Cell} cell The queueing cell
-         * @param {domain.common.Grid} grid The grid
+         * @param {Grid} grid The grid
          */
         pt.constructor = function (cell, grid) {
 

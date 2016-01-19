@@ -1,24 +1,24 @@
+import Grid from './Grid'
+
 /**
  * Rect model represents the static rectangle in a screen.
  *
  * @class
  */
-domain.common.Rect = subclass(function (pt) {
-    'use strict'
+export default class Rect {
 
     /**
-     * @param {Object} options
-     * @param {Number} options.top The top position
-     * @param {Number} options.right The right position
-     * @param {Number} options.bottom The bottom position
-     * @param {Number} options.left The left position
+     * @param {Number} top The top position
+     * @param {Number} right The right position
+     * @param {Number} bottom The bottom position
+     * @param {Number} left The left position
      */
-    pt.constructor = function (options) {
+    constructor({top, right, bottom, left}) {
 
-        this.top = options.top
-        this.right = options.right
-        this.bottom = options.bottom
-        this.left = options.left
+        this.top = top
+        this.right = right
+        this.bottom = bottom
+        this.left = left
 
     }
 
@@ -27,7 +27,7 @@ domain.common.Rect = subclass(function (pt) {
      *
      * @return {Number}
      */
-    pt.width = function () {
+    width() {
 
         return this.right - this.left
 
@@ -38,7 +38,7 @@ domain.common.Rect = subclass(function (pt) {
      *
      * @return {Number}
      */
-    pt.height = function () {
+    height() {
 
         return this.bottom - this.top
 
@@ -47,7 +47,7 @@ domain.common.Rect = subclass(function (pt) {
     /**
      * Gets the horizontal center.
      */
-    pt.centerX = function () {
+    centerX() {
 
         return this.left + this.width() / 2
 
@@ -56,7 +56,7 @@ domain.common.Rect = subclass(function (pt) {
     /**
      * Gets the vertical center.
      */
-    pt.centerY = function () {
+    centerY() {
 
         return this.top + this.height() / 2
 
@@ -73,9 +73,9 @@ domain.common.Rect = subclass(function (pt) {
      * @param {Object} [options] The options
      * @param {Number[]} [options.partition] The horizontal partition number and vertical number.
      * @param {Number[]} [options.get] The horizontal position and vertical position
-     * @return {domain.common.Rect}
+     * @return {Rect}
      */
-    pt.subrect = function (options) {
+    subrect(options) {
 
         options = options || {}
 
@@ -90,7 +90,7 @@ domain.common.Rect = subclass(function (pt) {
         var unitX = this.width() / partX
         var unitY = this.height() / partY
 
-        return new domain.common.Rect({
+        return new Rect({
             top: this.top + getY * unitY,
             left: this.left + getX * unitX,
             right: this.left + getX * unitX + unitX,
@@ -104,11 +104,11 @@ domain.common.Rect = subclass(function (pt) {
      *
      * Returns a grid
      *
-     * @return {domain.common.Grid}
+     * @return {Grid}
      */
-    pt.toGrid = function () {
+    toGrid() {
 
-        return new domain.common.Grid({
+        return new Grid({
             x: this.left + this.width() / 2,
             y: this.top + this.height() / 2,
             unitWidth: this.width(),
@@ -117,4 +117,4 @@ domain.common.Rect = subclass(function (pt) {
 
     }
 
-})
+}

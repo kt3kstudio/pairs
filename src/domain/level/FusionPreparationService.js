@@ -8,7 +8,7 @@ domain.level.FusionPreparationService = subclass(function (pt) {
 
     /**
      * @constructor
-     * @param {domain.common.Grid} grid The grid
+     * @param {Grid} grid The grid
      */
     pt.constructor = function (grid) {
 
@@ -67,7 +67,7 @@ domain.level.FusionPreparationService = subclass(function (pt) {
     var PreparationStack = subclass(function (pt) {
         /**
          * @constructor
-         * @param {domain.common.Grid} grid The grid
+         * @param {Grid} grid The grid
          */
         pt.constructor = function (grid) {
 

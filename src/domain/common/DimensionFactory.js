@@ -1,10 +1,13 @@
+import Rect from './Rect'
+import Grid from './Grid'
+
 /**
  * The abstact class for dimension factories of various objects in scenes.
  *
  * @abstract
  * @class
  */
-export default class DimensionFactory extends domain.common.Rect {
+export default class DimensionFactory extends Rect {
 
     /**
      * Calculates things which are needed for providing the dimensions of the objects in the level scene.
@@ -99,11 +102,11 @@ export default class DimensionFactory extends domain.common.Rect {
      * Creates a grid with the given options.
      *
      * @param {Object} options The options
-     * @return {domain.common.Grid}
+     * @return {Grid}
      */
     grid(options) {
 
-        return new domain.common.Grid(options)
+        return new Grid(options)
 
     }
 
@@ -111,11 +114,11 @@ export default class DimensionFactory extends domain.common.Rect {
      * Creates a rect with the given options.
      *
      * @param {Object} options The options
-     * @return {domain.common.Rect}
+     * @return {Rect}
      */
     rect(options) {
 
-        return new domain.common.Rect(options)
+        return new Rect(options)
 
     }
 

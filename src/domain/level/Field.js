@@ -13,7 +13,7 @@ domain.level.Field = subclass(domain.common.DimensionalBeing, function (pt, pare
     pt.hideAnim = new domain.common.Animation('field-disappear', 400)
 
     /**
-     * @param {domain.common.Rect} rect The rect to fit into
+     * @param {Rect} rect The rect to fit into
      */
     pt.setRect = function (rect) {
 

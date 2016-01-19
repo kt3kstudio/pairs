@@ -41,7 +41,7 @@ export default class PlaySceneLayout extends DimensionFactory {
     /**
      * Returns the dimension for the field.
      *
-     * @return {domain.common.Rect}
+     * @return {Rect}
      */
     fieldRect() {
 
@@ -59,7 +59,7 @@ export default class PlaySceneLayout extends DimensionFactory {
     /**
      * Returns the dimension for the evaluation room.
      *
-     * @return {domain.common.Grid}
+     * @return {Grid}
      */
     evalRoomGrid() {
 
@@ -79,7 +79,7 @@ export default class PlaySceneLayout extends DimensionFactory {
     /**
      * Returns the dimension for the exit queue. (The unit is a bit smaller.)
      *
-     * @return {domain.common.Grid}
+     * @return {Grid}
      */
     queueGrid() {
 
@@ -97,7 +97,7 @@ export default class PlaySceneLayout extends DimensionFactory {
     /**
      * Returns the dimension for the fusion box.
      *
-     * @return {domain.common.Grid}
+     * @return {Grid}
      */
     fusionBoxGrid() {
 
@@ -115,7 +115,7 @@ export default class PlaySceneLayout extends DimensionFactory {
     /**
      * Returns the dimension for the result pane.
      *
-     * @return {domain.common.Rect}
+     * @return {Rect}
      */
     resultPaneRect() {
 
@@ -133,7 +133,7 @@ export default class PlaySceneLayout extends DimensionFactory {
     /**
      * Returns the dimension for the scoreboard.
      *
-     * @return {domain.common.Rect}
+     * @return {Rect}
      */
     scoreboardRect() {
 
