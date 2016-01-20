@@ -30,7 +30,7 @@
     "browserify": "^12.0.1",
     "browserify-istanbul": "^0.2.1",
     "bulbo": "^1.0.2",
-    "cc-event": "^2.0.0",
+    "cc-event": "^2.0.1",
     "chai": "^1.10.0",
     "class-component": "^5.4.2",
     "es6-promise": "^3.0.2",
