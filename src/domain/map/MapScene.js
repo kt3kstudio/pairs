@@ -1,3 +1,5 @@
+import SceneContext from '../common/SceneContext'
+
 /**
  * MapScene handles the scene of map
  *
@@ -9,7 +11,7 @@
  * @class
  * @extends domain.common.Role
  */
-domain.map.MapScene = subclass(domain.common.SceneContext, function (pt, parent) {
+domain.map.MapScene = subclass(SceneContext, function (pt, parent) {
     'use strict'
 
     /**

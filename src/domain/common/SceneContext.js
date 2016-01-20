@@ -4,10 +4,9 @@
  * @abstract
  * @class
  */
-domain.common.SceneContext = subclass(domain.common.Role, function (pt) {
-    'use strict'
+export default class SceneContext extends domain.common.Role {
 
-    pt.main = function () {
+    main() {
 
         var self = this
 
@@ -26,7 +25,7 @@ domain.common.SceneContext = subclass(domain.common.Role, function (pt) {
      *
      * @abstract
      */
-    pt.load = function () {}
+    load() {}
 
     /**
      * Sets up the services necessary for the scene.
@@ -35,19 +34,19 @@ domain.common.SceneContext = subclass(domain.common.Role, function (pt) {
      *
      * @abstract
      */
-    pt.setUp = function () {}
+    setUp() {}
 
     /**
      * Starts the scene.
      *
      * @abstract
      */
-    pt.start = function () {}
+    start() {}
 
     /**
      * Gets the class component of the given name inside the element.
      */
-    pt.get = function (className) {
+    get(className) {
 
         return this.elem.find('.' + className).cc.get(className)
     }
@@ -55,7 +54,7 @@ domain.common.SceneContext = subclass(domain.common.Role, function (pt) {
     /**
      * Gets the class component of the given name at the element.
      */
-    pt.getAtElem = function (className) {
+    getAtElem(className) {
 
         return this.elem.cc.get(className)
 
@@ -64,11 +63,10 @@ domain.common.SceneContext = subclass(domain.common.Role, function (pt) {
     /**
      * Gets the class component of the given name at the given selector
      */
-    pt.getGlobal = function (selector, className) {
+    getGlobal(selector, className) {
 
         return $(selector).cc.get(className)
 
     }
 
-})
-
+}

@@ -1,11 +1,11 @@
-import Actor from '../common/Actor'
+import SceneContext from '../common/SceneContext'
 
 const event = $.cc.event
 
 /**
  * TitleScene class handles the motions sequences of the title scene.
  */
-class TitleScene extends domain.common.SceneContext {
+class TitleScene extends SceneContext {
 
     /**
      * Gets the menu button.
