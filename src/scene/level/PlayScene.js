@@ -5,9 +5,6 @@ const event = $.cc.event
 
 /**
  * PlayScene controlls the main playing scene of the level page.
- *
- * @class
- * @extends domain.common.Role
  */
 class PlayScene extends Context {
 

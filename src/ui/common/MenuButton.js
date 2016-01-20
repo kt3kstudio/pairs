@@ -1,9 +1,7 @@
 /**
  * MenuButton handles the behaviour of the menu button.
- *
- * @class
  */
-ui.common.MenuButton = subclass(domain.common.Role, function (pt, parent) {
+ui.common.MenuButton = subclass($.cc.Coelement, function (pt, parent) {
     'use strict'
 
     var TRANS_DUR = 800

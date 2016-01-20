@@ -4,7 +4,7 @@
  * @abstract
  * @class
  */
-export default class SceneContext extends domain.common.Role {
+export default class SceneContext extends $.cc.Coelement {
 
     main() {
 

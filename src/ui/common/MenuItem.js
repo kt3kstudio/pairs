@@ -1,8 +1,7 @@
 /**
- * @class
  * MenuItem handles the behaviour of items of the menu.
  */
-ui.common.MenuItem = subclass(domain.common.Role, function (pt, parent) {
+ui.common.MenuItem = subclass($.cc.Coelement, function (pt, parent) {
     'use strict'
 
     pt.constructor = function () {

@@ -1,9 +1,7 @@
 /**
  * SwipeEvent class provides the stream of the swipe events.
- *
- * @class
  */
-ui.level.SwipeField = subclass(domain.common.Role, function (pt, parent) {
+ui.level.SwipeField = subclass($.cc.Coelement, function (pt, parent) {
     'use strict'
 
     pt.constructor = function (elem) {

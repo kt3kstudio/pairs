@@ -1,10 +1,7 @@
 /**
  * Camera handles the screen position.
- *
- * @class
- * @extends domain.common.Role
  */
-domain.map.Camera = subclass(domain.common.Role, function (pt, parent) {
+domain.map.Camera = subclass($.cc.Coelement, function (pt, parent) {
     'use strict'
 
     /**

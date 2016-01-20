@@ -2,9 +2,6 @@ import SceneContext from '../../domain/common/SceneContext'
 
 /**
  * The common context for level scenes.
- *
- * @class
- * @extends domain.common.Role
  */
 export default class Context extends SceneContext {
 

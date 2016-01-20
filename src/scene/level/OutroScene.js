@@ -4,9 +4,6 @@ const event = $.cc.event
 
 /**
  * OutroScene handles the scene after finishing main play.
- *
- * @class
- * @extends domain.common.Role
  */
 class OutroScene extends Context {
 

@@ -1,7 +1,7 @@
 /**
  * SplashScene controls the splash screen.
  */
-domain.splash.SplashScene = subclass(domain.common.Role, function (pt) {
+domain.splash.SplashScene = subclass($.cc.Coelement, function (pt) {
     'use strict'
 
     pt.main = function () {

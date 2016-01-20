@@ -6,9 +6,6 @@ const event = $.cc.event
 
 /**
  * IntroScene class handles the introduction scene of the level page.
- *
- * @class
- * @extends scene.level.Context
  */
 class IntroScene extends Context {
 

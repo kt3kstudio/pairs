@@ -7,9 +7,6 @@ import SceneContext from '../common/SceneContext'
  * - interaction between services
  * - interaction between view and model
  * - sequence of multi agents perfomance
- *
- * @class
- * @extends domain.common.Role
  */
 domain.map.MapScene = subclass(SceneContext, function (pt, parent) {
     'use strict'

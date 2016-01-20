@@ -1,9 +1,7 @@
 /**
  * FusionService performs the fusion of the pair of cells.
- *
- * @class
  */
-domain.level.FusionService = subclass(domain.common.Role, function (pt) {
+domain.level.FusionService = subclass($.cc.Coelement, function (pt) {
     'use strict'
 
     /**
