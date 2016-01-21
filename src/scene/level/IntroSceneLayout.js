@@ -12,6 +12,7 @@ export default class IntroSceneLayout extends DimensionFactory {
             widthRate: 2,
             heightRate: 3
         })
+
     }
 
     /**
@@ -23,9 +24,9 @@ export default class IntroSceneLayout extends DimensionFactory {
 
         return this.grid({
 
-            x: this.centerX(),
-            y: this.top + this.width(),
-            unitHeight: this.width() / 2 + 50 + 200,
+            x: this.main.centerX(),
+            y: this.main.top + this.main.width(),
+            unitHeight: this.main.width() / 2 + 50 + 200,
             cellWidth: 70,
             cellHeight: 70
 

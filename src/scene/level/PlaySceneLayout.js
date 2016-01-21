@@ -19,9 +19,9 @@ export default class PlaySceneLayout extends DimensionFactory {
             heightRate: 3
         })
 
-        this.UNIT = this.width() / 4
-        this.LEFT = this.left + this.width() / 8
-        this.TOP = this.top
+        this.UNIT = this.main.width() / 4
+        this.LEFT = this.main.left + this.main.width() / 8
+        this.TOP = this.main.top
 
     }
 
@@ -29,7 +29,7 @@ export default class PlaySceneLayout extends DimensionFactory {
 
         return this.grid({
 
-            x: this.left + this.UNIT,
+            x: this.main.left + this.UNIT,
             y: this.TOP + this.UNIT * 2.5,
             unitWidth: this.UNIT,
             unitHeight: this.UNIT
@@ -65,7 +65,7 @@ export default class PlaySceneLayout extends DimensionFactory {
 
         return this.grid({
 
-            x: this.left + this.UNIT,
+            x: this.main.left + this.UNIT,
             y: this.TOP + this.UNIT * 1.5,
             unitWidth: this.UNIT * 2,
             unitHeight: this.UNIT * 2,
@@ -85,7 +85,7 @@ export default class PlaySceneLayout extends DimensionFactory {
 
         return this.grid({
 
-            x: this.left + this.UNIT * 2,
+            x: this.main.left + this.UNIT * 2,
             y: this.TOP + this.UNIT * 0.5,
             unitWidth: this.UNIT * 0.5,
             unitHeight: this.UNIT * 0.5
@@ -103,7 +103,7 @@ export default class PlaySceneLayout extends DimensionFactory {
 
         return this.grid({
 
-            x: this.left + this.UNIT * 2,
+            x: this.main.left + this.UNIT * 2,
             y: this.TOP + this.UNIT * 1.5,
             unitWidth: this.UNIT * 0.5,
             unitHeight: this.UNIT * 0.5
@@ -121,10 +121,10 @@ export default class PlaySceneLayout extends DimensionFactory {
 
         return this.rect({
 
-            left: this.left,
-            top: this.top + this.UNIT,
-            right: this.right,
-            bottom: this.bottom
+            left: this.main.left,
+            top: this.main.top + this.UNIT,
+            right: this.main.right,
+            bottom: this.main.bottom
 
         })
 
@@ -139,10 +139,10 @@ export default class PlaySceneLayout extends DimensionFactory {
 
         return this.rect({
 
-            left: this.left,
+            left: this.main.left,
             top: 0,
-            right: this.left + this.UNIT * 2,
-            bottom: this.top
+            right: this.main.left + this.UNIT * 2,
+            bottom: this.main.top
 
         })
 

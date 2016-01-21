@@ -7,7 +7,7 @@ import Dimension from './Dimension'
  *
  * @abstract
  */
-export default class DimensionFactory extends Rect {
+export default class DimensionFactory {
 
     /**
      * Calculates things which are needed for providing the dimensions of the objects in the level scene.
@@ -21,8 +21,6 @@ export default class DimensionFactory extends Rect {
      * @param {heightRate} heightRate The rate of the height relative to the width rate
      */
     constructor({marginLeft, marginTop, marginRight, marginBottom, widthRate, heightRate} = {}) {
-
-        super({})
 
         /**
          * @property {number} marginLeft The left margin for the main area.
@@ -54,14 +52,19 @@ export default class DimensionFactory extends Rect {
          */
         this.heightRate = heightRate || 1
 
-        var available = this.getAvailableDimension($(window).width(), $(window).height())
+        const available = this.getAvailableDimension($(window).width(), $(window).height())
 
-        var bestDim = this.getBestDimension(available)
+        const bestDim = this.getBestDimension(available)
 
-        this.top = this.marginTop + (available.actualHeight() - bestDim.actualHeight()) / 2
-        this.left = this.marginLeft + (available.actualWidth() - bestDim.actualWidth()) / 2
-        this.bottom = this.top + bestDim.actualHeight()
-        this.right = this.left + bestDim.actualWidth()
+        const top = this.marginTop + (available.actualHeight() - bestDim.actualHeight()) / 2
+        const left = this.marginLeft + (available.actualWidth() - bestDim.actualWidth()) / 2
+
+        this.main = new Rect({
+            top: top,
+            left: left,
+            bottom: top + bestDim.actualHeight(),
+            right: left + bestDim.actualWidth()
+        })
 
     }
 
