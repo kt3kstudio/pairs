@@ -1,8 +1,5 @@
 /**
  * Sprite (or DirectionalStateImageDimensionalBeing) class changes its image according to its direction and state.
- *
- * @class
- * @extends domain.common.DimensionalBeing
  */
 domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = subclass(domain.common.GridWalker, function (pt, parent) {
     'use strict'

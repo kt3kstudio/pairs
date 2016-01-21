@@ -1,4 +1,5 @@
 import Rect from '../../../src/domain/common/Rect'
+import DimensionalBeing from '../../../src/domain/common/DimensionalBeing'
 
 describe('DimensionalBeing', function () {
     'use strict'
@@ -10,7 +11,7 @@ describe('DimensionalBeing', function () {
 
         elem = $('<div />')
 
-        dim = new domain.common.DimensionalBeing(elem)
+        dim = new DimensionalBeing(elem)
 
         dim.x = 30
         dim.y = 40

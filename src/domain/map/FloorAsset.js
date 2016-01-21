@@ -1,12 +1,10 @@
 import Grid from '../common/Grid'
+import DimensionalBeing from '../common/DimensionalBeing'
 
 /**
  * FloorAsset is an abstract class which represents the something on the wall in the map view.
- *
- * @class
- * @extends domain.common.DimensionalBeing
  */
-domain.map.FloorAsset = subclass(domain.common.DimensionalBeing, function (pt, parent) {
+domain.map.FloorAsset = subclass(DimensionalBeing, function (pt, parent) {
     'use strict'
 
     /**

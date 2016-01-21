@@ -1,13 +1,12 @@
 import Animation from '../common/Animation'
+import DimensionalBeing from '../common/DimensionalBeing'
 
 /**
  * Field class represents the background field graphics.
  *
  * This class doesn't handle the mechanism above the field, which is the responsibility of FieldCells and BallMoveMobLeaveService classes.
- *
- * @class
  */
-domain.level.Field = subclass(domain.common.DimensionalBeing, function (pt, parent) {
+domain.level.Field = subclass(DimensionalBeing, function (pt, parent) {
     'use strict'
 
     pt.showAnim = new Animation('field-appear', 200)

@@ -1,30 +1,30 @@
 import Being from './Being'
 
 /**
- * DimensionalBeing has its dimension.
+ * Body has width, height, position and information about how it put at the postion.
  */
-domain.common.DimensionalBeing = subclass(Being, function (pt, parent) {
-    'use strict'
+export default class DimensionalBeing extends Being {
 
     /**
-     * @property {Number} x sprite's x coordinate value
+     * @param {jQuery} elem The element
      */
-    pt.x = 0
+    constructor(elem) {
 
-    /**
-     * @property {Number} y sprite's y coordinate value
-     */
-    pt.y = 0
+        super(elem)
 
-    /**
-     * @property {domain.common.Dimension} dimension The dimension of the rectangle
-     */
-    pt.dimension = null
+        /**
+         * @property {Number} x sprite's x coordinate value
+         */
+        this.x = 0
 
-    pt.constructor = function () {
+        /**
+         * @property {Number} y sprite's y coordinate value
+         */
+        this.y = 0
 
-        parent.constructor.apply(this, arguments)
-
+        /**
+         * @property {Dimension} dimension The dimension of the rectangle
+         */
         this.dimension = new domain.common.Dimension({
             width: this.width,
             height: this.height,
@@ -41,7 +41,7 @@ domain.common.DimensionalBeing = subclass(Being, function (pt, parent) {
     /**
      * Returns the actual width of the elem.
      */
-    pt.actualWidth = function () {
+    actualWidth() {
 
         return this.dimension.actualHeight()
 
@@ -50,7 +50,7 @@ domain.common.DimensionalBeing = subclass(Being, function (pt, parent) {
     /**
      * Returns the actual height of the elem.
      */
-    pt.actualHeight = function () {
+    actualHeight() {
 
         return this.dimension.actualHeight()
 
@@ -61,7 +61,7 @@ domain.common.DimensionalBeing = subclass(Being, function (pt, parent) {
      *
      * @override
      */
-    pt.willShow = function () {
+    willShow() {
 
         this.updateElem()
 
@@ -72,7 +72,7 @@ domain.common.DimensionalBeing = subclass(Being, function (pt, parent) {
      *
      * @return {Number} x value of the right limit of sprite
      */
-    pt.rightLimit = function () {
+    rightLimit() {
 
         return this.dimension.rightLimit(this.x)
 
@@ -83,7 +83,7 @@ domain.common.DimensionalBeing = subclass(Being, function (pt, parent) {
      *
      * @return {Number} x value of the left limit of sprite
      */
-    pt.leftLimit = function () {
+    leftLimit() {
 
         return this.dimension.leftLimit(this.x)
 
@@ -92,7 +92,7 @@ domain.common.DimensionalBeing = subclass(Being, function (pt, parent) {
     /**
      * Gets the elem's top limit in px.
      */
-    pt.topLimit = function () {
+    topLimit() {
 
         return this.dimension.topLimit(this.y)
 
@@ -101,7 +101,7 @@ domain.common.DimensionalBeing = subclass(Being, function (pt, parent) {
     /**
      * Gets the elem's bottom limit in px.
      */
-    pt.bottomLimit = function () {
+    bottomLimit() {
 
         return this.dimension.bottomLimit(this.y)
 
@@ -112,7 +112,7 @@ domain.common.DimensionalBeing = subclass(Being, function (pt, parent) {
      *
      * @return {Number}
      */
-    pt.centerX = function () {
+    centerX() {
 
         return this.dimension.centerX(this.x)
 
@@ -123,7 +123,7 @@ domain.common.DimensionalBeing = subclass(Being, function (pt, parent) {
      *
      * @return {Number}
      */
-    pt.centerY = function () {
+    centerY() {
 
         return this.dimension.centerY(this.y)
 
@@ -134,7 +134,7 @@ domain.common.DimensionalBeing = subclass(Being, function (pt, parent) {
      *
      * @private
      */
-    pt.updateOffset = function () {
+    updateOffset() {
 
         this.elem.css('top', this.dimension.topLimit(this.y))
         this.elem.css('left', this.dimension.leftLimit(this.x))
@@ -146,7 +146,7 @@ domain.common.DimensionalBeing = subclass(Being, function (pt, parent) {
      *
      * @private
      */
-    pt.updateRect = function () {
+    updateRect() {
 
         this.elem.width(this.dimension.actualWidth())
         this.elem.height(this.dimension.actualHeight())
@@ -160,7 +160,7 @@ domain.common.DimensionalBeing = subclass(Being, function (pt, parent) {
      * @param {Number} [dur] The
      * @return {Promise}
      */
-    pt.updateElem = function (dur) {
+    updateElem(dur) {
 
         if (dur) {
 
@@ -180,7 +180,7 @@ domain.common.DimensionalBeing = subclass(Being, function (pt, parent) {
      *
      * @param {Number} to The y position
      */
-    pt.moveToY = function (to) {
+    moveToY(to) {
 
         this.y = to
 
@@ -193,7 +193,7 @@ domain.common.DimensionalBeing = subclass(Being, function (pt, parent) {
      *
      * @param {Number} to The x position
      */
-    pt.moveToX = function (to) {
+    moveToX(to) {
 
         this.x = to
 
@@ -206,7 +206,7 @@ domain.common.DimensionalBeing = subclass(Being, function (pt, parent) {
      *
      * @param {Number} dur The transition duration
      */
-    pt.setTransitionDuration = function (dur) {
+    setTransitionDuration(dur) {
 
         this.transitionDuration = dur
 
@@ -219,7 +219,7 @@ domain.common.DimensionalBeing = subclass(Being, function (pt, parent) {
      *
      * @param {Rect} rect
      */
-    pt.setRect = function (rect) {
+    setRect(rect) {
 
         this.rect = rect
 
@@ -231,4 +231,4 @@ domain.common.DimensionalBeing = subclass(Being, function (pt, parent) {
 
     }
 
-})
+}

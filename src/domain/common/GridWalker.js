@@ -1,7 +1,8 @@
+import DimensionalBeing from './DimensionalBeing'
 /**
  * A GridWalker is a DimensionalBeing which walks along the given Grid.
  */
-domain.common.GridWalker = subclass(domain.common.DimensionalBeing, function (pt) {
+domain.common.GridWalker = subclass(DimensionalBeing, function (pt) {
     'use strict'
 
     /**

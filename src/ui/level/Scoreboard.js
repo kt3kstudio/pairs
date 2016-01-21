@@ -1,9 +1,10 @@
 import Animation from '../../domain/common/Animation'
+import DimensionalBeing from '../../domain/common/DimensionalBeing'
 
 /**
  * Scoreboard handles the behaviour of the score board of the level view.
  */
-ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, parent) {
+ui.level.Scoreboard = subclass(DimensionalBeing, function (pt, parent) {
     'use strict'
 
     pt.ratioX = 0

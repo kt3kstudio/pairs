@@ -1,9 +1,10 @@
+import DimensionalBeing from '../../domain/common/DimensionalBeing'
 /**
  * ResultPane class handles the behaviour of the pane which appears when the game finished with a score.
  *
  * @class
  */
-ui.level.ResultPane = subclass(domain.common.DimensionalBeing, function (pt, parent) {
+ui.level.ResultPane = subclass(DimensionalBeing, function (pt, parent) {
     'use strict'
 
     pt.score = 0
