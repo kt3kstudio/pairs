@@ -1,4 +1,4 @@
-import Context from './context'
+import Context from './Context'
 import PlaySceneLayout from './PlaySceneLayout'
 const event = $.cc.event
 
