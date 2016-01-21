@@ -3,52 +3,53 @@ import Being from '../common/Being'
 /**
  * Logo animation componenent in the splash screen.
  */
-domain.splash.Logo = $.cc.subclass(Being, function (pt) {
-    'use strict'
+class Logo extends Being {
 
     /**
      * Performs splash screen's logo animation.
      *
      * @return {Promise}
      */
-    pt.perform = function () {
+    perform() {
 
-        var self = this
+        return this.show()
 
-        return this.show().then(function () {
+        .then(() => wait(700))
 
-            return wait(700)
-
-        }).then(function () {
-
-            return self.hide()
-
-        })
+        .then(() => this.hide())
 
     }
 
-    pt.willShow = function () {
+    willShow() {
 
         return this.elem.imageLoaded()
 
     }
 
-    pt.didShow = function () {
+    didShow() {
 
         this.elem.css('opacity', 1)
 
     }
 
-    pt.didHide = function () {
+    didHide() {
 
         this.elem.css('opacity', 0)
 
     }
 
-    pt.showAnim = new domain.common.Animation('logo-show', 350)
+    get showAnim() {
 
-    pt.hideAnim = new domain.common.Animation('logo-hide', 350)
+        return new domain.common.Animation('logo-show', 350)
 
-})
+    }
 
-$.cc.assign('splash-logo', domain.splash.Logo)
+    get hideAnim() {
+
+        return new domain.common.Animation('logo-hide', 350)
+
+    }
+
+}
+
+$.cc.assign('splash-logo', Logo)

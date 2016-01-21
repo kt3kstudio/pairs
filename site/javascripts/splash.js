@@ -1,1 +1,1 @@
-import '../../src/domain/splash'
+import '../../src/domain/splash/SplashScene'

@@ -1,32 +1,43 @@
+import './Logo'
+
 /**
  * SplashScene controls the splash screen.
  */
-domain.splash.SplashScene = subclass($.cc.Coelement, function (pt) {
-    'use strict'
+class SplashScene extends $.cc.Coelement {
 
-    pt.main = function () {
-        var self = this
+    @$.cc.event('scene-start')
+    main() {
 
-        return this.performSplash('studio').then(function () {
-            return self.performSplash('straw')
-        }).then(function () {
-            return self.goToTitle()
-        })
-    }.event('scene-start')
+        return this.performSplash('studio')
+
+        .then(() => this.performSplash('straw'))
+
+        .then(() => this.goToTitle())
+
+    }
 
     /**
      * Performs splash scene animation for the give class name element.
+     *
+     * @param {String} className The class name to animate
+     * @return {Promise}
      */
-    pt.performSplash = function (className) {
+    performSplash(className) {
+
         return this.elem.find('.splash-logo.' + className).cc.get('splash-logo').perform()
+
     }
 
     /**
      * The scene goes to the title.
      */
-    pt.goToTitle = function () {
-        location.replace('title.html')
-    }.event('click', '.splash-logo')
-})
+    @$.cc.event('click', '.splash-logo')
+    goToTitle() {
 
-$.cc.assign('splash-scene', domain.splash.SplashScene)
+        location.replace('title.html')
+
+    }
+
+}
+
+$.cc.assign('splash-scene', SplashScene)

@@ -3,7 +3,6 @@ window.subclass = $.cc.subclass
 // game logic domain
 window.domain = {}
 window.domain.common = {}
-window.domain.splash = {}
 window.domain.map = {}
 window.domain.level = {}
 window.domain.genetics = {}
