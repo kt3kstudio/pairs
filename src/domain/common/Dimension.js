@@ -1,40 +1,37 @@
 /**
- * Dimension model.
- *
- * Dimension model is the abstraction of arrangment of rectangles relative to the primary coordinates of the component.
+ * Posture is the model of the information about how the Body is placed and arranged to its representing position.
  *
  * @class
  */
 export default class Dimension {
 
     /**
-     * @param {Object} obj The options
-     * @param {Number} obj.width The width
-     * @param {Number} obj.height The height
-     * @param {Number} obj.ratioX The ratio of horizontal position of the rectangle. ratioX == 0 means the left limit of the rectangle is x. ratioX == 1 means the right limit of the rectangle is x.
-     * @param {Number} obj.ratioY The ratio of vertical position of the rectangle. ratioY == 0 means the top limit of the rectangle is x. ratioY == 1 means the bottom limit of the rectangle is x.
-     * @param {Number} obj.marginX The horizontal margin
-     * @param {Number} obj.marginY The vertical margin
-     * @param {Number} obj.marginTop The top margin
-     * @param {Number} obj.marginRight The right margin
-     * @param {Number} obj.marginBottom The bottom margin
-     * @param {Number} obj.marginLeft The left margin
+     * @param {Number} [width=100] The width
+     * @param {Number} [height=100] The height
+     * @param {Number} [ratioX=0] The ratio of horizontal position of the rectangle. ratioX == 0 means the left limit of the rectangle is x. ratioX == 1 means the right limit of the rectangle is x.
+     * @param {Number} [ratioY=0] The ratio of vertical position of the rectangle. ratioY == 0 means the top limit of the rectangle is x. ratioY == 1 means the bottom limit of the rectangle is x.
+     * @param {Number} [marginX=0] The horizontal margin
+     * @param {Number} [marginY=0] The vertical margin
+     * @param {Number} [marginLeft=0] The left margin
+     * @param {Number} [marginTop=0] The top margin
+     * @param {Number} [marginRight=0] The right margin
+     * @param {Number} [marginBottom=0] The bottom margin
      */
-    constructor(obj) {
+    constructor({width, height, ratioX, ratioY, marginX, marginY, marginLeft, marginTop, marginRight, marginBottom} = {}) {
 
-        this.width = obj.width || 100
-        this.height = obj.height || 100
+        this.width = width || 100
+        this.height = height || 100
 
-        this.ratioX = obj.ratioX || 0
-        this.ratioY = obj.ratioY || 0
+        this.ratioX = ratioX || 0
+        this.ratioY = ratioY || 0
 
-        this.marginX = obj.marginX || 0
-        this.marginY = obj.marginY || 0
+        this.marginX = marginX || 0
+        this.marginY = marginY || 0
 
-        this.marginTop = obj.marginTop || 0
-        this.marginRight = obj.marginRight || 0
-        this.marginBottom = obj.marginBottom || 0
-        this.marginLeft = obj.marginLeft || 0
+        this.marginTop = marginTop || 0
+        this.marginRight = marginRight || 0
+        this.marginBottom = marginBottom || 0
+        this.marginLeft = marginLeft || 0
 
     }
 
