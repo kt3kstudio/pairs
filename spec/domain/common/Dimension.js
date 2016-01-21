@@ -1,10 +1,12 @@
-describe('domain.common.Dimension', function () {
+import Dimension from '../../../src/domain/common/Dimension'
+
+describe('Dimension', function () {
     'use strict'
 
     var dim
 
     beforeEach(function () {
-        dim = new domain.common.Dimension({
+        dim = new Dimension({
             width: 100,
             height: 200,
             ratioX: 0.5,

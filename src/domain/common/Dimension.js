@@ -5,8 +5,7 @@
  *
  * @class
  */
-domain.common.Dimension = subclass(function (pt) {
-    'use strict'
+export default class Dimension {
 
     /**
      * @param {Object} obj The options
@@ -21,7 +20,7 @@ domain.common.Dimension = subclass(function (pt) {
      * @param {Number} obj.marginBottom The bottom margin
      * @param {Number} obj.marginLeft The left margin
      */
-    pt.constructor = function (obj) {
+    constructor(obj) {
 
         this.width = obj.width || 100
         this.height = obj.height || 100
@@ -44,7 +43,7 @@ domain.common.Dimension = subclass(function (pt) {
      *
      * @return {Number}
      */
-    pt.actualHeight = function () {
+    actualHeight() {
 
         return this.height - this.getMarginTop() - this.getMarginBottom()
 
@@ -55,7 +54,7 @@ domain.common.Dimension = subclass(function (pt) {
      *
      * @return {Number}
      */
-    pt.actualWidth = function () {
+    actualWidth() {
 
         return this.width - this.getMarginLeft() - this.getMarginRight()
 
@@ -66,7 +65,7 @@ domain.common.Dimension = subclass(function (pt) {
      *
      * @return {Number}
      */
-    pt.getMarginTop = function () {
+    getMarginTop() {
 
         return this.marginTop || this.marginY
 
@@ -77,7 +76,7 @@ domain.common.Dimension = subclass(function (pt) {
      *
      * @return {Number}
      */
-    pt.getMarginRight = function () {
+    getMarginRight() {
 
         return this.marginRight || this.marginX
 
@@ -88,7 +87,7 @@ domain.common.Dimension = subclass(function (pt) {
      *
      * @return {Number}
      */
-    pt.getMarginBottom = function () {
+    getMarginBottom() {
 
         return this.marginBottom || this.marginY
 
@@ -99,7 +98,7 @@ domain.common.Dimension = subclass(function (pt) {
      *
      * @return {Number}
      */
-    pt.getMarginLeft = function () {
+    getMarginLeft() {
 
         return this.marginLeft || this.marginX
 
@@ -111,7 +110,7 @@ domain.common.Dimension = subclass(function (pt) {
      * @param {Number} y The primary vertical position
      * @return {Number}
      */
-    pt.topLimit = function (y) {
+    topLimit(y) {
 
         return y - this.height * this.ratioY + this.getMarginTop()
 
@@ -123,7 +122,7 @@ domain.common.Dimension = subclass(function (pt) {
      * @param {Number} y The primary vertical position
      * @return {Number}
      */
-    pt.bottomLimit = function (y) {
+    bottomLimit(y) {
 
         return this.topLimit(y) + this.actualHeight()
 
@@ -135,7 +134,7 @@ domain.common.Dimension = subclass(function (pt) {
      * @param {Number} x The primary horizontal position
      * @return {Number}
      */
-    pt.leftLimit = function (x) {
+    leftLimit(x) {
 
         return x - this.width * this.ratioX + this.getMarginLeft()
 
@@ -147,7 +146,7 @@ domain.common.Dimension = subclass(function (pt) {
      * @param {Number} x The primary horizontal position
      * @return {Number}
      */
-    pt.rightLimit = function (x) {
+    rightLimit(x) {
 
         return this.leftLimit(x) + this.actualWidth()
 
@@ -159,7 +158,7 @@ domain.common.Dimension = subclass(function (pt) {
      * @param {Number} x The primary horizontal position
      * @return {Number}
      */
-    pt.centerX = function (x) {
+    centerX(x) {
 
         return (this.leftLimit(x) + this.rightLimit(x)) / 2
 
@@ -171,7 +170,7 @@ domain.common.Dimension = subclass(function (pt) {
      * @param {Number} y The primary vertical position
      * @return {Number}
      */
-    pt.centerY = function (y) {
+    centerY(y) {
 
         return (this.topLimit(y) + this.bottomLimit(y)) / 2
 
@@ -182,9 +181,9 @@ domain.common.Dimension = subclass(function (pt) {
      *
      * @param {Number} width The width of the target outer rectangle
      * @param {Number} height The height of the target outer rectangle
-     * @return {domain.common.Dimension}
+     * @return {Dimension}
      */
-    pt.similarInnerTangent = function (width, height) {
+    similarInnerTangent(width, height) {
 
         if (width / height > this.width / this.height) {
 
@@ -196,7 +195,7 @@ domain.common.Dimension = subclass(function (pt) {
 
         }
 
-        return new this.constructor({
+        return new Dimension({
 
             width: width,
             height: height,
@@ -219,7 +218,7 @@ domain.common.Dimension = subclass(function (pt) {
      * @param {Number} width The width of the target outer rectangle
      * @param {Number} height The height of the target outer rectangle
      */
-    pt.fitInto = function (width, height) {
+    fitInto(width, height) {
 
         var innerTangent = this.similarInnerTangent(width, height)
 
@@ -228,4 +227,4 @@ domain.common.Dimension = subclass(function (pt) {
 
     }
 
-})
+}

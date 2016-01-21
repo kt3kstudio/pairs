@@ -1,5 +1,6 @@
 import Rect from './Rect'
 import Grid from './Grid'
+import Dimension from './Dimension'
 
 /**
  * The abstact class for dimension factories of various objects in scenes.
@@ -65,11 +66,11 @@ export default class DimensionFactory extends Rect {
      * @private
      * @param {Number} width The width of the target area
      * @param {Number} height The height of the target area
-     * @return {domain.common.Dimension}
+     * @return {Dimension}
      */
     getAvailableDimension(width, height) {
 
-        return new domain.common.Dimension({
+        return new Dimension({
             width: width,
             height: height,
             marginTop: this.marginTop,
@@ -84,12 +85,12 @@ export default class DimensionFactory extends Rect {
      * Gets the best fitting playable area for the level scene.
      *
      * @private
-     * @param {domain.common.Dimension}
-     * @return {domain.common.Dimension}
+     * @param {Dimension}
+     * @return {Dimension}
      */
     getBestDimension(available) {
 
-        return new domain.common.Dimension({
+        return new Dimension({
 
             width: this.widthRate,
             height: this.heightRate

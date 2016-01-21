@@ -1,4 +1,5 @@
 import Being from './Being'
+import Dimension from './Dimension'
 
 /**
  * Body has width, height, position and information about how it put at the postion.
@@ -25,7 +26,7 @@ export default class DimensionalBeing extends Being {
         /**
          * @property {Dimension} dimension The dimension of the rectangle
          */
-        this.dimension = new domain.common.Dimension({
+        this.dimension = new Dimension({
             width: this.width,
             height: this.height,
             ratioX: this.ratioX,
