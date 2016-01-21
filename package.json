@@ -14,6 +14,7 @@
     "test": "karma start karma.conf.js",
     "doc": "jsduck --config=.jsduck.dev.json",
     "doc-release": "git rm -rf doc/v* ; jsduck --config=.jsduck.release.json ; git add doc",
+    "esdoc": "esdoc -c esdoc.json",
     "lines": "find src/ spec/ -name '*.js' | xargs wc",
     "ci": "karma start karma.conf.js --browsers PhantomJS",
     "coveralls": "karma start karma.conf.js --browsers PhantomJS --reporters coverage,coveralls",
