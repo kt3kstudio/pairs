@@ -1,3 +1,5 @@
+import Animation from '../common/Animation'
+
 /**
  * Field class represents the background field graphics.
  *
@@ -8,9 +10,9 @@
 domain.level.Field = subclass(domain.common.DimensionalBeing, function (pt, parent) {
     'use strict'
 
-    pt.showAnim = new domain.common.Animation('field-appear', 200)
+    pt.showAnim = new Animation('field-appear', 200)
 
-    pt.hideAnim = new domain.common.Animation('field-disappear', 400)
+    pt.hideAnim = new Animation('field-disappear', 400)
 
     /**
      * @param {Rect} rect The rect to fit into

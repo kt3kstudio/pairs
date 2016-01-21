@@ -1,8 +1,7 @@
+import Animation from '../../domain/common/Animation'
+
 /**
  * Scoreboard handles the behaviour of the score board of the level view.
- *
- * @class
- * @extends domain.common.DimensionalBeing
  */
 ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, parent) {
     'use strict'
@@ -44,8 +43,8 @@ ui.level.Scoreboard = subclass(domain.common.DimensionalBeing, function (pt, par
 
     }
 
-    pt.showAnim = new domain.common.Animation('bom-appear', 400)
-    pt.hideAnim = new domain.common.Animation('bom-disappear', 400)
+    pt.showAnim = new Animation('bom-appear', 400)
+    pt.hideAnim = new Animation('bom-disappear', 400)
 
     /**
      * Set up the initial dom state.

@@ -1,16 +1,15 @@
+const ANIMATION_PROP_NAME = '-webkit-animation'
+
 /**
  * Animation class represents the css animation.
  */
-domain.common.Animation = subclass(function (pt) {
-    'use strict'
-
-    var ANIMATION_PROP_NAME = '-webkit-animation'
+export default class Animation {
 
     /**
      * @param {String} name The name of the css animation (keyframes)
      * @param {Number} duration The duration of the animation
      */
-    pt.constructor = function (name, duration) {
+    constructor(name, duration) {
 
         this.name = name
         this.duration = duration
@@ -21,7 +20,7 @@ domain.common.Animation = subclass(function (pt) {
      * @param {jQuery} dom The jQuery dom element
      * @return {Promise}
      */
-    pt.apply = function (dom) {
+    apply(dom) {
 
         dom
             .css(ANIMATION_PROP_NAME, '')
@@ -32,4 +31,4 @@ domain.common.Animation = subclass(function (pt) {
 
     }
 
-})
+}

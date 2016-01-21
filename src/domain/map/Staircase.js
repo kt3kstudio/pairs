@@ -1,3 +1,5 @@
+import Animation from '../common/Animation'
+
 /**
  * Staircase class represents the staircases in the map view.
  *
@@ -9,9 +11,9 @@ domain.map.Staircase = subclass(domain.map.FloorAsset, function (pt, parent) {
 
     var STAIRCASE_ANIMATION_DUR = 400
 
-    pt.showAnim = new domain.common.Animation('door-appear', STAIRCASE_ANIMATION_DUR)
+    pt.showAnim = new Animation('door-appear', STAIRCASE_ANIMATION_DUR)
 
-    pt.hideAnim = new domain.common.Animation('door-disappear', STAIRCASE_ANIMATION_DUR)
+    pt.hideAnim = new Animation('door-disappear', STAIRCASE_ANIMATION_DUR)
 
     pt.constructor = function (elem) {
         parent.constructor.call(this, elem)

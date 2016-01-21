@@ -1,3 +1,4 @@
+import Animation from '../common/Animation'
 /**
  * Cell class represents a unit (nim and neef) on the field of the level.
  *
@@ -207,9 +208,9 @@ domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
 
     }
 
-    pt.showAnim = new domain.common.Animation('bom-appear', 500)
+    pt.showAnim = new Animation('bom-appear', 500)
 
-    pt.hideAnim = new domain.common.Animation('bom-disappear', 500)
+    pt.hideAnim = new Animation('bom-disappear', 500)
 
     pt.didAppear = function () {
 

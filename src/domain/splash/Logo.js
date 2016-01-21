@@ -1,4 +1,5 @@
 import Being from '../common/Being'
+import Animation from '../common/Animation'
 
 /**
  * Logo animation componenent in the splash screen.
@@ -40,13 +41,13 @@ class Logo extends Being {
 
     get showAnim() {
 
-        return new domain.common.Animation('logo-show', 350)
+        return new Animation('logo-show', 350)
 
     }
 
     get hideAnim() {
 
-        return new domain.common.Animation('logo-hide', 350)
+        return new Animation('logo-hide', 350)
 
     }
 

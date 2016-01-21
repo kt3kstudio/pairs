@@ -1,3 +1,5 @@
+import Animation from '../common/Animation'
+
 /**
  * Ball class represents the ball inside the field of the level.
  *
@@ -24,9 +26,9 @@ domain.level.Ball = subclass(domain.common.GridWalker, function (pt, parent) {
     pt.maxX = MAX
     pt.maxY = MAX
 
-    pt.showAnim = new domain.common.Animation('ball-appear', TRANS_DUR)
+    pt.showAnim = new Animation('ball-appear', TRANS_DUR)
 
-    pt.hideAnim = new domain.common.Animation('ball-disappear', TRANS_DUR)
+    pt.hideAnim = new Animation('ball-disappear', TRANS_DUR)
 
     pt.willShow = function () {
 

@@ -1,3 +1,5 @@
+import Animation from '../common/Animation'
+
 /**
  * PieceOfPaper represents a piece of paper which is on the floor of each room (obsolete).
  *
@@ -14,9 +16,9 @@ domain.level.Paper = subclass(domain.common.StaticSprite, function (pt) {
 
     pt.image = 'images/paper.svg'
 
-    pt.showAnim = new domain.common.Animation('paper-appear', 500)
+    pt.showAnim = new Animation('paper-appear', 500)
 
-    pt.hideAnim = new domain.common.Animation('paper-disappear', 500)
+    pt.hideAnim = new Animation('paper-disappear', 500)
 
 })
 

@@ -1,4 +1,5 @@
 import Being from '../../../src/domain/common/Being'
+import Animation from '../../../src/domain/common/Animation'
 
 describe('Being', function () {
     'use strict'
@@ -12,9 +13,9 @@ describe('Being', function () {
 
         being = new Being(elem)
 
-        being.showAnim = new domain.common.Animation('showing', 500)
+        being.showAnim = new Animation('showing', 500)
 
-        being.hideAnim = new domain.common.Animation('abc', 37)
+        being.hideAnim = new Animation('abc', 37)
 
     })
 
