@@ -1,6 +1,7 @@
 import Context from './Context'
 import IntroSceneLayout from './IntroSceneLayout'
 import PlaySceneLayout from './PlaySceneLayout'
+import BackgroundService from '../../ui/common/BackgroundService'
 
 const event = $.cc.event
 
@@ -79,7 +80,7 @@ class IntroScene extends Context {
 
         this.getPaper().show()
 
-        return ui.common.BackgroundService.turnWhite()
+        return BackgroundService.turnWhite()
 
         .then(() => this.getCharacter().moveUpOnGrid(600))
 

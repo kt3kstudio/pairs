@@ -1,12 +1,9 @@
+const Dur = 700
+
 /**
  * BackgroundService handles the animation of background colors.
- *
- * @class
  */
-ui.common.BackgroundService = subclass(function (pt) {
-    'use strict'
-
-    var Dur = 700
+export default class BackgroundService {
 
     /**
      * Turns the bg color white.
@@ -14,8 +11,10 @@ ui.common.BackgroundService = subclass(function (pt) {
      * @param {Number} dur The duration
      * @return {Promise}
      */
-    pt.constructor.turnWhite = function (dur) {
+    static turnWhite(dur) {
+
         return this.turn('', dur, false)
+
     }
 
     /**
@@ -24,8 +23,10 @@ ui.common.BackgroundService = subclass(function (pt) {
      * @param {Number} dur The duration
      * @return {Promise}
      */
-    pt.constructor.turnBlack = function (dur) {
+    static turnBlack(dur) {
+
         return this.turn('', dur, true)
+
     }
 
     /**
@@ -37,11 +38,14 @@ ui.common.BackgroundService = subclass(function (pt) {
      * @param {Boolean} darkBg True if use dark background format
      * @return {Promise}
      */
-    pt.constructor.turn = function (color, dur, darkBg) {
+    static turn(color, dur, darkBg) {
+
         dur = dur || Dur
 
         $(document.body).toggleClass('dark-bg', darkBg).css('background-color', color)
 
         return wait(dur)
+
     }
-})
+
+}

@@ -1,4 +1,5 @@
 import SceneContext from '../common/SceneContext'
+import BackgroundService from '../../ui/common/BackgroundService'
 
 const event = $.cc.event
 
@@ -66,7 +67,7 @@ class TitleScene extends SceneContext {
 
         this.fadeOut()
 
-        .then(() => ui.common.BackgroundService.turnBlack())
+        .then(() => BackgroundService.turnBlack())
 
         .then(() => {
 

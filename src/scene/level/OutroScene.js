@@ -1,5 +1,7 @@
 import Context from './Context'
 import PlaySceneLayout from './PlaySceneLayout'
+import BackgroundService from '../../ui/common/BackgroundService'
+
 const event = $.cc.event
 
 /**
@@ -62,7 +64,7 @@ class OutroScene extends Context {
 
         .then(() => this.getCharacter().moveTo('y', 800, 1000))
 
-        .then(() => ui.common.BackgroundService.turnBlack())
+        .then(() => BackgroundService.turnBlack())
 
         .then(() => history.back())
 

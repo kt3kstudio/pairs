@@ -1,4 +1,5 @@
 import SceneContext from '../common/SceneContext'
+import BackgroundService from '../../ui/common/BackgroundService'
 
 /**
  * MapScene handles the scene of map
@@ -139,7 +140,7 @@ domain.map.MapScene = subclass(SceneContext, function (pt, parent) {
 
         this.getMenuButton().show()
 
-        ui.common.BackgroundService.turnWhite()
+        BackgroundService.turnWhite()
 
         return this.getFloorboard().show().then(function () {
 
@@ -165,7 +166,7 @@ domain.map.MapScene = subclass(SceneContext, function (pt, parent) {
 
             self.getFloorboard().hide()
 
-            return ui.common.BackgroundService.turnBlack()
+            return BackgroundService.turnBlack()
 
         })
 
