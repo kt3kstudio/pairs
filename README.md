@@ -1,4 +1,4 @@
-# long-dream-core v0.2.0 [![Build Status](https://travis-ci.org/kt3kstudio/long-dream-core.svg?branch=gh-pages)](https://travis-ci.org/kt3kstudio/long-dream-core) [![Coverage Status](https://coveralls.io/repos/github/kt3kstudio/long-dream-core/badge.svg?branch=gh-pages)](https://coveralls.io/github/kt3kstudio/long-dream-core?branch=gh-pages) [![js-soufflé-style](https://img.shields.io/badge/code%20style-soufflé-brightgreen.svg)](https://github.com/kt3k/souffle)
+# long-dream-core v0.3.0 [![Build Status](https://travis-ci.org/kt3kstudio/long-dream-core.svg?branch=gh-pages)](https://travis-ci.org/kt3kstudio/long-dream-core) [![Coverage Status](https://coveralls.io/repos/github/kt3kstudio/long-dream-core/badge.svg?branch=gh-pages)](https://coveralls.io/github/kt3kstudio/long-dream-core?branch=gh-pages) [![js-soufflé-style](https://img.shields.io/badge/code%20style-soufflé-brightgreen.svg)](https://github.com/kt3k/souffle)
 
 
 > A puzzle game on straw platform
@@ -18,4 +18,4 @@ The above creates the middleman build result at `app/src/main/assets` using js f
 The name of `infrastructure` came from the terminology of DDD.
 
 
-# [API doc](http://kt3kstudio.github.io/long-dream-core/doc/v0.2.0/)
+# [API doc](http://kt3kstudio.github.io/long-dream-core/doc/v0.3.0/)
