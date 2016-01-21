@@ -4,5 +4,7 @@ import 'swipe-event/swipe-cross'
 
 import '../../src/domain/genetics'
 import '../../src/domain/level'
-import '../../src/scene/level'
+import '../../src/scene/level/intro-scene'
+import '../../src/scene/level/play-scene'
+import '../../src/scene/level/outro-scene'
 import '../../src/ui/level'
