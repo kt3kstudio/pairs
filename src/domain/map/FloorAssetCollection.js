@@ -1,14 +1,13 @@
+import Being from '../common/Being'
+
 /**
  * FloorAssetCollection class handles the position of wall and objects on wall.
  *
  * It's also responsible for the position of the camera.
  *
  * Collective Component
- *
- * @class
- * @extends domain.common.Being
  */
-domain.map.FloorAssetCollection = subclass(domain.common.Being, function (pt) {
+domain.map.FloorAssetCollection = subclass(Being, function (pt) {
     'use strict'
 
     /**

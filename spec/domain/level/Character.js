@@ -1,3 +1,5 @@
+import Grid from '../../../src/domain/common/Grid'
+
 describe('domain.level.Character', function () {
     'use strict'
 
@@ -9,7 +11,7 @@ describe('domain.level.Character', function () {
 
         this.character = new domain.level.Character(this.$dom)
 
-        this.character.setGrid(new domain.common.Grid())
+        this.character.setGrid(new Grid())
 
     })
 

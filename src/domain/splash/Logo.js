@@ -1,9 +1,9 @@
+import Being from '../common/Being'
+
 /**
  * Logo animation componenent in the splash screen.
- *
- * @class
  */
-domain.splash.Logo = $.cc.subclass(domain.common.Being, function (pt) {
+domain.splash.Logo = $.cc.subclass(Being, function (pt) {
     'use strict'
 
     /**

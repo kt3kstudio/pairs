@@ -1,3 +1,5 @@
+import Rect from '../../../src/domain/common/Rect'
+
 describe('DimensionalBeing', function () {
     'use strict'
 
@@ -113,7 +115,7 @@ describe('DimensionalBeing', function () {
 
         it('it sets the rect', function () {
 
-            var rect = new domain.common.Rect({
+            var rect = new Rect({
                 top: 0, right: 10, bottom: 40, left: 20
             })
 
@@ -125,7 +127,7 @@ describe('DimensionalBeing', function () {
 
         it('updates x, y and the dimension', function () {
 
-            var rect = new domain.common.Rect({
+            var rect = new Rect({
                 top: 0, right: 10, bottom: 40, left: 20
             })
 

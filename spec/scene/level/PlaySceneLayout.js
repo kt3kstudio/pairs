@@ -1,11 +1,15 @@
-describe('scene.level.PlaySceneLayout', function () {
+import Rect from '../../../src/domain/common/Rect'
+import Grid from '../../../src/domain/common/Grid'
+import PlaySceneLayout from '../../../src/scene/level/PlaySceneLayout'
+
+describe('PlaySceneLayout', function () {
     'use strict'
 
     var factory
 
     before(function () {
 
-        factory = new scene.level.PlaySceneLayout()
+        factory = new PlaySceneLayout()
 
     })
 
@@ -15,7 +19,7 @@ describe('scene.level.PlaySceneLayout', function () {
 
             var dimension = factory.fieldRect()
 
-            expect(dimension).to.be.instanceof(domain.common.Rect)
+            expect(dimension).to.be.instanceof(Rect)
 
         })
 
@@ -27,7 +31,7 @@ describe('scene.level.PlaySceneLayout', function () {
 
             var dimension = factory.evalRoomGrid()
 
-            expect(dimension).to.be.instanceof(domain.common.Grid)
+            expect(dimension).to.be.instanceof(Grid)
 
         })
 
@@ -39,7 +43,7 @@ describe('scene.level.PlaySceneLayout', function () {
 
             var dimension = factory.queueGrid()
 
-            expect(dimension).to.be.instanceof(domain.common.Grid)
+            expect(dimension).to.be.instanceof(Grid)
 
         })
 
@@ -51,7 +55,7 @@ describe('scene.level.PlaySceneLayout', function () {
 
             var dimension = factory.fusionBoxGrid()
 
-            expect(dimension).to.be.instanceof(domain.common.Grid)
+            expect(dimension).to.be.instanceof(Grid)
 
         })
 
@@ -63,7 +67,7 @@ describe('scene.level.PlaySceneLayout', function () {
 
             var dimension = factory.resultPaneRect()
 
-            expect(dimension).to.be.instanceof(domain.common.Rect)
+            expect(dimension).to.be.instanceof(Rect)
 
         })
 
@@ -75,7 +79,7 @@ describe('scene.level.PlaySceneLayout', function () {
 
             var dimension = factory.scoreboardRect()
 
-            expect(dimension).to.be.instanceof(domain.common.Rect)
+            expect(dimension).to.be.instanceof(Rect)
 
         })
 

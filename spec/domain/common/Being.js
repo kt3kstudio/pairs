@@ -1,3 +1,5 @@
+import Being from '../../../src/domain/common/Being'
+
 describe('Being', function () {
     'use strict'
 
@@ -8,7 +10,7 @@ describe('Being', function () {
 
         elem = $('<div />')
 
-        being = new domain.common.Being(elem)
+        being = new Being(elem)
 
         being.showAnim = new domain.common.Animation('showing', 500)
 

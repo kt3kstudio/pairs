@@ -1,10 +1,9 @@
+import Being from '../common/Being'
+
 /**
  * Floor class handles the behaviour of floor of the Map view
- *
- * @class
- * @extends domain.common.Being
  */
-domain.map.Floorboard = subclass(domain.common.Being, function (pt) {
+domain.map.Floorboard = subclass(Being, function (pt) {
     'use strict'
 
     var FLOORBOARD_MOVE_DUR = 400

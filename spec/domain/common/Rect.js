@@ -1,10 +1,12 @@
-describe('domain.common.Rect', function () {
+import Rect from '../../../src/domain/common/Rect'
+
+describe('Rect', function () {
 
     var rect
 
     beforeEach(function () {
 
-        rect = new domain.common.Rect({
+        rect = new Rect({
             top: 100,
             right: 500,
             bottom: 600,

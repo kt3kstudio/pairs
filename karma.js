@@ -1,8 +1,7 @@
-'use stric'
+'use strict'
 
 module.exports = function (config) {
     config.set({
-        basePath: '',
 
         frameworks: ['mocha', 'chai', 'jsmockito-jshamcrest', 'browserify'],
 
@@ -19,19 +18,17 @@ module.exports = function (config) {
             'spec/**/*.js'
         ],
 
-        exclude: [
-            '**/*.swp'
-        ],
-
         preprocessors: {
-            'site/**/*.js': ['browserify']
+            'site/**/*.js': ['browserify'],
+            'spec/**/*.js': ['browserify']
         },
 
         browserify: {
             debug: true,
-            transform: [ require('browserify-istanbul')({
-                instrumenter: require('isparta')
-            })]
+            transform: [require('browserify-istanbul')({
+                instrumenter: require('isparta'),
+                ignore: ['**/spec/**']
+            }), 'babelify']
         },
 
         coverageReporter: {

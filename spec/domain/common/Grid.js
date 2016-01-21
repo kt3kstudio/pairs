@@ -1,11 +1,13 @@
-describe('domain.common.Grid', function () {
+import Grid from '../../../src/domain/common/Grid'
+
+describe('Grid', function () {
     'use strict'
 
     var grid
 
     beforeEach(function () {
 
-        grid = new domain.common.Grid({
+        grid = new Grid({
 
             x: 100,
             y: 200,

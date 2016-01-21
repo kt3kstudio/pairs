@@ -1,3 +1,5 @@
+import Grid from '../../../src/domain/common/Grid'
+
 describe('GridWalker', function () {
 
     var walker, grid, elem
@@ -8,7 +10,7 @@ describe('GridWalker', function () {
 
         walker = new domain.common.GridWalker(elem)
 
-        grid = new domain.common.Grid({
+        grid = new Grid({
             x: 100,
             y: 200,
             unitWidth: 300,

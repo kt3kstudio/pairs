@@ -3,18 +3,53 @@ import Actor from './Actor'
 /**
  * Actor with visual representation which has the phases, such as show/hide, appear/disappear.
  */
-domain.common.Being = subclass(Actor, function (pt) {
-    'use strict'
-
-    var noop = function () {}
+export default class Being extends Actor {
 
     /**
-     * @property {domain.common.Animation} showAnim The animation name this elem showing with
+     * @abstract
      */
-    pt.showAnim = null
+    get showAnim() {
 
-    pt.willShow = noop
-    pt.didShow = noop
+        return this._showAnim
+
+    }
+
+    /**
+     * @abstract
+     */
+    set showAnim(anim) {
+
+        this._showAnim = anim
+
+    }
+
+    /**
+     * @abstract
+     */
+    get hideAnim() {
+
+        return this._hideAnim
+
+    }
+
+    /**
+     * @abstract
+     */
+    set hideAnim(anim) {
+
+        this._hideAnim = anim
+
+    }
+
+    /**
+     * @abstract
+     */
+    willShow() {}
+
+    /**
+     * @abstract
+     */
+    didShow() {}
 
     /**
      * 表示時アニメーションプロパティ (showAnim) に従ってアニメーションさせる。
@@ -24,34 +59,25 @@ domain.common.Being = subclass(Actor, function (pt) {
      * @param {Number} dur The duration of the animation
      * @return {Promise}
      */
-    pt.show = function (dur) {
+    show(dur) {
 
-        var that = this
+        return Promise.resolve(this.willShow())
 
-        return Promise.resolve(that.willShow()).then(function () {
+        .then(() => this.showAnim != null && this.showAnim.apply(this.elem))
 
-            var p
-
-            if (that.showAnim != null) {
-
-                p = that.showAnim.apply(that.elem)
-
-            }
-
-            return p
-
-        }).then(function () {
-
-            return that.didShow()
-
-        })
+        .then(() => this.didShow())
 
     }
 
-    pt.hideAnim = null
+    /**
+     * @abstract
+     */
+    willHide() {}
 
-    pt.willHide = noop
-    pt.didHide = noop
+    /**
+     * @abstract
+     */
+    didHide() {}
 
     /**
      * 非表示時アニメーションプロパティ (hideAnim) に従ってアニメーションさせる。
@@ -61,27 +87,13 @@ domain.common.Being = subclass(Actor, function (pt) {
      * @param {Number} dur The duration of the animation
      * @return {Promise}
      */
-    pt.hide = function (dur) {
+    hide(dur) {
 
-        var that = this
+        return Promise.resolve(this.willHide())
 
-        return Promise.resolve(that.willHide()).then(function () {
+        .then(() => this.hideAnim != null && this.hideAnim.apply(this.elem))
 
-            var p
-
-            if (that.hideAnim != null) {
-
-                p = that.hideAnim.apply(that.elem)
-
-            }
-
-            return p
-
-        }).then(function () {
-
-            return that.didHide()
-
-        })
+        .then(() => this.didHide())
 
     }
 
@@ -91,16 +103,10 @@ domain.common.Being = subclass(Actor, function (pt) {
      * @param {Number} dur The duration of the animation
      * @return {Promise}
      */
-    pt.disappear = function (dur) {
+    disappear(dur) {
 
-        var that = this
-
-        return this.hide(dur).then(function () {
-
-            return that.elem.remove()
-
-        })
+        return this.hide(dur).then(() => this.elem.remove())
 
     }
 
-})
+}

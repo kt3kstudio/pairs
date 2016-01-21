@@ -1,3 +1,5 @@
+import Grid from '../../../src/domain/common/Grid'
+
 describe('Sprite', function () {
     'use strict'
 
@@ -24,7 +26,7 @@ describe('Sprite', function () {
 
         }
 
-        sprite.setGrid(new domain.common.Grid())
+        sprite.setGrid(new Grid())
 
     })
 

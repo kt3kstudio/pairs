@@ -1,10 +1,9 @@
+import Being from './Being'
+
 /**
  * DimensionalBeing has its dimension.
- *
- * @class
- * @extends domain.common.Being
  */
-domain.common.DimensionalBeing = subclass(domain.common.Being, function (pt, parent) {
+domain.common.DimensionalBeing = subclass(Being, function (pt, parent) {
     'use strict'
 
     /**
