@@ -70,11 +70,11 @@ export default class Rect {
      *      get: [0, 2]
      *  })
      *
-     * @param {Number[]} [partition] The horizontal partition number and vertical number.
-     * @param {Number[]} [get] The horizontal position and vertical position
+     * @param {number[]} [partition] The horizontal partition number and vertical number.
+     * @param {number[]} [get] The horizontal position and vertical position
      * @return {Rect}
      */
-    subrect({partion, get} = {}) {
+    subrect({partition, get} = {}) {
 
         partition = partition || []
         get = get || []
@@ -84,14 +84,24 @@ export default class Rect {
         var getX = get[0] || 0
         var getY = get[1] || 0
 
-        var unitX = this.width() / partX
-        var unitY = this.height() / partY
+        return this.sub(partX, partY).shift(getX, getY)
+
+    }
+
+    /**
+     * Returns a sub rectangular divided by the given partition numbers.
+     *
+     * @param {number} partX  The horizontal number
+     * @param {number} partY  The vertical number
+     * @return {Rect}
+     */
+    sub(partX = 1, partY = 1) {
 
         return new Rect({
-            top: this.top + getY * unitY,
-            left: this.left + getX * unitX,
-            right: this.left + getX * unitX + unitX,
-            bottom: this.top + getY * unitY + unitY
+            top: this.top,
+            left: this.left,
+            right: this.left + this.width() / partX,
+            bottom: this.top + this.height() / partY
         })
 
     }
@@ -109,16 +119,16 @@ export default class Rect {
         const height = this.height()
 
         return new Rect({
-            top: this.top + n + height,
+            top: this.top + n * height,
             left: this.left + m * width,
             right: this.right + m * width,
-            bottom: this.bottom + m * height
+            bottom: this.bottom + n * height
         })
 
     }
 
     /**
-     * Returns a grid
+     * Returns a dual grid
      *
      * @return {Grid}
      */

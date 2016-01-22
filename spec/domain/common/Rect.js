@@ -53,4 +53,26 @@ describe('Rect', function () {
 
     })
 
+    describe('toGrid', () => {
+
+        it('returns a grid which has origin at the center of the rect', () => {
+
+            const grid = rect.toGrid()
+
+            expect(grid.x).to.equal(rect.centerX())
+            expect(grid.y).to.equal(rect.centerY())
+
+        })
+
+        it('returns a grid which has unit width and height as the width and rect of the rect', () => {
+
+            const grid = rect.toGrid()
+
+            expect(grid.unitWidth).to.equal(rect.width())
+            expect(grid.unitHeight).to.equal(rect.height())
+
+        })
+
+    })
+
 })
