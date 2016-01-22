@@ -12,20 +12,24 @@
      * @param {String} animation The css animation
      */
     $.fn.animation = function (animation) {
+
         this.css('-webkit-animation', '').reflow().css('-webkit-animation', animation)
 
         return this
+
     }
 
     /**
      * Reflows the dom.
      */
     $.fn.reflow = function () {
-        var a = this.get(0).offsetHeight
+
+        let a = this.get(0).offsetHeight
 
         a++
 
         return this
+
     }
 
     /**
@@ -36,9 +40,11 @@
      * @return {Promise}
      */
     $.fn.anim = function (animation, dur) {
+
         this.animation(animation + ' ' + dur + 'ms')
 
         return wait(dur, this)
+
     }
 
     /**
@@ -48,13 +54,9 @@
      * @return {Promise}
      */
     $.fn.once = function (events) {
-        var that = this
 
-        return new Promise(function (resolve) {
-            that.one(events, function (event) {
-                resolve(event)
-            })
-        })
+        return new Promise((resolve) => this.one(events, resolve))
+
     }
 
     /**
@@ -64,7 +66,9 @@
      * @return {Rx.Observable}
      */
     $.fn.streamOf = function (events) {
+
         return Rx.Observable.fromEvent(this, events)
+
     }
 
     /**
@@ -73,28 +77,19 @@
      * @return {Promise}
      */
     $.fn.imageLoaded = function () {
-        var self = this
 
-        return new Promise(function (resolve, reject) {
-            self.on('error', function () {
-                reject(new Error('image can not be loaded: ' + self.attr('src')))
-            })
+        return new Promise((resolve, reject) =>
 
-            self.on('load', function () {
-                resolve()
-            })
+            this
 
-            self.attr('src', self.attr('src'))
-        })
+            .on('error', () => reject(new Error('image can not be loaded: ' + this.attr('src'))))
+
+            .on('load', () => resolve())
+
+            .attr('src', this.attr('src'))
+
+        )
+
     }
 
-    /**
-     * Sets the position
-     */
-    $.fn.setPosition = function (position) {
-        this.css('left', position.left)
-        this.css('top', position.top)
-
-        return this
-    }
 }(window.jQuery))
