@@ -1,23 +1,28 @@
 /**
  * MenuItem handles the behaviour of items of the menu.
  */
-ui.common.MenuItem = subclass($.cc.Coelement, function (pt, parent) {
-    'use strict'
+class MenuItem extends $.cc.Coelement {
 
-    pt.constructor = function () {
-        parent.constructor.apply(this, arguments)
+    constructor(elem) {
+
+        super(elem)
 
         var menu = this.elem.data('menu')
 
         if (menu && menu.length) {
+
             this.elem.cc.init('menu-button')
+
         }
+
     }
 
     /**
      * Invokes custom onclick handler.
      */
-    pt.handleOnClick = function () {
+    @$.cc.event('click')
+    handleOnClick() {
+
         var onclick = this.elem.data('onclick')
 
         if (typeof onclick !== 'string' || onclick === '') {
@@ -25,7 +30,8 @@ ui.common.MenuItem = subclass($.cc.Coelement, function (pt, parent) {
         }
 
         window.eval(onclick)
-    }.event('click')
+
+    }
 
     /**
      * Shows the element moving towards the given offset
@@ -33,14 +39,14 @@ ui.common.MenuItem = subclass($.cc.Coelement, function (pt, parent) {
      * @param {Object} to The offset to goes to.
      * @return {Promise}
      */
-    pt.show = function (to) {
-        var that = this
+    show(to) {
 
-        that.elem.removeClass('hidden')
+        this.elem.removeClass('hidden')
 
-        that.setOffset(to)
+        this.setOffset(to)
 
         return Promise.resolve()
+
     }
 
     /**
@@ -49,12 +55,16 @@ ui.common.MenuItem = subclass($.cc.Coelement, function (pt, parent) {
      * @private
      * @param {Object} offset
      */
-    pt.setOffset = function (offset) {
+    setOffset(offset) {
+
         this.elem.offset(offset)
 
         if (this.elem.hasClass('menu-button')) {
+
             this.elem.cc.get('menu-button').setOffset(offset)
+
         }
+
     }
 
     /**
@@ -63,24 +73,25 @@ ui.common.MenuItem = subclass($.cc.Coelement, function (pt, parent) {
      * @param {Object} offset The offset to hides
      * @return {Promise}
      */
-    pt.hide = function (offset) {
+    hide(offset) {
+
         this.elem.addClass('hidden')
 
         this.setOffset(offset)
 
-        var elem = this.elem
-
         var p = wait(50)
 
         // Hides child menus if exist
-        if (elem.hasClass('menu-button')) {
-            p = p.then(function () {
-                return elem.cc.get('menu-button').closeMenu(offset)
-            })
+        if (this.elem.hasClass('menu-button')) {
+
+            p = p.then(() => this.elem.cc.get('menu-button').closeMenu(offset))
+
         }
 
         return p
-    }
-})
 
-$.cc.assign('menu-item', ui.common.MenuItem)
+    }
+
+}
+
+$.cc.assign('menu-item', MenuItem)
