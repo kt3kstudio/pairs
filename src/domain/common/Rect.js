@@ -128,6 +128,170 @@ export default class Rect {
     }
 
     /**
+     * Shifts up by the given number of units.
+     *
+     * @param {number} n The number to shift
+     * @return {Rect}
+     */
+    shiftUp(n = 1) {
+
+        return this.shift(0, -n)
+
+    }
+
+    /**
+     * Shifts left by the given number of units.
+     *
+     * @param {number} n The number to shift
+     * @return {Rect}
+     */
+    shiftLeft(n = 1) {
+
+        return this.shift(-n, 0)
+
+    }
+
+    /**
+     * Shifts right by the given number of units.
+     *
+     * @param {number} n The number to shift
+     * @return {Rect}
+     */
+    shiftRight(n = 1) {
+
+        return this.shift(n, 0)
+
+    }
+
+    /**
+     * Shifts down by the given number of units.
+     *
+     * @param {number} n The number to shift
+     * @return {Rect}
+     */
+    shiftDown(n = 1) {
+
+        return this.shift(0, n)
+
+    }
+
+    /**
+     * Cuts out the given height from the top.
+     *
+     * @param {number} [height=0] The height
+     * @return {Rect}
+     */
+    cutTop(height = 0) {
+
+        return new Rect({
+            top: this.top,
+            left: this.left,
+            right: this.right,
+            bottom: this.top + height
+        })
+
+    }
+
+    /**
+     * Cuts out the given height from the left.
+     *
+     * @param {number} [width=0] The width
+     * @return {Rect}
+     */
+    cutLeft(width) {
+
+        return new Rect({
+            top: this.top,
+            left: this.left,
+            right: this.left + width,
+            bottom: this.bottom
+        })
+
+    }
+
+    /**
+     * Cuts out the given height from the right.
+     *
+     * @param {number} [width=0] The width
+     * @return {Rect}
+     */
+    cutRight(width) {
+
+        return new Rect({
+            top: this.top,
+            left: this.right - width,
+            right: this.right,
+            bottom: this.bottom
+        })
+
+    }
+
+    /**
+     * Cuts out the given height from the bottom.
+     *
+     * @param {number} [height=0] The height
+     * @return {Rect}
+     */
+    cutBottom(height) {
+
+        return new Rect({
+            top: this.bottom - height,
+            left: this.left,
+            right: this.right,
+            bottom: this.bottom
+        })
+
+    }
+
+    /**
+     * Return the next rect which shares the top side of the given height
+     *
+     * @param {number} height The height
+     * @return {Rect}
+     */
+    extTop(height) {
+
+        return this.shiftUp().cutBottom(height)
+
+    }
+
+    /**
+     * Return the next rect which shares the left side of the given width
+     *
+     * @param {number} width The width
+     * @return {Rect}
+     */
+    extLeft(width) {
+
+        return this.shiftLeft().cutRight(width)
+
+    }
+
+    /**
+     * Return the next rect which shares the right side of the given width
+     *
+     * @param {number} width The width
+     * @return {Rect}
+     */
+    extRight(width) {
+
+        return this.shiftRight().cutLeft(width)
+
+    }
+
+    /**
+     * Return the next rect which shares the bottom side of the given height
+     *
+     * @param {number} height The height
+     * @return {Rect}
+     */
+    extBottom(height) {
+
+        return this.shiftDown().cutTop(height)
+
+    }
+
+    /**
      * Returns a dual grid
      *
      * @return {Grid}
