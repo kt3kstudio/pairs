@@ -49,7 +49,7 @@ export default class Rect {
      */
     centerX() {
 
-        return this.left + this.width() / 2
+        return (this.left + this.right) / 2
 
     }
 
@@ -58,7 +58,7 @@ export default class Rect {
      */
     centerY() {
 
-        return this.top + this.height() / 2
+        return (this.top + this.bottom) / 2
 
     }
 
@@ -70,17 +70,14 @@ export default class Rect {
      *      get: [0, 2]
      *  })
      *
-     * @param {Object} [options] The options
-     * @param {Number[]} [options.partition] The horizontal partition number and vertical number.
-     * @param {Number[]} [options.get] The horizontal position and vertical position
+     * @param {Number[]} [partition] The horizontal partition number and vertical number.
+     * @param {Number[]} [get] The horizontal position and vertical position
      * @return {Rect}
      */
-    subrect(options) {
+    subrect({partion, get} = {}) {
 
-        options = options || {}
-
-        var partition = options.partition || []
-        var get = options.get || []
+        partition = partition || []
+        get = get || []
 
         var partX = partition[0] || 1
         var partY = partition[1] || 1
@@ -100,8 +97,27 @@ export default class Rect {
     }
 
     /**
-     * [experimental]
+     * Returns a shifted rect by the given horizontal and vertical numbers.
      *
+     * @param {number} [m=0] The horizontal number
+     * @param {number} [n=0] The vertical number
+     * @return {Rect}
+     */
+    shift(m = 0, n = 0) {
+
+        const width = this.width()
+        const height = this.height()
+
+        return new Rect({
+            top: this.top + n + height,
+            left: this.left + m * width,
+            right: this.right + m * width,
+            bottom: this.bottom + m * height
+        })
+
+    }
+
+    /**
      * Returns a grid
      *
      * @return {Grid}
@@ -109,8 +125,8 @@ export default class Rect {
     toGrid() {
 
         return new Grid({
-            x: this.left + this.width() / 2,
-            y: this.top + this.height() / 2,
+            x: this.centerX(),
+            y: this.centerY(),
             unitWidth: this.width(),
             unitHeight: this.height()
         })
