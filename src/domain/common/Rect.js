@@ -97,12 +97,55 @@ export default class Rect {
      */
     sub(partX = 1, partY = 1) {
 
-        return new Rect({
-            top: this.top,
-            left: this.left,
-            right: this.left + this.width() / partX,
-            bottom: this.top + this.height() / partY
-        })
+        return this.leftPart(partX).topPart(partY)
+
+    }
+
+    /**
+     * Returns the top fragment divided by the given partition number.
+     *
+     * @param {number} partition The partition number
+     * @return {Rect}
+     */
+    topPart(partition) {
+
+        return this.cutTop(this.height() / partition)
+
+    }
+
+    /**
+     * Returns the left fragment divided by the given partition number.
+     *
+     * @param {number} partition The partition number
+     * @return {Rect}
+     */
+    leftPart(partition) {
+
+        return this.cutLeft(this.width() / partition)
+
+    }
+
+    /**
+     * Returns the right fragment divided by the given partition number.
+     *
+     * @param {number} partition The partition number
+     * @return {Rect}
+     */
+    rightPart(partition) {
+
+        return this.cutRight(this.width() / partition)
+
+    }
+
+    /**
+     * Returns the bottom fragment divided by the given partition number.
+     *
+     * @param {number} partition The partition number
+     * @return {Rect}
+     */
+    bottomPart(partition) {
+
+        return this.cutBottom(this.height() / partition)
 
     }
 
