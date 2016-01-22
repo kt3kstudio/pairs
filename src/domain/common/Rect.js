@@ -63,15 +63,15 @@ export default class Rect {
     }
 
     /**
-     * Returns a sub rectangular divided by the given partition numbers and of the given position
+     * Returns a sub rectangular divided by the given partition numbers and of the given position.
      *
      *  rect.subrect({
      *      partition: [3, 4],
      *      get: [0, 2]
      *  })
      *
-     * @param {number[]} [partition] The horizontal partition number and vertical number.
-     * @param {number[]} [get] The horizontal position and vertical position
+     * @param {number[]} partition The horizontal partition number and vertical number.
+     * @param {number[]} get The horizontal position and vertical position
      * @return {Rect}
      */
     subrect({partition, get} = {}) {

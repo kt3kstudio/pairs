@@ -59,8 +59,8 @@ export default class Grid {
     /**
      * Returns the translated grid by the given distances.
      *
-     * @param {Number} m The horizontal translate distance
-     * @param {Number} n The vertical translate distance
+     * @param {Number} x The horizontal translate distance
+     * @param {Number} y The vertical translate distance
      * @return {Grid}
      */
     translated(x, y) {
