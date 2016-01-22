@@ -1,3 +1,5 @@
+import Rect from './Rect'
+
 /**
  * Grid model represents the grid layout.
  *
@@ -107,6 +109,38 @@ export default class Grid {
             cellHeight: this.cellHeight / n
 
         })
+
+    }
+
+    /**
+     * Returns a dual rect.
+     *
+     * @return {Rect}
+     */
+    toRect() {
+
+        const halfWidth = this.unitWidth / 2
+        const halfHeight = this.unitHeight / 2
+
+        return new Rect({
+
+            top: this.y - halfHeight,
+            left: this.x - halfWidth,
+            right: this.x + halfWidth,
+            bottom: this.y + halfHeight
+
+        })
+
+    }
+
+    /**
+     * Returns a dual rect.
+     *
+     * @return {Rect}
+     */
+    dual() {
+
+        return this.toRect()
 
     }
 

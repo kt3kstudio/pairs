@@ -307,4 +307,15 @@ export default class Rect {
 
     }
 
+    /**
+     * Returns a dual grid
+     *
+     * @return {Grid}
+     */
+    dual() {
+
+        return this.toGrid()
+
+    }
+
 }

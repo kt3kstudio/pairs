@@ -1,4 +1,5 @@
 import Rect from '../../../src/domain/common/Rect'
+import Grid from '../../../src/domain/common/Grid'
 
 describe('Rect', function () {
 
@@ -70,6 +71,34 @@ describe('Rect', function () {
 
             expect(grid.unitWidth).to.equal(rect.width())
             expect(grid.unitHeight).to.equal(rect.height())
+
+        })
+
+    })
+
+    describe('dual', () => {
+
+        it('returns a dual grid', () => {
+
+            const dual = rect.dual()
+
+            expect(dual).to.be.instanceof(Grid)
+            expect(dual.x).to.equal(rect.centerX())
+            expect(dual.y).to.equal(rect.centerY())
+            expect(dual.unitWidth).to.equal(rect.width())
+            expect(dual.unitHeight).to.equal(rect.height())
+
+        })
+
+        it('returns a dual grid and its dual is the same as the original', () => {
+
+            const dualDual = rect.dual().dual()
+
+            expect(dualDual).to.be.instanceof(Rect)
+            expect(dualDual.top).to.equal(rect.top)
+            expect(dualDual.left).to.equal(rect.left)
+            expect(dualDual.right).to.equal(rect.right)
+            expect(dualDual.bottom).to.equal(rect.bottom)
 
         })
 
