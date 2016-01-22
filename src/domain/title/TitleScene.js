@@ -9,17 +9,6 @@ const event = $.cc.event
 class TitleScene extends SceneContext {
 
     /**
-     * Gets the menu button.
-     *
-     * @return {MenuButton}
-     */
-    getMenuBtn() {
-
-        return $('.menu-button-root').cc.get('menu-button')
-
-    }
-
-    /**
      * Entry point of the title scene.
      */
     @event('scene-start')
@@ -31,7 +20,7 @@ class TitleScene extends SceneContext {
 
         wait(500).then(() => {
 
-            this.getMenuBtn().show()
+            this.getMenuButton().show()
 
             $('<p />')
                 .text('GET UP')

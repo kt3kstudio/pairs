@@ -24,13 +24,6 @@ domain.map.MapScene = subclass(SceneContext, function (pt, parent) {
     }.event('scene-start')
 
     /**
-     * Gets the menu button
-     *
-     * @return {ui.common.MenuButton}
-     */
-    pt.getMenuButton = function () { return this.getGlobal('.menu-button-root', 'menu-button') }
-
-    /**
      * Gets the floor asset collection.
      *
      * @return {domain.map.FloorAssetCollection}

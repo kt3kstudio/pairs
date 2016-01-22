@@ -6,17 +6,6 @@ import SceneContext from '../../domain/common/SceneContext'
 export default class Context extends SceneContext {
 
     /**
-     * Gets the menu button.
-     *
-     * @return {ui.common.MenuButton}
-     */
-    getMenuButton() {
-
-        return this.getGlobal('.menu-button-root', 'menu-button')
-
-    }
-
-    /**
      * Gets the field grid.
      *
      * @return {domain.level.Field}
