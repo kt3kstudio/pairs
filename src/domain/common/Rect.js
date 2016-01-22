@@ -104,10 +104,10 @@ export default class Rect {
     /**
      * Returns the top fragment divided by the given partition number.
      *
-     * @param {number} partition The partition number
+     * @param {number} [partition=2] The partition number
      * @return {Rect}
      */
-    topPart(partition) {
+    topPart(partition = 2) {
 
         return this.cutTop(this.height() / partition)
 
@@ -116,10 +116,10 @@ export default class Rect {
     /**
      * Returns the left fragment divided by the given partition number.
      *
-     * @param {number} partition The partition number
+     * @param {number} [partition=2] The partition number
      * @return {Rect}
      */
-    leftPart(partition) {
+    leftPart(partition = 2) {
 
         return this.cutLeft(this.width() / partition)
 
@@ -128,10 +128,10 @@ export default class Rect {
     /**
      * Returns the right fragment divided by the given partition number.
      *
-     * @param {number} partition The partition number
+     * @param {number} [partition=2] The partition number
      * @return {Rect}
      */
-    rightPart(partition) {
+    rightPart(partition = 2) {
 
         return this.cutRight(this.width() / partition)
 
@@ -140,10 +140,10 @@ export default class Rect {
     /**
      * Returns the bottom fragment divided by the given partition number.
      *
-     * @param {number} partition The partition number
+     * @param {number} [partition=2] The partition number
      * @return {Rect}
      */
-    bottomPart(partition) {
+    bottomPart(partition = 2) {
 
         return this.cutBottom(this.height() / partition)
 
