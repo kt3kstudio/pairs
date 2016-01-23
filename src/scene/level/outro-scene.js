@@ -1,5 +1,5 @@
-import Context from './Context'
-import PlaySceneLayout from './PlaySceneLayout'
+import Context from './context'
+import PlaySceneLayout from './play-scene-layout'
 import BackgroundService from '../../ui/common/BackgroundService'
 
 const event = $.cc.event
