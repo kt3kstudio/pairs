@@ -1,6 +1,6 @@
 import Rect from '../../../src/domain/common/Rect'
 import Grid from '../../../src/domain/common/Grid'
-import PlaySceneLayout from '../../../src/scene/level/PlaySceneLayout'
+import PlaySceneLayout from '../../../src/scene/level/play-scene-layout'
 
 describe('PlaySceneLayout', function () {
     'use strict'

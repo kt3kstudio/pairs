@@ -85,7 +85,7 @@ export default class Grid {
      * @param {Number} n The vertical shift number
      * @return {Grid}
      */
-    shifted(m, n) {
+    shift(m, n) {
 
         return this.translated(this.unitWidth * m, this.unitHeight * n)
 

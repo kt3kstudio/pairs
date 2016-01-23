@@ -50,14 +50,14 @@ describe('Grid', function () {
 
     })
 
-    describe('shifted', function () {
+    describe('shift', function () {
 
         it('returns the shifted grid', function () {
 
-            expect(grid.shifted(1, 2).getX(0)).to.equal(grid.getX(1))
-            expect(grid.shifted(1, 2).getX(1)).to.equal(grid.getX(2))
-            expect(grid.shifted(1, 2).getY(0)).to.equal(grid.getY(2))
-            expect(grid.shifted(1, 2).getY(1)).to.equal(grid.getY(3))
+            expect(grid.shift(1, 2).getX(0)).to.equal(grid.getX(1))
+            expect(grid.shift(1, 2).getX(1)).to.equal(grid.getX(2))
+            expect(grid.shift(1, 2).getY(0)).to.equal(grid.getY(2))
+            expect(grid.shift(1, 2).getY(1)).to.equal(grid.getY(3))
 
         })
 
