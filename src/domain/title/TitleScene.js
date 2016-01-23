@@ -39,7 +39,7 @@ class TitleScene extends SceneContext {
      */
     fadeOut() {
 
-        return Promise.all([this.getMenuBtn().hide(), $('.elem').css('opacity', 0).anim('disappear', 500).then(() => {
+        return Promise.all([this.getMenuButton().hide(), $('.elem').css('opacity', 0).anim('disappear', 500).then(() => {
 
             $('.elem').remove()
 
