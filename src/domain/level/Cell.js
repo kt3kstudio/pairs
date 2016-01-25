@@ -1,4 +1,5 @@
 import Animation from '../common/Animation'
+import BomTable from '../common/BomTable'
 /**
  * Cell class represents a unit (nim and neef) on the field of the level.
  *
@@ -154,7 +155,7 @@ domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
 
         }
 
-        var cellKind = domain.common.BomTable[this.gene.length]
+        var cellKind = BomTable[this.gene.length]
 
         return 'images/' + cellKind + '.svg'
 

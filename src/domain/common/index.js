@@ -1,7 +1,6 @@
 import './GridWalker'
 import './Sprite'
 import './CharSprite'
-import './BomTable'
 import './Image'
 import './Ma'
 import './StaticSprite'
