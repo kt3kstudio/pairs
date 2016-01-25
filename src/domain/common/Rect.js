@@ -150,6 +150,54 @@ export default class Rect {
     }
 
     /**
+     * Returns a new rect which scales the top side
+     *
+     * @param {Number} scale The scale rate
+     * @return {Rect}
+     */
+    scaleTop(scale = 1) {
+
+        return this.cutBottom(this.height() * scale)
+
+    }
+
+    /**
+     * Returns a new rect which scales the left side
+     *
+     * @param {Number} scale The scale rate
+     * @return {Rect}
+     */
+    scaleLeft(scale = 1) {
+
+        return this.cutRight(this.width() * scale)
+
+    }
+
+    /**
+     * Returns a new rect which scales the right side
+     *
+     * @param {Number} scale The scale rate
+     * @return {Rect}
+     */
+    scaleRight(scale = 1) {
+
+        return this.cutLeft(this.width() * scale)
+
+    }
+
+    /**
+     * Returns a new rect which scales the bottom side
+     *
+     * @param {Number} scale The scale rate
+     * @return {Rect}
+     */
+    scaleBottom(scale = 1) {
+
+        return this.curTop(this.height() * scale)
+
+    }
+
+    /**
      * Returns a shifted rect by the given horizontal and vertical numbers.
      *
      * @param {number} [m=0] The horizontal number
@@ -292,7 +340,7 @@ export default class Rect {
      * @param {number} height The height
      * @return {Rect}
      */
-    extTop(height) {
+    extCutTop(height) {
 
         return this.shiftUp().cutBottom(height)
 
@@ -304,7 +352,7 @@ export default class Rect {
      * @param {number} width The width
      * @return {Rect}
      */
-    extLeft(width) {
+    extCutLeft(width) {
 
         return this.shiftLeft().cutRight(width)
 
@@ -316,7 +364,7 @@ export default class Rect {
      * @param {number} width The width
      * @return {Rect}
      */
-    extRight(width) {
+    extCutRight(width) {
 
         return this.shiftRight().cutLeft(width)
 
@@ -328,7 +376,7 @@ export default class Rect {
      * @param {number} height The height
      * @return {Rect}
      */
-    extBottom(height) {
+    extCutBottom(height) {
 
         return this.shiftDown().cutTop(height)
 
