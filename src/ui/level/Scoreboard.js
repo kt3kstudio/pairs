@@ -1,5 +1,6 @@
 import Animation from '../../domain/common/Animation'
 import DimensionalBeing from '../../domain/common/DimensionalBeing'
+import {commaNumber} from '../../util/util'
 
 /**
  * Scoreboard handles the behaviour of the score board of the level view.
@@ -65,7 +66,7 @@ ui.level.Scoreboard = subclass(DimensionalBeing, function (pt, parent) {
      */
     pt.update = function () {
 
-        this.elem.text(window.commaNumber(this.score))
+        this.elem.text(commaNumber(this.score))
 
     }
 

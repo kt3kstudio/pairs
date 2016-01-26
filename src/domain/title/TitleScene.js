@@ -1,5 +1,6 @@
 import SceneContext from '../common/SceneContext'
 import BackgroundService from '../../ui/common/BackgroundService'
+import {loadImage} from '../../util/util'
 
 const event = $.cc.event
 
