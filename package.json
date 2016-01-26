@@ -59,7 +59,7 @@
     "patapata": "^1.0.0",
     "rx-lite": "^4.0.7",
     "souffle-cli": "^3.1.0",
-    "spn": "^0.2.0",
+    "spn": "^0.4.0",
     "subclassjs": "^1.3.0",
     "swipe-event": "^0.4.1",
     "through": "^2.3.8"
