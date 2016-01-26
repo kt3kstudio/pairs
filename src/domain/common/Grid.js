@@ -65,15 +65,9 @@ export default class Grid {
      */
     translated(x, y) {
 
-        return new Grid({
-
+        return this.override({
             x: this.x + x,
-            y: this.y + y,
-            unitWidth: this.unitWidth,
-            unitHeight: this.unitHeight,
-            cellWidth: this.cellWidth,
-            cellHeight: this.cellHeight
-
+            y: this.y + y
         })
 
     }
@@ -94,20 +88,77 @@ export default class Grid {
     /**
      * Returns the subgrid devided by the given horizontal and vertical numbers.
      *
+     * @deprecated
      * @param {Number} [m=1] The horizontal division number
      * @param {Number} [n=1] The vertical division number
      */
     subgrid(m = 1, n = 1) {
 
+        return this.scaleX(1 / m).scaleY(1 / n)
+
+    }
+
+    /**
+     * Scales the grid by the x axis.
+     *
+     * @param {Number} scale The scale
+     * @return {Grid}
+     */
+    scaleX(scale) {
+
+        return this.override({
+            unitWidth: this.unitWidth * scale,
+            cellWidth: this.cellWidth * scale
+        })
+
+    }
+
+    /**
+     * Scales the grid by the y axis.
+     *
+     * @param {Number} scale The scale
+     * @return {Grid}
+     */
+    scaleY(scale) {
+
+        return this.override({
+            unitHeight: this.unitHeight * scale,
+            cellHeight: this.cellHeight * scale
+        })
+
+    }
+
+    scaleCellX(scale) {
+
+        return this.override({cellWidth: this.cellWidth * scale})
+
+    }
+
+    scaleCellY(scale) {
+
+        return this.override({cellHeight: this.cellHeight * scale})
+
+    }
+
+    /**
+     * Overrides the given paramter by the given value and returns a new grid.
+     *
+     * @param {number} x The x
+     * @param {number} y The y
+     * @param {number} unitWidth The unitWidth
+     * @param {number} unitHeight The unitHeight
+     * @param {number} cellWidth The cellWidth
+     * @param {number} cellHeight The cellHeight
+     */
+    override({x, y, unitWidth, unitHeight, cellWidth, cellHeight} = {}) {
+
         return new Grid({
-
-            x: this.x,
-            y: this.y,
-            unitWidth: this.unitWidth / m,
-            unitHeight: this.unitHeight / n,
-            cellWidth: this.cellWidth / m,
-            cellHeight: this.cellHeight / n
-
+            x: x || this.x,
+            y: y || this.y,
+            unitWidth: unitWidth || this.unitWidth,
+            unitHeight: unitHeight || this.unitHeight,
+            cellWidth: cellWidth || this.cellWidth,
+            cellHeight: cellHeight || this.cellHeight
         })
 
     }

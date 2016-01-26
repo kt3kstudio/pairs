@@ -70,6 +70,7 @@ export default class Rect {
      *      get: [0, 2]
      *  })
      *
+     * @deprecated Use scale{Direction} and shift{Direction} methods
      * @param {number[]} partition The horizontal partition number and vertical number.
      * @param {number[]} get The horizontal position and vertical position
      * @return {Rect}
@@ -91,6 +92,7 @@ export default class Rect {
     /**
      * Returns a sub rectangular divided by the given partition numbers.
      *
+     * @deprecated Use scale{Direction} methods
      * @param {number} partX  The horizontal number
      * @param {number} partY  The vertical number
      * @return {Rect}
@@ -193,7 +195,7 @@ export default class Rect {
      */
     scaleBottom(scale = 1) {
 
-        return this.curTop(this.height() * scale)
+        return this.cutTop(this.height() * scale)
 
     }
 

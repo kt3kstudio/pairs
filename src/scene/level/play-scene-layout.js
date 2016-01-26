@@ -1,5 +1,7 @@
 import DimensionFactory from '../../domain/common/DimensionFactory'
 
+const TOP_UI_HEIGHT = 50 // The top ui component height
+const BOTTOM_AD_SAFETY_HEIGHT = 50 // The ad safety zone
 /**
  * The factory class of the dimensions of various object on level scene.
  *
@@ -13,28 +15,25 @@ export default class PlaySceneLayout extends DimensionFactory {
     constructor() {
 
         super({
-            marginTop: 50, // The top ui component height
-            marginBottom: 50, // The ad safety zone
+            marginTop: TOP_UI_HEIGHT,
+            marginBottom: BOTTOM_AD_SAFETY_HEIGHT,
             widthRate: 2,
             heightRate: 3
         })
 
-        this.UNIT = this.main.width() / 4
-        this.LEFT = this.main.left + this.main.width() / 8
-        this.TOP = this.main.top
+        this.unit = this // The unit rect on the left top corner.
+        .main
+        .scaleBottom(1 / 6)
+        .scaleRight(1 / 4)
 
     }
 
     playGrid() {
 
-        return this.grid({
-
-            x: this.main.left + this.UNIT,
-            y: this.TOP + this.UNIT * 2.5,
-            unitWidth: this.UNIT,
-            unitHeight: this.UNIT
-
-        })
+        return this.unit
+        .shiftRight(0.5)
+        .shiftDown(2)
+        .toGrid()
 
     }
 
@@ -45,14 +44,11 @@ export default class PlaySceneLayout extends DimensionFactory {
      */
     fieldRect() {
 
-        return this.rect({
-
-            left: this.LEFT,
-            right: this.LEFT + this.UNIT * 3,
-            top: this.TOP + this.UNIT * 2,
-            bottom: this.TOP + this.UNIT * 5
-
-        })
+        return this.unit
+        .shiftRight(0.5)
+        .shiftDown(2)
+        .scaleRight(3)
+        .scaleBottom(3)
 
     }
 
@@ -63,16 +59,11 @@ export default class PlaySceneLayout extends DimensionFactory {
      */
     evalRoomGrid() {
 
-        return this.grid({
-
-            x: this.main.left + this.UNIT,
-            y: this.TOP + this.UNIT * 1.5,
-            unitWidth: this.UNIT * 2,
-            unitHeight: this.UNIT * 2,
-            cellWidth: this.UNIT * 1.7,
-            cellHeight: this.UNIT * 1.7
-
-        })
+        return this.unit
+        .scaleBottom(1.7)
+        .scaleRight(2)
+        .shiftDown(0.4)
+        .toGrid()
 
     }
 
@@ -83,14 +74,13 @@ export default class PlaySceneLayout extends DimensionFactory {
      */
     queueGrid() {
 
-        return this.grid({
-
-            x: this.main.left + this.UNIT * 2,
-            y: this.TOP + this.UNIT * 0.5,
-            unitWidth: this.UNIT * 0.5,
-            unitHeight: this.UNIT * 0.5
-
-        })
+        return this
+        .unit
+        .scaleBottom(0.5)
+        .scaleRight(0.5)
+        .shiftDown(0.5)
+        .shiftRight(3.5)
+        .toGrid()
 
     }
 
@@ -101,14 +91,13 @@ export default class PlaySceneLayout extends DimensionFactory {
      */
     fusionBoxGrid() {
 
-        return this.grid({
-
-            x: this.main.left + this.UNIT * 2,
-            y: this.TOP + this.UNIT * 1.5,
-            unitWidth: this.UNIT * 0.5,
-            unitHeight: this.UNIT * 0.5
-
-        })
+        return this
+        .unit
+        .scaleRight(0.5)
+        .scaleBottom(0.5)
+        .shiftDown(2.5)
+        .shiftRight(3.5)
+        .toGrid()
 
     }
 
@@ -119,14 +108,10 @@ export default class PlaySceneLayout extends DimensionFactory {
      */
     resultPaneRect() {
 
-        return this.rect({
-
-            left: this.main.left,
-            top: this.main.top + this.UNIT,
-            right: this.main.right,
-            bottom: this.main.bottom
-
-        })
+        return this
+        .main
+        .scaleTop(4.5 / 6)
+        .scaleBottom(4 / 4.5)
 
     }
 
@@ -137,14 +122,10 @@ export default class PlaySceneLayout extends DimensionFactory {
      */
     scoreboardRect() {
 
-        return this.rect({
-
-            left: this.main.left,
-            top: 0,
-            right: this.main.left + this.UNIT * 2,
-            bottom: this.main.top
-
-        })
+        return this
+        .main
+        .scaleRight(0.5)
+        .extCutTop(50)
 
     }
 

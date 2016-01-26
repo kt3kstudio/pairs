@@ -1,5 +1,6 @@
 import DimensionFactory from '../../domain/common/DimensionFactory'
 
+const BOTTOM_AD_SAFETY_HEIGHT = 50 // The ad safety zone
 /**
  * The layout manager for intro scene
  */
@@ -8,7 +9,7 @@ export default class IntroSceneLayout extends DimensionFactory {
     constructor() {
 
         super({
-            marginBottom: 50, // The ad safety zone
+            marginBottom: BOTTOM_AD_SAFETY_HEIGHT,
             widthRate: 2,
             heightRate: 3
         })
@@ -22,14 +23,13 @@ export default class IntroSceneLayout extends DimensionFactory {
      */
     centerGrid() {
 
-        return this.grid({
-
-            x: this.main.centerX(),
-            y: this.main.top + this.main.width(),
-            unitHeight: this.main.width() / 2 + 50 + 200,
+        return this
+        .main
+        .shiftDown(0.21)
+        .toGrid()
+        .override({
             cellWidth: 70,
             cellHeight: 70
-
         })
 
     }
