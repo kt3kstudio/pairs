@@ -1,5 +1,6 @@
 import Being from './Being'
 import Dimension from './Dimension'
+import reflow from 'spn/lib/reflow'
 
 /**
  * Body has width, height, position and information about how it put at the postion.
@@ -211,7 +212,9 @@ export default class Body extends Being {
 
         this.transitionDuration = dur
 
-        this.elem.css('transition-duration', dur + 'ms').reflow()
+        this.elem.css('transition-duration', dur + 'ms')
+
+        reflow(this.elem)
 
     }
 

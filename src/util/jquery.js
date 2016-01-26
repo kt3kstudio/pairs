@@ -23,19 +23,6 @@ import reflow from 'spn/lib/reflow'
     }
 
     /**
-     * Reflows the dom.
-     */
-    $.fn.reflow = function () {
-
-        let a = this.get(0).offsetHeight
-
-        a++
-
-        return this
-
-    }
-
-    /**
      * Performs the animation in the duration and returns a promise.
      *
      * @param {String} animation The animation name

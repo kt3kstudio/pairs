@@ -1,4 +1,5 @@
 const ANIMATION_PROP_NAME = '-webkit-animation'
+import reflow from 'spn/lib/reflow'
 
 /**
  * Animation class represents the css animation.
@@ -22,10 +23,9 @@ export default class Animation {
      */
     apply(dom) {
 
-        dom
-            .css(ANIMATION_PROP_NAME, '')
-            .reflow()
-            .css(ANIMATION_PROP_NAME, this.name + ' ' + this.duration + 'ms')
+        dom.css(ANIMATION_PROP_NAME, '')
+        reflow(dom)
+        dom.css(ANIMATION_PROP_NAME, this.name + ' ' + this.duration + 'ms')
 
         return wait(this.duration)
 
