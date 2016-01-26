@@ -1,6 +1,7 @@
 import './global'
 import 'class-component'
 import 'cc-event'
+import 'event-hub'
 import '../../src/namespaces'
 import '../../src/util'
 import '../../infrastructure/infrastructure'
