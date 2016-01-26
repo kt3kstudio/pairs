@@ -1,3 +1,4 @@
+import reflow from 'spn/lib/reflow'
 /**
  * jQuery class
  *
@@ -13,7 +14,9 @@
      */
     $.fn.animation = function (animation) {
 
-        this.css('-webkit-animation', '').reflow().css('-webkit-animation', animation)
+        this.css('-webkit-animation', '')
+        reflow(this)
+        this.css('-webkit-animation', animation)
 
         return this
 
