@@ -8,10 +8,10 @@ import Grid from './Grid'
 export default class Rect {
 
     /**
-     * @param {Number} top The top position
-     * @param {Number} right The right position
-     * @param {Number} bottom The bottom position
-     * @param {Number} left The left position
+     * @param {number} top The top position
+     * @param {number} right The right position
+     * @param {number} bottom The bottom position
+     * @param {number} left The left position
      */
     constructor({top, right, bottom, left}) {
 
@@ -63,6 +63,26 @@ export default class Rect {
     }
 
     /**
+     * Returns a new rect whose parameters are overrided by the given object.
+     *
+     * @param {number} [top] The top
+     * @param {number} [left] The left
+     * @param {number} [right] The right
+     * @param {number} [bottom] The bottom
+     * @return {Rect}
+     */
+    override({top, left, right, bottom} = {}) {
+
+        return new Rect({
+            top: top != null ? top : this.top,
+            left: left != null ? left : this.left,
+            right: right != null ? right : this.right,
+            bottom: bottom != null ? bottom : this.bottom
+        })
+
+    }
+
+    /**
      * Returns a sub rectangular divided by the given partition numbers and of the given position.
      *
      *  rect.subrect({
@@ -104,57 +124,9 @@ export default class Rect {
     }
 
     /**
-     * Returns the top fragment divided by the given partition number.
-     *
-     * @param {number} [partition=2] The partition number
-     * @return {Rect}
-     */
-    topPart(partition = 2) {
-
-        return this.cutTop(this.height() / partition)
-
-    }
-
-    /**
-     * Returns the left fragment divided by the given partition number.
-     *
-     * @param {number} [partition=2] The partition number
-     * @return {Rect}
-     */
-    leftPart(partition = 2) {
-
-        return this.cutLeft(this.width() / partition)
-
-    }
-
-    /**
-     * Returns the right fragment divided by the given partition number.
-     *
-     * @param {number} [partition=2] The partition number
-     * @return {Rect}
-     */
-    rightPart(partition = 2) {
-
-        return this.cutRight(this.width() / partition)
-
-    }
-
-    /**
-     * Returns the bottom fragment divided by the given partition number.
-     *
-     * @param {number} [partition=2] The partition number
-     * @return {Rect}
-     */
-    bottomPart(partition = 2) {
-
-        return this.cutBottom(this.height() / partition)
-
-    }
-
-    /**
      * Returns a new rect which scales the top side
      *
-     * @param {Number} scale The scale rate
+     * @param {number} scale The scale rate
      * @return {Rect}
      */
     scaleTop(scale = 1) {
@@ -166,7 +138,7 @@ export default class Rect {
     /**
      * Returns a new rect which scales the left side
      *
-     * @param {Number} scale The scale rate
+     * @param {number} scale The scale rate
      * @return {Rect}
      */
     scaleLeft(scale = 1) {
@@ -178,7 +150,7 @@ export default class Rect {
     /**
      * Returns a new rect which scales the right side
      *
-     * @param {Number} scale The scale rate
+     * @param {number} scale The scale rate
      * @return {Rect}
      */
     scaleRight(scale = 1) {
@@ -190,7 +162,7 @@ export default class Rect {
     /**
      * Returns a new rect which scales the bottom side
      *
-     * @param {Number} scale The scale rate
+     * @param {number} scale The scale rate
      * @return {Rect}
      */
     scaleBottom(scale = 1) {
@@ -211,7 +183,7 @@ export default class Rect {
         const width = this.width()
         const height = this.height()
 
-        return new Rect({
+        return this.override({
             top: this.top + n * height,
             left: this.left + m * width,
             right: this.right + m * width,
@@ -276,12 +248,7 @@ export default class Rect {
      */
     cutTop(height = 0) {
 
-        return new Rect({
-            top: this.top,
-            left: this.left,
-            right: this.right,
-            bottom: this.top + height
-        })
+        return this.override({bottom: this.top + height})
 
     }
 
@@ -293,12 +260,7 @@ export default class Rect {
      */
     cutLeft(width) {
 
-        return new Rect({
-            top: this.top,
-            left: this.left,
-            right: this.left + width,
-            bottom: this.bottom
-        })
+        return this.override({right: this.left + width})
 
     }
 
@@ -310,12 +272,7 @@ export default class Rect {
      */
     cutRight(width) {
 
-        return new Rect({
-            top: this.top,
-            left: this.right - width,
-            right: this.right,
-            bottom: this.bottom
-        })
+        return this.override({left: this.right - width})
 
     }
 
@@ -327,12 +284,7 @@ export default class Rect {
      */
     cutBottom(height) {
 
-        return new Rect({
-            top: this.bottom - height,
-            left: this.left,
-            right: this.right,
-            bottom: this.bottom
-        })
+        return this.override({top: this.bottom - height})
 
     }
 
