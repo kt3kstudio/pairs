@@ -1,5 +1,6 @@
 import SceneContext from '../common/SceneContext'
 import BackgroundService from '../../ui/common/BackgroundService'
+import Floorboard from './Floorboard'
 
 /**
  * MapScene handles the scene of map
@@ -9,77 +10,89 @@ import BackgroundService from '../../ui/common/BackgroundService'
  * - interaction between view and model
  * - sequence of multi agents perfomance
  */
-domain.map.MapScene = subclass(SceneContext, function (pt, parent) {
-    'use strict'
+class MapScene extends SceneContext {
 
     /**
      * The entry point of the map scene.
      *
      * Loads things, initializes things in order, controls everything.
      */
-    pt.main = function () {
+    @$.cc.event('scene-start')
+    main() {
 
-        parent.main.apply(this, arguments)
+        super.main()
 
-    }.event('scene-start')
+    }
 
     /**
      * Gets the floor asset collection.
      *
      * @return {domain.map.FloorAssetCollection}
      */
-    pt.getFloorAssets = function () { return this.get('floor-asset-collection') }
+    getFloorAssets() {
+
+        return this.get('floor-asset-collection')
+
+    }
 
     /**
      * Gets the camera.
      *
      * @return {domain.map.Camera}
      */
-    pt.getCamera = function () { return this.getAtElem('camera') }
+    getCamera() {
+
+        return this.getAtElem('camera')
+
+    }
 
     /**
      * Gets the floor walker.
      *
      * @return {domain.map.FloorWalker}
      */
-    pt.getWalker = function () { return this.get('floor-walker') }
+    getWalker() {
+
+        return this.get('floor-walker')
+
+    }
 
     /**
      * Gets the floorboard.
      *
-     * @return {domain.map.Floorboard}
+     * @return {Floorboard}
      */
-    pt.getFloorboard = function () { return this.get('floorboard') }
+    getFloorboard() {
+
+        return this.get('floorboard')
+
+    }
 
     /**
      * Loads the data for the scene.
      */
-    pt.load = function () {
+    load() {
 
-        var self = this
+        return new datadomain.UserRepository().get()
 
-        return new datadomain.UserRepository().get().then(function (user) {
+        .then(user => new datadomain.CharacterRepository().getById(user.charId))
 
-            return new datadomain.CharacterRepository().getById(user.charId)
+        .then(character => {
 
-        }).then(function (character) {
-
-            self.character = character
+            this.character = character
 
             return Promise.resolve($.get('/data/floor/' + character.position.floorId + '.html'))
 
-        }).then(function (data) {
-
-            self.floorData = data
-
         })
+
+        .then(data => (this.floorData = data))
 
     }
 
     /**
      * Sets up the components
      */
-    pt.setUp = function () {
+    setUp() {
 
         this.spawnFloorWalker(this.character)
 
@@ -94,7 +107,7 @@ domain.map.MapScene = subclass(SceneContext, function (pt, parent) {
      *
      * @param {datadomain.Character} character
      */
-    pt.spawnFloorWalker = function (character) {
+    spawnFloorWalker(character) {
 
         $('<img />', {
 
@@ -111,13 +124,13 @@ domain.map.MapScene = subclass(SceneContext, function (pt, parent) {
      *
      * @param {datadomain.Character} character
      */
-    pt.initFloorAssets = function (character) {
+    initFloorAssets(character) {
 
         this.getFloorAssets().loadAssetsFromData(this.floorData)
 
         this.getFloorAssets().updateAssetsByLocksAndHistories(character.locks, character.histories)
 
-        var currentFloorAsset = this.getFloorAssets().findById(character.position.floorObjectId)
+        let currentFloorAsset = this.getFloorAssets().findById(character.position.floorObjectId)
 
         if (currentFloorAsset) {
 
@@ -127,37 +140,33 @@ domain.map.MapScene = subclass(SceneContext, function (pt, parent) {
 
     }
 
-    pt.start = function () {
-
-        var self = this
+    start() {
 
         this.getMenuButton().show()
 
         BackgroundService.turnWhite()
 
-        return this.getFloorboard().show().then(function () {
+        return this.getFloorboard().show()
 
-            return self.getFloorAssets().show()
+        .then(() => this.getFloorAssets().show())
 
-        }).then(function () {
+        .then(() => {
 
-            var floorAsset = self.getFloorAssets().findById(self.getWalker().getPosition().floorObjectId)
+            let floorAsset = this.getFloorAssets().findById(this.getWalker().getPosition().floorObjectId)
 
-            return self.getWalker().appearAt(floorAsset)
+            return this.getWalker().appearAt(floorAsset)
 
         })
 
     }
 
-    pt.fadeOut = function () {
+    fadeOut() {
 
         this.getMenuButton().hide()
 
-        var self = this
+        return this.getFloorAssets().hide().then(() => {
 
-        return this.getFloorAssets().hide().then(function () {
-
-            self.getFloorboard().hide()
+            this.getFloorboard().hide()
 
             return BackgroundService.turnBlack()
 
@@ -165,15 +174,9 @@ domain.map.MapScene = subclass(SceneContext, function (pt, parent) {
 
     }
 
-    pt.walkerFadeIntoDoor = function () {
+    walkerFadeIntoDoor() {
 
-        var self = this
-
-        return this.getWalker().getIntoDoor().then(function () {
-
-            return self.fadeOut()
-
-        })
+        return this.getWalker().getIntoDoor().then(() => this.fadeOut())
 
     }
 
@@ -182,15 +185,12 @@ domain.map.MapScene = subclass(SceneContext, function (pt, parent) {
      *
      * @param {String} level The level
      */
-    pt.goToLevel = function () {
+    @$.cc.event('goToLevel')
+    goToLevel() {
 
-        return this.walkerFadeIntoDoor().then(function () {
+        return this.walkerFadeIntoDoor().then(() => (location.href = 'level.html'))
 
-            location.href = 'level.html'
-
-        })
-
-    }.event('goToLevel')
+    }
 
     /**
      * Reloads the map scene.
@@ -199,23 +199,27 @@ domain.map.MapScene = subclass(SceneContext, function (pt, parent) {
      *
      * @return {Promise}
      */
-    pt.sceneReload = function () {
+    @$.cc.event('sceneReload')
+    sceneReload() {
 
-        return this.walkerFadeIntoDoor().then(function () {
+        return this.walkerFadeIntoDoor().then(() => location.reload())
 
-            location.reload()
+    }
 
-        })
-
-    }.event('sceneReload')
-
-    pt.assetUnlock = function (e) {
-
-        var self = this
+    /**
+     * Unlocks the asset specified at the event object.
+     *
+     * @param {Event} e The event
+     * @return {Promise}
+     */
+    @$.cc.event('assetUnlock')
+    assetUnlock(e) {
 
         var asset = e.floorAsset
 
-        return this.getCamera().scrollTo(asset.centerX(), 500).then(function () {
+        return this.getCamera().scrollTo(asset.centerX(), 500)
+
+        .then(() => {
 
             asset.removeFrog()
             asset.locked = false
@@ -223,14 +227,12 @@ domain.map.MapScene = subclass(SceneContext, function (pt, parent) {
 
             return wait(500)
 
-        }).then(function () {
-
-            self.getCamera().scrollTo(self.getWalker().x, 500)
-
         })
 
-    }.event('assetUnlock')
+        .then(() => this.getCamera().scrollTo(this.getWalker().x, 500))
 
-})
+    }
 
-$.cc.assign('map-scene', domain.map.MapScene)
+}
+
+$.cc.assign('map-scene', MapScene)

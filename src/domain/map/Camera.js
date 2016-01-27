@@ -1,15 +1,14 @@
 /**
  * Camera handles the screen position.
  */
-domain.map.Camera = subclass($.cc.Coelement, function (pt, parent) {
-    'use strict'
+class Camera extends $.cc.Coelement {
 
     /**
      * Gets the window width.
      *
      * @return {Number}
      */
-    pt.getWindowWidth = function () {
+    getWindowWidth() {
 
         return $(window).width()
 
@@ -18,7 +17,7 @@ domain.map.Camera = subclass($.cc.Coelement, function (pt, parent) {
     /**
      * Sets up the initial position
      */
-    pt.setUp = function () {
+    setUp() {
 
         this.scrollSet($('.floor-asset-collection').cc.getActor().findById($('.floor-walker').cc.getActor().getPosition().floorObjectId).centerX())
 
@@ -30,18 +29,19 @@ domain.map.Camera = subclass($.cc.Coelement, function (pt, parent) {
      * @param {$.Event} e The event object
      * @param {Number} x The horizontal position
      */
-    pt.focusToX = function (e, x) {
+    @$.cc.event('character-focus')
+    focusToX(e, x) {
 
         if (!this.visible(x)) {
             this.scrollSet(x)
         }
 
-    }.event('character-focus')
+    }
 
     /**
      * Sets the horizontal scroll position
      */
-    pt.scrollSet = function (x) {
+    scrollSet(x) {
 
         this.elem.scrollLeft(x - this.getWindowWidth() / 2)
 
@@ -55,13 +55,14 @@ domain.map.Camera = subclass($.cc.Coelement, function (pt, parent) {
      * @param {Number} dur The duration
      * @return {Promise}
      */
-    pt.scrollTo = function (e, x, dur) {
+    @$.cc.event('character-move')
+    scrollTo(e, x, dur) {
 
         this.elem.animate({scrollLeft: x - this.getWindowWidth() / 2}, dur)
 
         return wait(dur)
 
-    }.event('character-move')
+    }
 
     /**
      * Check if the character is visible on the screen.
@@ -69,12 +70,12 @@ domain.map.Camera = subclass($.cc.Coelement, function (pt, parent) {
      * @param {Number} x The focus position
      * @returns {Boolean}
      */
-    pt.visible = function (x) {
+    visible(x) {
 
         return x > this.elem.scrollLeft() && x < this.elem.scrollLeft() + this.getWindowWidth()
 
     }
 
-})
+}
 
-$.cc.assign('camera', domain.map.Camera)
+$.cc.assign('camera', Camera)

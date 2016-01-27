@@ -1,4 +1,5 @@
 import Being from '../common/Being'
+import Floorboard from './Floorboard'
 
 /**
  * FloorAssetCollection class handles the position of wall and objects on wall.
@@ -7,21 +8,20 @@ import Being from '../common/Being'
  *
  * Collective Component
  */
-domain.map.FloorAssetCollection = subclass(Being, function (pt) {
-    'use strict'
+class FloorAssetCollection extends Being {
 
     /**
      * Loads assets from the given string html data.
      *
      * @param {String} data The data
      */
-    pt.loadAssetsFromData = function (data) {
+    loadAssetsFromData(data) {
 
         // prepend loaded (string) data to the elem
         $(data).prependTo(this.elem)
 
         // set y coordinate to doors and staircases
-        this.elem.find('.door, .staircase').attr('y', domain.map.Floorboard.groundLevel())
+        this.elem.find('.door, .staircase').attr('y', Floorboard.groundLevel())
 
         // init floor assets
         $.cc.init('door staircase', this.elem)
@@ -43,13 +43,13 @@ domain.map.FloorAssetCollection = subclass(Being, function (pt) {
      *
      * @param {datadomain.LevelLockCollection} locks The level locks
      */
-    pt.updateAssetsByLocksAndHistories = function (locks, histories) {
+    updateAssetsByLocksAndHistories(locks, histories) {
 
-        this.items.forEach(function (asset) {
+        this.items.forEach(asset => {
 
             asset.locked = locks.isLocked(asset.id)
 
-            var history = histories.getById(asset.id)
+            let history = histories.getById(asset.id)
 
             if (history) {
 
@@ -66,9 +66,9 @@ domain.map.FloorAssetCollection = subclass(Being, function (pt) {
      *
      * @override
      */
-    pt.willShow = function () {
+    willShow() {
 
-        return this.foldByFunc(function (item) {
+        return this.foldByFunc(item => {
 
             item.show()
 
@@ -83,9 +83,9 @@ domain.map.FloorAssetCollection = subclass(Being, function (pt) {
      *
      * @override
      */
-    pt.willHide = function () {
+    willHide() {
 
-        return this.foldByFunc(function (item) {
+        return this.foldByFunc(item => {
 
             item.disappear()
 
@@ -101,17 +101,9 @@ domain.map.FloorAssetCollection = subclass(Being, function (pt) {
      * @private
      * @param {Function} func The folding function of each item
      */
-    pt.foldByFunc = function (func) {
+    foldByFunc(func) {
 
-        return this.items.reduce(function (p, item) {
-
-            return p.then(function () {
-
-                return func(item)
-
-            })
-
-        }, Promise.resolve())
+        return this.items.reduce((p, item) => p.then(() => func(item)), Promise.resolve())
 
     }
 
@@ -121,16 +113,12 @@ domain.map.FloorAssetCollection = subclass(Being, function (pt) {
      * @param {String} id The id of the wall object
      * @returns {domain.map.Door}
      */
-    pt.findById = function (id) {
+    findById(id) {
 
-        return this.items.filter(function (item) {
-
-            return item.id === id
-
-        })[0]
+        return this.items.filter(item => item.id === id)[0]
 
     }
 
-})
+}
 
-$.cc.assign('floor-asset-collection', domain.map.FloorAssetCollection)
+$.cc.assign('floor-asset-collection', FloorAssetCollection)

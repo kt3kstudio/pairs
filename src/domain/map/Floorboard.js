@@ -1,22 +1,28 @@
 import Being from '../common/Being'
 
+const FLOORBOARD_MOVE_DUR = 400
+const HEIGHT_RATE = 0.35
+
 /**
  * Floor class handles the behaviour of floor of the Map view
  */
-domain.map.Floorboard = subclass(Being, function (pt) {
-    'use strict'
+export default class Floorboard extends Being {
 
-    var FLOORBOARD_MOVE_DUR = 400
+    static get HEIGHT_RATE() {
 
-    pt.constructor.HEIGHT_RATE = 0.35
+        return 0.35
+
+    }
 
     /**
      * Returns the y coordinate of the ground line.
      *
      * @return {Number}
      */
-    pt.constructor.groundLevel = function () {
-        return $(window).height() * (1 - pt.constructor.HEIGHT_RATE)
+    static groundLevel() {
+
+        return $(window).height() * (1 - HEIGHT_RATE)
+
     }
 
     /**
@@ -24,23 +30,30 @@ domain.map.Floorboard = subclass(Being, function (pt) {
      *
      * @return {Number}
      */
-    pt.constructor.groundHeight = function () {
-        return $(window).height() * pt.constructor.HEIGHT_RATE
+    static groundHeight() {
+
+        return $(window).height() * HEIGHT_RATE
+
     }
 
-    pt.willShow = function () {
-        this.elem.css('height', pt.constructor.groundHeight())
-        this.elem.css('top', pt.constructor.groundLevel())
+    willShow() {
+
+        this.elem.css('height', this.constructor.groundHeight())
+        this.elem.css('top', this.constructor.groundLevel())
         this.elem.css('transform', 'scale(1)')
 
         return wait(FLOORBOARD_MOVE_DUR)
+
     }
 
-    pt.willHide = function () {
+    willHide() {
+
         this.elem.css('transform', 'scale(1, 0)')
 
         return wait(FLOORBOARD_MOVE_DUR)
-    }
-})
 
-$.cc.assign('floorboard', domain.map.Floorboard)
+    }
+
+}
+
+$.cc.assign('floorboard', Floorboard)
