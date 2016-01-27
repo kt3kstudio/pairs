@@ -74,10 +74,10 @@ export default class Rect {
     override({top, left, right, bottom} = {}) {
 
         return new Rect({
-            top: top != null ? top : this.top,
-            left: left != null ? left : this.left,
-            right: right != null ? right : this.right,
-            bottom: bottom != null ? bottom : this.bottom
+            top: typeof top === 'number' ? top : this.top,
+            left: typeof left === 'number' ? left : this.left,
+            right: typeof right === 'number' ? right : this.right,
+            bottom: typeof bottom === 'number' ? bottom : this.bottom
         })
 
     }
@@ -119,7 +119,7 @@ export default class Rect {
      */
     sub(partX = 1, partY = 1) {
 
-        return this.leftPart(partX).topPart(partY)
+        return this.scaleRight(1 / partX).scaleBottom(1 / partY)
 
     }
 

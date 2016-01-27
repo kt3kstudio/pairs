@@ -153,12 +153,12 @@ export default class Grid {
     override({x, y, unitWidth, unitHeight, cellWidth, cellHeight} = {}) {
 
         return new Grid({
-            x: x || this.x,
-            y: y || this.y,
-            unitWidth: unitWidth || this.unitWidth,
-            unitHeight: unitHeight || this.unitHeight,
-            cellWidth: cellWidth || this.cellWidth,
-            cellHeight: cellHeight || this.cellHeight
+            x: typeof x === 'number' ? x : this.x,
+            y: typeof y === 'number' ? y : this.y,
+            unitWidth: typeof unitWidth === 'number' ? unitWidth : this.unitWidth,
+            unitHeight: typeof unitHeight === 'number' ? unitHeight : this.unitHeight,
+            cellWidth: typeof cellWidth === 'number' ? cellWidth : this.cellWidth,
+            cellHeight: typeof cellHeight === 'number' ? cellHeight : this.cellHeight
         })
 
     }
