@@ -43,8 +43,8 @@ export default class IntroSceneLayout extends DimensionFactory {
 
         return this
         .main
-        .scaleRight(1/3)
-        .scaleBottom(1/2)
+        .scaleRight(1 / 3)
+        .scaleBottom(1 / 2)
         .toGrid()
 
     }
