@@ -41,7 +41,11 @@ export default class IntroSceneLayout extends DimensionFactory {
      */
     residentGrid() {
 
-        return
+        return this
+        .main
+        .scaleRight(1/3)
+        .scaleBottom(1/2)
+        .toGrid()
 
     }
 
