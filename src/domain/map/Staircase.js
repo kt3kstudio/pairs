@@ -1,4 +1,4 @@
-import Animation from '../common/Animation'
+import {Animation} from 'spn'
 
 /**
  * Staircase class represents the staircases in the map view.

@@ -1,4 +1,4 @@
-import Animation from '../common/Animation'
+import {Animation} from 'spn'
 
 /**
  * PieceOfPaper represents a piece of paper which is on the floor of each room (obsolete).

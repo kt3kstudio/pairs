@@ -1,4 +1,4 @@
-import Animation from '../common/Animation'
+import {Animation} from 'spn'
 
 /**
  * Ball class represents the ball inside the field of the level.

@@ -1,5 +1,5 @@
 import Being from '../common/Being'
-import Animation from '../common/Animation'
+import {Animation} from 'spn'
 
 /**
  * Logo animation componenent in the splash screen.

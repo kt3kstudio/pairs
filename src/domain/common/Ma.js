@@ -1,4 +1,4 @@
-import Animation from './Animation'
+import {Animation} from 'spn'
 
 /**
  * The sprite modifier of Ma (the protagonist).

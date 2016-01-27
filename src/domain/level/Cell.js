@@ -1,4 +1,4 @@
-import Animation from '../common/Animation'
+import {Animation} from 'spn'
 import BomTable from '../common/BomTable'
 /**
  * Cell class represents a unit (nim and neef) on the field of the level.

@@ -1,4 +1,4 @@
-import Animation from '../../domain/common/Animation'
+import {Animation} from 'spn'
 import DimensionalBeing from '../../domain/common/DimensionalBeing'
 import {commaNumber} from '../../util/util'
 

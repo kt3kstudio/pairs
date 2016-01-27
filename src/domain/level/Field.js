@@ -1,4 +1,4 @@
-import Animation from '../common/Animation'
+import {Animation} from 'spn'
 import DimensionalBeing from '../common/DimensionalBeing'
 
 /**

@@ -1,5 +1,5 @@
 import Being from '../../../src/domain/common/Being'
-import Animation from '../../../src/domain/common/Animation'
+import {Animation} from 'spn'
 
 describe('Being', function () {
     'use strict'

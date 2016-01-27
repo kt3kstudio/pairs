@@ -1,4 +1,4 @@
-import Animation from '../common/Animation'
+import {Animation} from 'spn'
 
 /**
  * Door class handles behaviour of the level's doors.
