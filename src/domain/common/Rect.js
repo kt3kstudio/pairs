@@ -1,4 +1,5 @@
 import Grid from './Grid'
+import ifNumElse from 'spn/lib/if-num-else'
 
 /**
  * Rect model represents the static rectangle in a screen.
@@ -74,10 +75,10 @@ export default class Rect {
     override({top, left, right, bottom} = {}) {
 
         return new Rect({
-            top: typeof top === 'number' ? top : this.top,
-            left: typeof left === 'number' ? left : this.left,
-            right: typeof right === 'number' ? right : this.right,
-            bottom: typeof bottom === 'number' ? bottom : this.bottom
+            top: ifNumElse(top, this.top),
+            left: ifNumElse(left, this.left),
+            right: ifNumElse(right, this.right),
+            bottom: ifNumElse(bottom, this.bottom)
         })
 
     }
@@ -100,10 +101,10 @@ export default class Rect {
         partition = partition || []
         get = get || []
 
-        var partX = partition[0] || 1
-        var partY = partition[1] || 1
-        var getX = get[0] || 0
-        var getY = get[1] || 0
+        var partX = ifNumElse(partition[0], 1)
+        var partY = ifNumElse(partition[1], 1)
+        var getX = ifNumElse(get[0], 0)
+        var getY = ifNumElse(get[1], 0)
 
         return this.sub(partX, partY).shift(getX, getY)
 

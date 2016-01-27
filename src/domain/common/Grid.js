@@ -1,4 +1,5 @@
 import Rect from './Rect'
+import ifNumElse from 'spn/lib/if-num-else'
 
 /**
  * Grid model represents the grid layout.
@@ -25,10 +26,10 @@ export default class Grid {
 
         this.x = x
         this.y = y
-        this.unitWidth = unitWidth || 0
-        this.unitHeight = unitHeight || 0
-        this.cellWidth = cellWidth || this.unitWidth
-        this.cellHeight = cellHeight || this.unitHeight
+        this.unitWidth = ifNumElse(unitWidth, 0)
+        this.unitHeight = ifNumElse(unitHeight, 0)
+        this.cellWidth = ifNumElse(cellWidth, this.unitWidth)
+        this.cellHeight = ifNumElse(cellHeight, this.unitHeight)
 
     }
 
@@ -153,12 +154,12 @@ export default class Grid {
     override({x, y, unitWidth, unitHeight, cellWidth, cellHeight} = {}) {
 
         return new Grid({
-            x: typeof x === 'number' ? x : this.x,
-            y: typeof y === 'number' ? y : this.y,
-            unitWidth: typeof unitWidth === 'number' ? unitWidth : this.unitWidth,
-            unitHeight: typeof unitHeight === 'number' ? unitHeight : this.unitHeight,
-            cellWidth: typeof cellWidth === 'number' ? cellWidth : this.cellWidth,
-            cellHeight: typeof cellHeight === 'number' ? cellHeight : this.cellHeight
+            x: ifNumElse(x, this.x),
+            y: ifNumElse(y, this.y),
+            unitWidth: ifNumElse(unitWidth, this.unitWidth),
+            unitHeight: ifNumElse(unitHeight, this.unitHeight),
+            cellWidth: ifNumElse(cellWidth, this.cellWidth),
+            cellHeight: ifNumElse(cellHeight, this.cellHeight)
         })
 
     }
