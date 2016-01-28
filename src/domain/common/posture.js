@@ -1,3 +1,5 @@
+import ifNumElse from 'spn/lib/if-num-else'
+
 /**
  * Posture is the model of the information about how the Body is placed and arranged to its representing position.
  *
@@ -12,26 +14,26 @@ export default class Posture {
      * @param {Number} [ratioY=0] The ratio of vertical position of the rectangle. ratioY == 0 means the top limit of the rectangle is x. ratioY == 1 means the bottom limit of the rectangle is x.
      * @param {Number} [marginX=0] The horizontal margin
      * @param {Number} [marginY=0] The vertical margin
-     * @param {Number} [marginLeft=0] The left margin
-     * @param {Number} [marginTop=0] The top margin
-     * @param {Number} [marginRight=0] The right margin
-     * @param {Number} [marginBottom=0] The bottom margin
+     * @param {Number} [marginLeft] The left margin
+     * @param {Number} [marginTop] The top margin
+     * @param {Number} [marginRight] The right margin
+     * @param {Number} [marginBottom] The bottom margin
      */
     constructor({width, height, ratioX, ratioY, marginX, marginY, marginLeft, marginTop, marginRight, marginBottom} = {}) {
 
-        this.width = width || 100
-        this.height = height || 100
+        this.width = ifNumElse(width, 100)
+        this.height = ifNumElse(height, 100)
 
-        this.ratioX = ratioX || 0
-        this.ratioY = ratioY || 0
+        this.ratioX = ifNumElse(ratioX, 0)
+        this.ratioY = ifNumElse(ratioY, 0)
 
-        this.marginX = marginX || 0
-        this.marginY = marginY || 0
+        this.marginX = ifNumElse(marginX, 0)
+        this.marginY = ifNumElse(marginY, 0)
 
-        this.marginTop = marginTop || 0
-        this.marginRight = marginRight || 0
-        this.marginBottom = marginBottom || 0
-        this.marginLeft = marginLeft || 0
+        this.marginTop = marginTop
+        this.marginRight = marginRight
+        this.marginBottom = marginBottom
+        this.marginLeft = marginLeft
 
     }
 
@@ -64,7 +66,7 @@ export default class Posture {
      */
     getMarginTop() {
 
-        return this.marginTop || this.marginY
+        return ifNumElse(this.marginTop, this.marginY)
 
     }
 
@@ -75,7 +77,7 @@ export default class Posture {
      */
     getMarginRight() {
 
-        return this.marginRight || this.marginX
+        return ifNumElse(this.marginRight, this.marginX)
 
     }
 
@@ -86,7 +88,7 @@ export default class Posture {
      */
     getMarginBottom() {
 
-        return this.marginBottom || this.marginY
+        return ifNumElse(this.marginBottom, this.marginY)
 
     }
 
@@ -97,7 +99,7 @@ export default class Posture {
      */
     getMarginLeft() {
 
-        return this.marginLeft || this.marginX
+        return ifNumElse(this.marginLeft, this.marginX)
 
     }
 
