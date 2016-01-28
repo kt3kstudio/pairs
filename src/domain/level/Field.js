@@ -20,8 +20,8 @@ domain.level.Field = subclass(DimensionalBeing, function (pt, parent) {
 
         parent.setRect.apply(this, arguments)
 
-        this.dimension.marginX = -5
-        this.dimension.marginY = -5
+        this.posture.marginX = -5
+        this.posture.marginY = -5
 
     }
 

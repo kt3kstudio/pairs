@@ -57,12 +57,12 @@ describe('GridWalker', function () {
 
     describe('fitToGrid', function () {
 
-        it('fits the dimension to the grid', function () {
+        it('fits the posture to the grid', function () {
 
             walker.fitToGrid()
 
-            expect(walker.dimension.width).to.equal(500)
-            expect(walker.dimension.height).to.equal(500)
+            expect(walker.posture.width).to.equal(500)
+            expect(walker.posture.height).to.equal(500)
 
             expect(walker.x).to.equal(400)
             expect(walker.y).to.equal(1000)
@@ -76,8 +76,8 @@ describe('GridWalker', function () {
 
             walker.fitToGrid()
 
-            expect(walker.dimension.width).to.equal(250)
-            expect(walker.dimension.height).to.equal(250)
+            expect(walker.posture.width).to.equal(250)
+            expect(walker.posture.height).to.equal(250)
 
         })
 

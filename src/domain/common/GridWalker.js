@@ -1,8 +1,8 @@
-import DimensionalBeing from './DimensionalBeing'
+import Body from './body'
 /**
- * A GridWalker is a DimensionalBeing which walks along the given Grid.
+ * A GridWalker is a Body which walks along the given Grid.
  */
-domain.common.GridWalker = subclass(DimensionalBeing, function (pt) {
+domain.common.GridWalker = subclass(Body, function (pt) {
     'use strict'
 
     /**
@@ -99,14 +99,14 @@ domain.common.GridWalker = subclass(DimensionalBeing, function (pt) {
     }
 
     /**
-     * Fits the dimension into the (grid.cellWidth, grid.cellHeight) and moves to the current grid position.
+     * Fits the posture into the (grid.cellWidth, grid.cellHeight) and moves to the current grid position.
      *
      * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
     pt.fitToGrid = function (dur) {
 
-        this.dimension.fitInto(this.grid.cellWidth * this.cellRatioX, this.grid.cellHeight * this.cellRatioY)
+        this.posture.fitInto(this.grid.cellWidth * this.cellRatioX, this.grid.cellHeight * this.cellRatioY)
 
         return this.updateElemOnGrid(dur)
 

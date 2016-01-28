@@ -15,8 +15,8 @@ domain.common.Ma = subclass(function (pt) {
 
         this.x = 0
         this.y = 0
-        this.dimension.width = 40
-        this.dimension.height = 60
+        this.posture.width = 40
+        this.posture.height = 60
 
         this.upImage = 'images/ma-B.svg'
         this.downImage = 'images/ma-F.svg'

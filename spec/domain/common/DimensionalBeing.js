@@ -15,8 +15,8 @@ describe('DimensionalBeing', function () {
 
         dim.x = 30
         dim.y = 40
-        dim.dimension.width = 10
-        dim.dimension.height = 20
+        dim.posture.width = 10
+        dim.posture.height = 20
 
     })
 

@@ -55,7 +55,7 @@ ui.level.Scoreboard = subclass(DimensionalBeing, function (pt, parent) {
 
         parent.willShow.call(this)
 
-        this.elem.css('line-height', this.dimension.actualHeight() + 'px')
+        this.elem.css('line-height', this.posture.actualHeight() + 'px')
 
         this.update()
 

@@ -1,5 +1,5 @@
 import Being from './Being'
-import Dimension from './Dimension'
+import Posture from './posture'
 import reflow from 'spn/lib/reflow'
 
 /**
@@ -25,9 +25,9 @@ export default class Body extends Being {
         this.y = 0
 
         /**
-         * @property {Dimension} dimension The dimension of the rectangle
+         * @property {Posture} posture The posture of the rectangle
          */
-        this.dimension = new Dimension({
+        this.posture = new Posture({
             width: this.width,
             height: this.height,
             ratioX: this.ratioX,
@@ -36,7 +36,7 @@ export default class Body extends Being {
             marginY: this.marginY
         })
 
-        this.elem.css('position', 'absolute') // Except `position: absolute`, this class doesn't make sense.
+        this.elem.css('position', 'absolute') // Set `position: absolute`, this class doesn't work without this.
 
     }
 
@@ -45,7 +45,7 @@ export default class Body extends Being {
      */
     actualWidth() {
 
-        return this.dimension.actualHeight()
+        return this.posture.actualHeight()
 
     }
 
@@ -54,7 +54,7 @@ export default class Body extends Being {
      */
     actualHeight() {
 
-        return this.dimension.actualHeight()
+        return this.posture.actualHeight()
 
     }
 
@@ -76,7 +76,7 @@ export default class Body extends Being {
      */
     rightLimit() {
 
-        return this.dimension.rightLimit(this.x)
+        return this.posture.rightLimit(this.x)
 
     }
 
@@ -87,7 +87,7 @@ export default class Body extends Being {
      */
     leftLimit() {
 
-        return this.dimension.leftLimit(this.x)
+        return this.posture.leftLimit(this.x)
 
     }
 
@@ -96,7 +96,7 @@ export default class Body extends Being {
      */
     topLimit() {
 
-        return this.dimension.topLimit(this.y)
+        return this.posture.topLimit(this.y)
 
     }
 
@@ -105,7 +105,7 @@ export default class Body extends Being {
      */
     bottomLimit() {
 
-        return this.dimension.bottomLimit(this.y)
+        return this.posture.bottomLimit(this.y)
 
     }
 
@@ -116,7 +116,7 @@ export default class Body extends Being {
      */
     centerX() {
 
-        return this.dimension.centerX(this.x)
+        return this.posture.centerX(this.x)
 
     }
 
@@ -127,7 +127,7 @@ export default class Body extends Being {
      */
     centerY() {
 
-        return this.dimension.centerY(this.y)
+        return this.posture.centerY(this.y)
 
     }
 
@@ -138,8 +138,8 @@ export default class Body extends Being {
      */
     updateOffset() {
 
-        this.elem.css('top', this.dimension.topLimit(this.y))
-        this.elem.css('left', this.dimension.leftLimit(this.x))
+        this.elem.css('top', this.posture.topLimit(this.y))
+        this.elem.css('left', this.posture.leftLimit(this.x))
 
     }
 
@@ -150,13 +150,13 @@ export default class Body extends Being {
      */
     updateRect() {
 
-        this.elem.width(this.dimension.actualWidth())
-        this.elem.height(this.dimension.actualHeight())
+        this.elem.width(this.posture.actualWidth())
+        this.elem.height(this.posture.actualHeight())
 
     }
 
     /**
-     * Updates the actual elem dom according to the current dimension.
+     * Updates the actual elem dom according to the current posture.
      * Returns a promise which resolves with the transitionDuration milliseconds.
      *
      * @param {Number} [dur] The
@@ -219,7 +219,7 @@ export default class Body extends Being {
     }
 
     /**
-     * Sets the guiding rect and update the x, y and dimension to fit into the given rect.
+     * Sets the guiding rect and update the x, y and posture to fit into the given rect.
      *
      * @param {Rect} rect
      */
@@ -227,11 +227,11 @@ export default class Body extends Being {
 
         this.rect = rect
 
-        this.x = rect.left + rect.width() * this.dimension.ratioX
-        this.y = rect.top + rect.height() * this.dimension.ratioY
+        this.x = rect.left + rect.width() * this.posture.ratioX
+        this.y = rect.top + rect.height() * this.posture.ratioY
 
-        this.dimension.width = rect.width()
-        this.dimension.height = rect.height()
+        this.posture.width = rect.width()
+        this.posture.height = rect.height()
 
     }
 
