@@ -8,15 +8,13 @@ export default class SceneContext extends $.cc.Coelement {
 
     main() {
 
-        return Promise.resolve(this.load())
+        return Promise
 
-        .then(() => {
+        .resolve(this.load())
 
-            this.setUp()
+        .then(() => this.setUp())
 
-            return this.start()
-
-        })
+        .then(() => this.start())
 
     }
 
@@ -45,6 +43,8 @@ export default class SceneContext extends $.cc.Coelement {
 
     /**
      * Gets the class component of the given name inside the element.
+     *
+     * @param {string} className The class name of the component
      */
     get(className) {
 
@@ -53,6 +53,8 @@ export default class SceneContext extends $.cc.Coelement {
 
     /**
      * Gets the class component of the given name at the element.
+     *
+     * @param {string} className The class name of the component
      */
     getAtElem(className) {
 
@@ -62,6 +64,9 @@ export default class SceneContext extends $.cc.Coelement {
 
     /**
      * Gets the class component of the given name at the given selector
+     *
+     * @param {string} selector The selector for searching
+     * @param {string} className The class name of the component
      */
     getGlobal(selector, className) {
 
