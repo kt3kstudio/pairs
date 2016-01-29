@@ -1,4 +1,3 @@
-import './Sprite'
 import './CharSprite'
 import './Image'
 import './Ma'

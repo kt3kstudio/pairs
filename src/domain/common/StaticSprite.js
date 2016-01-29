@@ -1,13 +1,23 @@
 import Sprite from './Sprite'
 
-domain.common.StaticSprite = subclass(Sprite, function (pt, parent) {
-    'use strict'
+/**
+ * StaticSprite is Sprite without dir-state change.
+ */
+export default class StaticSprite extends Sprite {
 
-    pt.constructor = function (elem) {
-        parent.constructor.call(this, elem)
+    /**
+     * @abstract
+     */
+    image() { return null }
+
+    constructor(elem) {
+
+        super(elem)
 
         this.dirStateImage = () => ({
-            down: { 'default': new domain.common.Image(this.image) }
+            down: { default: new domain.common.Image(this.image) }
         })
+
     }
-})
+
+}
