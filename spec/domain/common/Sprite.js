@@ -1,4 +1,5 @@
 import Grid from '../../../src/domain/common/Grid'
+import Sprite from '../../../src/domain/common/Sprite'
 
 describe('Sprite', function () {
     'use strict'
@@ -12,9 +13,9 @@ describe('Sprite', function () {
 
         elem = $('<img />')
 
-        sprite = new domain.common.Sprite(elem)
+        sprite = new Sprite(elem)
 
-        sprite.dirStateImage = {
+        sprite.dirStateImage = () => ({
             up: {
                 run: new Image('up-run.svg'),
                 stay: new Image('up-stay.svg')
@@ -24,7 +25,7 @@ describe('Sprite', function () {
                 stay: new Image('down-stay.svg')
             }
 
-        }
+        })
 
         sprite.setGrid(new Grid())
 
@@ -34,8 +35,8 @@ describe('Sprite', function () {
 
         it("sets the default state & dir image to the elem's src attr", function () {
 
-            sprite.defaultDir = 'up'
-            sprite.defaultState = 'stay'
+            sprite.defaultDir = () => 'up'
+            sprite.defaultState = () => 'stay'
 
             sprite.willShow()
 
@@ -75,7 +76,7 @@ describe('Sprite', function () {
 
         it('throws error when the dir state image is not set at all', function () {
 
-            sprite.dirStateImage = null
+            sprite.dirStateImage = () => null
 
             expect(function () {
 

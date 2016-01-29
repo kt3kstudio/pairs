@@ -3,8 +3,7 @@ import GridWalker from './GridWalker'
 /**
  * Sprite (or DirectionalStateImageDimensionalBeing) class changes its image according to its direction and state.
  */
-domain.common.Sprite = subclass(GridWalker, function (pt, parent) {
-    'use strict'
+export default class Sprite extends GridWalker {
 
     /**
      * @override
@@ -12,7 +11,7 @@ domain.common.Sprite = subclass(GridWalker, function (pt, parent) {
      *
      * The image sprite's center is at the center(x=0.5) bottom(y=1) of the image.
      */
-    pt.ratioX = () => 0.5
+    ratioX() { return 0.5 }
 
     /**
      * @override
@@ -20,46 +19,57 @@ domain.common.Sprite = subclass(GridWalker, function (pt, parent) {
      *
      * The image sprite's center is at the center(x=0.5) bottom(y=1) of the image.
      */
-    pt.ratioY = () => 1
-
-    /**
-     * @property {String} state The state
-     */
-    pt.state = null
+    ratioY() { return 1 }
 
     /**
      * @property {Object} stateImage The map of state to image url. Object<Object<domain.common.Image>>
      */
-    pt.dirStateImage = null
+    dirStateImage() { return null }
 
     /**
-     * @property {String} dir The direction
+     * Returns the default direction.
+     *
+     * @abstract
      */
-    pt.dir = null
+    defaultDir() { return 'down' }
 
     /**
-     * @property {domain.common.Image} defaultImage sprite's default image
+     * Returns the default state.
+     *
+     * @abstract
      */
-    pt.defaultImage = null
+    defaultState() { return 'default' }
 
-    pt.defaultDir = 'down'
+    constructor(elem) {
 
-    pt.defaultState = 'default'
+        super(elem)
+
+        /**
+         * @property {String} dir The direction
+         */
+        this.dir = null
+
+        /**
+         * @property {String} state The state
+         */
+        this.state = null
+
+    }
 
     /**
      * Adds the src attr of the elem if the default state dir image exists.
      *
      * @override
      */
-    pt.willShow = function () {
+    willShow() {
 
-        parent.willShow.call(this)
+        super.willShow(this)
 
-        var defaultDirImage = this.dirStateImage[this.defaultDir]
+        const defaultDirImage = this.dirStateImage()[this.defaultDir()]
 
-        if (defaultDirImage != null && defaultDirImage[this.defaultState] != null) {
+        if (defaultDirImage != null && defaultDirImage[this.defaultState()] != null) {
 
-            this.applyImage(defaultDirImage[this.defaultState])
+            this.applyImage(defaultDirImage[this.defaultState()])
 
         }
 
@@ -71,19 +81,19 @@ domain.common.Sprite = subclass(GridWalker, function (pt, parent) {
      * @param {String} dir The direction
      * @param {String} state The state
      */
-    pt.setDirState = function (dir, state) {
+    setDirState(dir, state) {
 
         dir = dir || this.dir
 
         state = state || this.state
 
-        if (!this.dirStateImage) {
+        if (!this.dirStateImage()) {
 
             throw new Error('no image mapping in sprite.')
 
         }
 
-        var img = this.dirStateImage[dir][state]
+        var img = this.dirStateImage()[dir][state]
 
         if (!img) {
 
@@ -101,10 +111,10 @@ domain.common.Sprite = subclass(GridWalker, function (pt, parent) {
      * @private
      * @param {domain.common.Image} img The image
      */
-    pt.applyImage = function (img) {
+    applyImage(img) {
 
         img.apply(this.elem)
 
     }
 
-})
+}

@@ -9,10 +9,8 @@ import {Animation} from 'spn'
 domain.level.Paper = subclass(domain.common.StaticSprite, function (pt) {
     'use strict'
 
-    pt.x = 0
-    pt.y = 0
-    pt.width = 50
-    pt.height = 50
+    pt.width = () => 50
+    pt.height = () => 50
 
     pt.image = 'images/paper.svg'
 

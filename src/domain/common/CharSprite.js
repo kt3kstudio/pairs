@@ -1,12 +1,11 @@
+import Sprite from './Sprite'
+
 /**
  * CharSprite class handles the character sprite.
  *
  * Component
- *
- * @class
- * @extends domain.common.Sprite
  */
-domain.common.CharSprite = subclass(domain.common.Sprite, function (pt, parent) {
+domain.common.CharSprite = subclass(Sprite, function (pt, parent) {
     'use strict'
 
     var defaultSpeechTimeout = 5000
@@ -33,14 +32,14 @@ domain.common.CharSprite = subclass(domain.common.Sprite, function (pt, parent) 
 
         CHAR_SPRITE_SELECTOR(this.character.id).call(this)
 
-        this.defaultImage = new domain.common.Image(this.downImage)
-
-        this.dirStateImage = {
+        const dirStateImage = {
             up: {default: new domain.common.Image(this.upImage)},
             down: {default: new domain.common.Image(this.downImage)},
             left: {default: new domain.common.Image(this.leftImage)},
             right: {default: new domain.common.Image(this.rightImage)}
         }
+
+        this.dirStateImage = () => dirStateImage
 
     }
 

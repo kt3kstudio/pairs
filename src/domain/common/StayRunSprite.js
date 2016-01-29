@@ -1,24 +1,24 @@
+import Sprite from './Sprite'
+
 /**
  * The sprite class for stay-run creatures.
- *
- * @extends domain.common.Sprite
  */
-domain.common.StayRunSprite = subclass(domain.common.Sprite, function (pt, parent) {
+domain.common.StayRunSprite = subclass(Sprite, function (pt, parent) {
     'use strict'
 
     pt.awayDur = 400
     pt.awayAnim = ''
     pt.awayAnimDur = 400
 
-    pt.defaultDir = 'left'
-    pt.defaultState = 'stay'
+    pt.defaultDir = () => 'left'
+    pt.defaultState = () => 'stay'
 
     pt.constructor = function (elem) {
         parent.constructor.call(this, elem)
 
         this.defaultImage = new domain.common.Image(this.leftStayImage)
 
-        this.dirStateImage = {
+        this.dirStateImage = () => ({
             left: {
                 stay: new domain.common.Image(this.leftStayImage),
                 run: new domain.common.Image(this.leftRunImage)
@@ -27,7 +27,7 @@ domain.common.StayRunSprite = subclass(domain.common.Sprite, function (pt, paren
                 stay: new domain.common.Image(this.leftStayImage, true),
                 run: new domain.common.Image(this.leftRunImage, true)
             }
-        }
+        })
     }
 
     pt.runAway = function (dir) {
