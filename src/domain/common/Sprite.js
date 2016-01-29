@@ -1,24 +1,26 @@
+import GridWalker from './GridWalker'
+
 /**
  * Sprite (or DirectionalStateImageDimensionalBeing) class changes its image according to its direction and state.
  */
-domain.common.Sprite = domain.common.DirectionalStateImageDimensionalBeing = subclass(domain.common.GridWalker, function (pt, parent) {
+domain.common.Sprite = subclass(GridWalker, function (pt, parent) {
     'use strict'
 
     /**
      * @override
-     * @property {Number} originX
+     * @return {Number} originX
      *
      * The image sprite's center is at the center(x=0.5) bottom(y=1) of the image.
      */
-    pt.ratioX = 0.5
+    pt.ratioX = () => 0.5
 
     /**
      * @override
-     * @property {Number} originY
+     * @return {Number} originY
      *
      * The image sprite's center is at the center(x=0.5) bottom(y=1) of the image.
      */
-    pt.ratioY = 1
+    pt.ratioY = () => 1
 
     /**
      * @property {String} state The state

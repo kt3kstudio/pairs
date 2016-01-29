@@ -1,4 +1,5 @@
 import Grid from '../../../src/domain/common/Grid'
+import GridWalker from '../../../src/domain/common/GridWalker'
 
 describe('GridWalker', function () {
 
@@ -8,7 +9,7 @@ describe('GridWalker', function () {
 
         elem = $('<div />')
 
-        walker = new domain.common.GridWalker(elem)
+        walker = new GridWalker(elem)
 
         grid = new Grid({
             x: 100,
@@ -71,8 +72,8 @@ describe('GridWalker', function () {
 
         it('respects cellRatio{X,Y}', function () {
 
-            walker.cellRatioX = 0.5
-            walker.cellRatioY = 0.5
+            walker.cellRatioX = () => 0.5
+            walker.cellRatioY = () => 0.5
 
             walker.fitToGrid()
 

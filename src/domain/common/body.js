@@ -4,6 +4,8 @@ import reflow from 'spn/lib/reflow'
 
 /**
  * Body has width, height, position and information about how it put at the postion.
+ *
+ * @abstract
  */
 export default class Body extends Being {
 
@@ -28,17 +30,27 @@ export default class Body extends Being {
          * @property {Posture} posture The posture of the rectangle
          */
         this.posture = new Posture({
-            width: this.width,
-            height: this.height,
-            ratioX: this.ratioX,
-            ratioY: this.ratioY,
-            marginX: this.marginX,
-            marginY: this.marginY
+            width: this.width(),
+            height: this.height(),
+            ratioX: this.ratioX(),
+            ratioY: this.ratioY(),
+            marginX: this.marginX(),
+            marginY: this.marginY()
         })
 
         this.elem.css('position', 'absolute') // Set `position: absolute`, this class doesn't work without this.
 
     }
+
+    /**
+     * Default parameters
+     */
+    width() { return 100 }
+    height() { return 100 }
+    ratioX() { return 0 }
+    ratioY() { return 0 }
+    marginX() { return 0 }
+    marginY() { return 0 }
 
     /**
      * Returns the actual width of the elem.

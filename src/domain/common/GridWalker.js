@@ -2,45 +2,52 @@ import Body from './body'
 /**
  * A GridWalker is a Body which walks along the given Grid.
  */
-domain.common.GridWalker = subclass(Body, function (pt) {
-    'use strict'
-
-    /**
-     * @override
-     * @property
-     */
-    pt.ratioX = 0.5
-
-    /**
-     * @override
-     * @property
-     */
-    pt.ratioY = 0.5
-
-    /**
-     * @property {Number} m The horizontal grid position
-     */
-    pt.m = 0
-
-    /**
-     * @property {Number} n The vertical grid position
-     */
-    pt.n = 0
-
-    /**
-     * @property {Number} cellRatioX The ratio of how much the grid walker occupies the given cell width (default: 1)
-     */
-    pt.cellRatioX = 1
-
-    /**
-     * @property {Number} cellRatioX The ratio of how much the grid walker occupies the given cell height (default: 1)
-     */
-    pt.cellRatioY = 1
+export default class GridWalker extends Body {
 
     /**
      * @override
      */
-    pt.willShow = function () {
+    ratioX() { return 0.5 }
+
+    /**
+     * @override
+     */
+    ratioY() { return 0.5 }
+
+    /**
+     * The ratio of how much the grid walker occupies the given cell width.
+     *
+     * @return {number}
+     */
+    cellRatioX() { return 1 }
+
+    /**
+     *  The ratio of how much the grid walker occupies the given cell height.
+     *
+     * @return {number}
+     */
+    cellRatioY() { return 1 }
+
+    constructor(elem) {
+
+        super(elem)
+
+        /**
+         * @property {number} m The horizontal grid position
+         */
+        this.m = 0
+
+        /**
+         * @property {number} n The vertical grid position
+         */
+        this.n = 0
+
+    }
+
+    /**
+     * @override
+     */
+    willShow() {
 
         return this.fitToGrid()
 
@@ -53,7 +60,7 @@ domain.common.GridWalker = subclass(Body, function (pt) {
      * @param {Number} [m] The horizontal grid position
      * @param {Number} [n] The vertical grid position
      */
-    pt.setGrid = function (grid, m, n) {
+    setGrid(grid, m, n) {
 
         this.grid = grid
 
@@ -67,7 +74,7 @@ domain.common.GridWalker = subclass(Body, function (pt) {
      * @param {Number} [m] The horizontal grid position
      * @param {Number} [n] The vertical grid position
      */
-    pt.setGridPosition = function (m, n) {
+    setGridPosition(m, n) {
 
         if (typeof m === 'number') {
 
@@ -89,7 +96,7 @@ domain.common.GridWalker = subclass(Body, function (pt) {
      * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
-    pt.updateElemOnGrid = function (dur) {
+    updateElemOnGrid(dur) {
 
         this.x = this.grid.getX(this.m)
         this.y = this.grid.getY(this.n)
@@ -104,9 +111,9 @@ domain.common.GridWalker = subclass(Body, function (pt) {
      * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
-    pt.fitToGrid = function (dur) {
+    fitToGrid(dur) {
 
-        this.posture.fitInto(this.grid.cellWidth * this.cellRatioX, this.grid.cellHeight * this.cellRatioY)
+        this.posture.fitInto(this.grid.cellWidth * this.cellRatioX(), this.grid.cellHeight * this.cellRatioY())
 
         return this.updateElemOnGrid(dur)
 
@@ -119,7 +126,7 @@ domain.common.GridWalker = subclass(Body, function (pt) {
      * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
-    pt.moveToM = function (m, dur) {
+    moveToM(m, dur) {
 
         this.x = this.grid.getX(this.m = m)
 
@@ -134,7 +141,7 @@ domain.common.GridWalker = subclass(Body, function (pt) {
      * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
-    pt.moveToN = function (n, dur) {
+    moveToN(n, dur) {
 
         this.y = this.grid.getY(this.n = n)
 
@@ -150,7 +157,7 @@ domain.common.GridWalker = subclass(Body, function (pt) {
      * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
-    pt.moveToGridPosition = function (m, n, dur) {
+    moveToGridPosition(m, n, dur) {
 
         this.setGridPosition(m, n)
 
@@ -166,7 +173,7 @@ domain.common.GridWalker = subclass(Body, function (pt) {
      * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
-    pt.moveOnGrid = function (distM, distN, dur) {
+    moveOnGrid(distM, distN, dur) {
 
         return this.moveToGridPosition(this.m + distM, this.n + distN, dur)
 
@@ -178,7 +185,7 @@ domain.common.GridWalker = subclass(Body, function (pt) {
      * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
-    pt.moveUpOnGrid = function (dur) {
+    moveUpOnGrid(dur) {
 
         return this.moveOnGrid(0, -1, dur)
 
@@ -190,7 +197,7 @@ domain.common.GridWalker = subclass(Body, function (pt) {
      * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
-    pt.moveRightOnGrid = function (dur) {
+    moveRightOnGrid(dur) {
 
         return this.moveOnGrid(1, 0, dur)
 
@@ -202,7 +209,7 @@ domain.common.GridWalker = subclass(Body, function (pt) {
      * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
-    pt.moveDownOnGrid = function (dur) {
+    moveDownOnGrid(dur) {
 
         return this.moveOnGrid(0, 1, dur)
     }
@@ -213,10 +220,10 @@ domain.common.GridWalker = subclass(Body, function (pt) {
      * @param {Number} [dur] The duration to change
      * @return {Promise}
      */
-    pt.moveLeftOnGrid = function (dur) {
+    moveLeftOnGrid(dur) {
 
         return this.moveOnGrid(-1, 0, dur)
 
     }
 
-})
+}

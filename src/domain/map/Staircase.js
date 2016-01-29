@@ -2,9 +2,6 @@ import {Animation} from 'spn'
 
 /**
  * Staircase class represents the staircases in the map view.
- *
- * @class
- * @extends domain.map.FloorAsset
  */
 domain.map.Staircase = subclass(domain.map.FloorAsset, function (pt, parent) {
     'use strict'
@@ -16,17 +13,20 @@ domain.map.Staircase = subclass(domain.map.FloorAsset, function (pt, parent) {
     pt.hideAnim = new Animation('door-disappear', STAIRCASE_ANIMATION_DUR)
 
     pt.constructor = function (elem) {
+
         parent.constructor.call(this, elem)
 
         this.goto = elem.data('goto') // must be parsed position object, not string
 
         this.locked = true
+
     }
 
     /**
      * Sets up the dom.
      */
     pt.willShow = function () {
+
         parent.willShow.call(this)
 
         if (this.locked) {

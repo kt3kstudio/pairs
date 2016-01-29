@@ -1,5 +1,6 @@
 import {Animation} from 'spn'
 import BomTable from '../common/BomTable'
+import GridWalker from '../common/GridWalker'
 /**
  * Cell class represents a unit (nim and neef) on the field of the level.
  *
@@ -7,11 +8,11 @@ import BomTable from '../common/BomTable'
  *
  * @class
  */
-domain.level.Cell = subclass(domain.common.GridWalker, function (pt, parent) {
+domain.level.Cell = subclass(GridWalker, function (pt, parent) {
     'use strict'
 
-    pt.cellRatioX = 0.65
-    pt.cellRatioY = 0.65
+    pt.cellRatioX = () => 0.65
+    pt.cellRatioY = () => 0.65
 
     /**
      * @constructor

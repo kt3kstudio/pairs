@@ -1,31 +1,31 @@
 import Grid from '../common/Grid'
-import DimensionalBeing from '../common/DimensionalBeing'
+import Body from '../common/body'
 
 /**
  * FloorAsset is an abstract class which represents the something on the wall in the map view.
  */
-domain.map.FloorAsset = subclass(DimensionalBeing, function (pt, parent) {
+domain.map.FloorAsset = subclass(Body, function (pt, parent) {
     'use strict'
 
     /**
      * @override
      */
-    pt.width = 80
+    pt.width = () => 80
 
     /**
      * @override
      */
-    pt.height = 100
+    pt.height = () => 100
 
     /**
      * @override
      */
-    pt.ratioX = 0.5
+    pt.ratioX = () => 0.5
 
     /**
      * @override
      */
-    pt.ratioY = 1
+    pt.ratioY = () => 1
 
     pt.constructor = function () {
 
@@ -72,7 +72,7 @@ domain.map.FloorAsset = subclass(DimensionalBeing, function (pt, parent) {
 
         var frog = $('<img />').css({zIndex: 2}).appendTo(this.elem).cc.init('frog')
 
-        frog.setGrid(new Grid({x: 35, y: 130}))
+        frog.setGrid(new Grid({x: 35, y: 130, unitWidth: 100, unitHeight: 100}))
 
         frog.show()
 

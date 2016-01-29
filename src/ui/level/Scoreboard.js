@@ -8,11 +8,11 @@ import {commaNumber} from '../../util/util'
 ui.level.Scoreboard = subclass(DimensionalBeing, function (pt, parent) {
     'use strict'
 
-    pt.ratioX = 0
-    pt.ratioY = 0
+    pt.ratioX = () => 0
+    pt.ratioY = () => 0
 
-    pt.marginX = 6
-    pt.marginY = 6
+    pt.marginX = () => 6
+    pt.marginY = () => 6
 
     /**
      * @constructor

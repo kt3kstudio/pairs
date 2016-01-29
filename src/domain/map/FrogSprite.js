@@ -13,10 +13,10 @@ domain.map.FrogSprite = subclass(domain.common.StayRunSprite, function (pt, pare
     pt.awayDur = 400
     pt.awayAnimDur = 400
 
-    pt.width = 100
-    pt.height = 50
-    pt.ratioX = 0.5
-    pt.ratioY = 1
+    pt.width = () => 100
+    pt.height = () => 50
+    pt.ratioX = () => 0.5
+    pt.ratioY = () => 1
 
 })
 

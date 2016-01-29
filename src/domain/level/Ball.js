@@ -1,11 +1,12 @@
 import {Animation} from 'spn'
+import GridWalker from '../common/GridWalker'
 
 /**
  * Ball class represents the ball inside the field of the level.
  *
  * @class
  */
-domain.level.Ball = subclass(domain.common.GridWalker, function (pt, parent) {
+domain.level.Ball = subclass(GridWalker, function (pt, parent) {
     'use strict'
 
     var TRANS_DUR = 150

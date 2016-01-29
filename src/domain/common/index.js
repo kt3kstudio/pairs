@@ -1,4 +1,3 @@
-import './GridWalker'
 import './Sprite'
 import './CharSprite'
 import './Image'
