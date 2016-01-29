@@ -8,13 +8,13 @@ export default class SceneContext extends $.cc.Coelement {
 
     main() {
 
-        var self = this
+        return Promise.resolve(this.load())
 
-        return Promise.resolve(self.load()).then(function () {
+        .then(() => {
 
-            self.setUp()
+            this.setUp()
 
-            return self.start()
+            return this.start()
 
         })
 
