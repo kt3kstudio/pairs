@@ -1,23 +1,24 @@
+import StayRunSprite from '../common/StayRunSprite'
+import {Animation} from 'spn'
 /**
  * The sprite class of the frog (Obstacle creatures in front of the doors.
  * Some people call it dog).
  *
  * @extends domain.common.StayRunSprite
  */
-domain.map.FrogSprite = subclass(domain.common.StayRunSprite, function (pt, parent) {
-    'use strict'
+class FrogSprite extends StayRunSprite {
 
-    pt.leftStayImage = 'images/frog-stay.out.svg'
-    pt.leftRunImage = 'images/frog-run.out.svg'
+    leftStayImage() { return 'images/frog-stay.out.svg' }
+    leftRunImage() { return 'images/frog-run.out.svg' }
 
-    pt.awayDur = 400
-    pt.awayAnimDur = 400
+    awayDur() { return 400 }
+    awayAnim() { return new Animation('foo', 400) }
 
-    pt.width = () => 100
-    pt.height = () => 50
-    pt.ratioX = () => 0.5
-    pt.ratioY = () => 1
+    width() { return 100 }
+    height() { return 50 }
+    ratioX() { return 0.5 }
+    ratioY() { return 1 }
 
-})
+}
 
-$.cc.assign('frog', domain.map.FrogSprite)
+$.cc.assign('frog', FrogSprite)

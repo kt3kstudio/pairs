@@ -4,62 +4,64 @@ import Image from './Image'
 /**
  * The sprite class for stay-run creatures.
  */
-domain.common.StayRunSprite = subclass(Sprite, function (pt, parent) {
-    'use strict'
+export default class StayRunSprite extends Sprite {
 
-    pt.awayDur = 400
-    pt.awayAnim = ''
-    pt.awayAnimDur = 400
+    awayDur() { return 400 }
+    awayAnim() { return null }
 
-    pt.defaultDir = () => 'left'
-    pt.defaultState = () => 'stay'
+    defaultDir() { return 'left' }
+    defaultState() { return 'stay' }
 
-    pt.constructor = function (elem) {
-        parent.constructor.call(this, elem)
+    leftStayImage() {}
+    leftRunImage() {}
+
+    constructor(elem) {
+
+        super(elem)
 
         this.dirStateImage = () => ({
             left: {
-                stay: new Image(this.leftStayImage),
-                run: new Image(this.leftRunImage)
+                stay: new Image(this.leftStayImage()),
+                run: new Image(this.leftRunImage())
             },
             right: {
-                stay: new Image(this.leftStayImage, true),
-                run: new Image(this.leftRunImage, true)
+                stay: new Image(this.leftStayImage(), true),
+                run: new Image(this.leftRunImage(), true)
             }
         })
     }
 
-    pt.runAway = function (dir) {
+    runAway(dir) {
+
         this.setDirState(dir, 'run')
 
-        var isRight = dir === 'right'
+        const isRight = dir === 'right'
 
         this.elem.css('transition-property', 'left, opacity')
 
-        this.setTransitionDuration(this.awayDur)
+        this.setTransitionDuration(this.awayDur())
 
-        var awayDistance = 170
+        const awayDistance = 170
 
         this.moveToX(this.x - awayDistance + isRight * awayDistance * 2)
 
-        var that = this
+        return wait(this.awayDur())
 
-        return wait(this.awayDur).then(function () {
-            that.setTransitionDuration(that.awayAnimDur)
+        .then(() => this.awayAnim().apply(this.elem))
 
-            that.elem.css('opacity', 0)
-
-            return wait(that.awayAnimDur)
-        }).then(function () {
-            that.elem.remove()
-        })
+        .then(() => this.elem.remove())
     }
 
-    pt.runAwayRight = function () {
+    runAwayRight() {
+
         return this.runAway('right')
+
     }
 
-    pt.runAwayLeft = function () {
+    runAwayLeft() {
+
         return this.runAway('left')
+
     }
-})
+
+}

@@ -16,7 +16,7 @@ export default class StaticSprite extends Sprite {
         super(elem)
 
         this.dirStateImage = () => ({
-            down: { default: new Image(this.image) }
+            down: { default: new Image(this.image()) }
         })
 
     }
