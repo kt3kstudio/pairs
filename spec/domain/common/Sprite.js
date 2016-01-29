@@ -1,13 +1,12 @@
 import Grid from '../../../src/domain/common/Grid'
 import Sprite from '../../../src/domain/common/Sprite'
+import Image from '../../../src/domain/common/Image'
 
 describe('Sprite', function () {
     'use strict'
 
     var sprite
     var elem
-
-    var Image = domain.common.Image
 
     beforeEach(function () {
 

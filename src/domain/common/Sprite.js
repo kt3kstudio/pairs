@@ -22,7 +22,7 @@ export default class Sprite extends GridWalker {
     ratioY() { return 1 }
 
     /**
-     * @property {Object} stateImage The map of state to image url. Object<Object<domain.common.Image>>
+     * @return { Object<Object<Image>>} stateImage The map of state to image url.
      */
     dirStateImage() { return null }
 
@@ -109,7 +109,7 @@ export default class Sprite extends GridWalker {
      * Applies the image to the element.
      *
      * @private
-     * @param {domain.common.Image} img The image
+     * @param {Image} img The image
      */
     applyImage(img) {
 

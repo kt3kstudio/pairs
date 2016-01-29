@@ -1,4 +1,5 @@
 import Sprite from './Sprite'
+import Image from './Image'
 
 /**
  * The sprite class for stay-run creatures.
@@ -16,16 +17,14 @@ domain.common.StayRunSprite = subclass(Sprite, function (pt, parent) {
     pt.constructor = function (elem) {
         parent.constructor.call(this, elem)
 
-        this.defaultImage = new domain.common.Image(this.leftStayImage)
-
         this.dirStateImage = () => ({
             left: {
-                stay: new domain.common.Image(this.leftStayImage),
-                run: new domain.common.Image(this.leftRunImage)
+                stay: new Image(this.leftStayImage),
+                run: new Image(this.leftRunImage)
             },
             right: {
-                stay: new domain.common.Image(this.leftStayImage, true),
-                run: new domain.common.Image(this.leftRunImage, true)
+                stay: new Image(this.leftStayImage, true),
+                run: new Image(this.leftRunImage, true)
             }
         })
     }

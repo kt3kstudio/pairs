@@ -1,4 +1,5 @@
 import Sprite from './Sprite'
+import Image from './Image'
 
 /**
  * CharSprite class handles the character sprite.
@@ -33,10 +34,10 @@ domain.common.CharSprite = subclass(Sprite, function (pt, parent) {
         CHAR_SPRITE_SELECTOR(this.character.id).call(this)
 
         const dirStateImage = {
-            up: {default: new domain.common.Image(this.upImage)},
-            down: {default: new domain.common.Image(this.downImage)},
-            left: {default: new domain.common.Image(this.leftImage)},
-            right: {default: new domain.common.Image(this.rightImage)}
+            up: {default: new Image(this.upImage)},
+            down: {default: new Image(this.downImage)},
+            left: {default: new Image(this.leftImage)},
+            right: {default: new Image(this.rightImage)}
         }
 
         this.dirStateImage = () => dirStateImage

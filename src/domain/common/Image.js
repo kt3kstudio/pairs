@@ -1,8 +1,7 @@
 /**
  * The image object
  */
-domain.common.Image = subclass(function (pt) {
-    'use strict'
+export default class Image {
 
     /**
      * @constructor
@@ -10,7 +9,7 @@ domain.common.Image = subclass(function (pt) {
      * @param {Boolean} mirrorX If the image is mirrored by x-axis
      * @param {Boolean} mirrorY If the image is mirrored by y-axis
      */
-    pt.constructor = function (src, mirrorX, mirrorY) {
+    constructor(src, mirrorX, mirrorY) {
 
         this.src = src
         this.mirrorX = mirrorX
@@ -26,7 +25,7 @@ domain.common.Image = subclass(function (pt) {
      *
      * @param {jQuery} elem The element to apply the image info (needs to be <img> jquery object)
      */
-    pt.apply = function (elem) {
+    apply(elem) {
 
         elem.css('transform', this.makeTransform())
 
@@ -40,10 +39,10 @@ domain.common.Image = subclass(function (pt) {
      * @private
      * @return {String}
      */
-    pt.makeTransform = function () {
+    makeTransform() {
 
         return 'scale(' + this.scaleX + ', ' + this.scaleY + ')'
 
     }
 
-})
+}

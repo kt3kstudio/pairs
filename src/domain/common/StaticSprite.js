@@ -1,4 +1,5 @@
 import Sprite from './Sprite'
+import Image from './Image'
 
 /**
  * StaticSprite is Sprite without dir-state change.
@@ -15,7 +16,7 @@ export default class StaticSprite extends Sprite {
         super(elem)
 
         this.dirStateImage = () => ({
-            down: { default: new domain.common.Image(this.image) }
+            down: { default: new Image(this.image) }
         })
 
     }

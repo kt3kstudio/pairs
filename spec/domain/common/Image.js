@@ -1,11 +1,13 @@
-describe('Image', function () {
+import Image from '../../../src/domain/common/Image'
+
+describe('Image', () => {
     'use strict'
 
-    var Image = domain.common.Image
+    describe('apply', () => {
 
-    describe('apply', function () {
-        it('applies the src and style to the jquery img element', function () {
-            var img = $('<img />')
+        it('applies the src and style to the jquery img element', () => {
+
+            const img = $('<img />')
 
             new Image('foo.svg', false, false).apply(img)
             expect(img.attr('src')).to.equal('foo.svg')
@@ -22,6 +24,9 @@ describe('Image', function () {
             new Image('foo.svg', true, true).apply(img)
             expect(img.attr('src')).to.equal('foo.svg')
             expect(img.css('transform')).to.equal('scale(-1, -1)')
+
         })
+
     })
+
 })
