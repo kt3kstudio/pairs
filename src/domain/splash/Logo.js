@@ -39,13 +39,13 @@ class Logo extends Being {
 
     }
 
-    get showAnim() {
+    showAnim() {
 
         return new Animation('logo-show', 350)
 
     }
 
-    get hideAnim() {
+    hideAnim() {
 
         return new Animation('logo-hide', 350)
 

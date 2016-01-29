@@ -8,38 +8,12 @@ export default class Being extends Actor {
     /**
      * @abstract
      */
-    get showAnim() {
-
-        return this._showAnim
-
-    }
+    showAnim() { return null }
 
     /**
      * @abstract
      */
-    set showAnim(anim) {
-
-        this._showAnim = anim
-
-    }
-
-    /**
-     * @abstract
-     */
-    get hideAnim() {
-
-        return this._hideAnim
-
-    }
-
-    /**
-     * @abstract
-     */
-    set hideAnim(anim) {
-
-        this._hideAnim = anim
-
-    }
+    hideAnim() { return null }
 
     /**
      * @abstract
@@ -63,7 +37,13 @@ export default class Being extends Actor {
 
         return Promise.resolve(this.willShow())
 
-        .then(() => this.showAnim != null && this.showAnim.apply(this.elem))
+        .then(() => {
+
+            const anim = this.showAnim()
+
+            return anim != null && anim.apply(this.elem)
+
+        })
 
         .then(() => this.didShow())
 
@@ -91,7 +71,13 @@ export default class Being extends Actor {
 
         return Promise.resolve(this.willHide())
 
-        .then(() => this.hideAnim != null && this.hideAnim.apply(this.elem))
+        .then(() => {
+
+            const anim = this.hideAnim()
+
+            return anim != null && anim.apply(this.elem)
+
+        })
 
         .then(() => this.didHide())
 

@@ -23,8 +23,8 @@ domain.common.Ma = subclass(function (pt) {
         this.leftImage = 'images/ma-L.svg'
         this.rightImage = 'images/ma-R.svg'
 
-        this.showAnim = new Animation('char-appear', 1000)
-        this.hideAnim = new Animation('char-disappear', 1000)
+        this.showAnim = () => new Animation('char-appear', 1000)
+        this.hideAnim = () => new Animation('char-disappear', 1000)
 
     }
 

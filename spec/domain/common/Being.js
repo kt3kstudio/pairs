@@ -13,9 +13,9 @@ describe('Being', function () {
 
         being = new Being(elem)
 
-        being.showAnim = new Animation('showing', 500)
+        being.showAnim = () => new Animation('showing', 500)
 
-        being.hideAnim = new Animation('abc', 37)
+        being.hideAnim = () => new Animation('abc', 37)
 
     })
 
@@ -23,28 +23,34 @@ describe('Being', function () {
 
         it('applies the show animation to the elem', function (done) {
 
-            being.showAnim.apply = function (elem) {
+            const anim = { apply(elem) {
 
                 expect(elem).to.equal(being.elem)
 
                 done()
 
-            }
+            } }
+
+            being.showAnim = () => anim
 
             being.show().catch(function (e) {
+
                 console.log(e)
                 console.log(e.stack)
+
             })
 
         })
 
         it('calls willShow before the main animation', function (done) {
 
-            being.showAnim.apply = function () {
+            const anim = { apply() {
 
                 done(new Error('main animation should not called before willShow'))
 
-            }
+            } }
+
+            being.showAnim = () => anim
 
             being.willShow = function () {
 
@@ -60,11 +66,13 @@ describe('Being', function () {
 
             var animCalled = false
 
-            being.showAnim.apply = function () {
+            const anim = { apply() {
 
                 animCalled = true
 
-            }
+            } }
+
+            being.showAnim = () => anim
 
             being.didShow = function () {
 
@@ -84,13 +92,15 @@ describe('Being', function () {
 
         it('applies the hide animation to the elem', function (done) {
 
-            being.hideAnim.apply = function (elem) {
+            const anim = { apply(elem) {
 
                 expect(elem).to.equal(being.elem)
 
                 done()
 
-            }
+            } }
+
+            being.hideAnim = () => anim
 
             being.hide()
 
@@ -98,11 +108,13 @@ describe('Being', function () {
 
         it('calls willHide method before the main animation', function (done) {
 
-            being.hideAnim.apply = function () {
+            const anim = { apply() {
 
                 expect(true).to.be.false
 
-            }
+            } }
+
+            being.hideAnim = () => anim
 
             being.willHide = function () {
 
@@ -118,11 +130,13 @@ describe('Being', function () {
 
             var animCalled = false
 
-            being.hideAnim.apply = function () {
+            const anim = { apply() {
 
                 animCalled = true
 
-            }
+            } }
+
+            being.hideAnim = () => anim
 
             being.didHide = function () {
 

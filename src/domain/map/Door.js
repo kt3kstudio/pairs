@@ -120,8 +120,8 @@ domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
 
     pt.doorActionDur = 400
 
-    pt.showAnim = new Animation('door-appear', DOOR_APPEAR_DUR)
-    pt.hideAnim = new Animation('door-disappear', DOOR_APPEAR_DUR)
+    pt.showAnim = () => new Animation('door-appear', DOOR_APPEAR_DUR)
+    pt.hideAnim = () => new Animation('door-disappear', DOOR_APPEAR_DUR)
 
 })
 

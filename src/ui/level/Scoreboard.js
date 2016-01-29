@@ -45,8 +45,8 @@ ui.level.Scoreboard = subclass(DimensionalBeing, function (pt, parent) {
 
     }
 
-    pt.showAnim = new Animation('bom-appear', 400)
-    pt.hideAnim = new Animation('bom-disappear', 400)
+    pt.showAnim = () => new Animation('bom-appear', 400)
+    pt.hideAnim = () => new Animation('bom-disappear', 400)
 
     /**
      * Set up the initial dom state.

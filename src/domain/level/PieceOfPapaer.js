@@ -16,9 +16,9 @@ domain.level.Paper = subclass(domain.common.StaticSprite, function (pt) {
 
     pt.image = 'images/paper.svg'
 
-    pt.showAnim = new Animation('paper-appear', 500)
+    pt.showAnim = () => new Animation('paper-appear', 500)
 
-    pt.hideAnim = new Animation('paper-disappear', 500)
+    pt.hideAnim = () => new Animation('paper-disappear', 500)
 
 })
 
