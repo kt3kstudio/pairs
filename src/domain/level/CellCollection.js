@@ -1,3 +1,5 @@
+import FieldIndexGenerator from '../../util/FieldIndexGenerator'
+
 /**
  * CellCollection class represents the grid positioned queues of cells around the field.
  */
@@ -77,7 +79,7 @@ domain.level.CellCollection = subclass($.cc.Coelement, function (pt, parent) {
      */
     pt.loadList = function (list) {
 
-        var indices = new util.FieldIndexGenerator().generate(list.length, this.usedIndices())
+        var indices = new FieldIndexGenerator().generate(list.length, this.usedIndices())
 
         list.forEach(function (cell, i) {
 

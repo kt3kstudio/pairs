@@ -3,14 +3,13 @@
  *
  * The list is like a snake on the wall, inspired by the charactor arrangment of the mayan scripture.
  */
-util.FieldIndexGenerator = subclass(function (pt) {
-    'use strict'
+ export default class FieldIndexGenerator {
 
     /**
      * @constructor
      * @param {Number} [max] The max number of colums on each row
      */
-    pt.constructor = function (max) {
+    constructor(max) {
         this.max = max || 3
     }
 
@@ -21,70 +20,94 @@ util.FieldIndexGenerator = subclass(function (pt) {
      * @param {Array} used The used (unavailable) indices
      * @return {Array}
      */
-    pt.generate = function (need, used) {
-        var results = []
-        var ip = new IndexPointer(this.max)
+    generate(need, used) {
+
+        const results = []
+        const ip = new IndexPointer(this.max)
 
         used = used || []
-        used = used.map(function (x) { return x.toString() })
+        used = used.map((x) => x.toString())
 
         while (results.length < need) {
+
             if (used.indexOf(ip.get().toString()) === -1) {
+
                 results.push(ip.get())
+
             }
 
             ip.next()
+
         }
 
         return results
+
+    }
+
+}
+
+/**
+ * IndexPointer represents the current position of generating sequence of indices.
+ */
+class IndexPointer {
+
+    /**
+     * @constructor
+     * @param {Number} max The max of number of columns
+     */
+    constructor(max) {
+
+        this.x = 0
+        this.y = 0
+        this.max = max
+        this.maxIndex = max - 1
+
     }
 
     /**
-     * IndexPointer represents the current position of generating sequence of indices.
+     * Gets the current index as an array.
      *
-     * @class util.FieldIndexGenerator.IndexPointer
-     * @private
+     * @return {Array}
      */
-    var IndexPointer = subclass(function (pt) {
-        /**
-         * @constructor
-         * @param {Number} max The max of number of columns
-         */
-        pt.constructor = function (max) {
-            this.x = 0
-            this.y = 0
-            this.max = max
-            this.maxIndex = max - 1
-        }
+    get() {
 
-        /**
-         * Gets the current index as an array.
-         *
-         * @return {Array}
-         */
-        pt.get = function () {
-            return [this.x, this.y]
-        }
+        return [this.x, this.y]
 
-        /**
-         * The pointer goes to the next position.
-         */
-        pt.next = function () {
-            if (this.x % 2 === 0) {
-                if (this.y >= this.maxIndex) {
-                    this.x += 1
-                } else {
-                    this.y += 1
-                }
+    }
+
+    /**
+     * The pointer goes to the next position.
+     */
+    next() {
+
+        if (this.x % 2 === 0) {
+
+            if (this.y >= this.maxIndex) {
+
+                this.x += 1
+
             } else {
-                if (this.y <= 0) {
-                    this.x += 1
-                } else {
-                    this.y -= 1
-                }
+
+                this.y += 1
+
             }
 
-            return this.get()
+        } else {
+
+            if (this.y <= 0) {
+
+                this.x += 1
+
+            } else {
+
+                this.y -= 1
+
+            }
+
         }
-    })
-})
+
+        return this.get()
+
+    }
+
+}
