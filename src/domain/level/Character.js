@@ -1,27 +1,32 @@
+import CharSprite from '../common/CharSprite'
+
 /**
  * The main character on the level scene.
- *
- * @class
  */
-domain.level.Character = subclass(domain.common.CharSprite, function (pt, parent) {
-    'use strict'
+export default class Character extends CharSprite {
 
-    pt.willShow = function () {
+    /**
+     * @param {number} dur The duration
+     */
+    willShow(dur) {
 
-        parent.willShow.apply(this, arguments)
+        super.willShow(dur)
 
         this.elem.css('display', 'inline')
 
     }
 
-    pt.didHide = function () {
+    /**
+     * @param {number} dur The duration
+     */
+    didHide(dur) {
 
-        parent.didHide.call(this)
+        super.didHide(dur)
 
         this.elem.css('display', 'none')
 
     }
 
-})
+}
 
-$.cc.assign('character-on-level', domain.level.Character)
+$.cc.assign('character-on-level', Character)

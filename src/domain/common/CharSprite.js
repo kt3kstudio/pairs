@@ -1,71 +1,71 @@
 import Sprite from './Sprite'
 import Image from './Image'
 
+const defaultSpeechTimeout = 5000
+
+const CHR_TABLE = {
+    ma: domain.common.Ma
+}
+
 /**
  * CharSprite class handles the character sprite.
  *
  * Component
  */
-domain.common.CharSprite = subclass(Sprite, function (pt, parent) {
-    'use strict'
-
-    var defaultSpeechTimeout = 5000
+export default class CharSprite extends Sprite {
 
     /** sprite's image when going up */
-    pt.upImage = ''
+    upImage() { return '' }
 
     /** sprite's image when going down */
-    pt.downImage = ''
+    downImage() { return '' }
 
     /** sprite's image when going left */
-    pt.leftImage = ''
+    leftImage() { return '' }
 
     /** sprite's image when going right */
-    pt.rightImage = ''
+    rightImage() { return '' }
 
-    pt.constructor = function (elem) {
+    constructor(elem) {
 
-        parent.constructor.call(this, elem)
+        super(elem)
 
         this.character = elem.data('character')
 
         this.characterRepository = new datadomain.CharacterRepository()
 
-        CHAR_SPRITE_SELECTOR(this.character.id).call(this)
+        CHR_TABLE[this.character.id].call(this)
 
         const dirStateImage = {
-            up: {default: new Image(this.upImage)},
-            down: {default: new Image(this.downImage)},
-            left: {default: new Image(this.leftImage)},
-            right: {default: new Image(this.rightImage)}
+            up: {default: new Image(this.upImage())},
+            down: {default: new Image(this.downImage())},
+            left: {default: new Image(this.leftImage())},
+            right: {default: new Image(this.rightImage())}
         }
 
         this.dirStateImage = () => dirStateImage
 
     }
 
-    var CHAR_SPRITE_SELECTOR = function (charId) {
-
-        var THE_TABLE = {
-            ma: domain.common.Ma
-        }
-
-        return THE_TABLE[charId]
-
-    }
 
     /**
      * Changes the direction the character currently heading for.
      *
-     * @param {String} dir The direction (one of up, down, left or right)
+     * @param {string} dir The direction (one of up, down, left or right)
      */
-    pt.turn = function (dir) {
+    turn(dir) {
 
         this.setDirState(dir, 'default')
 
     }
 
-    pt.getDirection = function (coordinate, to) {
+    /**
+     * Gets the direction to the target point.
+     *
+     * @param {string} coordinate 'x' or 'y'
+     * @param {number} to The position
+     */
+    getDirection(coordinate, to) {
 
         if (coordinate === 'x') {
 
@@ -77,9 +77,16 @@ domain.common.CharSprite = subclass(Sprite, function (pt, parent) {
 
     }
 
-    pt.moveTo = function (coordinate, to, dur) {
+    /**
+     * Moves the sprite to the given position within the given duration.
+     *
+     * @param {string} coordinate 'x' or 'y'
+     * @param {number} to The position to go
+     * @param {number} dur The duration of movement in ms
+     */
+    moveTo(coordinate, to, dur) {
 
-        var dir = this.getDirection(coordinate, to)
+        const dir = this.getDirection(coordinate, to)
 
         this.turn(dir)
 
@@ -104,11 +111,11 @@ domain.common.CharSprite = subclass(Sprite, function (pt, parent) {
      *
      * @return {Promise}
      */
-    pt.moveUpOnGrid = function () {
+    moveUpOnGrid() {
 
         this.turn('up')
 
-        return parent.moveUpOnGrid.apply(this, arguments)
+        return super.moveUpOnGrid()
 
     }
 
@@ -117,11 +124,11 @@ domain.common.CharSprite = subclass(Sprite, function (pt, parent) {
      *
      * @return {Promise}
      */
-    pt.moveRightOnGrid = function () {
+    moveRightOnGrid() {
 
         this.turn('right')
 
-        return parent.moveRightOnGrid.apply(this, arguments)
+        return super.moveRightOnGrid()
 
     }
 
@@ -130,11 +137,11 @@ domain.common.CharSprite = subclass(Sprite, function (pt, parent) {
      *
      * @return {Promise}
      */
-    pt.moveDownOnGrid = function () {
+    moveDownOnGrid() {
 
         this.turn('down')
 
-        return parent.moveDownOnGrid.apply(this, arguments)
+        return super.moveDownOnGrid()
 
     }
 
@@ -143,18 +150,21 @@ domain.common.CharSprite = subclass(Sprite, function (pt, parent) {
      *
      * @return {Promise}
      */
-    pt.moveLeftOnGrid = function () {
+    moveLeftOnGrid() {
 
         this.turn('left')
 
-        return parent.moveLeftOnGrid.apply(this, arguments)
+        return super.moveLeftOnGrid()
 
     }
 
     /**
      * Speaks the phrase
+     *
+     * @param {string} speech The contents of the speech
+     * @param {object} opts The options to pass to the speech bubble module
      */
-    pt.speak = function (speech, opts) {
+    speak(speech, opts) {
 
         opts = opts || {}
 
@@ -171,15 +181,17 @@ domain.common.CharSprite = subclass(Sprite, function (pt, parent) {
             duration: 600
         }).show()
 
-        this.speechEndPromise = bubbleShown.then(function (sb) {
+        this.speechEndPromise = bubbleShown.then((sb) => {
 
-            return new Promise(function (resolve) {
+            return new Promise(resolve => {
 
                 setTimeout(resolve, timeout)
 
                 $(cancelDom).one('click touchstart', resolve)
 
-            }).then(function () {
+            })
+
+            .then(() => {
 
                 $(cancelDom).off('click touchstart')
 
@@ -193,4 +205,4 @@ domain.common.CharSprite = subclass(Sprite, function (pt, parent) {
 
     }
 
-})
+}

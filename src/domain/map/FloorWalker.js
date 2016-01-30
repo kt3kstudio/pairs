@@ -1,9 +1,10 @@
+import CharSprite from '../common/CharSprite'
 /**
  * FloorWalker is the role of CharSprite which handles the behaviours of the character on the floor.
  *
  * Service Component
  */
-class FloorWalker extends domain.common.CharSprite {
+class FloorWalker extends CharSprite {
 
     willShow() {
 

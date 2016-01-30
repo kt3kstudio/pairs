@@ -1,39 +1,42 @@
 import Grid from '../../../src/domain/common/Grid'
+import Character from '../../../src/domain/level/Character'
 
-describe('domain.level.Character', function () {
+describe('Character', () => {
     'use strict'
 
-    beforeEach(function () {
+    let elem, character
 
-        this.$dom = $('<span />')
+    beforeEach(() => {
 
-        this.$dom.data('character', {id: 'ma'})
+        elem = $('<span />')
 
-        this.character = new domain.level.Character(this.$dom)
+        elem.data('character', {id: 'ma'})
 
-        this.character.setGrid(new Grid())
+        character = new Character(elem)
+
+        character.setGrid(new Grid())
 
     })
 
-    describe('willShow', function () {
+    describe('willShow', () => {
 
-        it('sets the display of the element inline', function () {
+        it('sets the display of the element inline', () => {
 
-            this.character.willShow()
+            character.willShow()
 
-            expect(this.character.elem.css('display')).to.equal('inline')
+            expect(character.elem.css('display')).to.equal('inline')
 
         })
 
     })
 
-    describe('didHide', function () {
+    describe('didHide', () => {
 
-        it('sets the display of the element none', function () {
+        it('sets the display of the element none', () => {
 
-            this.character.didHide()
+            character.didHide()
 
-            expect(this.character.elem.css('display')).to.equal('none')
+            expect(character.elem.css('display')).to.equal('none')
 
         })
 

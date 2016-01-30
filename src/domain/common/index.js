@@ -1,5 +1,1 @@
-import './CharSprite'
-import './Image'
 import './Ma'
-import './StaticSprite'
-import './StayRunSprite'
