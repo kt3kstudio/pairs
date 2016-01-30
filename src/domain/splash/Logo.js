@@ -4,6 +4,7 @@ import {Animation} from 'spn'
 /**
  * Logo animation componenent in the splash screen.
  */
+@$.cc.Component('splash-logo')
 class Logo extends Being {
 
     /**
@@ -52,5 +53,3 @@ class Logo extends Being {
     }
 
 }
-
-$.cc.assign('splash-logo', Logo)

@@ -8,6 +8,7 @@ import Floorboard from './Floorboard'
  *
  * Collective Component
  */
+@$.cc.Component('floor-asset-collection')
 class FloorAssetCollection extends Being {
 
     /**
@@ -120,5 +121,3 @@ class FloorAssetCollection extends Being {
     }
 
 }
-
-$.cc.assign('floor-asset-collection', FloorAssetCollection)

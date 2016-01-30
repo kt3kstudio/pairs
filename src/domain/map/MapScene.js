@@ -9,6 +9,7 @@ import BackgroundService from '../../ui/common/BackgroundService'
  * - interaction between view and model
  * - sequence of multi agents perfomance
  */
+@$.cc.Component('map-scene')
 class MapScene extends SceneContext {
 
     /**
@@ -233,5 +234,3 @@ class MapScene extends SceneContext {
     }
 
 }
-
-$.cc.assign('map-scene', MapScene)

@@ -3,11 +3,13 @@ import IntroSceneLayout from './intro-scene-layout'
 import PlaySceneLayout from './play-scene-layout'
 import BackgroundService from '../../ui/common/BackgroundService'
 
+const Component = $.cc.Component
 const event = $.cc.event
 
 /**
  * IntroScene class handles the introduction scene of the level page.
  */
+@Component('intro-scene')
 class IntroScene extends Context {
 
     /**
@@ -149,5 +151,3 @@ class IntroScene extends Context {
     }
 
 }
-
-$.cc.assign('intro-scene', IntroScene)

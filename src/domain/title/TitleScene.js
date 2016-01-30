@@ -7,6 +7,7 @@ const event = $.cc.event
 /**
  * TitleScene class handles the motions sequences of the title scene.
  */
+@$.cc.Component('title-scene')
 class TitleScene extends SceneContext {
 
     /**
@@ -68,5 +69,3 @@ class TitleScene extends SceneContext {
     }
 
 }
-
-$.cc.assign('title-scene', TitleScene)

@@ -6,6 +6,7 @@ const HEIGHT_RATE = 0.35
 /**
  * Floor class handles the behaviour of floor of the Map view
  */
+@$.cc.Component('floorboard')
 export default class Floorboard extends Being {
 
     static get HEIGHT_RATE() {
@@ -55,5 +56,3 @@ export default class Floorboard extends Being {
     }
 
 }
-
-$.cc.assign('floorboard', Floorboard)

@@ -6,6 +6,7 @@ import {Animation} from 'spn'
  *
  * @extends domain.common.StayRunSprite
  */
+@$.cc.Component('frog')
 class FrogSprite extends StayRunSprite {
 
     leftStayImage() { return 'images/frog-stay.out.svg' }
@@ -20,5 +21,3 @@ class FrogSprite extends StayRunSprite {
     ratioY() { return 1 }
 
 }
-
-$.cc.assign('frog', FrogSprite)

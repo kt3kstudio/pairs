@@ -3,6 +3,7 @@ import CharSprite from '../common/CharSprite'
 /**
  * The main character on the level scene.
  */
+@$.cc.Component('character-on-level')
 export default class Character extends CharSprite {
 
     /**
@@ -28,5 +29,3 @@ export default class Character extends CharSprite {
     }
 
 }
-
-$.cc.assign('character-on-level', Character)

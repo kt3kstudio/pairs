@@ -7,6 +7,7 @@ const event = $.cc.event
 /**
  * OutroScene handles the scene after finishing main play.
  */
+@$.cc.Component('outro-scene')
 class OutroScene extends Context {
 
     @event('play-scene-success play-scene-failure')
@@ -71,5 +72,3 @@ class OutroScene extends Context {
     }
 
 }
-
-$.cc.assign('outro-scene', OutroScene)

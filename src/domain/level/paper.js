@@ -4,6 +4,7 @@ import StaticSprite from '../common/StaticSprite'
 /**
  * PieceOfPaper represents a piece of paper which is on the floor of each room (obsolete).
  */
+@$.cc.Component('paper')
 class Paper extends StaticSprite {
 
     width() { return 50 }
@@ -15,5 +16,3 @@ class Paper extends StaticSprite {
     hideAnim() { return new Animation('paper-disappear', 500) }
 
 }
-
-$.cc.assign('paper', Paper)

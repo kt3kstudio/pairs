@@ -6,6 +6,7 @@ const event = $.cc.event
 /**
  * PlayScene controlls the main playing scene of the level page.
  */
+@$.cc.Component('play-scene')
 class PlayScene extends Context {
 
     /**
@@ -210,5 +211,3 @@ class PlayScene extends Context {
     }
 
 }
-
-$.cc.assign('play-scene', PlayScene)

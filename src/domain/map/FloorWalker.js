@@ -4,6 +4,7 @@ import CharSprite from '../common/CharSprite'
  *
  * Service Component
  */
+@$.cc.Component('floor-walker')
 class FloorWalker extends CharSprite {
 
     willShow() {
@@ -156,5 +157,3 @@ class FloorWalker extends CharSprite {
     }
 
 }
-
-$.cc.assign('floor-walker', FloorWalker)
