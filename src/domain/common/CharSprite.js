@@ -1,10 +1,11 @@
 import Sprite from './Sprite'
 import Image from './Image'
+import Ma from './Ma'
 
 const defaultSpeechTimeout = 5000
 
 const CHR_TABLE = {
-    ma: domain.common.Ma
+    ma: Ma
 }
 
 /**
