@@ -33,8 +33,6 @@ export default class CharSprite extends Sprite {
 
         this.character = elem.data('character')
 
-        this.characterRepository = new datadomain.CharacterRepository()
-
         CHR_TABLE[this.character.id].call(this)
 
         const dirStateImage = {

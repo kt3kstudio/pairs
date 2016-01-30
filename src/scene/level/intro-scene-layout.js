@@ -27,10 +27,7 @@ export default class IntroSceneLayout extends DimensionFactory {
         .main
         .shiftDown(0.21)
         .toGrid()
-        .override({
-            cellWidth: 70,
-            cellHeight: 70
-        })
+        .override({cellWidth: 70, cellHeight: 70})
 
     }
 

@@ -35,13 +35,9 @@ class IntroScene extends Context {
 
         .then(user => new datadomain.CharacterRepository().getById(user.charId))
 
-        .then(character => {
+        .then(character => this.character = character)
 
-            this.character = character
-
-            return new datadomain.LevelRepository().getById(character.position.floorObjectId)
-
-        })
+        .then(character => new datadomain.LevelRepository().getById(this.character.position.floorObjectId))
 
         .then(level => this.level = level)
 
@@ -55,19 +51,23 @@ class IntroScene extends Context {
      */
     setUp() {
 
-        var layout = new IntroSceneLayout()
+        const layout = new IntroSceneLayout()
 
         this.spawnBall()
         this.spawnPaper()
         this.spawnCharacter(this.character)
 
-        var centerGrid = layout.centerGrid()
+        const centerGrid = layout.centerGrid()
 
         this.getPaper().setGrid(centerGrid, 0, 0)
 
-        this.getCharacter().setGrid(centerGrid, 0, 1)
+        const character = this.getCharacter()
 
-        this.getCharacter().fitToGrid()
+        character.setGrid(centerGrid, 0, 1)
+
+        character.setTransitionDuration(500)
+
+        character.fitToGrid()
 
     }
 
