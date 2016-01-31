@@ -10,7 +10,7 @@ import BackgroundService from '../../ui/common/BackgroundService'
  * - sequence of multi agents perfomance
  */
 @$.cc.Component('map-scene')
-class MapScene extends SceneContext {
+export default class MapScene extends SceneContext {
 
     /**
      * The entry point of the map scene.

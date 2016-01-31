@@ -7,7 +7,7 @@ const event = $.cc.event
  * PlayScene controlls the main playing scene of the level page.
  */
 @$.cc.Component('play-scene')
-class PlayScene extends Context {
+export default class PlayScene extends Context {
 
     /**
      * The entry point

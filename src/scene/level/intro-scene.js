@@ -10,7 +10,7 @@ const event = $.cc.event
  * IntroScene class handles the introduction scene of the level page.
  */
 @Component('intro-scene')
-class IntroScene extends Context {
+export default class IntroScene extends Context {
 
     /**
      * The entry point of the level scene.

@@ -5,7 +5,7 @@ import StaticSprite from '../common/StaticSprite'
  * PieceOfPaper represents a piece of paper which is on the floor of each room (obsolete).
  */
 @$.cc.Component('paper')
-class Paper extends StaticSprite {
+export default class Paper extends StaticSprite {
 
     width() { return 50 }
     height() { return 50 }

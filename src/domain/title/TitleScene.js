@@ -8,7 +8,7 @@ const event = $.cc.event
  * TitleScene class handles the motions sequences of the title scene.
  */
 @$.cc.Component('title-scene')
-class TitleScene extends SceneContext {
+export default class TitleScene extends SceneContext {
 
     /**
      * Entry point of the title scene.

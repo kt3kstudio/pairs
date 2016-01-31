@@ -1,7 +1,8 @@
 /**
  * Camera handles the screen position.
  */
-class Camera extends $.cc.Coelement {
+@$.cc.Component('camera')
+export default class Camera extends $.cc.Coelement {
 
     /**
      * Gets the window width.
@@ -77,5 +78,3 @@ class Camera extends $.cc.Coelement {
     }
 
 }
-
-$.cc.assign('camera', Camera)

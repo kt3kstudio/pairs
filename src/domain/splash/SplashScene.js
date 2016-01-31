@@ -4,7 +4,7 @@ import './Logo'
  * SplashScene controls the splash screen.
  */
 @$.cc.Component('splash-scene')
-class SplashScene extends $.cc.Coelement {
+export default class SplashScene extends $.cc.Coelement {
 
     @$.cc.event('scene-start')
     main() {

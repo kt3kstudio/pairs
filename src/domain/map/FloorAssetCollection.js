@@ -9,7 +9,7 @@ import Floorboard from './Floorboard'
  * Collective Component
  */
 @$.cc.Component('floor-asset-collection')
-class FloorAssetCollection extends Being {
+export default class FloorAssetCollection extends Being {
 
     /**
      * Loads assets from the given string html data.

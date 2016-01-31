@@ -5,7 +5,7 @@ import CharSprite from '../common/CharSprite'
  * Service Component
  */
 @$.cc.Component('floor-walker')
-class FloorWalker extends CharSprite {
+export default class FloorWalker extends CharSprite {
 
     willShow() {
 

@@ -3,7 +3,7 @@
  *
  * The list is like a snake on the wall, inspired by the charactor arrangment of the mayan scripture.
  */
- export default class FieldIndexGenerator {
+export default class FieldIndexGenerator {
 
     /**
      * @constructor

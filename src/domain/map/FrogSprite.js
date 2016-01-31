@@ -7,7 +7,7 @@ import {Animation} from 'spn'
  * @extends domain.common.StayRunSprite
  */
 @$.cc.Component('frog')
-class FrogSprite extends StayRunSprite {
+export default class FrogSprite extends StayRunSprite {
 
     leftStayImage() { return 'images/frog-stay.out.svg' }
     leftRunImage() { return 'images/frog-run.out.svg' }

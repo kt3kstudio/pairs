@@ -5,7 +5,7 @@ import {Animation} from 'spn'
  * Logo animation componenent in the splash screen.
  */
 @$.cc.Component('splash-logo')
-class Logo extends Being {
+export default class Logo extends Being {
 
     /**
      * Performs splash screen's logo animation.
