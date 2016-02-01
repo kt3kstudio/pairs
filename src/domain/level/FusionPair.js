@@ -1,6 +1,6 @@
+import MeioticService from '../genetics/MeioticService'
+
 /**
- * @class
- *
  * FusionPair represents the pair of cells which perform the fusion of them.
  */
 domain.level.FusionPair = subclass(function (pt) {
@@ -17,7 +17,7 @@ domain.level.FusionPair = subclass(function (pt) {
         this.left = left
         this.right = right
 
-        this.meiosis = meiosis || (meiosis = new domain.genetics.MeioticService())
+        this.meiosis = meiosis || (meiosis = new MeioticService())
     }
 
     var getGene = function (cell) {

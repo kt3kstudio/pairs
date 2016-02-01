@@ -1,10 +1,14 @@
-describe('MeioticService', function () {
+import MeioticService from '../../../src/domain/genetics/MeioticService'
+
+describe('MeioticService', () => {
     'use strict'
 
-    var meiosis = new domain.genetics.MeioticService()
+    const meiosis = new MeioticService()
 
-    describe('recombination', function () {
-        it('returns recombined gene from mother and mother', function () {
+    describe('recombination', () => {
+
+        it('returns recombined gene from mother and mother', () => {
+
             expect(meiosis.recombination('f', 'f')).to.equal('f')
             expect(meiosis.recombination('f', 'm')).to.equal('fm')
             expect(meiosis.recombination('f', 'fm')).to.equal('fm')
@@ -157,11 +161,15 @@ describe('MeioticService', function () {
             expect(meiosis.recombination('wwww', 'wwww')).to.equal('b')
 
             expect(meiosis.recombination('bbbb', 'bbbb')).to.equal('m')
+
         })
+
     })
 
-    describe('virtualLength', function () {
-        it('returns the virtual length of each gene', function () {
+    describe('virtualLength', () => {
+
+        it('returns the virtual length of each gene', () => {
+
             expect(meiosis.virtualLength('m')).to.equal(1)
             expect(meiosis.virtualLength('f')).to.equal(1)
             expect(meiosis.virtualLength('a')).to.equal(8)
@@ -198,6 +206,9 @@ describe('MeioticService', function () {
 
             expect(meiosis.virtualLength('fmawb')).to.equal(586)
             expect(meiosis.virtualLength('bwafm')).to.equal(586)
+
         })
+
     })
+
 })
