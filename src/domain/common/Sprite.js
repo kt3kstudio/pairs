@@ -1,7 +1,7 @@
 import GridWalker from './GridWalker'
 
 /**
- * Sprite (or DirectionalStateImageDimensionalBeing) class changes its image according to its direction and state.
+ * Sprite class changes its image according to its direction and state.
  */
 export default class Sprite extends GridWalker {
 
@@ -47,12 +47,12 @@ export default class Sprite extends GridWalker {
         /**
          * @property {String} dir The direction
          */
-        this.dir = null
+        this.dir = this.defaultDir()
 
         /**
          * @property {String} state The state
          */
-        this.state = null
+        this.state = this.defaultState()
 
     }
 
@@ -60,18 +60,29 @@ export default class Sprite extends GridWalker {
      * Adds the src attr of the elem if the default state dir image exists.
      *
      * @override
+     * @param {number} dur The duration
      */
-    willShow() {
+    willShow(dur) {
 
-        super.willShow(this)
+        super.willShow(dur)
 
-        const defaultDirImage = this.dirStateImage()[this.defaultDir()]
+        const defaultDirImage = this.dirStateImage()[this.dir]
 
-        if (defaultDirImage != null && defaultDirImage[this.defaultState()] != null) {
+        if (defaultDirImage == null) {
 
-            this.applyImage(defaultDirImage[this.defaultState()])
+            return
 
         }
+
+        const defaultImage = defaultDirImage[this.state]
+
+        if (defaultImage == null) {
+
+            return
+
+        }
+
+        this.applyImage(defaultImage)
 
     }
 

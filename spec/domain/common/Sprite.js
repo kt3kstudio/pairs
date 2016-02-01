@@ -2,40 +2,46 @@ import Grid from '../../../src/domain/common/Grid'
 import Sprite from '../../../src/domain/common/Sprite'
 import Image from '../../../src/domain/common/Image'
 
-describe('Sprite', function () {
+describe('Sprite', () => {
     'use strict'
 
-    var sprite
-    var elem
+    let sprite, elem
 
-    beforeEach(function () {
+    class MySprite extends Sprite {
+
+        defaultDir() { return 'up' }
+
+        defaultState() { return 'stay' }
+
+        dirStateImage() {
+            return {
+                up: {
+                    run: new Image('up-run.svg'),
+                    stay: new Image('up-stay.svg')
+                },
+                down: {
+                    run: new Image('down-run.svg'),
+                    stay: new Image('down-stay.svg')
+                }
+
+            }
+        }
+
+    }
+
+    beforeEach(() => {
 
         elem = $('<img />')
 
-        sprite = new Sprite(elem)
-
-        sprite.dirStateImage = () => ({
-            up: {
-                run: new Image('up-run.svg'),
-                stay: new Image('up-stay.svg')
-            },
-            down: {
-                run: new Image('down-run.svg'),
-                stay: new Image('down-stay.svg')
-            }
-
-        })
+        sprite = new MySprite(elem)
 
         sprite.setGrid(new Grid())
 
     })
 
-    describe('willShow', function () {
+    describe('willShow', () => {
 
-        it("sets the default state & dir image to the elem's src attr", function () {
-
-            sprite.defaultDir = () => 'up'
-            sprite.defaultState = () => 'stay'
+        it("sets the default state & dir image to the elem's src attr", () => {
 
             sprite.willShow()
 
@@ -45,9 +51,9 @@ describe('Sprite', function () {
 
     })
 
-    describe('setDirState', function () {
+    describe('setDirState', () => {
 
-        it('changes the image of elem according to the given dir and state', function () {
+        it('changes the image of elem according to the given dir and state', () => {
 
             sprite.setDirState('up', 'run')
             expect(sprite.elem.attr('src')).to.equal('up-run.svg')
@@ -63,9 +69,9 @@ describe('Sprite', function () {
 
         })
 
-        it('throws error when the image unavailable', function () {
+        it('throws error when the image unavailable', () => {
 
-            expect(function () {
+            expect(() => {
 
                 sprite.setDirState('foo', 'bar')
 
@@ -73,11 +79,11 @@ describe('Sprite', function () {
 
         })
 
-        it('throws error when the dir state image is not set at all', function () {
+        it('throws error when the dir state image is not set at all', () => {
 
             sprite.dirStateImage = () => null
 
-            expect(function () {
+            expect(() => {
 
                 sprite.setDirState('up', 'run')
 
