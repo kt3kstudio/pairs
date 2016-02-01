@@ -93,7 +93,7 @@ export default class Sprite extends GridWalker {
 
         }
 
-        var img = this.dirStateImage()[dir][state]
+        const img = this.dirStateImage()[dir][state]
 
         if (!img) {
 
@@ -102,6 +102,28 @@ export default class Sprite extends GridWalker {
         }
 
         this.applyImage(img)
+
+    }
+
+    /**
+     * Keeps the direction and sets the given state.
+     *
+     * @param {String} state The state
+     */
+    setState(state) {
+
+        this.setDirState(this.dir, state)
+
+    }
+
+    /**
+     * Sets the direction.
+     *
+     * @param {String} dir The direction
+     */
+    setDir(dir) {
+
+        this.setDirState(dir, this.state)
 
     }
 

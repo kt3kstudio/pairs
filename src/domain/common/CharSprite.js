@@ -54,7 +54,7 @@ export default class CharSprite extends Sprite {
      */
     turn(dir) {
 
-        this.setDirState(dir, 'default')
+        this.setDir(dir)
 
     }
 
