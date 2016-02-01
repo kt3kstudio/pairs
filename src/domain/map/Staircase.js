@@ -1,20 +1,20 @@
 import {Animation} from 'spn'
 
+const STAIRCASE_ANIMATION_DUR = 400
+
 /**
  * Staircase class represents the staircases in the map view.
  */
-domain.map.Staircase = subclass(domain.map.FloorAsset, function (pt, parent) {
-    'use strict'
+@$.cc.Component('staircase')
+export default class Staircase extends domain.map.FloorAsset {
 
-    var STAIRCASE_ANIMATION_DUR = 400
+    showAnim() { return new Animation('door-appear', STAIRCASE_ANIMATION_DUR) }
 
-    pt.showAnim = () => new Animation('door-appear', STAIRCASE_ANIMATION_DUR)
+    hideAnim() { return new Animation('door-disappear', STAIRCASE_ANIMATION_DUR) }
 
-    pt.hideAnim = () => new Animation('door-disappear', STAIRCASE_ANIMATION_DUR)
+    constructor(elem) {
 
-    pt.constructor = function (elem) {
-
-        parent.constructor.call(this, elem)
+        super(elem)
 
         this.goto = elem.data('goto') // must be parsed position object, not string
 
@@ -25,41 +25,47 @@ domain.map.Staircase = subclass(domain.map.FloorAsset, function (pt, parent) {
     /**
      * Sets up the dom.
      */
-    pt.willShow = function () {
+    willShow(dur) {
 
-        parent.willShow.call(this)
+        super.willShow(dur)
 
         if (this.locked) {
+
             this.spawnFrog()
+
         } else {
+
             this.enableDoorKnock()
+
         }
+
     }
 
     /**
      * Enables the knock interaction.
      */
-    pt.enableDoorKnock = function () {
-        var that = this
+    enableDoorKnock() {
 
-        this.elem.one('click', function () {
-            that.doorKnock()
-        })
+        this.elem.one('click', () => this.doorKnock())
+
     }
 
     /**
      * Disables the knock interaction.
      */
-    pt.disableDoorKnock = function () {
+    disableDoorKnock() {
+
         this.elem.off('click')
+
     }
 
     /**
      * Triggers the reload event.
      */
-    pt.onGetWalker = function () {
-        this.elem.trigger($.Event('character-goto', {goto: this.goto}))
-    }
-})
+    onGetWalker() {
 
-$.cc.assign('staircase', domain.map.Staircase)
+        this.elem.trigger($.Event('character-goto', {goto: this.goto}))
+
+    }
+
+}

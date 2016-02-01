@@ -1,45 +1,69 @@
-describe('domain.map.Staircase', function () {
+import Staircase from '../../../src/domain/map/Staircase'
+
+describe('Staircase', () => {
     'use strict'
 
-    beforeEach(function () {
-        this.$dom = $('<div data-goto=\'{"floorId": "abc", "floorObjectId": "def"}\' />')
-        this.staircase = new domain.map.Staircase(this.$dom)
+    let $dom, staircase
+
+    beforeEach(() => {
+
+        $dom = $('<div data-goto=\'{"floorId": "abc", "floorObjectId": "def"}\' />')
+        staircase = new Staircase($dom)
+
     })
 
-    describe('constructor', function () {
-        it('sets the goto property', function () {
-            expect(this.staircase.goto).to.eql({
+    describe('constructor', () => {
+
+        it('sets the goto property', () => {
+
+            expect(staircase.goto).to.eql({
                 floorId: 'abc',
                 floorObjectId: 'def'
             })
+
         })
+
     })
 
-    describe('willShow', function () {
-        it('sets up the dom', function () {
-            this.staircase.willShow()
+    describe('willShow', () => {
+
+        it('sets up the dom', () => {
+
+            staircase.willShow()
 
         // TODO: some assertion
         })
 
         it('binds to click event', function (done) {
-            this.staircase.willShow()
 
-            this.staircase.elem.on('click', function () {
+            staircase.willShow()
+
+            staircase.elem.on('click', function () {
+
                 done()
+
             })
 
-            this.staircase.elem.trigger('click')
+            staircase.elem.trigger('click')
+
         })
+
     })
 
-    describe('onGetWalker', function () {
-        it('triggers the character-goto event', function (done) {
-            this.staircase.elem.on('character-goto', function () {
+    describe('onGetWalker', () => {
+
+        it('triggers the character-goto event', (done) => {
+
+            staircase.elem.on('character-goto', () => {
+
                 done()
+
             })
 
-            this.staircase.onGetWalker()
+            staircase.onGetWalker()
+
         })
+
     })
+
 })
