@@ -1,19 +1,18 @@
 /**
  * PossibleMoveDetectionService provides the functionality of detecting the possible moves in the play field.
- *
- * @class
  */
-domain.level.PossibleMoveDetectionService = subclass(function (pt) {
-    'use strict'
+export default class PossibleMoveDetectionService {
 
     /**
      * @constructor
      * @param {domain.level.Ball} ball The ball
      * @param {domain.level.CellCollection} cells The field cells
      */
-    pt.constructor = function (ball, cells) {
+    constructor(ball, cells) {
+
         this.ball = ball
         this.cells = cells
+
     }
 
     /**
@@ -21,7 +20,8 @@ domain.level.PossibleMoveDetectionService = subclass(function (pt) {
      *
      * @returns {Boolean} true if possible move available
      */
-    pt.possible = function () {
+    possible() {
+
         // if any of the next cells has a bom, then the next move is possible.
         if (this.cells.find(this.ball.posAhead('up'))) { return true }
         if (this.cells.find(this.ball.posAhead('down'))) { return true }
@@ -29,6 +29,7 @@ domain.level.PossibleMoveDetectionService = subclass(function (pt) {
         if (this.cells.find(this.ball.posAhead('right'))) { return true }
 
         return false
+
     }
 
     /**
@@ -36,7 +37,10 @@ domain.level.PossibleMoveDetectionService = subclass(function (pt) {
      *
      * @return {Boolean} true iff there is a cell at the ball
      */
-    pt.cellRemainsAtBall = function () {
+    cellRemainsAtBall() {
+
         return this.cells.find(this.ball.pos()) != null
+
     }
-})
+
+}

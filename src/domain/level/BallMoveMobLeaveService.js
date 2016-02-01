@@ -1,3 +1,5 @@
+import PossibleMoveDetectionService from './PossibleMoveDetectionService'
+
 /**
  * BallMoveMobLeaveService provides the function to move ball and process field boms collectly.
  * @class
@@ -15,7 +17,7 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
         this.ball = ball
         this.mobs = new Mobs(cells)
 
-        this.pmds = new domain.level.PossibleMoveDetectionService(this.ball, cells)
+        this.pmds = new PossibleMoveDetectionService(this.ball, cells)
 
     }
 
