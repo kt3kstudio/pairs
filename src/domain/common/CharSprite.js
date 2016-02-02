@@ -1,5 +1,6 @@
 import Sprite from './Sprite'
 import Image from './Image'
+import DirStateImageMap from './dir-state-image-map'
 import Ma from './Ma'
 
 const defaultSpeechTimeout = 5000
@@ -35,14 +36,14 @@ export default class CharSprite extends Sprite {
 
         CHR_TABLE[this.character.id].call(this)
 
-        const dirStateImage = {
-            up: {default: new Image(this.upImage())},
-            down: {default: new Image(this.downImage())},
-            left: {default: new Image(this.leftImage())},
-            right: {default: new Image(this.rightImage())}
-        }
+        const dirStateImage = new DirStateImageMap([
+            ['up', 'default', new Image(this.upImage())],
+            ['down','default', new Image(this.downImage())],
+            ['left', 'default', new Image(this.leftImage())],
+            ['right', 'default', new Image(this.rightImage())]
+        ])
 
-        this.dirStateImage = () => dirStateImage
+        this.dirStateImage = dirStateImage
 
     }
 

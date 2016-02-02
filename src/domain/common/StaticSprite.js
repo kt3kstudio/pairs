@@ -1,5 +1,6 @@
 import Sprite from './Sprite'
 import Image from './Image'
+import DirStateImageMap from './dir-state-image-map'
 
 /**
  * StaticSprite is Sprite without dir-state change.
@@ -15,9 +16,9 @@ export default class StaticSprite extends Sprite {
 
         super(elem)
 
-        this.dirStateImage = () => ({
-            down: { default: new Image(this.image()) }
-        })
+        this.dirStateImage = new DirStateImageMap([
+            ['down', 'default', new Image(this.image())]
+        ])
 
     }
 

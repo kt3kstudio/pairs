@@ -1,6 +1,7 @@
 import Grid from '../../../src/domain/common/Grid'
 import Sprite from '../../../src/domain/common/Sprite'
 import Image from '../../../src/domain/common/Image'
+import DirStateImageMap from '../../../src/domain/common/dir-state-image-map'
 
 describe('Sprite', () => {
     'use strict'
@@ -9,20 +10,25 @@ describe('Sprite', () => {
 
     class MySprite extends Sprite {
 
+        constructor(elem) {
+
+            super(elem)
+
+            this.dirStateImage = new DirStateImageMap([
+                ['up', 'run', new Image('up-run.svg')],
+                ['up', 'stay', new Image('up-stay.svg')],
+                ['down', 'run', new Image('down-run.svg')],
+                ['down', 'stay', new Image('down-stay.svg')]
+            ])
+
+        }
+
         defaultDir() { return 'up' }
 
         defaultState() { return 'stay' }
 
         dirStateImage() {
             return {
-                up: {
-                    run: new Image('up-run.svg'),
-                    stay: new Image('up-stay.svg')
-                },
-                down: {
-                    run: new Image('down-run.svg'),
-                    stay: new Image('down-stay.svg')
-                }
 
             }
         }
@@ -81,7 +87,7 @@ describe('Sprite', () => {
 
         it('throws error when the dir state image is not set at all', () => {
 
-            sprite.dirStateImage = () => null
+            sprite.dirStateImage = new DirStateImageMap([])
 
             expect(() => {
 

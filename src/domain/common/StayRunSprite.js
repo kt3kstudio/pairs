@@ -1,5 +1,6 @@
 import Sprite from './Sprite'
 import Image from './Image'
+import DirStateImageMap from './dir-state-image-map'
 
 /**
  * The sprite class for stay-run creatures.
@@ -19,16 +20,12 @@ export default class StayRunSprite extends Sprite {
 
         super(elem)
 
-        this.dirStateImage = () => ({
-            left: {
-                stay: new Image(this.leftStayImage()),
-                run: new Image(this.leftRunImage())
-            },
-            right: {
-                stay: new Image(this.leftStayImage(), true),
-                run: new Image(this.leftRunImage(), true)
-            }
-        })
+        this.dirStateImage = new DirStateImageMap([
+            ['left', 'stay', new Image(this.leftStayImage())],
+            ['left', 'run', new Image(this.leftRunImage())],
+            ['right', 'stay', new Image(this.leftStayImage(), true)],
+            ['right', 'run', new Image(this.leftRunImage(), true)]
+        ])
     }
 
     runAway(dir) {

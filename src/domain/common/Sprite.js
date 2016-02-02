@@ -64,55 +64,33 @@ export default class Sprite extends GridWalker {
      */
     willShow(dur) {
 
-        super.willShow(dur)
+        this.updateElemByDirState()
 
-        const defaultDirImage = this.dirStateImage()[this.dir]
-
-        if (defaultDirImage == null) {
-
-            return
-
-        }
-
-        const defaultImage = defaultDirImage[this.state]
-
-        if (defaultImage == null) {
-
-            return
-
-        }
-
-        this.applyImage(defaultImage)
+        return super.willShow(dur)
 
     }
 
     /**
-     * Changes the direction the character currently heading for.
+     * Changes the direction and state.
      *
      * @param {String} dir The direction
      * @param {String} state The state
      */
     setDirState(dir, state) {
 
-        dir = dir || this.dir
+        this.dir = dir
+        this.state = state
 
-        state = state || this.state
+        this.updateElemByDirState()
 
-        if (!this.dirStateImage()) {
+    }
 
-            throw new Error('no image mapping in sprite.')
+    /**
+     * Updates the element by the dir and state.
+     */
+    updateElemByDirState() {
 
-        }
-
-        const img = this.dirStateImage()[dir][state]
-
-        if (!img) {
-
-            throw new Error('illegal (dir, state): (' + dir + ', ' + state + ')')
-
-        }
-
-        this.applyImage(img)
+        this.dirStateImage.get(this.dir, this.state).apply(this.elem)
 
     }
 
@@ -123,7 +101,9 @@ export default class Sprite extends GridWalker {
      */
     setState(state) {
 
-        this.setDirState(this.dir, state)
+        this.state = state
+
+        this.updateElemByDirState()
 
     }
 
@@ -134,19 +114,9 @@ export default class Sprite extends GridWalker {
      */
     setDir(dir) {
 
-        this.setDirState(dir, this.state)
+        this.dir = dir
 
-    }
-
-    /**
-     * Applies the image to the element.
-     *
-     * @private
-     * @param {Image} img The image
-     */
-    applyImage(img) {
-
-        img.apply(this.elem)
+        this.updateElemByDirState()
 
     }
 
