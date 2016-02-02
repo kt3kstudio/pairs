@@ -38,7 +38,7 @@ export default class CharSprite extends Sprite {
 
         const dirStateImage = new DirStateImageMap([
             ['up', 'default', new Image(this.upImage())],
-            ['down','default', new Image(this.downImage())],
+            ['down', 'default', new Image(this.downImage())],
             ['left', 'default', new Image(this.leftImage())],
             ['right', 'default', new Image(this.rightImage())]
         ])
