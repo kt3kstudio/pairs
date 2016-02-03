@@ -1,4 +1,4 @@
-import {Animation} from 'spn'
+import {wait, Animation} from 'spn'
 import BomTable from '../common/BomTable'
 import GridWalker from '../common/GridWalker'
 /**

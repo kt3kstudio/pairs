@@ -1,5 +1,6 @@
 import SceneContext from '../common/SceneContext'
 import BackgroundService from '../../ui/common/BackgroundService'
+import {wait} from 'spn'
 
 /**
  * MapScene handles the scene of map

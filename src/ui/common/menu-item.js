@@ -1,3 +1,4 @@
+import {wait} from 'spn'
 /**
  * MenuItem handles the behaviour of items of the menu.
  */

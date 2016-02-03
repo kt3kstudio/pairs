@@ -1,4 +1,5 @@
 import FieldIndexGenerator from '../../util/FieldIndexGenerator'
+import {wait} from 'spn'
 
 /**
  * CellCollection class represents the grid positioned queues of cells around the field.

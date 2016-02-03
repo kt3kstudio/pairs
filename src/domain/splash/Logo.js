@@ -1,5 +1,4 @@
-import Being from '../common/Being'
-import {Animation} from 'spn'
+import {wait, Being, Animation} from 'spn'
 
 /**
  * Logo animation componenent in the splash screen.

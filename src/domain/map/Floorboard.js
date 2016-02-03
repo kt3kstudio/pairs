@@ -1,4 +1,4 @@
-import Being from '../common/Being'
+import {wait, Being} from 'spn'
 
 const FLOORBOARD_MOVE_DUR = 400
 const HEIGHT_RATE = 0.35

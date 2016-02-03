@@ -2,6 +2,7 @@ import Sprite from './Sprite'
 import Image from './Image'
 import DirStateImageMap from './dir-state-image-map'
 import Ma from './Ma'
+import {wait} from 'spn'
 
 const defaultSpeechTimeout = 5000
 

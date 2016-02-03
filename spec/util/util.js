@@ -1,4 +1,5 @@
 import {commaNumber, chainPromise} from '../../src/util/util'
+import {wait} from 'spn'
 
 describe('$', () => {
 

@@ -1,3 +1,4 @@
+import {wait} from 'spn'
 /**
  * Camera handles the screen position.
  */

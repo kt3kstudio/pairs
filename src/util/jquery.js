@@ -1,4 +1,4 @@
-import reflow from 'spn/lib/reflow'
+import {wait, reflow} from 'spn'
 
 /**
  * Performs the animation.

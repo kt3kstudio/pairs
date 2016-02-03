@@ -1,4 +1,4 @@
-import Being from '../common/Being'
+import {wait, Being} from 'spn'
 import Floorboard from './Floorboard'
 
 /**

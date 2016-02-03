@@ -1,4 +1,5 @@
 import DimensionalBeing from '../../domain/common/DimensionalBeing'
+import {wait} from 'spn'
 /**
  * ResultPane class handles the behaviour of the pane which appears when the game finished with a score.
  *

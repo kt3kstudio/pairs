@@ -1,5 +1,6 @@
 import Context from './context'
 import PlaySceneLayout from './play-scene-layout'
+import {wait} from 'spn'
 
 const event = $.cc.event
 

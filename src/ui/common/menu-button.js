@@ -1,4 +1,5 @@
 import './menu-item'
+import {wait} from 'spn'
 
 const TRANS_DUR = 800
 const R = 60 // radius of menu item arrangment

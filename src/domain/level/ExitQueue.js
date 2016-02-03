@@ -1,3 +1,4 @@
+import {wait} from 'spn'
 /**
  * ExitQueue class represents the exit queue at the level view.
  *

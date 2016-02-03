@@ -1,3 +1,4 @@
+import {wait} from 'spn'
 const Dur = 700
 
 /**

@@ -1,4 +1,4 @@
-import Being from './Being'
+import {wait, Being} from 'spn'
 import Posture from './posture'
 import reflow from 'spn/lib/reflow'
 
