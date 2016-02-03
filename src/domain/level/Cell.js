@@ -128,37 +128,37 @@ domain.level.Cell = subclass(GridWalker, function (pt, parent) {
 
         if (this.gene === 'f') {
 
-            return 'images/neef.svg'
+            return 'img/neef.svg'
 
         }
 
         if (this.gene === 'm') {
 
-            return 'images/nim.svg'
+            return 'img/nim.svg'
 
         }
 
         if (this.gene === 'a') {
 
-            return 'images/ankh.svg'
+            return 'img/ankh.svg'
 
         }
 
         if (this.gene === 'w') {
 
-            return 'images/wheel.svg'
+            return 'img/wheel.svg'
 
         }
 
         if (this.gene === 'b') {
 
-            return 'images/box.svg'
+            return 'img/box.svg'
 
         }
 
         var cellKind = BomTable[this.gene.length]
 
-        return 'images/' + cellKind + '.svg'
+        return 'img/' + cellKind + '.svg'
 
     }
 

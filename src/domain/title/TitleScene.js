@@ -17,7 +17,7 @@ export default class TitleScene extends SceneContext {
     @event('scene-start')
     start() {
 
-        loadImage('images/title-logo.svg', 'title-logo elem', this.elem)
+        loadImage('img/title-logo.svg', 'title-logo elem', this.elem)
 
         .then(($img) => $img.anim('title-appear', 2000).then(() => $img.animation('float 6000ms infinite')))
 

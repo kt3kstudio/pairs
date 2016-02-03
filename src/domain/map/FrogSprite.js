@@ -9,8 +9,8 @@ import {Animation} from 'spn'
 @$.cc.Component('frog')
 export default class FrogSprite extends StayRunSprite {
 
-    leftStayImage() { return 'images/frog-stay.out.svg' }
-    leftRunImage() { return 'images/frog-run.out.svg' }
+    leftStayImage() { return 'img/frog-stay.out.svg' }
+    leftRunImage() { return 'img/frog-run.out.svg' }
 
     awayDur() { return 400 }
     awayAnim() { return new Animation('foo', 400) }

@@ -158,11 +158,11 @@ main_scene: map-scene
 </div>
 
 
-<img class="menu-button-root menu-button hidden" menu="map-menu" src="images/menu-button.svg" />
+<img class="menu-button-root menu-button hidden" menu="map-menu" src="img/menu-button.svg" />
 
 <menus id="map-menu">
-  <menu src="images/back-button.svg"
+  <menu src="img/back-button.svg"
     onclick="$('.map-scene').getActor().walkerFadeIntoDoor().then(function () { history.back(); });"></menu>
-  <menu src="images/reset-button.svg"
+  <menu src="img/reset-button.svg"
     onclick="$('.map-scene').getActor().walkerFadeIntoDoor().then(function () { localStorage.clear(); location.reload(); });"></menu>
 </menus>

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="./stylesheets/all.css" />
+    <link rel="stylesheet" href="./css/all.css" />
 
     <script>window.config = {{ configJSON | safe }}</script>
     <script src="./js/common.js"></script>

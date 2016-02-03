@@ -25,6 +25,6 @@ asset(SITE + '*.html', {
 
 asset([
     SITE + 'data/**/*.*',
-    SITE + 'images/**/*.*',
-    SITE + 'stylesheets/**/*.*'
+    SITE + 'img/**/*.*',
+    SITE + 'css/**/*.*'
 ], {base: SITE})

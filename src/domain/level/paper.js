@@ -10,7 +10,7 @@ export default class Paper extends StaticSprite {
     width() { return 50 }
     height() { return 50 }
 
-    image() { return 'images/paper.svg' }
+    image() { return 'img/paper.svg' }
 
     showAnim() { return new Animation('paper-appear', 500) }
     hideAnim() { return new Animation('paper-disappear', 500) }
