@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="./stylesheets/all.css" />
 
     <script>window.config = {{ configJSON | safe }}</script>
-    <script src="./javascripts/common.js"></script>
-    <script src="./javascripts/{{ file.frontMatter.js }}"></script>
+    <script src="./js/common.js"></script>
+    <script src="./js/{{ file.frontMatter.js }}"></script>
     <script>
       $(function () {
         setTimeout(function () {

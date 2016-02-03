@@ -17,7 +17,9 @@ asset(SITE + '**/*.js', {
         this.queue(file)
     })))
 
-asset(SITE + '*.html')(src => src
+asset(SITE + '*.html', {
+    watch: [SITE + '*.html', SITE + 'layout/*.nunjucks']
+})(src => src
     .pipe($.frontMatter())
     .pipe($.wrap({src: SITE + 'layouts/layout.nunjucks'}, {configJSON: JSON.stringify(config)}, {engine: 'nunjucks'})))
 

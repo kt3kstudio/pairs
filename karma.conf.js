@@ -4,11 +4,11 @@ module.exports = function (config) {
     config.set({
         frameworks: ['mocha', 'chai', 'jsmockito-jshamcrest', 'browserify'],
         files: [
-            'site/javascripts/common.js',
-            'site/javascripts/splash.js',
-            'site/javascripts/title.js',
-            'site/javascripts/map.js',
-            'site/javascripts/level.js',
+            'site/js/common.js',
+            'site/js/splash.js',
+            'site/js/title.js',
+            'site/js/map.js',
+            'site/js/level.js',
             'spec/helper/polyfill.js',
             'spec/helper/reset.js',
             'spec/**/*.js'
