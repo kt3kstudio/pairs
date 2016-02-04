@@ -1,6 +1,4 @@
-import {wait, Being} from 'spn'
-import Posture from './posture'
-import reflow from 'spn/lib/reflow'
+import {wait, Being, Posture, reflow} from 'spn'
 
 /**
  * Body has width, height, position and information about how it put at the postion.

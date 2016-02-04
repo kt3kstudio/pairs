@@ -1,4 +1,4 @@
-import Posture from './posture'
+import {Posture} from 'spn'
 
 const Dimension = Posture
 
