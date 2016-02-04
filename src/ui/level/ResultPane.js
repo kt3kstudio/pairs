@@ -1,22 +1,19 @@
-import DimensionalBeing from '../../domain/common/DimensionalBeing'
+import Body from '../../domain/common/body'
 import {wait} from 'spn'
 /**
  * ResultPane class handles the behaviour of the pane which appears when the game finished with a score.
  *
  * @class
  */
-ui.level.ResultPane = subclass(DimensionalBeing, function (pt, parent) {
-    'use strict'
-
-    pt.score = 0
-    pt.star = 0
+@$.cc.Component('result-pane')
+export default class ResultPane extends Body {
 
     /**
      * Sets the score.
      *
-     * @param {Number} score The score to set
+     * @param {number} score The score to set
      */
-    pt.setScore = function (score) {
+    setScore(score) {
 
         this.score = score
 
@@ -25,9 +22,9 @@ ui.level.ResultPane = subclass(DimensionalBeing, function (pt, parent) {
     /**
      * Sets the number of the stars.
      *
-     * @param {Number} star The number of stars
+     * @param {number} star The number of stars
      */
-    pt.setStar = function (star) {
+    setStar(star) {
 
         this.star = star
 
@@ -36,7 +33,7 @@ ui.level.ResultPane = subclass(DimensionalBeing, function (pt, parent) {
     /**
      * @override
      */
-    pt.willShow = function () {
+    willShow() {
 
         $('<div />', {
             addClass: 'result-content',
@@ -48,25 +45,19 @@ ui.level.ResultPane = subclass(DimensionalBeing, function (pt, parent) {
             appendTo: this.elem
         })
 
-        return parent.willShow.apply(this, arguments)
+        return super.willShow()
 
     }
 
     /**
      * Shows the result pane and it automatically hides timeout later.
      *
-     * @param {Number} timeout The time after which the pane hides itself
+     * @param {number} timeout The time after which the pane hides itself
      * @return {Promise} The promise which resolves when the pane hides
      */
-    pt.show = function (timeout) {
+    show(timeout) {
 
-        var self = this
-
-        return parent.show.apply(this, arguments).then(function () {
-
-            return self.showInfoPane(timeout)
-
-        })
+        return super.show().then(() => this.showInfoPane(timeout))
 
     }
 
@@ -76,23 +67,16 @@ ui.level.ResultPane = subclass(DimensionalBeing, function (pt, parent) {
      * @param {Number} timeout
      * @return {Promise}
      */
-    pt.showInfoPane = function (timeout) {
-
-        var self = this
+    showInfoPane(timeout) {
 
         var info = this.elem.infoPane(9, 7)
 
-        return info.show().then(function () {
+        return info.show()
 
-            return Promise.race([wait(timeout), self.elem.once('click touchstart')])
+        .then(() => Promise.race([wait(timeout), this.elem.once('click touchstart')]))
 
-        }).then(function () {
+        .then(() => info.hide())
 
-            return info.hide()
-
-        })
     }
 
-})
-
-$.cc.assign('result-pane', ui.level.ResultPane)
+}
