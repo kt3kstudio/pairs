@@ -1,7 +1,16 @@
 # TODO
 
-- separate SPRITE_MODULE
-  - name: spn
+- Speaker
+  - can speak emojis
+  - can speak letter by letter
+  - clean up speech bubble handling
+
+- SpeechBubble
+  - multiple bubble handling
+  - close all method
+  - redesign bubble management
+  - transition to class-component based arch
+
 - Residents
   - MooSprite
   - moo layout in level.scene context
@@ -30,6 +39,8 @@
 
 
 # DONE
+- separate SPRITE_MODULE
+  - name: spn
 - new Artwork Moo
 - new model LevelKey
 - refactor dimension and gridDimension
