@@ -1,27 +1,34 @@
 import {wait, Animation} from 'spn'
+import FloorAsset from './FloorAsset'
 
+const DOOR_APPEAR_DUR = 400
 /**
  * Door class handles behaviour of the level's doors.
  *
  * @class
  * @extends domain.map.FloorAsset
  */
-domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
-    'use strict'
+@$.cc.Component('door')
+export default class Door extends FloorAsset {
 
-    var DOOR_APPEAR_DUR = 400
+    showAnim() { return new Animation('door-appear', DOOR_APPEAR_DUR) }
+    hideAnim() { return new Animation('door-disappear', DOOR_APPEAR_DUR) }
 
     /**
      * @constructor
      */
-    pt.constructor = function (elem) {
-        parent.constructor.call(this, elem)
+    constructor(elem) {
+
+        super(elem)
 
         this.level = elem.attr('level')
         this.star = 0
         this.score = 0
 
+        this.doorActionDur = 400
+
         this.locked = true
+
     }
 
     /**
@@ -29,8 +36,9 @@ domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
      *
      * @override
      */
-    pt.willShow = function () {
-        parent.willShow.call(this)
+    willShow() {
+
+        super.willShow()
 
         this.elem.css('opcaity', 0)
 
@@ -48,81 +56,85 @@ domain.map.Door = subclass(domain.map.FloorAsset, function (pt, parent) {
         }).appendTo(this.elem).infoPane(3, 5, {bgcolor: '#393F44'})
 
         $('<button />').text('▶').appendTo($('.door-info-content', this.infoPane.$dom)).click(function (event) {
+
             event.preventDefault()
             $(this).trigger('goToLevel')
+
         })
 
         if (!this.locked) {
+
             this.enableDoorKnock()
+
         } else {
+
             return this.spawnFrog()
+
         }
+
     }
 
     /**
      * Opens the door.
      */
-    pt.open = function () {
+    open() {
+
         this.infoPane.show()
 
-        this.$doorBody
-            .addClass('open')
+        this.$doorBody.addClass('open')
 
         this.removeFrog()
 
         this.disableDoorKnock()
 
         return wait(this.doorActionDur)
+
     }
 
     /**
      * Closes the door.
      */
-    pt.close = function () {
+    close() {
+
         this.infoPane.hide()
 
-        this.$doorBody
-            .removeClass('open')
+        this.$doorBody.removeClass('open')
 
         this.enableDoorKnock()
 
         return wait(this.doorActionDur)
+
     }
 
     /**
      * Unlocks the door.
      */
-    pt.unlock = function () {
+    unlocks() {
+
         this.locked = false
 
         this.enableDoorKnock()
 
         this.removeFrog()
+
     }
 
     /**
      * Enables the door knock.
      */
-    pt.enableDoorKnock = function () {
-        var that = this
+    enableDoorKnock() {
 
-        this.$doorBody.one('click', function () {
-            that.doorKnock()
-        })
+        this.$doorBody.one('click', () => this.doorKnock())
+
     }
 
     /**
      * Disables the door knock.
      */
-    pt.disableDoorKnock = function () {
+    disableDoorKnock() {
+
         this.$doorBody.off('click')
+
     }
 
-    pt.doorActionDur = 400
-
-    pt.showAnim = () => new Animation('door-appear', DOOR_APPEAR_DUR)
-    pt.hideAnim = () => new Animation('door-disappear', DOOR_APPEAR_DUR)
-
-})
-
-$.cc.assign('door', domain.map.Door)
+}

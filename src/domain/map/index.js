@@ -1,4 +1,3 @@
-import './FloorAsset'
 import './Camera'
 import './Door'
 import './FloorAssetCollection'

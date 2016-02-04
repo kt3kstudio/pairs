@@ -4,32 +4,31 @@ import Body from '../common/body'
 /**
  * FloorAsset is an abstract class which represents the something on the wall in the map view.
  */
-domain.map.FloorAsset = subclass(Body, function (pt, parent) {
-    'use strict'
+export default class FloorAsset extends Body {
 
     /**
      * @override
      */
-    pt.width = () => 80
+    width() { return 80 }
 
     /**
      * @override
      */
-    pt.height = () => 100
+    height() { return 100 }
 
     /**
      * @override
      */
-    pt.ratioX = () => 0.5
+    ratioX() { return 0.5 }
 
     /**
      * @override
      */
-    pt.ratioY = () => 1
+    ratioY() { return 1 }
 
-    pt.constructor = function () {
+    constructor(elem) {
 
-        parent.constructor.apply(this, arguments)
+        super(elem)
 
         this.x = +this.elem.attr('x')
         this.y = +this.elem.attr('y')
@@ -41,25 +40,36 @@ domain.map.FloorAsset = subclass(Body, function (pt, parent) {
     /**
      * Knocks the door (figuratively).
      */
-    pt.doorKnock = function () {
+    doorKnock() {
 
         this.elem.trigger('door-knock', [this])
 
     }
 
-    pt.open = function () {
+    /**
+     * @abstract
+     */
+    open() {
 
         return Promise.resolve()
 
     }
 
-    pt.close = function () {
+    /**
+     * @abstract
+     */
+    close() {
 
         return Promise.resolve()
 
     }
 
-    pt.onGetWalker = function () {
+    /**
+     * The handler when it gets the walker.
+     *
+     * @abstract
+     */
+    onGetWalker() {
 
         return Promise.resolve()
 
@@ -68,7 +78,7 @@ domain.map.FloorAsset = subclass(Body, function (pt, parent) {
     /**
      * Spawn the frog to the front of the floor asset.
      */
-    pt.spawnFrog = function () {
+    spawnFrog() {
 
         var frog = $('<img />').css({zIndex: 2}).appendTo(this.elem).cc.init('frog')
 
@@ -81,7 +91,7 @@ domain.map.FloorAsset = subclass(Body, function (pt, parent) {
     /**
      * Removes the frog in front of the floor asset.
      */
-    pt.removeFrog = function () {
+    removeFrog() {
 
         var frogDom = this.elem.find('.frog')
 
@@ -103,4 +113,4 @@ domain.map.FloorAsset = subclass(Body, function (pt, parent) {
 
     }
 
-})
+}

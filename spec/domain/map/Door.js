@@ -1,111 +1,128 @@
-describe('domain.map.Door', function () {
+import Door from '../../../src/domain/map/Door'
+
+describe('Door', () => {
     'use strict'
 
-    beforeEach(function () {
-        this.$dom = $('<div w="100" h="90" x="200" y="300" level="701" id="701" />')
-        this.$dom.appendTo(document.body)
+    let door, $dom
 
-        this.door = new domain.map.Door(this.$dom)
+    beforeEach(() => {
+
+        $dom = $('<div w="100" h="90" x="200" y="300" level="701" id="701" />')
+        $dom.appendTo(document.body)
+
+        door = new Door($dom)
+
     })
 
-    afterEach(function () {
-        this.$dom.remove()
+    afterEach(() => {
+
+        $dom.remove()
+
     })
 
-    describe('constructor', function () {
-        it('sets level property', function () {
-            expect(this.door.level).to.equal('701')
+    describe('constructor', () => {
+
+        it('sets level property', () => {
+
+            expect(door.level).to.equal('701')
+
         })
+
     })
 
-    describe('willShow', function () {
-        it('sets up the dom', function () {
-            this.door.willShow()
+    describe('willShow', () => {
 
-            expect(this.$dom.find('.doorknob').size()).to.equal(1)
-            expect(this.$dom.find('.door-body').size()).to.equal(1)
-            expect(this.$dom.find('.door-info-content').size()).to.equal(1)
-            expect(this.$dom.find('.door-info-content button').size()).to.equal(1)
+        it('sets up the dom', () => {
+
+            door.willShow()
+
+            expect($dom.find('.doorknob').size()).to.equal(1)
+            expect($dom.find('.door-body').size()).to.equal(1)
+            expect($dom.find('.door-info-content').size()).to.equal(1)
+            expect($dom.find('.door-info-content button').size()).to.equal(1)
+
         })
 
-        it('binds doorKnock to click events of .door-body when unlocked', function (done) {
-            this.door.locked = false
+        it('binds doorKnock to click events of .door-body when unlocked', (done) => {
 
-            this.door.willShow()
+            door.locked = false
 
-            this.door.doorKnock = function () {
-                done()
-            }
+            door.willShow()
 
-            this.$dom.find('.door-body').trigger('click')
+            door.doorKnock = () => done()
+
+            $dom.find('.door-body').trigger('click')
+
         })
 
-        it('binds goToLevel to click events of `.door-info-content button`', function (done) {
-            this.door.willShow()
+        it('binds goToLevel to click events of `.door-info-content button`', (done) => {
 
-            this.$dom.on('goToLevel', function () {
-                done()
-            })
+            door.willShow()
 
-            this.$dom.find('.door-info-content button').trigger('click')
+            $dom.on('goToLevel', () => done())
+
+            $dom.find('.door-info-content button').trigger('click')
+
         })
+
     })
 
-    describe('open', function () {
-        it('opens the door', function () {
-            var that = this
+    describe('open', () => {
 
-            this.door.willShow()
+        it('opens the door', () => {
 
-            return this.door.open().then(function () {
-                expect(that.$dom.find('.door-body').hasClass('open')).to.be.true
-            })
+            door.willShow()
+
+            return door.open()
+
+            .then(() => expect($dom.find('.door-body').hasClass('open')).to.be.true)
+
         })
 
-        it('unbinds the click event on the .door-body', function (done) {
-            var that = this
+        it('unbinds the click event on the .door-body', (done) => {
 
-            this.door.willShow()
+            door.willShow()
 
-            this.$dom.on('door-knock', function () {
-                assert(false)
-            })
+            $dom.on('door-knock', () => assert(false))
 
-            return this.door.open().then(function () {
-                that.$dom.find('.door-body').trigger('click')
+            return door.open().then(() => {
+
+                $dom.find('.door-body').trigger('click')
 
                 setTimeout(done, 300)
+
             })
         })
     })
 
-    describe('close', function () {
-        it('closes the door', function () {
-            var that = this
+    describe('close', () => {
 
-            this.door.willShow()
+        it('closes the door', () => {
 
-            return this.door.open().then(function () {
-                return that.door.close()
-            }).then(function () {
-                expect(that.$dom.find('.door-body').hasClass('open')).to.be.false
-            })
+            door.willShow()
+
+            return door.open()
+
+            .then(() => door.close())
+
+            .then(() => expect($dom.find('.door-body').hasClass('open')).to.be.false)
+
         })
 
-        it('binds doorKnock to click events of .door-body', function (done) {
-            var that = this
+        it('binds doorKnock to click events of .door-body', (done) => {
 
-            this.door.willShow()
+            door.willShow()
 
-            this.$dom.on('door-knock', function () {
-                done()
-            })
+            $dom.on('door-knock', () => done())
 
-            return this.door.open().then(function () {
-                return that.door.close()
-            }).then(function () {
-                that.$dom.find('.door-body').trigger('click')
-            })
+            return door.open()
+
+            .then(() => door.close())
+
+            .then(() => $dom.find('.door-body').trigger('click'))
+
         })
+
     })
+
 })

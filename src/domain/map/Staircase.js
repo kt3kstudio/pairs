@@ -1,4 +1,5 @@
 import {Animation} from 'spn'
+import FloorAsset from './FloorAsset'
 
 const STAIRCASE_ANIMATION_DUR = 400
 
@@ -6,7 +7,7 @@ const STAIRCASE_ANIMATION_DUR = 400
  * Staircase class represents the staircases in the map view.
  */
 @$.cc.Component('staircase')
-export default class Staircase extends domain.map.FloorAsset {
+export default class Staircase extends FloorAsset {
 
     showAnim() { return new Animation('door-appear', STAIRCASE_ANIMATION_DUR) }
 
