@@ -4,8 +4,6 @@ import DirStateImageMap from './dir-state-image-map'
 import Ma from './Ma'
 import {wait} from 'spn'
 
-const defaultSpeechTimeout = 5000
-
 const CHR_TABLE = {
     ma: Ma
 }
@@ -156,53 +154,6 @@ export default class CharSprite extends Sprite {
         this.turn('left')
 
         return super.moveLeftOnGrid()
-
-    }
-
-    /**
-     * Speaks the phrase
-     *
-     * @param {string} speech The contents of the speech
-     * @param {object} opts The options to pass to the speech bubble module
-     */
-    speak(speech, opts) {
-
-        opts = opts || {}
-
-        var cancelDom = opts.cancelDom || this.elem
-        var timeout = opts.timeout || defaultSpeechTimeout
-
-        var bubbleShown = this.elem.speechBubble(speech, {
-            width: $(window).width() * 0.8,
-            height: 50,
-            color: '#328DE5',
-            cssClass: this.name + '-speech',
-            partitionY: 2,
-            partitionX: 10,
-            duration: 600
-        }).show()
-
-        this.speechEndPromise = bubbleShown.then((sb) => {
-
-            return new Promise(resolve => {
-
-                setTimeout(resolve, timeout)
-
-                $(cancelDom).one('click touchstart', resolve)
-
-            })
-
-            .then(() => {
-
-                $(cancelDom).off('click touchstart')
-
-                return sb.hide()
-
-            })
-
-        })
-
-        return bubbleShown
 
     }
 
