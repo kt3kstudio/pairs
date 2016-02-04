@@ -7,6 +7,14 @@ import CharSprite from '../common/CharSprite'
 @$.cc.Component('floor-walker')
 export default class FloorWalker extends CharSprite {
 
+    constructor(elem) {
+
+        super(elem)
+
+        this.characterRepository = new datadomain.CharacterRepository()
+
+    }
+
     willShow() {
 
         return this.updateElem()
