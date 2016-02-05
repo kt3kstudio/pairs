@@ -1,6 +1,8 @@
 import './menu-item'
 import {wait} from 'spn'
 
+const {event, component, Coelement} = $.cc
+
 const TRANS_DUR = 800
 const R = 60 // radius of menu item arrangment
 
@@ -41,7 +43,8 @@ function itemOffsets(offset, num) {
 /**
  * MenuButton handles the behaviour of the menu button.
  */
-class MenuButton extends $.cc.Coelement {
+@component('menu-button')
+export default class MenuButton extends Coelement {
 
     constructor(elem) {
 
@@ -161,7 +164,7 @@ class MenuButton extends $.cc.Coelement {
     /**
      * Toggles the menu's open/close state.
      */
-    @$.cc.event('click')
+    @event('click')
     toggleMenu() {
 
         return this.closed ? this.openMenu() : this.closeMenu()
@@ -195,5 +198,3 @@ class MenuButton extends $.cc.Coelement {
     }
 
 }
-
-$.cc.assign('menu-button', MenuButton)

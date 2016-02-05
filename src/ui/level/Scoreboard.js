@@ -2,24 +2,26 @@ import {Animation} from 'spn'
 import DimensionalBeing from '../../domain/common/DimensionalBeing'
 import {commaNumber} from '../../util/util'
 
+const {component} = $.cc
+
 /**
  * Scoreboard handles the behaviour of the score board of the level view.
  */
-ui.level.Scoreboard = subclass(DimensionalBeing, function (pt, parent) {
-    'use strict'
+@component('scoreboard')
+export default class Scoreboard extends DimensionalBeing {
 
-    pt.ratioX = () => 0
-    pt.ratioY = () => 0
+    ratioX() { return 0 }
+    ratioY() { return 0 }
 
-    pt.marginX = () => 6
-    pt.marginY = () => 6
+    marginX() { return 6 }
+    marginY() { return 6 }
 
     /**
      * @constructor
      */
-    pt.constructor = function () {
+    constructor(elem) {
 
-        parent.constructor.apply(this, arguments)
+        super(elem)
 
         this.score = 0
 
@@ -31,7 +33,7 @@ ui.level.Scoreboard = subclass(DimensionalBeing, function (pt, parent) {
      * @param {Rx.Observable<domain.level.FusionPair>} fusionPairStream
      * @return {Rx.Observable<domain.level.FusionPair>}
      */
-    pt.hookToFusionPairStream = function (fusionPairStream) {
+    hookToFusionPairStream(fusionPairStream) {
 
         var self = this
 
@@ -45,15 +47,15 @@ ui.level.Scoreboard = subclass(DimensionalBeing, function (pt, parent) {
 
     }
 
-    pt.showAnim = () => new Animation('bom-appear', 400)
-    pt.hideAnim = () => new Animation('bom-disappear', 400)
+    showAnim() { return new Animation('bom-appear', 400) }
+    hideAnim() { return new Animation('bom-disappear', 400) }
 
     /**
      * Set up the initial dom state.
      */
-    pt.willShow = function () {
+    willShow() {
 
-        parent.willShow.call(this)
+        super.willShow()
 
         this.elem.css('line-height', this.posture.actualHeight() + 'px')
 
@@ -64,7 +66,7 @@ ui.level.Scoreboard = subclass(DimensionalBeing, function (pt, parent) {
     /**
      * Updates the scoreboard's number.
      */
-    pt.update = function () {
+    update() {
 
         this.elem.text(commaNumber(this.score))
 
@@ -75,7 +77,7 @@ ui.level.Scoreboard = subclass(DimensionalBeing, function (pt, parent) {
      *
      * @param {Number} score The score to add
      */
-    pt.addScore = function (score) {
+    addScore(score) {
 
         this.score += score
 
@@ -88,12 +90,10 @@ ui.level.Scoreboard = subclass(DimensionalBeing, function (pt, parent) {
      *
      * @return {Number}
      */
-    pt.getScore = function () {
+    getScore() {
 
         return this.score
 
     }
 
-})
-
-$.cc.assign('scoreboard', ui.level.Scoreboard)
+}

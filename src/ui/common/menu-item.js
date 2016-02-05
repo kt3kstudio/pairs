@@ -1,14 +1,18 @@
 import {wait} from 'spn'
+
+const {event, component, Coelement} = $.cc
+
 /**
  * MenuItem handles the behaviour of items of the menu.
  */
-class MenuItem extends $.cc.Coelement {
+@component('menu-item')
+export default class MenuItem extends Coelement {
 
     constructor(elem) {
 
         super(elem)
 
-        var menu = this.elem.data('menu')
+        const menu = this.elem.data('menu')
 
         if (menu && menu.length) {
 
@@ -21,10 +25,10 @@ class MenuItem extends $.cc.Coelement {
     /**
      * Invokes custom onclick handler.
      */
-    @$.cc.event('click')
+    @event('click')
     handleOnClick() {
 
-        var onclick = this.elem.data('onclick')
+        const onclick = this.elem.data('onclick')
 
         if (typeof onclick !== 'string' || onclick === '') {
             return
@@ -80,7 +84,7 @@ class MenuItem extends $.cc.Coelement {
 
         this.setOffset(offset)
 
-        var p = wait(50)
+        let p = wait(50)
 
         // Hides child menus if exist
         if (this.elem.hasClass('menu-button')) {
@@ -94,5 +98,3 @@ class MenuItem extends $.cc.Coelement {
     }
 
 }
-
-$.cc.assign('menu-item', MenuItem)
