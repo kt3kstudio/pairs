@@ -93,8 +93,7 @@
       "spy"
     ],
     "ignore": [
-      "p",
-      "m",
+      "build",
       "doc"
     ]
   },
