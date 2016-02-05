@@ -1,31 +1,26 @@
 import MeioticService from '../genetics/MeioticService'
 
+const meiosis = new MeioticService()
+const getGene = cell => cell ? cell.gene : ''
+const isLastOne = cell => cell ? cell.isLastOne() : false
+
 /**
  * FusionPair represents the pair of cells which perform the fusion of them.
  */
-domain.level.FusionPair = subclass(function (pt) {
-    'use strict'
-
-    var meiosis = null
+export default class FusionPair {
 
     /**
      * @constructor
      * @param {domain.level.Cell} left The left cell
      * @param {domain.level.Cell} right The right cell
      */
-    pt.constructor = function (left, right) {
+    constructor(left, right) {
+
         this.left = left
         this.right = right
 
-        this.meiosis = meiosis || (meiosis = new MeioticService())
-    }
+        this.__newGene__ = meiosis.recombination(this.leftGene(), this.rightGene())
 
-    var getGene = function (cell) {
-        return cell ? cell.gene : ''
-    }
-
-    var isLastOne = function (cell) {
-        return cell ? cell.isLastOne() : false
     }
 
     /**
@@ -35,10 +30,10 @@ domain.level.FusionPair = subclass(function (pt) {
      * @param {String} y The second gene
      * @returns {String} The new gene
      */
-    pt.newGene = function () {
-        this.__newGene__ = this.__newGene__ || this.meiosis.recombination(this.leftGene(), this.rightGene())
+    newGene() {
 
         return this.__newGene__
+
     }
 
     /**
@@ -46,12 +41,13 @@ domain.level.FusionPair = subclass(function (pt) {
      *
      * @return {Boolean}
      */
-    pt.isEvolving = function () {
-        var prevLength = Math.max(this.meiosis.virtualLength(this.leftGene()), this.meiosis.virtualLength(this.rightGene()))
+    isEvolving() {
 
-        var newLength = this.meiosis.virtualLength(this.newGene())
+        const prevLength = Math.max(meiosis.virtualLength(this.leftGene()), meiosis.virtualLength(this.rightGene()))
+        const newLength = meiosis.virtualLength(this.newGene())
 
         return newLength > prevLength
+
     }
 
     /**
@@ -59,8 +55,10 @@ domain.level.FusionPair = subclass(function (pt) {
      *
      * @return {Boolean}
      */
-    pt.isLastOne = function () {
+    isLastOne() {
+
         return isLastOne(this.left) || isLastOne(this.right)
+
     }
 
     /**
@@ -68,8 +66,10 @@ domain.level.FusionPair = subclass(function (pt) {
      *
      * @return {String}
      */
-    pt.leftGene = function () {
+    leftGene() {
+
         return getGene(this.left)
+
     }
 
     /**
@@ -77,8 +77,10 @@ domain.level.FusionPair = subclass(function (pt) {
      *
      * @return {String}
      */
-    pt.rightGene = function () {
+    rightGene() {
+
         return getGene(this.right)
+
     }
 
     /**
@@ -86,15 +88,20 @@ domain.level.FusionPair = subclass(function (pt) {
      *
      * @return {Number} The score
      */
-    pt.score = function () {
-        var length = this.meiosis.virtualLength(this.newGene())
+    score() {
 
-        var score = Math.pow(length, 2) * 10
+        const length = meiosis.virtualLength(this.newGene())
+
+        let s = Math.pow(length, 2) * 10
 
         if (this.isLastOne()) {
-            score *= 2
+
+            s *= 2
+
         }
 
-        return score
+        return s
+
     }
-})
+
+}

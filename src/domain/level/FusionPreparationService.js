@@ -1,3 +1,5 @@
+import FusionPair from './FusionPair'
+
 /**
  * FusionPreparationService takes cells in sequence and move them into the preparation position. After that it emits the list of cells for the actual fusion.
  *
@@ -20,7 +22,7 @@ domain.level.FusionPreparationService = subclass(function (pt) {
      * Processes the cell stream and returns the fusion pair stream.
      *
      * @param {Rx.Observable<domain.level.Cell>} cellStream
-     * @return {Rx.Observable<domain.lavel.FunsionPair>}
+     * @return {Rx.Observable<FunsionPair>}
      */
     pt.processCellStream = function (cellStream) {
 
@@ -38,7 +40,7 @@ domain.level.FusionPreparationService = subclass(function (pt) {
      * Takes cell into the fusion preparing position.
      *
      * @param {domain.level.Cell} cell The cell
-     * @return {Promise} {Promise<domain.level.FusionPair>}
+     * @return {Promise} {Promise<FusionPair>}
      */
     pt.take = function (cell) {
 
@@ -50,11 +52,7 @@ domain.level.FusionPreparationService = subclass(function (pt) {
 
         }
 
-        return Promise.all(this.stack.popAll()).then(function (array) {
-
-            return new domain.level.FusionPair(array[0], array[1])
-
-        })
+        return Promise.all(this.stack.popAll()).then(([left, right]) => new FusionPair(left, right))
 
     }
 

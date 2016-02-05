@@ -1,7 +1,7 @@
+import FusionPair from '../../../src/domain/level/FusionPair'
+
 describe('FusionPair', function () {
     'use strict'
-
-    var FusionPair = domain.level.FusionPair
 
     var createCell = function (gene) {
         var div = $('<div class="cell">').data('gene', gene)

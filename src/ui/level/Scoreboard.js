@@ -30,8 +30,8 @@ export default class Scoreboard extends DimensionalBeing {
     /**
      * Hooks the score retrieving process to the fusion pair stream.
      *
-     * @param {Rx.Observable<domain.level.FusionPair>} fusionPairStream
-     * @return {Rx.Observable<domain.level.FusionPair>}
+     * @param {Rx.Observable<FusionPair>} fusionPairStream
+     * @return {Rx.Observable<FusionPair>}
      */
     hookToFusionPairStream(fusionPairStream) {
 

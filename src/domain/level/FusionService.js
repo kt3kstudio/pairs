@@ -18,7 +18,7 @@ domain.level.FusionService = subclass($.cc.Coelement, function (pt) {
     /**
      * Processes the funsion pair stream and returns the stream of new born cells
      *
-     * @param {Rx.Observable<domain.level.FusionPair>}
+     * @param {Rx.Observable<FusionPair>}
      * @return {Rx.Observable<domain.level.Cell>}
      */
     pt.processFusionPairStream = function (fusionPairStream) {
@@ -36,7 +36,7 @@ domain.level.FusionService = subclass($.cc.Coelement, function (pt) {
     /**
      * Performs fusion.
      *
-     * @param {domain.level.FusionPair} pair The pair
+     * @param {FusionPair} pair The pair
      * @return {Promise} {Promise<domain.level.Cell>} The new cell
      */
     pt.performFusion = function (pair) {
@@ -55,7 +55,7 @@ domain.level.FusionService = subclass($.cc.Coelement, function (pt) {
      * Makes the pair go to the reactor.
      *
      * @private
-     * @param {domain.level.FusionPair} pair The pair going to fusion reactor
+     * @param {FusionPair} pair The pair going to fusion reactor
      * @return {Promise} The end of the animation of going to the reactor
      */
     pt.getToReactor = function (pair) {
@@ -84,7 +84,7 @@ domain.level.FusionService = subclass($.cc.Coelement, function (pt) {
      * Perform cell fusion.
      *
      * @private
-     * @param {domain.level.FusionPair} pair The pair
+     * @param {FusionPair} pair The pair
      * @return {Promise} The new cell {Promise<domain.level.Cell>}
      */
     pt.fusion = function (pair) {
