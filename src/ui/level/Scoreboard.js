@@ -35,11 +35,9 @@ export default class Scoreboard extends DimensionalBeing {
      */
     hookToFusionPairStream(fusionPairStream) {
 
-        var self = this
+        return fusionPairStream.map((fusionPair) => {
 
-        return fusionPairStream.map(function (fusionPair) {
-
-            self.addScore(fusionPair.score())
+            this.addScore(fusionPair.score())
 
             return fusionPair
 
