@@ -1,0 +1,41 @@
+{
+  "id": 701,
+  "name": 701,
+  "goal":
+    {
+      "type": "C",
+      "opts": {
+        "target": 3,
+        "number": 2
+      }
+    }
+  ,
+  "threshold0": 1000,
+  "threshold1": 2100,
+  "cells": [
+    {
+      "gene": "mf"
+    },
+    {
+      "gene": "fm"
+    },
+    {
+      "gene": "a"
+    },
+    {
+      "gene": "a"
+    },
+    {
+      "gene": "f"
+    },
+    {
+      "gene": "m"
+    },
+    {
+      "gene": "fmfm"
+    },
+    {
+      "gene": "mfmf"
+    }
+  ]
+}

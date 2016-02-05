@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="108px" height="108px" viewBox="0 0 108 108" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.1.1 (8761) - http://www.bohemiancoding.com/sketch -->
+    <title>reset-button</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="reset-button" sketch:type="MSLayerGroup" transform="translate(4.000000, 4.000000)">
+            <g id="double-circle" stroke="#393F44" stroke-width="7" sketch:type="MSShapeGroup">
+                <circle id="outer-oval" cx="50" cy="50" r="50"></circle>
+                <circle id="inner-oval" fill="#C1C6CB" cx="50" cy="50" r="40"></circle>
+            </g>
+            <path d="M66.3408203,70.7324219 L54.2290039,70.7324219 L48.6967773,55.9619141 C48.6430661,55.7112618 48.5490729,55.3800476 48.4147949,54.9682617 C48.2805169,54.5564758 48.1149098,54.0641305 47.9179688,53.4912109 L47.9985352,56.2304688 L47.9985352,70.7324219 L36.8535156,70.7324219 L36.8535156,29.2675781 L48.3208008,29.2675781 C53.3696542,29.2675781 57.1472856,30.2612205 59.6538086,32.2485352 C62.8406735,34.7908656 64.434082,38.4073659 64.434082,43.0981445 C64.434082,48.1111904 62.2946177,51.5755113 58.015625,53.4912109 L66.3408203,70.7324219 Z M48.0522461,48.4692383 L48.8041992,48.4692383 C50.0932682,48.4692383 51.1674762,47.9768929 52.0268555,46.9921875 C52.8862348,46.0074821 53.315918,44.7542394 53.315918,43.2324219 C53.315918,40.1350757 51.6956542,38.5864258 48.4550781,38.5864258 L48.0522461,38.5864258 L48.0522461,48.4692383 Z" id="R" fill="#393F44" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>

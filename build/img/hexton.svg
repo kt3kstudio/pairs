@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="200px" height="200px" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <link rel="stylesheet" type="text/css" href="cells.css"
+              xmlns="http://www.w3.org/1999/xhtml" />
+    </defs>
+    <g id="0" transform="translate(20.000000, 0.000000)">
+        <circle class="bg" fill="#083D71" cx="45" cy="45" r="45"></circle>
+        <circle class="in" fill="#0B6AC6" cx="45" cy="37.2413793" r="32.5862069"></circle>
+    </g>
+    <g id="5" transform="translate(83.000000, 0.000000)">
+        <circle class="bg" fill="#083D71" cx="45" cy="45" r="45"></circle>
+        <circle class="in" fill="#0B6AC6" cx="45" cy="37.2413793" r="32.5862069"></circle>
+    </g>
+    <g id="4" transform="translate(110.000000, 55.000000)">
+        <circle class="bg" fill="#083D71" cx="45" cy="45" r="45"></circle>
+        <circle class="in" fill="#0B6AC6" cx="45" cy="37.2413793" r="32.5862069"></circle>
+    </g>
+    <g id="1" transform="translate(0.000000, 55.000000)">
+        <circle class="bg" fill="#083D71" cx="45" cy="45" r="45"></circle>
+        <circle class="in" fill="#0B6AC6" cx="45" cy="37.2413793" r="32.5862069"></circle>
+    </g>
+    <g id="3" transform="translate(80.000000, 110.000000)">
+        <circle class="bg" fill="#083D71" cx="45" cy="45" r="45"></circle>
+        <circle class="in" fill="#0B6AC6" cx="45" cy="37.2413793" r="32.5862069"></circle>
+    </g>
+    <g id="2" transform="translate(18.000000, 110.000000)">
+        <circle class="bg" fill="#083D71" cx="45" cy="45" r="45"></circle>
+        <circle class="in" fill="#0B6AC6" cx="45" cy="37.2413793" r="32.5862069"></circle>
+    </g>
+</svg>

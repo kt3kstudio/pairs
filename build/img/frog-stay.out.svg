@@ -1,0 +1,62 @@
+<svg width="273" height="153" viewBox="0 0 273 153" xmlns="http://www.w3.org/2000/svg">
+    <title>
+        frog-stay
+    </title>
+    <desc>
+        Created with Sketch.
+    </desc>
+    <g class="stay" id="Page-1" fill="none" fill-rule="evenodd">
+        <g id="frog-stay">
+            <g id="body">
+                <path d="M60.738 60.305c28.055 13.952-29.125 34.347 6.75 52.457 32.19 16.25 205.088-2.647 205.088-14.264 0-63.15-155.737-31.412-160.576-60.483-6.29-37.78-47.5-47.52-67.5-27.503C32.874 22.146.672-8.883.64 29.566.628 46.9 32.48 46.25 60.74 60.306z" id="Oval-1" fill="#019528"/>
+                <ellipse id="Oval-2" fill="#261900" cx="72" cy="27.5" rx="15" ry="13.5"/>
+            </g>
+            <g id="legs" fill="#019528">
+                <path d="M65.037 94.55c32.218-4.44 31.21 13.256 31.21 13.256s-55.03 40.926-64.918 34.633c-9.89-6.294 12.946-32.645 33.707-47.89z" id="Triangle-1"/>
+                <path d="M94.576 104.53l34.918 12.37s-55.03 40.924-64.918 34.63c-9.89-6.29 30-47 30-47z" id="Triangle-1-Copy"/>
+                <path d="M193.33 97.94h48.56s-52.314 58.126-62.202 51.833c-9.89-6.293 13.64-51.832 13.64-51.832z" id="Triangle-1-Copy-2"/>
+                <path d="M225.57 97.94l15.45-11.594s27.9 9.815 25.488 13.66c-10.033 16.005-36.7 56.824-44.674 51.75-9.89-6.293 3.736-53.815 3.736-53.815z" id="Triangle-1-Copy-3"/>
+            </g>
+        </g>
+    </g>
+    <style>
+        @keyframes anim_stay_frog-stay {
+  0% { transform: translate(130px,100px) scale(1,1) rotate(0deg) translate(-130px,-100px) }
+  100% { transform: translate(130px,100px) scale(1,1) rotate(0deg) translate(-130px,-100px) }
+}
+.stay #frog-stay {
+  animation-name: anim_stay_frog-stay;
+  animation-iteration-count: undefined;
+  animation-duration: 1000ms;
+  animation-timing-function: undefined;
+  animation-direction: undefined;
+}
+
+@keyframes anim_stay_legs {
+  0% { transform: translate(130px,100px) scale(1,1) rotate(0deg) translate(-130px,-100px) }
+  100% { transform: translate(130px,100px) scale(1,1) rotate(0deg) translate(-130px,-100px) }
+  50% { transform: translate(130px,100px) scale(1,1) rotate(0deg) translate(-130px,-100px) }
+}
+.stay #legs {
+  animation-name: anim_stay_legs;
+  animation-iteration-count: infinite;
+  animation-duration: 1000ms;
+  animation-timing-function: linear;
+  animation-direction: undefined;
+}
+
+@keyframes anim_stay_body {
+  0% { transform: translate(130px,100px) scale(1,1) rotate(0deg) translate(-130px,-100px) }
+  100% { transform: translate(130px,100px) scale(1,1) rotate(0deg) translate(-130px,-100px) }
+  50% { transform: translate(130px,100px) scale(1,1) rotate(1.5deg) translate(-130.73788784189682px,-89.97724980193655px) }
+}
+.stay #body {
+  animation-name: anim_stay_body;
+  animation-iteration-count: infinite;
+  animation-duration: 1500ms;
+  animation-timing-function: linear;
+  animation-direction: undefined;
+}
+
+    </style>
+</svg>

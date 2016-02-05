@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="200px" height="300px" viewBox="0 0 200 300" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.1.1 (8761) - http://www.bohemiancoding.com/sketch -->
+    <title>ma-F</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="ma-F" sketch:type="MSLayerGroup">
+            <circle id="head" fill="#9BA3AB" sketch:type="MSShapeGroup" cx="100" cy="100" r="100"></circle>
+            <rect id="left-arm" fill="#9BA3AB" sketch:type="MSShapeGroup" x="100" y="200" width="60" height="20" rx="10">
+                <animateTransform attributeName="transform" type="rotate" dur="1000ms" values="0,115,210; 30,115,210; 0,115,210" repeatCount="indefinite"/>
+            </rect>
+            <rect id="right-arm" fill="#9BA3AB" sketch:type="MSShapeGroup" x="40" y="200" width="60" height="20" rx="10">
+                <animateTransform attributeName="transform" type="rotate" dur="1000ms" values="-30,85,210; 0,85,210; -30,85,210" repeatCount="indefinite"/>
+            </rect>
+            <path d="M90,300 C90,285.272407 90,260 75,260 C60,260 60,285.269168 60,300 L90,300 Z" id="left-leg" fill="#9BA3AB" sketch:type="MSShapeGroup" transform="translate(75.000000, 280.000000) scale(1, -1) translate(-75.000000, -280.000000) ">
+                <animateTransform attributeName="transform" type="translate" dur="1000ms" values="0,0; 0,10; 0,0" additive="sum" repeatCount="indefinite" />
+            </path>
+            <path d="M140,300 C140,285.272407 140,260 125,260 C110,260 110,285.269168 110,300 L140,300 Z" id="right-leg" fill="#9BA3AB" sketch:type="MSShapeGroup" transform="translate(125.000000, 280.000000) scale(1, -1) translate(-125.000000, -280.000000) ">
+                <animateTransform attributeName="transform" type="translate" dur="1000ms" values="0,10; 0,0; 0,10" additive="sum" repeatCount="indefinite" />
+            </path>
+            <path d="M140,260 C140,237.90861 130,200 100,200 C70,200 60,237.903753 60,260 L140,260 Z" id="torso" fill="#393F44" sketch:type="MSShapeGroup"></path>
+            <path d="M200,100 C200,44.771525 155.228475,0 100,0 C44.771525,0 0,44.771525 0,100 L200,100 Z" id="hat-side" fill="#9D001F" sketch:type="MSShapeGroup"></path>
+            <path d="M150,100 C150,44.771525 127.614237,0 100,0 C72.3857625,0 50,44.771525 50,100 L150,100 Z" id="hat-center" fill="#094F93" sketch:type="MSShapeGroup"></path>
+            <path d="M62.5509961,139.98 C79.6504102,144.6 87,160 87,160 C87,160 78.2938867,151.020175 60.3733398,144.6 C42.452793,138.179825 10,134.408027 10,134.408027 C10,134.408027 45.451582,135.359999 62.5509961,139.98 Z" id="right-eye" fill="#393F44" sketch:type="MSShapeGroup"></path>
+            <path d="M165.550996,139.98 C182.65041,144.6 190,160 190,160 C190,160 181.293887,151.020175 163.37334,144.6 C145.452793,138.179825 113,134.408027 113,134.408027 C113,134.408027 148.451582,135.359999 165.550996,139.98 Z" id="left-eye" fill="#393F44" sketch:type="MSShapeGroup" transform="translate(151.500000, 147.204014) scale(-1, 1) translate(-151.500000, -147.204014) "></path>
+        </g>
+    </g>
+</svg>

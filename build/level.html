@@ -1,0 +1,196 @@
+<html>
+  <head>
+    <title>LD-main</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="./css/all.css" />
+
+    <script>window.config = {"lang":"en"}</script>
+    <script src="./js/common.js"></script>
+    <script src="./js/level.js"></script>
+    <script>
+      $(function () {
+        setTimeout(function () {
+          $('.intro-scene').trigger('scene-start');
+        }, 50);
+      });
+    </script>
+
+  </head>
+  <body class="dark-bg">
+    
+<style>
+
+.wrapper {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
+
+#main {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.circle {
+    position: absolute;
+    transition-duration: 300ms;
+}
+
+.field-grid {
+    position: absolute;
+    left: -1000px;
+    top: -1000px;
+    z-index: -1;
+}
+
+.piece-of-paper {
+    z-index: -1;
+}
+
+.ma-speech {
+    line-height: 50px;
+    text-align: center;
+    color: #191B1D;
+
+}
+.ma-speech p {
+    width: 100%;
+}
+
+.scoreboard {
+    position: absolute;
+    text-align: center;
+    color: #C1C6CB;
+    background-color: #393F44;
+    border-radius: 7px;
+}
+
+.result-pane .result-content {
+    position: absolute;
+    text-align: center;
+    color: #C1C6CB;
+    background-color: #393F44;
+}
+
+
+@-webkit-keyframes ball-appear {
+    0% { opacity: 0; transform: scale(0); }
+}
+
+@-webkit-keyframes ball-disappear {
+    100% { opacity: 0; transform: scale(0); }
+}
+
+@-webkit-keyframes ball-refuse-x {
+    50% { transform: scale(2, 0.5); opacity: 0.2; }
+}
+
+@-webkit-keyframes ball-refuse-y {
+    50% { transform: scale(0.5, 2); opacity: 0.2; }
+}
+
+@-webkit-keyframes field-appear {
+    0% { opacity: 0; transform: scale(2); }
+}
+
+@-webkit-keyframes field-disappear {
+    100% { opacity: 0; transform: scale(0); }
+}
+
+@-webkit-keyframes bom-appear {
+    0% { opacity: 0; transform: translate(0, 10px); }
+    100% { opacity: 1; transform: translate(0, 0); }
+}
+
+@-webkit-keyframes bom-disappear {
+    0% { opacity: 1; transform: translate(0, 0); }
+    100% { opacity: 0; transform: translate(0, 10px); }
+}
+
+@-webkit-keyframes bom-born {
+    0% { opacity: 0; transform: translate(0, 10px) scale(0); }
+    50% { opacity: 1; transform: translate(0, 0px) scale(1.2); }
+    100% { opacity: 1; transform: translate(0, 0px) scale(1); }
+}
+
+@-webkit-keyframes go-to-trash {
+    100% { opacity: 0; transform: translate(0, 10px) scale(0); }
+}
+
+@-webkit-keyframes get-to-reactor-left {
+    0% { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
+    50% { opacity: 1; transform: translate(20px, 0) rotate(0) scale(1); }
+    100% { opacity: 0; transform: translate(40px, 0) rotate(360deg) scale(0); }
+}
+
+@-webkit-keyframes get-to-reactor-right {
+    0% { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
+    50% { opacity: 1; transform: translate(-20px, 0) rotate(0) scale(1); }
+    100% { opacity: 0; transform: translate(-40px, 0) rotate(-360deg) scale(0); }
+}
+
+@-webkit-keyframes paper-appear {
+    0% { opacity: 0 }
+    100% { opacity: 1 }
+}
+
+@-webkit-keyframes paper-disappear {
+    0% { opacity: 1 }
+    100% { opacity: 0 }
+}
+
+
+
+</style>
+
+
+<div id="main" class="intro-scene play-scene outro-scene fusion-service cell-collection">
+
+  <img class="field-grid" src="img/field.svg" />
+
+  <div class="scoreboard"></div>
+
+  <div class="result-pane"></div>
+
+  <div class="wrapper swipe-field"></div>
+
+</div>
+
+<img class="menu-button menu-button-root hidden" menu="level-menu" src="img/menu-button.svg" />
+
+<!-- menu object -->
+<menus id="level-menu">
+<menu src="img/back-button.svg" onclick="$('.play-scene').cc.get('play-scene').end();"></menu>
+<menu src="img/reset-button.svg" onclick="$('.play-scene').cc.get('play-scene').end();"></menu>
+</menus>
+
+
+<!-- templates, a bit old-fashioned templating -->
+<script type="text/template" id="tpl-ball">
+  <svg
+    class="ball circle"
+    style="display: none"
+    width="100px"
+    height="100px"
+    viewBox="0 0 100 100">
+    <circle
+      cx="50"
+      cy="50"
+      r="45"
+      stroke-width="6"
+      stroke-opacity="0.9"
+      stroke="#636E79"
+      fill="#9BA3AB"
+      fill-opacity="0.5"/>
+  </svg>
+</script>
+
+  </body>
+</html>
