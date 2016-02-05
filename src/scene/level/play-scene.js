@@ -24,13 +24,13 @@ export default class PlayScene extends Context {
      */
     setUp() {
 
-        var layout = new PlaySceneLayout()
+        const layout = new PlaySceneLayout()
 
         this.character = this.getCharacter().character
-        this.level = this.elem.cc.get('intro-scene').level
+        this.level = this.getAtElem('intro-scene').level
 
         // models
-        this.cells = this.elem.cc.get('cell-collection')
+        this.cells = this.getAtElem('cell-collection')
         this.cells.setGrid(layout.playGrid())
         this.cells.loadFromObjectList(this.level.cells.cells)
 
@@ -38,7 +38,7 @@ export default class PlayScene extends Context {
 
         // services
         this.fps = new domain.level.FusionPreparationService(layout.evalRoomGrid())
-        this.fusionService = this.elem.cc.get('fusion-service').setGrid(layout.fusionBoxGrid())
+        this.fusionService = this.getAtElem('fusion-service').setGrid(layout.fusionBoxGrid())
         this.exitQueue = new domain.level.ExitQueue(layout.queueGrid())
 
         // ball move service
@@ -92,15 +92,15 @@ export default class PlayScene extends Context {
      */
     playLoop(dirStream) {
 
-        var cellStream = this.bms.processDirStream(dirStream)
+        const cellStream = this.bms.processDirStream(dirStream)
 
-        var fusionPairStream = this.fps.processCellStream(cellStream)
+        let fusionPairStream = this.fps.processCellStream(cellStream)
 
         fusionPairStream = this.getScoreboard().hookToFusionPairStream(fusionPairStream)
 
-        var newCellStream = this.fusionService.processFusionPairStream(fusionPairStream)
+        const newCellStream = this.fusionService.processFusionPairStream(fusionPairStream)
 
-        var releasedCellStream = this.exitQueue.processNewCellStream(newCellStream)
+        let releasedCellStream = this.exitQueue.processNewCellStream(newCellStream)
 
         releasedCellStream = this.hookPlayingStateBumping(releasedCellStream)
 
@@ -132,7 +132,7 @@ export default class PlayScene extends Context {
      */
     userPlay() {
 
-        var userDirStream = this.getUserSwipeStream()
+        const userDirStream = this.getUserSwipeStream()
 
         this.recordDirStream(userDirStream)
 
@@ -175,7 +175,7 @@ export default class PlayScene extends Context {
      */
     getUserSwipeStream() {
 
-        var field = $('.swipe-field')
+        const field = $('.swipe-field')
 
         return Rx.Observable.merge(
             field.streamOf('swipeup').map('up'),
