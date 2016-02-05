@@ -1,8 +1,10 @@
 import {wait} from 'spn'
+
+const {component, event} = $.cc
 /**
  * Camera handles the screen position.
  */
-@$.cc.Component('camera')
+@component('camera')
 export default class Camera extends $.cc.Coelement {
 
     /**
@@ -31,7 +33,7 @@ export default class Camera extends $.cc.Coelement {
      * @param {$.Event} e The event object
      * @param {Number} x The horizontal position
      */
-    @$.cc.event('character-focus')
+    @event('character-focus')
     focusToX(e, x) {
 
         if (!this.visible(x)) {
@@ -57,7 +59,7 @@ export default class Camera extends $.cc.Coelement {
      * @param {Number} dur The duration
      * @return {Promise}
      */
-    @$.cc.event('character-move')
+    @event('character-move')
     scrollTo(e, x, dur) {
 
         this.elem.animate({scrollLeft: x - this.getWindowWidth() / 2}, dur)

@@ -2,12 +2,12 @@ import Context from './context'
 import PlaySceneLayout from './play-scene-layout'
 import BackgroundService from '../../ui/common/BackgroundService'
 
-const event = $.cc.event
+const {component, event} = $.cc
 
 /**
  * OutroScene handles the scene after finishing main play.
  */
-@$.cc.Component('outro-scene')
+@component('outro-scene')
 export default class OutroScene extends Context {
 
     @event('play-scene-success play-scene-failure')

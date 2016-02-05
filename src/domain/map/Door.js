@@ -1,14 +1,16 @@
 import {wait, Animation} from 'spn'
 import FloorAsset from './FloorAsset'
 
+const {component} = $.cc
 const DOOR_APPEAR_DUR = 400
+
 /**
  * Door class handles behaviour of the level's doors.
  *
  * @class
  * @extends domain.map.FloorAsset
  */
-@$.cc.Component('door')
+@component('door')
 export default class Door extends FloorAsset {
 
     showAnim() { return new Animation('door-appear', DOOR_APPEAR_DUR) }

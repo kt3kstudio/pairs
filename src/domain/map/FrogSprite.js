@@ -1,12 +1,15 @@
 import StayRunSprite from '../common/StayRunSprite'
 import {Animation} from 'spn'
+
+const {component} = $.cc
+
 /**
  * The sprite class of the frog (Obstacle creatures in front of the doors.
  * Some people call it dog).
  *
  * @extends domain.common.StayRunSprite
  */
-@$.cc.Component('frog')
+@component('frog')
 export default class FrogSprite extends StayRunSprite {
 
     leftStayImage() { return 'img/frog-stay.out.svg' }

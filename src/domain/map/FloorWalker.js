@@ -1,10 +1,13 @@
 import CharSprite from '../common/CharSprite'
+
+const {component, event} = $.cc
+
 /**
  * FloorWalker is the role of CharSprite which handles the behaviours of the character on the floor.
  *
  * Service Component
  */
-@$.cc.Component('floor-walker')
+@component('floor-walker')
 export default class FloorWalker extends CharSprite {
 
     constructor(elem) {
@@ -48,7 +51,7 @@ export default class FloorWalker extends CharSprite {
      * @param {$.Eevent} e The event
      * @param {domain.map.FloorAsset} floorAsset The floor asset
      */
-    @$.cc.event('door-knock')
+    @event('door-knock')
     doorKnock(e, floorAsset) {
 
         this.moveToFloorAsset(floorAsset)
@@ -60,7 +63,7 @@ export default class FloorWalker extends CharSprite {
      *
      * @param {Event} e The event object
      */
-    @$.cc.event('character-goto')
+    @event('character-goto')
     characterGoto(e) {
 
         this.character.position.floorId = e.goto.floorId

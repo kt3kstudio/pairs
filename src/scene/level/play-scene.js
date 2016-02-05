@@ -2,12 +2,11 @@ import Context from './context'
 import PlaySceneLayout from './play-scene-layout'
 import {wait} from 'spn'
 
-const event = $.cc.event
-
+const {component, event} = $.cc
 /**
  * PlayScene controlls the main playing scene of the level page.
  */
-@$.cc.Component('play-scene')
+@component('play-scene')
 export default class PlayScene extends Context {
 
     /**

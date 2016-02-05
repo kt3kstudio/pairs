@@ -1,6 +1,8 @@
 import {wait, Being} from 'spn'
 import Floorboard from './Floorboard'
 
+const {component} = $.cc
+
 /**
  * FloorAssetCollection class handles the position of wall and objects on wall.
  *
@@ -8,7 +10,7 @@ import Floorboard from './Floorboard'
  *
  * Collective Component
  */
-@$.cc.Component('floor-asset-collection')
+@component('floor-asset-collection')
 export default class FloorAssetCollection extends Being {
 
     /**

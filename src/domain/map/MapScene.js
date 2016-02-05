@@ -2,6 +2,8 @@ import SceneContext from '../common/SceneContext'
 import BackgroundService from '../../ui/common/BackgroundService'
 import {wait} from 'spn'
 
+const {component, event} = $.cc
+
 /**
  * MapScene handles the scene of map
  *
@@ -10,7 +12,7 @@ import {wait} from 'spn'
  * - interaction between view and model
  * - sequence of multi agents perfomance
  */
-@$.cc.Component('map-scene')
+@component('map-scene')
 export default class MapScene extends SceneContext {
 
     /**
@@ -18,7 +20,7 @@ export default class MapScene extends SceneContext {
      *
      * Loads things, initializes things in order, controls everything.
      */
-    @$.cc.event('scene-start')
+    @event('scene-start')
     main() {
 
         super.main()
@@ -186,7 +188,7 @@ export default class MapScene extends SceneContext {
      *
      * @param {String} level The level
      */
-    @$.cc.event('goToLevel')
+    @event('goToLevel')
     goToLevel() {
 
         return this.walkerFadeIntoDoor().then(() => (location.href = 'level.html'))
@@ -200,7 +202,7 @@ export default class MapScene extends SceneContext {
      *
      * @return {Promise}
      */
-    @$.cc.event('sceneReload')
+    @event('sceneReload')
     sceneReload() {
 
         return this.walkerFadeIntoDoor().then(() => location.reload())
@@ -213,7 +215,7 @@ export default class MapScene extends SceneContext {
      * @param {Event} e The event
      * @return {Promise}
      */
-    @$.cc.event('assetUnlock')
+    @event('assetUnlock')
     assetUnlock(e) {
 
         var asset = e.floorAsset

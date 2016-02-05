@@ -1,11 +1,14 @@
 import Body from '../../domain/common/body'
 import {wait} from 'spn'
+
+const {component} = $.cc
+
 /**
  * ResultPane class handles the behaviour of the pane which appears when the game finished with a score.
  *
  * @class
  */
-@$.cc.Component('result-pane')
+@component('result-pane')
 export default class ResultPane extends Body {
 
     /**

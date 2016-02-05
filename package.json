@@ -33,7 +33,7 @@
     "bulbo": "^2.2.0",
     "cc-event": "^2.0.2",
     "chai": "^1.10.0",
-    "class-component": "^5.5.0",
+    "class-component": "^5.5.1",
     "es6-promise": "^3.0.2",
     "esdoc": "^0.4.3",
     "event-hub": "^4.1.0",

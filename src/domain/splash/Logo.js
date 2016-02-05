@@ -1,9 +1,11 @@
 import {wait, Being, Animation} from 'spn'
 
+const {component} = $.cc
+
 /**
  * Logo animation componenent in the splash screen.
  */
-@$.cc.Component('splash-logo')
+@component('splash-logo')
 export default class Logo extends Being {
 
     /**

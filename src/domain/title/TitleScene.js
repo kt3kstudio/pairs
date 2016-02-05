@@ -3,12 +3,12 @@ import BackgroundService from '../../ui/common/BackgroundService'
 import {loadImage} from '../../util/util'
 import {wait} from 'spn'
 
-const event = $.cc.event
+const {component, event} = $.cc
 
 /**
  * TitleScene class handles the motions sequences of the title scene.
  */
-@$.cc.Component('title-scene')
+@component('title-scene')
 export default class TitleScene extends SceneContext {
 
     /**

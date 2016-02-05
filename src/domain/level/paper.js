@@ -1,10 +1,12 @@
 import {Animation} from 'spn'
 import StaticSprite from '../common/StaticSprite'
 
+const {component} = $.cc
+
 /**
  * PieceOfPaper represents a piece of paper which is on the floor of each room (obsolete).
  */
-@$.cc.Component('paper')
+@component('paper')
 export default class Paper extends StaticSprite {
 
     width() { return 50 }

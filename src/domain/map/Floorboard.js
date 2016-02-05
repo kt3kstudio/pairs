@@ -1,12 +1,13 @@
 import {wait, Being} from 'spn'
 
+const {component} = $.cc
 const FLOORBOARD_MOVE_DUR = 400
 const HEIGHT_RATE = 0.35
 
 /**
  * Floor class handles the behaviour of floor of the Map view
  */
-@$.cc.Component('floorboard')
+@component('floorboard')
 export default class Floorboard extends Being {
 
     static get HEIGHT_RATE() {
