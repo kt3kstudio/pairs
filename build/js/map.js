@@ -3530,7 +3530,7 @@ var MapScene = (_dec = $.cc.Component('map-scene'), _dec2 = $.cc.event('scene-st
 
                 _this2.character = character;
 
-                return Promise.resolve($.get('/data/floor/' + character.position.floorId + '.html'));
+                return Promise.resolve($.get('data/floor/' + character.position.floorId + '.html'));
             }).then(function (data) {
                 return _this2.floorData = data;
             });

@@ -82,7 +82,7 @@ export default class MapScene extends SceneContext {
 
             this.character = character
 
-            return Promise.resolve($.get('/data/floor/' + character.position.floorId + '.html'))
+            return Promise.resolve($.get('data/floor/' + character.position.floorId + '.html'))
 
         })
 
