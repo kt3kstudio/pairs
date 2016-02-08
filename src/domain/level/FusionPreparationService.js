@@ -5,14 +5,13 @@ import FusionPair from './FusionPair'
  *
  * @class
  */
-domain.level.FusionPreparationService = subclass(function (pt) {
-    'use strict'
+export default class FusionPreparationService {
 
     /**
      * @constructor
      * @param {Grid} grid The grid
      */
-    pt.constructor = function (grid) {
+    constructor(grid) {
 
         this.stack = new PreparationStack(grid)
 
@@ -24,15 +23,9 @@ domain.level.FusionPreparationService = subclass(function (pt) {
      * @param {Rx.Observable<domain.level.Cell>} cellStream
      * @return {Rx.Observable<FunsionPair>}
      */
-    pt.processCellStream = function (cellStream) {
+    processCellStream(cellStream) {
 
-        var self = this
-
-        return cellStream.pipe(function (cell) {
-
-            return self.take(cell)
-
-        }).filterNull()
+        return cellStream.pipe(cell => this.take(cell)).filterNull()
 
     }
 
@@ -42,7 +35,7 @@ domain.level.FusionPreparationService = subclass(function (pt) {
      * @param {domain.level.Cell} cell The cell
      * @return {Promise} {Promise<FusionPair>}
      */
-    pt.take = function (cell) {
+    take(cell) {
 
         this.stack.push(cell)
 
@@ -56,90 +49,80 @@ domain.level.FusionPreparationService = subclass(function (pt) {
 
     }
 
+}
+
+/**
+ * PreparationStack is the stack class of cells which are preparing for the fusion and going to the preparing position.
+ */
+class PreparationStack {
+
     /**
-     * PreparationStack is the stack class of cells which are preparing for the fusion and going to the preparing position.
-     *
-     * @class domain.level.FusionPreparationService.PreparationStack
-     * @private
+     * @constructor
+     * @param {Grid} grid The grid
      */
-    var PreparationStack = subclass(function (pt) {
-        /**
-         * @constructor
-         * @param {Grid} grid The grid
-         */
-        pt.constructor = function (grid) {
+    constructor(grid) {
 
-            this.grid = grid
-            this.stack = []
-            this.isFinished = false
+        this.grid = grid
+        this.stack = []
+        this.isFinished = false
+        this.takeDur = 700 // The duration of going to fusion preparation position.
 
-        }
+    }
 
-        /**
-         * The duration of going to fusion preparation position.
-         */
-        pt.takeDur = 700
+    /**
+     * Pushes to the stack.
+     *
+     * @param {domain.level.Cell} cell The cell
+     */
+    push(cell) {
 
-        /**
-         * Pushes to the stack.
-         *
-         * @param {domain.level.Cell} cell The cell
-         */
-        pt.push = function (cell) {
+        this.isFinished = cell.isLastOne()
 
-            this.isFinished = cell.isLastOne()
+        this.stack.push(this.locate(cell, this.stack.length))
 
-            this.stack.push(this.locate(cell, this.stack.length))
+    }
 
-        }
+    /**
+     * locate the cell at the index.
+     *
+     * @param {domain.level.Cell} cell The cell
+     * @param {Number} index The index
+     * @return {Promise<domain.level.Cell>}
+     */
+    locate(cell, index) {
 
-        /**
-         * locate the cell at the index.
-         *
-         * @param {domain.level.Cell} cell The cell
-         * @param {Number} index The index
-         * @return {Promise<domain.level.Cell>}
-         */
-        pt.locate = function (cell, index) {
+        cell.setGrid(this.grid)
 
-            cell.setGrid(this.grid)
+        cell.m = index
+        cell.n = 0
 
-            cell.m = index
-            cell.n = 0
+        cell.setTransitionDuration(this.takeDur)
 
-            cell.setTransitionDuration(this.takeDur)
+        return cell.fitToGrid().then(() => cell)
 
-            return cell.fitToGrid().then(function () {
+    }
 
-                return cell
+    isPrepared() {
 
-            })
+        return this.isFinished || this.isFull()
 
-        }
+    }
 
-        pt.isPrepared = function () {
+    isFull() {
 
-            return this.isFinished || this.isFull()
+        return this.stack.length >= 2
 
-        }
+    }
 
-        pt.isFull = function () {
+    /**
+     * Pops all the cells.
+     *
+     * @return {Array<Promise<domain.level.Cell>>}
+     */
+    popAll() {
 
-            return this.stack.length >= 2
+        return this.stack.splice(0)
 
-        }
+    }
 
-        /**
-         * Pops all the cells.
-         *
-         * @return {Array<Promise<domain.level.Cell>>}
-         */
-        pt.popAll = function () {
-
-            return this.stack.splice(0)
-
-        }
-
-    })
-
-})
+}

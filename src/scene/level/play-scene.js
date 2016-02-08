@@ -1,6 +1,7 @@
 import Context from './context'
 import PlaySceneLayout from './play-scene-layout'
 import {wait} from 'spn'
+import FusionPreparationService from '../../domain/level/FusionPreparationService'
 
 const {component, event} = $.cc
 /**
@@ -37,7 +38,7 @@ export default class PlayScene extends Context {
         this.getField().setRect(layout.fieldRect())
 
         // services
-        this.fps = new domain.level.FusionPreparationService(layout.evalRoomGrid())
+        this.fps = new FusionPreparationService(layout.evalRoomGrid())
         this.fusionService = this.getAtElem('fusion-service').setGrid(layout.fusionBoxGrid())
         this.exitQueue = new domain.level.ExitQueue(layout.queueGrid())
 
