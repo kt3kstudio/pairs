@@ -44,20 +44,25 @@ export default class Door extends FloorAsset {
 
         this.elem.css('opcaity', 0)
 
-        this.$doorBody = $('<div />').addClass('door-body').appendTo(this.elem)
+        this.doorBody = $('<div />').addClass('door-body').appendTo(this.elem)
 
-        $('<div />').addClass('door-front').text(this.id).appendTo(this.$doorBody)
+        $('<div />').addClass('door-front').text(this.id).appendTo(this.doorBody)
 
-        $('<div />').addClass('doorknob').text('●').appendTo(this.$doorBody)
+        $('<div />').addClass('doorknob').text('●').appendTo(this.doorBody)
 
-        this.infoPane = $('<div><div class="door-info-content"><p>' + this.id + '</p><hr /><p><small>♛ Best ♛</small><br />' + this.score + '</p><hr /></div></div>').addClass('door-info').css({
+        this.informationPanel = $('<div><div class="door-info-content"><p>' + this.id + '</p><hr /><p><small>♛ Best ♛</small><br />' + this.score + '</p><hr /></div></div>')
+        .addClass('door-info')
+        .css({
             width: '150px',
             height: '150px',
             top: '-200px',
             left: '-40px'
-        }).appendTo(this.elem).infoPane(3, 5, {bgcolor: '#393F44'})
+        })
+        .attr({m: 3, n: 5, bgcolor: '#393F44'})
+        .appendTo(this.elem)
+        .cc.init('multiflip')
 
-        $('<button />').text('▶').appendTo($('.door-info-content', this.infoPane.$dom)).click(function (event) {
+        $('<button />').text('▶').appendTo($('.door-info-content', this.informationPanel.elem)).click(function (event) {
 
             event.preventDefault()
             $(this).trigger('goToLevel')
@@ -81,9 +86,9 @@ export default class Door extends FloorAsset {
      */
     open() {
 
-        this.infoPane.show()
+        this.informationPanel.show()
 
-        this.$doorBody.addClass('open')
+        this.doorBody.addClass('open')
 
         this.removeFrog()
 
@@ -98,9 +103,9 @@ export default class Door extends FloorAsset {
      */
     close() {
 
-        this.infoPane.hide()
+        this.informationPanel.hide()
 
-        this.$doorBody.removeClass('open')
+        this.doorBody.removeClass('open')
 
         this.enableDoorKnock()
 
@@ -126,7 +131,7 @@ export default class Door extends FloorAsset {
      */
     enableDoorKnock() {
 
-        this.$doorBody.one('click', () => this.doorKnock())
+        this.doorBody.one('click', () => this.doorKnock())
 
     }
 
@@ -135,7 +140,7 @@ export default class Door extends FloorAsset {
      */
     disableDoorKnock() {
 
-        this.$doorBody.off('click')
+        this.doorBody.off('click')
 
     }
 

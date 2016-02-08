@@ -72,13 +72,11 @@ export default class ResultPane extends Body {
      */
     showInfoPane(timeout) {
 
-        var info = this.elem.infoPane(9, 7)
-
-        return info.show()
+        return this.elem.attr({m: 9, n: 7}).cc.init('multiflip').show()
 
         .then(() => Promise.race([wait(timeout), this.elem.once('click touchstart')]))
 
-        .then(() => info.hide())
+        .then(() => this.elem.cc.get('multiflip').hide())
 
     }
 

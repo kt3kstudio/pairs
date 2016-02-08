@@ -1,4 +1,6 @@
-const defaultSpeechTimeout = 5000
+import {wait} from 'spn'
+
+const DEFAULT_SPEECH_TIMEOUT = 5000
 
 /**
  * Speaker is a trait of the component which is able to "speak".
@@ -17,39 +19,27 @@ export default class Speaker {
     speak(speech, {cancelDom, timeout} = {}) {
 
         cancelDom = cancelDom || this.elem
-        timeout = timeout || defaultSpeechTimeout
+        timeout = timeout || DEFAULT_SPEECH_TIMEOUT
 
-        const bubbleShown = this.elem.speechBubble(speech, {
+        const bubble = this.elem.multiflipBubble(speech, {
             width: $(window).width() * 0.8,
             height: 50,
             color: '#328DE5',
-            cssClass: this.name + '-speech',
-            partitionY: 2,
-            partitionX: 10,
-            duration: 600
-        }).show()
-
-        this.speechEndPromise = bubbleShown.then((sb) => {
-
-            return new Promise(resolve => {
-
-                setTimeout(resolve, timeout)
-
-                $(cancelDom).one('click touchstart', resolve)
-
-            })
-
-            .then(() => {
-
-                $(cancelDom).off('click touchstart')
-
-                return sb.hide()
-
-            })
-
+            m: 14,
+            n: 2,
         })
 
-        return bubbleShown
+        bubble.elem.addClass(this.name + '-speech')
+
+        this.speechEndPromise = bubble.show()
+
+        .then(() => Promise.race([wait(timeout), $(cancelDom).once('click touchstart')]))
+
+        .then(() => $(cancelDom).off('click touchstart'))
+
+        .then(() => bubble.hide())
+
+        return bubble
 
     }
 
