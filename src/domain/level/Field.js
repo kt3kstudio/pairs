@@ -1,7 +1,7 @@
 import {Animation} from 'spn'
 import Body from '../common/body'
 
-const {compnent} = $.cc
+const {component} = $.cc
 
 /**
  * Field class represents the background field graphics.

@@ -25,7 +25,7 @@ export default class FusionService extends $.cc.Coelement {
      */
     processFusionPairStream(fusionPairStream) {
 
-        return fusionPairStream.pipe(fusionPair => self.performFusion(fusionPair))
+        return fusionPairStream.pipe(fusionPair => this.performFusion(fusionPair))
 
     }
 

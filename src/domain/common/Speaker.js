@@ -26,7 +26,7 @@ export default class Speaker {
             height: 50,
             color: '#328DE5',
             m: 14,
-            n: 2,
+            n: 2
         })
 
         bubble.elem.addClass(this.name + '-speech')
