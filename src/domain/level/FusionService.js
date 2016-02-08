@@ -1,13 +1,15 @@
+const {component} = $.cc
+
 /**
  * FusionService performs the fusion of the pair of cells.
  */
-domain.level.FusionService = subclass($.cc.Coelement, function (pt) {
-    'use strict'
+@component('fusion-service')
+export default class FusionService extends $.cc.Coelement {
 
     /**
      * @param {Grid} grid The grid
      */
-    pt.setGrid = function (grid) {
+    setGrid(grid) {
 
         this.grid = grid
 
@@ -21,15 +23,9 @@ domain.level.FusionService = subclass($.cc.Coelement, function (pt) {
      * @param {Rx.Observable<FusionPair>}
      * @return {Rx.Observable<domain.level.Cell>}
      */
-    pt.processFusionPairStream = function (fusionPairStream) {
+    processFusionPairStream(fusionPairStream) {
 
-        var self = this
-
-        return fusionPairStream.pipe(function (fusionPair) {
-
-            return self.performFusion(fusionPair)
-
-        })
+        return fusionPairStream.pipe(fusionPair => self.performFusion(fusionPair))
 
     }
 
@@ -39,15 +35,9 @@ domain.level.FusionService = subclass($.cc.Coelement, function (pt) {
      * @param {FusionPair} pair The pair
      * @return {Promise} {Promise<domain.level.Cell>} The new cell
      */
-    pt.performFusion = function (pair) {
+    performFusion(pair) {
 
-        var that = this
-
-        return this.getToReactor(pair).then(function () {
-
-            return that.fusion(pair)
-
-        })
+        return this.getToReactor(pair).then(() => this.fusion(pair))
 
     }
 
@@ -58,25 +48,19 @@ domain.level.FusionService = subclass($.cc.Coelement, function (pt) {
      * @param {FusionPair} pair The pair going to fusion reactor
      * @return {Promise} The end of the animation of going to the reactor
      */
-    pt.getToReactor = function (pair) {
+    getToReactor(pair) {
 
         var dur = 1000
 
+        // pair.right could be null
         if (pair.right) {
 
-            pair.right.anim('get-to-reactor-right', dur).then(function () {
-
-                return pair.right.remove()
-
-            })
+            pair.right.anim('get-to-reactor-right', dur).then(() => pair.right.remove())
 
         }
 
-        return pair.left.anim('get-to-reactor-left', dur).then(function () {
-
-            pair.left.remove()
-
-        })
+        // pair.left always exists
+        return pair.left.anim('get-to-reactor-left', dur).then(() => pair.left.remove())
 
     }
 
@@ -87,13 +71,15 @@ domain.level.FusionService = subclass($.cc.Coelement, function (pt) {
      * @param {FusionPair} pair The pair
      * @return {Promise} The new cell {Promise<domain.level.Cell>}
      */
-    pt.fusion = function (pair) {
+    fusion(pair) {
 
         var dur = 600
 
         var cell = $('<object />', {
+
             data: {gene: pair.newGene()},
             prependTo: this.elem
+
         }).cc.init('cell')
 
         cell.setGrid(this.grid, 0, 0)
@@ -110,14 +96,8 @@ domain.level.FusionService = subclass($.cc.Coelement, function (pt) {
 
         }
 
-        return cell.show(dur).then(function () {
-
-            return cell
-
-        })
+        return cell.show(dur).then(() => cell)
 
     }
 
-})
-
-$.cc.assign('fusion-service', domain.level.FusionService)
+}
