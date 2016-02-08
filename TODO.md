@@ -9,13 +9,12 @@
   - multiple bubble handling
   - close all method
   - redesign bubble management
-  - transition to class-component based arch
+  - transition to class-component based arch - done
 
 - Residents
   - MooSprite
   - moo layout in level.scene context
   - resident sprite
-
 
 [Make residents]
 - Who suggest what they need for their rooms
