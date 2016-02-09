@@ -1,9 +1,16 @@
 # TODO
 
+- SenarioManager
+  - Manage senario progress
+  - create plan of DSL
+
+- Puncher
+  - show string letter by letter
+
 - Speaker
   - can speak emojis
   - can speak letter by letter
-  - clean up speech bubble handling
+  - clean up speech bubble handling - done
 
 - SpeechBubble
   - multiple bubble handling
