@@ -49,6 +49,940 @@
 }(window, window.$));
 
 },{}],2:[function(require,module,exports){
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _wait = require('./wait');
+
+var _wait2 = _interopRequireDefault(_wait);
+
+var _reflow = require('./reflow');
+
+var _reflow2 = _interopRequireDefault(_reflow);
+
+var _ifNumElse = require('./if-num-else');
+
+var _ifNumElse2 = _interopRequireDefault(_ifNumElse);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ANIMATION_PROP_NAME = '-webkit-animation';
+
+/**
+ * Animation class represents the css animation.
+ */
+
+var Animation = (function () {
+
+  /**
+   * @param {String} name The name of the css animation (keyframes)
+   * @param {Number} duration The duration of the animation
+   */
+
+  function Animation(name, duration) {
+    _classCallCheck(this, Animation);
+
+    this.name = name;
+    this.duration = duration;
+  }
+
+  /**
+   * @param {jQuery} elem The dom element
+   * @param {number} dur The duration
+   * @return {Promise}
+   */
+
+  _createClass(Animation, [{
+    key: 'apply',
+    value: function apply(elem, dur) {
+
+      elem.css(ANIMATION_PROP_NAME, '');
+
+      (0, _reflow2.default)(elem);
+
+      elem.css(ANIMATION_PROP_NAME, this.name + ' ' + (0, _ifNumElse2.default)(dur, this.duration) + 'ms');
+
+      return (0, _wait2.default)(this.duration);
+    }
+  }]);
+
+  return Animation;
+})();
+
+exports.default = Animation;
+},{"./if-num-else":11,"./reflow":16,"./wait":19}],3:[function(require,module,exports){
+"use strict";
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Being represents a dom with visual representation which has the phases, such as show, hide and disappear.
+ */
+
+var Being = (function (_$$cc$Actor) {
+  _inherits(Being, _$$cc$Actor);
+
+  function Being() {
+    _classCallCheck(this, Being);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Being).apply(this, arguments));
+  }
+
+  _createClass(Being, [{
+    key: "showAnim",
+
+    /**
+     * Returns the animation of showing
+     *
+     * @abstract
+     * @return {Animation}
+     */
+    value: function showAnim() {}
+
+    /**
+     * Returns the animation of hiding
+     *
+     * @abstract
+     * @return {Animation}
+     */
+
+  }, {
+    key: "hideAnim",
+    value: function hideAnim() {}
+
+    /**
+     * @abstract
+     * @return {Promise}
+     */
+
+  }, {
+    key: "willShow",
+    value: function willShow() {}
+
+    /**
+     * @abstract
+     * @return {Promise}
+     */
+
+  }, {
+    key: "didShow",
+    value: function didShow() {}
+
+    /**
+     * Shows the element using the animation returned by showAnim.
+     * 表示時アニメーション (showAnim) に従ってアニメーションさせる。
+     *
+     * This invokes `willShow` before and `didShow` after.
+     * 事前に willShow hook, 事後に didShow hook を呼び出す。
+     *
+     * @param {Number} dur The duration of the animation
+     * @return {Promise}
+     */
+
+  }, {
+    key: "show",
+    value: function show(dur) {
+      var _this2 = this;
+
+      return Promise.resolve(this.willShow()).then(function () {
+
+        var anim = _this2.showAnim();
+
+        return anim != null && anim.apply(_this2.elem, dur);
+      }).then(function () {
+        return _this2.didShow();
+      });
+    }
+
+    /**
+     * @abstract
+     * @return {Promise}
+     */
+
+  }, {
+    key: "willHide",
+    value: function willHide() {}
+
+    /**
+     * @abstract
+     * @return {Promise}
+     */
+
+  }, {
+    key: "didHide",
+    value: function didHide() {}
+
+    /**
+     * Hides the element using the animation returned by hideAnim.
+     * 非表示時アニメーション (hideAnim) に従ってアニメーションさせる。
+     *
+     * This invokes `willHide` before and `didHide` after.
+     * 事前に willHide hook, 事後に didHide hook を呼び出す。
+     *
+     * @param {Number} dur The duration of the animation
+     * @return {Promise}
+     */
+
+  }, {
+    key: "hide",
+    value: function hide(dur) {
+      var _this3 = this;
+
+      return Promise.resolve(this.willHide()).then(function () {
+
+        var anim = _this3.hideAnim();
+
+        return anim != null && anim.apply(_this3.elem, dur);
+      }).then(function () {
+        return _this3.didHide();
+      });
+    }
+
+    /**
+     * Hides the component and then removes it.
+     *
+     * @param {Number} dur The duration of the animation
+     * @return {Promise}
+     */
+
+  }, {
+    key: "disappear",
+    value: function disappear(dur) {
+      var _this4 = this;
+
+      return this.hide(dur).then(function () {
+        return _this4.elem.remove();
+      });
+    }
+  }]);
+
+  return Being;
+})($.cc.Actor);
+
+exports.default = Being;
+},{}],4:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _being = require('./being');
+
+var _being2 = _interopRequireDefault(_being);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var DimensionalBeing = (function (_Being) {
+  _inherits(DimensionalBeing, _Being);
+
+  function DimensionalBeing() {
+    _classCallCheck(this, DimensionalBeing);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(DimensionalBeing).apply(this, arguments));
+  }
+
+  return DimensionalBeing;
+})(_being2.default);
+
+exports.default = DimensionalBeing;
+},{"./being":3}],5:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _sprite = require('./sprite');
+
+var _sprite2 = _interopRequireDefault(_sprite);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CharSprite = (function (_Sprite) {
+  _inherits(CharSprite, _Sprite);
+
+  function CharSprite() {
+    _classCallCheck(this, CharSprite);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(CharSprite).apply(this, arguments));
+  }
+
+  return CharSprite;
+})(_sprite2.default);
+
+exports.default = CharSprite;
+},{"./sprite":17}],6:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _rect = require('./rect');
+
+var _rect2 = _interopRequireDefault(_rect);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var DimensionFactory = (function (_Rect) {
+  _inherits(DimensionFactory, _Rect);
+
+  function DimensionFactory() {
+    _classCallCheck(this, DimensionFactory);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(DimensionFactory).apply(this, arguments));
+  }
+
+  return DimensionFactory;
+})(_rect2.default);
+
+exports.default = DimensionFactory;
+},{"./rect":15}],7:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var DirStateImageMap = function DirStateImageMap() {
+  _classCallCheck(this, DirStateImageMap);
+};
+
+exports.default = DirStateImageMap;
+},{}],8:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var UP = exports.UP = 0;
+var TOP = exports.TOP = 0;
+var LEFT = exports.LEFT = 1;
+var RIGHT = exports.RIGHT = 2;
+var BOTTOM = exports.BOTTOM = 3;
+var DOWN = exports.DOWN = 3;
+},{}],9:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _body = require('./body');
+
+var _body2 = _interopRequireDefault(_body);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var GridWalker = (function (_Body) {
+  _inherits(GridWalker, _Body);
+
+  function GridWalker() {
+    _classCallCheck(this, GridWalker);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(GridWalker).apply(this, arguments));
+  }
+
+  return GridWalker;
+})(_body2.default);
+
+exports.default = GridWalker;
+},{"./body":4}],10:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Grid = function Grid() {
+  _classCallCheck(this, Grid);
+};
+
+exports.default = Grid;
+},{}],11:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+/**
+ * Shorthand for `typeof num === 'number' ? num : defaultValue`.
+ *
+ * @param {object} num The number or anthing
+ * @param {number} defaultValue The default value
+ * @return {number}
+ */
+
+exports.default = function (num, defaultValue) {
+  return typeof num === 'number' ? num : defaultValue;
+};
+},{}],12:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Image = function Image() {
+  _classCallCheck(this, Image);
+};
+
+exports.default = Image;
+},{}],13:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DIRS = exports.StaticSprite = exports.CharSprite = exports.Sprite = exports.DirStateImageMap = exports.Image = exports.Animation = exports.GridWalker = exports.Grid = exports.Rect = exports.LayoutFactory = exports.Posture = exports.Body = exports.Being = exports.ifNumElse = exports.reflow = exports.wait = undefined;
+
+var _wait = require('./wait');
+
+var _wait2 = _interopRequireDefault(_wait);
+
+var _reflow = require('./reflow');
+
+var _reflow2 = _interopRequireDefault(_reflow);
+
+var _ifNumElse = require('./if-num-else');
+
+var _ifNumElse2 = _interopRequireDefault(_ifNumElse);
+
+var _being = require('./being');
+
+var _being2 = _interopRequireDefault(_being);
+
+var _body = require('./body');
+
+var _body2 = _interopRequireDefault(_body);
+
+var _posture = require('./posture');
+
+var _posture2 = _interopRequireDefault(_posture);
+
+var _dimensionFactory = require('./dimension-factory');
+
+var _dimensionFactory2 = _interopRequireDefault(_dimensionFactory);
+
+var _rect = require('./rect');
+
+var _rect2 = _interopRequireDefault(_rect);
+
+var _grid = require('./grid');
+
+var _grid2 = _interopRequireDefault(_grid);
+
+var _gridWalker = require('./grid-walker');
+
+var _gridWalker2 = _interopRequireDefault(_gridWalker);
+
+var _animation = require('./animation');
+
+var _animation2 = _interopRequireDefault(_animation);
+
+var _image = require('./image');
+
+var _image2 = _interopRequireDefault(_image);
+
+var _dirStateImageMap = require('./dir-state-image-map');
+
+var _dirStateImageMap2 = _interopRequireDefault(_dirStateImageMap);
+
+var _sprite = require('./sprite');
+
+var _sprite2 = _interopRequireDefault(_sprite);
+
+var _charSprite = require('./char-sprite');
+
+var _charSprite2 = _interopRequireDefault(_charSprite);
+
+var _staticSprite = require('./static-sprite');
+
+var _staticSprite2 = _interopRequireDefault(_staticSprite);
+
+var _dirs = require('./dirs');
+
+var DIRS = _interopRequireWildcard(_dirs);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.wait = _wait2.default;
+exports.reflow = _reflow2.default;
+exports.ifNumElse = _ifNumElse2.default;
+exports.Being = _being2.default;
+exports.Body = _body2.default;
+exports.Posture = _posture2.default;
+exports.LayoutFactory = _dimensionFactory2.default;
+exports.Rect = _rect2.default;
+exports.Grid = _grid2.default;
+exports.GridWalker = _gridWalker2.default;
+exports.Animation = _animation2.default;
+exports.Image = _image2.default;
+exports.DirStateImageMap = _dirStateImageMap2.default;
+exports.Sprite = _sprite2.default;
+exports.CharSprite = _charSprite2.default;
+exports.StaticSprite = _staticSprite2.default;
+exports.DIRS = DIRS;
+},{"./animation":2,"./being":3,"./body":4,"./char-sprite":5,"./dimension-factory":6,"./dir-state-image-map":7,"./dirs":8,"./grid":10,"./grid-walker":9,"./if-num-else":11,"./image":12,"./posture":14,"./rect":15,"./reflow":16,"./sprite":17,"./static-sprite":18,"./wait":19}],14:[function(require,module,exports){
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _ifNumElse = require('./if-num-else');
+
+var _ifNumElse2 = _interopRequireDefault(_ifNumElse);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Posture is the model of the information about how the Body is placed and arranged to its position.
+ *
+ * @class
+ */
+
+var Posture = (function () {
+
+    /**
+     * @param {Number} [width=100] The width
+     * @param {Number} [height=100] The height
+     * @param {Number} [ratioX=0] The ratio of horizontal position of the rectangle. ratioX == 0 means the left limit of the rectangle is x. ratioX == 1 means the right limit of the rectangle is x.
+     * @param {Number} [ratioY=0] The ratio of vertical position of the rectangle. ratioY == 0 means the top limit of the rectangle is x. ratioY == 1 means the bottom limit of the rectangle is x.
+     * @param {Number} [marginX=0] The horizontal margin
+     * @param {Number} [marginY=0] The vertical margin
+     * @param {Number} [marginLeft] The left margin
+     * @param {Number} [marginTop] The top margin
+     * @param {Number} [marginRight] The right margin
+     * @param {Number} [marginBottom] The bottom margin
+     */
+
+    function Posture() {
+        var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+        var width = _ref.width;
+        var height = _ref.height;
+        var ratioX = _ref.ratioX;
+        var ratioY = _ref.ratioY;
+        var marginX = _ref.marginX;
+        var marginY = _ref.marginY;
+        var marginLeft = _ref.marginLeft;
+        var marginTop = _ref.marginTop;
+        var marginRight = _ref.marginRight;
+        var marginBottom = _ref.marginBottom;
+
+        _classCallCheck(this, Posture);
+
+        this.width = (0, _ifNumElse2.default)(width, 100);
+        this.height = (0, _ifNumElse2.default)(height, 100);
+
+        this.ratioX = (0, _ifNumElse2.default)(ratioX, 0);
+        this.ratioY = (0, _ifNumElse2.default)(ratioY, 0);
+
+        this.marginX = (0, _ifNumElse2.default)(marginX, 0);
+        this.marginY = (0, _ifNumElse2.default)(marginY, 0);
+
+        this.marginTop = marginTop;
+        this.marginRight = marginRight;
+        this.marginBottom = marginBottom;
+        this.marginLeft = marginLeft;
+    }
+
+    /**
+     * The actual height of the rect.
+     *
+     * @return {Number}
+     */
+
+    _createClass(Posture, [{
+        key: 'actualHeight',
+        value: function actualHeight() {
+
+            return this.height - this.getMarginTop() - this.getMarginBottom();
+        }
+
+        /**
+         * The actual width of the rect.
+         *
+         * @return {Number}
+         */
+
+    }, {
+        key: 'actualWidth',
+        value: function actualWidth() {
+
+            return this.width - this.getMarginLeft() - this.getMarginRight();
+        }
+
+        /**
+         * Returns the top margin.
+         *
+         * @return {Number}
+         */
+
+    }, {
+        key: 'getMarginTop',
+        value: function getMarginTop() {
+
+            return (0, _ifNumElse2.default)(this.marginTop, this.marginY);
+        }
+
+        /**
+         * Returns the right margin.
+         *
+         * @return {Number}
+         */
+
+    }, {
+        key: 'getMarginRight',
+        value: function getMarginRight() {
+
+            return (0, _ifNumElse2.default)(this.marginRight, this.marginX);
+        }
+
+        /**
+         * Returns the bottom margin.
+         *
+         * @return {Number}
+         */
+
+    }, {
+        key: 'getMarginBottom',
+        value: function getMarginBottom() {
+
+            return (0, _ifNumElse2.default)(this.marginBottom, this.marginY);
+        }
+
+        /**
+         * Returns the left margin.
+         *
+         * @return {Number}
+         */
+
+    }, {
+        key: 'getMarginLeft',
+        value: function getMarginLeft() {
+
+            return (0, _ifNumElse2.default)(this.marginLeft, this.marginX);
+        }
+
+        /**
+         * The top limit of the rect.
+         *
+         * @param {Number} y The primary vertical position
+         * @return {Number}
+         */
+
+    }, {
+        key: 'topLimit',
+        value: function topLimit(y) {
+
+            return y - this.height * this.ratioY + this.getMarginTop();
+        }
+
+        /**
+         * The bottom limit of the rect.
+         *
+         * @param {Number} y The primary vertical position
+         * @return {Number}
+         */
+
+    }, {
+        key: 'bottomLimit',
+        value: function bottomLimit(y) {
+
+            return this.topLimit(y) + this.actualHeight();
+        }
+
+        /**
+         * The left limit of the rect.
+         *
+         * @param {Number} x The primary horizontal position
+         * @return {Number}
+         */
+
+    }, {
+        key: 'leftLimit',
+        value: function leftLimit(x) {
+
+            return x - this.width * this.ratioX + this.getMarginLeft();
+        }
+
+        /**
+         * The right limit of the rect.
+         *
+         * @param {Number} x The primary horizontal position
+         * @return {Number}
+         */
+
+    }, {
+        key: 'rightLimit',
+        value: function rightLimit(x) {
+
+            return this.leftLimit(x) + this.actualWidth();
+        }
+
+        /**
+         * The horizontal center of the rect.
+         *
+         * @param {Number} x The primary horizontal position
+         * @return {Number}
+         */
+
+    }, {
+        key: 'centerX',
+        value: function centerX(x) {
+
+            return (this.leftLimit(x) + this.rightLimit(x)) / 2;
+        }
+
+        /**
+         * The vertical center of the rect.
+         *
+         * @param {Number} y The primary vertical position
+         * @return {Number}
+         */
+
+    }, {
+        key: 'centerY',
+        value: function centerY(y) {
+
+            return (this.topLimit(y) + this.bottomLimit(y)) / 2;
+        }
+
+        /**
+         * Returns an posture of the similar rectangle which is the inner tangent of the rectangle of the given width and height.
+         *
+         * @param {Number} width The width of the target outer rectangle
+         * @param {Number} height The height of the target outer rectangle
+         * @return {Posture}
+         */
+
+    }, {
+        key: 'similarInnerTangent',
+        value: function similarInnerTangent(width, height) {
+
+            if (width / height > this.width / this.height) {
+
+                width = height * this.width / this.height;
+            } else {
+
+                height = width * this.height / this.width;
+            }
+
+            return new Posture({
+
+                width: width,
+                height: height,
+                ratioX: this.ratioX,
+                ratioY: this.ratioY,
+                marginX: this.marginX,
+                marginY: this.marginY,
+                marginTop: this.marginTop,
+                marginRight: this.marginRight,
+                marginBottom: this.marginBottom,
+                marginLeft: this.marginLeft
+
+            });
+        }
+
+        /**
+         * Scales the rectangle to fit as an inner tangent of the rectangle of the given width and height.
+         *
+         * @param {Number} width The width of the target outer rectangle
+         * @param {Number} height The height of the target outer rectangle
+         */
+
+    }, {
+        key: 'fitInto',
+        value: function fitInto(width, height) {
+
+            var innerTangent = this.similarInnerTangent(width, height);
+
+            this.width = innerTangent.width;
+            this.height = innerTangent.height;
+        }
+    }]);
+
+    return Posture;
+})();
+
+exports.default = Posture;
+},{"./if-num-else":11}],15:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Rect = function Rect() {
+  _classCallCheck(this, Rect);
+};
+
+exports.default = Rect;
+},{}],16:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = reflow;
+/**
+ * Reflows the given element
+ *
+ * @param {jQuery|HTMLElement} elem The element
+ */
+function reflow(elem) {
+
+  var offsetHeight = $(elem).get(0).offsetHeight;
+
+  offsetHeight = offsetHeight + 1;
+
+  return elem;
+}
+},{}],17:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _gridWalker = require('./grid-walker');
+
+var _gridWalker2 = _interopRequireDefault(_gridWalker);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Sprite = (function (_GridWalker) {
+  _inherits(Sprite, _GridWalker);
+
+  function Sprite() {
+    _classCallCheck(this, Sprite);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Sprite).apply(this, arguments));
+  }
+
+  return Sprite;
+})(_gridWalker2.default);
+
+exports.default = Sprite;
+},{"./grid-walker":9}],18:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _sprite = require('./sprite');
+
+var _sprite2 = _interopRequireDefault(_sprite);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var StaticSprite = (function (_Sprite) {
+  _inherits(StaticSprite, _Sprite);
+
+  function StaticSprite() {
+    _classCallCheck(this, StaticSprite);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(StaticSprite).apply(this, arguments));
+  }
+
+  return StaticSprite;
+})(_sprite2.default);
+
+exports.default = StaticSprite;
+},{"./sprite":17}],19:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = wait;
+/**
+ * Returns a promise which resolves in the given milliseconds.
+ *
+ * @param {number} n The time in milliseconds
+ * @param {object} result The value to resolve
+ * @return {Promise}
+ */
+function wait(n, result) {
+
+  return new Promise(function (resolve) {
+    return setTimeout(function () {
+      return resolve(result);
+    }, n);
+  });
+}
+},{}],20:[function(require,module,exports){
 /**
  * swipe-cross.js 0.0.0
  * author: Yoshiya Hinosawa (@kt3k)
@@ -226,7 +1160,7 @@ window.SwipeEvent.SwipeCross = (function (window, $) {
 
 }(window, window.$));
 
-},{}],3:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 /**
  * swipe-event.js 0.0.0
  * author: Yoshiya Hinosawa (@kt3k)
@@ -451,7 +1385,7 @@ window.SwipeEvent = (function (window, $) {
 
 }(window, window.$));
 
-},{}],4:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -667,7 +1601,7 @@ function as(options) {
 }
 
 /*do nothing*/
-},{}],5:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 'use strict';
 
 require('arrowkeys');
@@ -686,7 +1620,7 @@ require('../../src/scene/level/outro-scene');
 
 require('../../src/ui/level');
 
-},{"../../src/domain/level":34,"../../src/scene/level/intro-scene":38,"../../src/scene/level/outro-scene":39,"../../src/scene/level/play-scene":41,"../../src/ui/level":46,"arrowkeys":1,"swipe-event/swipe-cross":2,"swipe-event/swipe-event":3}],6:[function(require,module,exports){
+},{"../../src/domain/level":52,"../../src/scene/level/intro-scene":56,"../../src/scene/level/outro-scene":57,"../../src/scene/level/play-scene":59,"../../src/ui/level":64,"arrowkeys":1,"swipe-event/swipe-cross":20,"swipe-event/swipe-event":21}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -707,7 +1641,7 @@ exports.default = {
 
 };
 
-},{}],7:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 
 var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
@@ -934,7 +1868,7 @@ var CharSprite = function (_Sprite) {
 
 exports.default = CharSprite;
 
-},{"./Image":13,"./Ma":14,"./Sprite":18,"./dir-state-image-map":21,"spn":60}],8:[function(require,module,exports){
+},{"./Image":31,"./Ma":32,"./Sprite":36,"./dir-state-image-map":39,"spn":13}],26:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -947,7 +1881,7 @@ var Dimension = _spn.Posture;
 
 exports.default = Dimension;
 
-},{"spn":60}],9:[function(require,module,exports){
+},{"spn":13}],27:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1127,7 +2061,7 @@ var DimensionFactory = function () {
 
 exports.default = DimensionFactory;
 
-},{"./Dimension":8,"./Grid":11,"./Rect":15}],10:[function(require,module,exports){
+},{"./Dimension":26,"./Grid":29,"./Rect":33}],28:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1144,7 +2078,7 @@ var DimensionalBeing = _body2.default;
 
 exports.default = DimensionalBeing;
 
-},{"./body":20}],11:[function(require,module,exports){
+},{"./body":38}],29:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1408,7 +2342,7 @@ var Grid = function () {
 
 exports.default = Grid;
 
-},{"./Rect":15,"spn/lib/if-num-else":58}],12:[function(require,module,exports){
+},{"./Rect":33,"spn/lib/if-num-else":11}],30:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1714,7 +2648,7 @@ var GridWalker = function (_Body) {
 
 exports.default = GridWalker;
 
-},{"./body":20}],13:[function(require,module,exports){
+},{"./body":38}],31:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1784,7 +2718,7 @@ var Image = function () {
 
 exports.default = Image;
 
-},{}],14:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1825,7 +2759,7 @@ exports.default = function () {
 
 var _spn = require('spn');
 
-},{"spn":60}],15:[function(require,module,exports){
+},{"spn":13}],33:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -2298,7 +3232,7 @@ var Rect = function () {
 
 exports.default = Rect;
 
-},{"./Grid":11,"spn/lib/if-num-else":58}],16:[function(require,module,exports){
+},{"./Grid":29,"spn/lib/if-num-else":11}],34:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -2432,7 +3366,7 @@ var SceneContext = function (_$$cc$Coelement) {
 
 exports.default = SceneContext;
 
-},{}],17:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -2440,10 +3374,13 @@ var _createClass = function () { function defineProperties(target, props) { for 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.default = undefined;
+
+var _spn = require('spn');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var defaultSpeechTimeout = 5000;
+var DEFAULT_SPEECH_TIMEOUT = 5000;
 
 /**
  * Speaker is a trait of the component which is able to "speak".
@@ -2473,34 +3410,27 @@ var Speaker = function () {
             var timeout = _ref.timeout;
 
             cancelDom = cancelDom || this.elem;
-            timeout = timeout || defaultSpeechTimeout;
+            timeout = timeout || DEFAULT_SPEECH_TIMEOUT;
 
-            var bubbleShown = this.elem.speechBubble(speech, {
+            var bubble = this.elem.multiflipBubble(speech, {
                 width: $(window).width() * 0.8,
                 height: 50,
                 color: '#328DE5',
-                cssClass: this.name + '-speech',
-                partitionY: 2,
-                partitionX: 10,
-                duration: 600
-            }).show();
-
-            this.speechEndPromise = bubbleShown.then(function (sb) {
-
-                return new Promise(function (resolve) {
-
-                    setTimeout(resolve, timeout);
-
-                    $(cancelDom).one('click touchstart', resolve);
-                }).then(function () {
-
-                    $(cancelDom).off('click touchstart');
-
-                    return sb.hide();
-                });
+                m: 14,
+                n: 2
             });
 
-            return bubbleShown;
+            bubble.elem.addClass(this.name + '-speech');
+
+            this.speechEndPromise = bubble.show().then(function () {
+                return Promise.race([(0, _spn.wait)(timeout), $(cancelDom).once('click touchstart')]);
+            }).then(function () {
+                return $(cancelDom).off('click touchstart');
+            }).then(function () {
+                return bubble.hide();
+            });
+
+            return bubble;
         }
     }]);
 
@@ -2509,7 +3439,7 @@ var Speaker = function () {
 
 exports.default = Speaker;
 
-},{}],18:[function(require,module,exports){
+},{"spn":13}],36:[function(require,module,exports){
 'use strict';
 
 var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
@@ -2700,7 +3630,7 @@ var Sprite = function (_GridWalker) {
 
 exports.default = Sprite;
 
-},{"./GridWalker":12}],19:[function(require,module,exports){
+},{"./GridWalker":30}],37:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -2763,7 +3693,7 @@ var StaticSprite = function (_Sprite) {
 
 exports.default = StaticSprite;
 
-},{"./Image":13,"./Sprite":18,"./dir-state-image-map":21}],20:[function(require,module,exports){
+},{"./Image":31,"./Sprite":36,"./dir-state-image-map":39}],38:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -3094,7 +4024,7 @@ var Body = function (_Being) {
 
 exports.default = Body;
 
-},{"spn":60}],21:[function(require,module,exports){
+},{"spn":13}],39:[function(require,module,exports){
 'use strict';
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
@@ -3207,7 +4137,7 @@ var DirStateImageMap = function () {
 
 exports.default = DirStateImageMap;
 
-},{}],22:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -3320,7 +4250,7 @@ var MeioticService = function () {
 
 exports.default = MeioticService;
 
-},{}],23:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 'use strict';
 
 var _spn = require('spn');
@@ -3455,7 +4385,7 @@ domain.level.Ball = subclass(_GridWalker2.default, function (pt, parent) {
 
 $.cc.assign('ball', domain.level.Ball);
 
-},{"../common/GridWalker":12,"spn":60}],24:[function(require,module,exports){
+},{"../common/GridWalker":30,"spn":13}],42:[function(require,module,exports){
 'use strict';
 
 var _PossibleMoveDetectionService = require('./PossibleMoveDetectionService');
@@ -3631,7 +4561,7 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
     });
 });
 
-},{"./PossibleMoveDetectionService":33,"spn":60}],25:[function(require,module,exports){
+},{"./PossibleMoveDetectionService":51,"spn":13}],43:[function(require,module,exports){
 'use strict';
 
 var _spn = require('spn');
@@ -3879,7 +4809,7 @@ domain.level.Cell = subclass(_GridWalker2.default, function (pt, parent) {
 
 $.cc.assign('cell', domain.level.Cell);
 
-},{"../common/BomTable":6,"../common/GridWalker":12,"spn":60}],26:[function(require,module,exports){
+},{"../common/BomTable":24,"../common/GridWalker":30,"spn":13}],44:[function(require,module,exports){
 'use strict';
 
 var _FieldIndexGenerator = require('../../util/FieldIndexGenerator');
@@ -4102,7 +5032,7 @@ domain.level.CellCollection = subclass($.cc.Coelement, function (pt, parent) {
 
 $.cc.assign('cell-collection', domain.level.CellCollection);
 
-},{"../../util/FieldIndexGenerator":47,"spn":60}],27:[function(require,module,exports){
+},{"../../util/FieldIndexGenerator":65,"spn":13}],45:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -4134,10 +5064,13 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var component = $.cc.component;
+
 /**
  * The main character on the level scene.
  */
-var Character = (_dec = (0, _traitsDecorator.traits)(_Speaker2.default), _dec2 = $.cc.Component('character-on-level'), _dec(_class = _dec2(_class = function (_CharSprite) {
+
+var Character = (_dec = (0, _traitsDecorator.traits)(_Speaker2.default), _dec2 = component('character-on-level'), _dec(_class = _dec2(_class = function (_CharSprite) {
   _inherits(Character, _CharSprite);
 
   function Character() {
@@ -4177,7 +5110,7 @@ var Character = (_dec = (0, _traitsDecorator.traits)(_Speaker2.default), _dec2 =
 }(_CharSprite3.default)) || _class) || _class);
 exports.default = Character;
 
-},{"../common/CharSprite":7,"../common/Speaker":17,"traits-decorator":4}],28:[function(require,module,exports){
+},{"../common/CharSprite":25,"../common/Speaker":35,"traits-decorator":22}],46:[function(require,module,exports){
 'use strict';
 
 var _spn = require('spn');
@@ -4333,49 +5266,90 @@ domain.level.ExitQueue = subclass(function (pt) {
     });
 });
 
-},{"spn":60}],29:[function(require,module,exports){
+},{"spn":13}],47:[function(require,module,exports){
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _dec, _class;
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
 
 var _spn = require('spn');
 
-var _DimensionalBeing = require('../common/DimensionalBeing');
+var _body = require('../common/body');
 
-var _DimensionalBeing2 = _interopRequireDefault(_DimensionalBeing);
+var _body2 = _interopRequireDefault(_body);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var component = $.cc.component;
 
 /**
  * Field class represents the background field graphics.
  *
  * This class doesn't handle the mechanism above the field, which is the responsibility of FieldCells and BallMoveMobLeaveService classes.
  */
-domain.level.Field = subclass(_DimensionalBeing2.default, function (pt, parent) {
-    'use strict';
 
-    pt.showAnim = function () {
-        return new _spn.Animation('field-appear', 200);
-    };
+var Field = (_dec = component('field-grid'), _dec(_class = function (_Body) {
+  _inherits(Field, _Body);
 
-    pt.hideAnim = function () {
-        return new _spn.Animation('field-disappear', 400);
-    };
+  function Field() {
+    _classCallCheck(this, Field);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Field).apply(this, arguments));
+  }
+
+  _createClass(Field, [{
+    key: 'showAnim',
+    value: function showAnim() {
+      return new _spn.Animation('field-appear', 200);
+    }
+  }, {
+    key: 'hideAnim',
+    value: function hideAnim() {
+      return new _spn.Animation('field-disappear', 400);
+    }
 
     /**
      * @param {Rect} rect The rect to fit into
      */
-    pt.setRect = function (rect) {
 
-        parent.setRect.apply(this, arguments);
+  }, {
+    key: 'setRect',
+    value: function setRect(rect) {
 
-        this.posture.marginX = -5;
-        this.posture.marginY = -5;
-    };
-});
+      _get(Object.getPrototypeOf(Field.prototype), 'setRect', this).call(this, rect);
 
-$.cc.assign('field-grid', domain.level.Field);
+      this.posture.marginX = -5;
+      this.posture.marginY = -5;
+    }
+  }]);
 
-},{"../common/DimensionalBeing":10,"spn":60}],30:[function(require,module,exports){
+  return Field;
+}(_body2.default)) || _class);
+exports.default = Field;
+
+},{"../common/body":38,"spn":13}],48:[function(require,module,exports){
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
 
 var _MeioticService = require('../genetics/MeioticService');
 
@@ -4383,33 +5357,36 @@ var _MeioticService2 = _interopRequireDefault(_MeioticService);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var meiosis = new _MeioticService2.default();
+var getGene = function getGene(cell) {
+    return cell ? cell.gene : '';
+};
+var _isLastOne = function _isLastOne(cell) {
+    return cell ? cell.isLastOne() : false;
+};
+
 /**
  * FusionPair represents the pair of cells which perform the fusion of them.
  */
-domain.level.FusionPair = subclass(function (pt) {
-    'use strict';
 
-    var meiosis = null;
+var FusionPair = function () {
 
     /**
      * @constructor
      * @param {domain.level.Cell} left The left cell
      * @param {domain.level.Cell} right The right cell
      */
-    pt.constructor = function (left, right) {
+
+    function FusionPair(left, right) {
+        _classCallCheck(this, FusionPair);
+
         this.left = left;
         this.right = right;
 
-        this.meiosis = meiosis || (meiosis = new _MeioticService2.default());
-    };
-
-    var getGene = function getGene(cell) {
-        return cell ? cell.gene : '';
-    };
-
-    var isLastOne = function isLastOne(cell) {
-        return cell ? cell.isLastOne() : false;
-    };
+        this.__newGene__ = meiosis.recombination(this.leftGene(), this.rightGene());
+    }
 
     /**
      * Creates a new gene from the pair of cells
@@ -4418,162 +5395,220 @@ domain.level.FusionPair = subclass(function (pt) {
      * @param {String} y The second gene
      * @returns {String} The new gene
      */
-    pt.newGene = function () {
-        this.__newGene__ = this.__newGene__ || this.meiosis.recombination(this.leftGene(), this.rightGene());
 
-        return this.__newGene__;
-    };
+    _createClass(FusionPair, [{
+        key: 'newGene',
+        value: function newGene() {
 
-    /**
-     * Checks if the pair is evolving.
-     *
-     * @return {Boolean}
-     */
-    pt.isEvolving = function () {
-        var prevLength = Math.max(this.meiosis.virtualLength(this.leftGene()), this.meiosis.virtualLength(this.rightGene()));
-
-        var newLength = this.meiosis.virtualLength(this.newGene());
-
-        return newLength > prevLength;
-    };
-
-    /**
-     * Returns true if the pair is the last one of the round.
-     *
-     * @return {Boolean}
-     */
-    pt.isLastOne = function () {
-        return isLastOne(this.left) || isLastOne(this.right);
-    };
-
-    /**
-     * Returns the left gene.
-     *
-     * @return {String}
-     */
-    pt.leftGene = function () {
-        return getGene(this.left);
-    };
-
-    /**
-     * Returns the right gene.
-     *
-     * @return {String}
-     */
-    pt.rightGene = function () {
-        return getGene(this.right);
-    };
-
-    /**
-     * Calculates the score of the pair.
-     *
-     * @return {Number} The score
-     */
-    pt.score = function () {
-        var length = this.meiosis.virtualLength(this.newGene());
-
-        var score = Math.pow(length, 2) * 10;
-
-        if (this.isLastOne()) {
-            score *= 2;
+            return this.__newGene__;
         }
 
-        return score;
-    };
-});
+        /**
+         * Checks if the pair is evolving.
+         *
+         * @return {Boolean}
+         */
 
-},{"../genetics/MeioticService":22}],31:[function(require,module,exports){
+    }, {
+        key: 'isEvolving',
+        value: function isEvolving() {
+
+            var prevLength = Math.max(meiosis.virtualLength(this.leftGene()), meiosis.virtualLength(this.rightGene()));
+            var newLength = meiosis.virtualLength(this.newGene());
+
+            return newLength > prevLength;
+        }
+
+        /**
+         * Returns true if the pair is the last one of the round.
+         *
+         * @return {Boolean}
+         */
+
+    }, {
+        key: 'isLastOne',
+        value: function isLastOne() {
+
+            return _isLastOne(this.left) || _isLastOne(this.right);
+        }
+
+        /**
+         * Returns the left gene.
+         *
+         * @return {String}
+         */
+
+    }, {
+        key: 'leftGene',
+        value: function leftGene() {
+
+            return getGene(this.left);
+        }
+
+        /**
+         * Returns the right gene.
+         *
+         * @return {String}
+         */
+
+    }, {
+        key: 'rightGene',
+        value: function rightGene() {
+
+            return getGene(this.right);
+        }
+
+        /**
+         * Calculates the score of the pair.
+         *
+         * @return {Number} The score
+         */
+
+    }, {
+        key: 'score',
+        value: function score() {
+
+            var length = meiosis.virtualLength(this.newGene());
+
+            var s = Math.pow(length, 2) * 10;
+
+            if (this.isLastOne()) {
+
+                s *= 2;
+            }
+
+            return s;
+        }
+    }]);
+
+    return FusionPair;
+}();
+
+exports.default = FusionPair;
+
+},{"../genetics/MeioticService":40}],49:[function(require,module,exports){
 'use strict';
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _FusionPair = require('./FusionPair');
+
+var _FusionPair2 = _interopRequireDefault(_FusionPair);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
  * FusionPreparationService takes cells in sequence and move them into the preparation position. After that it emits the list of cells for the actual fusion.
  *
  * @class
  */
-domain.level.FusionPreparationService = subclass(function (pt) {
-    'use strict';
+
+var FusionPreparationService = function () {
 
     /**
      * @constructor
      * @param {Grid} grid The grid
      */
 
-    pt.constructor = function (grid) {
+    function FusionPreparationService(grid) {
+        _classCallCheck(this, FusionPreparationService);
 
         this.stack = new PreparationStack(grid);
-    };
+    }
 
     /**
      * Processes the cell stream and returns the fusion pair stream.
      *
      * @param {Rx.Observable<domain.level.Cell>} cellStream
-     * @return {Rx.Observable<domain.lavel.FunsionPair>}
+     * @return {Rx.Observable<FunsionPair>}
      */
-    pt.processCellStream = function (cellStream) {
 
-        var self = this;
+    _createClass(FusionPreparationService, [{
+        key: 'processCellStream',
+        value: function processCellStream(cellStream) {
+            var _this = this;
 
-        return cellStream.pipe(function (cell) {
-
-            return self.take(cell);
-        }).filterNull();
-    };
-
-    /**
-     * Takes cell into the fusion preparing position.
-     *
-     * @param {domain.level.Cell} cell The cell
-     * @return {Promise} {Promise<domain.level.FusionPair>}
-     */
-    pt.take = function (cell) {
-
-        this.stack.push(cell);
-
-        if (!this.stack.isPrepared()) {
-
-            return;
+            return cellStream.pipe(function (cell) {
+                return _this.take(cell);
+            }).filterNull();
         }
 
-        return Promise.all(this.stack.popAll()).then(function (array) {
-
-            return new domain.level.FusionPair(array[0], array[1]);
-        });
-    };
-
-    /**
-     * PreparationStack is the stack class of cells which are preparing for the fusion and going to the preparing position.
-     *
-     * @class domain.level.FusionPreparationService.PreparationStack
-     * @private
-     */
-    var PreparationStack = subclass(function (pt) {
         /**
-         * @constructor
-         * @param {Grid} grid The grid
-         */
-        pt.constructor = function (grid) {
-
-            this.grid = grid;
-            this.stack = [];
-            this.isFinished = false;
-        };
-
-        /**
-         * The duration of going to fusion preparation position.
-         */
-        pt.takeDur = 700;
-
-        /**
-         * Pushes to the stack.
+         * Takes cell into the fusion preparing position.
          *
          * @param {domain.level.Cell} cell The cell
+         * @return {Promise} {Promise<FusionPair>}
          */
-        pt.push = function (cell) {
+
+    }, {
+        key: 'take',
+        value: function take(cell) {
+
+            this.stack.push(cell);
+
+            if (!this.stack.isPrepared()) {
+
+                return;
+            }
+
+            return Promise.all(this.stack.popAll()).then(function (_ref) {
+                var _ref2 = _slicedToArray(_ref, 2);
+
+                var left = _ref2[0];
+                var right = _ref2[1];
+                return new _FusionPair2.default(left, right);
+            });
+        }
+    }]);
+
+    return FusionPreparationService;
+}();
+
+/**
+ * PreparationStack is the stack class of cells which are preparing for the fusion and going to the preparing position.
+ */
+
+exports.default = FusionPreparationService;
+
+var PreparationStack = function () {
+
+    /**
+     * @constructor
+     * @param {Grid} grid The grid
+     */
+
+    function PreparationStack(grid) {
+        _classCallCheck(this, PreparationStack);
+
+        this.grid = grid;
+        this.stack = [];
+        this.isFinished = false;
+        this.takeDur = 700; // The duration of going to fusion preparation position.
+    }
+
+    /**
+     * Pushes to the stack.
+     *
+     * @param {domain.level.Cell} cell The cell
+     */
+
+    _createClass(PreparationStack, [{
+        key: 'push',
+        value: function push(cell) {
 
             this.isFinished = cell.isLastOne();
 
             this.stack.push(this.locate(cell, this.stack.length));
-        };
+        }
 
         /**
          * locate the cell at the index.
@@ -4582,7 +5617,10 @@ domain.level.FusionPreparationService = subclass(function (pt) {
          * @param {Number} index The index
          * @return {Promise<domain.level.Cell>}
          */
-        pt.locate = function (cell, index) {
+
+    }, {
+        key: 'locate',
+        value: function locate(cell, index) {
 
             cell.setGrid(this.grid);
 
@@ -4592,148 +5630,190 @@ domain.level.FusionPreparationService = subclass(function (pt) {
             cell.setTransitionDuration(this.takeDur);
 
             return cell.fitToGrid().then(function () {
-
                 return cell;
             });
-        };
-
-        pt.isPrepared = function () {
+        }
+    }, {
+        key: 'isPrepared',
+        value: function isPrepared() {
 
             return this.isFinished || this.isFull();
-        };
-
-        pt.isFull = function () {
+        }
+    }, {
+        key: 'isFull',
+        value: function isFull() {
 
             return this.stack.length >= 2;
-        };
+        }
 
         /**
          * Pops all the cells.
          *
          * @return {Array<Promise<domain.level.Cell>>}
          */
-        pt.popAll = function () {
+
+    }, {
+        key: 'popAll',
+        value: function popAll() {
 
             return this.stack.splice(0);
-        };
-    });
+        }
+    }]);
+
+    return PreparationStack;
+}();
+
+},{"./FusionPair":48}],50:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _class;
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
 
-},{}],32:[function(require,module,exports){
-'use strict';
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var component = $.cc.component;
 
 /**
  * FusionService performs the fusion of the pair of cells.
  */
-domain.level.FusionService = subclass($.cc.Coelement, function (pt) {
-    'use strict';
 
-    /**
-     * @param {Grid} grid The grid
-     */
+var FusionService = (_dec = component('fusion-service'), _dec(_class = function (_$$cc$Coelement) {
+    _inherits(FusionService, _$$cc$Coelement);
 
-    pt.setGrid = function (grid) {
+    function FusionService() {
+        _classCallCheck(this, FusionService);
 
-        this.grid = grid;
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(FusionService).apply(this, arguments));
+    }
 
-        return this;
-    };
+    _createClass(FusionService, [{
+        key: 'setGrid',
 
-    /**
-     * Processes the funsion pair stream and returns the stream of new born cells
-     *
-     * @param {Rx.Observable<domain.level.FusionPair>}
-     * @return {Rx.Observable<domain.level.Cell>}
-     */
-    pt.processFusionPairStream = function (fusionPairStream) {
+        /**
+         * @param {Grid} grid The grid
+         */
+        value: function setGrid(grid) {
 
-        var self = this;
+            this.grid = grid;
 
-        return fusionPairStream.pipe(function (fusionPair) {
+            return this;
+        }
 
-            return self.performFusion(fusionPair);
-        });
-    };
+        /**
+         * Processes the funsion pair stream and returns the stream of new born cells
+         *
+         * @param {Rx.Observable<FusionPair>}
+         * @return {Rx.Observable<domain.level.Cell>}
+         */
 
-    /**
-     * Performs fusion.
-     *
-     * @param {domain.level.FusionPair} pair The pair
-     * @return {Promise} {Promise<domain.level.Cell>} The new cell
-     */
-    pt.performFusion = function (pair) {
+    }, {
+        key: 'processFusionPairStream',
+        value: function processFusionPairStream(fusionPairStream) {
+            var _this2 = this;
 
-        var that = this;
-
-        return this.getToReactor(pair).then(function () {
-
-            return that.fusion(pair);
-        });
-    };
-
-    /**
-     * Makes the pair go to the reactor.
-     *
-     * @private
-     * @param {domain.level.FusionPair} pair The pair going to fusion reactor
-     * @return {Promise} The end of the animation of going to the reactor
-     */
-    pt.getToReactor = function (pair) {
-
-        var dur = 1000;
-
-        if (pair.right) {
-
-            pair.right.anim('get-to-reactor-right', dur).then(function () {
-
-                return pair.right.remove();
+            return fusionPairStream.pipe(function (fusionPair) {
+                return _this2.performFusion(fusionPair);
             });
         }
 
-        return pair.left.anim('get-to-reactor-left', dur).then(function () {
+        /**
+         * Performs fusion.
+         *
+         * @param {FusionPair} pair The pair
+         * @return {Promise} {Promise<domain.level.Cell>} The new cell
+         */
 
-            pair.left.remove();
-        });
-    };
+    }, {
+        key: 'performFusion',
+        value: function performFusion(pair) {
+            var _this3 = this;
 
-    /**
-     * Perform cell fusion.
-     *
-     * @private
-     * @param {domain.level.FusionPair} pair The pair
-     * @return {Promise} The new cell {Promise<domain.level.Cell>}
-     */
-    pt.fusion = function (pair) {
-
-        var dur = 600;
-
-        var cell = $('<object />', {
-            data: { gene: pair.newGene() },
-            prependTo: this.elem
-        }).cc.init('cell');
-
-        cell.setGrid(this.grid, 0, 0);
-
-        if (pair.isLastOne()) {
-
-            cell.setLastOne();
+            return this.getToReactor(pair).then(function () {
+                return _this3.fusion(pair);
+            });
         }
 
-        if (pair.isEvolving()) {
+        /**
+         * Makes the pair go to the reactor.
+         *
+         * @private
+         * @param {FusionPair} pair The pair going to fusion reactor
+         * @return {Promise} The end of the animation of going to the reactor
+         */
 
-            cell.setEvolved();
+    }, {
+        key: 'getToReactor',
+        value: function getToReactor(pair) {
+
+            var dur = 1000;
+
+            // pair.right could be null
+            if (pair.right) {
+
+                pair.right.anim('get-to-reactor-right', dur).then(function () {
+                    return pair.right.remove();
+                });
+            }
+
+            // pair.left always exists
+            return pair.left.anim('get-to-reactor-left', dur).then(function () {
+                return pair.left.remove();
+            });
         }
 
-        return cell.show(dur).then(function () {
+        /**
+         * Perform cell fusion.
+         *
+         * @private
+         * @param {FusionPair} pair The pair
+         * @return {Promise} The new cell {Promise<domain.level.Cell>}
+         */
 
-            return cell;
-        });
-    };
-});
+    }, {
+        key: 'fusion',
+        value: function fusion(pair) {
 
-$.cc.assign('fusion-service', domain.level.FusionService);
+            var dur = 600;
 
-},{}],33:[function(require,module,exports){
+            var cell = $('<object />', {
+
+                data: { gene: pair.newGene() },
+                prependTo: this.elem
+
+            }).cc.init('cell');
+
+            cell.setGrid(this.grid, 0, 0);
+
+            if (pair.isLastOne()) {
+
+                cell.setLastOne();
+            }
+
+            if (pair.isEvolving()) {
+
+                cell.setEvolved();
+            }
+
+            return cell.show(dur).then(function () {
+                return cell;
+            });
+        }
+    }]);
+
+    return FusionService;
+}($.cc.Coelement)) || _class);
+exports.default = FusionService;
+
+},{}],51:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -4809,7 +5889,7 @@ var PossibleMoveDetectionService = function () {
 
 exports.default = PossibleMoveDetectionService;
 
-},{}],34:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 'use strict';
 
 require('./Ball');
@@ -4834,7 +5914,7 @@ require('./FusionService');
 
 require('./paper');
 
-},{"./Ball":23,"./BallMoveMobLeaveService":24,"./Cell":25,"./CellCollection":26,"./Character":27,"./ExitQueue":28,"./Field":29,"./FusionPair":30,"./FusionPreparationService":31,"./FusionService":32,"./paper":35}],35:[function(require,module,exports){
+},{"./Ball":41,"./BallMoveMobLeaveService":42,"./Cell":43,"./CellCollection":44,"./Character":45,"./ExitQueue":46,"./Field":47,"./FusionPair":48,"./FusionPreparationService":49,"./FusionService":50,"./paper":53}],53:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -4860,10 +5940,13 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var component = $.cc.component;
+
 /**
  * PieceOfPaper represents a piece of paper which is on the floor of each room (obsolete).
  */
-var Paper = (_dec = $.cc.Component('paper'), _dec(_class = function (_StaticSprite) {
+
+var Paper = (_dec = component('paper'), _dec(_class = function (_StaticSprite) {
     _inherits(Paper, _StaticSprite);
 
     function Paper() {
@@ -4903,7 +5986,7 @@ var Paper = (_dec = $.cc.Component('paper'), _dec(_class = function (_StaticSpri
 }(_StaticSprite3.default)) || _class);
 exports.default = Paper;
 
-},{"../common/StaticSprite":19,"spn":60}],36:[function(require,module,exports){
+},{"../common/StaticSprite":37,"spn":13}],54:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -5022,7 +6105,7 @@ var Context = function (_SceneContext) {
 
 exports.default = Context;
 
-},{"../../domain/common/SceneContext":16}],37:[function(require,module,exports){
+},{"../../domain/common/SceneContext":34}],55:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -5094,7 +6177,7 @@ var IntroSceneLayout = function (_DimensionFactory) {
 
 exports.default = IntroSceneLayout;
 
-},{"../../domain/common/DimensionFactory":9}],38:[function(require,module,exports){
+},{"../../domain/common/DimensionFactory":27}],56:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -5161,13 +6244,15 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
     return desc;
 }
 
-var Component = $.cc.Component;
-var event = $.cc.event;
+var _$$cc = $.cc;
+var component = _$$cc.component;
+var event = _$$cc.event;
 
 /**
  * IntroScene class handles the introduction scene of the level page.
  */
-var IntroScene = (_dec = Component('intro-scene'), _dec2 = event('scene-start'), _dec(_class = (_class2 = function (_Context) {
+
+var IntroScene = (_dec = component('intro-scene'), _dec2 = event('scene-start'), _dec(_class = (_class2 = function (_Context) {
     _inherits(IntroScene, _Context);
 
     function IntroScene() {
@@ -5321,7 +6406,7 @@ var IntroScene = (_dec = Component('intro-scene'), _dec2 = event('scene-start'),
 }(_context2.default), (_applyDecoratedDescriptor(_class2.prototype, 'main', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'main'), _class2.prototype)), _class2)) || _class);
 exports.default = IntroScene;
 
-},{"../../ui/common/BackgroundService":42,"./context":36,"./intro-scene-layout":37,"./play-scene-layout":40}],39:[function(require,module,exports){
+},{"../../ui/common/BackgroundService":60,"./context":54,"./intro-scene-layout":55,"./play-scene-layout":58}],57:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -5384,12 +6469,15 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
     return desc;
 }
 
-var event = $.cc.event;
+var _$$cc = $.cc;
+var component = _$$cc.component;
+var event = _$$cc.event;
 
 /**
  * OutroScene handles the scene after finishing main play.
  */
-var OutroScene = (_dec = $.cc.Component('outro-scene'), _dec2 = event('play-scene-success play-scene-failure'), _dec(_class = (_class2 = function (_Context) {
+
+var OutroScene = (_dec = component('outro-scene'), _dec2 = event('play-scene-success play-scene-failure'), _dec(_class = (_class2 = function (_Context) {
     _inherits(OutroScene, _Context);
 
     function OutroScene() {
@@ -5461,7 +6549,7 @@ var OutroScene = (_dec = $.cc.Component('outro-scene'), _dec2 = event('play-scen
 }(_context2.default), (_applyDecoratedDescriptor(_class2.prototype, 'main', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'main'), _class2.prototype)), _class2)) || _class);
 exports.default = OutroScene;
 
-},{"../../ui/common/BackgroundService":42,"./context":36,"./play-scene-layout":40}],40:[function(require,module,exports){
+},{"../../ui/common/BackgroundService":60,"./context":54,"./play-scene-layout":58}],58:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -5605,7 +6693,7 @@ var PlaySceneLayout = function (_DimensionFactory) {
 
 exports.default = PlaySceneLayout;
 
-},{"../../domain/common/DimensionFactory":9}],41:[function(require,module,exports){
+},{"../../domain/common/DimensionFactory":27}],59:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -5628,6 +6716,10 @@ var _playSceneLayout = require('./play-scene-layout');
 var _playSceneLayout2 = _interopRequireDefault(_playSceneLayout);
 
 var _spn = require('spn');
+
+var _FusionPreparationService = require('../../domain/level/FusionPreparationService');
+
+var _FusionPreparationService2 = _interopRequireDefault(_FusionPreparationService);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5666,12 +6758,14 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
     return desc;
 }
 
-var event = $.cc.event;
-
+var _$$cc = $.cc;
+var component = _$$cc.component;
+var event = _$$cc.event;
 /**
  * PlayScene controlls the main playing scene of the level page.
  */
-var PlayScene = (_dec = $.cc.Component('play-scene'), _dec2 = event('main.play-scene'), _dec3 = event('finish.play-scene'), _dec(_class = (_class2 = function (_Context) {
+
+var PlayScene = (_dec = component('play-scene'), _dec2 = event('main.play-scene'), _dec3 = event('finish.play-scene'), _dec(_class = (_class2 = function (_Context) {
     _inherits(PlayScene, _Context);
 
     function PlayScene() {
@@ -5698,18 +6792,18 @@ var PlayScene = (_dec = $.cc.Component('play-scene'), _dec2 = event('main.play-s
             var layout = new _playSceneLayout2.default();
 
             this.character = this.getCharacter().character;
-            this.level = this.elem.cc.get('intro-scene').level;
+            this.level = this.getAtElem('intro-scene').level;
 
             // models
-            this.cells = this.elem.cc.get('cell-collection');
+            this.cells = this.getAtElem('cell-collection');
             this.cells.setGrid(layout.playGrid());
             this.cells.loadFromObjectList(this.level.cells.cells);
 
             this.getField().setRect(layout.fieldRect());
 
             // services
-            this.fps = new domain.level.FusionPreparationService(layout.evalRoomGrid());
-            this.fusionService = this.elem.cc.get('fusion-service').setGrid(layout.fusionBoxGrid());
+            this.fps = new _FusionPreparationService2.default(layout.evalRoomGrid());
+            this.fusionService = this.getAtElem('fusion-service').setGrid(layout.fusionBoxGrid());
             this.exitQueue = new domain.level.ExitQueue(layout.queueGrid());
 
             // ball move service
@@ -5897,7 +6991,7 @@ var PlayScene = (_dec = $.cc.Component('play-scene'), _dec2 = event('main.play-s
 }(_context2.default), (_applyDecoratedDescriptor(_class2.prototype, 'main', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'main'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'finish', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'finish'), _class2.prototype)), _class2)) || _class);
 exports.default = PlayScene;
 
-},{"./context":36,"./play-scene-layout":40,"spn":60}],42:[function(require,module,exports){
+},{"../../domain/level/FusionPreparationService":49,"./context":54,"./play-scene-layout":58,"spn":13}],60:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -5977,7 +7071,7 @@ var BackgroundService = function () {
 
 exports.default = BackgroundService;
 
-},{"spn":60}],43:[function(require,module,exports){
+},{"spn":13}],61:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -6005,12 +7099,15 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var component = $.cc.component;
+
 /**
  * ResultPane class handles the behaviour of the pane which appears when the game finished with a score.
  *
  * @class
  */
-var ResultPane = (_dec = $.cc.Component('result-pane'), _dec(_class = function (_Body) {
+
+var ResultPane = (_dec = component('result-pane'), _dec(_class = function (_Body) {
     _inherits(ResultPane, _Body);
 
     function ResultPane() {
@@ -6095,12 +7192,10 @@ var ResultPane = (_dec = $.cc.Component('result-pane'), _dec(_class = function (
         value: function showInfoPane(timeout) {
             var _this3 = this;
 
-            var info = this.elem.infoPane(9, 7);
-
-            return info.show().then(function () {
+            return this.elem.attr({ m: 9, n: 7 }).cc.init('multiflip').show().then(function () {
                 return Promise.race([(0, _spn.wait)(timeout), _this3.elem.once('click touchstart')]);
             }).then(function () {
-                return info.hide();
+                return _this3.elem.cc.get('multiflip').hide();
             });
         }
     }]);
@@ -6109,152 +7204,226 @@ var ResultPane = (_dec = $.cc.Component('result-pane'), _dec(_class = function (
 }(_body2.default)) || _class);
 exports.default = ResultPane;
 
-},{"../../domain/common/body":20,"spn":60}],44:[function(require,module,exports){
+},{"../../domain/common/body":38,"spn":13}],62:[function(require,module,exports){
 'use strict';
+
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _class;
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
 
 var _spn = require('spn');
 
-var _DimensionalBeing = require('../../domain/common/DimensionalBeing');
+var _DimensionalBeing2 = require('../../domain/common/DimensionalBeing');
 
-var _DimensionalBeing2 = _interopRequireDefault(_DimensionalBeing);
+var _DimensionalBeing3 = _interopRequireDefault(_DimensionalBeing2);
 
 var _util = require('../../util/util');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var component = $.cc.component;
+
 /**
  * Scoreboard handles the behaviour of the score board of the level view.
  */
-ui.level.Scoreboard = subclass(_DimensionalBeing2.default, function (pt, parent) {
-    'use strict';
 
-    pt.ratioX = function () {
-        return 0;
-    };
-    pt.ratioY = function () {
-        return 0;
-    };
+var Scoreboard = (_dec = component('scoreboard'), _dec(_class = function (_DimensionalBeing) {
+    _inherits(Scoreboard, _DimensionalBeing);
 
-    pt.marginX = function () {
-        return 6;
-    };
-    pt.marginY = function () {
-        return 6;
-    };
+    _createClass(Scoreboard, [{
+        key: 'ratioX',
+        value: function ratioX() {
+            return 0;
+        }
+    }, {
+        key: 'ratioY',
+        value: function ratioY() {
+            return 0;
+        }
+    }, {
+        key: 'marginX',
+        value: function marginX() {
+            return 6;
+        }
+    }, {
+        key: 'marginY',
+        value: function marginY() {
+            return 6;
+        }
 
-    /**
-     * @constructor
-     */
-    pt.constructor = function () {
+        /**
+         * @constructor
+         */
 
-        parent.constructor.apply(this, arguments);
+    }]);
 
-        this.score = 0;
-    };
+    function Scoreboard(elem) {
+        _classCallCheck(this, Scoreboard);
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Scoreboard).call(this, elem));
+
+        _this.score = 0;
+
+        return _this;
+    }
 
     /**
      * Hooks the score retrieving process to the fusion pair stream.
      *
-     * @param {Rx.Observable<domain.level.FusionPair>} fusionPairStream
-     * @return {Rx.Observable<domain.level.FusionPair>}
+     * @param {Rx.Observable<FusionPair>} fusionPairStream
+     * @return {Rx.Observable<FusionPair>}
      */
-    pt.hookToFusionPairStream = function (fusionPairStream) {
 
-        var self = this;
+    _createClass(Scoreboard, [{
+        key: 'hookToFusionPairStream',
+        value: function hookToFusionPairStream(fusionPairStream) {
+            var _this2 = this;
 
-        return fusionPairStream.map(function (fusionPair) {
+            return fusionPairStream.map(function (fusionPair) {
 
-            self.addScore(fusionPair.score());
+                _this2.addScore(fusionPair.score());
 
-            return fusionPair;
-        });
-    };
+                return fusionPair;
+            });
+        }
+    }, {
+        key: 'showAnim',
+        value: function showAnim() {
+            return new _spn.Animation('bom-appear', 400);
+        }
+    }, {
+        key: 'hideAnim',
+        value: function hideAnim() {
+            return new _spn.Animation('bom-disappear', 400);
+        }
 
-    pt.showAnim = function () {
-        return new _spn.Animation('bom-appear', 400);
-    };
-    pt.hideAnim = function () {
-        return new _spn.Animation('bom-disappear', 400);
-    };
+        /**
+         * Set up the initial dom state.
+         */
 
-    /**
-     * Set up the initial dom state.
-     */
-    pt.willShow = function () {
+    }, {
+        key: 'willShow',
+        value: function willShow() {
 
-        parent.willShow.call(this);
+            _get(Object.getPrototypeOf(Scoreboard.prototype), 'willShow', this).call(this);
 
-        this.elem.css('line-height', this.posture.actualHeight() + 'px');
+            this.elem.css('line-height', this.posture.actualHeight() + 'px');
 
-        this.update();
-    };
+            this.update();
+        }
 
-    /**
-     * Updates the scoreboard's number.
-     */
-    pt.update = function () {
+        /**
+         * Updates the scoreboard's number.
+         */
 
-        this.elem.text((0, _util.commaNumber)(this.score));
-    };
+    }, {
+        key: 'update',
+        value: function update() {
 
-    /**
-     * Add the score to the total score.
-     *
-     * @param {Number} score The score to add
-     */
-    pt.addScore = function (score) {
+            this.elem.text((0, _util.commaNumber)(this.score));
+        }
 
-        this.score += score;
+        /**
+         * Add the score to the total score.
+         *
+         * @param {Number} score The score to add
+         */
 
-        this.update();
-    };
+    }, {
+        key: 'addScore',
+        value: function addScore(score) {
 
-    /**
-     * Gets the current score.
-     *
-     * @return {Number}
-     */
-    pt.getScore = function () {
+            this.score += score;
 
-        return this.score;
-    };
+            this.update();
+        }
+
+        /**
+         * Gets the current score.
+         *
+         * @return {Number}
+         */
+
+    }, {
+        key: 'getScore',
+        value: function getScore() {
+
+            return this.score;
+        }
+    }]);
+
+    return Scoreboard;
+}(_DimensionalBeing3.default)) || _class);
+exports.default = Scoreboard;
+
+},{"../../domain/common/DimensionalBeing":28,"../../util/util":66,"spn":13}],63:[function(require,module,exports){
+'use strict';
+
+var _dec, _class;
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
 
-$.cc.assign('scoreboard', ui.level.Scoreboard);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-},{"../../domain/common/DimensionalBeing":10,"../../util/util":48,"spn":60}],45:[function(require,module,exports){
-'use strict';
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _$$cc = $.cc;
+var component = _$$cc.component;
+var Coelement = _$$cc.Coelement;
 
 /**
  * SwipeEvent class provides the stream of the swipe events.
  */
-ui.level.SwipeField = subclass($.cc.Coelement, function (pt, parent) {
-    'use strict';
 
-    pt.constructor = function (elem) {
-        parent.constructor.apply(this, arguments);
+var SwipeField = (_dec = component('swipe-field'), _dec(_class = function (_Coelement) {
+    _inherits(SwipeField, _Coelement);
 
-        this.elem.swipeCross();
+    function SwipeField(elem) {
+        _classCallCheck(this, SwipeField);
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SwipeField).call(this, elem));
+
+        _this.elem.swipeCross();
         $(document).arrowkeys();
 
         $(document).on('upkey', function () {
-            elem.trigger('swipeup');
+            return elem.trigger('swipeup');
         });
         $(document).on('downkey', function () {
-            elem.trigger('swipedown');
+            return elem.trigger('swipedown');
         });
         $(document).on('leftkey', function () {
-            elem.trigger('swipeleft');
+            return elem.trigger('swipeleft');
         });
         $(document).on('rightkey', function () {
-            elem.trigger('swiperight');
+            return elem.trigger('swiperight');
         });
-    };
-});
 
-$.cc.assign('swipe-field', ui.level.SwipeField);
+        return _this;
+    }
 
-},{}],46:[function(require,module,exports){
+    return SwipeField;
+}(Coelement)) || _class);
+exports.default = SwipeField;
+
+},{}],64:[function(require,module,exports){
 'use strict';
 
 require('./ResultPane');
@@ -6263,7 +7432,7 @@ require('./Scoreboard');
 
 require('./SwipeField');
 
-},{"./ResultPane":43,"./Scoreboard":44,"./SwipeField":45}],47:[function(require,module,exports){
+},{"./ResultPane":61,"./Scoreboard":62,"./SwipeField":63}],65:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -6400,7 +7569,7 @@ var IndexPointer = function () {
     return IndexPointer;
 }();
 
-},{}],48:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6447,938 +7616,4 @@ exports.loadImage = loadImage;
 exports.commaNumber = commaNumber;
 exports.chainPromise = chainPromise;
 
-},{}],49:[function(require,module,exports){
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _wait = require('./wait');
-
-var _wait2 = _interopRequireDefault(_wait);
-
-var _reflow = require('./reflow');
-
-var _reflow2 = _interopRequireDefault(_reflow);
-
-var _ifNumElse = require('./if-num-else');
-
-var _ifNumElse2 = _interopRequireDefault(_ifNumElse);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var ANIMATION_PROP_NAME = '-webkit-animation';
-
-/**
- * Animation class represents the css animation.
- */
-
-var Animation = (function () {
-
-  /**
-   * @param {String} name The name of the css animation (keyframes)
-   * @param {Number} duration The duration of the animation
-   */
-
-  function Animation(name, duration) {
-    _classCallCheck(this, Animation);
-
-    this.name = name;
-    this.duration = duration;
-  }
-
-  /**
-   * @param {jQuery} elem The dom element
-   * @param {number} dur The duration
-   * @return {Promise}
-   */
-
-  _createClass(Animation, [{
-    key: 'apply',
-    value: function apply(elem, dur) {
-
-      elem.css(ANIMATION_PROP_NAME, '');
-
-      (0, _reflow2.default)(elem);
-
-      elem.css(ANIMATION_PROP_NAME, this.name + ' ' + (0, _ifNumElse2.default)(dur, this.duration) + 'ms');
-
-      return (0, _wait2.default)(this.duration);
-    }
-  }]);
-
-  return Animation;
-})();
-
-exports.default = Animation;
-},{"./if-num-else":58,"./reflow":63,"./wait":66}],50:[function(require,module,exports){
-"use strict";
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-/**
- * Being represents a dom with visual representation which has the phases, such as show, hide and disappear.
- */
-
-var Being = (function (_$$cc$Actor) {
-  _inherits(Being, _$$cc$Actor);
-
-  function Being() {
-    _classCallCheck(this, Being);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Being).apply(this, arguments));
-  }
-
-  _createClass(Being, [{
-    key: "showAnim",
-
-    /**
-     * Returns the animation of showing
-     *
-     * @abstract
-     * @return {Animation}
-     */
-    value: function showAnim() {}
-
-    /**
-     * Returns the animation of hiding
-     *
-     * @abstract
-     * @return {Animation}
-     */
-
-  }, {
-    key: "hideAnim",
-    value: function hideAnim() {}
-
-    /**
-     * @abstract
-     * @return {Promise}
-     */
-
-  }, {
-    key: "willShow",
-    value: function willShow() {}
-
-    /**
-     * @abstract
-     * @return {Promise}
-     */
-
-  }, {
-    key: "didShow",
-    value: function didShow() {}
-
-    /**
-     * Shows the element using the animation returned by showAnim.
-     * 表示時アニメーション (showAnim) に従ってアニメーションさせる。
-     *
-     * This invokes `willShow` before and `didShow` after.
-     * 事前に willShow hook, 事後に didShow hook を呼び出す。
-     *
-     * @param {Number} dur The duration of the animation
-     * @return {Promise}
-     */
-
-  }, {
-    key: "show",
-    value: function show(dur) {
-      var _this2 = this;
-
-      return Promise.resolve(this.willShow()).then(function () {
-
-        var anim = _this2.showAnim();
-
-        return anim != null && anim.apply(_this2.elem, dur);
-      }).then(function () {
-        return _this2.didShow();
-      });
-    }
-
-    /**
-     * @abstract
-     * @return {Promise}
-     */
-
-  }, {
-    key: "willHide",
-    value: function willHide() {}
-
-    /**
-     * @abstract
-     * @return {Promise}
-     */
-
-  }, {
-    key: "didHide",
-    value: function didHide() {}
-
-    /**
-     * Hides the element using the animation returned by hideAnim.
-     * 非表示時アニメーション (hideAnim) に従ってアニメーションさせる。
-     *
-     * This invokes `willHide` before and `didHide` after.
-     * 事前に willHide hook, 事後に didHide hook を呼び出す。
-     *
-     * @param {Number} dur The duration of the animation
-     * @return {Promise}
-     */
-
-  }, {
-    key: "hide",
-    value: function hide(dur) {
-      var _this3 = this;
-
-      return Promise.resolve(this.willHide()).then(function () {
-
-        var anim = _this3.hideAnim();
-
-        return anim != null && anim.apply(_this3.elem, dur);
-      }).then(function () {
-        return _this3.didHide();
-      });
-    }
-
-    /**
-     * Hides the component and then removes it.
-     *
-     * @param {Number} dur The duration of the animation
-     * @return {Promise}
-     */
-
-  }, {
-    key: "disappear",
-    value: function disappear(dur) {
-      var _this4 = this;
-
-      return this.hide(dur).then(function () {
-        return _this4.elem.remove();
-      });
-    }
-  }]);
-
-  return Being;
-})($.cc.Actor);
-
-exports.default = Being;
-},{}],51:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _being = require('./being');
-
-var _being2 = _interopRequireDefault(_being);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var DimensionalBeing = (function (_Being) {
-  _inherits(DimensionalBeing, _Being);
-
-  function DimensionalBeing() {
-    _classCallCheck(this, DimensionalBeing);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(DimensionalBeing).apply(this, arguments));
-  }
-
-  return DimensionalBeing;
-})(_being2.default);
-
-exports.default = DimensionalBeing;
-},{"./being":50}],52:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _sprite = require('./sprite');
-
-var _sprite2 = _interopRequireDefault(_sprite);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CharSprite = (function (_Sprite) {
-  _inherits(CharSprite, _Sprite);
-
-  function CharSprite() {
-    _classCallCheck(this, CharSprite);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(CharSprite).apply(this, arguments));
-  }
-
-  return CharSprite;
-})(_sprite2.default);
-
-exports.default = CharSprite;
-},{"./sprite":64}],53:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _rect = require('./rect');
-
-var _rect2 = _interopRequireDefault(_rect);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var DimensionFactory = (function (_Rect) {
-  _inherits(DimensionFactory, _Rect);
-
-  function DimensionFactory() {
-    _classCallCheck(this, DimensionFactory);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(DimensionFactory).apply(this, arguments));
-  }
-
-  return DimensionFactory;
-})(_rect2.default);
-
-exports.default = DimensionFactory;
-},{"./rect":62}],54:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var DirStateImageMap = function DirStateImageMap() {
-  _classCallCheck(this, DirStateImageMap);
-};
-
-exports.default = DirStateImageMap;
-},{}],55:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var UP = exports.UP = 0;
-var TOP = exports.TOP = 0;
-var LEFT = exports.LEFT = 1;
-var RIGHT = exports.RIGHT = 2;
-var BOTTOM = exports.BOTTOM = 3;
-var DOWN = exports.DOWN = 3;
-},{}],56:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _body = require('./body');
-
-var _body2 = _interopRequireDefault(_body);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var GridWalker = (function (_Body) {
-  _inherits(GridWalker, _Body);
-
-  function GridWalker() {
-    _classCallCheck(this, GridWalker);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(GridWalker).apply(this, arguments));
-  }
-
-  return GridWalker;
-})(_body2.default);
-
-exports.default = GridWalker;
-},{"./body":51}],57:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Grid = function Grid() {
-  _classCallCheck(this, Grid);
-};
-
-exports.default = Grid;
-},{}],58:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-/**
- * Shorthand for `typeof num === 'number' ? num : defaultValue`.
- *
- * @param {object} num The number or anthing
- * @param {number} defaultValue The default value
- * @return {number}
- */
-
-exports.default = function (num, defaultValue) {
-  return typeof num === 'number' ? num : defaultValue;
-};
-},{}],59:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Image = function Image() {
-  _classCallCheck(this, Image);
-};
-
-exports.default = Image;
-},{}],60:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.DIRS = exports.StaticSprite = exports.CharSprite = exports.Sprite = exports.DirStateImageMap = exports.Image = exports.Animation = exports.GridWalker = exports.Grid = exports.Rect = exports.LayoutFactory = exports.Posture = exports.Body = exports.Being = exports.ifNumElse = exports.reflow = exports.wait = undefined;
-
-var _wait = require('./wait');
-
-var _wait2 = _interopRequireDefault(_wait);
-
-var _reflow = require('./reflow');
-
-var _reflow2 = _interopRequireDefault(_reflow);
-
-var _ifNumElse = require('./if-num-else');
-
-var _ifNumElse2 = _interopRequireDefault(_ifNumElse);
-
-var _being = require('./being');
-
-var _being2 = _interopRequireDefault(_being);
-
-var _body = require('./body');
-
-var _body2 = _interopRequireDefault(_body);
-
-var _posture = require('./posture');
-
-var _posture2 = _interopRequireDefault(_posture);
-
-var _dimensionFactory = require('./dimension-factory');
-
-var _dimensionFactory2 = _interopRequireDefault(_dimensionFactory);
-
-var _rect = require('./rect');
-
-var _rect2 = _interopRequireDefault(_rect);
-
-var _grid = require('./grid');
-
-var _grid2 = _interopRequireDefault(_grid);
-
-var _gridWalker = require('./grid-walker');
-
-var _gridWalker2 = _interopRequireDefault(_gridWalker);
-
-var _animation = require('./animation');
-
-var _animation2 = _interopRequireDefault(_animation);
-
-var _image = require('./image');
-
-var _image2 = _interopRequireDefault(_image);
-
-var _dirStateImageMap = require('./dir-state-image-map');
-
-var _dirStateImageMap2 = _interopRequireDefault(_dirStateImageMap);
-
-var _sprite = require('./sprite');
-
-var _sprite2 = _interopRequireDefault(_sprite);
-
-var _charSprite = require('./char-sprite');
-
-var _charSprite2 = _interopRequireDefault(_charSprite);
-
-var _staticSprite = require('./static-sprite');
-
-var _staticSprite2 = _interopRequireDefault(_staticSprite);
-
-var _dirs = require('./dirs');
-
-var DIRS = _interopRequireWildcard(_dirs);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.wait = _wait2.default;
-exports.reflow = _reflow2.default;
-exports.ifNumElse = _ifNumElse2.default;
-exports.Being = _being2.default;
-exports.Body = _body2.default;
-exports.Posture = _posture2.default;
-exports.LayoutFactory = _dimensionFactory2.default;
-exports.Rect = _rect2.default;
-exports.Grid = _grid2.default;
-exports.GridWalker = _gridWalker2.default;
-exports.Animation = _animation2.default;
-exports.Image = _image2.default;
-exports.DirStateImageMap = _dirStateImageMap2.default;
-exports.Sprite = _sprite2.default;
-exports.CharSprite = _charSprite2.default;
-exports.StaticSprite = _staticSprite2.default;
-exports.DIRS = DIRS;
-},{"./animation":49,"./being":50,"./body":51,"./char-sprite":52,"./dimension-factory":53,"./dir-state-image-map":54,"./dirs":55,"./grid":57,"./grid-walker":56,"./if-num-else":58,"./image":59,"./posture":61,"./rect":62,"./reflow":63,"./sprite":64,"./static-sprite":65,"./wait":66}],61:[function(require,module,exports){
-'use strict';
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _ifNumElse = require('./if-num-else');
-
-var _ifNumElse2 = _interopRequireDefault(_ifNumElse);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/**
- * Posture is the model of the information about how the Body is placed and arranged to its position.
- *
- * @class
- */
-
-var Posture = (function () {
-
-    /**
-     * @param {Number} [width=100] The width
-     * @param {Number} [height=100] The height
-     * @param {Number} [ratioX=0] The ratio of horizontal position of the rectangle. ratioX == 0 means the left limit of the rectangle is x. ratioX == 1 means the right limit of the rectangle is x.
-     * @param {Number} [ratioY=0] The ratio of vertical position of the rectangle. ratioY == 0 means the top limit of the rectangle is x. ratioY == 1 means the bottom limit of the rectangle is x.
-     * @param {Number} [marginX=0] The horizontal margin
-     * @param {Number} [marginY=0] The vertical margin
-     * @param {Number} [marginLeft] The left margin
-     * @param {Number} [marginTop] The top margin
-     * @param {Number} [marginRight] The right margin
-     * @param {Number} [marginBottom] The bottom margin
-     */
-
-    function Posture() {
-        var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-        var width = _ref.width;
-        var height = _ref.height;
-        var ratioX = _ref.ratioX;
-        var ratioY = _ref.ratioY;
-        var marginX = _ref.marginX;
-        var marginY = _ref.marginY;
-        var marginLeft = _ref.marginLeft;
-        var marginTop = _ref.marginTop;
-        var marginRight = _ref.marginRight;
-        var marginBottom = _ref.marginBottom;
-
-        _classCallCheck(this, Posture);
-
-        this.width = (0, _ifNumElse2.default)(width, 100);
-        this.height = (0, _ifNumElse2.default)(height, 100);
-
-        this.ratioX = (0, _ifNumElse2.default)(ratioX, 0);
-        this.ratioY = (0, _ifNumElse2.default)(ratioY, 0);
-
-        this.marginX = (0, _ifNumElse2.default)(marginX, 0);
-        this.marginY = (0, _ifNumElse2.default)(marginY, 0);
-
-        this.marginTop = marginTop;
-        this.marginRight = marginRight;
-        this.marginBottom = marginBottom;
-        this.marginLeft = marginLeft;
-    }
-
-    /**
-     * The actual height of the rect.
-     *
-     * @return {Number}
-     */
-
-    _createClass(Posture, [{
-        key: 'actualHeight',
-        value: function actualHeight() {
-
-            return this.height - this.getMarginTop() - this.getMarginBottom();
-        }
-
-        /**
-         * The actual width of the rect.
-         *
-         * @return {Number}
-         */
-
-    }, {
-        key: 'actualWidth',
-        value: function actualWidth() {
-
-            return this.width - this.getMarginLeft() - this.getMarginRight();
-        }
-
-        /**
-         * Returns the top margin.
-         *
-         * @return {Number}
-         */
-
-    }, {
-        key: 'getMarginTop',
-        value: function getMarginTop() {
-
-            return (0, _ifNumElse2.default)(this.marginTop, this.marginY);
-        }
-
-        /**
-         * Returns the right margin.
-         *
-         * @return {Number}
-         */
-
-    }, {
-        key: 'getMarginRight',
-        value: function getMarginRight() {
-
-            return (0, _ifNumElse2.default)(this.marginRight, this.marginX);
-        }
-
-        /**
-         * Returns the bottom margin.
-         *
-         * @return {Number}
-         */
-
-    }, {
-        key: 'getMarginBottom',
-        value: function getMarginBottom() {
-
-            return (0, _ifNumElse2.default)(this.marginBottom, this.marginY);
-        }
-
-        /**
-         * Returns the left margin.
-         *
-         * @return {Number}
-         */
-
-    }, {
-        key: 'getMarginLeft',
-        value: function getMarginLeft() {
-
-            return (0, _ifNumElse2.default)(this.marginLeft, this.marginX);
-        }
-
-        /**
-         * The top limit of the rect.
-         *
-         * @param {Number} y The primary vertical position
-         * @return {Number}
-         */
-
-    }, {
-        key: 'topLimit',
-        value: function topLimit(y) {
-
-            return y - this.height * this.ratioY + this.getMarginTop();
-        }
-
-        /**
-         * The bottom limit of the rect.
-         *
-         * @param {Number} y The primary vertical position
-         * @return {Number}
-         */
-
-    }, {
-        key: 'bottomLimit',
-        value: function bottomLimit(y) {
-
-            return this.topLimit(y) + this.actualHeight();
-        }
-
-        /**
-         * The left limit of the rect.
-         *
-         * @param {Number} x The primary horizontal position
-         * @return {Number}
-         */
-
-    }, {
-        key: 'leftLimit',
-        value: function leftLimit(x) {
-
-            return x - this.width * this.ratioX + this.getMarginLeft();
-        }
-
-        /**
-         * The right limit of the rect.
-         *
-         * @param {Number} x The primary horizontal position
-         * @return {Number}
-         */
-
-    }, {
-        key: 'rightLimit',
-        value: function rightLimit(x) {
-
-            return this.leftLimit(x) + this.actualWidth();
-        }
-
-        /**
-         * The horizontal center of the rect.
-         *
-         * @param {Number} x The primary horizontal position
-         * @return {Number}
-         */
-
-    }, {
-        key: 'centerX',
-        value: function centerX(x) {
-
-            return (this.leftLimit(x) + this.rightLimit(x)) / 2;
-        }
-
-        /**
-         * The vertical center of the rect.
-         *
-         * @param {Number} y The primary vertical position
-         * @return {Number}
-         */
-
-    }, {
-        key: 'centerY',
-        value: function centerY(y) {
-
-            return (this.topLimit(y) + this.bottomLimit(y)) / 2;
-        }
-
-        /**
-         * Returns an posture of the similar rectangle which is the inner tangent of the rectangle of the given width and height.
-         *
-         * @param {Number} width The width of the target outer rectangle
-         * @param {Number} height The height of the target outer rectangle
-         * @return {Posture}
-         */
-
-    }, {
-        key: 'similarInnerTangent',
-        value: function similarInnerTangent(width, height) {
-
-            if (width / height > this.width / this.height) {
-
-                width = height * this.width / this.height;
-            } else {
-
-                height = width * this.height / this.width;
-            }
-
-            return new Posture({
-
-                width: width,
-                height: height,
-                ratioX: this.ratioX,
-                ratioY: this.ratioY,
-                marginX: this.marginX,
-                marginY: this.marginY,
-                marginTop: this.marginTop,
-                marginRight: this.marginRight,
-                marginBottom: this.marginBottom,
-                marginLeft: this.marginLeft
-
-            });
-        }
-
-        /**
-         * Scales the rectangle to fit as an inner tangent of the rectangle of the given width and height.
-         *
-         * @param {Number} width The width of the target outer rectangle
-         * @param {Number} height The height of the target outer rectangle
-         */
-
-    }, {
-        key: 'fitInto',
-        value: function fitInto(width, height) {
-
-            var innerTangent = this.similarInnerTangent(width, height);
-
-            this.width = innerTangent.width;
-            this.height = innerTangent.height;
-        }
-    }]);
-
-    return Posture;
-})();
-
-exports.default = Posture;
-},{"./if-num-else":58}],62:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Rect = function Rect() {
-  _classCallCheck(this, Rect);
-};
-
-exports.default = Rect;
-},{}],63:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = reflow;
-/**
- * Reflows the given element
- *
- * @param {jQuery|HTMLElement} elem The element
- */
-function reflow(elem) {
-
-  var offsetHeight = $(elem).get(0).offsetHeight;
-
-  offsetHeight = offsetHeight + 1;
-
-  return elem;
-}
-},{}],64:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _gridWalker = require('./grid-walker');
-
-var _gridWalker2 = _interopRequireDefault(_gridWalker);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Sprite = (function (_GridWalker) {
-  _inherits(Sprite, _GridWalker);
-
-  function Sprite() {
-    _classCallCheck(this, Sprite);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Sprite).apply(this, arguments));
-  }
-
-  return Sprite;
-})(_gridWalker2.default);
-
-exports.default = Sprite;
-},{"./grid-walker":56}],65:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _sprite = require('./sprite');
-
-var _sprite2 = _interopRequireDefault(_sprite);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var StaticSprite = (function (_Sprite) {
-  _inherits(StaticSprite, _Sprite);
-
-  function StaticSprite() {
-    _classCallCheck(this, StaticSprite);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(StaticSprite).apply(this, arguments));
-  }
-
-  return StaticSprite;
-})(_sprite2.default);
-
-exports.default = StaticSprite;
-},{"./sprite":64}],66:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = wait;
-/**
- * Returns a promise which resolves in the given milliseconds.
- *
- * @param {number} n The time in milliseconds
- * @param {object} result The value to resolve
- * @return {Promise}
- */
-function wait(n, result) {
-
-  return new Promise(function (resolve) {
-    return setTimeout(function () {
-      return resolve(result);
-    }, n);
-  });
-}
-},{}]},{},[5]);
+},{}]},{},[23]);

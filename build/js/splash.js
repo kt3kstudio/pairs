@@ -1,199 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-require('../../src/domain/splash/SplashScene');
-
-},{"../../src/domain/splash/SplashScene":3}],2:[function(require,module,exports){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _dec, _class;
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = undefined;
-
-var _spn = require('spn');
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-/**
- * Logo animation componenent in the splash screen.
- */
-var Logo = (_dec = $.cc.Component('splash-logo'), _dec(_class = function (_Being) {
-    _inherits(Logo, _Being);
-
-    function Logo() {
-        _classCallCheck(this, Logo);
-
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(Logo).apply(this, arguments));
-    }
-
-    _createClass(Logo, [{
-        key: 'perform',
-
-        /**
-         * Performs splash screen's logo animation.
-         *
-         * @return {Promise}
-         */
-        value: function perform() {
-            var _this2 = this;
-
-            return this.show().then(function () {
-                return (0, _spn.wait)(700);
-            }).then(function () {
-                return _this2.hide();
-            });
-        }
-    }, {
-        key: 'willShow',
-        value: function willShow() {
-
-            return this.elem.imageLoaded();
-        }
-    }, {
-        key: 'didShow',
-        value: function didShow() {
-
-            this.elem.css('opacity', 1);
-        }
-    }, {
-        key: 'didHide',
-        value: function didHide() {
-
-            this.elem.css('opacity', 0);
-        }
-    }, {
-        key: 'showAnim',
-        value: function showAnim() {
-
-            return new _spn.Animation('logo-show', 350);
-        }
-    }, {
-        key: 'hideAnim',
-        value: function hideAnim() {
-
-            return new _spn.Animation('logo-hide', 350);
-        }
-    }]);
-
-    return Logo;
-}(_spn.Being)) || _class);
-exports.default = Logo;
-
-},{"spn":15}],3:[function(require,module,exports){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _dec, _dec2, _dec3, _class, _desc, _value, _class2;
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = undefined;
-
-require('./Logo');
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-    var desc = {};
-    Object['ke' + 'ys'](descriptor).forEach(function (key) {
-        desc[key] = descriptor[key];
-    });
-    desc.enumerable = !!desc.enumerable;
-    desc.configurable = !!desc.configurable;
-
-    if ('value' in desc || desc.initializer) {
-        desc.writable = true;
-    }
-
-    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-        return decorator(target, property, desc) || desc;
-    }, desc);
-
-    if (context && desc.initializer !== void 0) {
-        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-        desc.initializer = undefined;
-    }
-
-    if (desc.initializer === void 0) {
-        Object['define' + 'Property'](target, property, desc);
-        desc = null;
-    }
-
-    return desc;
-}
-
-/**
- * SplashScene controls the splash screen.
- */
-var SplashScene = (_dec = $.cc.Component('splash-scene'), _dec2 = $.cc.event('scene-start'), _dec3 = $.cc.event('click', '.splash-logo'), _dec(_class = (_class2 = function (_$$cc$Coelement) {
-    _inherits(SplashScene, _$$cc$Coelement);
-
-    function SplashScene() {
-        _classCallCheck(this, SplashScene);
-
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(SplashScene).apply(this, arguments));
-    }
-
-    _createClass(SplashScene, [{
-        key: 'main',
-        value: function main() {
-            var _this2 = this;
-
-            return this.performSplash('studio').then(function () {
-                return _this2.performSplash('straw');
-            }).then(function () {
-                return _this2.goToTitle();
-            });
-        }
-
-        /**
-         * Performs splash scene animation for the give class name element.
-         *
-         * @param {String} className The class name to animate
-         * @return {Promise}
-         */
-
-    }, {
-        key: 'performSplash',
-        value: function performSplash(className) {
-
-            return this.elem.find('.splash-logo.' + className).cc.get('splash-logo').perform();
-        }
-
-        /**
-         * The scene goes to the title.
-         */
-
-    }, {
-        key: 'goToTitle',
-        value: function goToTitle() {
-
-            location.replace('title.html');
-        }
-    }]);
-
-    return SplashScene;
-}($.cc.Coelement), (_applyDecoratedDescriptor(_class2.prototype, 'main', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'main'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'goToTitle', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'goToTitle'), _class2.prototype)), _class2)) || _class);
-exports.default = SplashScene;
-
-},{"./Logo":2}],4:[function(require,module,exports){
-'use strict';
-
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 Object.defineProperty(exports, "__esModule", {
@@ -260,7 +67,7 @@ var Animation = (function () {
 })();
 
 exports.default = Animation;
-},{"./if-num-else":13,"./reflow":18,"./wait":21}],5:[function(require,module,exports){
+},{"./if-num-else":10,"./reflow":15,"./wait":18}],2:[function(require,module,exports){
 "use strict";
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -420,7 +227,7 @@ var Being = (function (_$$cc$Actor) {
 })($.cc.Actor);
 
 exports.default = Being;
-},{}],6:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -452,7 +259,7 @@ var DimensionalBeing = (function (_Being) {
 })(_being2.default);
 
 exports.default = DimensionalBeing;
-},{"./being":5}],7:[function(require,module,exports){
+},{"./being":2}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -484,7 +291,7 @@ var CharSprite = (function (_Sprite) {
 })(_sprite2.default);
 
 exports.default = CharSprite;
-},{"./sprite":19}],8:[function(require,module,exports){
+},{"./sprite":16}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -516,7 +323,7 @@ var DimensionFactory = (function (_Rect) {
 })(_rect2.default);
 
 exports.default = DimensionFactory;
-},{"./rect":17}],9:[function(require,module,exports){
+},{"./rect":14}],6:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -530,7 +337,7 @@ var DirStateImageMap = function DirStateImageMap() {
 };
 
 exports.default = DirStateImageMap;
-},{}],10:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -542,7 +349,7 @@ var LEFT = exports.LEFT = 1;
 var RIGHT = exports.RIGHT = 2;
 var BOTTOM = exports.BOTTOM = 3;
 var DOWN = exports.DOWN = 3;
-},{}],11:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -574,7 +381,7 @@ var GridWalker = (function (_Body) {
 })(_body2.default);
 
 exports.default = GridWalker;
-},{"./body":6}],12:[function(require,module,exports){
+},{"./body":3}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -588,7 +395,7 @@ var Grid = function Grid() {
 };
 
 exports.default = Grid;
-},{}],13:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -605,7 +412,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = function (num, defaultValue) {
   return typeof num === 'number' ? num : defaultValue;
 };
-},{}],14:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -619,7 +426,7 @@ var Image = function Image() {
 };
 
 exports.default = Image;
-},{}],15:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -716,7 +523,7 @@ exports.Sprite = _sprite2.default;
 exports.CharSprite = _charSprite2.default;
 exports.StaticSprite = _staticSprite2.default;
 exports.DIRS = DIRS;
-},{"./animation":4,"./being":5,"./body":6,"./char-sprite":7,"./dimension-factory":8,"./dir-state-image-map":9,"./dirs":10,"./grid":12,"./grid-walker":11,"./if-num-else":13,"./image":14,"./posture":16,"./rect":17,"./reflow":18,"./sprite":19,"./static-sprite":20,"./wait":21}],16:[function(require,module,exports){
+},{"./animation":1,"./being":2,"./body":3,"./char-sprite":4,"./dimension-factory":5,"./dir-state-image-map":6,"./dirs":7,"./grid":9,"./grid-walker":8,"./if-num-else":10,"./image":11,"./posture":13,"./rect":14,"./reflow":15,"./sprite":16,"./static-sprite":17,"./wait":18}],13:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1005,7 +812,7 @@ var Posture = (function () {
 })();
 
 exports.default = Posture;
-},{"./if-num-else":13}],17:[function(require,module,exports){
+},{"./if-num-else":10}],14:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1019,7 +826,7 @@ var Rect = function Rect() {
 };
 
 exports.default = Rect;
-},{}],18:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1039,7 +846,7 @@ function reflow(elem) {
 
   return elem;
 }
-},{}],19:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1071,7 +878,7 @@ var Sprite = (function (_GridWalker) {
 })(_gridWalker2.default);
 
 exports.default = Sprite;
-},{"./grid-walker":11}],20:[function(require,module,exports){
+},{"./grid-walker":8}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1103,7 +910,7 @@ var StaticSprite = (function (_Sprite) {
 })(_sprite2.default);
 
 exports.default = StaticSprite;
-},{"./sprite":19}],21:[function(require,module,exports){
+},{"./sprite":16}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1125,4 +932,205 @@ function wait(n, result) {
     }, n);
   });
 }
-},{}]},{},[1]);
+},{}],19:[function(require,module,exports){
+'use strict';
+
+require('../../src/domain/splash/SplashScene');
+
+},{"../../src/domain/splash/SplashScene":21}],20:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _class;
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _spn = require('spn');
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var component = $.cc.component;
+
+/**
+ * Logo animation componenent in the splash screen.
+ */
+
+var Logo = (_dec = component('splash-logo'), _dec(_class = function (_Being) {
+    _inherits(Logo, _Being);
+
+    function Logo() {
+        _classCallCheck(this, Logo);
+
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(Logo).apply(this, arguments));
+    }
+
+    _createClass(Logo, [{
+        key: 'perform',
+
+        /**
+         * Performs splash screen's logo animation.
+         *
+         * @return {Promise}
+         */
+        value: function perform() {
+            var _this2 = this;
+
+            return this.show().then(function () {
+                return (0, _spn.wait)(700);
+            }).then(function () {
+                return _this2.hide();
+            });
+        }
+    }, {
+        key: 'willShow',
+        value: function willShow() {
+
+            return this.elem.imageLoaded();
+        }
+    }, {
+        key: 'didShow',
+        value: function didShow() {
+
+            this.elem.css('opacity', 1);
+        }
+    }, {
+        key: 'didHide',
+        value: function didHide() {
+
+            this.elem.css('opacity', 0);
+        }
+    }, {
+        key: 'showAnim',
+        value: function showAnim() {
+
+            return new _spn.Animation('logo-show', 350);
+        }
+    }, {
+        key: 'hideAnim',
+        value: function hideAnim() {
+
+            return new _spn.Animation('logo-hide', 350);
+        }
+    }]);
+
+    return Logo;
+}(_spn.Being)) || _class);
+exports.default = Logo;
+
+},{"spn":12}],21:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _dec2, _dec3, _class, _desc, _value, _class2;
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+require('./Logo');
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+    var desc = {};
+    Object['ke' + 'ys'](descriptor).forEach(function (key) {
+        desc[key] = descriptor[key];
+    });
+    desc.enumerable = !!desc.enumerable;
+    desc.configurable = !!desc.configurable;
+
+    if ('value' in desc || desc.initializer) {
+        desc.writable = true;
+    }
+
+    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+        return decorator(target, property, desc) || desc;
+    }, desc);
+
+    if (context && desc.initializer !== void 0) {
+        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+        desc.initializer = undefined;
+    }
+
+    if (desc.initializer === void 0) {
+        Object['define' + 'Property'](target, property, desc);
+        desc = null;
+    }
+
+    return desc;
+}
+
+var _$$cc = $.cc;
+var component = _$$cc.component;
+var event = _$$cc.event;
+
+/**
+ * SplashScene controls the splash screen.
+ */
+
+var SplashScene = (_dec = component('splash-scene'), _dec2 = event('scene-start'), _dec3 = event('click', '.splash-logo'), _dec(_class = (_class2 = function (_$$cc$Coelement) {
+    _inherits(SplashScene, _$$cc$Coelement);
+
+    function SplashScene() {
+        _classCallCheck(this, SplashScene);
+
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(SplashScene).apply(this, arguments));
+    }
+
+    _createClass(SplashScene, [{
+        key: 'main',
+        value: function main() {
+            var _this2 = this;
+
+            return this.performSplash('studio').then(function () {
+                return _this2.performSplash('straw');
+            }).then(function () {
+                return _this2.goToTitle();
+            });
+        }
+
+        /**
+         * Performs splash scene animation for the give class name element.
+         *
+         * @param {String} className The class name to animate
+         * @return {Promise}
+         */
+
+    }, {
+        key: 'performSplash',
+        value: function performSplash(className) {
+
+            return this.elem.find('.splash-logo.' + className).cc.get('splash-logo').perform();
+        }
+
+        /**
+         * The scene goes to the title.
+         */
+
+    }, {
+        key: 'goToTitle',
+        value: function goToTitle() {
+
+            location.replace('title.html');
+        }
+    }]);
+
+    return SplashScene;
+}($.cc.Coelement), (_applyDecoratedDescriptor(_class2.prototype, 'main', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'main'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'goToTitle', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'goToTitle'), _class2.prototype)), _class2)) || _class);
+exports.default = SplashScene;
+
+},{"./Logo":20}]},{},[19]);

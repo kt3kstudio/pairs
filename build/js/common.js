@@ -168,7 +168,7 @@ infrastructure.storage = function () {
 
 },{}],5:[function(require,module,exports){
 /**
- * class-component.js v5.5.0
+ * class-component.js v5.6.0
  * author: Yoshiya Hinosawa ( http://github.com/kt3k )
  * license: MIT
  */
@@ -184,146 +184,161 @@ var subclass = require('subclassjs');
 
 var ClassComponentManager = require('./lib/ClassComponentManager');
 
-require('./lib/fn.cc');
-
 /**
- * The main namespace for class component module.
+ * Initializes the module object.
+ *
+ * @return {Object}
  */
-var cc = {};
+var initializeModule = function () {
 
-cc.__manager__ = new ClassComponentManager();
+    require('./lib/fn.cc');
 
-/**
- Registers a class component of the given name using the given defining function.
+    /**
+     * The main namespace for class component module.
+     */
+    var cc = {};
 
- See README.md for details.
+    cc.__manager__ = new ClassComponentManager();
 
- @param {String} className The class name
- @param {Function} definingFunction The class definition
- */
-cc.register = function (name, definingFunction) {
+    /**
+     Registers a class component of the given name using the given defining function.
 
-    if (typeof name !== 'string') {
+     See README.md for details.
 
-        throw new Error('`name` of a class component has to be a string');
+     @param {String} className The class name
+     @param {Function} definingFunction The class definition
+     */
+    cc.register = function (name, definingFunction) {
 
-    }
+        if (typeof name !== 'string') {
 
-    if (typeof definingFunction !== 'function') {
+            throw new Error('`name` of a class component has to be a string');
 
-        throw new Error('`definingFunction` of a class component has to be a function');
+        }
 
-    }
+        if (typeof definingFunction !== 'function') {
 
-    cc.__manager__.register(name, definingFunction);
+            throw new Error('`definingFunction` of a class component has to be a function');
 
+        }
 
-    $(document).ready(function () {
-
-        cc.__manager__.init(name);
-
-    });
-
-};
+        cc.__manager__.register(name, definingFunction);
 
 
-/**
- * Initialized the all class components of the given names and returns of the promise of all initialization.
- *
- * @param {String[]|String} arguments
- * @return {Object<HTMLElement[]>}
- */
-cc.init = function (classNames, elem) {
+        $(document).ready(function () {
 
-    if (classNames == null) {
+            cc.__manager__.init(name);
 
-        cc.__manager__.initAll(elem);
-
-        return;
-
-    }
-
-    if (typeof classNames === 'string') {
-
-        classNames = classNames.split(reSpaces);
-
-    }
-
-    return classNames.map(function (className) {
-
-        return cc.__manager__.init(className, elem);
-
-    });
-
-};
-
-
-/**
- * Assign a class as the accompanying coelement of the class component
- *
- * @param {String} className
- * @param {Function} DefiningClass
- */
-cc.assign = function (className, DefiningClass) {
-
-    DefiningClass.coelementName = className;
-
-    cc.register(className, function (elem) {
-
-        var coelement = new DefiningClass(elem);
-
-        elem.data('__coelement:' + DefiningClass.coelementName, coelement);
-
-    });
-
-};
-
-/**
- * The decorator for class assignment.
- *
- * @example
- *   @Component('foo')
- *   class Foo extends Bar {
- *     ...
- *   }
- *
- * The above is the same as:
- *
- * @example
- *   class Foo extends Bar {
- *   }
- *
- *   $.cc.assign('foo', Foo)
- *
- * @param {String} className The class name
- * @return {Function}
- */
-cc.Component = function (className) {
-
-    // This is the actual decorator
-    return function (Cls) {
-
-        cc.assign(className, Cls)
+        });
 
     };
 
+
+    /**
+     * Initialized the all class components of the given names and returns of the promise of all initialization.
+     *
+     * @param {String[]|String} arguments
+     * @return {Object<HTMLElement[]>}
+     */
+    cc.init = function (classNames, elem) {
+
+        if (classNames == null) {
+
+            cc.__manager__.initAll(elem);
+
+            return;
+
+        }
+
+        if (typeof classNames === 'string') {
+
+            classNames = classNames.split(reSpaces);
+
+        }
+
+        return classNames.map(function (className) {
+
+            return cc.__manager__.init(className, elem);
+
+        });
+
+    };
+
+
+    /**
+     * Assign a class as the accompanying coelement of the class component
+     *
+     * @param {String} className
+     * @param {Function} DefiningClass
+     */
+    cc.assign = function (className, DefiningClass) {
+
+        DefiningClass.coelementName = className;
+
+        cc.register(className, function (elem) {
+
+            var coelement = new DefiningClass(elem);
+
+            elem.data('__coelement:' + DefiningClass.coelementName, coelement);
+
+        });
+
+    };
+
+    /**
+     * The decorator for class assignment.
+     *
+     * @example
+     *   @$.cc.component('foo')
+     *   class Foo extends Bar {
+     *     ...
+     *   }
+     *
+     * The above is the same as:
+     *
+     * @example
+     *   class Foo extends Bar {
+     *   }
+     *
+     *   $.cc.assign('foo', Foo)
+     *
+     * @param {String} className The class name
+     * @return {Function}
+     */
+    cc.component = function (className) {
+
+        // This is the actual decorator
+        return function (Cls) {
+
+            cc.assign(className, Cls)
+
+        };
+
+    };
+
+    // Exports subclass.
+    cc.subclass = subclass;
+
+    // Exports Actor.
+    cc.Actor = Actor;
+
+    // Exports Actor.
+    cc.Coelement = Coelement;
+
+    return cc;
+
 };
 
-// Exports subclass.
-cc.subclass = subclass;
+// If the cc is not set, then create one.
+if ($.cc == null) {
 
-// Exports Actor.
-cc.Actor = Actor;
+    $.cc = initializeModule()
 
-// Exports Actor.
-cc.Coelement = Coelement;
+}
 
-// Exports the main namespace
-$.cc = cc;
+module.exports = $.cc;
 
-module.exports = cc;
-
-},{"./lib/Actor":6,"./lib/ClassComponentManager":9,"./lib/Coelement":10,"./lib/fn.cc":11,"subclassjs":19}],6:[function(require,module,exports){
+},{"./lib/Actor":6,"./lib/ClassComponentManager":9,"./lib/Coelement":10,"./lib/fn.cc":11,"subclassjs":37}],6:[function(require,module,exports){
 'use strict';
 
 var subclass = require('subclassjs');
@@ -352,7 +367,7 @@ var Actor = subclass(Coelement, function (pt, parent) {
 
 module.exports = Actor;
 
-},{"./Coelement":10,"subclassjs":19}],7:[function(require,module,exports){
+},{"./Coelement":10,"subclassjs":37}],7:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -441,7 +456,7 @@ var ClassComponentConfiguration = subclass(function (pt) {
 module.exports = ClassComponentConfiguration;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"subclassjs":19}],8:[function(require,module,exports){
+},{"subclassjs":37}],8:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -473,6 +488,20 @@ var ClassComponentContext = subclass(function (pt) {
         $.cc.__manager__.initAt(className, this.jqObj);
 
         return this.jqObj.data('__coelement:' + className);
+
+    };
+
+    /**
+     * Initializes the element if it has registered class component names. Returns the jquery object itself.
+     *
+     * @return {jQuery}
+     */
+    pt.up = function () {
+
+        $.cc.__manager__.initAtElem(this.jqObj);
+
+        return this.jqObj;
+
     };
 
     /**
@@ -520,7 +549,7 @@ var ClassComponentContext = subclass(function (pt) {
 module.exports = ClassComponentContext;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"subclassjs":19}],9:[function(require,module,exports){
+},{"subclassjs":37}],9:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -591,6 +620,29 @@ var ClassComponentManager = subclass(function (pt) {
 
     };
 
+    /**
+     * Initializes all the class component at the element.
+     *
+     * @param {HTMLElement}
+     */
+    pt.initAtElem = function (elem) {
+
+        var self = this;
+
+        var classes = $(elem).attr('class');
+
+        if (!classes) { return; }
+
+        classes.split(/ +/)
+        .map(function (className) { return self.ccc[className]; })
+        .filter(function (ccc) { return ccc; })
+        .forEach(function (ccc) {
+
+            ccc.initElem(elem);
+
+        });
+
+    };
 
     /**
      * @param {jQuery|HTMLElement|String} elem The element
@@ -618,7 +670,7 @@ var ClassComponentManager = subclass(function (pt) {
 
         if (ccc == null) {
 
-            throw new Error('Class componet "' + name + '" is not defined.');
+            throw new Error('Class componet "' + className + '" is not defined.');
 
         }
 
@@ -631,7 +683,7 @@ var ClassComponentManager = subclass(function (pt) {
 module.exports = ClassComponentManager;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./ClassComponentConfiguration":7,"subclassjs":19}],10:[function(require,module,exports){
+},{"./ClassComponentConfiguration":7,"subclassjs":37}],10:[function(require,module,exports){
 'use strict';
 
 /**
@@ -1742,99 +1794,6 @@ Object.defineProperty(jQuery.fn, 'cc', {
 }(jQuery));
 
 },{}],14:[function(require,module,exports){
-
-(function ($) {
-    'use strict';
-
-    var defaultWidth = 200;
-    var defaultHeight = 100;
-    var defaultColor = '#9BA3AB';
-    var defaultChipHeight = 12;
-    var defaultPartitionX = 5;
-    var defaultPartitionY = 3;
-    var defaultDistance = 25;
-
-    function SpeechBubble($parent, $content, x, y, w, h, color, chipHeight, partitionX, partitionY, distance, cssClass, duration) {
-        this.$parent = $parent;
-        this.$content = $content.css({position: 'absolute', opacity: 0});
-        this.x = x;
-        this.y = y;
-        this.w = w || defaultWidth;
-        this.h = h || defaultHeight;
-        this.color = color || defaultColor;
-        this.chipHeight = chipHeight || defaultChipHeight;
-        this.partitionX = partitionX || defaultPartitionX;
-        this.partitionY = partitionY || defaultPartitionY;
-        this.distance = distance || defaultDistance;
-        this.cssClass = cssClass || '';
-        this.duration = duration;
-
-    }
-
-    var sbPt = SpeechBubble.prototype;
-
-    sbPt.createInfoPane = function () {
-        this.$dom = $('<div />')
-            .css({
-                position: 'absolute',
-                left: (this.x - this.w / 2) + 'px',
-                top: (this.y - this.h - this.chipHeight - this.distance) + 'px'
-            })
-            .addClass(this.cssClass)
-            .width(this.w).height(this.h).append(this.$content).appendTo(this.$parent);
-
-        this.$chip = $('<div />')
-            .css({
-                position: 'absolute',
-                bottom: '-' + this.chipHeight * 2 + 'px',
-                left: this.w / 2 - Math.floor(this.chipHeight / 1.5),
-                width: 0,
-                height: 0,
-                borderWidth: this.chipHeight + 'px ' + Math.floor(this.chipHeight / 1.5) + 'px',
-                borderColor: 'transparent',
-                borderStyle: 'solid',
-                borderTop: 'solid ' + this.chipHeight + 'px ' + this.color,
-                borderTopColor: this.color,
-                opacity: 0
-            }).appendTo(this.$dom);
-
-        this.ip = this.$dom.infoPane(this.partitionX, this.partitionY, {
-            bgcolor: this.color,
-            unitDur: this.duration / 2
-        });
-
-        return this.ip;
-    };
-
-    sbPt.show = function () {
-        var that = this;
-
-        return this.createInfoPane().show().then(function () {
-            return that;
-        });
-    };
-
-    sbPt.hide = function () {
-        var that = this;
-
-        return this.ip.hide().then(function () {
-            that.$dom.remove();
-        });
-    };
-
-    $.fn.speechBubble = function ($content, opts) {
-        opts = opts || {};
-
-        var pos = this.position();
-
-        return new SpeechBubble(this.parent(), $content, pos.left + this.width() / 2, pos.top, opts.width, opts.height, opts.color, opts.chipHeight, opts.partitionX, opts.partitionY, opts.distance, opts.cssClass, opts.duration);
-    };
-
-    $.fn.flipBubble = $.fn.speechBubble;
-
-}(window.jQuery));
-
-},{}],15:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.2.0
  * http://jquery.com/
@@ -11667,219 +11626,347 @@ if ( !noGlobal ) {
 return jQuery;
 }));
 
-},{}],16:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 
 (function ($) {
-    'use strict';
+    'use strict'
 
-    var defaultUnitDur = 400;
+    var DEFAULT_WIDTH = 200
+    var DEFAULT_HEIGHT = 100
+    var DEFAULT_COLOR = '#115588'
+    var DEFAULT_CHIP_HEIGHT = 12
+    var DEFAULT_CHIP_DISTANCE = 15
 
-    var defaultBgcolor = '#393F44';
-    var defaultChipClass = 'chipClass';
+    /**
+     * MultiflipBubble is the component of the bubble which opens above the target element.
+     *
+     * @example
+     *     <div class="multiflip-bubble" m="10" n="5" width="200" height="100" color="#115588" chip-distance="12" chip-height="15">
+     *
+     * The attributes means:
+     * - attr {number} m The horizontal partition number
+     * - attr {number} n The vertical partition number
+     * - attr {number} width The width of the bubble
+     * - attr {number} height The height of the bubble
+     * - attr {string} color The color of the bubble
+     * - attr {number} chip-distance The distance between the bottom of the chip and the top of the bubble target (speaker)
+     * - attr {number} chip-height The height of the chip under the bubble
+     */
+    var MultiflipBubble = $.cc.subclass($.cc.Coelement, function (pt, parent) {
 
-    var flipTransform = 'rotate3d(1, -1, 0, -180deg)';
+        pt.constructor = function (elem) {
+
+            parent.constructor.call(this, elem)
+
+            var target = this.target = this.elem.data('target')
+
+            this.$parent = this.elem.parent()
+
+            this.x = target.position().left + target.width() / 2
+            this.y = target.position().top
+
+            this.w = +this.elem.attr('width') || DEFAULT_WIDTH // component parameter
+            this.h = +this.elem.attr('height') || DEFAULT_HEIGHT // component parameter
+
+            this.color = this.elem.attr('color') || DEFAULT_COLOR // component parameter
+
+            this.chipHeight = this.elem.attr('chip-height') || DEFAULT_CHIP_HEIGHT // component paramter
+            this.distance = this.elem.attr('chip-distance') || DEFAULT_CHIP_DISTANCE // component parameter
+
+            this.init()
+
+        }
+
+        pt.createChip = function () {
+
+            // The small chip under the bubble
+            return $('<div />').css({
+
+                position: 'absolute',
+                bottom: '-' + this.chipHeight * 2 + 'px',
+                left: this.w / 2 - Math.floor(this.chipHeight / 1.5),
+                width: 0,
+                height: 0,
+                borderWidth: this.chipHeight + 'px ' + Math.floor(this.chipHeight / 1.5) + 'px',
+                borderColor: 'transparent',
+                borderStyle: 'solid',
+                borderTop: 'solid ' + this.chipHeight + 'px ' + this.color,
+                borderTopColor: this.color,
+                opacity: 0
+
+            })
+
+        }
+
+        pt.init = function () {
+
+            this.elem.css({
+                position: 'absolute',
+                left: (this.x - this.w / 2) + 'px',
+                top: (this.y - this.h - this.chipHeight - this.distance) + 'px'
+            })
+            .attr({
+                bgcolor: this.color
+            })
+            .width(this.w)
+            .height(this.h)
+            .append(this.createChip())
+            .cc.init('multiflip')
+
+        }
+
+        pt.show = function () {
+
+            return this.elem.cc.get('multiflip').show()
+
+        }
+
+        pt.hide = function () {
+
+            return this.elem.cc.get('multiflip').hide()
+
+        }
+
+    })
+
+    $.cc.component('multiflip-bubble')(MultiflipBubble)
+
+    /**
+     * @param {jQuery} content The content
+     * @param {Object} opts The options
+     * @param {number} opts.m The horizontal partition number
+     * @param {number} opts.n The vertical partition number
+     * @param {number} opts.width The width of the bubble
+     * @param {number} opts.height The height of the bubble
+     * @param {number} opts.chipHeight The height of the chip under the bubble
+     * @param {number} opts.chipDistance The distance between the bottom of the chip and the top of the bubble target (speaker)
+     * @param {string} opts.color The color of the bubble
+     */
+    $.fn.multiflipBubble = function (content, opts) {
+
+        opts = opts || {}
+
+        return $('<div />', {
+            attr: {
+                m: opts.m,
+                n: opts.n,
+                width: opts.width,
+                height: opts.height,
+                color: opts.color,
+                'chip-height': opts.chipHeight,
+                'chip-distance': opts.chipDistance
+            },
+            data: {target: this},
+            insertAfter: this,
+            append: content.css({opacity: 0, position: 'relative'})
+
+        }).cc.init('multiflip-bubble')
+
+    }
+
+}(jQuery))
+
+},{}],16:[function(require,module,exports){
+(function ($) {
+    'use strict'
+
+    var DEFAULT_UNIT_DIR = 400
+    var DEFAULT_CONTENT_SHOW_DUR = 400
+
+    var DEFAULT_M = 4
+    var DEFAULT_N = 4
+
+    var DEFAULT_BGCOLOR = '#393F44'
+    var CHIP_CLASS = 'multiflip-chip'
+
+    var FLIP_TRANSFORM = 'rotate3d(1, -1, 0, -180deg)' // Transformation for the flipping a chip
 
     var wait = function (n) {
+
         return new Promise(function (resolve) {
-            setTimeout(resolve, n);
-        });
-    };
+
+            setTimeout(resolve, n)
+
+        })
+
+    }
 
     /**
-     * InfoPane class handles the behaviours of info panes.
+     * Multiflip class handles the behaviours of multi-flipping.
      *
-     * @class InfoPane
+     * <div class="multiflip" m="6" n="4" unit-dur="400" bgcolor="#4588aa"></div>
+     *
+     * - param {number} m The horizontal partition number
+     * - param {number} n The vertical partition number
+     * - param {number} unit-dur The unit duration of multiflipping
+     * - param {number} content-show-dur The duration of showing and hiding the content
+     * - param {string} bgcolor The background color of the flipping chips
      */
-    var InfoPane = function ($dom, m, n, width, height, unitDur, bgcolor, chipClass) {
-        this.$dom = $dom;
-        this.$content = $('*', $dom);
-        this.w = width || $dom.width();
-        this.h = height || $dom.height();
+    var Multiflip = $.cc.subclass($.cc.Coelement, function (pt, parent) {
 
-        if (!this.w) {
-            console.log('error: dom width unavailable');
-            return null;
+        pt.constructor = function (elem) {
+
+            parent.constructor.call(this, elem)
+
+            this.content = $('*', elem)
+            this.w = elem.width()
+            this.h = elem.height()
+
+            this.m = +elem.attr('m') || DEFAULT_M
+            this.n = +elem.attr('n') || DEFAULT_N
+            this.uw = this.w / this.m
+            this.uh = this.h / this.n
+
+            this.unitDur = +elem.attr('unit-dur') || DEFAULT_UNIT_DIR
+            this.diffDur = this.unitDur / (this.m + this.n)
+
+            this.contentShowDur = +elem.attr('content-show-dur') || DEFAULT_CONTENT_SHOW_DUR
+
+            this.bgcolor = elem.attr('bgcolor') || DEFAULT_BGCOLOR
+
+            this.init()
+
         }
 
-        if (!this.h) {
-            console.log('error: dom width unavailable');
-            return null;
-        }
+        /**
+         * Initializes the multiflip.
+         *
+         * @method init
+         * @private
+         */
+        pt.init = function () {
 
-        this.m = m;
-        this.n = n;
-        this.uw = this.w / m;
-        this.uh = this.h / n;
+            this.content.css({
+                opacity: 0, // sets the content invisible at first
+                transitionDuration: this.contentShowDur + 'ms' // sets the content's transition duration
+            })
 
-        this.unitDur = unitDur;
-        this.diffDur = unitDur / (m + n);
+            this.chipGroups = []
 
-        this.bgcolor = bgcolor;
+            for (var i = 0; i < this.m; i++) {
 
-        this.chipClass = chipClass || defaultChipClass;
-    };
+                for (var j = 0; j < this.n; j++) {
 
+                    var chip = this.createChip(i * this.uw, j * this.uh, this.uw, this.uh)
+                        .prependTo(this.elem).addClass(CHIP_CLASS)
 
-    var ipPt = InfoPane.prototype;
+                    var group = i + j
 
-    /**
-     * Initializes the info pane.
-     *
-     * @method init
-     * @private
-     */
-    ipPt.init = function () {
-        this.$dom.width(this.w).height(this.h);
+                    this.chipGroups[group] = this.chipGroups[group] || []
+                    this.chipGroups[group].push(chip)
 
-        this.$content.css({opacity: 0, transitionDuration: this.unitDur + 'ms'});
+                }
 
-        this.chipGroups = [];
-
-        for (var i = 0; i < this.m; i++) {
-            for (var j = 0; j < this.n; j ++) {
-                var chip = this.createChip(i * this.uw, j * this.uh, this.uw, this.uh)
-                    .prependTo(this.$dom).addClass(this.chipClass);
-
-                var group = i + j;
-
-                (this.chipGroups[group] = this.chipGroups[group] || []).push(chip);
             }
+
+            return this
+
         }
 
-        return this;
-    };
+        /**
+         * Creates the pane's chip
+         *
+         * @method createChip
+         * @param {Number} left The left offset
+         * @param {Number} top The top offset
+         * @param {Number} w The width
+         * @param {Number} h The height
+         * @private
+         */
+        pt.createChip = function (left, top, w, h) {
 
-    /**
-     * Creates the pane's chip
-     *
-     * @method createChip
-     * @param {Number} left The left offset
-     * @param {Number} top The top offset
-     * @param {Number} w The width
-     * @param {Number} h The height
-     * @private
-     */
-    ipPt.createChip = function (left, top, w, h) {
-        return $('<div />').css({
-            position: 'absolute',
-            left: left + 'px',
-            top: top + 'px',
-            width: w + 'px',
-            height: h + 'px',
-            backgroundColor: this.bgcolor,
-            transitionDuration: this.unitDur + 'ms',
-            transform: flipTransform,
-            backfaceVisibility: 'hidden'
-        });
-    };
+            return $('<div />').css({
+                position: 'absolute',
+                left: left + 'px',
+                top: top + 'px',
+                width: w + 'px',
+                height: h + 'px',
+                backgroundColor: this.bgcolor,
+                transitionDuration: this.unitDur + 'ms',
+                transform: FLIP_TRANSFORM,
+                backfaceVisibility: 'hidden'
+            })
 
-    /**
-     * Shows info pane.
-     *
-     * @method show
-     * @return {Promise}
-     */
-    ipPt.show = function () {
-        this.init();
+        }
 
-        var that = this;
-        var p = wait();
+        /**
+         * Performs multiflipping and shows the content.
+         *
+         * @method show
+         * @return {Promise}
+         */
+        pt.show = function () {
 
-        this.chipGroups.forEach(function (group) {
-            p = p.then(function () {
+            var that = this
+            var p = wait()
 
-                group.forEach(function (chip) {
-                    chip.css('transform', '');
-                });
+            return this.chipGroups.map(function (group, i) {
 
-                return wait(that.diffDur);
-            });
-        });
+                return p.then(function () {
 
-        return p.then(function () {
+                    return wait(that.diffDur * i)
 
-            return wait(that.unitDur / 2);
+                }).then(function () {
 
-        }).then(function () {
-            that.$content.css('opacity', 1);
+                    group.forEach(function (chip) {
 
-            return wait(that.unitDur);
-        }).then(function () {
+                        chip.css('transform', '')
 
-            return that;
-        });
-    };
+                    })
 
-    /**
-     * Hides info pane.
-     *
-     * @method hide
-     * @return {Promise}
-     */
-    ipPt.hide = function () {
-        var that = this;
+                    return wait(that.unitDur * 3 / 4) // Ignore the last 25% of the flipping for the moment and starts showing the content.
 
-        this.$content.css('opacity', 0);
-        var p = wait(that.unitDur);
+                })
 
-        this.chipGroups.forEach(function (group) {
-            p = p.then(function () {
+            }).pop().then(function () {
 
-                group.forEach(function (chip) {
-                    chip.css('transform', flipTransform);
-                });
+                that.content.css('opacity', 1) // shows the content
+                return wait(that.contentShowDur) // waits for the content showing
 
-                return wait(that.diffDur);
-            });
-        });
+            })
 
-        return p.then(function () {
+        }
 
-            wait(that.unitDur);
+        /**
+         * Perfoms multiflipping and hides the content.
+         *
+         * @method hide
+         * @return {Promise}
+         */
+        pt.hide = function () {
 
-        }).then(function () {
+            var that = this
 
-            return that;
-        });
-    };
+            this.content.css('opacity', 0) // hides the content
+            var p = wait(that.contentShowDur) // waits the content hiding
 
-    /**
-     * @class jQuery
-     */
+            return this.chipGroups.map(function (group, i) {
 
-    /**
-     * Creates info pane.
-     *
-     *     $('.main').infoPane(8, 4, {unitDur: 400}).show().then(function (ip) {
-     *         ip.$dom.click(function () {
-     *             ip.hide();
-     *         });
-     *     });
-     *
-     * @method infoPane
-     * @param {Number} n The horizontal partition number
-     * @param {Number} m The vertical partition number
-     * @param {Object} [opts] The options
-     * @param {Number} [opts.width=this.width()] The pane's width
-     * @param {Number} [opts.height=this.height()] The pane's height
-     * @param {Number} [opts.unitDur=400] The unit duration of flip of small chip inside the pane
-     * @param {String} [opts.bgcolor='#393F44'] The background color of the pane
-     * @param {Number} [opts.zIndex=undefined] The z-index of the pane
-     * @return {InfoPane} InfoPane object
-     *
-     */
-    $.fn.infoPane = function (n, m, opts) {
-        opts = opts || {};
+                return p.then(function () {
 
-        var ip = new InfoPane(this, n, m, opts.width, opts.height, opts.unitDur || defaultUnitDur, opts.bgcolor || defaultBgcolor, opts.zIndex);
+                    return wait(that.diffDur * i)
 
-        return ip;
+                }).then(function () {
 
-    };
+                    group.forEach(function (chip) {
 
-    $.fn.patapata = $.fn.infoPane;
+                        chip.css('transform', FLIP_TRANSFORM)
 
-}(window.jQuery));
+                    })
+
+                    return wait(that.unitDur / 2) // waits only the half of the unit dur because when the chip is half flipped, then it's already invisible.
+
+                })
+
+            }).pop()
+
+        }
+
+    })
+
+    $.cc.component('multiflip')(Multiflip)
+
+}(jQuery))
 
 },{}],17:[function(require,module,exports){
 // shim for using process in browser
@@ -18883,2198 +18970,6 @@ Observable.fromNodeCallback = function (fn, ctx, selector) {
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"_process":17}],19:[function(require,module,exports){
-/**
- * subclassjs v1.3.0
- */
-
-
-(function () {
-    'use strict';
-
-    /**
-     * Generates a subclass with given parent class and additional class definition.
-     *
-     * @param {Function} parent The parent class constructor
-     * @param {Function<(pt: Object, super: Object) => void>} classDefinition
-     * @returns {Function}
-     */
-    var subclass = function (parent, classDefinition) {
-
-        if (classDefinition == null) {
-
-            // if there's no second argument
-            // then use the first argument as class definition
-            // and suppose parent is Object
-
-            classDefinition = parent;
-            parent = Object;
-
-        }
-
-        if (parent == null) {
-
-            throw new Error('parent cannot be null: definingFunction=' + classDefinition.toString());
-
-        }
-
-        // create proxy constructor for inheritance
-        var proxy = function () {};
-
-        proxy.prototype = parent.prototype;
-
-        var prototype = new proxy();
-
-
-        // creates child's default constructor
-        // this can be overwritten in classDefinition
-        prototype.constructor = function () {
-
-            proxy.prototype.constructor.apply(this, arguments);
-
-        };
-
-
-        if (typeof classDefinition === 'function') {
-
-            // apply the given class definition
-            classDefinition(prototype, parent.prototype);
-
-        } else if (classDefinition == null) {
-
-            // do nothing
-
-        } else {
-
-            throw new Error('the type of classDefinition is wrong: ' + typeof classDefinition);
-
-        }
-
-
-
-        // set prototype to constructor
-        prototype.constructor.prototype = prototype;
-
-
-        return prototype.constructor;
-
-    };
-
-
-    if (typeof module !== 'undefined' && module.exports) {
-
-        // CommonJS
-        module.exports = subclass;
-
-    } else {
-
-        // window export
-        window.subclass = subclass;
-    }
-
-}());
-
-},{}],20:[function(require,module,exports){
-'use strict';
-
-require('./global');
-
-require('class-component');
-
-require('cc-event');
-
-require('event-hub');
-
-require('../../src/namespaces');
-
-require('../../src/util');
-
-require('../../infrastructure/infrastructure');
-
-require('patapata');
-
-require('flip-bubble');
-
-require('../../src/ui/common/menu-button');
-
-require('../../src/datadomain/');
-
-},{"../../infrastructure/infrastructure":1,"../../src/datadomain/":52,"../../src/namespaces":54,"../../src/ui/common/menu-button":55,"../../src/util":57,"./global":21,"cc-event":4,"class-component":5,"event-hub":13,"flip-bubble":14,"patapata":16}],21:[function(require,module,exports){
-(function (global){
-'use strict';
-
-var _jquery = require('jquery');
-
-var _jquery2 = _interopRequireDefault(_jquery);
-
-var _rxLite = require('rx-lite');
-
-var _rxLite2 = _interopRequireDefault(_rxLite);
-
-var _es6Promise = require('es6-promise');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-global.$ = _jquery2.default;
-global.jQuery = _jquery2.default;
-global.Rx = _rxLite2.default;
-
-(0, _es6Promise.polyfill)();
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"es6-promise":12,"jquery":15,"rx-lite":18}],22:[function(require,module,exports){
-'use strict';
-
-/**
- * The cell.
- *
- * [ValueObject]
- *
- * @class
- */
-datadomain.Cell = subclass(function (pt) {
-  'use strict';
-
-  pt.constructor = function (gene) {
-    /**
-     * @property {String} gene The gene
-     */
-    this.gene = gene;
-  };
-});
-
-},{}],23:[function(require,module,exports){
-'use strict';
-
-/**
- * The collection class of Cell.
- */
-datadomain.CellCollection = subclass(function (pt) {
-  'use strict';
-
-  /**
-   * @constructor
-   * @param {Array} cells The array of cells
-   */
-
-  pt.constructor = function (cells) {
-    /**
-     * @property {Array} cells The array of the cells
-     */
-    this.cells = cells;
-  };
-});
-
-},{}],24:[function(require,module,exports){
-'use strict';
-
-/**
- * The factory for Cell.
- *
- * @class
- */
-datadomain.CellFactory = subclass(function (pt) {
-    'use strict';
-
-    /**
-     * Creates a cell from the object.
-     *
-     * @param {Object} obj The object
-     * @return {datadomain.Cell}
-     */
-
-    pt.createFromObject = function (obj) {
-
-        return new datadomain.Cell(obj.gene);
-    };
-
-    /**
-     * Creates a collection of the cells from the array.
-     *
-     * @param {Array} array The array
-     * @return {datadomain.CellCollection}
-     */
-    pt.createCollectionFromArray = function (array) {
-
-        var that = this;
-
-        return new datadomain.CellCollection(array.map(function (obj) {
-
-            return that.createFromObject(obj);
-        }));
-    };
-});
-
-},{}],25:[function(require,module,exports){
-'use strict';
-
-/**
- * The position of the character.
- */
-datadomain.CharPosition = subclass(function (pt) {
-  'use strict';
-
-  /**
-   * @constructor
-   * @param {String} floorId The id of the floor
-   * @param {String} floorObjectId The id of the floor object
-   */
-
-  pt.constructor = function (floorId, floorObjectId) {
-    /**
-     * @property {String} floorId The id of the floor
-     */
-    this.floorId = floorId;
-
-    /**
-     * @property {String} floorObjectId The id of the floor object
-     */
-    this.floorObjectId = floorObjectId;
-  };
-
-  /**
-   * Returns the object representation of the character's position
-   *
-   * @return {Object}
-   */
-  pt.toObject = function () {
-    return {
-      floorId: this.floorId,
-      floorObjectId: this.floorObjectId
-    };
-  };
-});
-
-},{}],26:[function(require,module,exports){
-'use strict';
-
-/**
- * @class
- * CharPositionFactory handles the creation of CharPositions.
- */
-datadomain.CharPositionFactory = subclass(function (pt) {
-    'use strict';
-
-    var START_FLOOR_ID = '7';
-    var START_FLOOR_OBJECT_ID = '701';
-
-    /**
-     * Creates the start position.
-     *
-     * @return {datadomain.CharPosition}
-     */
-    pt.createStartPosition = function () {
-        return new datadomain.CharPosition(START_FLOOR_ID, START_FLOOR_OBJECT_ID);
-    };
-
-    /**
-     * Creates char position object from the object.
-     *
-     * @param {Object} obj The object
-     * @return {datadomain.CharPosition}
-     */
-    pt.createFromObject = function (obj) {
-        if (obj == null) {
-            return this.createStartPosition();
-        }
-
-        return new datadomain.CharPosition(obj.floorId, obj.floorObjectId);
-    };
-});
-
-},{}],27:[function(require,module,exports){
-'use strict';
-
-/**
- * Character is the domain model and the aggregate root of character aggregate.
- * It has CharPosition and LevelHistoryCollection as its components.
- *
- * [Entity]
- * [AggregateRoot]
- */
-datadomain.Character = subclass(function (pt) {
-    'use strict';
-
-    /**
-     * @constructor
-     * @param {String} id The id of the character
-     * @param {String} name The name of the character
-     * @param {datadomain.CharPosition} position The position of the character
-     * @param {datadomain.LevelHistoryCollection} histories The histories of the current floor
-     * @param {datadomain.PlayingState} playingState The state of playing at the current level
-     * @param {datadomain.LevelLockCollection} locks The collection of the level locks
-     */
-
-    pt.constructor = function (id, name, position, histories, playingState, locks) {
-        /**
-         * @property {String} id The id of the character
-         */
-        this.id = id;
-
-        /**
-         * @property {String} name The name of the character
-         */
-        this.name = name;
-
-        /**
-         * @property {datadomain.CharPosition} position The position of the character
-         */
-        this.position = position;
-
-        /**
-         * @property {datadomain.LevelHistoryCollection} histories The histories of the current floor
-         */
-        this.histories = histories;
-
-        /**
-         * @property {datadomain.PlayingState} playingState The state of playing at the current level
-         */
-        this.playingState = playingState;
-
-        /**
-         * @property {datadomain.LevelLockCollection} collection The collection of the locks
-         */
-        this.locks = locks;
-    };
-
-    /**
-     * Sets the position of character.
-     *
-     * @param {datadomain.CharPosition} position The position of the character
-     */
-    pt.setPosition = function (position) {
-        this.position = position;
-    };
-
-    /**
-     * Reloads the levelHistories according to the current position.
-     *
-     * @return {Promise} resolves with updated character
-     */
-    pt.reloadHistories = function () {
-        var that = this;
-
-        if (this.position == null) {
-            return Promise.resolve(this);
-        }
-
-        return new datadomain.LevelHistoryRepository(this.id).getByFloorId(this.position.floorId).then(function (histories) {
-            that.histories = histories;
-
-            return that;
-        });
-    };
-
-    /**
-     * Saves the LevelHistories.
-     *
-     * @return {Promise}
-     */
-    pt.saveHistories = function () {
-        var that = this;
-
-        return new datadomain.LevelHistoryRepository(this.id).saveByFloorId(this.position.floorId, this.histories).then(function () {
-            return that;
-        });
-    };
-
-    /**
-     * Reloads the level locks.
-     */
-    pt.reloadLocks = function () {
-        var that = this;
-
-        if (this.position == null) {
-            return Promise.resolve(this);
-        }
-
-        return new datadomain.LevelLockRepository(this.id).getByFloorId(this.position.floorId).then(function (locks) {
-            that.locks = locks;
-
-            return that;
-        });
-    };
-
-    /**
-     * Saves the current level locks.
-     */
-    pt.saveLocks = function () {
-        var that = this;
-
-        return new datadomain.LevelLockRepository(this.id).saveByFloorId(this.position.floorId, this.locks).then(function () {
-            return that;
-        });
-    };
-
-    /**
-     * Reloads the playingState
-     *
-     * @return {Promise}
-     */
-    pt.reloadPlayingState = function () {
-        var that = this;
-
-        return new datadomain.PlayingStateRepository().getByCharIdLevelId(this.id, this.position.floorObjectId).then(function (playingState) {
-            that.playingState = playingState;
-
-            return that;
-        });
-    };
-
-    /**
-     * Saves the playing state.
-     *
-     * @return {Promise}
-     */
-    pt.savePlayingState = function () {
-        var that = this;
-
-        return new datadomain.PlayingStateRepository().save(this.playingState).then(function () {
-            return that;
-        });
-    };
-
-    /**
-     * Clears the playing state.
-     *
-     * @return {Promise}
-     */
-    pt.clearPlayingState = function () {
-        return new datadomain.PlayingStateRepository().clearByCharId(this.id);
-    };
-});
-
-},{}],28:[function(require,module,exports){
-'use strict';
-
-/**
- * The factory of Character.
- */
-datadomain.CharacterFactory = subclass(function (pt) {
-    'use strict';
-
-    /**
-     * Creates a character from the object
-     *
-     * @param {Object} obj The object
-     * @return {datadomain.Character}
-     */
-
-    pt.createFromObject = function (obj) {
-        return new datadomain.Character(obj.id, obj.name, new datadomain.CharPositionFactory().createFromObject(obj.position));
-    };
-
-    /**
-     * Creates the character of the initial state.
-     *
-     * @param {String} id The character id
-     * @return {datadomain.Character}
-     */
-    pt.createInitialById = function (id) {
-        if (id === 'ma') {
-            return new datadomain.Character(id, 'Ma', new datadomain.CharPositionFactory().createFromObject());
-        } else if (id === 'ellen') {
-            return new datadomain.Character(id, 'Ellen', new datadomain.CharPositionFactory().createFromObject());
-        } else if (id === 'emma') {
-            return new datadomain.Character(id, 'Emma', new datadomain.CharPositionFactory().createFromObject());
-        }
-
-        throw new Error('unknown character: ' + id);
-    };
-});
-
-},{}],29:[function(require,module,exports){
-'use strict';
-
-/**
- * The repository of Character.
- *
- */
-datadomain.CharacterRepository = subclass(function (pt) {
-    'use strict';
-
-    var STORAGE_KEY = 'character-';
-
-    /**
-     * Saves the character.
-     *
-     * @param {datadomain.Character} character The Character
-     * @return {Promise}
-     */
-    pt.save = function (character) {
-        var obj = this.toObject(character);
-
-        return infrastructure.storage.set(STORAGE_KEY + character.id, obj).then(function () {
-            return character;
-        });
-    };
-
-    /**
-     * Gets a character by the id.
-     *
-     * @param {String} id The id
-     * @return {Promise} A promise of a character
-     */
-    pt.getById = function (id) {
-        return infrastructure.storage.get(STORAGE_KEY + id, null).then(function (obj) {
-            var character;
-
-            var factory = new datadomain.CharacterFactory();
-
-            if (obj == null) {
-                character = factory.createInitialById(id);
-            } else {
-                character = factory.createFromObject(obj);
-            }
-
-            return Promise.all([character, character.reloadHistories(), character.reloadPlayingState(), character.reloadLocks()]);
-        }).then(function (array) {
-            return array[0];
-        });
-    };
-
-    /**
-     * @private
-     * Converts the Character object into js object.
-     *
-     * @param {datadomain.Character} character The Character
-     * @return {Object}
-     */
-    pt.toObject = function (character) {
-        return {
-            id: character.id,
-            name: character.name,
-            position: this.positionToObject(character.position)
-        };
-    };
-
-    /**
-     * @private
-     * Converts the CharPosition object into js object.
-     *
-     * @param {datadomain.CharPosition} position The position
-     * @return {Object}
-     */
-    pt.positionToObject = function (position) {
-        if (position == null) {
-            return null;
-        }
-
-        return {
-            floorId: position.floorId,
-            floorObjectId: position.floorObjectId
-        };
-    };
-});
-
-},{}],30:[function(require,module,exports){
-'use strict';
-
-/**
- * Gene model
- *
- * ValueObject
- *
- * @class
- */
-datadomain.Gene = subclass(function (pt) {
-  'use strict';
-
-  /**
-   * @constructor
-   * @param {String} gene The gene
-   */
-
-  pt.constructor = function (gene) {
-    this.gene = gene;
-  };
-
-  /**
-   * Returns true if the given gene is the same.
-   *
-   * @param {datadomain.Gene} gene The gene to compare
-   * @return {Boolean}
-   */
-  pt.equals = function (gene) {
-    return gene instanceof datadomain.Gene && this.gene === gene.gene;
-  };
-});
-
-},{}],31:[function(require,module,exports){
-'use strict';
-
-/**
- * The level model.
- *
- * [AggregateRoot]
- *
- * @class
- */
-datadomain.Level = subclass(function (pt) {
-  'use strict';
-
-  /**
-   * @constructor
-   * @param {String} id The id
-   * @param {datadomain.goal.Goal} goal The goal
-   * @param {datadomain.CellCollection} cells The collection of the cells
-   */
-
-  pt.constructor = function (id, goal, cells) {
-    /**
-     * @property {String} id The id
-     */
-    this.id = id;
-
-    /**
-     * @property {datadomain.goal.Goal} goal The goal
-     */
-    this.goal = goal;
-
-    /**
-     * @property {datadomain.CellCollection} cells The collection of the cells
-     */
-    this.cells = cells;
-  };
-});
-
-},{}],32:[function(require,module,exports){
-'use strict';
-
-/**
- * The factory class for Level.
- */
-datadomain.LevelFactory = subclass(function (pt) {
-    'use strict';
-
-    pt.createFromObject = function (obj) {
-        return new datadomain.Level(obj.name, new datadomain.goal.GoalFactory().createFromObject(obj.goal), new datadomain.CellFactory().createCollectionFromArray(obj.cells));
-    };
-});
-
-},{}],33:[function(require,module,exports){
-'use strict';
-
-/**
- * LevelHistory is model class which represents the history of the level clearance.
- *
- * @class
- */
-datadomain.LevelHistory = subclass(function (pt) {
-  'use strict';
-
-  /**
-   * @constructor
-   * @param {String} levelId The id of the level
-   * @param {Number} score The score
-   * @param {datadomain.Gene[]} goalGenes The goal genes
-   * @param {Boolean} cleared If cleared or not
-   * @param {Date} clearedAt The datetime of the clear
-   */
-
-  pt.constructor = function (levelId, score, goalGenes, cleared, clearedAt) {
-    /**
-     * @property {String} levelId The id of the level
-     */
-    this.levelId = levelId;
-
-    /**
-     * @property {Number} score The score
-     */
-    this.score = score;
-
-    /**
-     * @property {datadomain.Gene[]} goalGenes The goal genes
-     */
-    this.goalGenes = goalGenes;
-
-    /**
-     * @property {Boolean} cleared If cleared or not
-     */
-    this.cleared = cleared;
-
-    /**
-     * @property {Date} clearedAt The datetime of the clear
-     */
-    this.clearedAt = clearedAt;
-  };
-});
-
-},{}],34:[function(require,module,exports){
-'use strict';
-
-/**
- * The collection class of LevelHistory.
- *
- * @class
- */
-datadomain.LevelHistoryCollection = subclass(Array, function (pt) {
-    'use strict';
-
-    /**
-     * @constructor
-     *
-     * @param {Array} list The array of the LevelHistories
-     */
-
-    pt.constructor = function (list) {
-        list = list || [];
-
-        this.dict = {};
-
-        list.forEach(function (history, i) {
-            this[i] = history;
-            this.dict[history.levelId] = history;
-        }, this);
-    };
-
-    /**
-     * Gets a LevelHistory by the id
-     *
-     * @param {String} levelId The level id
-     * @return {datadomain.LevelHistory}
-     */
-    pt.getById = function (levelId) {
-        return this.dict[levelId];
-    };
-});
-
-},{}],35:[function(require,module,exports){
-'use strict';
-
-/**
- * The factory class for LevelHistory.
- */
-datadomain.LevelHistoryFactory = subclass(function (pt) {
-    'use strict';
-
-    /**
-     * Creates a LevelHistoryCollection from the array.
-     *
-     * @param {Array} array The array of the LevelHistories
-     * @return {datadomain.LevelHistoryCollection}
-     */
-
-    pt.createCollectionFromArray = function (array) {
-        var that = this;
-
-        if (!(array instanceof Array)) {
-            array = [];
-        }
-
-        return new datadomain.LevelHistoryCollection(array.map(function (obj) {
-            return that.createFromObject(obj);
-        }));
-    };
-
-    /**
-     * Creates a LevelHistory from the object.
-     *
-     * @param {Object} obj The object
-     * @return {datadomain.LevelHistory}
-     */
-    pt.createFromObject = function (obj) {
-        return new datadomain.LevelHistory(obj.levelName, obj.score, obj.highestGene, obj.cleared, obj.clearedAt);
-    };
-});
-
-},{}],36:[function(require,module,exports){
-'use strict';
-
-/**
- * LevelHistoryRepository is the repository class of LevelHistory.
- *
- * This repository saves and restores the LevelHistorys using infrastructure.storage persistence interface.
- *
- * The key of the storage is as follows:
- *
- * level-history-[charId]-[floorId]
- *
- * e.g. level-history-ma-7
- */
-datadomain.LevelHistoryRepository = subclass(function (pt) {
-    'use strict';
-
-    /**
-     * @constructor
-     * @param {String} charId The character id
-     */
-
-    pt.constructor = function (charId) {
-        this.charId = charId;
-        this.factory = new datadomain.LevelHistoryFactory();
-    };
-
-    /**
-     * Gets the level histories (LevelHistoryCollection) by the floor.
-     *
-     * @param {String} floorId The floor id
-     * @return {Promise}
-     */
-    pt.getByFloorId = function (floorId) {
-        var that = this;
-
-        return infrastructure.storage.get(this.createStorageKey(floorId), []).then(function (array) {
-            return that.factory.createCollectionFromArray(array);
-        });
-    };
-
-    /**
-     * Creates storage key name for the floor.
-     *
-     * @private
-     * @param {String} floorId The floor id
-     * @return {Promise}
-     */
-    pt.createStorageKey = function (floorId) {
-        return 'level-history-' + this.charId + '-' + floorId;
-    };
-});
-
-},{}],37:[function(require,module,exports){
-'use strict';
-
-/**
- * The level lock model
- *
- * @class
- */
-datadomain.LevelLock = subclass(function (pt) {
-    'use strict';
-
-    pt.constructor = function (levelId, locked) {
-        this.levelId = levelId;
-        this.locked = locked;
-    };
-
-    /**
-     * Returns if the level is locked.
-     *
-     * @return {Boolean}
-     */
-    pt.isLocked = function () {
-        return this.locked;
-    };
-
-    /**
-     * Unlocks the level
-     */
-    pt.unlock = function () {
-        this.locked = false;
-    };
-});
-
-},{}],38:[function(require,module,exports){
-'use strict';
-
-/**
- * The collection class of LevelLocks.
- */
-datadomain.LevelLockCollection = subclass(function (pt) {
-    'use strict';
-
-    /**
-     * @param {Array} locks
-     */
-
-    pt.constructor = function (locks) {
-        this.locks = locks || [];
-    };
-
-    /**
-     * Finds the level of the given level id, or returns null when the level not found.
-     *
-     * @private
-     * @param {String} levelId The id of the level
-     * @return {datadomain.LevelLock}
-     */
-    pt.find = function (levelId) {
-        var locks = this.locks.filter(function (lock) {
-            return lock.levelId === levelId;
-        });
-
-        if (locks.length === 0) {
-            return null;
-        }
-
-        return locks[0];
-    };
-
-    /**
-     * Unlocks the level of the given id.
-     *
-     * @param {String} levelId The id of the level
-     */
-    pt.unlock = function (levelId) {
-        var lock = this.find(levelId);
-
-        if (lock != null) {
-            lock.unlock();
-
-            return;
-        }
-
-        // Create a new lock object if it doesn't exist
-        lock = new datadomain.LevelLockFactory().createFromObject({
-            levelId: levelId,
-            locked: false
-        });
-
-        this.locks.push(lock);
-    };
-
-    /**
-     * Checks if the lock of the given level id is locked.
-     *
-     * @param {String} levelId The id of the level
-     * @return {Boolean}
-     */
-    pt.isLocked = function (levelId) {
-        var lock = this.find(levelId);
-
-        if (!lock) {
-            // If lock object doesn't exist, then it means the level is locked.
-            return true;
-        }
-
-        return lock.isLocked();
-    };
-});
-
-},{}],39:[function(require,module,exports){
-'use strict';
-
-/**
- * The factory class of LevelLocks.
- */
-datadomain.LevelLockFactory = subclass(function (pt) {
-    'use strict';
-
-    /**
-     * Creates a LevelLock from the object.
-     *
-     * @param {Object} obj The object
-     * @return {datadomain.LevelLock}
-     */
-
-    pt.createFromObject = function (obj) {
-        if (obj == null) {
-            return null;
-        }
-
-        return new datadomain.LevelLock(obj.levelId, obj.locked);
-    };
-
-    /**
-     * Creates a LevelLockCollection from the list of the object.
-     *
-     * @param {Array} objList The list of objects
-     * @return {Array}
-     */
-    pt.createCollectionFromObjectList = function (objList) {
-        objList = objList || [];
-
-        return new datadomain.LevelLockCollection(objList.map(function (obj) {
-            return this.createFromObject(obj);
-        }, this));
-    };
-});
-
-},{}],40:[function(require,module,exports){
-'use strict';
-
-/**
- * The repository class of the LevelLock.
- *
- * This repository saves and restores the LevelLocks in JSON format using the infrastructure.storage persistent interface.
- *
- * The storage key of the collection of the level locks is as follows:
- *
- * level-lock-[charId]-[floorId]
- *
- * e.g. if charId is 'ma' and floorId is '7', then the storage key is 'level-lock-ma-7'
- */
-datadomain.LevelLockRepository = subclass(function (pt) {
-    'use strict';
-
-    /**
-     * @param {String} charId The character id
-     */
-
-    pt.constructor = function (charId) {
-        this.charId = charId;
-    };
-
-    /**
-     * Gets the collection of the level locks by the floor id and char id.
-     *
-     * @param {String} floorId The floor id
-     * @param {String} charId The floor id
-     * @return {Promise} which resolves with the collection of the locks of the given floor id
-     */
-    pt.getByFloorId = function (floorId) {
-        return infrastructure.storage.get(this.createStorageKey(floorId), []).then(function (objList) {
-            return new datadomain.LevelLockFactory().createCollectionFromObjectList(objList);
-        });
-    };
-
-    /**
-     * Saves the collection of the locks by the floor id and char id.
-     *
-     * @param {String} floorId The floor id
-     * @param {datadomain.LevelLockCollection} collection The level lock collection
-     */
-    pt.saveByFloorId = function (floorId, collection) {
-        return infrastructure.storage.set(this.createStorageKey(floorId), this.toObjectList(collection));
-    };
-
-    /**
-     * Converts the collection of the locks to an object list.
-     *
-     * @private
-     * @param {datadomain.LevelLockCollection} collection The level lock collection
-     * @return {Array} the array of the objects
-     */
-    pt.toObjectList = function (collection) {
-        return collection.locks.map(function (lock) {
-            return this.toObject(lock);
-        }, this);
-    };
-
-    /**
-     * Converts the lock to an object.
-     *
-     * @private
-     * @param {datadomain.LevelLock} lock The lock
-     * @return {Object}
-     */
-    pt.toObject = function (lock) {
-        return {
-            levelId: lock.levelId,
-            locked: lock.locked
-        };
-    };
-
-    /**
-     * Creates the storage key of the given floor id and char id.
-     *
-     * @private
-     * @param {String} floorId The floor id
-     * @param {String} charId The char id
-     * @return {String}
-     */
-    pt.createStorageKey = function (floorId) {
-        return 'level-lock-' + this.charId + '-' + floorId;
-    };
-});
-
-},{}],41:[function(require,module,exports){
-'use strict';
-
-/**
- * The repository of Level.
- */
-datadomain.LevelRepository = subclass(function (pt) {
-    'use strict';
-
-    /**
-     * Gets the level by the id.
-     *
-     * @param {String} id The id
-     * @return {Promise}
-     */
-
-    pt.getById = function (id) {
-        var that = this;
-
-        return new Promise(function (resolve) {
-            $.getJSON(that.levelUrl(id)).then(function (data) {
-                resolve(new datadomain.LevelFactory().createFromObject(data));
-            });
-        });
-    };
-
-    /**
-     * Gets the url of the level
-     *
-     * @private
-     * @param {String} id The id of the level
-     * @return {String} The url of the level
-     */
-    pt.levelUrl = function (id) {
-        return 'data/level/' + id + '.json';
-    };
-});
-
-},{}],42:[function(require,module,exports){
-'use strict';
-
-/**
- * PlayingState model represents the current playing state of the level.
- *
- * [ValueObject]
- */
-datadomain.PlayingState = subclass(function (pt) {
-  'use strict';
-
-  /**
-   * @constructor
-   * @param {String} charId The character id
-   * @param {String} levelId The level id
-   * @param {Array} [rounds] The directions
-   */
-
-  pt.constructor = function (charId, levelId, rounds) {
-
-    this.charId = charId;
-    this.levelId = levelId;
-    this.rounds = rounds || [[]];
-  };
-
-  /**
-   * Moves to the next round.
-   */
-  pt.bump = function () {
-
-    this.rounds.unshift([]);
-  };
-
-  /**
-   * Releases the round data and init the obj state.
-   *
-   * @return {Array} The array of round data
-   */
-  pt.release = function () {
-
-    var rounds = this.rounds.splice(0).reverse();
-
-    this.bump();
-
-    return rounds;
-  };
-
-  /**
-   * Adds a direction
-   *
-   * @param {String} dir The direction
-   */
-  pt.add = function (dir) {
-
-    this.rounds[0].push(dir);
-  };
-});
-
-},{}],43:[function(require,module,exports){
-'use strict';
-
-/**
- * PlayingStateRepository is the repository class for PlayingState model.
- */
-datadomain.PlayingStateRepository = subclass(function (pt) {
-    'use strict';
-
-    var PLAYING_DATA_KEY = 'playing-state-';
-
-    /**
-     * Gets a playing state by the character id.
-     *
-     * @param {String} chadId The character id
-     * @param {String} levelId The level id
-     * @return {Promise}
-     */
-    pt.getByCharIdLevelId = function (charId, levelId) {
-        return infrastructure.storage.get(PLAYING_DATA_KEY + charId, null).then(function (data) {
-            if (data == null) {
-                return new datadomain.PlayingState(charId, levelId, [[]]);
-            }
-
-            if (data.levelId !== levelId) {
-                return new datadomain.PlayingState(charId, levelId, [[]]);
-            }
-
-            return new datadomain.PlayingState(data.charId, data.levelId, data.rounds);
-        });
-    };
-
-    /**
-     * Saves the playingState
-     *
-     * @return {Promise}
-     */
-    pt.save = function (playingState) {
-        return infrastructure.storage.set(PLAYING_DATA_KEY + playingState.charId, this.toObject(playingState)).then(function () {
-            return playingState;
-        });
-    };
-
-    /**
-     * Clears the data by the character id
-     *
-     * @param {String} id The character id
-     * @return {Promise}
-     */
-    pt.clearByCharId = function (id) {
-        return infrastructure.storage.set(PLAYING_DATA_KEY + id, null);
-    };
-
-    /**
-     * @private
-     * Converts to the object
-     *
-     * @param {datadomain.PlayingState} playingState The playing state
-     * @return {Object}
-     */
-    pt.toObject = function (playingState) {
-        return {
-            charId: playingState.charId,
-            levelId: playingState.levelId,
-            rounds: playingState.rounds
-        };
-    };
-});
-
-},{}],44:[function(require,module,exports){
-'use strict';
-
-/**
- * The model of user.
- */
-datadomain.User = subclass(function (pt) {
-  'use strict';
-
-  /**
-   * @constructor
-   * @param {String} charId The id of the character currently chosen
-   * @param {datadomain.UserStatistics} stat The statisctics of the user activity
-   */
-
-  pt.constructor = function (charId, stat) {
-    /**
-     * @property {String} charId The id of the character currently chosen
-     */
-    this.charId = charId;
-
-    /**
-     * @property {datadomain.UserStatistics} stat The statisctics of the user activity
-     */
-    this.stat = stat;
-  };
-
-  /**
-   * Sets the character id.
-   *
-   * @param {String} charId The character id.
-   */
-  pt.setCharId = function (charId) {
-    this.charId = charId;
-  };
-});
-
-},{}],45:[function(require,module,exports){
-'use strict';
-
-/**
- * Factory class of User
- */
-datadomain.UserFactory = subclass(function (pt) {
-    'use strict';
-
-    var DEFAULT_CHAR_ID = 'ma';
-
-    pt.createFromObject = function (obj) {
-        obj = obj || {};
-
-        if (obj.charId == null) {
-            obj.charId = DEFAULT_CHAR_ID;
-        }
-
-        return new datadomain.User(obj.charId, new datadomain.UserStatistics(obj.stat));
-    };
-});
-
-},{}],46:[function(require,module,exports){
-'use strict';
-
-datadomain.UserRepository = subclass(function (pt) {
-    'use strict';
-
-    var KEY = 'LD-user-key';
-
-    pt.save = function (user) {
-        return infrastructure.storage.set(KEY, user).then(function () {
-            return user;
-        });
-    };
-
-    pt.get = function () {
-        return infrastructure.storage.get(KEY, {}).then(function (data) {
-            return new datadomain.UserFactory().createFromObject(data);
-        });
-    };
-});
-
-},{}],47:[function(require,module,exports){
-'use strict';
-
-/**
- * UserStatistics is the collection class of user statistics info.
- *
- */
-datadomain.UserStatistics = subclass(function (pt) {
-  'use strict';
-
-  /**
-   * @constructor
-   * @param {Object} opts The options
-   * @param {Number} [opts.launchTimes] The number of the launches of the app
-   */
-
-  pt.constuctor = function (opts) {
-    /**
-     * @property {Number} launchTimes The number of the launches of the app
-     */
-    this.launchTimes = opts.launchTimes;
-  };
-});
-
-},{}],48:[function(require,module,exports){
-'use strict';
-
-var _BomTable = require('../../domain/common/BomTable');
-
-var _BomTable2 = _interopRequireDefault(_BomTable);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-datadomain.goal.CollectGoal = function () {
-    'use strict';
-
-    var exports = function exports(type, opts) {
-        this.type = type;
-        this.opts = opts;
-    };
-
-    var cgPt = exports.prototype;
-
-    cgPt.toString = function () {
-        var number = this.opts.number;
-        var target = _BomTable2.default[this.opts.target];
-
-        return 'This room needs ' + number + ' ' + this.numberize(target, number) + '.';
-    };
-
-    cgPt.numberize = function (noun, number) {
-        if (number <= 1) {
-            return noun;
-        } else {
-            return noun + 's';
-        }
-    };
-
-    return exports;
-}();
-
-},{"../../domain/common/BomTable":53}],49:[function(require,module,exports){
-'use strict';
-
-/**
- * @class
- * @abstract
- *
- * Goal class is the model class of the goal of the level.
- */
-datadomain.goal.Goal = function () {
-  'use strict';
-
-  /**
-   * @constructor
-   * @param {String} type The type of the goal
-   * @param {Object} [options] The options
-   */
-
-  var exports = function exports(type, options) {
-    this.type = type;
-    this.options = options;
-  };
-
-  var gPt = exports.prototype;
-
-  /**
-   * Gets string representation.
-   *
-   * @abstract
-   */
-  gPt.toString = function () {};
-
-  return exports;
-}();
-
-},{}],50:[function(require,module,exports){
-'use strict';
-
-/**
- * GoalFactory is the factory class of goal models
- */
-datadomain.goal.GoalFactory = subclass(function (pt) {
-    'use strict';
-
-    /**
-     * Creates goals from object list.
-     *
-     * @param {Array} list The lisf of goal objects.
-     * @return {Array}
-     */
-
-    pt.createFromObjectList = function (list) {
-        return this.createFromObject(list[0]);
-    };
-
-    /**
-     * Creates a goal from the given object.
-     *
-     * @param {Object} obj The goal object
-     * @return {datadomain.goal.Goal} The goal
-     */
-    pt.createFromObject = function (obj) {
-        var type = obj.type;
-
-        switch (type) {
-            case 'C':
-                return new datadomain.goal.CollectGoal(obj.type, obj.opts);
-            case 'L':
-                return new datadomain.goal.ClearGoal(obj.type, obj.opts);
-            case 'F':
-                return new datadomain.goal.FusionGoal(obj.type, obj.opts);
-            case 'S':
-                return new datadomain.goal.ScoreGoal(obj.type, obj.opts);
-        }
-    };
-});
-
-},{}],51:[function(require,module,exports){
-'use strict';
-
-require('./Goal');
-
-require('./CollectGoal');
-
-require('./GoalFactory');
-
-},{"./CollectGoal":48,"./Goal":49,"./GoalFactory":50}],52:[function(require,module,exports){
-'use strict';
-
-require('./Cell');
-
-require('./CellCollection');
-
-require('./CellFactory');
-
-require('./CharPosition');
-
-require('./CharPositionFactory');
-
-require('./Character');
-
-require('./CharacterFactory');
-
-require('./CharacterRepository');
-
-require('./Gene');
-
-require('./Level');
-
-require('./LevelFactory');
-
-require('./LevelHistory');
-
-require('./LevelHistoryCollection');
-
-require('./LevelHistoryFactory');
-
-require('./LevelHistoryRepository');
-
-require('./LevelLock');
-
-require('./LevelLockCollection');
-
-require('./LevelLockFactory');
-
-require('./LevelLockRepository');
-
-require('./LevelRepository');
-
-require('./PlayingState');
-
-require('./PlayingStateRepository');
-
-require('./User');
-
-require('./UserFactory');
-
-require('./UserRepository');
-
-require('./UserStatistics');
-
-require('./goal');
-
-},{"./Cell":22,"./CellCollection":23,"./CellFactory":24,"./CharPosition":25,"./CharPositionFactory":26,"./Character":27,"./CharacterFactory":28,"./CharacterRepository":29,"./Gene":30,"./Level":31,"./LevelFactory":32,"./LevelHistory":33,"./LevelHistoryCollection":34,"./LevelHistoryFactory":35,"./LevelHistoryRepository":36,"./LevelLock":37,"./LevelLockCollection":38,"./LevelLockFactory":39,"./LevelLockRepository":40,"./LevelRepository":41,"./PlayingState":42,"./PlayingStateRepository":43,"./User":44,"./UserFactory":45,"./UserRepository":46,"./UserStatistics":47,"./goal":51}],53:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-/**
- * BomTable is the master table of the cell name for each number.
- */
-exports.default = {
-
-    1: 'monon',
-    2: 'deutron',
-    3: 'triton',
-    4: 'quatron',
-    5: 'penton',
-    6: 'hexton',
-    7: 'septon'
-
-};
-
-},{}],54:[function(require,module,exports){
-"use strict";
-
-window.subclass = $.cc.subclass;
-
-// game logic domain
-window.domain = {};
-window.domain.common = {};
-window.domain.map = {};
-window.domain.level = {};
-window.domain.genetics = {};
-
-// game data domain
-window.datadomain = {};
-window.datadomain.goal = {};
-
-// ui domain
-window.ui = {};
-window.ui.common = {};
-window.ui.level = {};
-
-// util (infrastructure layer)
-window.util = {};
-
-},{}],55:[function(require,module,exports){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _dec, _desc, _value, _class;
-
-require('./menu-item');
-
-var _spn = require('spn');
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-    var desc = {};
-    Object['ke' + 'ys'](descriptor).forEach(function (key) {
-        desc[key] = descriptor[key];
-    });
-    desc.enumerable = !!desc.enumerable;
-    desc.configurable = !!desc.configurable;
-
-    if ('value' in desc || desc.initializer) {
-        desc.writable = true;
-    }
-
-    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-        return decorator(target, property, desc) || desc;
-    }, desc);
-
-    if (context && desc.initializer !== void 0) {
-        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-        desc.initializer = undefined;
-    }
-
-    if (desc.initializer === void 0) {
-        Object['define' + 'Property'](target, property, desc);
-        desc = null;
-    }
-
-    return desc;
-}
-
-var TRANS_DUR = 800;
-var R = 60; // radius of menu item arrangment
-
-/**
- * Culculates item offsets of the given number
- *
- * @param {Object} offset The root position
- * @param {number} num The number of items
- * @return {Object[]}
- */
-function itemOffsets(offset, num) {
-
-    var result = [];
-
-    var gutter = Math.PI / 4 / num / num;
-
-    var urad = num > 1 ? (Math.PI / 2 - gutter * 2) / (num - 1) : 0;
-
-    var r = R * Math.sqrt(num);
-
-    for (var i = 0; i < num; i++) {
-
-        var rad = urad * i;
-        var cos = r * Math.cos(rad + gutter);
-        var sin = r * Math.sin(rad + gutter);
-
-        var res = { left: offset.left + cos, top: offset.top - sin };
-
-        result.push(res);
-    }
-
-    return result;
-}
-
-/**
- * MenuButton handles the behaviour of the menu button.
- */
-var MenuButton = (_dec = $.cc.event('click'), (_class = function (_$$cc$Coelement) {
-    _inherits(MenuButton, _$$cc$Coelement);
-
-    function MenuButton(elem) {
-        _classCallCheck(this, MenuButton);
-
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MenuButton).call(this, elem));
-
-        _this.closed = true;
-
-        _this.menus = _this.getMenuItemSource().map(function (menu) {
-            return _this.createMenuItem(menu);
-        });
-
-        return _this;
-    }
-
-    /**
-     * Gets item source doms.
-     *
-     * @return {jQuery[]}
-     */
-
-    _createClass(MenuButton, [{
-        key: 'getMenuItemSource',
-        value: function getMenuItemSource() {
-
-            if (this.elem.data('menu')) {
-
-                return this.elem.data('menu');
-            }
-
-            if (this.elem.attr('menu')) {
-
-                return $('#' + this.elem.attr('menu')).children().toArray();
-            }
-
-            throw new Error('no menu');
-        }
-
-        /**
-         * Sets the offset.
-         *
-         * @param {Number} offset.left The left offset
-         * @param {Number} offset.top The top offset
-         */
-
-    }, {
-        key: 'setOffset',
-        value: function setOffset(offset) {
-
-            this.menus.forEach(function (menu) {
-                return menu.setOffset(offset);
-            });
-        }
-
-        /**
-         * Shows the menu button.
-         *
-         * @return {Promise}
-         */
-
-    }, {
-        key: 'show',
-        value: function show() {
-            var _this2 = this;
-
-            this.elem.removeClass('hidden');
-
-            return (0, _spn.wait)(TRANS_DUR).then(function () {
-                return _this2.setOffset(_this2.elem.offset());
-            });
-        }
-
-        /**
-         * Hides the menu button.
-         *
-         * @return {Promise}
-         */
-
-    }, {
-        key: 'hide',
-        value: function hide() {
-            var _this3 = this;
-
-            return this.closeMenu().then(function () {
-                return (0, _spn.wait)(300);
-            }).then(function () {
-
-                _this3.elem.addClass('hidden');
-
-                return (0, _spn.wait)(TRANS_DUR);
-            });
-        }
-
-        /**
-         * Opens the menu.
-         *
-         * @return {Promise}
-         */
-
-    }, {
-        key: 'openMenu',
-        value: function openMenu() {
-
-            this.closed = false;
-
-            var toOffsets = itemOffsets(this.elem.offset(), this.menus.length);
-
-            return Promise.all(this.menus.map(function (menu, i) {
-                return (0, _spn.wait)(50 * i).then(function () {
-                    return menu.show(toOffsets[i]);
-                });
-            }));
-        }
-
-        /**
-         * Closes the menu.
-         *
-         * @return {Promise}
-         */
-
-    }, {
-        key: 'closeMenu',
-        value: function closeMenu(offset) {
-
-            if (this.closed) {
-
-                return Promise.resolve();
-            }
-
-            this.closed = true;
-
-            offset = offset || this.elem.offset();
-
-            return Promise.all(this.menus.map(function (menu) {
-                return menu.hide(offset);
-            }));
-        }
-
-        /**
-         * Toggles the menu's open/close state.
-         */
-
-    }, {
-        key: 'toggleMenu',
-        value: function toggleMenu() {
-
-            return this.closed ? this.openMenu() : this.closeMenu();
-        }
-
-        /**
-         * Creates a menu item from menu source item.
-         *
-         * @private
-         * @param {jQuery} menu
-         */
-
-    }, {
-        key: 'createMenuItem',
-        value: function createMenuItem(menu) {
-
-            menu = $(menu);
-
-            return $('<img />', {
-
-                attr: {
-                    src: menu.attr('src')
-                },
-                addClass: 'hidden',
-                insertBefore: this.elem,
-                data: {
-                    menu: menu.children().toArray(),
-                    onclick: menu.attr('onclick')
-                }
-
-            }).cc.init('menu-item');
-        }
-    }]);
-
-    return MenuButton;
-}($.cc.Coelement), (_applyDecoratedDescriptor(_class.prototype, 'toggleMenu', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'toggleMenu'), _class.prototype)), _class));
-
-$.cc.assign('menu-button', MenuButton);
-
-},{"./menu-item":56,"spn":71}],56:[function(require,module,exports){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _dec, _desc, _value, _class;
-
-var _spn = require('spn');
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-    var desc = {};
-    Object['ke' + 'ys'](descriptor).forEach(function (key) {
-        desc[key] = descriptor[key];
-    });
-    desc.enumerable = !!desc.enumerable;
-    desc.configurable = !!desc.configurable;
-
-    if ('value' in desc || desc.initializer) {
-        desc.writable = true;
-    }
-
-    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-        return decorator(target, property, desc) || desc;
-    }, desc);
-
-    if (context && desc.initializer !== void 0) {
-        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-        desc.initializer = undefined;
-    }
-
-    if (desc.initializer === void 0) {
-        Object['define' + 'Property'](target, property, desc);
-        desc = null;
-    }
-
-    return desc;
-}
-
-/**
- * MenuItem handles the behaviour of items of the menu.
- */
-var MenuItem = (_dec = $.cc.event('click'), (_class = function (_$$cc$Coelement) {
-    _inherits(MenuItem, _$$cc$Coelement);
-
-    function MenuItem(elem) {
-        _classCallCheck(this, MenuItem);
-
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MenuItem).call(this, elem));
-
-        var menu = _this.elem.data('menu');
-
-        if (menu && menu.length) {
-
-            _this.elem.cc.init('menu-button');
-        }
-
-        return _this;
-    }
-
-    /**
-     * Invokes custom onclick handler.
-     */
-
-    _createClass(MenuItem, [{
-        key: 'handleOnClick',
-        value: function handleOnClick() {
-
-            var onclick = this.elem.data('onclick');
-
-            if (typeof onclick !== 'string' || onclick === '') {
-                return;
-            }
-
-            window.eval(onclick);
-        }
-
-        /**
-         * Shows the element moving towards the given offset
-         *
-         * @param {Object} to The offset to goes to.
-         * @return {Promise}
-         */
-
-    }, {
-        key: 'show',
-        value: function show(to) {
-
-            this.elem.removeClass('hidden');
-
-            this.setOffset(to);
-
-            return Promise.resolve();
-        }
-
-        /**
-         * Sets the offset of the element
-         *
-         * @private
-         * @param {Object} offset
-         */
-
-    }, {
-        key: 'setOffset',
-        value: function setOffset(offset) {
-
-            this.elem.offset(offset);
-
-            if (this.elem.hasClass('menu-button')) {
-
-                this.elem.cc.get('menu-button').setOffset(offset);
-            }
-        }
-
-        /**
-         * Hides the menu item.
-         *
-         * @param {Object} offset The offset to hides
-         * @return {Promise}
-         */
-
-    }, {
-        key: 'hide',
-        value: function hide(offset) {
-            var _this2 = this;
-
-            this.elem.addClass('hidden');
-
-            this.setOffset(offset);
-
-            var p = (0, _spn.wait)(50);
-
-            // Hides child menus if exist
-            if (this.elem.hasClass('menu-button')) {
-
-                p = p.then(function () {
-                    return _this2.elem.cc.get('menu-button').closeMenu(offset);
-                });
-            }
-
-            return p;
-        }
-    }]);
-
-    return MenuItem;
-}($.cc.Coelement), (_applyDecoratedDescriptor(_class.prototype, 'handleOnClick', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'handleOnClick'), _class.prototype)), _class));
-
-$.cc.assign('menu-item', MenuItem);
-
-},{"spn":71}],57:[function(require,module,exports){
-'use strict';
-
-require('./jquery');
-
-require('./rx');
-
-},{"./jquery":58,"./rx":59}],58:[function(require,module,exports){
-'use strict';
-
-var _spn = require('spn');
-
-/**
- * Performs the animation.
- *
- * @param {String} animation The css animation
- */
-$.fn.animation = function (animation) {
-
-    this.css('-webkit-animation', '');
-    (0, _spn.reflow)(this);
-    this.css('-webkit-animation', animation);
-
-    return this;
-};
-
-/**
- * Performs the animation in the duration and returns a promise.
- *
- * @param {String} animation The animation name
- * @param {Number} dur The duration of the animation
- * @return {Promise}
- */
-$.fn.anim = function (animation, dur) {
-
-    this.animation(animation + ' ' + dur + 'ms');
-
-    return (0, _spn.wait)(dur, this);
-};
-
-/**
- * Binds event once and returns promise.
- *
- * @param {String} events The list of events names
- * @return {Promise}
- */
-$.fn.once = function (events) {
-    var _this = this;
-
-    return new Promise(function (resolve) {
-        return _this.one(events, resolve);
-    });
-};
-
-/**
- * Returns Observable of an event stream.
- *
- * @param {String} events The list of event names
- * @return {Rx.Observable}
- */
-$.fn.streamOf = function (events) {
-
-    return Rx.Observable.fromEvent(this, events);
-};
-
-/**
- * Returns a promise which resolves when image is loaded. Only works with `img` tag.
- *
- * @return {Promise}
- */
-$.fn.imageLoaded = function () {
-    var _this2 = this;
-
-    return new Promise(function (resolve, reject) {
-        return _this2.on('error', function () {
-            return reject(new Error('image can not be loaded: ' + _this2.attr('src')));
-        }).on('load', function () {
-            return resolve();
-        }).attr('src', _this2.attr('src'));
-    });
-};
-
-},{"spn":71}],59:[function(require,module,exports){
-"use strict";
-
-var Rx = window.Rx;
-
-/**
- * Checks if it's flatMappable or not.
- *
- * @param {Object} x Testing object
- * @return {Boolean}
- */
-Rx.helpers.isObservableLike = function (x) {
-  return x instanceof Rx.Observable || Rx.helpers.isPromise(x);
-};
-
-var wrapUnobservable = function wrapUnobservable(x) {
-  return Rx.helpers.isObservableLike(x) ? x : [x];
-};
-
-/**
- * Maps it and flatMap it only when it's possible.
- *
- * @param {Function} f Mapping function
- * @return {Rx.Observable}
- */
-Rx.Observable.prototype.pipe = function (f) {
-
-  return this.map(f).flattenObservable();
-};
-
-/**
- * Flattens it.
- *
- * @return {Rx.Observable}
- */
-Rx.Observable.prototype.flattenObservable = function () {
-
-  return this.map(wrapUnobservable).flatMap(function (x) {
-    return x;
-  });
-};
-
-/**
- * Filters null equivalent element.
- *
- * @return {Rx.Observable}
- */
-Rx.Observable.prototype.filterNull = function () {
-
-  return this.filter(function (x) {
-    return x != null;
-  });
-};
-
-/**
- * Returns promise which resolves the last value of the stream when the stream completed.
- *
- * @return {Promise}
- */
-Rx.Observable.prototype.getPromise = function () {
-  var _this = this;
-
-  return new Promise(function (resolve, reject) {
-    return _this.takeLast(1).subscribe(function (x) {
-      return resolve(x);
-    }, function (error) {
-      return reject(error);
-    }, function () {
-      return resolve();
-    });
-  });
-};
-
-/**
- * Emit to the given dom element. assume the observable is a stream of the event.
- *
- * @param {jQuery|HTMLElement|String} dom The dom to emit event
- * @return {Object}
- */
-Rx.Observable.prototype.emitInto = function (dom) {
-
-  return this.forEach(function (event) {
-    return $(dom).trigger(event);
-  });
-};
-
-/**
- * Hooks the function to the stream
- *
- * @param {Function} f The hooking function
- * @return {Rx.Observable}
- */
-Rx.Observable.prototype.hook = function (f) {
-
-  return this.filter(function (item) {
-    return f(item) || true;
-  });
-};
-
-/**
- * Makes into flattenned stream.
- *
- * @return {Rx.Observable}
- */
-window.Array.prototype.toFlatStream = function () {
-
-  return Rx.Observable.of.apply(null, this).flattenObservable();
-};
-
-},{}],60:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -21143,7 +19038,7 @@ var Animation = (function () {
 })();
 
 exports.default = Animation;
-},{"./if-num-else":69,"./reflow":74,"./wait":77}],61:[function(require,module,exports){
+},{"./if-num-else":28,"./reflow":33,"./wait":36}],20:[function(require,module,exports){
 "use strict";
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -21303,7 +19198,7 @@ var Being = (function (_$$cc$Actor) {
 })($.cc.Actor);
 
 exports.default = Being;
-},{}],62:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21335,7 +19230,7 @@ var DimensionalBeing = (function (_Being) {
 })(_being2.default);
 
 exports.default = DimensionalBeing;
-},{"./being":61}],63:[function(require,module,exports){
+},{"./being":20}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21367,7 +19262,7 @@ var CharSprite = (function (_Sprite) {
 })(_sprite2.default);
 
 exports.default = CharSprite;
-},{"./sprite":75}],64:[function(require,module,exports){
+},{"./sprite":34}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21399,7 +19294,7 @@ var DimensionFactory = (function (_Rect) {
 })(_rect2.default);
 
 exports.default = DimensionFactory;
-},{"./rect":73}],65:[function(require,module,exports){
+},{"./rect":32}],24:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21413,7 +19308,7 @@ var DirStateImageMap = function DirStateImageMap() {
 };
 
 exports.default = DirStateImageMap;
-},{}],66:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21425,7 +19320,7 @@ var LEFT = exports.LEFT = 1;
 var RIGHT = exports.RIGHT = 2;
 var BOTTOM = exports.BOTTOM = 3;
 var DOWN = exports.DOWN = 3;
-},{}],67:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21457,7 +19352,7 @@ var GridWalker = (function (_Body) {
 })(_body2.default);
 
 exports.default = GridWalker;
-},{"./body":62}],68:[function(require,module,exports){
+},{"./body":21}],27:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21471,7 +19366,7 @@ var Grid = function Grid() {
 };
 
 exports.default = Grid;
-},{}],69:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21488,7 +19383,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = function (num, defaultValue) {
   return typeof num === 'number' ? num : defaultValue;
 };
-},{}],70:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21502,7 +19397,7 @@ var Image = function Image() {
 };
 
 exports.default = Image;
-},{}],71:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21599,7 +19494,7 @@ exports.Sprite = _sprite2.default;
 exports.CharSprite = _charSprite2.default;
 exports.StaticSprite = _staticSprite2.default;
 exports.DIRS = DIRS;
-},{"./animation":60,"./being":61,"./body":62,"./char-sprite":63,"./dimension-factory":64,"./dir-state-image-map":65,"./dirs":66,"./grid":68,"./grid-walker":67,"./if-num-else":69,"./image":70,"./posture":72,"./rect":73,"./reflow":74,"./sprite":75,"./static-sprite":76,"./wait":77}],72:[function(require,module,exports){
+},{"./animation":19,"./being":20,"./body":21,"./char-sprite":22,"./dimension-factory":23,"./dir-state-image-map":24,"./dirs":25,"./grid":27,"./grid-walker":26,"./if-num-else":28,"./image":29,"./posture":31,"./rect":32,"./reflow":33,"./sprite":34,"./static-sprite":35,"./wait":36}],31:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -21888,7 +19783,7 @@ var Posture = (function () {
 })();
 
 exports.default = Posture;
-},{"./if-num-else":69}],73:[function(require,module,exports){
+},{"./if-num-else":28}],32:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21902,7 +19797,7 @@ var Rect = function Rect() {
 };
 
 exports.default = Rect;
-},{}],74:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -21922,7 +19817,7 @@ function reflow(elem) {
 
   return elem;
 }
-},{}],75:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21954,7 +19849,7 @@ var Sprite = (function (_GridWalker) {
 })(_gridWalker2.default);
 
 exports.default = Sprite;
-},{"./grid-walker":67}],76:[function(require,module,exports){
+},{"./grid-walker":26}],35:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21986,7 +19881,7 @@ var StaticSprite = (function (_Sprite) {
 })(_sprite2.default);
 
 exports.default = StaticSprite;
-},{"./sprite":75}],77:[function(require,module,exports){
+},{"./sprite":34}],36:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -22008,4 +19903,2215 @@ function wait(n, result) {
     }, n);
   });
 }
-},{}]},{},[20]);
+},{}],37:[function(require,module,exports){
+/**
+ * subclassjs v1.3.0
+ */
+
+
+(function () {
+    'use strict';
+
+    /**
+     * Generates a subclass with given parent class and additional class definition.
+     *
+     * @param {Function} parent The parent class constructor
+     * @param {Function<(pt: Object, super: Object) => void>} classDefinition
+     * @returns {Function}
+     */
+    var subclass = function (parent, classDefinition) {
+
+        if (classDefinition == null) {
+
+            // if there's no second argument
+            // then use the first argument as class definition
+            // and suppose parent is Object
+
+            classDefinition = parent;
+            parent = Object;
+
+        }
+
+        if (parent == null) {
+
+            throw new Error('parent cannot be null: definingFunction=' + classDefinition.toString());
+
+        }
+
+        // create proxy constructor for inheritance
+        var proxy = function () {};
+
+        proxy.prototype = parent.prototype;
+
+        var prototype = new proxy();
+
+
+        // creates child's default constructor
+        // this can be overwritten in classDefinition
+        prototype.constructor = function () {
+
+            proxy.prototype.constructor.apply(this, arguments);
+
+        };
+
+
+        if (typeof classDefinition === 'function') {
+
+            // apply the given class definition
+            classDefinition(prototype, parent.prototype);
+
+        } else if (classDefinition == null) {
+
+            // do nothing
+
+        } else {
+
+            throw new Error('the type of classDefinition is wrong: ' + typeof classDefinition);
+
+        }
+
+
+
+        // set prototype to constructor
+        prototype.constructor.prototype = prototype;
+
+
+        return prototype.constructor;
+
+    };
+
+
+    if (typeof module !== 'undefined' && module.exports) {
+
+        // CommonJS
+        module.exports = subclass;
+
+    } else {
+
+        // window export
+        window.subclass = subclass;
+    }
+
+}());
+
+},{}],38:[function(require,module,exports){
+'use strict';
+
+require('./global');
+
+require('class-component');
+
+require('cc-event');
+
+require('event-hub');
+
+require('../../src/namespaces');
+
+require('../../src/util');
+
+require('../../infrastructure/infrastructure');
+
+require('multiflip');
+
+require('multiflip-bubble');
+
+require('../../src/ui/common/menu-button');
+
+require('../../src/datadomain/');
+
+},{"../../infrastructure/infrastructure":1,"../../src/datadomain/":70,"../../src/namespaces":72,"../../src/ui/common/menu-button":73,"../../src/util":75,"./global":39,"cc-event":4,"class-component":5,"event-hub":13,"multiflip":16,"multiflip-bubble":15}],39:[function(require,module,exports){
+(function (global){
+'use strict';
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _rxLite = require('rx-lite');
+
+var _rxLite2 = _interopRequireDefault(_rxLite);
+
+var _es6Promise = require('es6-promise');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+global.$ = _jquery2.default;
+global.jQuery = _jquery2.default;
+global.Rx = _rxLite2.default;
+
+(0, _es6Promise.polyfill)();
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"es6-promise":12,"jquery":14,"rx-lite":18}],40:[function(require,module,exports){
+'use strict';
+
+/**
+ * The cell.
+ *
+ * [ValueObject]
+ *
+ * @class
+ */
+datadomain.Cell = subclass(function (pt) {
+  'use strict';
+
+  pt.constructor = function (gene) {
+    /**
+     * @property {String} gene The gene
+     */
+    this.gene = gene;
+  };
+});
+
+},{}],41:[function(require,module,exports){
+'use strict';
+
+/**
+ * The collection class of Cell.
+ */
+datadomain.CellCollection = subclass(function (pt) {
+  'use strict';
+
+  /**
+   * @constructor
+   * @param {Array} cells The array of cells
+   */
+
+  pt.constructor = function (cells) {
+    /**
+     * @property {Array} cells The array of the cells
+     */
+    this.cells = cells;
+  };
+});
+
+},{}],42:[function(require,module,exports){
+'use strict';
+
+/**
+ * The factory for Cell.
+ *
+ * @class
+ */
+datadomain.CellFactory = subclass(function (pt) {
+    'use strict';
+
+    /**
+     * Creates a cell from the object.
+     *
+     * @param {Object} obj The object
+     * @return {datadomain.Cell}
+     */
+
+    pt.createFromObject = function (obj) {
+
+        return new datadomain.Cell(obj.gene);
+    };
+
+    /**
+     * Creates a collection of the cells from the array.
+     *
+     * @param {Array} array The array
+     * @return {datadomain.CellCollection}
+     */
+    pt.createCollectionFromArray = function (array) {
+
+        var that = this;
+
+        return new datadomain.CellCollection(array.map(function (obj) {
+
+            return that.createFromObject(obj);
+        }));
+    };
+});
+
+},{}],43:[function(require,module,exports){
+'use strict';
+
+/**
+ * The position of the character.
+ */
+datadomain.CharPosition = subclass(function (pt) {
+  'use strict';
+
+  /**
+   * @constructor
+   * @param {String} floorId The id of the floor
+   * @param {String} floorObjectId The id of the floor object
+   */
+
+  pt.constructor = function (floorId, floorObjectId) {
+    /**
+     * @property {String} floorId The id of the floor
+     */
+    this.floorId = floorId;
+
+    /**
+     * @property {String} floorObjectId The id of the floor object
+     */
+    this.floorObjectId = floorObjectId;
+  };
+
+  /**
+   * Returns the object representation of the character's position
+   *
+   * @return {Object}
+   */
+  pt.toObject = function () {
+    return {
+      floorId: this.floorId,
+      floorObjectId: this.floorObjectId
+    };
+  };
+});
+
+},{}],44:[function(require,module,exports){
+'use strict';
+
+/**
+ * @class
+ * CharPositionFactory handles the creation of CharPositions.
+ */
+datadomain.CharPositionFactory = subclass(function (pt) {
+    'use strict';
+
+    var START_FLOOR_ID = '7';
+    var START_FLOOR_OBJECT_ID = '701';
+
+    /**
+     * Creates the start position.
+     *
+     * @return {datadomain.CharPosition}
+     */
+    pt.createStartPosition = function () {
+        return new datadomain.CharPosition(START_FLOOR_ID, START_FLOOR_OBJECT_ID);
+    };
+
+    /**
+     * Creates char position object from the object.
+     *
+     * @param {Object} obj The object
+     * @return {datadomain.CharPosition}
+     */
+    pt.createFromObject = function (obj) {
+        if (obj == null) {
+            return this.createStartPosition();
+        }
+
+        return new datadomain.CharPosition(obj.floorId, obj.floorObjectId);
+    };
+});
+
+},{}],45:[function(require,module,exports){
+'use strict';
+
+/**
+ * Character is the domain model and the aggregate root of character aggregate.
+ * It has CharPosition and LevelHistoryCollection as its components.
+ *
+ * [Entity]
+ * [AggregateRoot]
+ */
+datadomain.Character = subclass(function (pt) {
+    'use strict';
+
+    /**
+     * @constructor
+     * @param {String} id The id of the character
+     * @param {String} name The name of the character
+     * @param {datadomain.CharPosition} position The position of the character
+     * @param {datadomain.LevelHistoryCollection} histories The histories of the current floor
+     * @param {datadomain.PlayingState} playingState The state of playing at the current level
+     * @param {datadomain.LevelLockCollection} locks The collection of the level locks
+     */
+
+    pt.constructor = function (id, name, position, histories, playingState, locks) {
+        /**
+         * @property {String} id The id of the character
+         */
+        this.id = id;
+
+        /**
+         * @property {String} name The name of the character
+         */
+        this.name = name;
+
+        /**
+         * @property {datadomain.CharPosition} position The position of the character
+         */
+        this.position = position;
+
+        /**
+         * @property {datadomain.LevelHistoryCollection} histories The histories of the current floor
+         */
+        this.histories = histories;
+
+        /**
+         * @property {datadomain.PlayingState} playingState The state of playing at the current level
+         */
+        this.playingState = playingState;
+
+        /**
+         * @property {datadomain.LevelLockCollection} collection The collection of the locks
+         */
+        this.locks = locks;
+    };
+
+    /**
+     * Sets the position of character.
+     *
+     * @param {datadomain.CharPosition} position The position of the character
+     */
+    pt.setPosition = function (position) {
+        this.position = position;
+    };
+
+    /**
+     * Reloads the levelHistories according to the current position.
+     *
+     * @return {Promise} resolves with updated character
+     */
+    pt.reloadHistories = function () {
+        var that = this;
+
+        if (this.position == null) {
+            return Promise.resolve(this);
+        }
+
+        return new datadomain.LevelHistoryRepository(this.id).getByFloorId(this.position.floorId).then(function (histories) {
+            that.histories = histories;
+
+            return that;
+        });
+    };
+
+    /**
+     * Saves the LevelHistories.
+     *
+     * @return {Promise}
+     */
+    pt.saveHistories = function () {
+        var that = this;
+
+        return new datadomain.LevelHistoryRepository(this.id).saveByFloorId(this.position.floorId, this.histories).then(function () {
+            return that;
+        });
+    };
+
+    /**
+     * Reloads the level locks.
+     */
+    pt.reloadLocks = function () {
+        var that = this;
+
+        if (this.position == null) {
+            return Promise.resolve(this);
+        }
+
+        return new datadomain.LevelLockRepository(this.id).getByFloorId(this.position.floorId).then(function (locks) {
+            that.locks = locks;
+
+            return that;
+        });
+    };
+
+    /**
+     * Saves the current level locks.
+     */
+    pt.saveLocks = function () {
+        var that = this;
+
+        return new datadomain.LevelLockRepository(this.id).saveByFloorId(this.position.floorId, this.locks).then(function () {
+            return that;
+        });
+    };
+
+    /**
+     * Reloads the playingState
+     *
+     * @return {Promise}
+     */
+    pt.reloadPlayingState = function () {
+        var that = this;
+
+        return new datadomain.PlayingStateRepository().getByCharIdLevelId(this.id, this.position.floorObjectId).then(function (playingState) {
+            that.playingState = playingState;
+
+            return that;
+        });
+    };
+
+    /**
+     * Saves the playing state.
+     *
+     * @return {Promise}
+     */
+    pt.savePlayingState = function () {
+        var that = this;
+
+        return new datadomain.PlayingStateRepository().save(this.playingState).then(function () {
+            return that;
+        });
+    };
+
+    /**
+     * Clears the playing state.
+     *
+     * @return {Promise}
+     */
+    pt.clearPlayingState = function () {
+        return new datadomain.PlayingStateRepository().clearByCharId(this.id);
+    };
+});
+
+},{}],46:[function(require,module,exports){
+'use strict';
+
+/**
+ * The factory of Character.
+ */
+datadomain.CharacterFactory = subclass(function (pt) {
+    'use strict';
+
+    /**
+     * Creates a character from the object
+     *
+     * @param {Object} obj The object
+     * @return {datadomain.Character}
+     */
+
+    pt.createFromObject = function (obj) {
+        return new datadomain.Character(obj.id, obj.name, new datadomain.CharPositionFactory().createFromObject(obj.position));
+    };
+
+    /**
+     * Creates the character of the initial state.
+     *
+     * @param {String} id The character id
+     * @return {datadomain.Character}
+     */
+    pt.createInitialById = function (id) {
+        if (id === 'ma') {
+            return new datadomain.Character(id, 'Ma', new datadomain.CharPositionFactory().createFromObject());
+        } else if (id === 'ellen') {
+            return new datadomain.Character(id, 'Ellen', new datadomain.CharPositionFactory().createFromObject());
+        } else if (id === 'emma') {
+            return new datadomain.Character(id, 'Emma', new datadomain.CharPositionFactory().createFromObject());
+        }
+
+        throw new Error('unknown character: ' + id);
+    };
+});
+
+},{}],47:[function(require,module,exports){
+'use strict';
+
+/**
+ * The repository of Character.
+ *
+ */
+datadomain.CharacterRepository = subclass(function (pt) {
+    'use strict';
+
+    var STORAGE_KEY = 'character-';
+
+    /**
+     * Saves the character.
+     *
+     * @param {datadomain.Character} character The Character
+     * @return {Promise}
+     */
+    pt.save = function (character) {
+        var obj = this.toObject(character);
+
+        return infrastructure.storage.set(STORAGE_KEY + character.id, obj).then(function () {
+            return character;
+        });
+    };
+
+    /**
+     * Gets a character by the id.
+     *
+     * @param {String} id The id
+     * @return {Promise} A promise of a character
+     */
+    pt.getById = function (id) {
+        return infrastructure.storage.get(STORAGE_KEY + id, null).then(function (obj) {
+            var character;
+
+            var factory = new datadomain.CharacterFactory();
+
+            if (obj == null) {
+                character = factory.createInitialById(id);
+            } else {
+                character = factory.createFromObject(obj);
+            }
+
+            return Promise.all([character, character.reloadHistories(), character.reloadPlayingState(), character.reloadLocks()]);
+        }).then(function (array) {
+            return array[0];
+        });
+    };
+
+    /**
+     * @private
+     * Converts the Character object into js object.
+     *
+     * @param {datadomain.Character} character The Character
+     * @return {Object}
+     */
+    pt.toObject = function (character) {
+        return {
+            id: character.id,
+            name: character.name,
+            position: this.positionToObject(character.position)
+        };
+    };
+
+    /**
+     * @private
+     * Converts the CharPosition object into js object.
+     *
+     * @param {datadomain.CharPosition} position The position
+     * @return {Object}
+     */
+    pt.positionToObject = function (position) {
+        if (position == null) {
+            return null;
+        }
+
+        return {
+            floorId: position.floorId,
+            floorObjectId: position.floorObjectId
+        };
+    };
+});
+
+},{}],48:[function(require,module,exports){
+'use strict';
+
+/**
+ * Gene model
+ *
+ * ValueObject
+ *
+ * @class
+ */
+datadomain.Gene = subclass(function (pt) {
+  'use strict';
+
+  /**
+   * @constructor
+   * @param {String} gene The gene
+   */
+
+  pt.constructor = function (gene) {
+    this.gene = gene;
+  };
+
+  /**
+   * Returns true if the given gene is the same.
+   *
+   * @param {datadomain.Gene} gene The gene to compare
+   * @return {Boolean}
+   */
+  pt.equals = function (gene) {
+    return gene instanceof datadomain.Gene && this.gene === gene.gene;
+  };
+});
+
+},{}],49:[function(require,module,exports){
+'use strict';
+
+/**
+ * The level model.
+ *
+ * [AggregateRoot]
+ *
+ * @class
+ */
+datadomain.Level = subclass(function (pt) {
+  'use strict';
+
+  /**
+   * @constructor
+   * @param {String} id The id
+   * @param {datadomain.goal.Goal} goal The goal
+   * @param {datadomain.CellCollection} cells The collection of the cells
+   */
+
+  pt.constructor = function (id, goal, cells) {
+    /**
+     * @property {String} id The id
+     */
+    this.id = id;
+
+    /**
+     * @property {datadomain.goal.Goal} goal The goal
+     */
+    this.goal = goal;
+
+    /**
+     * @property {datadomain.CellCollection} cells The collection of the cells
+     */
+    this.cells = cells;
+  };
+});
+
+},{}],50:[function(require,module,exports){
+'use strict';
+
+/**
+ * The factory class for Level.
+ */
+datadomain.LevelFactory = subclass(function (pt) {
+    'use strict';
+
+    pt.createFromObject = function (obj) {
+        return new datadomain.Level(obj.name, new datadomain.goal.GoalFactory().createFromObject(obj.goal), new datadomain.CellFactory().createCollectionFromArray(obj.cells));
+    };
+});
+
+},{}],51:[function(require,module,exports){
+'use strict';
+
+/**
+ * LevelHistory is model class which represents the history of the level clearance.
+ *
+ * @class
+ */
+datadomain.LevelHistory = subclass(function (pt) {
+  'use strict';
+
+  /**
+   * @constructor
+   * @param {String} levelId The id of the level
+   * @param {Number} score The score
+   * @param {datadomain.Gene[]} goalGenes The goal genes
+   * @param {Boolean} cleared If cleared or not
+   * @param {Date} clearedAt The datetime of the clear
+   */
+
+  pt.constructor = function (levelId, score, goalGenes, cleared, clearedAt) {
+    /**
+     * @property {String} levelId The id of the level
+     */
+    this.levelId = levelId;
+
+    /**
+     * @property {Number} score The score
+     */
+    this.score = score;
+
+    /**
+     * @property {datadomain.Gene[]} goalGenes The goal genes
+     */
+    this.goalGenes = goalGenes;
+
+    /**
+     * @property {Boolean} cleared If cleared or not
+     */
+    this.cleared = cleared;
+
+    /**
+     * @property {Date} clearedAt The datetime of the clear
+     */
+    this.clearedAt = clearedAt;
+  };
+});
+
+},{}],52:[function(require,module,exports){
+'use strict';
+
+/**
+ * The collection class of LevelHistory.
+ *
+ * @class
+ */
+datadomain.LevelHistoryCollection = subclass(Array, function (pt) {
+    'use strict';
+
+    /**
+     * @constructor
+     *
+     * @param {Array} list The array of the LevelHistories
+     */
+
+    pt.constructor = function (list) {
+        list = list || [];
+
+        this.dict = {};
+
+        list.forEach(function (history, i) {
+            this[i] = history;
+            this.dict[history.levelId] = history;
+        }, this);
+    };
+
+    /**
+     * Gets a LevelHistory by the id
+     *
+     * @param {String} levelId The level id
+     * @return {datadomain.LevelHistory}
+     */
+    pt.getById = function (levelId) {
+        return this.dict[levelId];
+    };
+});
+
+},{}],53:[function(require,module,exports){
+'use strict';
+
+/**
+ * The factory class for LevelHistory.
+ */
+datadomain.LevelHistoryFactory = subclass(function (pt) {
+    'use strict';
+
+    /**
+     * Creates a LevelHistoryCollection from the array.
+     *
+     * @param {Array} array The array of the LevelHistories
+     * @return {datadomain.LevelHistoryCollection}
+     */
+
+    pt.createCollectionFromArray = function (array) {
+        var that = this;
+
+        if (!(array instanceof Array)) {
+            array = [];
+        }
+
+        return new datadomain.LevelHistoryCollection(array.map(function (obj) {
+            return that.createFromObject(obj);
+        }));
+    };
+
+    /**
+     * Creates a LevelHistory from the object.
+     *
+     * @param {Object} obj The object
+     * @return {datadomain.LevelHistory}
+     */
+    pt.createFromObject = function (obj) {
+        return new datadomain.LevelHistory(obj.levelName, obj.score, obj.highestGene, obj.cleared, obj.clearedAt);
+    };
+});
+
+},{}],54:[function(require,module,exports){
+'use strict';
+
+/**
+ * LevelHistoryRepository is the repository class of LevelHistory.
+ *
+ * This repository saves and restores the LevelHistorys using infrastructure.storage persistence interface.
+ *
+ * The key of the storage is as follows:
+ *
+ * level-history-[charId]-[floorId]
+ *
+ * e.g. level-history-ma-7
+ */
+datadomain.LevelHistoryRepository = subclass(function (pt) {
+    'use strict';
+
+    /**
+     * @constructor
+     * @param {String} charId The character id
+     */
+
+    pt.constructor = function (charId) {
+        this.charId = charId;
+        this.factory = new datadomain.LevelHistoryFactory();
+    };
+
+    /**
+     * Gets the level histories (LevelHistoryCollection) by the floor.
+     *
+     * @param {String} floorId The floor id
+     * @return {Promise}
+     */
+    pt.getByFloorId = function (floorId) {
+        var that = this;
+
+        return infrastructure.storage.get(this.createStorageKey(floorId), []).then(function (array) {
+            return that.factory.createCollectionFromArray(array);
+        });
+    };
+
+    /**
+     * Creates storage key name for the floor.
+     *
+     * @private
+     * @param {String} floorId The floor id
+     * @return {Promise}
+     */
+    pt.createStorageKey = function (floorId) {
+        return 'level-history-' + this.charId + '-' + floorId;
+    };
+});
+
+},{}],55:[function(require,module,exports){
+'use strict';
+
+/**
+ * The level lock model
+ *
+ * @class
+ */
+datadomain.LevelLock = subclass(function (pt) {
+    'use strict';
+
+    pt.constructor = function (levelId, locked) {
+        this.levelId = levelId;
+        this.locked = locked;
+    };
+
+    /**
+     * Returns if the level is locked.
+     *
+     * @return {Boolean}
+     */
+    pt.isLocked = function () {
+        return this.locked;
+    };
+
+    /**
+     * Unlocks the level
+     */
+    pt.unlock = function () {
+        this.locked = false;
+    };
+});
+
+},{}],56:[function(require,module,exports){
+'use strict';
+
+/**
+ * The collection class of LevelLocks.
+ */
+datadomain.LevelLockCollection = subclass(function (pt) {
+    'use strict';
+
+    /**
+     * @param {Array} locks
+     */
+
+    pt.constructor = function (locks) {
+        this.locks = locks || [];
+    };
+
+    /**
+     * Finds the level of the given level id, or returns null when the level not found.
+     *
+     * @private
+     * @param {String} levelId The id of the level
+     * @return {datadomain.LevelLock}
+     */
+    pt.find = function (levelId) {
+        var locks = this.locks.filter(function (lock) {
+            return lock.levelId === levelId;
+        });
+
+        if (locks.length === 0) {
+            return null;
+        }
+
+        return locks[0];
+    };
+
+    /**
+     * Unlocks the level of the given id.
+     *
+     * @param {String} levelId The id of the level
+     */
+    pt.unlock = function (levelId) {
+        var lock = this.find(levelId);
+
+        if (lock != null) {
+            lock.unlock();
+
+            return;
+        }
+
+        // Create a new lock object if it doesn't exist
+        lock = new datadomain.LevelLockFactory().createFromObject({
+            levelId: levelId,
+            locked: false
+        });
+
+        this.locks.push(lock);
+    };
+
+    /**
+     * Checks if the lock of the given level id is locked.
+     *
+     * @param {String} levelId The id of the level
+     * @return {Boolean}
+     */
+    pt.isLocked = function (levelId) {
+        var lock = this.find(levelId);
+
+        if (!lock) {
+            // If lock object doesn't exist, then it means the level is locked.
+            return true;
+        }
+
+        return lock.isLocked();
+    };
+});
+
+},{}],57:[function(require,module,exports){
+'use strict';
+
+/**
+ * The factory class of LevelLocks.
+ */
+datadomain.LevelLockFactory = subclass(function (pt) {
+    'use strict';
+
+    /**
+     * Creates a LevelLock from the object.
+     *
+     * @param {Object} obj The object
+     * @return {datadomain.LevelLock}
+     */
+
+    pt.createFromObject = function (obj) {
+        if (obj == null) {
+            return null;
+        }
+
+        return new datadomain.LevelLock(obj.levelId, obj.locked);
+    };
+
+    /**
+     * Creates a LevelLockCollection from the list of the object.
+     *
+     * @param {Array} objList The list of objects
+     * @return {Array}
+     */
+    pt.createCollectionFromObjectList = function (objList) {
+        objList = objList || [];
+
+        return new datadomain.LevelLockCollection(objList.map(function (obj) {
+            return this.createFromObject(obj);
+        }, this));
+    };
+});
+
+},{}],58:[function(require,module,exports){
+'use strict';
+
+/**
+ * The repository class of the LevelLock.
+ *
+ * This repository saves and restores the LevelLocks in JSON format using the infrastructure.storage persistent interface.
+ *
+ * The storage key of the collection of the level locks is as follows:
+ *
+ * level-lock-[charId]-[floorId]
+ *
+ * e.g. if charId is 'ma' and floorId is '7', then the storage key is 'level-lock-ma-7'
+ */
+datadomain.LevelLockRepository = subclass(function (pt) {
+    'use strict';
+
+    /**
+     * @param {String} charId The character id
+     */
+
+    pt.constructor = function (charId) {
+        this.charId = charId;
+    };
+
+    /**
+     * Gets the collection of the level locks by the floor id and char id.
+     *
+     * @param {String} floorId The floor id
+     * @param {String} charId The floor id
+     * @return {Promise} which resolves with the collection of the locks of the given floor id
+     */
+    pt.getByFloorId = function (floorId) {
+        return infrastructure.storage.get(this.createStorageKey(floorId), []).then(function (objList) {
+            return new datadomain.LevelLockFactory().createCollectionFromObjectList(objList);
+        });
+    };
+
+    /**
+     * Saves the collection of the locks by the floor id and char id.
+     *
+     * @param {String} floorId The floor id
+     * @param {datadomain.LevelLockCollection} collection The level lock collection
+     */
+    pt.saveByFloorId = function (floorId, collection) {
+        return infrastructure.storage.set(this.createStorageKey(floorId), this.toObjectList(collection));
+    };
+
+    /**
+     * Converts the collection of the locks to an object list.
+     *
+     * @private
+     * @param {datadomain.LevelLockCollection} collection The level lock collection
+     * @return {Array} the array of the objects
+     */
+    pt.toObjectList = function (collection) {
+        return collection.locks.map(function (lock) {
+            return this.toObject(lock);
+        }, this);
+    };
+
+    /**
+     * Converts the lock to an object.
+     *
+     * @private
+     * @param {datadomain.LevelLock} lock The lock
+     * @return {Object}
+     */
+    pt.toObject = function (lock) {
+        return {
+            levelId: lock.levelId,
+            locked: lock.locked
+        };
+    };
+
+    /**
+     * Creates the storage key of the given floor id and char id.
+     *
+     * @private
+     * @param {String} floorId The floor id
+     * @param {String} charId The char id
+     * @return {String}
+     */
+    pt.createStorageKey = function (floorId) {
+        return 'level-lock-' + this.charId + '-' + floorId;
+    };
+});
+
+},{}],59:[function(require,module,exports){
+'use strict';
+
+/**
+ * The repository of Level.
+ */
+datadomain.LevelRepository = subclass(function (pt) {
+    'use strict';
+
+    /**
+     * Gets the level by the id.
+     *
+     * @param {String} id The id
+     * @return {Promise}
+     */
+
+    pt.getById = function (id) {
+        var that = this;
+
+        return new Promise(function (resolve) {
+            $.getJSON(that.levelUrl(id)).then(function (data) {
+                resolve(new datadomain.LevelFactory().createFromObject(data));
+            });
+        });
+    };
+
+    /**
+     * Gets the url of the level
+     *
+     * @private
+     * @param {String} id The id of the level
+     * @return {String} The url of the level
+     */
+    pt.levelUrl = function (id) {
+        return 'data/level/' + id + '.json';
+    };
+});
+
+},{}],60:[function(require,module,exports){
+'use strict';
+
+/**
+ * PlayingState model represents the current playing state of the level.
+ *
+ * [ValueObject]
+ */
+datadomain.PlayingState = subclass(function (pt) {
+  'use strict';
+
+  /**
+   * @constructor
+   * @param {String} charId The character id
+   * @param {String} levelId The level id
+   * @param {Array} [rounds] The directions
+   */
+
+  pt.constructor = function (charId, levelId, rounds) {
+
+    this.charId = charId;
+    this.levelId = levelId;
+    this.rounds = rounds || [[]];
+  };
+
+  /**
+   * Moves to the next round.
+   */
+  pt.bump = function () {
+
+    this.rounds.unshift([]);
+  };
+
+  /**
+   * Releases the round data and init the obj state.
+   *
+   * @return {Array} The array of round data
+   */
+  pt.release = function () {
+
+    var rounds = this.rounds.splice(0).reverse();
+
+    this.bump();
+
+    return rounds;
+  };
+
+  /**
+   * Adds a direction
+   *
+   * @param {String} dir The direction
+   */
+  pt.add = function (dir) {
+
+    this.rounds[0].push(dir);
+  };
+});
+
+},{}],61:[function(require,module,exports){
+'use strict';
+
+/**
+ * PlayingStateRepository is the repository class for PlayingState model.
+ */
+datadomain.PlayingStateRepository = subclass(function (pt) {
+    'use strict';
+
+    var PLAYING_DATA_KEY = 'playing-state-';
+
+    /**
+     * Gets a playing state by the character id.
+     *
+     * @param {String} chadId The character id
+     * @param {String} levelId The level id
+     * @return {Promise}
+     */
+    pt.getByCharIdLevelId = function (charId, levelId) {
+        return infrastructure.storage.get(PLAYING_DATA_KEY + charId, null).then(function (data) {
+            if (data == null) {
+                return new datadomain.PlayingState(charId, levelId, [[]]);
+            }
+
+            if (data.levelId !== levelId) {
+                return new datadomain.PlayingState(charId, levelId, [[]]);
+            }
+
+            return new datadomain.PlayingState(data.charId, data.levelId, data.rounds);
+        });
+    };
+
+    /**
+     * Saves the playingState
+     *
+     * @return {Promise}
+     */
+    pt.save = function (playingState) {
+        return infrastructure.storage.set(PLAYING_DATA_KEY + playingState.charId, this.toObject(playingState)).then(function () {
+            return playingState;
+        });
+    };
+
+    /**
+     * Clears the data by the character id
+     *
+     * @param {String} id The character id
+     * @return {Promise}
+     */
+    pt.clearByCharId = function (id) {
+        return infrastructure.storage.set(PLAYING_DATA_KEY + id, null);
+    };
+
+    /**
+     * @private
+     * Converts to the object
+     *
+     * @param {datadomain.PlayingState} playingState The playing state
+     * @return {Object}
+     */
+    pt.toObject = function (playingState) {
+        return {
+            charId: playingState.charId,
+            levelId: playingState.levelId,
+            rounds: playingState.rounds
+        };
+    };
+});
+
+},{}],62:[function(require,module,exports){
+'use strict';
+
+/**
+ * The model of user.
+ */
+datadomain.User = subclass(function (pt) {
+  'use strict';
+
+  /**
+   * @constructor
+   * @param {String} charId The id of the character currently chosen
+   * @param {datadomain.UserStatistics} stat The statisctics of the user activity
+   */
+
+  pt.constructor = function (charId, stat) {
+    /**
+     * @property {String} charId The id of the character currently chosen
+     */
+    this.charId = charId;
+
+    /**
+     * @property {datadomain.UserStatistics} stat The statisctics of the user activity
+     */
+    this.stat = stat;
+  };
+
+  /**
+   * Sets the character id.
+   *
+   * @param {String} charId The character id.
+   */
+  pt.setCharId = function (charId) {
+    this.charId = charId;
+  };
+});
+
+},{}],63:[function(require,module,exports){
+'use strict';
+
+/**
+ * Factory class of User
+ */
+datadomain.UserFactory = subclass(function (pt) {
+    'use strict';
+
+    var DEFAULT_CHAR_ID = 'ma';
+
+    pt.createFromObject = function (obj) {
+        obj = obj || {};
+
+        if (obj.charId == null) {
+            obj.charId = DEFAULT_CHAR_ID;
+        }
+
+        return new datadomain.User(obj.charId, new datadomain.UserStatistics(obj.stat));
+    };
+});
+
+},{}],64:[function(require,module,exports){
+'use strict';
+
+datadomain.UserRepository = subclass(function (pt) {
+    'use strict';
+
+    var KEY = 'LD-user-key';
+
+    pt.save = function (user) {
+        return infrastructure.storage.set(KEY, user).then(function () {
+            return user;
+        });
+    };
+
+    pt.get = function () {
+        return infrastructure.storage.get(KEY, {}).then(function (data) {
+            return new datadomain.UserFactory().createFromObject(data);
+        });
+    };
+});
+
+},{}],65:[function(require,module,exports){
+'use strict';
+
+/**
+ * UserStatistics is the collection class of user statistics info.
+ *
+ */
+datadomain.UserStatistics = subclass(function (pt) {
+  'use strict';
+
+  /**
+   * @constructor
+   * @param {Object} opts The options
+   * @param {Number} [opts.launchTimes] The number of the launches of the app
+   */
+
+  pt.constuctor = function (opts) {
+    /**
+     * @property {Number} launchTimes The number of the launches of the app
+     */
+    this.launchTimes = opts.launchTimes;
+  };
+});
+
+},{}],66:[function(require,module,exports){
+'use strict';
+
+var _BomTable = require('../../domain/common/BomTable');
+
+var _BomTable2 = _interopRequireDefault(_BomTable);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+datadomain.goal.CollectGoal = function () {
+    'use strict';
+
+    var exports = function exports(type, opts) {
+        this.type = type;
+        this.opts = opts;
+    };
+
+    var cgPt = exports.prototype;
+
+    cgPt.toString = function () {
+        var number = this.opts.number;
+        var target = _BomTable2.default[this.opts.target];
+
+        return 'This room needs ' + number + ' ' + this.numberize(target, number) + '.';
+    };
+
+    cgPt.numberize = function (noun, number) {
+        if (number <= 1) {
+            return noun;
+        } else {
+            return noun + 's';
+        }
+    };
+
+    return exports;
+}();
+
+},{"../../domain/common/BomTable":71}],67:[function(require,module,exports){
+'use strict';
+
+/**
+ * @class
+ * @abstract
+ *
+ * Goal class is the model class of the goal of the level.
+ */
+datadomain.goal.Goal = function () {
+  'use strict';
+
+  /**
+   * @constructor
+   * @param {String} type The type of the goal
+   * @param {Object} [options] The options
+   */
+
+  var exports = function exports(type, options) {
+    this.type = type;
+    this.options = options;
+  };
+
+  var gPt = exports.prototype;
+
+  /**
+   * Gets string representation.
+   *
+   * @abstract
+   */
+  gPt.toString = function () {};
+
+  return exports;
+}();
+
+},{}],68:[function(require,module,exports){
+'use strict';
+
+/**
+ * GoalFactory is the factory class of goal models
+ */
+datadomain.goal.GoalFactory = subclass(function (pt) {
+    'use strict';
+
+    /**
+     * Creates goals from object list.
+     *
+     * @param {Array} list The lisf of goal objects.
+     * @return {Array}
+     */
+
+    pt.createFromObjectList = function (list) {
+        return this.createFromObject(list[0]);
+    };
+
+    /**
+     * Creates a goal from the given object.
+     *
+     * @param {Object} obj The goal object
+     * @return {datadomain.goal.Goal} The goal
+     */
+    pt.createFromObject = function (obj) {
+        var type = obj.type;
+
+        switch (type) {
+            case 'C':
+                return new datadomain.goal.CollectGoal(obj.type, obj.opts);
+            case 'L':
+                return new datadomain.goal.ClearGoal(obj.type, obj.opts);
+            case 'F':
+                return new datadomain.goal.FusionGoal(obj.type, obj.opts);
+            case 'S':
+                return new datadomain.goal.ScoreGoal(obj.type, obj.opts);
+        }
+    };
+});
+
+},{}],69:[function(require,module,exports){
+'use strict';
+
+require('./Goal');
+
+require('./CollectGoal');
+
+require('./GoalFactory');
+
+},{"./CollectGoal":66,"./Goal":67,"./GoalFactory":68}],70:[function(require,module,exports){
+'use strict';
+
+require('./Cell');
+
+require('./CellCollection');
+
+require('./CellFactory');
+
+require('./CharPosition');
+
+require('./CharPositionFactory');
+
+require('./Character');
+
+require('./CharacterFactory');
+
+require('./CharacterRepository');
+
+require('./Gene');
+
+require('./Level');
+
+require('./LevelFactory');
+
+require('./LevelHistory');
+
+require('./LevelHistoryCollection');
+
+require('./LevelHistoryFactory');
+
+require('./LevelHistoryRepository');
+
+require('./LevelLock');
+
+require('./LevelLockCollection');
+
+require('./LevelLockFactory');
+
+require('./LevelLockRepository');
+
+require('./LevelRepository');
+
+require('./PlayingState');
+
+require('./PlayingStateRepository');
+
+require('./User');
+
+require('./UserFactory');
+
+require('./UserRepository');
+
+require('./UserStatistics');
+
+require('./goal');
+
+},{"./Cell":40,"./CellCollection":41,"./CellFactory":42,"./CharPosition":43,"./CharPositionFactory":44,"./Character":45,"./CharacterFactory":46,"./CharacterRepository":47,"./Gene":48,"./Level":49,"./LevelFactory":50,"./LevelHistory":51,"./LevelHistoryCollection":52,"./LevelHistoryFactory":53,"./LevelHistoryRepository":54,"./LevelLock":55,"./LevelLockCollection":56,"./LevelLockFactory":57,"./LevelLockRepository":58,"./LevelRepository":59,"./PlayingState":60,"./PlayingStateRepository":61,"./User":62,"./UserFactory":63,"./UserRepository":64,"./UserStatistics":65,"./goal":69}],71:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+/**
+ * BomTable is the master table of the cell name for each number.
+ */
+exports.default = {
+
+    1: 'monon',
+    2: 'deutron',
+    3: 'triton',
+    4: 'quatron',
+    5: 'penton',
+    6: 'hexton',
+    7: 'septon'
+
+};
+
+},{}],72:[function(require,module,exports){
+"use strict";
+
+window.subclass = $.cc.subclass;
+
+// game logic domain
+window.domain = {};
+window.domain.common = {};
+window.domain.map = {};
+window.domain.level = {};
+window.domain.genetics = {};
+
+// game data domain
+window.datadomain = {};
+window.datadomain.goal = {};
+
+// ui domain
+window.ui = {};
+window.ui.common = {};
+window.ui.level = {};
+
+// util (infrastructure layer)
+window.util = {};
+
+},{}],73:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _dec2, _class, _desc, _value, _class2;
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+require('./menu-item');
+
+var _spn = require('spn');
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+    var desc = {};
+    Object['ke' + 'ys'](descriptor).forEach(function (key) {
+        desc[key] = descriptor[key];
+    });
+    desc.enumerable = !!desc.enumerable;
+    desc.configurable = !!desc.configurable;
+
+    if ('value' in desc || desc.initializer) {
+        desc.writable = true;
+    }
+
+    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+        return decorator(target, property, desc) || desc;
+    }, desc);
+
+    if (context && desc.initializer !== void 0) {
+        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+        desc.initializer = undefined;
+    }
+
+    if (desc.initializer === void 0) {
+        Object['define' + 'Property'](target, property, desc);
+        desc = null;
+    }
+
+    return desc;
+}
+
+var _$$cc = $.cc;
+var event = _$$cc.event;
+var component = _$$cc.component;
+var Coelement = _$$cc.Coelement;
+
+var TRANS_DUR = 800;
+var R = 60; // radius of menu item arrangment
+
+/**
+ * Culculates item offsets of the given number
+ *
+ * @param {Object} offset The root position
+ * @param {number} num The number of items
+ * @return {Object[]}
+ */
+function itemOffsets(offset, num) {
+
+    var result = [];
+
+    var gutter = Math.PI / 4 / num / num;
+
+    var urad = num > 1 ? (Math.PI / 2 - gutter * 2) / (num - 1) : 0;
+
+    var r = R * Math.sqrt(num);
+
+    for (var i = 0; i < num; i++) {
+
+        var rad = urad * i;
+        var cos = r * Math.cos(rad + gutter);
+        var sin = r * Math.sin(rad + gutter);
+
+        var res = { left: offset.left + cos, top: offset.top - sin };
+
+        result.push(res);
+    }
+
+    return result;
+}
+
+/**
+ * MenuButton handles the behaviour of the menu button.
+ */
+var MenuButton = (_dec = component('menu-button'), _dec2 = event('click'), _dec(_class = (_class2 = function (_Coelement) {
+    _inherits(MenuButton, _Coelement);
+
+    function MenuButton(elem) {
+        _classCallCheck(this, MenuButton);
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MenuButton).call(this, elem));
+
+        _this.closed = true;
+
+        _this.menus = _this.getMenuItemSource().map(function (menu) {
+            return _this.createMenuItem(menu);
+        });
+
+        return _this;
+    }
+
+    /**
+     * Gets item source doms.
+     *
+     * @return {jQuery[]}
+     */
+
+    _createClass(MenuButton, [{
+        key: 'getMenuItemSource',
+        value: function getMenuItemSource() {
+
+            if (this.elem.data('menu')) {
+
+                return this.elem.data('menu');
+            }
+
+            if (this.elem.attr('menu')) {
+
+                return $('#' + this.elem.attr('menu')).children().toArray();
+            }
+
+            throw new Error('no menu');
+        }
+
+        /**
+         * Sets the offset.
+         *
+         * @param {Number} offset.left The left offset
+         * @param {Number} offset.top The top offset
+         */
+
+    }, {
+        key: 'setOffset',
+        value: function setOffset(offset) {
+
+            this.menus.forEach(function (menu) {
+                return menu.setOffset(offset);
+            });
+        }
+
+        /**
+         * Shows the menu button.
+         *
+         * @return {Promise}
+         */
+
+    }, {
+        key: 'show',
+        value: function show() {
+            var _this2 = this;
+
+            this.elem.removeClass('hidden');
+
+            return (0, _spn.wait)(TRANS_DUR).then(function () {
+                return _this2.setOffset(_this2.elem.offset());
+            });
+        }
+
+        /**
+         * Hides the menu button.
+         *
+         * @return {Promise}
+         */
+
+    }, {
+        key: 'hide',
+        value: function hide() {
+            var _this3 = this;
+
+            return this.closeMenu().then(function () {
+                return (0, _spn.wait)(300);
+            }).then(function () {
+
+                _this3.elem.addClass('hidden');
+
+                return (0, _spn.wait)(TRANS_DUR);
+            });
+        }
+
+        /**
+         * Opens the menu.
+         *
+         * @return {Promise}
+         */
+
+    }, {
+        key: 'openMenu',
+        value: function openMenu() {
+
+            this.closed = false;
+
+            var toOffsets = itemOffsets(this.elem.offset(), this.menus.length);
+
+            return Promise.all(this.menus.map(function (menu, i) {
+                return (0, _spn.wait)(50 * i).then(function () {
+                    return menu.show(toOffsets[i]);
+                });
+            }));
+        }
+
+        /**
+         * Closes the menu.
+         *
+         * @return {Promise}
+         */
+
+    }, {
+        key: 'closeMenu',
+        value: function closeMenu(offset) {
+
+            if (this.closed) {
+
+                return Promise.resolve();
+            }
+
+            this.closed = true;
+
+            offset = offset || this.elem.offset();
+
+            return Promise.all(this.menus.map(function (menu) {
+                return menu.hide(offset);
+            }));
+        }
+
+        /**
+         * Toggles the menu's open/close state.
+         */
+
+    }, {
+        key: 'toggleMenu',
+        value: function toggleMenu() {
+
+            return this.closed ? this.openMenu() : this.closeMenu();
+        }
+
+        /**
+         * Creates a menu item from menu source item.
+         *
+         * @private
+         * @param {jQuery} menu
+         */
+
+    }, {
+        key: 'createMenuItem',
+        value: function createMenuItem(menu) {
+
+            menu = $(menu);
+
+            return $('<img />', {
+
+                attr: {
+                    src: menu.attr('src')
+                },
+                addClass: 'hidden',
+                insertBefore: this.elem,
+                data: {
+                    menu: menu.children().toArray(),
+                    onclick: menu.attr('onclick')
+                }
+
+            }).cc.init('menu-item');
+        }
+    }]);
+
+    return MenuButton;
+}(Coelement), (_applyDecoratedDescriptor(_class2.prototype, 'toggleMenu', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'toggleMenu'), _class2.prototype)), _class2)) || _class);
+exports.default = MenuButton;
+
+},{"./menu-item":74,"spn":30}],74:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _dec2, _class, _desc, _value, _class2;
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _spn = require('spn');
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+    var desc = {};
+    Object['ke' + 'ys'](descriptor).forEach(function (key) {
+        desc[key] = descriptor[key];
+    });
+    desc.enumerable = !!desc.enumerable;
+    desc.configurable = !!desc.configurable;
+
+    if ('value' in desc || desc.initializer) {
+        desc.writable = true;
+    }
+
+    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+        return decorator(target, property, desc) || desc;
+    }, desc);
+
+    if (context && desc.initializer !== void 0) {
+        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+        desc.initializer = undefined;
+    }
+
+    if (desc.initializer === void 0) {
+        Object['define' + 'Property'](target, property, desc);
+        desc = null;
+    }
+
+    return desc;
+}
+
+var _$$cc = $.cc;
+var event = _$$cc.event;
+var component = _$$cc.component;
+var Coelement = _$$cc.Coelement;
+
+/**
+ * MenuItem handles the behaviour of items of the menu.
+ */
+
+var MenuItem = (_dec = component('menu-item'), _dec2 = event('click'), _dec(_class = (_class2 = function (_Coelement) {
+    _inherits(MenuItem, _Coelement);
+
+    function MenuItem(elem) {
+        _classCallCheck(this, MenuItem);
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MenuItem).call(this, elem));
+
+        var menu = _this.elem.data('menu');
+
+        if (menu && menu.length) {
+
+            _this.elem.cc.init('menu-button');
+        }
+
+        return _this;
+    }
+
+    /**
+     * Invokes custom onclick handler.
+     */
+
+    _createClass(MenuItem, [{
+        key: 'handleOnClick',
+        value: function handleOnClick() {
+
+            var onclick = this.elem.data('onclick');
+
+            if (typeof onclick !== 'string' || onclick === '') {
+                return;
+            }
+
+            window.eval(onclick);
+        }
+
+        /**
+         * Shows the element moving towards the given offset
+         *
+         * @param {Object} to The offset to goes to.
+         * @return {Promise}
+         */
+
+    }, {
+        key: 'show',
+        value: function show(to) {
+
+            this.elem.removeClass('hidden');
+
+            this.setOffset(to);
+
+            return Promise.resolve();
+        }
+
+        /**
+         * Sets the offset of the element
+         *
+         * @private
+         * @param {Object} offset
+         */
+
+    }, {
+        key: 'setOffset',
+        value: function setOffset(offset) {
+
+            this.elem.offset(offset);
+
+            if (this.elem.hasClass('menu-button')) {
+
+                this.elem.cc.get('menu-button').setOffset(offset);
+            }
+        }
+
+        /**
+         * Hides the menu item.
+         *
+         * @param {Object} offset The offset to hides
+         * @return {Promise}
+         */
+
+    }, {
+        key: 'hide',
+        value: function hide(offset) {
+            var _this2 = this;
+
+            this.elem.addClass('hidden');
+
+            this.setOffset(offset);
+
+            var p = (0, _spn.wait)(50);
+
+            // Hides child menus if exist
+            if (this.elem.hasClass('menu-button')) {
+
+                p = p.then(function () {
+                    return _this2.elem.cc.get('menu-button').closeMenu(offset);
+                });
+            }
+
+            return p;
+        }
+    }]);
+
+    return MenuItem;
+}(Coelement), (_applyDecoratedDescriptor(_class2.prototype, 'handleOnClick', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'handleOnClick'), _class2.prototype)), _class2)) || _class);
+exports.default = MenuItem;
+
+},{"spn":30}],75:[function(require,module,exports){
+'use strict';
+
+require('./jquery');
+
+require('./rx');
+
+},{"./jquery":76,"./rx":77}],76:[function(require,module,exports){
+'use strict';
+
+var _spn = require('spn');
+
+/**
+ * Performs the animation.
+ *
+ * @param {String} animation The css animation
+ */
+$.fn.animation = function (animation) {
+
+    this.css('-webkit-animation', '');
+    (0, _spn.reflow)(this);
+    this.css('-webkit-animation', animation);
+
+    return this;
+};
+
+/**
+ * Performs the animation in the duration and returns a promise.
+ *
+ * @param {String} animation The animation name
+ * @param {Number} dur The duration of the animation
+ * @return {Promise}
+ */
+$.fn.anim = function (animation, dur) {
+
+    this.animation(animation + ' ' + dur + 'ms');
+
+    return (0, _spn.wait)(dur, this);
+};
+
+/**
+ * Binds event once and returns promise.
+ *
+ * @param {String} events The list of events names
+ * @return {Promise}
+ */
+$.fn.once = function (events) {
+    var _this = this;
+
+    return new Promise(function (resolve) {
+        return _this.one(events, resolve);
+    });
+};
+
+/**
+ * Returns Observable of an event stream.
+ *
+ * @param {String} events The list of event names
+ * @return {Rx.Observable}
+ */
+$.fn.streamOf = function (events) {
+
+    return Rx.Observable.fromEvent(this, events);
+};
+
+/**
+ * Returns a promise which resolves when image is loaded. Only works with `img` tag.
+ *
+ * @return {Promise}
+ */
+$.fn.imageLoaded = function () {
+    var _this2 = this;
+
+    return new Promise(function (resolve, reject) {
+        return _this2.on('error', function () {
+            return reject(new Error('image can not be loaded: ' + _this2.attr('src')));
+        }).on('load', function () {
+            return resolve();
+        }).attr('src', _this2.attr('src'));
+    });
+};
+
+},{"spn":30}],77:[function(require,module,exports){
+"use strict";
+
+var Rx = window.Rx;
+
+/**
+ * Checks if it's flatMappable or not.
+ *
+ * @param {Object} x Testing object
+ * @return {Boolean}
+ */
+Rx.helpers.isObservableLike = function (x) {
+  return x instanceof Rx.Observable || Rx.helpers.isPromise(x);
+};
+
+var wrapUnobservable = function wrapUnobservable(x) {
+  return Rx.helpers.isObservableLike(x) ? x : [x];
+};
+
+/**
+ * Maps it and flatMap it only when it's possible.
+ *
+ * @param {Function} f Mapping function
+ * @return {Rx.Observable}
+ */
+Rx.Observable.prototype.pipe = function (f) {
+
+  return this.map(f).flattenObservable();
+};
+
+/**
+ * Flattens it.
+ *
+ * @return {Rx.Observable}
+ */
+Rx.Observable.prototype.flattenObservable = function () {
+
+  return this.map(wrapUnobservable).flatMap(function (x) {
+    return x;
+  });
+};
+
+/**
+ * Filters null equivalent element.
+ *
+ * @return {Rx.Observable}
+ */
+Rx.Observable.prototype.filterNull = function () {
+
+  return this.filter(function (x) {
+    return x != null;
+  });
+};
+
+/**
+ * Returns promise which resolves the last value of the stream when the stream completed.
+ *
+ * @return {Promise}
+ */
+Rx.Observable.prototype.getPromise = function () {
+  var _this = this;
+
+  return new Promise(function (resolve, reject) {
+    return _this.takeLast(1).subscribe(function (x) {
+      return resolve(x);
+    }, function (error) {
+      return reject(error);
+    }, function () {
+      return resolve();
+    });
+  });
+};
+
+/**
+ * Emit to the given dom element. assume the observable is a stream of the event.
+ *
+ * @param {jQuery|HTMLElement|String} dom The dom to emit event
+ * @return {Object}
+ */
+Rx.Observable.prototype.emitInto = function (dom) {
+
+  return this.forEach(function (event) {
+    return $(dom).trigger(event);
+  });
+};
+
+/**
+ * Hooks the function to the stream
+ *
+ * @param {Function} f The hooking function
+ * @return {Rx.Observable}
+ */
+Rx.Observable.prototype.hook = function (f) {
+
+  return this.filter(function (item) {
+    return f(item) || true;
+  });
+};
+
+/**
+ * Makes into flattenned stream.
+ *
+ * @return {Rx.Observable}
+ */
+window.Array.prototype.toFlatStream = function () {
+
+  return Rx.Observable.of.apply(null, this).flattenObservable();
+};
+
+},{}]},{},[38]);

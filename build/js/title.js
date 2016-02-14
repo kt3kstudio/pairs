@@ -1,407 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-require('../../src/domain/title/TitleScene');
-
-},{"../../src/domain/title/TitleScene":3}],2:[function(require,module,exports){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-/**
- * SceneContext is the base class for scene classes. This defines the for phases of the scene.
- *
- * @abstract
- * @class
- */
-
-var SceneContext = function (_$$cc$Coelement) {
-  _inherits(SceneContext, _$$cc$Coelement);
-
-  function SceneContext() {
-    _classCallCheck(this, SceneContext);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(SceneContext).apply(this, arguments));
-  }
-
-  _createClass(SceneContext, [{
-    key: 'main',
-    value: function main() {
-      var _this2 = this;
-
-      return Promise.resolve(this.load()).then(function () {
-        return _this2.setUp();
-      }).then(function () {
-        return _this2.start();
-      });
-    }
-
-    /**
-     * Loads the data necessary for the scene.
-     *
-     * @abstract
-     */
-
-  }, {
-    key: 'load',
-    value: function load() {}
-
-    /**
-     * Sets up the services necessary for the scene.
-     *
-     * This must be a sync process.
-     *
-     * @abstract
-     */
-
-  }, {
-    key: 'setUp',
-    value: function setUp() {}
-
-    /**
-     * Starts the scene.
-     *
-     * @abstract
-     */
-
-  }, {
-    key: 'start',
-    value: function start() {}
-
-    /**
-     * Gets the class component of the given name inside the element.
-     *
-     * @param {string} className The class name of the component
-     */
-
-  }, {
-    key: 'get',
-    value: function get(className) {
-
-      return this.elem.find('.' + className).cc.get(className);
-    }
-
-    /**
-     * Gets the class component of the given name at the element.
-     *
-     * @param {string} className The class name of the component
-     */
-
-  }, {
-    key: 'getAtElem',
-    value: function getAtElem(className) {
-
-      return this.elem.cc.get(className);
-    }
-
-    /**
-     * Gets the class component of the given name at the given selector
-     *
-     * @param {string} selector The selector for searching
-     * @param {string} className The class name of the component
-     */
-
-  }, {
-    key: 'getGlobal',
-    value: function getGlobal(selector, className) {
-
-      return $(selector).cc.get(className);
-    }
-
-    /**
-     * Gets the menu button.
-     *
-     * @return {ui.common.MenuButton}
-     */
-
-  }, {
-    key: 'getMenuButton',
-    value: function getMenuButton() {
-
-      return this.getGlobal('.menu-button-root', 'menu-button');
-    }
-  }]);
-
-  return SceneContext;
-}($.cc.Coelement);
-
-exports.default = SceneContext;
-
-},{}],3:[function(require,module,exports){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _dec, _dec2, _class, _desc, _value, _class2;
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = undefined;
-
-var _SceneContext2 = require('../common/SceneContext');
-
-var _SceneContext3 = _interopRequireDefault(_SceneContext2);
-
-var _BackgroundService = require('../../ui/common/BackgroundService');
-
-var _BackgroundService2 = _interopRequireDefault(_BackgroundService);
-
-var _util = require('../../util/util');
-
-var _spn = require('spn');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-    var desc = {};
-    Object['ke' + 'ys'](descriptor).forEach(function (key) {
-        desc[key] = descriptor[key];
-    });
-    desc.enumerable = !!desc.enumerable;
-    desc.configurable = !!desc.configurable;
-
-    if ('value' in desc || desc.initializer) {
-        desc.writable = true;
-    }
-
-    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-        return decorator(target, property, desc) || desc;
-    }, desc);
-
-    if (context && desc.initializer !== void 0) {
-        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-        desc.initializer = undefined;
-    }
-
-    if (desc.initializer === void 0) {
-        Object['define' + 'Property'](target, property, desc);
-        desc = null;
-    }
-
-    return desc;
-}
-
-var event = $.cc.event;
-
-/**
- * TitleScene class handles the motions sequences of the title scene.
- */
-var TitleScene = (_dec = $.cc.Component('title-scene'), _dec2 = event('scene-start'), _dec(_class = (_class2 = function (_SceneContext) {
-    _inherits(TitleScene, _SceneContext);
-
-    function TitleScene() {
-        _classCallCheck(this, TitleScene);
-
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(TitleScene).apply(this, arguments));
-    }
-
-    _createClass(TitleScene, [{
-        key: 'start',
-        value: function start() {
-            var _this2 = this;
-
-            (0, _util.loadImage)('img/title-logo.svg', 'title-logo elem', this.elem).then(function ($img) {
-                return $img.anim('title-appear', 2000).then(function () {
-                    return $img.animation('float 6000ms infinite');
-                });
-            });
-
-            (0, _spn.wait)(500).then(function () {
-
-                _this2.getMenuButton().show();
-
-                $('<p />').text('GET UP').addClass('touch-here elem').appendTo(_this2.elem).click(function () {
-                    return _this2.goToMap();
-                }).anim('title-appear', 1000).then(function (p) {
-                    return p.animation('float 1000ms infinite');
-                });
-            });
-        }
-
-        /**
-         * Fades out the scene.
-         */
-
-    }, {
-        key: 'fadeOut',
-        value: function fadeOut() {
-
-            return Promise.all([this.getMenuButton().hide(), $('.elem').css('opacity', 0).anim('disappear', 500).then(function () {
-
-                $('.elem').remove();
-
-                return (0, _spn.wait)(100);
-            })]);
-        }
-
-        /**
-         * Transions to the map scene.
-         */
-
-    }, {
-        key: 'goToMap',
-        value: function goToMap() {
-
-            this.fadeOut().then(function () {
-                return _BackgroundService2.default.turnBlack();
-            }).then(function () {
-
-                location.href = 'map.html';
-            });
-        }
-    }]);
-
-    return TitleScene;
-}(_SceneContext3.default), (_applyDecoratedDescriptor(_class2.prototype, 'start', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'start'), _class2.prototype)), _class2)) || _class);
-exports.default = TitleScene;
-
-},{"../../ui/common/BackgroundService":4,"../../util/util":5,"../common/SceneContext":2,"spn":17}],4:[function(require,module,exports){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = undefined;
-
-var _spn = require('spn');
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Dur = 700;
-
-/**
- * BackgroundService handles the animation of background colors.
- */
-
-var BackgroundService = function () {
-  function BackgroundService() {
-    _classCallCheck(this, BackgroundService);
-  }
-
-  _createClass(BackgroundService, null, [{
-    key: 'turnWhite',
-
-    /**
-     * Turns the bg color white.
-     *
-     * @param {Number} dur The duration
-     * @return {Promise}
-     */
-    value: function turnWhite(dur) {
-
-      return this.turn('', dur, false);
-    }
-
-    /**
-     * Turns the bg color white.
-     *
-     * @param {Number} dur The duration
-     * @return {Promise}
-     */
-
-  }, {
-    key: 'turnBlack',
-    value: function turnBlack(dur) {
-
-      return this.turn('', dur, true);
-    }
-
-    /**
-     * Turns the bg color to the given color.
-     *
-     * @private
-     * @param {String} color The color in css color
-     * @param {Number} dur The duration
-     * @param {Boolean} darkBg True if use dark background format
-     * @return {Promise}
-     */
-
-  }, {
-    key: 'turn',
-    value: function turn(color, dur, darkBg) {
-
-      dur = dur || Dur;
-
-      $(document.body).toggleClass('dark-bg', darkBg).css('background-color', color);
-
-      return (0, _spn.wait)(dur);
-    }
-  }]);
-
-  return BackgroundService;
-}();
-
-exports.default = BackgroundService;
-
-},{"spn":17}],5:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-/**
- * Load image and returns promise which resolves when the image loaded.
- */
-var loadImage = function loadImage(path, cls, dom) {
-  return new Promise(function (resolve) {
-
-    var $img = $('<img />').attr('src', path).addClass(cls).appendTo(dom).on('load', function () {
-      return resolve($img);
-    });
-  });
-};
-
-/**
- * Add a comma to separate each group of three digits in a text.
- *
- * @param {Number} number The number
- * @return {String}
- */
-var commaNumber = function commaNumber(number) {
-  return number.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
-};
-
-/**
- * Chains elements of the array as promise chain using the promise generating function.
- *
- * @param {Array} array The array
- * @param {Function} createPromise The function for creating promise
- */
-var chainPromise = function chainPromise(array, createPromise) {
-  return array.reduce(function (promise, item) {
-    return promise.then(function () {
-      return createPromise(item);
-    });
-  }, Promise.resolve());
-};
-
-exports.loadImage = loadImage;
-exports.commaNumber = commaNumber;
-exports.chainPromise = chainPromise;
-
-},{}],6:[function(require,module,exports){
-'use strict';
-
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 Object.defineProperty(exports, "__esModule", {
@@ -468,7 +67,7 @@ var Animation = (function () {
 })();
 
 exports.default = Animation;
-},{"./if-num-else":15,"./reflow":20,"./wait":23}],7:[function(require,module,exports){
+},{"./if-num-else":10,"./reflow":15,"./wait":18}],2:[function(require,module,exports){
 "use strict";
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -628,7 +227,7 @@ var Being = (function (_$$cc$Actor) {
 })($.cc.Actor);
 
 exports.default = Being;
-},{}],8:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -660,7 +259,7 @@ var DimensionalBeing = (function (_Being) {
 })(_being2.default);
 
 exports.default = DimensionalBeing;
-},{"./being":7}],9:[function(require,module,exports){
+},{"./being":2}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -692,7 +291,7 @@ var CharSprite = (function (_Sprite) {
 })(_sprite2.default);
 
 exports.default = CharSprite;
-},{"./sprite":21}],10:[function(require,module,exports){
+},{"./sprite":16}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -724,7 +323,7 @@ var DimensionFactory = (function (_Rect) {
 })(_rect2.default);
 
 exports.default = DimensionFactory;
-},{"./rect":19}],11:[function(require,module,exports){
+},{"./rect":14}],6:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -738,7 +337,7 @@ var DirStateImageMap = function DirStateImageMap() {
 };
 
 exports.default = DirStateImageMap;
-},{}],12:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -750,7 +349,7 @@ var LEFT = exports.LEFT = 1;
 var RIGHT = exports.RIGHT = 2;
 var BOTTOM = exports.BOTTOM = 3;
 var DOWN = exports.DOWN = 3;
-},{}],13:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -782,7 +381,7 @@ var GridWalker = (function (_Body) {
 })(_body2.default);
 
 exports.default = GridWalker;
-},{"./body":8}],14:[function(require,module,exports){
+},{"./body":3}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -796,7 +395,7 @@ var Grid = function Grid() {
 };
 
 exports.default = Grid;
-},{}],15:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -813,7 +412,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = function (num, defaultValue) {
   return typeof num === 'number' ? num : defaultValue;
 };
-},{}],16:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -827,7 +426,7 @@ var Image = function Image() {
 };
 
 exports.default = Image;
-},{}],17:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -924,7 +523,7 @@ exports.Sprite = _sprite2.default;
 exports.CharSprite = _charSprite2.default;
 exports.StaticSprite = _staticSprite2.default;
 exports.DIRS = DIRS;
-},{"./animation":6,"./being":7,"./body":8,"./char-sprite":9,"./dimension-factory":10,"./dir-state-image-map":11,"./dirs":12,"./grid":14,"./grid-walker":13,"./if-num-else":15,"./image":16,"./posture":18,"./rect":19,"./reflow":20,"./sprite":21,"./static-sprite":22,"./wait":23}],18:[function(require,module,exports){
+},{"./animation":1,"./being":2,"./body":3,"./char-sprite":4,"./dimension-factory":5,"./dir-state-image-map":6,"./dirs":7,"./grid":9,"./grid-walker":8,"./if-num-else":10,"./image":11,"./posture":13,"./rect":14,"./reflow":15,"./sprite":16,"./static-sprite":17,"./wait":18}],13:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -1213,7 +812,7 @@ var Posture = (function () {
 })();
 
 exports.default = Posture;
-},{"./if-num-else":15}],19:[function(require,module,exports){
+},{"./if-num-else":10}],14:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1227,7 +826,7 @@ var Rect = function Rect() {
 };
 
 exports.default = Rect;
-},{}],20:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1247,7 +846,7 @@ function reflow(elem) {
 
   return elem;
 }
-},{}],21:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1279,7 +878,7 @@ var Sprite = (function (_GridWalker) {
 })(_gridWalker2.default);
 
 exports.default = Sprite;
-},{"./grid-walker":13}],22:[function(require,module,exports){
+},{"./grid-walker":8}],17:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1311,7 +910,7 @@ var StaticSprite = (function (_Sprite) {
 })(_sprite2.default);
 
 exports.default = StaticSprite;
-},{"./sprite":21}],23:[function(require,module,exports){
+},{"./sprite":16}],18:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1333,4 +932,408 @@ function wait(n, result) {
     }, n);
   });
 }
-},{}]},{},[1]);
+},{}],19:[function(require,module,exports){
+'use strict';
+
+require('../../src/domain/title/TitleScene');
+
+},{"../../src/domain/title/TitleScene":21}],20:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * SceneContext is the base class for scene classes. This defines the for phases of the scene.
+ *
+ * @abstract
+ * @class
+ */
+
+var SceneContext = function (_$$cc$Coelement) {
+  _inherits(SceneContext, _$$cc$Coelement);
+
+  function SceneContext() {
+    _classCallCheck(this, SceneContext);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(SceneContext).apply(this, arguments));
+  }
+
+  _createClass(SceneContext, [{
+    key: 'main',
+    value: function main() {
+      var _this2 = this;
+
+      return Promise.resolve(this.load()).then(function () {
+        return _this2.setUp();
+      }).then(function () {
+        return _this2.start();
+      });
+    }
+
+    /**
+     * Loads the data necessary for the scene.
+     *
+     * @abstract
+     */
+
+  }, {
+    key: 'load',
+    value: function load() {}
+
+    /**
+     * Sets up the services necessary for the scene.
+     *
+     * This must be a sync process.
+     *
+     * @abstract
+     */
+
+  }, {
+    key: 'setUp',
+    value: function setUp() {}
+
+    /**
+     * Starts the scene.
+     *
+     * @abstract
+     */
+
+  }, {
+    key: 'start',
+    value: function start() {}
+
+    /**
+     * Gets the class component of the given name inside the element.
+     *
+     * @param {string} className The class name of the component
+     */
+
+  }, {
+    key: 'get',
+    value: function get(className) {
+
+      return this.elem.find('.' + className).cc.get(className);
+    }
+
+    /**
+     * Gets the class component of the given name at the element.
+     *
+     * @param {string} className The class name of the component
+     */
+
+  }, {
+    key: 'getAtElem',
+    value: function getAtElem(className) {
+
+      return this.elem.cc.get(className);
+    }
+
+    /**
+     * Gets the class component of the given name at the given selector
+     *
+     * @param {string} selector The selector for searching
+     * @param {string} className The class name of the component
+     */
+
+  }, {
+    key: 'getGlobal',
+    value: function getGlobal(selector, className) {
+
+      return $(selector).cc.get(className);
+    }
+
+    /**
+     * Gets the menu button.
+     *
+     * @return {ui.common.MenuButton}
+     */
+
+  }, {
+    key: 'getMenuButton',
+    value: function getMenuButton() {
+
+      return this.getGlobal('.menu-button-root', 'menu-button');
+    }
+  }]);
+
+  return SceneContext;
+}($.cc.Coelement);
+
+exports.default = SceneContext;
+
+},{}],21:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _dec2, _class, _desc, _value, _class2;
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _SceneContext2 = require('../common/SceneContext');
+
+var _SceneContext3 = _interopRequireDefault(_SceneContext2);
+
+var _BackgroundService = require('../../ui/common/BackgroundService');
+
+var _BackgroundService2 = _interopRequireDefault(_BackgroundService);
+
+var _util = require('../../util/util');
+
+var _spn = require('spn');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+    var desc = {};
+    Object['ke' + 'ys'](descriptor).forEach(function (key) {
+        desc[key] = descriptor[key];
+    });
+    desc.enumerable = !!desc.enumerable;
+    desc.configurable = !!desc.configurable;
+
+    if ('value' in desc || desc.initializer) {
+        desc.writable = true;
+    }
+
+    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+        return decorator(target, property, desc) || desc;
+    }, desc);
+
+    if (context && desc.initializer !== void 0) {
+        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+        desc.initializer = undefined;
+    }
+
+    if (desc.initializer === void 0) {
+        Object['define' + 'Property'](target, property, desc);
+        desc = null;
+    }
+
+    return desc;
+}
+
+var _$$cc = $.cc;
+var component = _$$cc.component;
+var event = _$$cc.event;
+
+/**
+ * TitleScene class handles the motions sequences of the title scene.
+ */
+
+var TitleScene = (_dec = component('title-scene'), _dec2 = event('scene-start'), _dec(_class = (_class2 = function (_SceneContext) {
+    _inherits(TitleScene, _SceneContext);
+
+    function TitleScene() {
+        _classCallCheck(this, TitleScene);
+
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(TitleScene).apply(this, arguments));
+    }
+
+    _createClass(TitleScene, [{
+        key: 'start',
+        value: function start() {
+            var _this2 = this;
+
+            (0, _util.loadImage)('img/title-logo.svg', 'title-logo elem', this.elem).then(function ($img) {
+                return $img.anim('title-appear', 2000).then(function () {
+                    return $img.animation('float 6000ms infinite');
+                });
+            });
+
+            (0, _spn.wait)(500).then(function () {
+
+                _this2.getMenuButton().show();
+
+                $('<p />').text('GET UP').addClass('touch-here elem').appendTo(_this2.elem).click(function () {
+                    return _this2.goToMap();
+                }).anim('title-appear', 1000).then(function (p) {
+                    return p.animation('float 1000ms infinite');
+                });
+            });
+        }
+
+        /**
+         * Fades out the scene.
+         */
+
+    }, {
+        key: 'fadeOut',
+        value: function fadeOut() {
+
+            return Promise.all([this.getMenuButton().hide(), $('.elem').css('opacity', 0).anim('disappear', 500).then(function () {
+
+                $('.elem').remove();
+
+                return (0, _spn.wait)(100);
+            })]);
+        }
+
+        /**
+         * Transions to the map scene.
+         */
+
+    }, {
+        key: 'goToMap',
+        value: function goToMap() {
+
+            this.fadeOut().then(function () {
+                return _BackgroundService2.default.turnBlack();
+            }).then(function () {
+
+                location.href = 'map.html';
+            });
+        }
+    }]);
+
+    return TitleScene;
+}(_SceneContext3.default), (_applyDecoratedDescriptor(_class2.prototype, 'start', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'start'), _class2.prototype)), _class2)) || _class);
+exports.default = TitleScene;
+
+},{"../../ui/common/BackgroundService":22,"../../util/util":23,"../common/SceneContext":20,"spn":12}],22:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _spn = require('spn');
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Dur = 700;
+
+/**
+ * BackgroundService handles the animation of background colors.
+ */
+
+var BackgroundService = function () {
+  function BackgroundService() {
+    _classCallCheck(this, BackgroundService);
+  }
+
+  _createClass(BackgroundService, null, [{
+    key: 'turnWhite',
+
+    /**
+     * Turns the bg color white.
+     *
+     * @param {Number} dur The duration
+     * @return {Promise}
+     */
+    value: function turnWhite(dur) {
+
+      return this.turn('', dur, false);
+    }
+
+    /**
+     * Turns the bg color white.
+     *
+     * @param {Number} dur The duration
+     * @return {Promise}
+     */
+
+  }, {
+    key: 'turnBlack',
+    value: function turnBlack(dur) {
+
+      return this.turn('', dur, true);
+    }
+
+    /**
+     * Turns the bg color to the given color.
+     *
+     * @private
+     * @param {String} color The color in css color
+     * @param {Number} dur The duration
+     * @param {Boolean} darkBg True if use dark background format
+     * @return {Promise}
+     */
+
+  }, {
+    key: 'turn',
+    value: function turn(color, dur, darkBg) {
+
+      dur = dur || Dur;
+
+      $(document.body).toggleClass('dark-bg', darkBg).css('background-color', color);
+
+      return (0, _spn.wait)(dur);
+    }
+  }]);
+
+  return BackgroundService;
+}();
+
+exports.default = BackgroundService;
+
+},{"spn":12}],23:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+/**
+ * Load image and returns promise which resolves when the image loaded.
+ */
+var loadImage = function loadImage(path, cls, dom) {
+  return new Promise(function (resolve) {
+
+    var $img = $('<img />').attr('src', path).addClass(cls).appendTo(dom).on('load', function () {
+      return resolve($img);
+    });
+  });
+};
+
+/**
+ * Add a comma to separate each group of three digits in a text.
+ *
+ * @param {Number} number The number
+ * @return {String}
+ */
+var commaNumber = function commaNumber(number) {
+  return number.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
+};
+
+/**
+ * Chains elements of the array as promise chain using the promise generating function.
+ *
+ * @param {Array} array The array
+ * @param {Function} createPromise The function for creating promise
+ */
+var chainPromise = function chainPromise(array, createPromise) {
+  return array.reduce(function (promise, item) {
+    return promise.then(function () {
+      return createPromise(item);
+    });
+  }, Promise.resolve());
+};
+
+exports.loadImage = loadImage;
+exports.commaNumber = commaNumber;
+exports.chainPromise = chainPromise;
+
+},{}]},{},[19]);
