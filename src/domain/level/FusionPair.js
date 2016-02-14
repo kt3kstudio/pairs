@@ -11,8 +11,8 @@ export default class FusionPair {
 
     /**
      * @constructor
-     * @param {domain.level.Cell} left The left cell
-     * @param {domain.level.Cell} right The right cell
+     * @param {Cell} left The left cell
+     * @param {Cell} right The right cell
      */
     constructor(left, right) {
 

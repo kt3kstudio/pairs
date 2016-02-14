@@ -1,6 +1,10 @@
 import {wait, Animation} from 'spn'
 import BomTable from '../common/BomTable'
 import GridWalker from '../common/GridWalker'
+
+const {event, component} = $.cc
+
+const ALL_CELLS = []
 /**
  * Cell class represents a unit (nim and neef) on the field of the level.
  *
@@ -8,52 +12,42 @@ import GridWalker from '../common/GridWalker'
  *
  * @class
  */
-domain.level.Cell = subclass(GridWalker, function (pt, parent) {
-    'use strict'
+@component('cell')
+export default class Cell extends GridWalker {
 
-    pt.cellRatioX = () => 0.65
-    pt.cellRatioY = () => 0.65
+    cellRatioX() { return 0.65 }
+    cellRatioY() { return 0.65 }
 
     /**
      * @constructor
      * @param {String} gene The gene string
      * @param {String|HTMLElement} parent The parent dom
      */
-    pt.constructor = function (elem) {
+    constructor(elem) {
 
-        parent.constructor.call(this, elem)
+        super(elem)
 
         this.gene = elem.data('gene')
 
         this.__isLastOne = false
         this.__isEvolved = false
 
-        pt.constructor.allList.push(this)
+        ALL_CELLS.push(this)
 
     }
 
-    pt.constructor.allList = []
+    static disappear() {
 
-    pt.constructor.disappear = function () {
-
-        return pt.constructor.allList.map(function (cell, i) {
-
-            wait(40 * i).then(function () {
-
-                return cell.disappear()
-
-            })
-
-        }).pop()
+        return ALL_CELLS.map((cell, i) => wait(40 * i).then(() => cell.disappear())).pop()
 
     }
 
     /**
      * Sets the flag of the last one.
      *
-     * @return {domain.level.Cell}
+     * @return {Cell}
      */
-    pt.setLastOne = function () {
+    setLastOne() {
 
         this.__isLastOne = true
 
@@ -64,9 +58,9 @@ domain.level.Cell = subclass(GridWalker, function (pt, parent) {
     /**
      * Unsets the flag of the last one.
      *
-     * @return {domain.level.Cell}
+     * @return {Cell}
      */
-    pt.unsetLastOne = function () {
+    unsetLastOne() {
 
         this.__isLastOne = false
 
@@ -79,7 +73,7 @@ domain.level.Cell = subclass(GridWalker, function (pt, parent) {
      *
      * @return {Boolean}
      */
-    pt.isLastOne = function () {
+    isLastOne() {
 
         return this.__isLastOne
 
@@ -88,7 +82,7 @@ domain.level.Cell = subclass(GridWalker, function (pt, parent) {
     /**
      * Sets the flag of being evolved from the parents.
      */
-    pt.setEvolved = function () {
+    setEvolved() {
 
         this.__evolved = true
 
@@ -99,7 +93,7 @@ domain.level.Cell = subclass(GridWalker, function (pt, parent) {
     /**
      * Unsets the flag of being evolved.
      */
-    pt.unsetEvolved = function () {
+    unsetEvolved() {
 
         this.__evolved = false
 
@@ -112,7 +106,7 @@ domain.level.Cell = subclass(GridWalker, function (pt, parent) {
      *
      * @return {Boolean}
      */
-    pt.isEvolved = function () {
+    isEvolved() {
 
         return this.__evolved
 
@@ -124,7 +118,7 @@ domain.level.Cell = subclass(GridWalker, function (pt, parent) {
      * @private
      * @return {String}
      */
-    pt.selectImage = function () {
+    selectImage() {
 
         if (this.gene === 'f') {
 
@@ -167,27 +161,27 @@ domain.level.Cell = subclass(GridWalker, function (pt, parent) {
      *
      * @return {jQuery}
      */
-    pt.willShow = function () {
+    willShow() {
 
-        var that = this
+        return super.willShow()
 
-        var elem = this.elem
+        .then(() => {
 
-        return parent.willShow.apply(this, arguments).then(function () {
+            this.elem.attr('data', this.selectImage())
 
-            elem.attr('data', that.selectImage())
+            this.setTransitionDuration(300)
 
-            that.setTransitionDuration(300)
+            return this.elem.once('load')
 
-            return elem.once('load')
+        })
 
-        }).then(function () {
+        .then(() => {
 
-            that.fitToGrid()
+            this.fitToGrid()
 
-            var genes = that.gene.split('')
+            var genes = this.gene.split('')
 
-            var $svg = $(elem[0].contentDocument)
+            var $svg = $(this.elem[0].contentDocument)
 
             for (var i = 0; i < genes.length; i++) {
 
@@ -204,41 +198,58 @@ domain.level.Cell = subclass(GridWalker, function (pt, parent) {
      *
      * For example, change the size of the dom.
      */
-    pt.resetShapeAndLocate = function () {
+    resetShapeAndLocate() {
 
         return this.fitToGrid()
 
     }
 
-    pt.showAnim = () => new Animation('bom-appear', 500)
+    showAnim() { return new Animation('bom-appear', 500) }
 
-    pt.hideAnim = () => new Animation('bom-disappear', 500)
+    hideAnim() { return new Animation('bom-disappear', 500) }
 
-    pt.didAppear = function () {
-
-        return this
-
-    }
-
-    pt.anim = function (animationName, duration) {
-
-        return this.elem.anim(animationName, duration)
-
-    }
-
-    pt.remove = function () {
+    remove() {
 
         this.elem.remove()
 
-        pt.constructor.allList.splice(pt.constructor.allList.indexOf(this), 1)
+        ALL_CELLS.splice(ALL_CELLS.indexOf(this), 1)
 
     }
 
-    pt.up = function () { return this.moveUpOnGrid() }
-    pt.down = function () { return this.moveDownOnGrid() }
-    pt.left = function () { return this.moveLeftOnGrid() }
-    pt.right = function () { return this.moveRightOnGrid() }
+    /**
+     * Animates the cell using the give css animation with the given duration.
+     *
+     * @param {string} animation
+     * @param {number} duration
+     */
+    anim(animation, duration) {
 
-})
+        return this.elem.anim(animation, duration)
 
-$.cc.assign('cell', domain.level.Cell)
+    }
+
+    up() {
+
+        return this.moveUpOnGrid()
+
+    }
+
+    down() {
+
+        return this.moveDownOnGrid()
+
+    }
+
+    left() {
+
+        return this.moveLeftOnGrid()
+
+    }
+
+    right() {
+
+        return this.moveRightOnGrid()
+
+    }
+
+}

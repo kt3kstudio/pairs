@@ -26,7 +26,7 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
      * Processes the stream of direction and returns the stream of cells.
      *
      * @param {Rx.Observable<String>} dirStream The stream of directions
-     * @return {Rx.Observable<domain.level.Cell>}
+     * @return {Rx.Observable<Cell>}
      */
     pt.processDirStream = function (dirStream) {
 
@@ -44,7 +44,7 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
      * Makes the ball move to the specified direction and a mob leave the field.
      *
      * @param {String} dir The direction the ball moves (up|down|right|left)
-     * @returns {domain.level.Cell|Rx.Observable} A promise which resolves when the mob(bom) left the field
+     * @returns {Cell|Rx.Observable} A promise which resolves when the mob(bom) left the field
      */
     pt.ballMoveAndLeaveOne = function (dir) {
 
@@ -67,7 +67,7 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
     /**
      * Make the mob at the ball leave the field.
      *
-     * @return {domain.level.Cell}
+     * @return {Cell}
      */
     pt.leaveLastOneAtBall = function () {
 
@@ -79,7 +79,7 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
      * Make a mob at the specified position leave the field.
      *
      * @param {Object} pos The position
-     * @return {domain.level.Cell|Rx.Observable}
+     * @return {Cell|Rx.Observable}
      */
     pt.leaveAtPos = function (pos) {
 

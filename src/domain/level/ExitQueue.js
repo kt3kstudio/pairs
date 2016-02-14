@@ -20,8 +20,8 @@ domain.level.ExitQueue = subclass(function (pt) {
     /**
      * Processes the new cell stream and returns a stream of arrays of exiting cells.
      *
-     * @param {Rx.Observable<domain.level.Cell>} newCellStream The stream of the new cells
-     * @return {Rx.Observable<domain.level.Cell[]>}
+     * @param {Rx.Observable<Cell>} newCellStream The stream of the new cells
+     * @return {Rx.Observable<Cell[]>}
      */
     pt.processNewCellStream = function (newCellStream) {
 
@@ -61,7 +61,7 @@ domain.level.ExitQueue = subclass(function (pt) {
     /**
      * Enqueues the cell.
      *
-     * @param {domain.level.Cell} cell The cell
+     * @param {Cell} cell The cell
      * @return {Promise} The promise resolves with the cell.
      */
     pt.enqueue = function (cell) {
@@ -137,7 +137,7 @@ domain.level.ExitQueue = subclass(function (pt) {
     var Queuee = subclass(function (pt) {
         /*
          * @constructor
-         * @param {domain.level.Cell} cell The queueing cell
+         * @param {Cell} cell The queueing cell
          * @param {Grid} grid The grid
          */
         pt.constructor = function (cell, grid) {

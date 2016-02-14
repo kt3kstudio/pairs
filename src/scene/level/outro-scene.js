@@ -1,6 +1,7 @@
 import Context from './context'
 import PlaySceneLayout from './play-scene-layout'
 import BackgroundService from '../../ui/common/BackgroundService'
+import Cell from '../../domain/level/Cell'
 
 const {component, event} = $.cc
 
@@ -42,7 +43,7 @@ export default class OutroScene extends Context {
 
         .then(() => {
 
-            domain.level.Cell.disappear()
+            Cell.disappear()
 
             this.getMenuButton().hide()
 

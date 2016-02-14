@@ -21,7 +21,7 @@ export default class FusionService extends $.cc.Coelement {
      * Processes the funsion pair stream and returns the stream of new born cells
      *
      * @param {Rx.Observable<FusionPair>}
-     * @return {Rx.Observable<domain.level.Cell>}
+     * @return {Rx.Observable<Cell>}
      */
     processFusionPairStream(fusionPairStream) {
 
@@ -33,7 +33,7 @@ export default class FusionService extends $.cc.Coelement {
      * Performs fusion.
      *
      * @param {FusionPair} pair The pair
-     * @return {Promise} {Promise<domain.level.Cell>} The new cell
+     * @return {Promise} {Promise<Cell>} The new cell
      */
     performFusion(pair) {
 
@@ -69,7 +69,7 @@ export default class FusionService extends $.cc.Coelement {
      *
      * @private
      * @param {FusionPair} pair The pair
-     * @return {Promise} The new cell {Promise<domain.level.Cell>}
+     * @return {Promise} The new cell {Promise<Cell>}
      */
     fusion(pair) {
 

@@ -20,7 +20,7 @@ export default class FusionPreparationService {
     /**
      * Processes the cell stream and returns the fusion pair stream.
      *
-     * @param {Rx.Observable<domain.level.Cell>} cellStream
+     * @param {Rx.Observable<Cell>} cellStream
      * @return {Rx.Observable<FunsionPair>}
      */
     processCellStream(cellStream) {
@@ -32,7 +32,7 @@ export default class FusionPreparationService {
     /**
      * Takes cell into the fusion preparing position.
      *
-     * @param {domain.level.Cell} cell The cell
+     * @param {Cell} cell The cell
      * @return {Promise} {Promise<FusionPair>}
      */
     take(cell) {
@@ -72,7 +72,7 @@ class PreparationStack {
     /**
      * Pushes to the stack.
      *
-     * @param {domain.level.Cell} cell The cell
+     * @param {Cell} cell The cell
      */
     push(cell) {
 
@@ -85,9 +85,9 @@ class PreparationStack {
     /**
      * locate the cell at the index.
      *
-     * @param {domain.level.Cell} cell The cell
+     * @param {Cell} cell The cell
      * @param {Number} index The index
-     * @return {Promise<domain.level.Cell>}
+     * @return {Promise<Cell>}
      */
     locate(cell, index) {
 
@@ -117,7 +117,7 @@ class PreparationStack {
     /**
      * Pops all the cells.
      *
-     * @return {Array<Promise<domain.level.Cell>>}
+     * @return {Array<Promise<Cell>>}
      */
     popAll() {
 

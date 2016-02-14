@@ -35,7 +35,7 @@ domain.level.CellCollection = subclass($.cc.Coelement, function (pt, parent) {
      * Create a cell from a bom object.
      *
      * @param {Object} obj The bom object
-     * @return {domain.level.Cell}
+     * @return {Cell}
      */
     pt.createCellFromObject = function (obj) {
 
@@ -76,7 +76,7 @@ domain.level.CellCollection = subclass($.cc.Coelement, function (pt, parent) {
     /**
      * Loads field cells from cell list.
      *
-     * @param {Array} list The list of cells (domain.level.Cell)
+     * @param {Array<Cell>}
      */
     pt.loadList = function (list) {
 
@@ -98,7 +98,7 @@ domain.level.CellCollection = subclass($.cc.Coelement, function (pt, parent) {
     /**
      * Processes the stream of released cells from the exit queue.
      *
-     * @param {Rx.Observable<domain.level.Cell[]>}
+     * @param {Rx.Observable<Cell[]>}
      * @return {Rx.Observable}
      */
     pt.processCellStream = function (releasedCellStream) {
@@ -173,7 +173,7 @@ domain.level.CellCollection = subclass($.cc.Coelement, function (pt, parent) {
      * Finds a cell at the position.
      *
      * @param {Object} pos The position.
-     * @return {domain.level.Cell}
+     * @return {Cell}
      */
     pt.find = function (pos) {
 
