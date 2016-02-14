@@ -23,6 +23,7 @@
   "author": "Yoshiya Hinosawa <stibium121@gmail.com> (https://twitter.com/kt3k)",
   "license": "MIT",
   "devDependencies": {
+    "@kt3k/puncher": "^2.0.2",
     "arrowkeys": "^0.2.1",
     "babel-eslint": "^4.1.6",
     "babel-preset-es2015-and-decorators": "^1.2.1",
@@ -33,7 +34,7 @@
     "bulbo": "^2.2.0",
     "cc-event": "^2.0.2",
     "chai": "^1.10.0",
-    "class-component": "^5.5.1",
+    "class-component": "^5.6.0",
     "es6-promise": "^3.0.2",
     "esdoc": "^0.4.3",
     "event-hub": "^4.1.0",
