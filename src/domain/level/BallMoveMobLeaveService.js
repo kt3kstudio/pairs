@@ -10,7 +10,7 @@ export default class BallMoveMobLeaveService {
     /**
      * @constructor
      * @param {Ball} ball The ball
-     * @param {domain.level.CellCollection} cells The cells
+     * @param {CellCollection} cells The cells
      */
     constructor(ball, cells) {
 
@@ -113,7 +113,7 @@ class Mobs {
 
     /**
      * @constructor
-     * @param {domain.level.CellCollection} cells The collection of cells
+     * @param {CellCollection} cells The collection of cells
      */
     constructor(cells) {
 

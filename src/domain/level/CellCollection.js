@@ -1,20 +1,22 @@
 import FieldIndexGenerator from '../../util/FieldIndexGenerator'
 import {wait} from 'spn'
 
+const {component, Coelement} = $.cc
+
 /**
  * CellCollection class represents the grid positioned queues of cells around the field.
  */
-domain.level.CellCollection = subclass($.cc.Coelement, function (pt, parent) {
-    'use strict'
+@component('cell-collection')
+export default class CellCollection extends Coelement {
 
     /**
      * @constructor
      * @param {Object} dimension The cell dimension
      * @param {String|HTMLElement} dom The dom to put Cell's dom
      */
-    pt.constructor = function (elem) {
+    constructor(elem) {
 
-        parent.constructor.call(this, elem)
+        super(elem)
 
         this.cells = []
 
@@ -23,7 +25,7 @@ domain.level.CellCollection = subclass($.cc.Coelement, function (pt, parent) {
     /**
      * @param {Grid} grid
      */
-    pt.setGrid = function (grid) {
+    setGrid(grid) {
 
         this.grid = grid
 
@@ -37,7 +39,7 @@ domain.level.CellCollection = subclass($.cc.Coelement, function (pt, parent) {
      * @param {Object} obj The bom object
      * @return {Cell}
      */
-    pt.createCellFromObject = function (obj) {
+    createCellFromObject(obj) {
 
         return $('<object />', {
             data: {gene: obj.gene},
@@ -51,7 +53,7 @@ domain.level.CellCollection = subclass($.cc.Coelement, function (pt, parent) {
      *
      * @return {Boolean}
      */
-    pt.isEmpty = function () {
+    isEmpty() {
 
         return this.cells.length === 0
 
@@ -61,15 +63,11 @@ domain.level.CellCollection = subclass($.cc.Coelement, function (pt, parent) {
      * Loads field cells from object list.
      *
      * @param {Array} list The list of cells (Object)
-     * @return {domain.level.CellCollection}
+     * @return {CellCollection}
      */
-    pt.loadFromObjectList = function (list) {
+    loadFromObjectList(list) {
 
-        return this.loadList(list.map(function (obj) {
-
-            return this.createCellFromObject(obj)
-
-        }, this))
+        return this.loadList(list.map(obj => this.createCellFromObject(obj)))
 
     }
 
@@ -78,20 +76,20 @@ domain.level.CellCollection = subclass($.cc.Coelement, function (pt, parent) {
      *
      * @param {Array<Cell>}
      */
-    pt.loadList = function (list) {
+    loadList(list) {
 
-        var indices = new FieldIndexGenerator().generate(list.length, this.usedIndices())
+        const indices = new FieldIndexGenerator().generate(list.length, this.usedIndices())
 
-        list.forEach(function (cell, i) {
+        list.forEach((cell, i) => {
 
-            var nm = indices[i]
+            const nm = indices[i]
 
             cell.setGrid(this.grid, nm[1], nm[0])
             cell.unsetLastOne()
 
             this.cells.push(cell)
 
-        }, this)
+        })
 
     }
 
@@ -101,15 +99,13 @@ domain.level.CellCollection = subclass($.cc.Coelement, function (pt, parent) {
      * @param {Rx.Observable<Cell[]>}
      * @return {Rx.Observable}
      */
-    pt.processCellStream = function (releasedCellStream) {
+    processCellStream(releasedCellStream) {
 
-        var self = this
+        return releasedCellStream.pipe(releasedCells => {
 
-        return releasedCellStream.pipe(function (releasedCells) {
+            this.loadList(releasedCells)
 
-            self.loadList(releasedCells)
-
-            return self.resetShapeAndLocate()
+            return this.resetShapeAndLocate()
 
         })
 
@@ -120,17 +116,9 @@ domain.level.CellCollection = subclass($.cc.Coelement, function (pt, parent) {
      *
      * @return {Promise} The promise which resolves with the last cell when it resolved
      */
-    pt.appear = function () {
+    appear() {
 
-        return this.cells.map(function (cell, i) {
-
-            return wait(i * 56).then(function () {
-
-                cell.show()
-
-            })
-
-        }).pop()
+        return this.cells.map((cell, i) =>  wait(i * 56).then(() => cell.show())).pop()
 
     }
 
@@ -139,17 +127,9 @@ domain.level.CellCollection = subclass($.cc.Coelement, function (pt, parent) {
      *
      * @return {Promise}
      */
-    pt.resetShapeAndLocate = function () {
+    resetShapeAndLocate() {
 
-        return this.cells.map(function (cell, i) {
-
-            return wait(i * 56).then(function () {
-
-                return cell.resetShapeAndLocate()
-
-            })
-
-        }).pop()
+        return this.cells.map((cell, i) => wait(i * 56).then(() => cell.resetShapeAndLocate())).pop()
 
     }
 
@@ -159,13 +139,9 @@ domain.level.CellCollection = subclass($.cc.Coelement, function (pt, parent) {
      * @param {Object} pos The position
      * @return {Array}
      */
-    pt.select = function (pos) {
+    select(pos) {
 
-        return this.cells.filter(function (cell) {
-
-            return cell.m === pos.m && cell.n === pos.n
-
-        })
+        return this.cells.filter(cell => cell.m === pos.m && cell.n === pos.n)
 
     }
 
@@ -175,7 +151,7 @@ domain.level.CellCollection = subclass($.cc.Coelement, function (pt, parent) {
      * @param {Object} pos The position.
      * @return {Cell}
      */
-    pt.find = function (pos) {
+    find(pos) {
 
         var candidates = this.select(pos)
 
@@ -195,13 +171,9 @@ domain.level.CellCollection = subclass($.cc.Coelement, function (pt, parent) {
      * @param {Object} pos The position
      * @return {Array}
      */
-    pt.selectRange = function (pos) {
+    selectRange(pos) {
 
-        return this.cells.filter(function (cell) {
-
-            return cell.m === pos.m && cell.n > pos.n
-
-        })
+        return this.cells.filter(cell => cell.m === pos.m && cell.n > pos.n)
 
     }
 
@@ -210,13 +182,9 @@ domain.level.CellCollection = subclass($.cc.Coelement, function (pt, parent) {
      *
      * @param {Array} cells The cells
      */
-    pt.remove = function (cells) {
+    remove(cells) {
 
-        this.cells = this.cells.filter(function (cell) {
-
-            return cells.indexOf(cell) < 0
-
-        })
+        this.cells = this.cells.filter(cell => cells.indexOf(cell) < 0)
 
     }
 
@@ -225,16 +193,10 @@ domain.level.CellCollection = subclass($.cc.Coelement, function (pt, parent) {
      *
      * @return {Array}
      */
-    pt.usedIndices = function () {
+    usedIndices() {
 
-        return this.cells.map(function (cell) {
-
-            return [cell.m, cell.n]
-
-        })
+        return this.cells.map(cell => [cell.m, cell.n])
 
     }
 
-})
-
-$.cc.assign('cell-collection', domain.level.CellCollection)
+}

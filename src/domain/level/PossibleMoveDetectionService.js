@@ -6,7 +6,7 @@ export default class PossibleMoveDetectionService {
     /**
      * @constructor
      * @param {Ball} ball The ball
-     * @param {domain.level.CellCollection} cells The field cells
+     * @param {CellCollection} cells The field cells
      */
     constructor(ball, cells) {
 
