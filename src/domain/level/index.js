@@ -1,7 +1,6 @@
 import './Ball'
 import './CellCollection'
 import './Character'
-import './ExitQueue'
 import './Field'
 import './FusionService'
 import './paper'

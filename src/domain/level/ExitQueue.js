@@ -1,16 +1,13 @@
 import {wait} from 'spn'
 /**
  * ExitQueue class represents the exit queue at the level view.
- *
- * @class
  */
-domain.level.ExitQueue = subclass(function (pt) {
-    'use strict'
+export default class ExitQueue {
 
     /**
      * @param {Grid} grid The grid
      */
-    pt.constructor = function (grid) {
+    constructor(grid) {
 
         this.grid = grid
         this.queue = []
@@ -23,38 +20,28 @@ domain.level.ExitQueue = subclass(function (pt) {
      * @param {Rx.Observable<Cell>} newCellStream The stream of the new cells
      * @return {Rx.Observable<Cell[]>}
      */
-    pt.processNewCellStream = function (newCellStream) {
+    processNewCellStream(newCellStream) {
 
-        var self = this
+        return newCellStream
 
-        return newCellStream.pipe(function (newCell) {
+        .pipe(newCell => this.enqueue(newCell).then(() => newCell))
 
-            return self.enqueue(newCell).then(function () {
+        .filter(newCell => newCell.isLastOne())
 
-                return newCell
+        .map(() => {
 
-            })
+            if (this.theLastOneIsEvolved()) {
 
-        }).filter(function (newCell) {
-
-            return newCell.isLastOne()
-
-        }).map(function () {
-
-            if (self.theLastOneIsEvolved()) {
-
-                return self.releaseCells()
+                return this.releaseCells()
 
             }
 
             // this finishes the stream
             return null
 
-        }).takeWhile(function (releasedCells) {
-
-            return releasedCells != null
-
         })
+
+        .takeWhile(releasedCells => releasedCells != null)
 
     }
 
@@ -64,7 +51,7 @@ domain.level.ExitQueue = subclass(function (pt) {
      * @param {Cell} cell The cell
      * @return {Promise} The promise resolves with the cell.
      */
-    pt.enqueue = function (cell) {
+    enqueue(cell) {
 
         this.queue.push(new Queuee(cell, this.grid))
 
@@ -77,13 +64,9 @@ domain.level.ExitQueue = subclass(function (pt) {
      *
      * @return {Array}
      */
-    pt.releaseCells = function () {
+    releaseCells() {
 
-        return this.queue.splice(0).map(function (queuee) {
-
-            return queuee.cell
-
-        })
+        return this.queue.splice(0).map(queuee => queuee.cell)
 
     }
 
@@ -93,19 +76,11 @@ domain.level.ExitQueue = subclass(function (pt) {
      * @private
      * @return {Promise}
      */
-    pt.goForward = function () {
+    goForward() {
 
-        var d = 200 / this.queue.length
+        const d = 200 / this.queue.length
 
-        return this.queue.map(function (queuee, i) {
-
-            return wait(i * d).then(function () {
-
-                return queuee.goForward()
-
-            })
-
-        }).pop()
+        return this.queue.map((queuee, i) => wait(i * d).then(() => queuee.goForward())).pop()
 
     }
 
@@ -114,7 +89,7 @@ domain.level.ExitQueue = subclass(function (pt) {
      *
      * @return {Boolean}
      */
-    pt.theLastOneIsEvolved = function () {
+    theLastOneIsEvolved() {
 
         if (this.queue.length === 0) {
 
@@ -122,51 +97,48 @@ domain.level.ExitQueue = subclass(function (pt) {
 
         }
 
-        var cell = this.queue[this.queue.length - 1].cell
+        const cell = this.queue[this.queue.length - 1].cell
 
         return cell.isLastOne() && cell.isEvolved()
 
     }
 
-    /**
-     * Queuee class is the role of the cell which is queued in the ExitQueue.
-     *
-     * @class domain.level.ExitQueue.Queuee
-     * @private
+}
+
+/**
+ * Queuee class is the role of the cell which is queued in the ExitQueue.
+ */
+class Queuee {
+    /*
+     * @constructor
+     * @param {Cell} cell The queueing cell
+     * @param {Grid} grid The grid
      */
-    var Queuee = subclass(function (pt) {
-        /*
-         * @constructor
-         * @param {Cell} cell The queueing cell
-         * @param {Grid} grid The grid
-         */
-        pt.constructor = function (cell, grid) {
+    constructor(cell, grid) {
 
-            this.cell = cell
-            this.cell.setGrid(grid, -1, 0)
-            this.cell.setTransitionDuration(500)
+        this.cell = cell
+        this.cell.setGrid(grid, -1, 0)
+        this.cell.setTransitionDuration(500)
 
-        }
+    }
 
-        /**
-         * Goes forward in the queue.
-         */
-        pt.goForward = function () {
+    /**
+     * Goes forward in the queue.
+     */
+    goForward() {
 
-            if (this.cell.m < 4) {
+        if (this.cell.m < 4) {
 
-                this.cell.m += 1
+            this.cell.m += 1
 
-            } else {
+        } else {
 
-                this.cell.n += 1
-
-            }
-
-            return this.cell.updateElemOnGrid()
+            this.cell.n += 1
 
         }
 
-    })
+        return this.cell.updateElemOnGrid()
 
-})
+    }
+
+}

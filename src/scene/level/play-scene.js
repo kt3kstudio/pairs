@@ -3,6 +3,7 @@ import PlaySceneLayout from './play-scene-layout'
 import {wait} from 'spn'
 import FusionPreparationService from '../../domain/level/FusionPreparationService'
 import BallMoveMobLeaveService from '../../domain/level/BallMoveMobLeaveService'
+import ExitQueue from '../../domain/level/ExitQueue'
 
 const {component, event} = $.cc
 /**
@@ -41,7 +42,7 @@ export default class PlayScene extends Context {
         // services
         this.fps = new FusionPreparationService(layout.evalRoomGrid())
         this.fusionService = this.getAtElem('fusion-service').setGrid(layout.fusionBoxGrid())
-        this.exitQueue = new domain.level.ExitQueue(layout.queueGrid())
+        this.exitQueue = new ExitQueue(layout.queueGrid())
 
         // ball move service
         this.bms = new BallMoveMobLeaveService(this.getBall(), this.cells)
