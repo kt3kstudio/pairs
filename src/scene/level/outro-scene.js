@@ -59,6 +59,7 @@ export default class OutroScene extends Context {
 
         .then(() => Promise.all([
 
+            this.getCharacter().turn('down'),
             this.getCharacter().show(400),
             this.getBall().disappear()
 

@@ -5,15 +5,14 @@ import {wait} from 'spn'
  * BallMoveMobLeaveService provides the function to move ball and process field boms collectly.
  * @class
  */
-domain.level.BallMoveMobLeaveService = subclass(function (pt) {
-    'use strict'
+export default class BallMoveMobLeaveService {
 
     /**
      * @constructor
      * @param {Ball} ball The ball
      * @param {domain.level.CellCollection} cells The cells
      */
-    pt.constructor = function (ball, cells) {
+    constructor(ball, cells) {
 
         this.ball = ball
         this.mobs = new Mobs(cells)
@@ -28,15 +27,9 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
      * @param {Rx.Observable<String>} dirStream The stream of directions
      * @return {Rx.Observable<Cell>}
      */
-    pt.processDirStream = function (dirStream) {
+    processDirStream(dirStream) {
 
-        var self = this
-
-        return dirStream.pipe(function (dir) {
-
-            return self.ballMoveAndLeaveOne(dir)
-
-        }).filterNull()
+        return dirStream.pipe(dir => this.ballMoveAndLeaveOne(dir)).filterNull()
 
     }
 
@@ -46,7 +39,7 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
      * @param {String} dir The direction the ball moves (up|down|right|left)
      * @returns {Cell|Rx.Observable} A promise which resolves when the mob(bom) left the field
      */
-    pt.ballMoveAndLeaveOne = function (dir) {
+    ballMoveAndLeaveOne(dir) {
 
         var pos = this.ball.posAhead(dir)
 
@@ -69,7 +62,7 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
      *
      * @return {Cell}
      */
-    pt.leaveLastOneAtBall = function () {
+    leaveLastOneAtBall() {
 
         return this.mobs.leave(this.ball.pos()).setLastOne()
 
@@ -81,9 +74,7 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
      * @param {Object} pos The position
      * @return {Cell|Rx.Observable}
      */
-    pt.leaveAtPos = function (pos) {
-
-        var that = this
+    leaveAtPos(pos) {
 
         var mob = this.mobs.leave(pos)
 
@@ -99,11 +90,7 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
 
             console.log('cell remains at ball')
 
-            return [mob, wait(600).then(function () {
-
-                return that.leaveLastOneAtBall()
-
-            })].toFlatStream()
+            return [mob, wait(600).then(() => this.leaveLastOneAtBall())].toFlatStream()
 
         }
 
@@ -113,71 +100,66 @@ domain.level.BallMoveMobLeaveService = subclass(function (pt) {
 
     }
 
+
+}
+
+
+/**
+ * Mobs is the role class which represents the collection of cells on and below the field.
+ *
+ * Mobs is the adaptor class of domain.level.FieldCells class into the BallMoveMobLeaveService context.
+ */
+class Mobs {
+
     /**
-     * Mobs is the role class which represents the collection of cells on and below the field.
-     *
-     * Mobs is the adaptor class of domain.level.FieldCells class into the BallMoveMobLeaveService context.
-     *
-     * @class domain.level.BallMoveMobLeaveService.Mobs
-     * @private
+     * @constructor
+     * @param {domain.level.CellCollection} cells The collection of cells
      */
-    var Mobs = subclass(function (pt) {
+    constructor(cells) {
 
-        /**
-         * @constructor
-         * @param {domain.level.CellCollection} cells The collection of cells
-         */
-        pt.constructor = function (cells) {
+        this.cells = cells
 
-            this.cells = cells
+    }
 
-        }
+    /**
+     * Check if the field is empty of cells.
+     *
+     * @return {Boolean}
+     */
+    isEmpty() {
 
-        /**
-         * Check if the field is empty of cells.
-         *
-         * @return {Boolean}
-         */
-        pt.isEmpty = function () {
+        return this.cells.isEmpty()
 
-            return this.cells.isEmpty()
+    }
 
-        }
+    /**
+     * Makes the cell at the position leave the field.
+     *
+     * @param {Object} pos The position
+     */
+    leave(pos) {
 
-        /**
-         * Makes the cell at the position leave the field.
-         *
-         * @param {Object} pos The position
-         */
-        pt.leave = function (pos) {
+        var w = this.cells.select(pos)
 
-            var w = this.cells.select(pos)
+        this.cells.remove(w)
 
-            this.cells.remove(w)
+        w = w[0]
 
-            w = w[0]
+        this.cells.selectRange(pos).forEach(cell => cell.up())
 
-            this.cells.selectRange(pos).forEach(function (cell) {
+        return w
 
-                cell.up()
+    }
 
-            })
+    /**
+     * Finds the cell at the position.
+     *
+     * @param {Object} pos The position
+     */
+    find(pos) {
 
-            return w
+        return this.cells.find(pos)
 
-        }
+    }
 
-        /**
-         * Finds the cell at the position.
-         *
-         * @param {Object} pos The position
-         */
-        pt.find = function (pos) {
-
-            return this.cells.find(pos)
-
-        }
-
-    })
-
-})
+}

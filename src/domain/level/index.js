@@ -1,5 +1,4 @@
 import './Ball'
-import './BallMoveMobLeaveService'
 import './CellCollection'
 import './Character'
 import './ExitQueue'

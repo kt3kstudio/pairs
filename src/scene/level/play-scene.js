@@ -2,6 +2,7 @@ import Context from './context'
 import PlaySceneLayout from './play-scene-layout'
 import {wait} from 'spn'
 import FusionPreparationService from '../../domain/level/FusionPreparationService'
+import BallMoveMobLeaveService from '../../domain/level/BallMoveMobLeaveService'
 
 const {component, event} = $.cc
 /**
@@ -43,7 +44,7 @@ export default class PlayScene extends Context {
         this.exitQueue = new domain.level.ExitQueue(layout.queueGrid())
 
         // ball move service
-        this.bms = new domain.level.BallMoveMobLeaveService(this.getBall(), this.cells)
+        this.bms = new BallMoveMobLeaveService(this.getBall(), this.cells)
 
         // init scoreboard dimension
         this.getScoreboard().setRect(layout.scoreboardRect())
