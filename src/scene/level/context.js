@@ -30,7 +30,7 @@ export default class Context extends SceneContext {
     /**
      * Gets the ball
      *
-     * @return {domain.level.Ball}
+     * @return {Ball}
      */
     getBall() {
 

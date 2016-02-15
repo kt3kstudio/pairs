@@ -2,7 +2,7 @@ import {wait, Animation} from 'spn'
 import BomTable from '../common/BomTable'
 import GridWalker from '../common/GridWalker'
 
-const {event, component} = $.cc
+const {component} = $.cc
 
 const ALL_CELLS = []
 /**

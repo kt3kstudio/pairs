@@ -1,45 +1,41 @@
 import {Animation} from 'spn'
 import GridWalker from '../common/GridWalker'
 
+const {component} = $.cc
+
+const TRANS_DUR = 150
+const MAX = 3
+const CENTER_M = 1
+const CENTER_N = 1
+
 /**
  * Ball class represents the ball inside the field of the level.
  *
  * @class
  */
-domain.level.Ball = subclass(GridWalker, function (pt, parent) {
-    'use strict'
+@component('ball')
+export default class Ball extends GridWalker {
 
-    var TRANS_DUR = 150
+    constructor(elem) {
 
-    var MAX = 3
+        super(elem)
 
-    pt.constructor = function (elem) {
+        this.maxX = MAX
+        this.maxY = MAX
 
-        parent.constructor.apply(this, arguments)
-
-        var pos = elem.data('pos') || {m: 1, n: 1}
-
-        this.setGrid(elem.data('grid'), pos.m, pos.n)
+        this.setGrid(elem.data('grid'), CENTER_M, CENTER_N)
         this.setTransitionDuration(TRANS_DUR)
 
     }
 
-    pt.maxX = MAX
-    pt.maxY = MAX
+    showAnim() { return new Animation('ball-appear', TRANS_DUR) }
 
-    pt.showAnim = () => new Animation('ball-appear', TRANS_DUR)
+    hideAnim() { return new Animation('ball-disappear', TRANS_DUR) }
 
-    pt.hideAnim = () => new Animation('ball-disappear', TRANS_DUR)
+    willShow() {
 
-    pt.willShow = function () {
+        return super.willShow().then(() => this.elem.css('display', 'inline'))
 
-        var elem = this.elem
-
-        return parent.willShow.apply(this, arguments).then(function () {
-
-            elem.css('display', 'inline')
-
-        })
     }
 
     /**
@@ -48,7 +44,7 @@ domain.level.Ball = subclass(GridWalker, function (pt, parent) {
      * @param {String} dir
      * @return {Promise}
      */
-    pt.move = function (dir) {
+    move(dir) {
 
         return this.setPos(this.posAhead(dir))
 
@@ -59,9 +55,9 @@ domain.level.Ball = subclass(GridWalker, function (pt, parent) {
      *
      * @return {Promise}
      */
-    pt.goCenterX = function () {
+    goCenterX() {
 
-        return this.moveToM(1)
+        return this.moveToM(CENTER_M)
 
     }
 
@@ -70,13 +66,13 @@ domain.level.Ball = subclass(GridWalker, function (pt, parent) {
      *
      * @return {Promise}
      */
-    pt.goCenterY = function () {
+    goCenterY() {
 
-        return this.moveToN(1)
+        return this.moveToN(CENTER_N)
 
     }
 
-    pt.posAhead = function (dir) {
+    posAhead(dir) {
 
         switch (dir) {
 
@@ -89,13 +85,13 @@ domain.level.Ball = subclass(GridWalker, function (pt, parent) {
 
     }
 
-    pt.relativePos = function (m, n) {
+    relativePos(m, n) {
 
         return {m: (this.m + m + this.maxX) % this.maxX, n: (this.n + n + this.maxY) % this.maxY}
 
     }
 
-    pt.setPos = function (pos) {
+    setPos(pos) {
 
         this.moveToGridPosition(pos.m, pos.n)
 
@@ -106,13 +102,13 @@ domain.level.Ball = subclass(GridWalker, function (pt, parent) {
      *
      * @return {Object}
      */
-    pt.pos = function () {
+    pos() {
 
         return {m: this.m, n: this.n}
 
     }
 
-    pt.refuseToMove = function (dir) {
+    refuseToMove(dir) {
 
         if (dir === 'up' || dir === 'down') {
 
@@ -126,6 +122,4 @@ domain.level.Ball = subclass(GridWalker, function (pt, parent) {
 
     }
 
-})
-
-$.cc.assign('ball', domain.level.Ball)
+}
