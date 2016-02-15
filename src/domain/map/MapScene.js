@@ -80,15 +80,33 @@ export default class MapScene extends SceneContext {
 
         .then(user => new datadomain.CharacterRepository().getById(user.charId))
 
-        .then(character => {
+        .then(character => this.character = character)
 
-            this.character = character
-
-            return Promise.resolve($.get('data/floor/' + character.position.floorId + '.html'))
-
-        })
+        .then(() => this.loadFloorData())
 
         .then(data => (this.floorData = data))
+
+    }
+
+    /**
+     * Loads the floor data.
+     *
+     * @return {Promise<string>}
+     */
+    loadFloorData() {
+
+        return Promise.resolve($.get(this.getFloorDataURL()))
+
+    }
+
+    /**
+     * Gets the floor data url.
+     *
+     * @return {string}
+     */
+    getFloorDataURL() {
+
+        return 'data/floor/' + this.character.position.floorId + '.html'
 
     }
 
