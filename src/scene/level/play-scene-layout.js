@@ -1,4 +1,4 @@
-import DimensionFactory from '../../domain/common/DimensionFactory'
+import LayoutFactory from '../../domain/common/layout-factory'
 
 const TOP_UI_HEIGHT = 50 // The top ui component height
 const BOTTOM_AD_SAFETY_HEIGHT = 50 // The ad safety zone
@@ -7,7 +7,7 @@ const BOTTOM_AD_SAFETY_HEIGHT = 50 // The ad safety zone
  *
  * @class
  */
-export default class PlaySceneLayout extends DimensionFactory {
+export default class PlaySceneLayout extends LayoutFactory {
 
     /**
      * @constructor

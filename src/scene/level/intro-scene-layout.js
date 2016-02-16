@@ -1,10 +1,10 @@
-import DimensionFactory from '../../domain/common/DimensionFactory'
+import LayoutFactory from '../../domain/common/layout-factory'
 
 const BOTTOM_AD_SAFETY_HEIGHT = 50 // The ad safety zone
 /**
  * The layout manager for intro scene
  */
-export default class IntroSceneLayout extends DimensionFactory {
+export default class IntroSceneLayout extends LayoutFactory {
 
     constructor() {
 

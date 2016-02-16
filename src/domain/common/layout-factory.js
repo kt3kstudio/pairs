@@ -7,7 +7,7 @@ import Dimension from './Dimension'
  *
  * @abstract
  */
-export default class DimensionFactory {
+export default class LayoutFactory {
 
     /**
      * Calculates things which are needed for providing the dimensions of the objects in the level scene.
