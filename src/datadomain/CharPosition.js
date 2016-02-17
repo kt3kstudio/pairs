@@ -1,3 +1,5 @@
+const {subclass} = $.cc
+
 /**
  * The position of the character.
  */

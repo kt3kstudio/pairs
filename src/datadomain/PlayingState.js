@@ -1,3 +1,5 @@
+const {subclass} = $.cc
+
 /**
  * PlayingState model represents the current playing state of the level.
  *

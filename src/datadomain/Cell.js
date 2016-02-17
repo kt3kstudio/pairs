@@ -1,3 +1,6 @@
+
+const {subclass} = $.cc
+
 /**
  * The cell.
  *

@@ -1,3 +1,5 @@
+const {subclass} = $.cc
+
 /**
  * Gene model
  *

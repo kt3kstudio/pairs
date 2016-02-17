@@ -1,3 +1,5 @@
+const {subclass} = $.cc
+
 /**
  * Character is the domain model and the aggregate root of character aggregate.
  * It has CharPosition and LevelHistoryCollection as its components.

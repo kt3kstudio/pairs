@@ -1,3 +1,5 @@
+const {subclass} = $.cc
+
 /**
  * The repository class of the LevelLock.
  *

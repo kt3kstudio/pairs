@@ -8,7 +8,7 @@ export default class Context extends SceneContext {
     /**
      * Gets the field grid.
      *
-     * @return {domain.level.Field}
+     * @return {Field}
      */
     getField() {
 
@@ -19,7 +19,7 @@ export default class Context extends SceneContext {
     /**
      * Gets the character.
      *
-     * @return {domain.level.Character}
+     * @return {Character}
      */
     getCharacter() {
 
@@ -41,7 +41,7 @@ export default class Context extends SceneContext {
     /**
      * Gets the paper.
      *
-     * @return {domain.level.Paper}
+     * @return {Paper}
      */
     getPaper() {
 

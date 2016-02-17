@@ -1,6 +1,7 @@
+const {subclass} = $.cc
+
 /**
  * UserStatistics is the collection class of user statistics info.
- *
  */
 datadomain.UserStatistics = subclass(function (pt) {
     'use strict'

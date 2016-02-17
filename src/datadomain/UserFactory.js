@@ -1,3 +1,5 @@
+const {subclass} = $.cc
+
 /**
  * Factory class of User
  */

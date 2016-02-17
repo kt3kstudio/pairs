@@ -1,3 +1,5 @@
+const {subclass} = $.cc
+
 /**
  * LevelHistory is model class which represents the history of the level clearance.
  *

@@ -1,3 +1,5 @@
+const {subclass} = $.cc
+
 /**
  * GoalFactory is the factory class of goal models
  */

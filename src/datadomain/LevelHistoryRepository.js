@@ -1,3 +1,5 @@
+const {subclass} = $.cc
+
 /**
  * LevelHistoryRepository is the repository class of LevelHistory.
  *

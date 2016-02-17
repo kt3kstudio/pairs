@@ -70,16 +70,11 @@
   "souffle": {
     "parser": "babel-eslint",
     "globals": [
-      "domain",
       "ui",
-      "util",
-      "scene",
       "datadomain",
       "infrastructure",
       "location",
       "history",
-      "subclass",
-      "loadImage",
       "$",
       "Rx",
       "describe",

@@ -1,3 +1,5 @@
+const {subclass} = $.cc
+
 datadomain.UserRepository = subclass(function (pt) {
     'use strict'
 

@@ -1,3 +1,5 @@
+const {subclass} = $.cc
+
 /**
  * The factory class of LevelLocks.
  */

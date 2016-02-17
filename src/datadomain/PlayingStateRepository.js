@@ -1,3 +1,5 @@
+const {subclass} = $.cc
+
 /**
  * PlayingStateRepository is the repository class for PlayingState model.
  */

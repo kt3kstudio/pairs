@@ -1,3 +1,5 @@
+const {subclass} = $.cc
+
 /**
  * @class
  * CharPositionFactory handles the creation of CharPositions.

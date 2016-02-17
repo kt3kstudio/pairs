@@ -1,3 +1,5 @@
+const {subclass} = $.cc
+
 /**
  * The factory for Cell.
  *

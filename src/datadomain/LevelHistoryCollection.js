@@ -1,3 +1,5 @@
+const {subclass} = $.cc
+
 /**
  * The collection class of LevelHistory.
  *
