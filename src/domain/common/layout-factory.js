@@ -1,5 +1,4 @@
-import Rect from './Rect'
-import Grid from './Grid'
+import {Grid, Rect} from 'spn'
 import Dimension from './Dimension'
 
 /**

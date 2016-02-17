@@ -1,4 +1,4 @@
-import Grid from '../../../src/domain/common/Grid'
+import {Grid} from 'spn'
 import Sprite from '../../../src/domain/common/Sprite'
 import Image from '../../../src/domain/common/Image'
 import DirStateImageMap from '../../../src/domain/common/dir-state-image-map'
@@ -41,7 +41,7 @@ describe('Sprite', () => {
 
         sprite = new MySprite(elem)
 
-        sprite.setGrid(new Grid())
+        sprite.setGrid(new Grid({x: 0, y: 0}))
 
     })
 

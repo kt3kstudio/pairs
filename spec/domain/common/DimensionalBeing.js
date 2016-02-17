@@ -1,4 +1,4 @@
-import Rect from '../../../src/domain/common/Rect'
+import {Rect} from 'spn'
 import DimensionalBeing from '../../../src/domain/common/DimensionalBeing'
 
 describe('DimensionalBeing', function () {

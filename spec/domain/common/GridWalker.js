@@ -1,4 +1,4 @@
-import Grid from '../../../src/domain/common/Grid'
+import {Grid} from 'spn'
 import GridWalker from '../../../src/domain/common/GridWalker'
 
 describe('GridWalker', function () {

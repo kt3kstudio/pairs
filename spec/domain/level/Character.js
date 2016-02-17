@@ -1,4 +1,4 @@
-import Grid from '../../../src/domain/common/Grid'
+import {Grid} from 'spn'
 import Character from '../../../src/domain/level/Character'
 
 describe('Character', () => {
@@ -14,7 +14,7 @@ describe('Character', () => {
 
         character = new Character(elem)
 
-        character.setGrid(new Grid())
+        character.setGrid(new Grid({x: 0, y: 0}))
 
     })
 

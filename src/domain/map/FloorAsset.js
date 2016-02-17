@@ -1,4 +1,4 @@
-import Grid from '../common/Grid'
+import {Grid} from 'spn'
 import Body from '../common/body'
 
 /**

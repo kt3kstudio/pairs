@@ -118,7 +118,7 @@ export default class CellCollection extends Coelement {
      */
     appear() {
 
-        return this.cells.map((cell, i) =>  wait(i * 56).then(() => cell.show())).pop()
+        return this.cells.map((cell, i) => wait(i * 56).then(() => cell.show())).pop()
 
     }
 
