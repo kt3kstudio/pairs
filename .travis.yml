@@ -3,18 +3,16 @@ language: node_js
 node_js:
 - 0.12
 
-sudo: false
-
 branches:
   only:
     - gh-pages
 
 before_install:
-  - npm install -g karma-cli
+- sudo apt-get install -y xvfb
 
 script:
 - npm run lint
-- npm run ci
+- xvfb-run npm test
 
 after_success:
 - npm run coveralls
