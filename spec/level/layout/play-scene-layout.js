@@ -4,67 +4,19 @@ import PlaySceneLayout from '../../../src/level/layout/play-scene-layout'
 describe('PlaySceneLayout', function () {
     'use strict'
 
-    var factory
+    let factory
 
-    before(function () {
+    before(() => {
 
         factory = new PlaySceneLayout()
 
     })
 
-    describe('fieldRect', function () {
+    describe('fieldRect', () => {
 
-        it('returns the rect for the field', function () {
+        it('returns the rect for the field', () => {
 
-            var dimension = factory.fieldRect()
-
-            expect(dimension).to.be.instanceof(Rect)
-
-        })
-
-    })
-
-    describe('evalRoomGrid', function () {
-
-        it('returns the grid for the evaluation place', function () {
-
-            var dimension = factory.evalRoomGrid()
-
-            expect(dimension).to.be.instanceof(Grid)
-
-        })
-
-    })
-
-    describe('queueGrid', function () {
-
-        it('returns the grid for the queue', function () {
-
-            var dimension = factory.queueGrid()
-
-            expect(dimension).to.be.instanceof(Grid)
-
-        })
-
-    })
-
-    describe('fusionBoxGrid', function () {
-
-        it('returns the grid for the fusion place', function () {
-
-            var dimension = factory.fusionBoxGrid()
-
-            expect(dimension).to.be.instanceof(Grid)
-
-        })
-
-    })
-
-    describe('resultPaneRect', function () {
-
-        it('returns a rect for the result pane', function () {
-
-            var dimension = factory.resultPaneRect()
+            const dimension = factory.fieldRect()
 
             expect(dimension).to.be.instanceof(Rect)
 
@@ -72,11 +24,59 @@ describe('PlaySceneLayout', function () {
 
     })
 
-    describe('scoreboardRect', function () {
+    describe('evalRoomGrid', () => {
 
-        it('returns the rect for the scoreboard', function () {
+        it('returns the grid for the evaluation place', () => {
 
-            var dimension = factory.scoreboardRect()
+            const dimension = factory.evalRoomGrid()
+
+            expect(dimension).to.be.instanceof(Grid)
+
+        })
+
+    })
+
+    describe('queueGrid', () => {
+
+        it('returns the grid for the queue', () => {
+
+            const dimension = factory.queueGrid()
+
+            expect(dimension).to.be.instanceof(Grid)
+
+        })
+
+    })
+
+    describe('fusionBoxGrid', () => {
+
+        it('returns the grid for the fusion place', () => {
+
+            const dimension = factory.fusionBoxGrid()
+
+            expect(dimension).to.be.instanceof(Grid)
+
+        })
+
+    })
+
+    describe('resultPaneRect', () => {
+
+        it('returns a rect for the result pane', () => {
+
+            const dimension = factory.resultPaneRect()
+
+            expect(dimension).to.be.instanceof(Rect)
+
+        })
+
+    })
+
+    describe('scoreboardRect', () => {
+
+        it('returns the rect for the scoreboard', () => {
+
+            const dimension = factory.scoreboardRect()
 
             expect(dimension).to.be.instanceof(Rect)
 
