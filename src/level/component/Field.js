@@ -1,5 +1,5 @@
 import {Animation} from 'spn'
-import Body from '../common/body'
+import Body from '../../domain/common/body'
 
 const {component} = $.cc
 

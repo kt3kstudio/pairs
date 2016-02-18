@@ -1,4 +1,4 @@
-import MeioticService from '../genetics/MeioticService'
+import MeioticService from '../../domain/genetics/MeioticService'
 
 const meiosis = new MeioticService()
 const getGene = cell => cell ? cell.gene : ''

@@ -1,5 +1,5 @@
-import FusionPair from '../../../src/domain/level/FusionPair'
-import Cell from '../../../src/domain/level/Cell'
+import FusionPair from '../../../src/level/component/FusionPair'
+import Cell from '../../../src/level/component/Cell'
 
 describe('FusionPair', function () {
     'use strict'

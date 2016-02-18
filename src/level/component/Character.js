@@ -1,5 +1,5 @@
-import CharSprite from '../common/CharSprite'
-import Speaker from '../common/Speaker'
+import CharSprite from '../../domain/common/CharSprite'
+import Speaker from '../../domain/common/Speaker'
 import {traits} from 'traits-decorator'
 
 const {component} = $.cc

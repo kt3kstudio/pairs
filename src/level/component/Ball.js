@@ -1,5 +1,5 @@
 import {Animation} from 'spn'
-import GridWalker from '../common/GridWalker'
+import GridWalker from '../../domain/common/GridWalker'
 
 const {component} = $.cc
 

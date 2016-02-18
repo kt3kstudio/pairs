@@ -1,5 +1,5 @@
 import {Animation} from 'spn'
-import StaticSprite from '../common/StaticSprite'
+import StaticSprite from '../../domain/common/StaticSprite'
 
 const {component} = $.cc
 

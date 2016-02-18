@@ -1,6 +1,6 @@
 import {wait, Animation} from 'spn'
-import BomTable from '../common/BomTable'
-import GridWalker from '../common/GridWalker'
+import BomTable from '../../domain/common/BomTable'
+import GridWalker from '../../domain/common/GridWalker'
 
 const {component} = $.cc
 

@@ -1,6 +1,6 @@
 import SceneContext from '../../domain/common/SceneContext'
 import '../../ui/level'
-import '../../domain/level'
+import '../../level/component'
 
 /**
  * The common context for level scenes.
