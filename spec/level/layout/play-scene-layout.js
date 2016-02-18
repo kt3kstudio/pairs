@@ -1,5 +1,5 @@
 import {Grid, Rect} from 'spn'
-import PlaySceneLayout from '../../../src/scene/level/play-scene-layout'
+import PlaySceneLayout from '../../../src/level/layout/play-scene-layout'
 
 describe('PlaySceneLayout', function () {
     'use strict'
