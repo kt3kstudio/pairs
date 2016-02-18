@@ -1,5 +1,5 @@
-import SceneContext from '../../domain/common/SceneContext'
-import '../../level/component'
+import SceneContext from '../domain/common/SceneContext'
+import './component'
 
 /**
  * The common context for level scenes.

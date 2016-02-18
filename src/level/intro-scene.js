@@ -1,7 +1,7 @@
 import Context from './context'
-import IntroSceneLayout from './intro-scene-layout'
-import PlaySceneLayout from './play-scene-layout'
-import BackgroundService from '../../ui/common/BackgroundService'
+import IntroSceneLayout from './layout/intro-scene-layout'
+import PlaySceneLayout from './layout/play-scene-layout'
+import BackgroundService from '../ui/common/BackgroundService'
 
 const {component, event} = $.cc
 
