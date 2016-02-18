@@ -1,5 +1,4 @@
 import SceneContext from '../../domain/common/SceneContext'
-import '../../ui/level'
 import '../../level/component'
 
 /**
