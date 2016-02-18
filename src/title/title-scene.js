@@ -1,6 +1,6 @@
-import SceneContext from '../common/SceneContext'
-import BackgroundService from '../../ui/common/BackgroundService'
-import {loadImage} from '../../util/util'
+import SceneContext from '../domain/common/SceneContext'
+import BackgroundService from '../ui/common/BackgroundService'
+import {loadImage} from '../util/util'
 import {wait} from 'spn'
 
 const {component, event} = $.cc

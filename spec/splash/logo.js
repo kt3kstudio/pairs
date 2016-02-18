@@ -1,4 +1,4 @@
-describe('domain.splash.Logo', function () {
+describe('Logo', function () {
     'use strict'
 
     var elem, logo

@@ -1,4 +1,4 @@
-describe('domain.common.SplashScene', function () {
+describe('SplashScene', function () {
     'use strict'
 
     var elem, scene

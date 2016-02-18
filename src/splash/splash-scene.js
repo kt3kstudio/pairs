@@ -1,12 +1,12 @@
-import './Logo'
+import './logo'
 
-const {component, event} = $.cc
+const {Coelement, component, event} = $.cc
 
 /**
  * SplashScene controls the splash screen.
  */
 @component('splash-scene')
-export default class SplashScene extends $.cc.Coelement {
+export default class SplashScene extends Coelement {
 
     @event('scene-start')
     main() {

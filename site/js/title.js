@@ -1,1 +1,1 @@
-import '../../src/domain/title/TitleScene'
+import '../../src/title/title-scene'
