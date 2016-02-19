@@ -15,4 +15,4 @@ script:
 - xvfb-run npm test
 
 after_success:
-- npm run coveralls
+- xvfb-run npm run coveralls
