@@ -1,1 +1,1 @@
-import '../../src/domain/map'
+import '../../src/floor/floor-scene'

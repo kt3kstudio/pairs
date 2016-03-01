@@ -1,4 +1,4 @@
-import Staircase from '../../../src/domain/map/Staircase'
+import Staircase from '../../../src/floor/component/staircase'
 
 describe('Staircase', () => {
     'use strict'

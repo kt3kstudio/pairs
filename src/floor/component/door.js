@@ -1,5 +1,5 @@
 import {wait, Animation} from 'spn'
-import FloorAsset from './FloorAsset'
+import FloorAsset from './floor-asset'
 
 const {component} = $.cc
 const DOOR_APPEAR_DUR = 400

@@ -1,6 +1,8 @@
-import SceneContext from '../common/SceneContext'
-import BackgroundService from '../../ui/common/BackgroundService'
+import SceneContext from '../domain/common/SceneContext'
+import BackgroundService from '../ui/common/BackgroundService'
 import {wait} from 'spn'
+
+import './component'
 
 const {component, event} = $.cc
 
@@ -30,7 +32,7 @@ export default class MapScene extends SceneContext {
     /**
      * Gets the floor asset collection.
      *
-     * @return {domain.map.FloorAssetCollection}
+     * @return {FloorAssetCollection}
      */
     getFloorAssets() {
 
@@ -41,7 +43,7 @@ export default class MapScene extends SceneContext {
     /**
      * Gets the camera.
      *
-     * @return {domain.map.Camera}
+     * @return {Camera}
      */
     getCamera() {
 
@@ -52,7 +54,7 @@ export default class MapScene extends SceneContext {
     /**
      * Gets the floor walker.
      *
-     * @return {domain.map.FloorWalker}
+     * @return {FloorWalker}
      */
     getWalker() {
 

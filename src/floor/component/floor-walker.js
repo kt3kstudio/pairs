@@ -1,4 +1,4 @@
-import CharSprite from '../common/CharSprite'
+import CharSprite from '../../domain/common/CharSprite'
 
 const {component, event} = $.cc
 

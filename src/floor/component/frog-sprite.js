@@ -1,4 +1,4 @@
-import StayRunSprite from '../common/StayRunSprite'
+import StayRunSprite from '../../domain/common/StayRunSprite'
 import {Animation} from 'spn'
 
 const {component} = $.cc

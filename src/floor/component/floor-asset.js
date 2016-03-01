@@ -1,5 +1,5 @@
 import {Grid} from 'spn'
-import Body from '../common/body'
+import Body from '../../domain/common/body'
 
 /**
  * FloorAsset is an abstract class which represents the something on the wall in the map view.

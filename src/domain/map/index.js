@@ -1,8 +1,0 @@
-import './Camera'
-import './Door'
-import './FloorAssetCollection'
-import './FloorWalker'
-import './Floorboard'
-import './FrogSprite'
-import './MapScene'
-import './Staircase'

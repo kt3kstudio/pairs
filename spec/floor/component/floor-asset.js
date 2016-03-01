@@ -1,4 +1,4 @@
-import FloorAsset from '../../../src/domain/map/FloorAsset'
+import FloorAsset from '../../../src/floor/component/floor-asset'
 
 describe('FloorAsset', () => {
     'use strict'

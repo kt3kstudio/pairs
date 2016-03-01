@@ -1,5 +1,5 @@
 import {Animation} from 'spn'
-import FloorAsset from './FloorAsset'
+import FloorAsset from './floor-asset'
 
 const {component} = $.cc
 

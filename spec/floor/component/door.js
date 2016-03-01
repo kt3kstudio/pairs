@@ -1,4 +1,4 @@
-import Door from '../../../src/domain/map/Door'
+import Door from '../../../src/floor/component/door'
 
 describe('Door', () => {
     'use strict'

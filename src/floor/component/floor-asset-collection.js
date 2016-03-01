@@ -1,5 +1,5 @@
 import {wait, Being} from 'spn'
-import Floorboard from './Floorboard'
+import Floorboard from './floorboard'
 
 const {component} = $.cc
 
