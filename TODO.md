@@ -1,5 +1,18 @@
 # TODO
 
+- refactor LayoutFactory not to use word dimension
+- move dir-state-image-map to spn
+- move layout-factory to spn
+- move image to spn
+- move grid-walker to spn
+- refactor char-sprite not to use word Ma, character detail should be in the dom
+- move static sprite to spn
+- move sprite to spn
+- move body to spn
+- remove Dimension
+- remove DimensionalBeing
+
+
 - SenarioManager
   - Manage senario progress
   - create plan of DSL
