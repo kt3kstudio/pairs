@@ -1,5 +1,5 @@
 import {Animation} from 'spn'
-import DimensionalBeing from '../../domain/common/DimensionalBeing'
+import Body from '../../domain/common/body'
 import {commaNumber} from '../../util/util'
 
 const {component} = $.cc
@@ -8,7 +8,7 @@ const {component} = $.cc
  * Scoreboard handles the behaviour of the score board of the level view.
  */
 @component('scoreboard')
-export default class Scoreboard extends DimensionalBeing {
+export default class Scoreboard extends Body {
 
     ratioX() { return 0 }
     ratioY() { return 0 }
