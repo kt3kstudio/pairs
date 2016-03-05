@@ -2,7 +2,6 @@
 
 - move dir-state-image-map to spn
 - move layout-factory to spn
-- move image to spn
 - move grid-walker to spn
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 - move static sprite to spn
@@ -56,6 +55,7 @@
 
 
 # DONE
+- move image to spn
 - refactor LayoutFactory not to use word dimension
 - separate SPRITE_MODULE
   - name: spn

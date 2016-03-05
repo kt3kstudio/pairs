@@ -1,5 +1,5 @@
 import Sprite from './Sprite'
-import Image from './Image'
+import {Image} from 'spn'
 import DirStateImageMap from './dir-state-image-map'
 
 /**

@@ -1,8 +1,7 @@
 import Sprite from './Sprite'
-import Image from './Image'
 import DirStateImageMap from './dir-state-image-map'
 import Ma from './Ma'
-import {wait} from 'spn'
+import {wait, Image} from 'spn'
 
 const CHR_TABLE = {
     ma: Ma

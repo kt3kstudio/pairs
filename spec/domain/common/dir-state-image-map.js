@@ -1,5 +1,5 @@
 import DirStateImageMap from '../../../src/domain/common/dir-state-image-map'
-import Image from '../../../src/domain/common/Image'
+import {Image} from 'spn'
 
 describe('DirStateImageMap', () => {
 
