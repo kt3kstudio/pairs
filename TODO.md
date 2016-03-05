@@ -1,6 +1,5 @@
 # TODO
 
-- refactor LayoutFactory not to use word dimension
 - move dir-state-image-map to spn
 - move layout-factory to spn
 - move image to spn
@@ -11,7 +10,6 @@
 - move body to spn
 - remove Dimension
 - remove DimensionalBeing
-
 
 - SenarioManager
   - Manage senario progress
@@ -58,6 +56,7 @@
 
 
 # DONE
+- refactor LayoutFactory not to use word dimension
 - separate SPRITE_MODULE
   - name: spn
 - new Artwork Moo

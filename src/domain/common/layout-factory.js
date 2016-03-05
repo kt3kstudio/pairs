@@ -1,5 +1,4 @@
-import {Grid, Rect} from 'spn'
-import Dimension from './Dimension'
+import {Grid, Rect, Posture} from 'spn'
 
 /**
  * The abstact class for dimension factories of various objects in scenes.
@@ -51,18 +50,18 @@ export default class LayoutFactory {
          */
         this.heightRate = heightRate || 1
 
-        const available = this.getAvailableDimension($(window).width(), $(window).height())
+        const available = this.getAvailableArea($(window).width(), $(window).height())
 
-        const bestDim = this.getBestDimension(available)
+        const bestArea = this.getBestArea(available)
 
-        const top = this.marginTop + (available.actualHeight() - bestDim.actualHeight()) / 2
-        const left = this.marginLeft + (available.actualWidth() - bestDim.actualWidth()) / 2
+        const top = this.marginTop + (available.actualHeight() - bestArea.actualHeight()) / 2
+        const left = this.marginLeft + (available.actualWidth() - bestArea.actualWidth()) / 2
 
         this.main = new Rect({
             top: top,
             left: left,
-            bottom: top + bestDim.actualHeight(),
-            right: left + bestDim.actualWidth()
+            bottom: top + bestArea.actualHeight(),
+            right: left + bestArea.actualWidth()
         })
 
     }
@@ -73,11 +72,11 @@ export default class LayoutFactory {
      * @private
      * @param {Number} width The width of the target area
      * @param {Number} height The height of the target area
-     * @return {Dimension}
+     * @return {Posture}
      */
-    getAvailableDimension(width, height) {
+    getAvailableArea(width, height) {
 
-        return new Dimension({
+        return new Posture({
             width: width,
             height: height,
             marginTop: this.marginTop,
@@ -92,12 +91,12 @@ export default class LayoutFactory {
      * Gets the best fitting playable area for the level scene.
      *
      * @private
-     * @param {Dimension}
-     * @return {Dimension}
+     * @param {Posture}
+     * @return {Posture}
      */
-    getBestDimension(available) {
+    getBestArea(available) {
 
-        return new Dimension({
+        return new Posture({
 
             width: this.widthRate,
             height: this.heightRate
