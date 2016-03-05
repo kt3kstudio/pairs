@@ -1,6 +1,5 @@
 import Sprite from './Sprite'
-import DirStateImageMap from './dir-state-image-map'
-import {wait, Image} from 'spn'
+import {wait, Image, DirStateImageMap} from 'spn'
 
 /**
  * The sprite class for stay-run creatures.

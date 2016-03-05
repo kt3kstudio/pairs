@@ -1,6 +1,5 @@
-import {Grid, Image} from 'spn'
+import {Grid, Image, DirStateImageMap} from 'spn'
 import Sprite from '../../../src/domain/common/Sprite'
-import DirStateImageMap from '../../../src/domain/common/dir-state-image-map'
 
 describe('Sprite', () => {
     'use strict'

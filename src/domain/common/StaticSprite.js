@@ -1,6 +1,5 @@
 import Sprite from './Sprite'
-import {Image} from 'spn'
-import DirStateImageMap from './dir-state-image-map'
+import {Image, DirStateImageMap} from 'spn'
 
 /**
  * StaticSprite is Sprite without dir-state change.
