@@ -4,38 +4,18 @@
  */
 export default class DirStateImageMap {
 
-    /**
-     * @param {Array<Array>}
-     */
-    constructor(items) {
+    constructor() {
 
         this.imageMap = {}
 
-        this.addItems(items)
-
     }
 
     /**
-     * Adds the items.
-     *
-     * @private
-     * @param {Array<Array>}
+    * @param {string} dir The direction
+    * @param {string} state The state
+    * @param {Image} image The image
      */
-    addItems(items) {
-
-        items.forEach(item => this.addItem(item))
-
-    }
-
-    /**
-     * Adds the item.
-     *
-     * @private
-     * @param {string} dir The direction
-     * @param {string} state The state
-     * @param {Image} image The image
-     */
-    addItem([dir, state, image]) {
+    addImageByDirState(image, dir, state) {
 
         this.imageMap[this.getMapKey(dir, state)] = image
 

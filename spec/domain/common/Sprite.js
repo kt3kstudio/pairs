@@ -13,12 +13,11 @@ describe('Sprite', () => {
 
             super(elem)
 
-            this.dirStateImage = new DirStateImageMap([
-                ['up', 'run', new Image('up-run.svg')],
-                ['up', 'stay', new Image('up-stay.svg')],
-                ['down', 'run', new Image('down-run.svg')],
-                ['down', 'stay', new Image('down-stay.svg')]
-            ])
+            this.dirStateImage = new DirStateImageMap()
+            this.dirStateImage.addImageByDirState(new Image('up-run.svg'), 'up', 'run')
+            this.dirStateImage.addImageByDirState(new Image('up-stay.svg'), 'up', 'stay')
+            this.dirStateImage.addImageByDirState(new Image('down-run.svg'), 'down', 'run')
+            this.dirStateImage.addImageByDirState(new Image('down-stay.svg'), 'down', 'stay')
 
         }
 

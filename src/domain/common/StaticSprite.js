@@ -16,9 +16,9 @@ export default class StaticSprite extends Sprite {
 
         super(elem)
 
-        this.dirStateImage = new DirStateImageMap([
-            ['down', 'default', new Image(this.image())]
-        ])
+        this.dirStateImage = new DirStateImageMap()
+
+        this.dirStateImage.addImageByDirState(new Image(this.image()), 'down', 'default')
 
     }
 

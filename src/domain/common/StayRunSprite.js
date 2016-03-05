@@ -20,12 +20,13 @@ export default class StayRunSprite extends Sprite {
 
         super(elem)
 
-        this.dirStateImage = new DirStateImageMap([
-            ['left', 'stay', new Image(this.leftStayImage())],
-            ['left', 'run', new Image(this.leftRunImage())],
-            ['right', 'stay', new Image(this.leftStayImage(), true)],
-            ['right', 'run', new Image(this.leftRunImage(), true)]
-        ])
+        this.dirStateImage = new DirStateImageMap()
+
+        this.dirStateImage.addImageByDirState(new Image(this.leftStayImage()), 'left', 'stay')
+        this.dirStateImage.addImageByDirState(new Image(this.leftRunImage()), 'left', 'run')
+        this.dirStateImage.addImageByDirState(new Image(this.leftStayImage(), true), 'right', 'stay')
+        this.dirStateImage.addImageByDirState(new Image(this.leftRunImage(), true), 'right', 'run')
+
     }
 
     runAway(dir) {

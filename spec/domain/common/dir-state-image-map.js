@@ -9,7 +9,8 @@ describe('DirStateImageMap', () => {
 
         image = new Image('foo.png')
 
-        dirStateImageMap = new DirStateImageMap([['up', 'run', image]])
+        dirStateImageMap = new DirStateImageMap()
+        dirStateImageMap.addImageByDirState(image, 'up', 'run')
 
     })
 

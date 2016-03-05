@@ -34,14 +34,12 @@ export default class CharSprite extends Sprite {
 
         CHR_TABLE[this.character.id].call(this)
 
-        const dirStateImage = new DirStateImageMap([
-            ['up', 'default', new Image(this.upImage())],
-            ['down', 'default', new Image(this.downImage())],
-            ['left', 'default', new Image(this.leftImage())],
-            ['right', 'default', new Image(this.rightImage())]
-        ])
+        this.dirStateImage = new DirStateImageMap()
 
-        this.dirStateImage = dirStateImage
+        this.dirStateImage.addImageByDirState(new Image(this.upImage()), 'up', 'default')
+        this.dirStateImage.addImageByDirState(new Image(this.downImage()), 'down', 'default')
+        this.dirStateImage.addImageByDirState(new Image(this.leftImage()), 'left', 'default')
+        this.dirStateImage.addImageByDirState(new Image(this.rightImage()), 'right', 'default')
 
     }
 
