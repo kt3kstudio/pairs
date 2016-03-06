@@ -50,58 +50,15 @@ export default class LayoutFactory {
          */
         this.heightRate = heightRate || 1
 
-        const available = this.getAvailableArea($(window).width(), $(window).height())
-
-        const bestArea = this.getBestArea(available)
-
-        const top = this.marginTop + (available.actualHeight() - bestArea.actualHeight()) / 2
-        const left = this.marginLeft + (available.actualWidth() - bestArea.actualWidth()) / 2
-
-        this.main = new Rect({
-            top: top,
-            left: left,
-            bottom: top + bestArea.actualHeight(),
-            right: left + bestArea.actualWidth()
+        this.main = Rect.windowAsRect().margin({
+            top: marginTop,
+            left: marginLeft,
+            right: marginRight,
+            bottom: marginBottom
+        }).getBestRect({
+            horizontal: widthRate,
+            vertical: heightRate
         })
-
-    }
-
-    /**
-     * Gets the available dimension in the play scene.
-     *
-     * @private
-     * @param {Number} width The width of the target area
-     * @param {Number} height The height of the target area
-     * @return {Posture}
-     */
-    getAvailableArea(width, height) {
-
-        return new Posture({
-            width: width,
-            height: height,
-            marginTop: this.marginTop,
-            marginRight: this.marginRight,
-            marginBottom: this.marginBottom,
-            marginLeft: this.marginLeft
-        })
-
-    }
-
-    /**
-     * Gets the best fitting playable area for the level scene.
-     *
-     * @private
-     * @param {Posture}
-     * @return {Posture}
-     */
-    getBestArea(available) {
-
-        return new Posture({
-
-            width: this.widthRate,
-            height: this.heightRate
-
-        }).similarInnerTangent(available.actualWidth(), available.actualHeight())
 
     }
 
