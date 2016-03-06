@@ -1,4 +1,4 @@
-import {Grid, Rect, Posture} from 'spn'
+import {Grid, Rect} from 'spn'
 
 /**
  * The abstact class for dimension factories of various objects in scenes.
