@@ -4,8 +4,6 @@
 - move grid-walker to spn
 - move sprite to spn
 - move static-sprite to spn
-- reconsider layout-factory, maybe rename to best-area-finder or something
-- split layout-factory to get-best-rect (function) and dimension-factory
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 - remove Dimension
 - remove DimensionalBeing
@@ -55,6 +53,8 @@
 
 
 # DONE
+- reconsider layout-factory, maybe rename to best-area-finder or something
+- split layout-factory to get-best-rect (function) and dimension-factory
 - move dir-state-image-map to spn
 - move image to spn
 - refactor LayoutFactory not to use word dimension

@@ -1,4 +1,5 @@
 import LayoutFactory from '../../domain/common/layout-factory'
+import {Rect} from 'spn'
 
 const TOP_UI_HEIGHT = 50 // The top ui component height
 const BOTTOM_AD_SAFETY_HEIGHT = 50 // The ad safety zone
@@ -14,17 +15,18 @@ export default class PlaySceneLayout extends LayoutFactory {
      */
     constructor() {
 
-        super({
-            marginTop: TOP_UI_HEIGHT,
-            marginBottom: BOTTOM_AD_SAFETY_HEIGHT,
-            widthRate: 2,
-            heightRate: 3
+        super()
+
+        this.main = Rect.windowAsRect().margin({
+            top: TOP_UI_HEIGHT,
+            bottom: BOTTOM_AD_SAFETY_HEIGHT
+        }).getBestRect({
+            horizontal: 2,
+            vertical: 3
         })
 
-        this.unit = this // The unit rect on the left top corner.
-        .main
-        .scaleBottom(1 / 6)
-        .scaleRight(1 / 4)
+        // The unit rect on the left top corner.
+        this.unit = this.main.scaleBottom(1 / 6).scaleRight(1 / 4)
 
     }
 

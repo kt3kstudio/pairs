@@ -1,4 +1,5 @@
 import LayoutFactory from '../../domain/common/layout-factory'
+import {Rect} from 'spn'
 
 const BOTTOM_AD_SAFETY_HEIGHT = 50 // The ad safety zone
 /**
@@ -8,10 +9,13 @@ export default class IntroSceneLayout extends LayoutFactory {
 
     constructor() {
 
-        super({
-            marginBottom: BOTTOM_AD_SAFETY_HEIGHT,
-            widthRate: 2,
-            heightRate: 3
+        super()
+
+        this.main = Rect.windowAsRect().margin({
+            bottom: BOTTOM_AD_SAFETY_HEIGHT
+        }).getBestRect({
+            horizontal: 2,
+            vertical: 3
         })
 
     }
