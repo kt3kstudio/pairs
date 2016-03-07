@@ -1,5 +1,4 @@
-import LayoutFactory from '../../domain/common/layout-factory'
-import {Rect} from 'spn'
+import {Rect, LayoutFactory} from 'spn'
 
 const TOP_UI_HEIGHT = 50 // The top ui component height
 const BOTTOM_AD_SAFETY_HEIGHT = 50 // The ad safety zone

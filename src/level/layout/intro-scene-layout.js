@@ -1,5 +1,4 @@
-import LayoutFactory from '../../domain/common/layout-factory'
-import {Rect} from 'spn'
+import {Rect, LayoutFactory} from 'spn'
 
 const BOTTOM_AD_SAFETY_HEIGHT = 50 // The ad safety zone
 /**
