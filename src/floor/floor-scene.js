@@ -1,5 +1,6 @@
 import SceneContext from '../domain/common/SceneContext'
 import BackgroundService from '../ui/common/BackgroundService'
+import UserRepository from '../domain/user-repository'
 import {wait} from 'spn'
 
 import './component'
@@ -78,7 +79,7 @@ export default class MapScene extends SceneContext {
      */
     load() {
 
-        return new datadomain.UserRepository().get()
+        return new UserRepository().get()
 
         .then(user => new datadomain.CharacterRepository().getById(user.charId))
 

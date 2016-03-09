@@ -1,26 +1,25 @@
-const {subclass} = $.cc
-
 /**
  * The model of user.
  */
-datadomain.User = subclass(function (pt) {
-    'use strict'
+export default class User {
 
     /**
      * @constructor
      * @param {String} charId The id of the character currently chosen
-     * @param {datadomain.UserStatistics} stat The statisctics of the user activity
+     * @param {UserStatistics} stat The statisctics of the user activity
      */
-    pt.constructor = function (charId, stat) {
+    constructor(charId, stat) {
+
         /**
          * @property {String} charId The id of the character currently chosen
          */
         this.charId = charId
 
         /**
-         * @property {datadomain.UserStatistics} stat The statisctics of the user activity
+         * @property {UserStatistics} stat The statisctics of the user activity
          */
         this.stat = stat
+
     }
 
     /**
@@ -28,7 +27,10 @@ datadomain.User = subclass(function (pt) {
      *
      * @param {String} charId The character id.
      */
-    pt.setCharId = function (charId) {
+    setCharId(charId) {
+
         this.charId = charId
+
     }
-})
+
+}

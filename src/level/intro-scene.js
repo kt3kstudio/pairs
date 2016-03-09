@@ -2,6 +2,7 @@ import Context from './context'
 import IntroSceneLayout from './layout/intro-scene-layout'
 import PlaySceneLayout from './layout/play-scene-layout'
 import BackgroundService from '../ui/common/BackgroundService'
+import UserRepository from '../domain/user-repository'
 
 const {component, event} = $.cc
 
@@ -32,7 +33,7 @@ export default class IntroScene extends Context {
      */
     load() {
 
-        return new datadomain.UserRepository().get()
+        return new UserRepository().get()
 
         .then(user => new datadomain.CharacterRepository().getById(user.charId))
 
