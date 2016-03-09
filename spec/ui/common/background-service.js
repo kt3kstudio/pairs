@@ -1,4 +1,4 @@
-import BackgroundService from '../../../src/ui/common/BackgroundService'
+import BackgroundService from '../../../src/ui/common/background-service'
 
 describe('BackgroundService', function () {
     'use strict'

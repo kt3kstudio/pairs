@@ -1,5 +1,5 @@
 import SceneContext from '../domain/common/SceneContext'
-import BackgroundService from '../ui/common/BackgroundService'
+import BackgroundService from '../ui/common/background-service'
 import UserRepository from '../domain/user-repository'
 import {wait} from 'spn'
 
