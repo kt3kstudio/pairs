@@ -1,4 +1,4 @@
-import MeioticService from '../../../src/domain/genetics/MeioticService'
+import MeioticService from '../../../src/domain/genetics/meiotic-service'
 
 describe('MeioticService', () => {
     'use strict'
