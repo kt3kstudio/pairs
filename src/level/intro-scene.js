@@ -35,11 +35,13 @@ export default class IntroScene extends Context {
 
         return new UserRepository().get()
 
-        .then(user => new datadomain.CharacterRepository().getById(user.charId))
+        .then(user => this.user = user)
+
+        .then(() => new datadomain.CharacterRepository().getById(this.user.charId))
 
         .then(character => this.character = character)
 
-        .then(character => new datadomain.LevelRepository().getById(this.character.position.floorObjectId))
+        .then(() => new datadomain.LevelRepository().getById(this.character.getFloorObjectId()))
 
         .then(level => this.level = level)
 

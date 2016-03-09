@@ -1,5 +1,3 @@
-const {subclass} = $.cc
-
 /**
  * Character is the domain model and the aggregate root of character aggregate.
  * It has CharPosition and LevelHistoryCollection as its components.
@@ -7,8 +5,7 @@ const {subclass} = $.cc
  * [Entity]
  * [AggregateRoot]
  */
-datadomain.Character = subclass(function (pt) {
-    'use strict'
+export default class Character {
 
     /**
      * @constructor
@@ -19,7 +16,7 @@ datadomain.Character = subclass(function (pt) {
      * @param {datadomain.PlayingState} playingState The state of playing at the current level
      * @param {datadomain.LevelLockCollection} locks The collection of the level locks
      */
-    pt.constructor = function (id, name, position, histories, playingState, locks) {
+    constructor(id, name, position, histories, playingState, locks) {
         /**
          * @property {String} id The id of the character
          */
@@ -49,6 +46,7 @@ datadomain.Character = subclass(function (pt) {
          * @property {datadomain.LevelLockCollection} collection The collection of the locks
          */
         this.locks = locks
+
     }
 
     /**
@@ -56,8 +54,10 @@ datadomain.Character = subclass(function (pt) {
      *
      * @param {datadomain.CharPosition} position The position of the character
      */
-    pt.setPosition = function (position) {
+    setPosition(position) {
+
         this.position = position
+
     }
 
     /**
@@ -65,18 +65,20 @@ datadomain.Character = subclass(function (pt) {
      *
      * @return {Promise} resolves with updated character
      */
-    pt.reloadHistories = function () {
-        var that = this
+    reloadHistories() {
 
         if (this.position == null) {
             return Promise.resolve(this)
         }
 
-        return new datadomain.LevelHistoryRepository(this.id).getByFloorId(this.position.floorId).then(function (histories) {
-            that.histories = histories
+        return new datadomain.LevelHistoryRepository(this.id).getByFloorId(this.position.floorId).then(histories => {
 
-            return that
+            this.histories = histories
+
+            return this
+
         })
+
     }
 
     /**
@@ -84,40 +86,36 @@ datadomain.Character = subclass(function (pt) {
      *
      * @return {Promise}
      */
-    pt.saveHistories = function () {
-        var that = this
+    saveHistories() {
 
-        return new datadomain.LevelHistoryRepository(this.id).saveByFloorId(this.position.floorId, this.histories).then(function () {
-            return that
-        })
+        return new datadomain.LevelHistoryRepository(this.id).saveByFloorId(this.position.floorId, this.histories).then(() => this)
+
     }
 
     /**
      * Reloads the level locks.
      */
-    pt.reloadLocks = function () {
-        var that = this
+    reloadLocks() {
 
         if (this.position == null) {
             return Promise.resolve(this)
         }
 
-        return new datadomain.LevelLockRepository(this.id).getByFloorId(this.position.floorId).then(function (locks) {
-            that.locks = locks
+        return new datadomain.LevelLockRepository(this.id).getByFloorId(this.position.floorId).then(locks => {
+            this.locks = locks
 
-            return that
+            return this
         })
+
     }
 
     /**
      * Saves the current level locks.
      */
-    pt.saveLocks = function () {
-        var that = this
+    saveLocks() {
 
-        return new datadomain.LevelLockRepository(this.id).saveByFloorId(this.position.floorId, this.locks).then(function () {
-            return that
-        })
+        return new datadomain.LevelLockRepository(this.id).saveByFloorId(this.position.floorId, this.locks).then(() => this)
+
     }
 
     /**
@@ -125,14 +123,16 @@ datadomain.Character = subclass(function (pt) {
      *
      * @return {Promise}
      */
-    pt.reloadPlayingState = function () {
-        var that = this
+    reloadPlayingState() {
 
-        return new datadomain.PlayingStateRepository().getByCharIdLevelId(this.id, this.position.floorObjectId).then(function (playingState) {
-            that.playingState = playingState
+        return new datadomain.PlayingStateRepository().getByCharIdLevelId(this.id, this.position.floorObjectId).then(playingState => {
 
-            return that
+            this.playingState = playingState
+
+            return this
+
         })
+
     }
 
     /**
@@ -140,12 +140,10 @@ datadomain.Character = subclass(function (pt) {
      *
      * @return {Promise}
      */
-    pt.savePlayingState = function () {
-        var that = this
+    savePlayingState() {
 
-        return new datadomain.PlayingStateRepository().save(this.playingState).then(function () {
-            return that
-        })
+        return new datadomain.PlayingStateRepository().save(this.playingState).then(() => this)
+
     }
 
     /**
@@ -153,7 +151,20 @@ datadomain.Character = subclass(function (pt) {
      *
      * @return {Promise}
      */
-    pt.clearPlayingState = function () {
+    clearPlayingState() {
+
         return new datadomain.PlayingStateRepository().clearByCharId(this.id)
+
     }
-})
+
+    /**
+     */
+    getFloorObjectId() {
+
+        return this.position.floorObjectId
+
+    }
+
+}
+
+datadomain.Character = Character
