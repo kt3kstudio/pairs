@@ -3,6 +3,7 @@ import IntroSceneLayout from './layout/intro-scene-layout'
 import PlaySceneLayout from './layout/play-scene-layout'
 import BackgroundService from '../ui/common/background-service'
 import UserRepository from '../domain/user-repository'
+import CharacterRepository from '../domain/character-repository'
 
 const {component, event} = $.cc
 
@@ -37,7 +38,7 @@ export default class IntroScene extends Context {
 
         .then(user => this.user = user)
 
-        .then(() => new datadomain.CharacterRepository().getById(this.user.charId))
+        .then(() => new CharacterRepository().getById(this.user.charId))
 
         .then(character => this.character = character)
 

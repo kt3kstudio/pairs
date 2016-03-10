@@ -1,6 +1,7 @@
 import SceneContext from '../domain/common/SceneContext'
 import BackgroundService from '../ui/common/background-service'
 import UserRepository from '../domain/user-repository'
+import CharacterRepository from '../domain/character-repository'
 import {wait} from 'spn'
 
 import './component'
@@ -81,7 +82,7 @@ export default class MapScene extends SceneContext {
 
         return new UserRepository().get()
 
-        .then(user => new datadomain.CharacterRepository().getById(user.charId))
+        .then(user => new CharacterRepository().getById(user.charId))
 
         .then(character => this.character = character)
 
@@ -129,7 +130,7 @@ export default class MapScene extends SceneContext {
     /**
      * Initializes the floor walker.
      *
-     * @param {datadomain.Character} character
+     * @param {Character} character
      */
     spawnFloorWalker(character) {
 
@@ -146,7 +147,7 @@ export default class MapScene extends SceneContext {
     /**
      * Initializes the floor assets.
      *
-     * @param {datadomain.Character} character
+     * @param {Character} character
      */
     initFloorAssets(character) {
 

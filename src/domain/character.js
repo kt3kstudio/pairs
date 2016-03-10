@@ -166,5 +166,3 @@ export default class Character {
     }
 
 }
-
-datadomain.Character = Character

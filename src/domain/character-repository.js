@@ -9,7 +9,7 @@ export default class CharacterRepository {
     /**
      * Saves the character.
      *
-     * @param {datadomain.Character} character The Character
+     * @param {Character} character The Character
      * @return {Promise}
      */
     save(character) {
@@ -59,7 +59,7 @@ export default class CharacterRepository {
      * @private
      * Converts the Character object into js object.
      *
-     * @param {datadomain.Character} character The Character
+     * @param {Character} character The Character
      * @return {Object}
      */
     toObject(character) {
@@ -93,5 +93,3 @@ export default class CharacterRepository {
     }
 
 }
-
-datadomain.CharacterRepository = CharacterRepository

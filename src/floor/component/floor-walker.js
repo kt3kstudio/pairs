@@ -1,4 +1,5 @@
 import CharSprite from '../../domain/common/CharSprite'
+import CharacterRepository from '../../domain/character-repository'
 
 const {component, event} = $.cc
 
@@ -14,7 +15,7 @@ export default class FloorWalker extends CharSprite {
 
         super(elem)
 
-        this.characterRepository = new datadomain.CharacterRepository()
+        this.characterRepository = new CharacterRepository()
 
     }
 

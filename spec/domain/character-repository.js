@@ -1,9 +1,10 @@
 import Character from '../../src/domain/character'
+import CharacterRepository from '../../src/domain/character-repository'
 
 describe('CharacterRepository', () => {
     'use strict'
 
-    const repo = new datadomain.CharacterRepository()
+    const repo = new CharacterRepository()
 
     beforeEach(() => {
 
@@ -24,7 +25,7 @@ describe('CharacterRepository', () => {
 
             when(infrastructure.storage.set)().then(() => Promise.resolve({}))
 
-            return repo.save(character).then(character => expect(character).to.be.instanceof(datadomain.Character))
+            return repo.save(character).then(character => expect(character).to.be.instanceof(Character))
 
         })
 
