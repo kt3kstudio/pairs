@@ -115,13 +115,14 @@ describe('Body', () => {
 
         it('it sets the rect', function () {
 
-            var rect = new Rect({
+            const rect = new Rect({
                 top: 0, right: 10, bottom: 40, left: 20
             })
 
             body.setRect(rect)
 
-            expect(body.rect).to.equal(rect)
+            expect(body.posture.width).to.equal(rect.width())
+            expect(body.posture.height).to.equal(rect.height())
 
         })
 

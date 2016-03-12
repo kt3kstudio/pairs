@@ -235,13 +235,10 @@ export default class Body extends Being {
      */
     setRect(rect) {
 
-        this.rect = rect
+        this.x = this.posture.getXInRect(rect)
+        this.y = this.posture.getYInRect(rect)
 
-        this.x = rect.left + rect.width() * this.posture.ratioX
-        this.y = rect.top + rect.height() * this.posture.ratioY
-
-        this.posture.width = rect.width()
-        this.posture.height = rect.height()
+        this.posture.fitToRect(rect)
 
     }
 
