@@ -94,7 +94,7 @@ export default class MapScene extends SceneContext {
 
         return new UserRepository().get()
 
-        .then(user => new characterRepository().getById(user.charId))
+        .then(user => new CharacterRepository().getById(user.charId))
 
         .then(character => this.character = character)
 
