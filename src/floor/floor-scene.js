@@ -80,15 +80,23 @@ export default class MapScene extends SceneContext {
      */
     load() {
 
+        return Promise.all([
+            this.loadFloorData(),
+            this.loadUserAndCharacter()
+        ])
+
+    }
+
+    /**
+     * Loads the user data and character data
+     */
+    loadUserAndCharacter() {
+
         return new UserRepository().get()
 
-        .then(user => new CharacterRepository().getById(user.charId))
+        .then(user => new characterRepository().getById(user.charId))
 
         .then(character => this.character = character)
-
-        .then(() => this.loadFloorData())
-
-        .then(data => (this.floorData = data))
 
     }
 
@@ -100,6 +108,8 @@ export default class MapScene extends SceneContext {
     loadFloorData() {
 
         return Promise.resolve($.get(this.getFloorDataURL()))
+
+        .then(data => this.floorData = data)
 
     }
 
