@@ -80,10 +80,9 @@ export default class MapScene extends SceneContext {
      */
     load() {
 
-        return Promise.all([
-            this.loadFloorData(),
-            this.loadUserAndCharacter()
-        ])
+        return this.loadUserAndCharacter()
+
+        .then(() => this.loadFloorData())
 
     }
 
@@ -165,7 +164,7 @@ export default class MapScene extends SceneContext {
 
         this.getFloorAssets().updateAssetsByLocksAndHistories(character.locks, character.histories)
 
-        let currentFloorAsset = this.getFloorAssets().findById(character.position.floorObjectId)
+        const currentFloorAsset = this.getFloorAssets().findById(character.position.floorObjectId)
 
         if (currentFloorAsset) {
 
