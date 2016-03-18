@@ -1,24 +1,20 @@
 # TODO
 
+## spn framework
 - move body to spn
 - move grid-walker to spn
 - move sprite to spn
 - move static-sprite to spn
 - refactor char-sprite not to use word Ma, character detail should be in the dom
-- remove Dimension
-- remove DimensionalBeing
 
-- SenarioManager
-  - Manage senario progress
-  - create plan of DSL
+## game
+- Speaker clean up speech bubble handling
+- Speaker can speak emojis
+- Speaker can speak letter by letter
 
-- Puncher
-  - show string letter by letter
-
-- Speaker
-  - can speak emojis
-  - can speak letter by letter
-  - clean up speech bubble handling - done
+- ScriptManager load html
+- ScriptManager parse html
+- ScriptManager script start method
 
 - SpeechBubble
   - multiple bubble handling
@@ -26,10 +22,8 @@
   - redesign bubble management
   - transition to class-component based arch - done
 
-- Residents
-  - MooSprite
-  - moo layout in level.scene context
-  - resident sprite
+- MooSprite create class
+- moo layout in level.scene context
 
 [Make residents]
 - Who suggest what they need for their rooms
@@ -37,22 +31,26 @@
 - gather ideas of the residents, the reason for them needing the cells
 - give a meaning to the sequence of the residents
 
-### low pri
-- Ad integration
+## Ad
+- Ad integration (in android, ios side, maybe better to create it as straw plugin)
 
-
-# Idea
+## game logic
 - Char difference
   - ma - torus
   - ellen - sphere
   - emma - P2
 
-## Artwork
-- finger - swipe tutorial
-  - use free finger icon out there
+## Tutorial
+- create tutorial (guidance) - guiding finger swipes the screen
 
 
 # DONE
+- ScenarioManager Manage senario progress
+- ScenarioManager create plan of DSL
+- Speaker clean up speech bubble handling
+- Puncher show string letter by letter
+- remove Dimension
+- remove DimensionalBeing
 - reconsider layout-factory, maybe rename to best-area-finder or something
 - split layout-factory to get-best-rect (function) and dimension-factory
 - move dir-state-image-map to spn
