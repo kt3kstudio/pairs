@@ -1,4 +1,4 @@
-import PossibleMoveDetectionService from './PossibleMoveDetectionService'
+import PossibleMoveDetectionService from './possible-move-detection-service'
 import {wait} from 'spn'
 
 /**

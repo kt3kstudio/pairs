@@ -1,9 +1,9 @@
 import Context from './context'
 import PlaySceneLayout from './layout/play-scene-layout'
 import {wait} from 'spn'
-import FusionPreparationService from './component/FusionPreparationService'
-import BallMoveMobLeaveService from './component/BallMoveMobLeaveService'
-import ExitQueue from './component/ExitQueue'
+import FusionPreparationService from './component/fusion-preparation-service'
+import BallMoveMobLeaveService from './component/ball-move-mob-leave-service'
+import ExitQueue from './component/exit-queue'
 
 const {component, event} = $.cc
 /**
