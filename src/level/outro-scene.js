@@ -25,7 +25,7 @@ export default class OutroScene extends Context {
      */
     setUp() {
 
-        var layout = new PlaySceneLayout()
+        const layout = new PlaySceneLayout()
 
         this.getResultPane().setRect(layout.resultPaneRect())
         this.getResultPane().setScore(this.getScoreboard().score)
