@@ -153,7 +153,7 @@ export default class CellCollection extends Coelement {
      */
     find(pos) {
 
-        var candidates = this.select(pos)
+        const candidates = this.select(pos)
 
         if (candidates.length === 0) {
 

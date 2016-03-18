@@ -16,21 +16,19 @@ const R = 60 // radius of menu item arrangment
  */
 function itemOffsets(offset, num) {
 
-    var result = []
+    const result = []
+    const gutter = Math.PI / 4 / num / num
+    const urad = num > 1 ? (Math.PI / 2 - gutter * 2) / (num - 1) : 0
 
-    var gutter = Math.PI / 4 / num / num
+    const r = R * Math.sqrt(num)
 
-    var urad = num > 1 ? (Math.PI / 2 - gutter * 2) / (num - 1) : 0
+    for (let i = 0; i < num; i++) {
 
-    var r = R * Math.sqrt(num)
+        const rad = urad * i
+        const cos = r * Math.cos(rad + gutter)
+        const sin = r * Math.sin(rad + gutter)
 
-    for (var i = 0; i < num; i++) {
-
-        var rad = urad * i
-        var cos = r * Math.cos(rad + gutter)
-        var sin = r * Math.sin(rad + gutter)
-
-        var res = {left: offset.left + cos, top: offset.top - sin}
+        const res = {left: offset.left + cos, top: offset.top - sin}
 
         result.push(res)
 
@@ -134,7 +132,7 @@ export default class MenuButton extends Coelement {
 
         this.closed = false
 
-        var toOffsets = itemOffsets(this.elem.offset(), this.menus.length)
+        const toOffsets = itemOffsets(this.elem.offset(), this.menus.length)
 
         return Promise.all(this.menus.map((menu, i) => wait(50 * i).then(() => menu.show(toOffsets[i]))))
 

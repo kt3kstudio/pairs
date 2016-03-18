@@ -150,7 +150,7 @@ export default class Cell extends GridWalker {
 
         }
 
-        var cellKind = BomTable[this.gene.length]
+        const cellKind = BomTable[this.gene.length]
 
         return 'img/' + cellKind + '.svg'
 
@@ -179,11 +179,11 @@ export default class Cell extends GridWalker {
 
             this.fitToGrid()
 
-            var genes = this.gene.split('')
+            const genes = this.gene.split('')
 
-            var $svg = $(this.elem[0].contentDocument)
+            const $svg = $(this.elem[0].contentDocument)
 
-            for (var i = 0; i < genes.length; i++) {
+            for (let i = 0; i < genes.length; i++) {
 
                 $('#' + i, $svg).attr('class', genes[i])
 

@@ -80,7 +80,7 @@ export default class FloorAsset extends Body {
      */
     spawnFrog() {
 
-        var frog = $('<img />').css({zIndex: 2}).appendTo(this.elem).cc.init('frog')
+        const frog = $('<img />').css({zIndex: 2}).appendTo(this.elem).cc.init('frog')
 
         frog.setGrid(new Grid({x: 35, y: 130, unitWidth: 100, unitHeight: 100}))
 
@@ -93,7 +93,7 @@ export default class FloorAsset extends Body {
      */
     removeFrog() {
 
-        var frogDom = this.elem.find('.frog')
+        const frogDom = this.elem.find('.frog')
 
         if (frogDom.length === 0) {
 
@@ -101,7 +101,7 @@ export default class FloorAsset extends Body {
 
         }
 
-        var frog = frogDom.cc.getActor()
+        const frog = frogDom.cc.getActor()
 
         if (frog == null) {
 

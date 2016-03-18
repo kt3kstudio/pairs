@@ -115,15 +115,15 @@ export default class FloorWalker extends CharSprite {
      */
     moveToFloorAsset(floorAsset) {
 
-        var current = this.current
+        const current = this.current
 
         this.setFloorObjectId(floorAsset.id)
 
-        var goOutDur = 220
-        var moveOnCorridor = 300
-        var goIntoDur = goOutDur
+        const goOutDur = 220
+        const moveOnCorridor = 300
+        const goIntoDur = goOutDur
 
-        var goOutDistance = 80
+        const goOutDistance = 80
 
         this.elem.trigger('character-focus', [current.x])
 

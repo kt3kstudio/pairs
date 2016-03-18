@@ -250,7 +250,7 @@ export default class MapScene extends SceneContext {
     @event('assetUnlock')
     assetUnlock(e) {
 
-        var asset = e.floorAsset
+        const asset = e.floorAsset
 
         return this.getCamera().scrollTo(asset.centerX(), 500)
 

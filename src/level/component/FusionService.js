@@ -50,7 +50,7 @@ export default class FusionService extends $.cc.Coelement {
      */
     getToReactor(pair) {
 
-        var dur = 1000
+        const dur = 1000
 
         // pair.right could be null
         if (pair.right) {
@@ -73,9 +73,9 @@ export default class FusionService extends $.cc.Coelement {
      */
     fusion(pair) {
 
-        var dur = 600
+        const dur = 600
 
-        var cell = $('<object />', {
+        const cell = $('<object />', {
 
             data: {gene: pair.newGene()},
             prependTo: this.elem

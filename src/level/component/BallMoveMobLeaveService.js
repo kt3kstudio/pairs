@@ -41,7 +41,7 @@ export default class BallMoveMobLeaveService {
      */
     ballMoveAndLeaveOne(dir) {
 
-        var pos = this.ball.posAhead(dir)
+        const pos = this.ball.posAhead(dir)
 
         if (this.mobs.find(pos) == null) {
 
@@ -76,7 +76,7 @@ export default class BallMoveMobLeaveService {
      */
     leaveAtPos(pos) {
 
-        var mob = this.mobs.leave(pos)
+        const mob = this.mobs.leave(pos)
 
         if (this.pmds.possible()) {
 
@@ -139,7 +139,7 @@ class Mobs {
      */
     leave(pos) {
 
-        var w = this.cells.select(pos)
+        let w = this.cells.select(pos)
 
         this.cells.remove(w)
 

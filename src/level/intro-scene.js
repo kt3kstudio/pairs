@@ -94,7 +94,7 @@ export default class IntroScene extends Context {
             // the character takes the paper in the room.
             this.getPaper().disappear()
 
-            var goals = $('<p />').text(this.level.goal.toString())
+            const goals = $('<p />').text(this.level.goal.toString())
 
             // the character read up the goals of the room
             return this.getCharacter().speak(goals, {cancelDom: '.wrapper'})
@@ -120,7 +120,7 @@ export default class IntroScene extends Context {
      */
     spawnBall() {
 
-        var playSceneLayout = new PlaySceneLayout()
+        const playSceneLayout = new PlaySceneLayout()
 
         $($('#tpl-ball').html()).css({display: 'none'}).data({
 
