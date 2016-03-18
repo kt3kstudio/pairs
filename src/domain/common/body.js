@@ -229,8 +229,7 @@ export default class Body extends Being {
     }
 
     /**
-     * Sets the guiding rect and update the x, y and posture to fit into the given rect.
-     *
+     * Fits to the guiding rect (updates the x, y and posture to fit into the given rect. does not update the dom)
      * @param {Rect} rect
      */
     setRect(rect) {
