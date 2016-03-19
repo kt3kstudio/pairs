@@ -4,6 +4,7 @@ import PlaySceneLayout from './layout/play-scene-layout'
 import BackgroundService from '../ui/common/background-service'
 import UserRepository from '../domain/user-repository'
 import CharacterRepository from '../domain/character-repository'
+import {BASE_PATH} from '../'
 
 const {component, event} = $.cc
 
@@ -20,11 +21,7 @@ export default class IntroScene extends Context {
      * @return {Promise}
      */
     @event('scene-start')
-    main() {
-
-        super.main()
-
-    }
+    main() { super.main() }
 
     /**
      * Loads the data
@@ -34,17 +31,74 @@ export default class IntroScene extends Context {
      */
     load() {
 
-        return new UserRepository().get()
+        return this.loadUser()
 
-        .then(user => this.user = user)
+        .then(() => this.loadCharacter(this.user.charId))
 
-        .then(() => new CharacterRepository().getById(this.user.charId))
+        .then(() => this.loadLevel(this.character.getFloorObjectId()))
 
+        .then(() => this.loadLevelNext(this.character.getFloorObjectId()))
+
+    }
+
+    /**
+     * Loads the user.
+     * @return {Promise}
+     */
+    loadUser() {
+
+        return new UserRepository().get().then(user => this.user = user)
+
+    }
+
+    /**
+     * Loads the character.
+     * @param {string} id The id of the character
+     * @return {Promise}
+     */
+    loadCharacter(id) {
+
+        return new CharacterRepository().getById(id)
         .then(character => this.character = character)
 
-        .then(() => new datadomain.LevelRepository().getById(this.character.getFloorObjectId()))
+    }
 
+    /**
+     * Loads the level of the given id.
+     * @deprecated
+     * @param {string} id The id of the level
+     * @return {Promise}
+     */
+    loadLevel(id) {
+
+        return new datadomain.LevelRepository().getById(id)
         .then(level => this.level = level)
+
+    }
+
+    /**
+     * Loads the level of the given id.
+     * @param {string} id The id of the level
+     * @return {Promise}
+     */
+    loadLevelNext(id) {
+
+        return Promise.resolve($.get(this.getLevelDataUrl(id))).then(levelData => {
+
+            $(levelData).appendTo(this.elem)
+
+        })
+
+    }
+
+    /**
+     * Gets the url of the level data.
+     * @param {string} id The id of the level
+     * @return {string}
+     */
+    getLevelDataUrl(id) {
+
+        return `${BASE_PATH}data/level/${id}.html`
 
     }
 
@@ -55,6 +109,8 @@ export default class IntroScene extends Context {
      * @return {Promise}
      */
     setUp() {
+
+        $.cc.init()
 
         const layout = new IntroSceneLayout()
 
