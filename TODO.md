@@ -8,13 +8,14 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 ## game
-- Speaker clean up speech bubble handling
-- Speaker can speak emojis
-- Speaker can speak letter by letter
+- ScreenplayManager @component('screenplay-manager')
+- ScreenplayLine @component('screenplay-line')
+- Moo @component('moo')
+- CellSource @component('cell-source')
 
-- ScriptManager load html
-- ScriptManager parse html
-- ScriptManager script start method
+- enhance Speaker clean up speech bubble handling
+- enhance Speaker can speak emojis
+- enhance Speaker can speak letter by letter
 
 - SpeechBubble
   - multiple bubble handling
