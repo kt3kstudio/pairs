@@ -1,5 +1,5 @@
 import {Grid} from 'spn'
-import Character from '../../../src/level/component/Character'
+import Character from '../../../src/level/component/character'
 
 describe('Character', () => {
     'use strict'

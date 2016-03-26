@@ -1,5 +1,4 @@
-import Body from '../../domain/common/body'
-import {wait} from 'spn'
+import {wait, Body} from 'spn'
 
 const {component} = $.cc
 

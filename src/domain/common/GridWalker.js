@@ -1,4 +1,4 @@
-import Body from './body'
+import {Body} from 'spn'
 /**
  * A GridWalker is a Body which walks along the given Grid.
  */
