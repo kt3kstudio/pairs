@@ -3,7 +3,6 @@
 - Make the way to specify the position of Moo in the data html.
 
 ## spn framework
-- move body to spn
 - move grid-walker to spn
 - move sprite to spn
 - move static-sprite to spn
@@ -48,6 +47,7 @@
 
 
 # DONE
+- move body to spn
 - ScenarioManager Manage senario progress
 - ScenarioManager create plan of DSL
 - Speaker clean up speech bubble handling
