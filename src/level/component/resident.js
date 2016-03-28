@@ -1,16 +1,17 @@
-import StaticSprite from '../../domain/common/StaticSprite'
+import StaticSprite from '../../ui/sprite/static-sprite'
 import RelativeBody from '../../ui/sprite/relative-body'
 import {traits} from 'traits-decorator'
+import {Body} from 'spn'
 
 @traits(RelativeBody)
-export default class Resident extends StaticSprite {
+@traits(StaticSprite)
+export default class Resident extends Body {
 
     constructor(elem) {
 
         super(elem)
 
-        console.log('Resident constructor')
-        console.log(this.image())
+        this.initDirStateImage()
 
         const [x, y] = elem.attr('xy').split(/\s+/)
 
@@ -25,7 +26,7 @@ export default class Resident extends StaticSprite {
 
         this.updateElemByDirState()
 
-        return this.updateElem()
+        return super.willShow()
 
     }
 
