@@ -5,6 +5,7 @@ import BackgroundService from '../ui/common/background-service'
 import UserRepository from '../domain/user-repository'
 import CharacterRepository from '../domain/character-repository'
 import {BASE_PATH} from '../'
+import {wait} from 'spn'
 
 const {component, event} = $.cc
 
@@ -130,6 +131,8 @@ export default class IntroScene extends Context {
 
         character.fitToGrid()
 
+        this.residents('moo').forEach(moo => moo.onSetParentRect(layout.main))
+
     }
 
     /**
@@ -144,6 +147,12 @@ export default class IntroScene extends Context {
         return BackgroundService.turnWhite()
 
         .then(() => this.getCharacter().moveUpOnGrid(600))
+
+        .then(() => Promise.all(this.residents('moo').map(moo => {
+
+            return wait(Math.random() * 500).then(() => moo.show())
+
+        })))
 
         .then(() => {
 

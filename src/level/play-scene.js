@@ -150,7 +150,6 @@ export default class PlayScene extends Context {
      */
     start() {
 
-        this.getScoreboard().show()
         this.getMenuButton().show()
 
         return this.getField().show()
@@ -159,7 +158,11 @@ export default class PlayScene extends Context {
 
         .then(() => this.character.reloadPlayingState())
 
+        .then(() => Promise.all(this.residents('moo').map(moo => moo.hide())))
+
         .then(() => this.cells.appear())
+
+        .then(() => this.getScoreboard().show())
 
         .then(() => this.replayRounds())
 

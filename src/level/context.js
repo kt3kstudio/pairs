@@ -72,4 +72,14 @@ export default class Context extends SceneContext {
 
     }
 
+    /**
+     * Gets the residents
+     * @param {string} name The name of the residents
+     */
+    residents(name) {
+
+        return this.elem.find('.' + name).toArray().map(dom => $(dom).cc.get(name))
+
+    }
+
 }

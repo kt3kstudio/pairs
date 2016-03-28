@@ -40,22 +40,6 @@ export default class Sprite extends GridWalker {
      */
     defaultState() { return 'default' }
 
-    constructor(elem) {
-
-        super(elem)
-
-        /**
-         * @property {String} dir The direction
-         */
-        this.dir = this.defaultDir()
-
-        /**
-         * @property {String} state The state
-         */
-        this.state = this.defaultState()
-
-    }
-
     /**
      * Adds the src attr of the elem if the default state dir image exists.
      *
@@ -90,7 +74,7 @@ export default class Sprite extends GridWalker {
      */
     updateElemByDirState() {
 
-        this.dirStateImage.get(this.dir, this.state).apply(this.elem)
+        this.dirStateImage.get(this.dir || this.defaultDir(), this.state || this.defaultState()).apply(this.elem)
 
     }
 
