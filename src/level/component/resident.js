@@ -7,6 +7,9 @@ import {Body} from 'spn'
 @traits(StaticSprite)
 export default class Resident extends Body {
 
+    ratioX() { return 0.5 }
+    ratioY() { return 1 }
+
     constructor(elem) {
 
         super(elem)
