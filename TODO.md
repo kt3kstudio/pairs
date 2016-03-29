@@ -2,8 +2,9 @@
 
 - Switch to trait version of Sprite and StaticSprite
   - Frog
-  - CharOnLevel
   - CharOnFloor
+- delete class versions of sprites
+- move Speaker to ui/sprite
 
 ## spn framework
 - move grid-walker to spn
@@ -52,6 +53,7 @@
 # DONE
 - Switch to trait version of Sprite and StaticSprite
   - paper
+  - CharOnLevel
 - Make the way to specify the position of Moo in the data html.
 - move body to spn
 - ScenarioManager Manage senario progress
