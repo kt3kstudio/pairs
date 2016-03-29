@@ -43,6 +43,15 @@ export default class Sprite {
     }
 
     /**
+     * Updates sprite related things.
+     */
+    updateSprite() {
+
+        this.updateElemByDirState()
+
+    }
+
+    /**
      * Keeps the direction and sets the given state.
      *
      * @param {string} state The state

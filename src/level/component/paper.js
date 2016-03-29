@@ -1,5 +1,7 @@
-import {Animation} from 'spn'
-import StaticSprite from '../../domain/common/StaticSprite'
+import {Animation, Body} from 'spn'
+import GridWalker from '../../domain/common/GridWalker'
+import StaticSprite from '../../ui/sprite/static-sprite'
+import {traits} from 'traits-decorator'
 
 const {component} = $.cc
 
@@ -7,10 +9,25 @@ const {component} = $.cc
  * PieceOfPaper represents a piece of paper which is on the floor of each room (obsolete).
  */
 @component('paper')
-export default class Paper extends StaticSprite {
+@traits(StaticSprite)
+export default class Paper extends GridWalker {
+
+    constructor(elem) {
+        super(elem)
+
+        this.initSprite()
+    }
+
+    willShow() {
+        this.updateSprite()
+
+        return super.willShow()
+    }
 
     width() { return 50 }
     height() { return 50 }
+    ratioX() { return 0.5 }
+    ratioY() { return 1 }
 
     image() { return 'img/paper.svg' }
 

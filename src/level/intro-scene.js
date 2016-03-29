@@ -148,16 +148,19 @@ export default class IntroScene extends Context {
 
         .then(() => this.getCharacter().moveUpOnGrid(600))
 
-        .then(() => Promise.all(this.residents('moo').map(moo => {
-
-            return wait(Math.random() * 500).then(() => moo.show())
-
-        })))
-
         .then(() => {
 
-            // the character takes the paper in the room.
             this.getPaper().disappear()
+
+            return Promise.all(this.residents('moo').map(moo => {
+
+                return wait(Math.random() * 500).then(() => moo.show())
+
+            }))
+
+        })
+
+        .then(() => {
 
             const goals = $('<p />').text(this.level.goal.toString())
 

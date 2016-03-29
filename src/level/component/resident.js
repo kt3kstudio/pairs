@@ -14,7 +14,7 @@ export default class Resident extends Body {
 
         super(elem)
 
-        this.initDirStateImage()
+        this.initSprite()
 
         const [x, y] = elem.attr('xy').split(/\s+/)
 
@@ -27,7 +27,7 @@ export default class Resident extends Body {
 
     willShow() {
 
-        this.updateElemByDirState()
+        this.updateSprite()
 
         return super.willShow()
 

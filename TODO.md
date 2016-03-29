@@ -1,11 +1,14 @@
 # TODO
 
-- Make the way to specify the position of Moo in the data html.
+- Switch to trait version of Sprite and StaticSprite
+  - Frog
+  - CharOnLevel
+  - CharOnFloor
 
 ## spn framework
 - move grid-walker to spn
-- move sprite to spn
-- move static-sprite to spn
+- move sprite(trait version) to spn
+- move static-sprite(trait version) to spn
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 ## game
@@ -47,6 +50,9 @@
 
 
 # DONE
+- Switch to trait version of Sprite and StaticSprite
+  - paper
+- Make the way to specify the position of Moo in the data html.
 - move body to spn
 - ScenarioManager Manage senario progress
 - ScenarioManager create plan of DSL
