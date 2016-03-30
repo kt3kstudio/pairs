@@ -1,5 +1,4 @@
 # TODO
-
 - Switch to trait version of Sprite and StaticSprite
   - Frog
   - CharOnFloor

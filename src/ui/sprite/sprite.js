@@ -6,20 +6,6 @@
 export default class Sprite {
 
     /**
-     * Returns the default direction.
-     *
-     * @abstract
-     */
-    defaultDir() { return 'down' }
-
-    /**
-     * Returns the default state.
-     *
-     * @abstract
-     */
-    defaultState() { return 'default' }
-
-    /**
      * Changes the direction and state.
      * @param {String} dir The direction
      * @param {String} state The state

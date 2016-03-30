@@ -6,6 +6,16 @@ import Sprite from './sprite'
 export default class StaticSprite {
 
     /**
+     * Returns the default direction.
+     */
+    defaultDir() { return 'down' }
+
+    /**
+     * Returns the default state.
+     */
+    defaultState() { return 'default' }
+
+    /**
      * Initialize the dir state image map.
      */
     initDirStateImage() {

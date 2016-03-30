@@ -1,4 +1,6 @@
-import StayRunSprite from '../../domain/common/StayRunSprite'
+import StayRunSprite from '../../ui/sprite/stay-run-sprite'
+import GridWalker from '../../domain/common/GridWalker'
+import {traits} from 'traits-decorator'
 import {Animation} from 'spn'
 
 const {component} = $.cc
@@ -9,8 +11,21 @@ const {component} = $.cc
  *
  * @extends domain.common.StayRunSprite
  */
+@traits(StayRunSprite)
 @component('frog')
-export default class FrogSprite extends StayRunSprite {
+export default class FrogSprite extends GridWalker {
+
+    constructor(elem) {
+        super(elem)
+
+        this.initSprite()
+    }
+
+    willShow() {
+        this.updateSprite()
+
+        return super.willShow()
+    }
 
     leftStayImage() { return 'img/frog-stay.out.svg' }
     leftRunImage() { return 'img/frog-run.out.svg' }

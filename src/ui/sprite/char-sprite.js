@@ -15,6 +15,16 @@ const CHR_TABLE = {
 @traits(Sprite)
 export default class CharSprite {
 
+    /**
+     * Returns the default direction.
+     */
+    defaultDir() { return 'down' }
+
+    /**
+     * Returns the default state.
+     */
+    defaultState() { return 'default' }
+
     initSprite() {
 
         this.character = this.elem.data('character')

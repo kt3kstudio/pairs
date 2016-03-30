@@ -1,5 +1,7 @@
-import CharSprite from '../../domain/common/CharSprite'
+import CharSprite from '../../ui/sprite/char-sprite'
 import CharacterRepository from '../../domain/character-repository'
+import {traits} from 'traits-decorator'
+import {Body} from 'spn'
 
 const {component, event} = $.cc
 
@@ -8,27 +10,35 @@ const {component, event} = $.cc
  *
  * Service Component
  */
+@traits(CharSprite)
 @component('floor-walker')
-export default class FloorWalker extends CharSprite {
+export default class FloorWalker extends Body {
 
     constructor(elem) {
 
         super(elem)
 
+        this.initSprite()
+
         this.characterRepository = new CharacterRepository()
 
     }
 
+    ratioX() { return 0.5 }
+    ratioY() { return 1 }
+
     willShow() {
 
-        return this.updateElem()
+        this.updateSprite()
+
+        return super.willShow()
 
     }
 
     /**
      * Makes the character appear in the scene
      *
-     * @param {domain.map.FloorAsset} floorAsset The wall object
+     * @param {FloorAsset} floorAsset The wall object
      * @return {Promise}
      */
     appearAt(floorAsset) {
@@ -49,8 +59,8 @@ export default class FloorWalker extends CharSprite {
     }
 
     /**
-     * @param {$.Eevent} e The event
-     * @param {domain.map.FloorAsset} floorAsset The floor asset
+     * @param {Eevent} e The event
+     * @param {FloorAsset} floorAsset The floor asset
      */
     @event('door-knock')
     doorKnock(e, floorAsset) {
@@ -110,7 +120,7 @@ export default class FloorWalker extends CharSprite {
     /**
      * Moves the character sprite to wall object
      *
-     * @param {domain.map.FloorAsset} floorAsset The wall object to go to
+     * @param {FloorAsset} floorAsset The wall object to go to
      * @return {Promise}
      */
     moveToFloorAsset(floorAsset) {
@@ -162,9 +172,7 @@ export default class FloorWalker extends CharSprite {
 
         this.turn('up')
 
-        return this.disappear()
-
-        .then(() => this.current.close())
+        return this.disappear().then(() => this.current.close())
 
     }
 
