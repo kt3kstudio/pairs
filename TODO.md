@@ -1,10 +1,4 @@
 # TODO
-- Switch to trait version of Sprite and StaticSprite
-  - Frog
-  - CharOnFloor
-- delete class versions of sprites
-- move Speaker to ui/sprite
-
 ## spn framework
 - move grid-walker to spn
 - move sprite(trait version) to spn
@@ -50,7 +44,11 @@
 
 
 # DONE
+- move Speaker to ui/sprite
+- delete class versions of sprites
 - Switch to trait version of Sprite and StaticSprite
+  - Frog
+  - CharOnFloor
   - paper
   - CharOnLevel
 - Make the way to specify the position of Moo in the data html.

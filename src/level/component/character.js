@@ -1,6 +1,6 @@
 import CharSprite from '../../ui/sprite/char-sprite'
 import GridWalker from '../../domain/common/GridWalker'
-import Speaker from '../../domain/common/Speaker'
+import Speaker from '../../ui/sprite/speaker'
 import {traits} from 'traits-decorator'
 
 const {component} = $.cc
