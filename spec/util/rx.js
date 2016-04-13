@@ -4,12 +4,12 @@ describe('Rx', function () {
     describe('helpers', function () {
         describe('isFlatMappable', function () {
             it('checkes if the given object is flatMappable', function () {
-                expect(Rx.helpers.isObservableLike(new Promise(function () {}))).to.be.true()
-                expect(Rx.helpers.isObservableLike(Rx.Observable.of(1))).to.be.true()
+                expect(Rx.helpers.isObservableLike(new Promise(function () {}))).to.be.true
+                expect(Rx.helpers.isObservableLike(Rx.Observable.of(1))).to.be.true
 
-                expect(Rx.helpers.isObservableLike(1)).to.be.false()
-                expect(Rx.helpers.isObservableLike('string')).to.be.false()
-                expect(Rx.helpers.isObservableLike([])).to.be.false()
+                expect(Rx.helpers.isObservableLike(1)).to.be.false
+                expect(Rx.helpers.isObservableLike('string')).to.be.false
+                expect(Rx.helpers.isObservableLike([])).to.be.false
             })
         })
     })
