@@ -1,7 +1,0 @@
-{
-    "--title": "long-dream-core (v0.3.0) API documentation",
-    "--output": "doc/v0.3.0",
-    "--warnings": ["-global", "+nodoc"],
-    "--external": "Promise,jQuery,Dimension",
-    "--": "src/"
-}
