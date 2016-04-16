@@ -1,9 +1,9 @@
-import {asset} from 'bulbo'
-import loadPlugins from 'gulp-load-plugins'
-import through from 'through'
-import browserify from 'browserify'
+const bulbo = require('bulbo')
+const asset = bulbo.asset
+const through = require('through')
+const browserify = require('browserify')
 
-const $ = loadPlugins()
+const $ = require('gulp-load-plugins')()
 const config = {lang: 'en'}
 const SITE = 'site'
 const SRC = 'src'
@@ -11,8 +11,7 @@ const SRC = 'src'
 // js
 asset(`${ SITE }/**/*.js`)
 .assetOptions({read: false})
-.watch(`${ SITE }/**/*.js`)
-.watch(`${ SRC }/**/*.js`)
+.watch(`${ SITE }/**/*.js`, `${ SRC }/**/*.js`)
 .pipe(through(function (file) {
     file.contents = browserify(file.path).transform('babelify').bundle()
     this.queue(file)
@@ -20,8 +19,7 @@ asset(`${ SITE }/**/*.js`)
 
 // html
 asset(`${ SITE }/*.html`)
-.watch(`${ SITE }/*.html`)
-.watch(`${ SITE }/layout/*.nunjucks`)
+.watch(`${ SITE }/*.html`, `${ SITE }/layout/*.nunjucks`)
 .pipe($.frontMatter())
 .pipe($.wrap({src: `${ SITE }/layouts/layout.nunjucks`}, {configJSON: JSON.stringify(config)}, {engine: 'nunjucks'}))
 
