@@ -29,7 +29,7 @@
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
     "browserify-istanbul": "^2.0.0",
-    "bulbo": "^4.0.1",
+    "bulbo": "^4.0.3",
     "cc-event": "^2.0.2",
     "chai": "^3.5.0",
     "class-component": "^5.6.0",
