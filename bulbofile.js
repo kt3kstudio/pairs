@@ -24,6 +24,6 @@ asset(`${ SITE }/*.html`)
 .pipe($.wrap({src: `${ SITE }/layouts/layout.nunjucks`}, {configJSON: JSON.stringify(config)}, {engine: 'nunjucks'}))
 
 // others
-asset(`${ SITE }/data/**/*.*`).base(SITE)
-asset(`${ SITE }/img/**/*.*`).base(SITE)
-asset(`${ SITE }/css/**/*.*`).base(SITE)
+asset(`${ SITE }/data/**/*`).base(SITE)
+asset(`${ SITE }/img/**/*`).base(SITE)
+asset(`${ SITE }/css/**/*`).base(SITE)

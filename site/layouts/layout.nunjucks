@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="./css/all.css" />
+    <link rel="icon" href="./img/favicon.png" />
 
     <script>window.config = {{ configJSON | safe }}</script>
     <script src="./js/common.js"></script>
