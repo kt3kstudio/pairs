@@ -8,7 +8,7 @@ const config = {lang: 'en'}
 const SITE = 'site'
 const SRC = 'src'
 
-transformBrowserify = () => through(function (file) {
+const transformBrowserify = () => through(function (file) {
     file.contents = browserify(file.path).transform('babelify').bundle()
     this.queue(file)
 })
