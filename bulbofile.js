@@ -8,14 +8,22 @@ const config = {lang: 'en'}
 const SITE = 'site'
 const SRC = 'src'
 
+transformBrowserify = () => through(function (file) {
+    file.contents = browserify(file.path).transform('babelify').bundle()
+    this.queue(file)
+})
+
 // js
 asset(`${ SITE }/**/*.js`)
 .assetOptions({read: false})
 .watch(`${ SITE }/**/*.js`, `${ SRC }/**/*.js`)
-.pipe(through(function (file) {
-    file.contents = browserify(file.path).transform('babelify').bundle()
-    this.queue(file)
-}))
+.pipe(transformBrowserify())
+
+// infrastructure.js
+asset(`${ SRC }/infrastructure/infrastructure.js`)
+.watch(`${ SRC }/infrastructure/*.js`)
+.base(`${ SRC }/infrastructure`)
+.pipe(transformBrowserify())
 
 // html
 asset(`${ SITE }/*.html`)
