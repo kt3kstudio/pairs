@@ -33,6 +33,7 @@
     "cc-event": "^2.0.2",
     "chai": "^3.5.0",
     "class-component": "^5.6.0",
+    "dom-gen": "^2.0.2",
     "es6-promise": "^3.0.2",
     "es6-symbol": "^3.0.2",
     "esdoc": "^0.4.3",
