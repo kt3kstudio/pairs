@@ -17,19 +17,19 @@ const transformBrowserify = () => through(function (file) {
 asset(`${ SITE }/**/*.js`)
 .assetOptions({read: false})
 .watch(`${ SITE }/**/*.js`, `${ SRC }/**/*.js`)
-.pipe(transformBrowserify())
+.build(src => src.pipe(transformBrowserify()))
 
 // infrastructure.js
 asset(`${ SRC }/infrastructure/infrastructure.js`)
 .watch(`${ SRC }/infrastructure/*.js`)
 .base(`${ SRC }/infrastructure`)
-.pipe(transformBrowserify())
+.build(src => src.pipe(transformBrowserify()))
 
 // html
 asset(`${ SITE }/*.html`)
 .watch(`${ SITE }/*.html`, `${ SITE }/layout/*.nunjucks`)
-.pipe($.frontMatter())
-.pipe($.wrap({src: `${ SITE }/layouts/layout.nunjucks`}, {configJSON: JSON.stringify(config)}, {engine: 'nunjucks'}))
+.build(src => src.pipe($.frontMatter()))
+.build(src => src.pipe($.wrap({src: `${ SITE }/layouts/layout.nunjucks`}, {configJSON: JSON.stringify(config)}, {engine: 'nunjucks'})))
 
 // others
 asset(`${ SITE }/data/**/*`).base(SITE)
