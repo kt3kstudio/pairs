@@ -1,6 +1,6 @@
 const bulbo = require('bulbo')
 const asset = bulbo.asset
-const through2 = require('through2')
+const Transform = require('stream').Transform
 const browserify = require('browserify')
 
 const $ = require('gulp-load-plugins')()
@@ -8,11 +8,10 @@ const config = {lang: 'en'}
 const SITE = 'site'
 const SRC = 'src'
 
-const transformBrowserify = through2.obj(function (file, enc, callback) {
+const transformBrowserify = Transform({objectMode: true, transform: (file, enc, cb) => {
     file.contents = browserify(file.path).transform('babelify').bundle()
-    this.push(file)
-    callback()
-})
+    cb(null, file)
+}})
 
 // js
 asset(`${ SITE }/**/*.js`)
@@ -33,6 +32,6 @@ asset(`${ SITE }/*.html`)
 .pipe($.wrap({src: `${ SITE }/layouts/layout.nunjucks`}, {configJSON: JSON.stringify(config)}, {engine: 'nunjucks'}))
 
 // others
-asset(`${ SITE }/data/**/*`).base(SITE)
-asset(`${ SITE }/img/**/*`).base(SITE)
-asset(`${ SITE }/css/**/*`).base(SITE)
+asset(`${ SITE }/data/**/*.*`).base(SITE)
+asset(`${ SITE }/img/**/*.*`).base(SITE)
+asset(`${ SITE }/css/**/*.*`).base(SITE)

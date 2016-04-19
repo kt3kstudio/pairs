@@ -62,7 +62,6 @@
     "souffle-cli": "^3.1.0",
     "spn": "^0.16.0",
     "swipe-event": "^0.4.1",
-    "through2": "^2.0.1",
     "traits-decorator": "^1.0.1",
     "watchify": "^3.7.0"
   },
