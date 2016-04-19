@@ -1,5 +1,8 @@
 import {wait, Animation} from 'spn'
+import domGen, {div, hr, br, p, small} from 'dom-gen'
 import FloorAsset from './floor-asset'
+
+const button = domGen('button')
 
 const {component} = $.cc
 const DOOR_APPEAR_DUR = 400
@@ -42,32 +45,40 @@ export default class Door extends FloorAsset {
 
         super.willShow()
 
-        this.elem.css('opcaity', 0)
+        this.elem.css('opcaity', 0).append(
+            div({addClass: 'door-body'},
+                div({addClass: 'door-front'}, this.id),
+                div({addClass: 'doorknob'}, '●')
+            ),
 
-        this.doorBody = $('<div />').addClass('door-body').appendTo(this.elem)
+            div({
+                addClass: 'door-info multiflip',
+                attr: {m: 3, n: 5, bgcolor: '#393F44'},
+                css: {
+                    width: '150px',
+                    height: '150px',
+                    top: '-200px',
+                    left: '-40px'
+                }
+            },
+                div({addClass: 'door-info-content'},
+                    p(this.id),
+                    hr(),
+                    p(small('♛ Best ♛'), br(), this.score),
+                    hr(),
+                    button().text('▶').click(function (event) {
 
-        $('<div />').addClass('door-front').text(this.id).appendTo(this.doorBody)
+                        event.preventDefault()
+                        $(this).trigger('goToLevel')
 
-        $('<div />').addClass('doorknob').text('●').appendTo(this.doorBody)
+                    })
+                )
+            ).cc.up()
+        )
 
-        this.informationPanel = $('<div><div class="door-info-content"><p>' + this.id + '</p><hr /><p><small>♛ Best ♛</small><br />' + this.score + '</p><hr /></div></div>')
-        .addClass('door-info')
-        .css({
-            width: '150px',
-            height: '150px',
-            top: '-200px',
-            left: '-40px'
-        })
-        .attr({m: 3, n: 5, bgcolor: '#393F44'})
-        .appendTo(this.elem)
-        .cc.init('multiflip')
+        this.doorBody = this.elem.find('.door-body')
+        this.informationPanel = this.elem.find('.door-info').cc.get('multiflip')
 
-        $('<button />').text('▶').appendTo($('.door-info-content', this.informationPanel.elem)).click(function (event) {
-
-            event.preventDefault()
-            $(this).trigger('goToLevel')
-
-        })
 
         if (!this.locked) {
 

@@ -1,4 +1,5 @@
 import {wait, Body} from 'spn'
+import {div} from 'dom-gen'
 
 const {component} = $.cc
 
@@ -37,15 +38,10 @@ export default class ResultPane extends Body {
      */
     willShow() {
 
-        $('<div />', {
+        this.elem.append(div({
             addClass: 'result-content',
-            text: 'score = ' + this.score,
-            css: {
-                opacity: 0,
-                position: 'relative'
-            },
-            appendTo: this.elem
-        })
+            css: {opacity: 0, position: 'relative'}
+        }, 'score = ' + this.score))
 
         return super.willShow()
 
