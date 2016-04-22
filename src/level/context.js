@@ -1,4 +1,4 @@
-import SceneContext from '../domain/common/SceneContext'
+import SceneContext from '../scene-context'
 import './component'
 
 /**
