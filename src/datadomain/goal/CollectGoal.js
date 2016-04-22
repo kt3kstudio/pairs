@@ -1,4 +1,4 @@
-import BomTable from '../../domain/common/BomTable'
+import BomTable from '../../domain/genetics/bom-table'
 
 datadomain.goal.CollectGoal = (function () {
     'use strict'
