@@ -1,12 +1,16 @@
 import {Grid, Image, DirStateImageMap} from 'spn'
-import Sprite from '../../../src/domain/common/Sprite'
+import Sprite from '../../../src/ui/sprite/sprite'
+import {traits} from 'traits-decorator'
+import {img} from 'dom-gen'
+
+const {Coelement} = $.cc
 
 describe('Sprite', () => {
-    'use strict'
 
     let sprite, elem
 
-    class MySprite extends Sprite {
+    @traits(Sprite)
+    class MySprite extends Coelement {
 
         constructor(elem) {
 
@@ -34,11 +38,9 @@ describe('Sprite', () => {
 
     beforeEach(() => {
 
-        elem = $('<img />')
+        elem = img()
 
         sprite = new MySprite(elem)
-
-        sprite.setGrid(new Grid({x: 0, y: 0}))
 
     })
 
@@ -46,7 +48,7 @@ describe('Sprite', () => {
 
         it("sets the default state & dir image to the elem's src attr", () => {
 
-            sprite.willShow()
+            sprite.updateElemByDirState()
 
             expect(sprite.elem.attr('src')).to.equal('up-stay.svg')
 
