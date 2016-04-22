@@ -4,6 +4,8 @@ import {wait, Image, DirStateImageMap} from 'spn'
 
 /**
  * The sprite class for stay-run creatures.
+ *
+ * Trait.
  */
 @traits(Sprite)
 export default class StayRunSprite {

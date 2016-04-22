@@ -5,7 +5,7 @@ const DEFAULT_SPEECH_TIMEOUT = 5000
 /**
  * Speaker is a trait of the component which is able to "speak".
  *
- * Trait
+ * Trait.
  */
 export default class Speaker {
 

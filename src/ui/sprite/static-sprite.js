@@ -2,6 +2,11 @@ import {traits} from 'traits-decorator'
 import {DirStateImageMap, Image} from 'spn'
 import Sprite from './sprite'
 
+/**
+ * The sprite class which has only one image.
+ *
+ * Trait.
+ */
 @traits(Sprite)
 export default class StaticSprite {
 

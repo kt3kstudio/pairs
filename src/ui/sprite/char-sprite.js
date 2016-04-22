@@ -8,9 +8,9 @@ const CHR_TABLE = {
 }
 
 /**
- * CharSprite class handles the character sprite.
+ * CharSprite class handles 4-directional character sprite.
  *
- * Component
+ * Trant.
  */
 @traits(Sprite)
 export default class CharSprite {
