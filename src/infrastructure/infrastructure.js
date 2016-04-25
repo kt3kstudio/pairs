@@ -1,2 +1,3 @@
-require('./namespace')
-require('./storage')
+import * as storage from './storage'
+
+global.infrastructure = {storage}
