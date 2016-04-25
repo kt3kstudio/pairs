@@ -64,9 +64,9 @@ export default class Door extends FloorAsset {
                 div({addClass: 'door-info-content'},
                     p(this.id),
                     hr(),
-                    p(small('♛ Best ♛'), br(), this.score),
+                    p(small`♛ Best ♛`, br(), this.score),
                     hr(),
-                    button().text('▶').click(function (event) {
+                    button`▶`.click(function (event) {
 
                         event.preventDefault()
                         $(this).trigger('goToLevel')
