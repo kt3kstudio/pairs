@@ -4,9 +4,9 @@
  * @param {object} defaultValue The default value
  */
 export function get(key, defaultValue) {
-  const value = window.localStorage.getItem(key)
+    const value = window.localStorage.getItem(key)
 
-  return Promise.resolve(value != null ? JSON.parse(value) : defaultValue)
+    return Promise.resolve(value != null ? JSON.parse(value) : defaultValue)
 }
 
 /**
@@ -15,7 +15,7 @@ export function get(key, defaultValue) {
  * @param {object} value The value to set
  */
 export function set(key, value) {
-  global.localStorage.setItem(key, JSON.stringify(value))
+    global.localStorage.setItem(key, JSON.stringify(value))
 
-  return Promise.resolve(true)
+    return Promise.resolve(true)
 }

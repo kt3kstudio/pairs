@@ -1,4 +1,4 @@
-import {Grid, Image, DirStateImageMap} from 'spn'
+import {Image, DirStateImageMap} from 'spn'
 import Sprite from '../../../src/ui/sprite/sprite'
 import {traits} from 'traits-decorator'
 import {img} from 'dom-gen'
