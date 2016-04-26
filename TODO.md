@@ -1,14 +1,8 @@
 # TODO
-## spn framework
-- move grid-walker to spn
-- move sprite(trait version) to spn
-- move static-sprite(trait version) to spn
-- refactor char-sprite not to use word Ma, character detail should be in the dom
 
 ## game
 - ScreenplayManager @component('screenplay-manager')
 - ScreenplayLine @component('screenplay-line')
-- Moo @component('moo')
 - CellSource @component('cell-source')
 
 - enhance Speaker clean up speech bubble handling
@@ -21,10 +15,7 @@
   - redesign bubble management
   - transition to class-component based arch - done
 
-- MooSprite create class
-- moo layout in level.scene context
-
-[Make residents]
+## Make residents
 - Who suggest what they need for their rooms
 - draw the residents in the notebook and pin it
 - gather ideas of the residents, the reason for them needing the cells
@@ -32,6 +23,7 @@
 
 ## Ad
 - Ad integration (in android, ios side, maybe better to create it as straw plugin)
+- Choose ad platform
 
 ## game logic
 - Char difference
@@ -42,8 +34,16 @@
 ## Tutorial
 - create tutorial (guidance) - guiding finger swipes the screen
 
+## sprite framework
+- move sprite(trait version) to spn
+- move static-sprite(trait version) to spn
+- refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- Moo @component('moo')
+- MooSprite create class
+- moo layout in level.scene context
+- move grid-walker to spn
 - move Speaker to ui/sprite
 - delete class versions of sprites
 - Switch to trait version of Sprite and StaticSprite
