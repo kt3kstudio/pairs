@@ -1,7 +1,6 @@
 import StayRunSprite from '../../ui/sprite/stay-run-sprite'
-import GridWalker from '../../domain/common/GridWalker'
 import {traits} from 'traits-decorator'
-import {Animation} from 'spn'
+import {Animation, GridWalker} from 'spn'
 
 const {component} = $.cc
 

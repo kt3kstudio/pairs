@@ -1,5 +1,5 @@
 import CharSprite from '../../ui/sprite/char-sprite'
-import GridWalker from '../../domain/common/GridWalker'
+import {GridWalker} from 'spn'
 import Speaker from '../../ui/sprite/speaker'
 import {traits} from 'traits-decorator'
 

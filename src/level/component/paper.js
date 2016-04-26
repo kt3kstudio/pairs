@@ -1,5 +1,4 @@
-import {Animation} from 'spn'
-import GridWalker from '../../domain/common/GridWalker'
+import {Animation, GridWalker} from 'spn'
 import StaticSprite from '../../ui/sprite/static-sprite'
 import {traits} from 'traits-decorator'
 
