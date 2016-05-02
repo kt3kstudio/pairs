@@ -26,7 +26,7 @@ export default class ScreenplayLine {
      * Plays the role.
      */
     play() {
-        return this.getActor().speak(line)
+        return this.getActor().speak(this.line)
     }
 
     /**

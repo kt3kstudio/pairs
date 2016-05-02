@@ -15,7 +15,8 @@ describe('screenplay-manager', () => {
 
         @component('test-speaker')
         class TestSpeaker extends Actor {
-            speak() {
+            speak(line) {
+                this.elem.attr('stored-message', line)
             }
         }
 
@@ -67,7 +68,15 @@ describe('screenplay-manager', () => {
 
     describe('start', () => {
 
-        it('starts the screenplay', () => {
+        it('starts the screenplay', done => {
+
+            sm.play().then(() => {
+                expect($('#moo0').attr('stored-message')).to.equal('Hey!')
+                expect($('#moo1').attr('stored-message')).to.equal('Hi!')
+                expect($('#moo2').attr('stored-message')).to.equal('Yay!')
+                done()
+            }).catch(done)
+
         })
 
     })
