@@ -18,11 +18,16 @@ export default class Speaker {
      */
     speak(speech, {cancelDom, timeout} = {}) {
 
-        cancelDom = cancelDom || this.elem
+        cancelDom = cancelDom || '.wrapper'
         timeout = timeout || DEFAULT_SPEECH_TIMEOUT
 
+        const speechSize = speech.text().length
+
+        speech.css('line-height', '50px')
+        speech.css('text-align', 'center')
+
         const bubble = this.elem.multiflipBubble(speech, {
-            width: $(window).width() * 0.8,
+            width: speechSize * 10 + 25,
             height: 50,
             color: '#328DE5',
             m: 14,
@@ -31,15 +36,13 @@ export default class Speaker {
 
         bubble.elem.addClass(this.name + '-speech')
 
-        this.speechEndPromise = bubble.show()
+        return this.speechEndPromise = bubble.show()
 
         .then(() => Promise.race([wait(timeout), $(cancelDom).once('click touchstart')]))
 
         .then(() => $(cancelDom).off('click touchstart'))
 
         .then(() => bubble.hide())
-
-        return bubble
 
     }
 

@@ -16,6 +16,8 @@ export default class Character extends GridWalker {
     constructor(elem) {
         super(elem)
 
+        this.elem.addClass('hero')
+
         this.initSprite()
     }
 

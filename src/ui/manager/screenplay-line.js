@@ -1,3 +1,5 @@
+import {p} from 'dom-gen'
+
 /**
  * Screenplay line represents a line of a screenplay.
  */
@@ -26,7 +28,9 @@ export default class ScreenplayLine {
      * Plays the role.
      */
     play() {
-        return this.getActor().speak(this.line)
+
+        return this.getActor().speak(p(this.line))
+
     }
 
     /**

@@ -1,10 +1,12 @@
 # TODO
 
 ## game
-- ScreenplayManager @component('screenplay-manager')
-  - parse text/x-screenplay
-  - dispatch each line
-- ScreenplayLine @component('screenplay-line')
+- Polish speaking
+  - Add cancel target in the DSL.
+  - dont flip bubbles, pop up it.
+  - Speech timeout is configurable in the DSL.
+  - Speech pause timing is configurable in the DSL.
+  - Speeches can be grouped in DSL.
 - CellSource @component('cell-source')
 
 - enhance Speaker clean up speech bubble handling
@@ -42,6 +44,10 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- ScreenplayLine @component('screenplay-line')
+- ScreenplayManager @component('screenplay-manager')
+  - parse text/x-screenplay
+  - dispatch each line
 - Moo @component('moo')
 - MooSprite create class
 - moo layout in level.scene context

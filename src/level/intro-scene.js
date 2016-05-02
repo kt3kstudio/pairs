@@ -4,6 +4,7 @@ import PlaySceneLayout from './layout/play-scene-layout'
 import BackgroundService from '../ui/common/background-service'
 import UserRepository from '../domain/user-repository'
 import CharacterRepository from '../domain/character-repository'
+import '../ui/manager/screenplay-manager'
 import {BASE_PATH} from '../'
 import {wait} from 'spn'
 
@@ -162,10 +163,14 @@ export default class IntroScene extends Context {
 
         .then(() => {
 
+            /*
             const goals = $('<p />').text(this.level.goal.toString())
 
             // the character read up the goals of the room
             return this.getCharacter().speak(goals, {cancelDom: '.wrapper'})
+            */
+
+            return this.get('screenplay-manager').play()
 
         })
 
