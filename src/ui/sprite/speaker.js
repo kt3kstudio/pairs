@@ -13,13 +13,11 @@ export default class Speaker {
      * Speaks the phrase
      *
      * @param {string} speech The contents of the speech
-     * @param {jQuery} cancelDom The dom for closing the speech
-     * @param {number} timeout The timeout of showing speech bubble
      */
-    speak(speech, {cancelDom, timeout} = {}) {
+    speak(speech) {
 
-        cancelDom = cancelDom || '.wrapper'
-        timeout = timeout || DEFAULT_SPEECH_TIMEOUT
+        const cancelDom = this.elem.data('speech-ok') || this.elem
+        const timeout = +this.elem.data('speech-timeout') || DEFAULT_SPEECH_TIMEOUT
 
         const speechSize = speech.text().length
 
@@ -33,8 +31,6 @@ export default class Speaker {
             m: 14,
             n: 2
         })
-
-        bubble.elem.addClass(this.name + '-speech')
 
         this.speechEndPromise = bubble.show()
 
