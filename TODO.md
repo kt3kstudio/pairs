@@ -2,6 +2,8 @@
 
 ## game
 - ScreenplayManager @component('screenplay-manager')
+  - parse text/x-screenplay
+  - dispatch each line
 - ScreenplayLine @component('screenplay-line')
 - CellSource @component('cell-source')
 
