@@ -36,13 +36,15 @@ export default class Speaker {
 
         bubble.elem.addClass(this.name + '-speech')
 
-        return this.speechEndPromise = bubble.show()
+        this.speechEndPromise = bubble.show()
 
         .then(() => Promise.race([wait(timeout), $(cancelDom).once('click touchstart')]))
 
         .then(() => $(cancelDom).off('click touchstart'))
 
         .then(() => bubble.hide())
+
+        return this.speechEndPromise
 
     }
 

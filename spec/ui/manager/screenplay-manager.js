@@ -1,4 +1,4 @@
-import ScreenplayManager from '../../../src/ui/manager/screenplay-manager'
+import '../../../src/ui/manager/screenplay-manager'
 
 import {expect} from 'chai'
 import domGen from 'dom-gen'
@@ -13,12 +13,13 @@ describe('screenplay-manager', () => {
 
     before(() => {
 
-        @component('test-speaker')
         class TestSpeaker extends Actor {
             speak(line) {
                 this.elem.attr('stored-message', line)
             }
         }
+
+        component('test-speaker')(TestSpeaker)
 
     })
 
