@@ -15,7 +15,7 @@ describe('screenplay-manager', () => {
 
         class TestSpeaker extends Actor {
             speak(line) {
-                this.elem.attr('stored-message', line)
+                this.elem.attr('stored-message', line.text())
             }
         }
 
