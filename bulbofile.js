@@ -8,7 +8,7 @@ const config = {lang: 'en'}
 const SITE = 'site'
 const SRC = 'src'
 
-const transformBrowserify = Transform({objectMode: true, transform: (file, enc, cb) => {
+const transformBrowserify = () => Transform({objectMode: true, transform: (file, enc, cb) => {
     file.contents = browserify(file.path).transform('babelify').bundle()
     cb(null, file)
 }})
@@ -17,13 +17,13 @@ const transformBrowserify = Transform({objectMode: true, transform: (file, enc, 
 asset(`${ SITE }/**/*.js`)
 .assetOptions({read: false})
 .watch(`${ SITE }/**/*.js`, `${ SRC }/**/*.js`)
-.pipe(transformBrowserify)
+.pipe(transformBrowserify())
 
 // infrastructure.js
 asset(`${ SRC }/infrastructure/infrastructure.js`)
 .watch(`${ SRC }/infrastructure/*.js`)
 .base(`${ SRC }/infrastructure`)
-.pipe(transformBrowserify)
+.pipe(transformBrowserify())
 
 // html
 asset(`${ SITE }/*.html`)
