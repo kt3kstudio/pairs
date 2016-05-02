@@ -11,7 +11,10 @@ export default class ScreenplayManager extends Coelement {
     constructor(elem) {
         super(elem)
 
+        this.context = elem.data('context')
+
         this.lines = ScreenplayManager.parse(elem.text())
+        this.lines.forEach(line => line.context = this.context)
     }
 
     /**
@@ -20,12 +23,12 @@ export default class ScreenplayManager extends Coelement {
      * @param {string} text The text of screenplay
      */
     static parse(text) {
-        const lines = text.split('\n')
+
+        return text.split('\n')
             .map(line => line.trim())
             .filter(line => line !== '')
             .map(line => ScreenplayManager.parseLine(line))
 
-        return lines
     }
 
     /**
@@ -40,8 +43,25 @@ export default class ScreenplayManager extends Coelement {
 
     }
 
+    /**
+     * Returns true iff all the actors are ready.
+     * @return {boolean}
+     */
+    actorsReady() {
+
+        return this.lines.filter(line => !line.actorIsReady()).length === 0
+
+    }
+
+    /**
+     * Plays the screenplay
+     * @return {Promise}
+     */
     @event('screenplay-start')
-    start() {
+    play() {
+
+        return this.lines.reduce((previous, line) => previous.then(() => line.play()), Promise.resolve())
+
     }
 
 }

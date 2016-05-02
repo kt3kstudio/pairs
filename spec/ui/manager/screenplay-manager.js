@@ -3,11 +3,23 @@ import ScreenplayManager from '../../../src/ui/manager/screenplay-manager'
 import {expect} from 'chai'
 import domGen from 'dom-gen'
 
+const {component, Actor} = $.cc
+
 const script = domGen('script')
 
 describe('screenplay-manager', () => {
 
     let elem, sm
+
+    before(() => {
+
+        @component('test-speaker')
+        class TestSpeaker extends Actor {
+            speak() {
+            }
+        }
+
+    })
 
     beforeEach(() => {
 
@@ -18,6 +30,16 @@ describe('screenplay-manager', () => {
         `.attr('type', 'text/x-screenplay')
 
         sm = elem.cc.init('screenplay-manager')
+
+        $('<div id="moo0" />').appendTo(document.body).cc.init('test-speaker')
+        $('<div id="moo1" />').appendTo(document.body).cc.init('test-speaker')
+        $('<div id="moo2" />').appendTo(document.body).cc.init('test-speaker')
+
+    })
+
+    afterEach(() => {
+
+        $('.test-speaker').remove()
 
     })
 
@@ -33,9 +55,19 @@ describe('screenplay-manager', () => {
 
     })
 
+    describe('actorsReady', () => {
+
+        it('returns true when all the actors are ready', () => {
+
+            expect(sm.actorsReady()).to.be.true
+
+        })
+
+    })
+
     describe('start', () => {
 
-        it('starts dispatching the screenplay reading by its actors', () => {
+        it('starts the screenplay', () => {
         })
 
     })
