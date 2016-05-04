@@ -1,29 +1,24 @@
 const bulbo = require('bulbo')
 const asset = bulbo.asset
-const Transform = require('stream').Transform
-const browserify = require('browserify')
+
+const bundler = require('bundle-through')
 
 const $ = require('gulp-load-plugins')()
 const config = {lang: 'en'}
 const SITE = 'site'
 const SRC = 'src'
 
-const transformBrowserify = () => Transform({objectMode: true, transform: (file, enc, cb) => {
-    file.contents = browserify(file.path).transform('babelify').bundle()
-    cb(null, file)
-}})
-
 // js
 asset(`${ SITE }/**/*.js`)
 .assetOptions({read: false})
 .watch(`${ SITE }/**/*.js`, `${ SRC }/**/*.js`)
-.pipe(transformBrowserify())
+.pipe(bundler({transform: 'babelify'}))
 
 // infrastructure.js
 asset(`${ SRC }/infrastructure/infrastructure.js`)
 .watch(`${ SRC }/infrastructure/*.js`)
 .base(`${ SRC }/infrastructure`)
-.pipe(transformBrowserify())
+.pipe(bundler({transform: 'babelify'}))
 
 // html
 asset(`${ SITE }/*.html`)
