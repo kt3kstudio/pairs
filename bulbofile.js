@@ -6,6 +6,7 @@ const wrapper = require('layout-wrapper')
 
 const $ = require('gulp-load-plugins')()
 const config = {lang: 'en'}
+const configJSON = JSON.stringify(config)
 const SITE = 'site'
 const SRC = 'src'
 
@@ -25,11 +26,7 @@ asset(`${ SRC }/infrastructure/infrastructure.js`)
 asset(`${ SITE }/*.html`)
 .watch(`${ SITE }/*.html`, `${ SITE }/layout/*.nunjucks`)
 .pipe($.frontMatter())
-.pipe(wrapper({
-    layout: `${ SITE }/layouts`,
-    data: {configJSON: JSON.stringify(config)},
-    engine: 'nunjucks'
-}))
+.pipe(wrapper.nunjucks({layout: `${ SITE }/layouts`, data: {configJSON}}))
 
 // others
 asset(`${ SITE }/data/**/*.*`).base(SITE)
