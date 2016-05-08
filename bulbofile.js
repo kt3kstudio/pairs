@@ -2,6 +2,7 @@ const bulbo = require('bulbo')
 const asset = bulbo.asset
 
 const bundler = require('bundle-through')
+const wrapper = require('layout-wrapper')
 
 const $ = require('gulp-load-plugins')()
 const config = {lang: 'en'}
@@ -24,11 +25,11 @@ asset(`${ SRC }/infrastructure/infrastructure.js`)
 asset(`${ SITE }/*.html`)
 .watch(`${ SITE }/*.html`, `${ SITE }/layout/*.nunjucks`)
 .pipe($.frontMatter())
-.pipe($.wrap(
-  {src: `${ SITE }/layouts/layout.nunjucks`},
-  {configJSON: JSON.stringify(config)},
-  {engine: 'nunjucks'}
-))
+.pipe(wrapper({
+    layout: `${ SITE }/layouts`,
+    data: {configJSON: JSON.stringify(config)},
+    engine: 'nunjucks'
+}))
 
 // others
 asset(`${ SITE }/data/**/*.*`).base(SITE)
