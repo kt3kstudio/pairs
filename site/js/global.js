@@ -9,4 +9,8 @@ global.jQuery = $
 global.Rx = Rx
 global.Tether = Tether
 
+require('class-component')
+
+$.cc.subclass = require('subclassjs')
+
 polyfill()
