@@ -1,21 +1,20 @@
 # TODO
 
 ## game
-- Polish speaking
-  - Add cancel target in the DSL.
-  - dont flip bubbles, pop up it.
-  - Speech timeout is configurable in the DSL.
-  - Speech pause timing is configurable in the DSL.
-  - Speeches can be grouped in DSL.
+- Cancel (skip) target in the DSL.
+- Speech timeout in DSL.
+- Speech separator which swipes all the speech bubbles
 - SpeechBubble class
   - puncher
   - show
   - hide
 - CellSource @component('cell-source')
 
-- enhance Speaker clean up speech bubble handling
-- enhance Speaker can speak emojis
-- enhance Speaker can speak letter by letter
+- Emoji managemenet
+  - creates love emoji
+  - creates gene (mfmf etc) emoji
+
+- puncher `unit-dur` configurable depending on the character to be punched
 
 - SpeechBubble
   - multiple bubble handling
@@ -48,6 +47,8 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- enhance Speaker can speak letter by letter
+- dont flip bubbles, pop up it.
 - ScreenplayLine @component('screenplay-line')
 - ScreenplayManager @component('screenplay-manager')
   - parse text/x-screenplay
