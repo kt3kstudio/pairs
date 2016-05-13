@@ -38,8 +38,12 @@ export default class ScreenplayManager extends Coelement {
      */
     static parseLine(lineText) {
 
-        const [selector, ...args] = lineText.split(/\s+/)
-        return new ScreenplayLine(selector, args.join(' '))
+        const match = lineText.match(/^\s*(\[(.*)\])(.*)$/)
+
+        const selector = match[2].trim()
+        const line = match[3].trim()
+
+        return new ScreenplayLine(selector, line)
 
     }
 

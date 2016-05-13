@@ -7,6 +7,10 @@
   - Speech timeout is configurable in the DSL.
   - Speech pause timing is configurable in the DSL.
   - Speeches can be grouped in DSL.
+- SpeechBubble class
+  - puncher
+  - show
+  - hide
 - CellSource @component('cell-source')
 
 - enhance Speaker clean up speech bubble handling

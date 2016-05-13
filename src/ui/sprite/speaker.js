@@ -1,5 +1,7 @@
 import {wait} from 'spn'
 
+import {p, div} from 'dom-gen'
+
 const DEFAULT_SPEECH_TIMEOUT = 5000
 
 /**
@@ -19,28 +21,32 @@ export default class Speaker {
         const cancelDom = this.elem.data('speech-ok') || this.elem
         const timeout = +this.elem.data('speech-timeout') || DEFAULT_SPEECH_TIMEOUT
 
-        const speechSize = speech.text().length
+        speech.css('text-align', 'left')
+        speech.css('display', 'block')
+        speech.css('line-height', '0px')
+        speech.css('overflow', 'hidden')
 
-        speech.css('line-height', '50px')
-        speech.css('text-align', 'center')
+        const speech1 = p(speech.text())
 
-        const bubble = this.elem.multiflipBubble(speech, {
-            width: speechSize * 10 + 25,
-            height: 50,
-            color: '#328DE5',
-            m: 14,
-            n: 2
+        speech1.css('text-align', 'left')
+        speech1.css('display', 'inline')
+        speech1.css('visibility', 'visibile')
+
+        const wrapper = div(speech, speech1)
+
+        const drop = new Drop({
+            target: this.elem[0],
+            content: wrapper.appendTo(document.body)[0],
+            classes: 'drop-theme-arrows-bounce',
+            position: 'top center',
+            openOn: 'always'
         })
 
-        this.speechEndPromise = bubble.show()
-
-        .then(() => Promise.race([wait(timeout), $(cancelDom).once('click touchstart')]))
-
-        .then(() => $(cancelDom).off('click touchstart'))
-
-        .then(() => bubble.hide())
-
-        return this.speechEndPromise
+        return wait(0)
+        .then(() => speech1.cc.init('puncher').start())
+        .then(() => wait(500))
+        .then(() => drop.close())
+        .then(() => wait(500))
 
     }
 
