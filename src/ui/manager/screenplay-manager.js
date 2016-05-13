@@ -1,6 +1,11 @@
 import ScreenplayLine from './screenplay-line'
+import {BASE_PATH} from '../../'
 
 const {event, component, Coelement} = $.cc
+
+const emojiList = [
+    'love'
+]
 
 /**
  * ScreenplayManager
@@ -65,6 +70,33 @@ export default class ScreenplayManager extends Coelement {
     play() {
 
         return this.lines.reduce((previous, line) => previous.then(() => line.play()), Promise.resolve())
+
+    }
+
+    /**
+     * Renders the emoji simbols in the text to emoji tag.
+     * @param {string} raw The raw text
+     * @return {string}
+     */
+    static renderEmoji(raw) {
+        return raw.replace(/:([_a-z]+):/g, ScreenplayManager.emojiToTag)
+    }
+
+    /**
+     * Returns the html expression of the emoji.
+     * @param {string} emoji The id of emoji symbol
+     * @return {string}
+     */
+    static emojiToTag(_, emoji) {
+
+        if (!(/[mf]+/.test(emoji)) && emojiList.indexOf(emoji) === -1) {
+
+            console.log('unknown emoji', emoji)
+            return ':' + emoji + ':'
+
+        }
+
+        return `<img class="emoji-${emoji}" src="${BASE_PATH}/img/quatron.svg" width="30"/>`
 
     }
 

@@ -1,5 +1,6 @@
-import {wait} from 'spn'
+import ScreenplayManager from '../manager/screenplay-manager'
 
+import {wait} from 'spn'
 import {p, div} from 'dom-gen'
 
 const DEFAULT_SPEECH_TIMEOUT = 5000
@@ -23,14 +24,17 @@ export default class Speaker {
 
         speech.css('text-align', 'left')
         speech.css('display', 'block')
-        speech.css('line-height', '0px')
+        speech.css('line-height', '20px')
         speech.css('overflow', 'hidden')
 
-        const speech1 = p(speech.text())
+        let text = speech.text()
+
+        text = ScreenplayManager.renderEmoji(text)
+
+        const speech1 = p(text)
 
         speech1.css('text-align', 'left')
         speech1.css('display', 'inline')
-        speech1.css('visibility', 'visibile')
 
         const wrapper = div(speech, speech1)
 
