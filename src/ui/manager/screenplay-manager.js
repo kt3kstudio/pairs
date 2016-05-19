@@ -1,5 +1,6 @@
 import ScreenplayLine from './screenplay-line'
 import {BASE_PATH} from '../../'
+import {parse} from 'scenarioscript'
 
 const {event, component, Coelement} = $.cc
 
@@ -29,26 +30,7 @@ export default class ScreenplayManager extends Coelement {
      */
     static parse(text) {
 
-        return text.split('\n')
-            .map(line => line.trim())
-            .filter(line => line !== '')
-            .map(line => ScreenplayManager.parseLine(line))
-
-    }
-
-    /**
-     * Parses the line
-     * @private
-     * @param {string} lineText The text of the line
-     */
-    static parseLine(lineText) {
-
-        const match = lineText.match(/^\s*(\[(.*)\])(.*)$/)
-
-        const selector = match[2].trim()
-        const line = match[3].trim()
-
-        return new ScreenplayLine(selector, line)
+        return parse(text).map(line => new ScreenplayLine(line.role, line.message))
 
     }
 
