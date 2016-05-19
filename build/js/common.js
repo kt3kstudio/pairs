@@ -1,38 +1,247 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-require('./namespace');
-require('./storage');
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Puncher = undefined;
 
-},{"./namespace":2,"./storage":3}],2:[function(require,module,exports){
-"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-window.infrastructure = {};
+var _dec, _dec2, _class, _desc, _value, _class2; /**
+                                                  * puncher v3.0.0
+                                                  * author: Yoshiya Hinosawa ( https://github.com/kt3k )
+                                                  * license: MIT
+                                                  */
 
-},{}],3:[function(require,module,exports){
+
+var _split = require('./split');
+
+var _split2 = _interopRequireDefault(_split);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+    var desc = {};
+    Object['ke' + 'ys'](descriptor).forEach(function (key) {
+        desc[key] = descriptor[key];
+    });
+    desc.enumerable = !!desc.enumerable;
+    desc.configurable = !!desc.configurable;
+
+    if ('value' in desc || desc.initializer) {
+        desc.writable = true;
+    }
+
+    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+        return decorator(target, property, desc) || desc;
+    }, desc);
+
+    if (context && desc.initializer !== void 0) {
+        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+        desc.initializer = undefined;
+    }
+
+    if (desc.initializer === void 0) {
+        Object['define' + 'Property'](target, property, desc);
+        desc = null;
+    }
+
+    return desc;
+}
+
+var _$$cc = $.cc;
+var event = _$$cc.event;
+var component = _$$cc.component;
+var Coelement = _$$cc.Coelement;
+
+
+var MODULE_NAME = 'puncher';
+var START_EVENT_NAME = 'puncher.start';
+var STARTED_EVENT_NAME = 'puncher.started';
+var ENDED_EVENT_NAME = 'puncher.ended';
+var APPENDED_EVENT_NAME = 'puncher.appended';
+var DEFAULT_UNIT_DUR = 100;
+
+var Puncher = exports.Puncher = (_dec = component(MODULE_NAME), _dec2 = event(START_EVENT_NAME), _dec(_class = (_class2 = function (_Coelement) {
+    _inherits(Puncher, _Coelement);
+
+    function Puncher(elem) {
+        _classCallCheck(this, Puncher);
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Puncher).call(this, elem));
+
+        _this.array = (0, _split2.default)(_this.elem[0].childNodes);
+
+        _this.elem.empty();
+
+        _this.unitDur = +_this.elem.attr('unit-dur') || DEFAULT_UNIT_DUR;
+
+        return _this;
+    }
+
+    /**
+     * Starts punching the characters and elements. Returns promise which resolves when all the punching finished.
+     *
+     * @return {Promise}
+     */
+
+
+    _createClass(Puncher, [{
+        key: 'start',
+        value: function start() {
+            var _this2 = this;
+
+            this.elem.trigger(STARTED_EVENT_NAME);
+
+            // finish immediately if the array is empty
+            if (this.array.length === 0) {
+
+                return Promise.resolve();
+            }
+
+            return new Promise(function (resolve) {
+                return _this2.loop(resolve);
+            }).then(function () {
+
+                _this2.elem.trigger(ENDED_EVENT_NAME);
+            });
+        }
+
+        /**
+         * Steps the loop, invokes itself if loop isn't finished, callbacks when finished.
+         *
+         * @param {Function} cb The callback
+         */
+
+    }, {
+        key: 'loop',
+        value: function loop(cb) {
+            var _this3 = this;
+
+            this.append(this.array.shift());
+
+            // finish immediately if the array is empty
+            if (this.array.length === 0) {
+
+                return cb();
+            }
+
+            setTimeout(function () {
+                return _this3.loop(cb);
+            }, this.unitDur);
+        }
+
+        /**
+         * Appends the item into the element.
+         *
+         * @param {string} item The item
+         */
+
+    }, {
+        key: 'append',
+        value: function append(item) {
+
+            if (item.length === 1) {
+
+                // This is single character, just appends it
+                this.elem.append(item);
+            } else {
+
+                item = $(item);
+
+                this.elem.append(item);
+
+                item.cc.up().trigger(APPENDED_EVENT_NAME);
+            }
+        }
+    }]);
+
+    return Puncher;
+}(Coelement), (_applyDecoratedDescriptor(_class2.prototype, 'start', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'start'), _class2.prototype)), _class2)) || _class);
+},{"./split":2}],2:[function(require,module,exports){
 'use strict';
 
-infrastructure.storage = function () {
-    'use strict';
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
-    var exports = {};
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-    exports.get = function (key, defaultValue) {
-        var value = window.localStorage.getItem(key);
+/**
+ * Splits the text in the HTML Nodes.
+ *
+ * - Consider non-text element as "a character".
+ * - Consider non-empty whitespace only text node as "a character" single space.
+ * - Ignore empty text node
+ *
+ * When the input is the childNodes of the following span tag:
+ *
+ *     <span>Hello <img src="smiley.png">!</span>
+ *
+ * The result seems like:
+ *
+ *     ['H', 'e', 'l', 'l', 'o', ' ', <img src="smiley.png">, '!']
+ *
+ * @param {NodeList} nodes The nodes
+ * @return {Array<String|HTMLElement>}
+ */
 
-        return Promise.resolve(value != null ? JSON.parse(value) : defaultValue);
-    };
+exports.default = function (nodes) {
 
-    exports.set = function (key, value) {
-        window.localStorage.setItem(key, JSON.stringify(value));
+    var array = [];
 
-        return Promise.resolve(true);
-    };
+    Array.prototype.forEach.call(nodes, function (node) {
 
-    return exports;
-}();
+        if (node.nodeType === 3) {
 
-},{}],4:[function(require,module,exports){
+            array.push.apply(array, _toConsumableArray(splitText(node)));
+        } else if (node.nodeType === 1) {
+
+            array.push(node.outerHTML);
+        } else {
+
+            throw new Error('invalid node.nodeType: ' + node.nodeType);
+        }
+    });
+
+    if (array[0] === ' ') {
+        array.shift();
+    }
+    if (array[array.length - 1] === ' ') {
+        array.pop();
+    }
+
+    return array;
+};
+
+/**
+ * Splits the text node into the array of the characters.
+ *
+ * @param {Text} textNode The text node
+ * @return {Array<String>}
+ */
+
+
+var splitText = function splitText(textNode) {
+
+    var rawText = textNode.nodeValue;
+    var text = rawText.replace(/\s+/g, ' ');
+
+    if (rawText.length === 0) {
+
+        return [];
+    }
+
+    return text.split('');
+};
+},{}],3:[function(require,module,exports){
 /**
  * cc-event v2.0.2
  * author: Yoshiya Hinosawa ( @kt3k )
@@ -166,46 +375,477 @@ infrastructure.storage = function () {
 
 })(jQuery)
 
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _coelement = require('./coelement');
+
+var _coelement2 = _interopRequireDefault(_coelement);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 /**
- * class-component.js v5.6.0
+ * Actor is the primary coelement on a dom. A dom is able to have only one actor.
+ */
+
+var Actor = function (_Coelement) {
+    _inherits(Actor, _Coelement);
+
+    function Actor(elem) {
+        _classCallCheck(this, Actor);
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Actor).call(this, elem));
+
+        if (elem.data('__primary_coelement') != null) {
+
+            throw new Error('actor is already set: ' + elem.data('__primary_coelement').constructor.coelementName);
+        }
+
+        elem.data('__primary_coelement', _this);
+
+        return _this;
+    }
+
+    return Actor;
+}(_coelement2.default);
+
+exports.default = Actor;
+},{"./coelement":9}],5:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * ClassComponentConfiguration is the utility class for class component initialization.
+ */
+
+var ClassComponentConfiguration = function () {
+
+  /**
+   * @param {String} className The class name
+   * @param {Function} definingFunction The defining function
+   */
+
+  function ClassComponentConfiguration(className, definingFunction) {
+    _classCallCheck(this, ClassComponentConfiguration);
+
+    this.className = className;
+    this.definingFunction = definingFunction;
+  }
+
+  /**
+   * @private
+   * @return {String}
+   */
+
+
+  _createClass(ClassComponentConfiguration, [{
+    key: 'initializedClass',
+    value: function initializedClass() {
+
+      return this.className + '-initialized';
+    }
+
+    /**
+     * Returns the selector for uninitialized class component.
+     *
+     * @public
+     * @return {String}
+     */
+
+  }, {
+    key: 'selector',
+    value: function selector() {
+
+      return '.' + this.className + ':not(.' + this.initializedClass() + ')';
+    }
+
+    /**
+     * Marks the given element as initialized as this class component.
+     *
+     * @private
+     * @param {jQuery} elem
+     */
+
+  }, {
+    key: 'markInitialized',
+    value: function markInitialized(elem) {
+
+      elem.addClass(this.initializedClass());
+    }
+
+    /**
+     * Applies the defining function to the element.
+     *
+     * @private
+     * @param {jQuery} elem
+     */
+
+  }, {
+    key: 'applyCustomDefinition',
+    value: function applyCustomDefinition(elem) {
+
+      this.definingFunction(elem);
+    }
+
+    /**
+     * Initialize the element by the configuration.
+     *
+     * @public
+     * @param {jQuery} elem The element
+     */
+
+  }, {
+    key: 'initElem',
+    value: function initElem(elem) {
+
+      this.markInitialized(elem);
+      this.applyCustomDefinition(elem);
+    }
+  }]);
+
+  return ClassComponentConfiguration;
+}();
+
+exports.default = ClassComponentConfiguration;
+},{}],6:[function(require,module,exports){
+(function (global){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var $ = global.jQuery;
+
+/**
+ * This is class component contenxt manager. This help to initialize or get colements.
+ */
+
+var ClassComponentContext = function () {
+    function ClassComponentContext(jqObj) {
+        _classCallCheck(this, ClassComponentContext);
+
+        this.jqObj = jqObj;
+    }
+
+    /**
+     * Inserts the class name, initializes as the class component and returns the coelement if exists.
+     *
+     * @param {String} className The class name
+     * @return {Object}
+     */
+
+
+    _createClass(ClassComponentContext, [{
+        key: 'init',
+        value: function init(className) {
+
+            this.jqObj.addClass(className);
+
+            $.cc.__manager__.initAt(className, this.jqObj);
+
+            return this.jqObj.data('__coelement:' + className);
+        }
+
+        /**
+         * Initializes the element if it has registered class component names. Returns the jquery object itself.
+         *
+         * @param {string} [classNames] The class name.
+         * @return {jQuery}
+         */
+
+    }, {
+        key: 'up',
+        value: function up(classNames) {
+            var _this = this;
+
+            if (classNames != null) {
+
+                classNames.split(/\s+/).forEach(function (className) {
+
+                    $.cc.__manager__.initAt(className, _this.jqObj);
+                });
+            } else {
+
+                // Initializes anything it already has.
+                $.cc.__manager__.initAllAtElem(this.jqObj);
+            }
+
+            return this.jqObj;
+        }
+
+        /**
+         * Gets the coelement of the given name.
+         *
+         * @param {String} coelementName The name of the coelement
+         * @return {Object}
+         */
+
+    }, {
+        key: 'get',
+        value: function get(coelementName) {
+
+            var coelement = this.jqObj.data('__coelement:' + coelementName);
+
+            if (coelement) {
+
+                return coelement;
+            }
+
+            if (this.jqObj.length === 0) {
+
+                throw new Error('coelement "' + coelementName + '" unavailable at empty dom selection');
+            }
+
+            throw new Error('no coelement named: ' + coelementName + ', on the dom: ' + this.jqObj.get(0).tagName);
+        }
+
+        /**
+         * Gets the actor class. Actor class is the special Coelement which is labeled as `actor`. A dom has only one actor Coelement.
+         */
+
+    }, {
+        key: 'getActor',
+        value: function getActor() {
+
+            var actor = this.jqObj.data('__primary_coelement');
+
+            if (!actor) {
+
+                throw new Error('no actor on the dom: ' + this.jqObj.get(0).tagName);
+            }
+
+            return actor;
+        }
+    }]);
+
+    return ClassComponentContext;
+}();
+
+exports.default = ClassComponentContext;
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],7:[function(require,module,exports){
+(function (global){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _classComponentConfiguration = require('./class-component-configuration');
+
+var _classComponentConfiguration2 = _interopRequireDefault(_classComponentConfiguration);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var $ = global.jQuery;
+
+/**
+ * ClassComponentManger handles the registration and initialization of the class compoents.
+ */
+
+var ClassComponentManager = function () {
+    function ClassComponentManager() {
+        _classCallCheck(this, ClassComponentManager);
+
+        /**
+         * @property {Object<ClassComponentConfiguration>} ccc
+         */
+        this.ccc = {};
+    }
+
+    /**
+     * Registers the class component configuration for the given name.
+     *
+     * @param {String} name The name
+     * @param {Function} ccc The class component configuration
+     */
+
+
+    _createClass(ClassComponentManager, [{
+        key: 'register',
+        value: function register(name, definingFunction) {
+
+            this.ccc[name] = new _classComponentConfiguration2.default(name, definingFunction);
+        }
+
+        /**
+         * Initializes the class components of the given name in the given element.
+         *
+         * @param {String} className The class name
+         * @param {jQuery|HTMLElement|String} elem The dom where class componets are initialized
+         * @return {Array<HTMLElement>} The elements which are initialized in this initialization
+         * @throw {Error}
+         */
+
+    }, {
+        key: 'init',
+        value: function init(className, elem) {
+
+            var ccc = this.getConfiguration(className);
+
+            return $(ccc.selector(), elem).each(function () {
+
+                ccc.initElem($(this));
+            }).toArray();
+        }
+
+        /**
+         * Initializes the class component of the give name at the given element.
+         *
+         * @param {String} className The class name
+         * @param {jQuery|HTMLElement|String} elem The element
+         */
+
+    }, {
+        key: 'initAt',
+        value: function initAt(className, elem) {
+
+            var ccc = this.getConfiguration(className);
+
+            ccc.initElem($(elem));
+        }
+
+        /**
+         * Initializes all the class component at the element.
+         *
+         * @param {HTMLElement}
+         */
+
+    }, {
+        key: 'initAllAtElem',
+        value: function initAllAtElem(elem) {
+            var _this = this;
+
+            var classes = $(elem).attr('class');
+
+            if (!classes) {
+                return;
+            }
+
+            classes.split(/\s+/).map(function (className) {
+                return _this.ccc[className];
+            }).filter(function (ccc) {
+                return ccc;
+            }).forEach(function (ccc) {
+                return ccc.initElem(elem);
+            });
+        }
+
+        /**
+         * @param {jQuery|HTMLElement|String} elem The element
+         */
+
+    }, {
+        key: 'initAll',
+        value: function initAll(elem) {
+            var _this2 = this;
+
+            Object.keys(this.ccc).forEach(function (className) {
+
+                _this2.init(className, elem);
+            });
+        }
+
+        /**
+         * Gets the configuration of the given class name.
+         *
+         * @param {String} className The class name
+         * @return {ClassComponentConfiguration}
+         * @throw {Error}
+         */
+
+    }, {
+        key: 'getConfiguration',
+        value: function getConfiguration(className) {
+
+            var ccc = this.ccc[className];
+
+            if (ccc == null) {
+
+                throw new Error('Class componet "' + className + '" is not defined.');
+            }
+
+            return ccc;
+        }
+    }]);
+
+    return ClassComponentManager;
+}();
+
+exports.default = ClassComponentManager;
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./class-component-configuration":5}],8:[function(require,module,exports){
+'use strict';
+
+var _actor = require('./actor');
+
+var _actor2 = _interopRequireDefault(_actor);
+
+var _coelement = require('./coelement');
+
+var _coelement2 = _interopRequireDefault(_coelement);
+
+var _classComponentManager = require('./class-component-manager');
+
+var _classComponentManager2 = _interopRequireDefault(_classComponentManager);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * class-component.js v5.7.6
  * author: Yoshiya Hinosawa ( http://github.com/kt3k )
  * license: MIT
  */
-'use strict';
-
 var $ = jQuery;
 
 var reSpaces = / +/;
-
-var Actor = require('./lib/Actor');
-var Coelement = require('./lib/Coelement');
-var subclass = require('subclassjs');
-
-var ClassComponentManager = require('./lib/ClassComponentManager');
 
 /**
  * Initializes the module object.
  *
  * @return {Object}
  */
-var initializeModule = function () {
+function initializeModule() {
 
-    require('./lib/fn.cc');
+    require('./fn.cc');
 
     /**
      * The main namespace for class component module.
      */
     var cc = {};
 
-    cc.__manager__ = new ClassComponentManager();
+    cc.__manager__ = new _classComponentManager2.default();
 
     /**
      Registers a class component of the given name using the given defining function.
-
-     See README.md for details.
-
-     @param {String} className The class name
+      See README.md for details.
+      @param {String} className The class name
      @param {Function} definingFunction The class definition
      */
     cc.register = function (name, definingFunction) {
@@ -213,26 +853,20 @@ var initializeModule = function () {
         if (typeof name !== 'string') {
 
             throw new Error('`name` of a class component has to be a string');
-
         }
 
         if (typeof definingFunction !== 'function') {
 
             throw new Error('`definingFunction` of a class component has to be a function');
-
         }
 
         cc.__manager__.register(name, definingFunction);
 
-
         $(document).ready(function () {
 
             cc.__manager__.init(name);
-
         });
-
     };
-
 
     /**
      * Initialized the all class components of the given names and returns of the promise of all initialization.
@@ -247,23 +881,17 @@ var initializeModule = function () {
             cc.__manager__.initAll(elem);
 
             return;
-
         }
 
         if (typeof classNames === 'string') {
 
             classNames = classNames.split(reSpaces);
-
         }
 
         return classNames.map(function (className) {
-
             return cc.__manager__.init(className, elem);
-
         });
-
     };
-
 
     /**
      * Assign a class as the accompanying coelement of the class component
@@ -280,9 +908,7 @@ var initializeModule = function () {
             var coelement = new DefiningClass(elem);
 
             elem.data('__coelement:' + DefiningClass.coelementName, coelement);
-
         });
-
     };
 
     /**
@@ -306,429 +932,276 @@ var initializeModule = function () {
      * @return {Function}
      */
     cc.component = function (className) {
-
-        // This is the actual decorator
         return function (Cls) {
-
-            cc.assign(className, Cls)
-
+            return cc.assign(className, Cls);
         };
-
     };
 
-    // Exports subclass.
-    cc.subclass = subclass;
+    // Exports Actor.
+    cc.Actor = _actor2.default;
 
     // Exports Actor.
-    cc.Actor = Actor;
-
-    // Exports Actor.
-    cc.Coelement = Coelement;
+    cc.Coelement = _coelement2.default;
 
     return cc;
-
-};
+}
 
 // If the cc is not set, then create one.
 if ($.cc == null) {
 
-    $.cc = initializeModule()
-
+    $.cc = initializeModule();
 }
 
 module.exports = $.cc;
+},{"./actor":4,"./class-component-manager":7,"./coelement":9,"./fn.cc":10}],9:[function(require,module,exports){
+"use strict";
 
-},{"./lib/Actor":6,"./lib/ClassComponentManager":9,"./lib/Coelement":10,"./lib/fn.cc":11,"subclassjs":37}],6:[function(require,module,exports){
-'use strict';
-
-var subclass = require('subclassjs');
-var Coelement = require('./Coelement');
-
-/**
- * Actor is the primary coelement on a dom. A dom is able to have only one actor.
- */
-var Actor = subclass(Coelement, function (pt, parent) {
-
-    pt.constructor = function (elem) {
-
-        parent.constructor.apply(this, arguments);
-
-        if (elem.data('__primary_coelement') != null) {
-
-            throw new Error('actor is already set: ' + elem.data('__primary_coelement').constructor.coelementName);
-
-        };
-
-        elem.data('__primary_coelement', this);
-
-    };
-
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
 
-module.exports = Actor;
-
-},{"./Coelement":10,"subclassjs":37}],7:[function(require,module,exports){
-(function (global){
-'use strict';
-
-var $ = global.jQuery;
-var subclass = require('subclassjs');
-
-/**
- * ClassComponentConfiguration is the utility class for class component initialization.
- *
- * @class
- */
-var ClassComponentConfiguration = subclass(function (pt) {
-
-    /**
-     * @param {String} className The class name
-     * @param {Function} definingFunction The defining function
-     */
-    pt.constructor = function (className, definingFunction) {
-
-        this.className = className;
-        this.definingFunction = definingFunction;
-
-    };
-
-    /**
-     * @private
-     * @return {String}
-     */
-    pt.initializedClass = function () {
-
-        return this.className + '-initialized';
-
-    };
-
-    /**
-     * Returns the selector for uninitialized class component.
-     *
-     * @public
-     * @return {String}
-     */
-    pt.selector = function () {
-
-        return '.' + this.className + ':not(.' + this.initializedClass() + ')';
-
-    };
-
-    /**
-     * Marks the given element as initialized as this class component.
-     *
-     * @private
-     * @param {jQuery} elem
-     */
-    pt.markInitialized = function (elem) {
-
-        elem.addClass(this.initializedClass());
-
-    };
-
-    /**
-     * Applies the defining function to the element.
-     *
-     * @private
-     * @param {jQuery} elem
-     */
-    pt.applyCustomDefinition = function (elem) {
-
-        this.definingFunction(elem);
-
-    };
-
-    /**
-     * Initialize the element by the configuration.
-     *
-     * @public
-     * @param {jQuery} elem The element
-     */
-    pt.initElem = function (elem) {
-
-        this.markInitialized(elem);
-        this.applyCustomDefinition(elem);
-
-    };
-
-});
-
-module.exports = ClassComponentConfiguration;
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"subclassjs":37}],8:[function(require,module,exports){
-(function (global){
-'use strict';
-
-var $ = global.jQuery;
-var subclass = require('subclassjs');
-
-
-/**
- * This is class component contenxt manager. This help to initialize or get colements.
- */
-var ClassComponentContext = subclass(function (pt) {
-
-    pt.constructor = function (jqObj) {
-
-        this.jqObj = jqObj;
-
-    };
-
-    /**
-     * Inserts the class name, initializes as the class component and returns the coelement if exists.
-     *
-     * @param {String} className The class name
-     * @return {Object}
-     */
-    pt.init = function (className) {
-
-        this.jqObj.addClass(className);
-
-        $.cc.__manager__.initAt(className, this.jqObj);
-
-        return this.jqObj.data('__coelement:' + className);
-
-    };
-
-    /**
-     * Initializes the element if it has registered class component names. Returns the jquery object itself.
-     *
-     * @return {jQuery}
-     */
-    pt.up = function () {
-
-        $.cc.__manager__.initAtElem(this.jqObj);
-
-        return this.jqObj;
-
-    };
-
-    /**
-     * Gets the coelement of the given name.
-     *
-     * @param {String} coelementName The name of the coelement
-     * @return {Object}
-     */
-    pt.get = function (coelementName) {
-
-        var coelement = this.jqObj.data('__coelement:' + coelementName);
-
-        if (coelement) {
-
-            return coelement;
-
-        }
-
-        if (this.jqObj.length === 0) {
-
-            throw new Error('coelement "' + coelementName + '" unavailable at empty dom selection');
-
-        }
-
-        throw new Error('no coelement named: ' + coelementName + ', on the dom: ' + this.jqObj.get(0).tagName);
-
-    };
-
-    pt.getActor = function () {
-
-        var actor = this.jqObj.data('__primary_coelement');
-
-        if (!actor) {
-
-            throw new Error('no actor on the dom: ' + this.jqObj.get(0).tagName);
-
-        }
-
-        return actor;
-
-    };
-
-});
-
-module.exports = ClassComponentContext;
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"subclassjs":37}],9:[function(require,module,exports){
-(function (global){
-'use strict';
-
-var $ = global.jQuery;
-var subclass = require('subclassjs');
-
-var ClassComponentConfiguration = require('./ClassComponentConfiguration');
-
-/**
- * ClassComponentManger handles the registration and initialization of the class compoents.
- *
- * @class
- */
-var ClassComponentManager = subclass(function (pt) {
-
-    pt.constructor = function () {
-
-        /**
-         * @property {Object<ClassComponentConfiguration>} ccc
-         */
-        this.ccc = {};
-
-    };
-
-    /**
-     * Registers the class component configuration for the given name.
-     *
-     * @param {String} name The name
-     * @param {Function} ccc The class component configuration
-     */
-    pt.register = function (name, definingFunction) {
-
-        this.ccc[name] = new ClassComponentConfiguration(name, definingFunction);
-
-    };
-
-    /**
-     * Initializes the class components of the given name in the given element.
-     *
-     * @param {String} className The class name
-     * @param {jQuery|HTMLElement|String} elem The dom where class componets are initialized
-     * @return {Array<HTMLElement>} The elements which are initialized in this initialization
-     * @throw {Error}
-     */
-    pt.init = function (className, elem) {
-
-        var ccc = this.getConfiguration(className);
-
-        return $(ccc.selector(), elem).each(function () {
-
-            ccc.initElem($(this));
-
-        }).toArray();
-
-    };
-
-    /**
-     * Initializes the class component of the give name at the given element.
-     *
-     * @param {String} className The class name
-     * @param {jQuery|HTMLElement|String} elem The element
-     */
-    pt.initAt = function (className, elem) {
-
-        var ccc = this.getConfiguration(className);
-
-        ccc.initElem($(elem));
-
-    };
-
-    /**
-     * Initializes all the class component at the element.
-     *
-     * @param {HTMLElement}
-     */
-    pt.initAtElem = function (elem) {
-
-        var self = this;
-
-        var classes = $(elem).attr('class');
-
-        if (!classes) { return; }
-
-        classes.split(/ +/)
-        .map(function (className) { return self.ccc[className]; })
-        .filter(function (ccc) { return ccc; })
-        .forEach(function (ccc) {
-
-            ccc.initElem(elem);
-
-        });
-
-    };
-
-    /**
-     * @param {jQuery|HTMLElement|String} elem The element
-     */
-    pt.initAll = function (elem) {
-
-        Object.keys(this.ccc).forEach(function (className) {
-
-            this.init(className, elem);
-
-        }, this);
-
-    };
-
-    /**
-     * Gets the configuration of the given class name.
-     *
-     * @param {String} className The class name
-     * @return {ClassComponentConfiguration}
-     * @throw {Error}
-     */
-    pt.getConfiguration = function (className) {
-
-        var ccc = this.ccc[className];
-
-        if (ccc == null) {
-
-            throw new Error('Class componet "' + className + '" is not defined.');
-
-        }
-
-        return ccc;
-
-    };
-
-});
-
-module.exports = ClassComponentManager;
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./ClassComponentConfiguration":7,"subclassjs":37}],10:[function(require,module,exports){
-'use strict';
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
  * Coelement is the dual of element (usual dom). Its instance accompanies an element and forms a Dom Component together with it.
- *
- * @class
  */
-var Coelement = function (elem) {
+
+var Coelement = function Coelement(elem) {
+    _classCallCheck(this, Coelement);
 
     this.elem = elem;
-
 };
 
-module.exports = Coelement;
-
-},{}],11:[function(require,module,exports){
+exports.default = Coelement;
+},{}],10:[function(require,module,exports){
 'use strict';
 
-var ClassComponentContext = require('./ClassComponentContext');
+var _classComponentContext = require('./class-component-context');
+
+var _classComponentContext2 = _interopRequireDefault(_classComponentContext);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Defines the special property cc on a jquery property.
 Object.defineProperty(jQuery.fn, 'cc', {
 
-    get: function () {
+    get: function get() {
 
         var ctx = this.data('__class_component_context__');
 
         if (!ctx) {
 
-            ctx = new ClassComponentContext(this);
+            ctx = new _classComponentContext2.default(this);
 
             this.data('__class_component_context__', ctx);
-
         }
 
         return ctx;
-
     },
 
     enumerable: false,
     configurable: false
 
 });
+},{"./class-component-context":6}],11:[function(require,module,exports){
+'use strict';
 
-},{"./ClassComponentContext":8}],12:[function(require,module,exports){
+var assign        = require('es5-ext/object/assign')
+  , normalizeOpts = require('es5-ext/object/normalize-options')
+  , isCallable    = require('es5-ext/object/is-callable')
+  , contains      = require('es5-ext/string/#/contains')
+
+  , d;
+
+d = module.exports = function (dscr, value/*, options*/) {
+	var c, e, w, options, desc;
+	if ((arguments.length < 2) || (typeof dscr !== 'string')) {
+		options = value;
+		value = dscr;
+		dscr = null;
+	} else {
+		options = arguments[2];
+	}
+	if (dscr == null) {
+		c = w = true;
+		e = false;
+	} else {
+		c = contains.call(dscr, 'c');
+		e = contains.call(dscr, 'e');
+		w = contains.call(dscr, 'w');
+	}
+
+	desc = { value: value, configurable: c, enumerable: e, writable: w };
+	return !options ? desc : assign(normalizeOpts(options), desc);
+};
+
+d.gs = function (dscr, get, set/*, options*/) {
+	var c, e, options, desc;
+	if (typeof dscr !== 'string') {
+		options = set;
+		set = get;
+		get = dscr;
+		dscr = null;
+	} else {
+		options = arguments[3];
+	}
+	if (get == null) {
+		get = undefined;
+	} else if (!isCallable(get)) {
+		options = get;
+		get = set = undefined;
+	} else if (set == null) {
+		set = undefined;
+	} else if (!isCallable(set)) {
+		options = set;
+		set = undefined;
+	}
+	if (dscr == null) {
+		c = true;
+		e = false;
+	} else {
+		c = contains.call(dscr, 'c');
+		e = contains.call(dscr, 'e');
+	}
+
+	desc = { get: get, set: set, configurable: c, enumerable: e };
+	return !options ? desc : assign(normalizeOpts(options), desc);
+};
+
+},{"es5-ext/object/assign":13,"es5-ext/object/is-callable":16,"es5-ext/object/normalize-options":20,"es5-ext/string/#/contains":22}],12:[function(require,module,exports){
+'use strict';
+
+module.exports = new Function("return this")();
+
+},{}],13:[function(require,module,exports){
+'use strict';
+
+module.exports = require('./is-implemented')()
+	? Object.assign
+	: require('./shim');
+
+},{"./is-implemented":14,"./shim":15}],14:[function(require,module,exports){
+'use strict';
+
+module.exports = function () {
+	var assign = Object.assign, obj;
+	if (typeof assign !== 'function') return false;
+	obj = { foo: 'raz' };
+	assign(obj, { bar: 'dwa' }, { trzy: 'trzy' });
+	return (obj.foo + obj.bar + obj.trzy) === 'razdwatrzy';
+};
+
+},{}],15:[function(require,module,exports){
+'use strict';
+
+var keys  = require('../keys')
+  , value = require('../valid-value')
+
+  , max = Math.max;
+
+module.exports = function (dest, src/*, …srcn*/) {
+	var error, i, l = max(arguments.length, 2), assign;
+	dest = Object(value(dest));
+	assign = function (key) {
+		try { dest[key] = src[key]; } catch (e) {
+			if (!error) error = e;
+		}
+	};
+	for (i = 1; i < l; ++i) {
+		src = arguments[i];
+		keys(src).forEach(assign);
+	}
+	if (error !== undefined) throw error;
+	return dest;
+};
+
+},{"../keys":17,"../valid-value":21}],16:[function(require,module,exports){
+// Deprecated
+
+'use strict';
+
+module.exports = function (obj) { return typeof obj === 'function'; };
+
+},{}],17:[function(require,module,exports){
+'use strict';
+
+module.exports = require('./is-implemented')()
+	? Object.keys
+	: require('./shim');
+
+},{"./is-implemented":18,"./shim":19}],18:[function(require,module,exports){
+'use strict';
+
+module.exports = function () {
+	try {
+		Object.keys('primitive');
+		return true;
+	} catch (e) { return false; }
+};
+
+},{}],19:[function(require,module,exports){
+'use strict';
+
+var keys = Object.keys;
+
+module.exports = function (object) {
+	return keys(object == null ? object : Object(object));
+};
+
+},{}],20:[function(require,module,exports){
+'use strict';
+
+var forEach = Array.prototype.forEach, create = Object.create;
+
+var process = function (src, obj) {
+	var key;
+	for (key in src) obj[key] = src[key];
+};
+
+module.exports = function (options/*, …options*/) {
+	var result = create(null);
+	forEach.call(arguments, function (options) {
+		if (options == null) return;
+		process(Object(options), result);
+	});
+	return result;
+};
+
+},{}],21:[function(require,module,exports){
+'use strict';
+
+module.exports = function (value) {
+	if (value == null) throw new TypeError("Cannot use null or undefined");
+	return value;
+};
+
+},{}],22:[function(require,module,exports){
+'use strict';
+
+module.exports = require('./is-implemented')()
+	? String.prototype.contains
+	: require('./shim');
+
+},{"./is-implemented":23,"./shim":24}],23:[function(require,module,exports){
+'use strict';
+
+var str = 'razdwatrzy';
+
+module.exports = function () {
+	if (typeof str.contains !== 'function') return false;
+	return ((str.contains('dwa') === true) && (str.contains('foo') === false));
+};
+
+},{}],24:[function(require,module,exports){
+'use strict';
+
+var indexOf = String.prototype.indexOf;
+
+module.exports = function (searchString/*, position*/) {
+	return indexOf.call(this, searchString, arguments[1]) > -1;
+};
+
+},{}],25:[function(require,module,exports){
 (function (process,global){
 /*!
  * @overview es6-promise - a tiny implementation of Promises/A+.
@@ -1699,7 +2172,162 @@ Object.defineProperty(jQuery.fn, 'cc', {
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":17}],13:[function(require,module,exports){
+},{"_process":35}],26:[function(require,module,exports){
+'use strict';
+
+if (!require('./is-implemented')()) {
+	Object.defineProperty(require('es5-ext/global'), 'Symbol',
+		{ value: require('./polyfill'), configurable: true, enumerable: false,
+			writable: true });
+}
+
+},{"./is-implemented":27,"./polyfill":29,"es5-ext/global":12}],27:[function(require,module,exports){
+'use strict';
+
+module.exports = function () {
+	var symbol;
+	if (typeof Symbol !== 'function') return false;
+	symbol = Symbol('test symbol');
+	try { String(symbol); } catch (e) { return false; }
+	if (typeof Symbol.iterator === 'symbol') return true;
+
+	// Return 'true' for polyfills
+	if (typeof Symbol.isConcatSpreadable !== 'object') return false;
+	if (typeof Symbol.iterator !== 'object') return false;
+	if (typeof Symbol.toPrimitive !== 'object') return false;
+	if (typeof Symbol.toStringTag !== 'object') return false;
+	if (typeof Symbol.unscopables !== 'object') return false;
+
+	return true;
+};
+
+},{}],28:[function(require,module,exports){
+'use strict';
+
+module.exports = function (x) {
+	return (x && ((typeof x === 'symbol') || (x['@@toStringTag'] === 'Symbol'))) || false;
+};
+
+},{}],29:[function(require,module,exports){
+// ES2015 Symbol polyfill for environments that do not support it (or partially support it_
+
+'use strict';
+
+var d              = require('d')
+  , validateSymbol = require('./validate-symbol')
+
+  , create = Object.create, defineProperties = Object.defineProperties
+  , defineProperty = Object.defineProperty, objPrototype = Object.prototype
+  , NativeSymbol, SymbolPolyfill, HiddenSymbol, globalSymbols = create(null);
+
+if (typeof Symbol === 'function') NativeSymbol = Symbol;
+
+var generateName = (function () {
+	var created = create(null);
+	return function (desc) {
+		var postfix = 0, name, ie11BugWorkaround;
+		while (created[desc + (postfix || '')]) ++postfix;
+		desc += (postfix || '');
+		created[desc] = true;
+		name = '@@' + desc;
+		defineProperty(objPrototype, name, d.gs(null, function (value) {
+			// For IE11 issue see:
+			// https://connect.microsoft.com/IE/feedbackdetail/view/1928508/
+			//    ie11-broken-getters-on-dom-objects
+			// https://github.com/medikoo/es6-symbol/issues/12
+			if (ie11BugWorkaround) return;
+			ie11BugWorkaround = true;
+			defineProperty(this, name, d(value));
+			ie11BugWorkaround = false;
+		}));
+		return name;
+	};
+}());
+
+// Internal constructor (not one exposed) for creating Symbol instances.
+// This one is used to ensure that `someSymbol instanceof Symbol` always return false
+HiddenSymbol = function Symbol(description) {
+	if (this instanceof HiddenSymbol) throw new TypeError('TypeError: Symbol is not a constructor');
+	return SymbolPolyfill(description);
+};
+
+// Exposed `Symbol` constructor
+// (returns instances of HiddenSymbol)
+module.exports = SymbolPolyfill = function Symbol(description) {
+	var symbol;
+	if (this instanceof Symbol) throw new TypeError('TypeError: Symbol is not a constructor');
+	symbol = create(HiddenSymbol.prototype);
+	description = (description === undefined ? '' : String(description));
+	return defineProperties(symbol, {
+		__description__: d('', description),
+		__name__: d('', generateName(description))
+	});
+};
+defineProperties(SymbolPolyfill, {
+	for: d(function (key) {
+		if (globalSymbols[key]) return globalSymbols[key];
+		return (globalSymbols[key] = SymbolPolyfill(String(key)));
+	}),
+	keyFor: d(function (s) {
+		var key;
+		validateSymbol(s);
+		for (key in globalSymbols) if (globalSymbols[key] === s) return key;
+	}),
+
+	// If there's native implementation of given symbol, let's fallback to it
+	// to ensure proper interoperability with other native functions e.g. Array.from
+	hasInstance: d('', (NativeSymbol && NativeSymbol.hasInstance) || SymbolPolyfill('hasInstance')),
+	isConcatSpreadable: d('', (NativeSymbol && NativeSymbol.isConcatSpreadable) ||
+		SymbolPolyfill('isConcatSpreadable')),
+	iterator: d('', (NativeSymbol && NativeSymbol.iterator) || SymbolPolyfill('iterator')),
+	match: d('', (NativeSymbol && NativeSymbol.match) || SymbolPolyfill('match')),
+	replace: d('', (NativeSymbol && NativeSymbol.replace) || SymbolPolyfill('replace')),
+	search: d('', (NativeSymbol && NativeSymbol.search) || SymbolPolyfill('search')),
+	species: d('', (NativeSymbol && NativeSymbol.species) || SymbolPolyfill('species')),
+	split: d('', (NativeSymbol && NativeSymbol.split) || SymbolPolyfill('split')),
+	toPrimitive: d('', (NativeSymbol && NativeSymbol.toPrimitive) || SymbolPolyfill('toPrimitive')),
+	toStringTag: d('', (NativeSymbol && NativeSymbol.toStringTag) || SymbolPolyfill('toStringTag')),
+	unscopables: d('', (NativeSymbol && NativeSymbol.unscopables) || SymbolPolyfill('unscopables'))
+});
+
+// Internal tweaks for real symbol producer
+defineProperties(HiddenSymbol.prototype, {
+	constructor: d(SymbolPolyfill),
+	toString: d('', function () { return this.__name__; })
+});
+
+// Proper implementation of methods exposed on Symbol.prototype
+// They won't be accessible on produced symbol instances as they derive from HiddenSymbol.prototype
+defineProperties(SymbolPolyfill.prototype, {
+	toString: d(function () { return 'Symbol (' + validateSymbol(this).__description__ + ')'; }),
+	valueOf: d(function () { return validateSymbol(this); })
+});
+defineProperty(SymbolPolyfill.prototype, SymbolPolyfill.toPrimitive, d('',
+	function () { return validateSymbol(this); }));
+defineProperty(SymbolPolyfill.prototype, SymbolPolyfill.toStringTag, d('c', 'Symbol'));
+
+// Proper implementaton of toPrimitive and toStringTag for returned symbol instances
+defineProperty(HiddenSymbol.prototype, SymbolPolyfill.toStringTag,
+	d('c', SymbolPolyfill.prototype[SymbolPolyfill.toStringTag]));
+
+// Note: It's important to define `toPrimitive` as last one, as some implementations
+// implement `toPrimitive` natively without implementing `toStringTag` (or other specified symbols)
+// And that may invoke error in definition flow:
+// See: https://github.com/medikoo/es6-symbol/issues/13#issuecomment-164146149
+defineProperty(HiddenSymbol.prototype, SymbolPolyfill.toPrimitive,
+	d('c', SymbolPolyfill.prototype[SymbolPolyfill.toPrimitive]));
+
+},{"./validate-symbol":30,"d":11}],30:[function(require,module,exports){
+'use strict';
+
+var isSymbol = require('./is-symbol');
+
+module.exports = function (value) {
+	if (!isSymbol(value)) throw new TypeError(value + " is not a symbol");
+	return value;
+};
+
+},{"./is-symbol":28}],31:[function(require,module,exports){
 /**
  * event-hub.js v4.1.0
  * author: Yoshiya Hinosawa ( https://github.com/kt3k )
@@ -1793,7 +2421,7 @@ Object.defineProperty(jQuery.fn, 'cc', {
 
 }(jQuery));
 
-},{}],14:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.2.0
  * http://jquery.com/
@@ -11626,16 +12254,25 @@ if ( !noGlobal ) {
 return jQuery;
 }));
 
-},{}],15:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function ($) {
-    'use strict'
+    'use strict';
 
-    var DEFAULT_WIDTH = 200
-    var DEFAULT_HEIGHT = 100
-    var DEFAULT_COLOR = '#115588'
-    var DEFAULT_CHIP_HEIGHT = 12
-    var DEFAULT_CHIP_DISTANCE = 15
+    var DEFAULT_WIDTH = 200;
+    var DEFAULT_HEIGHT = 100;
+    var DEFAULT_COLOR = '#115588';
+    var DEFAULT_CHIP_HEIGHT = 12;
+    var DEFAULT_CHIP_DISTANCE = 15;
 
     /**
      * MultiflipBubble is the component of the bubble which opens above the target element.
@@ -11652,84 +12289,86 @@ return jQuery;
      * - attr {number} chip-distance The distance between the bottom of the chip and the top of the bubble target (speaker)
      * - attr {number} chip-height The height of the chip under the bubble
      */
-    var MultiflipBubble = $.cc.subclass($.cc.Coelement, function (pt, parent) {
 
-        pt.constructor = function (elem) {
+    var MultiflipBubble = function (_$$cc$Coelement) {
+        _inherits(MultiflipBubble, _$$cc$Coelement);
 
-            parent.constructor.call(this, elem)
+        function MultiflipBubble(elem) {
+            _classCallCheck(this, MultiflipBubble);
 
-            var target = this.target = this.elem.data('target')
+            var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MultiflipBubble).call(this, elem));
 
-            this.$parent = this.elem.parent()
+            var target = _this.target = _this.elem.data('target');
 
-            this.x = target.position().left + target.width() / 2
-            this.y = target.position().top
+            _this.$parent = _this.elem.parent();
 
-            this.w = +this.elem.attr('width') || DEFAULT_WIDTH // component parameter
-            this.h = +this.elem.attr('height') || DEFAULT_HEIGHT // component parameter
+            _this.x = target.position().left + target.width() / 2;
+            _this.y = target.position().top;
 
-            this.color = this.elem.attr('color') || DEFAULT_COLOR // component parameter
+            _this.w = +_this.elem.attr('width') || DEFAULT_WIDTH; // component parameter
+            _this.h = +_this.elem.attr('height') || DEFAULT_HEIGHT; // component parameter
 
-            this.chipHeight = this.elem.attr('chip-height') || DEFAULT_CHIP_HEIGHT // component paramter
-            this.distance = this.elem.attr('chip-distance') || DEFAULT_CHIP_DISTANCE // component parameter
+            _this.color = _this.elem.attr('color') || DEFAULT_COLOR; // component parameter
 
-            this.init()
+            _this.chipHeight = _this.elem.attr('chip-height') || DEFAULT_CHIP_HEIGHT; // component paramter
+            _this.distance = _this.elem.attr('chip-distance') || DEFAULT_CHIP_DISTANCE; // component parameter
 
+            _this.init();
+
+            return _this;
         }
 
-        pt.createChip = function () {
+        _createClass(MultiflipBubble, [{
+            key: 'createChip',
+            value: function createChip() {
 
-            // The small chip under the bubble
-            return $('<div />').css({
+                // The small chip under the bubble
+                return $('<div />').css({
 
-                position: 'absolute',
-                bottom: '-' + this.chipHeight * 2 + 'px',
-                left: this.w / 2 - Math.floor(this.chipHeight / 1.5),
-                width: 0,
-                height: 0,
-                borderWidth: this.chipHeight + 'px ' + Math.floor(this.chipHeight / 1.5) + 'px',
-                borderColor: 'transparent',
-                borderStyle: 'solid',
-                borderTop: 'solid ' + this.chipHeight + 'px ' + this.color,
-                borderTopColor: this.color,
-                opacity: 0
+                    position: 'absolute',
+                    bottom: '-' + this.chipHeight * 2 + 'px',
+                    left: this.w / 2 - Math.floor(this.chipHeight / 1.5),
+                    width: 0,
+                    height: 0,
+                    borderWidth: this.chipHeight + 'px ' + Math.floor(this.chipHeight / 1.5) + 'px',
+                    borderColor: 'transparent',
+                    borderStyle: 'solid',
+                    borderTop: 'solid ' + this.chipHeight + 'px ' + this.color,
+                    borderTopColor: this.color,
+                    opacity: 0
 
-            })
+                });
+            }
+        }, {
+            key: 'init',
+            value: function init() {
 
-        }
+                this.elem.css({
+                    position: 'absolute',
+                    left: this.x - this.w / 2 + 'px',
+                    top: this.y - this.h - this.chipHeight - this.distance + 'px'
+                }).attr({
+                    bgcolor: this.color
+                }).width(this.w).height(this.h).append(this.createChip()).cc.init('multiflip');
+            }
+        }, {
+            key: 'show',
+            value: function show() {
 
-        pt.init = function () {
+                return this.elem.cc.get('multiflip').show();
+            }
+        }, {
+            key: 'hide',
+            value: function hide() {
 
-            this.elem.css({
-                position: 'absolute',
-                left: (this.x - this.w / 2) + 'px',
-                top: (this.y - this.h - this.chipHeight - this.distance) + 'px'
-            })
-            .attr({
-                bgcolor: this.color
-            })
-            .width(this.w)
-            .height(this.h)
-            .append(this.createChip())
-            .cc.init('multiflip')
+                return this.elem.cc.get('multiflip').hide();
+            }
+        }]);
 
-        }
+        return MultiflipBubble;
+    }($.cc.Coelement);
 
-        pt.show = function () {
-
-            return this.elem.cc.get('multiflip').show()
-
-        }
-
-        pt.hide = function () {
-
-            return this.elem.cc.get('multiflip').hide()
-
-        }
-
-    })
-
-    $.cc.component('multiflip-bubble')(MultiflipBubble)
+    $.cc.component('multiflip-bubble')(MultiflipBubble);
 
     /**
      * @param {jQuery} content The content
@@ -11744,7 +12383,7 @@ return jQuery;
      */
     $.fn.multiflipBubble = function (content, opts) {
 
-        opts = opts || {}
+        opts = opts || {};
 
         return $('<div />', {
             attr: {
@@ -11756,17 +12395,16 @@ return jQuery;
                 'chip-height': opts.chipHeight,
                 'chip-distance': opts.chipDistance
             },
-            data: {target: this},
+            data: { target: this },
             insertAfter: this,
-            append: content.css({opacity: 0, position: 'relative'})
+            append: content.css({ opacity: 0, position: 'relative' })
 
-        }).cc.init('multiflip-bubble')
+        }).cc.init('multiflip-bubble');
+    };
+})(jQuery);
 
-    }
 
-}(jQuery))
-
-},{}],16:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 (function ($) {
     'use strict'
 
@@ -11968,7 +12606,7 @@ return jQuery;
 
 }(jQuery))
 
-},{}],17:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -12061,7 +12699,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],18:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 (function (process,global){
 // Copyright (c) Microsoft, All rights reserved. See License.txt in the project root for license information.
 
@@ -18969,10 +19607,10 @@ Observable.fromNodeCallback = function (fn, ctx, selector) {
 }.call(this));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":17}],19:[function(require,module,exports){
+},{"_process":35}],37:[function(require,module,exports){
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -19000,7 +19638,7 @@ var ANIMATION_PROP_NAME = '-webkit-animation';
  * Animation class represents the css animation.
  */
 
-var Animation = (function () {
+var Animation = function () {
 
   /**
    * @param {String} name The name of the css animation (keyframes)
@@ -19020,6 +19658,7 @@ var Animation = (function () {
    * @return {Promise}
    */
 
+
   _createClass(Animation, [{
     key: 'apply',
     value: function apply(elem, dur) {
@@ -19035,13 +19674,13 @@ var Animation = (function () {
   }]);
 
   return Animation;
-})();
+}();
 
 exports.default = Animation;
-},{"./if-num-else":28,"./reflow":33,"./wait":36}],20:[function(require,module,exports){
+},{"./if-num-else":45,"./reflow":52,"./wait":55}],38:[function(require,module,exports){
 "use strict";
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -19057,7 +19696,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * Being represents a dom with visual representation which has the phases, such as show, hide and disappear.
  */
 
-var Being = (function (_$$cc$Actor) {
+var Being = function (_$$cc$Actor) {
   _inherits(Being, _$$cc$Actor);
 
   function Being() {
@@ -19068,6 +19707,7 @@ var Being = (function (_$$cc$Actor) {
 
   _createClass(Being, [{
     key: "showAnim",
+
 
     /**
      * Returns the animation of showing
@@ -19195,19 +19835,33 @@ var Being = (function (_$$cc$Actor) {
   }]);
 
   return Being;
-})($.cc.Actor);
+}($.cc.Actor);
 
 exports.default = Being;
-},{}],21:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _wait = require('./wait');
+
+var _wait2 = _interopRequireDefault(_wait);
+
 var _being = require('./being');
 
 var _being2 = _interopRequireDefault(_being);
+
+var _posture = require('./posture');
+
+var _posture2 = _interopRequireDefault(_posture);
+
+var _reflow = require('./reflow');
+
+var _reflow2 = _interopRequireDefault(_reflow);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19217,20 +19871,304 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var DimensionalBeing = (function (_Being) {
-  _inherits(DimensionalBeing, _Being);
+/**
+ * Body has width, height, position and information about how it put at the postion.
+ * @abstract
+ */
 
-  function DimensionalBeing() {
-    _classCallCheck(this, DimensionalBeing);
+var Body = function (_Being) {
+  _inherits(Body, _Being);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(DimensionalBeing).apply(this, arguments));
+  /**
+   * @param {jQuery} elem The element
+   */
+
+  function Body(elem) {
+    _classCallCheck(this, Body);
+
+    /**
+     * @property {Number} x sprite's x coordinate value
+     */
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Body).call(this, elem));
+
+    _this.x = 0;
+
+    /**
+     * @property {Number} y sprite's y coordinate value
+     */
+    _this.y = 0;
+
+    /**
+     * @property {Posture} posture The posture of the rectangle
+     */
+    _this.posture = new _posture2.default({
+      width: _this.width(),
+      height: _this.height(),
+      ratioX: _this.ratioX(),
+      ratioY: _this.ratioY(),
+      marginX: _this.marginX(),
+      marginY: _this.marginY()
+    });
+
+    _this.elem.css('position', 'absolute'); // Set `position: absolute`, this class doesn't work without this.
+
+    return _this;
   }
 
-  return DimensionalBeing;
-})(_being2.default);
+  /**
+   * Default parameters
+   */
 
-exports.default = DimensionalBeing;
-},{"./being":20}],22:[function(require,module,exports){
+
+  _createClass(Body, [{
+    key: 'width',
+    value: function width() {
+      return 100;
+    }
+  }, {
+    key: 'height',
+    value: function height() {
+      return 100;
+    }
+  }, {
+    key: 'ratioX',
+    value: function ratioX() {
+      return 0;
+    }
+  }, {
+    key: 'ratioY',
+    value: function ratioY() {
+      return 0;
+    }
+  }, {
+    key: 'marginX',
+    value: function marginX() {
+      return 0;
+    }
+  }, {
+    key: 'marginY',
+    value: function marginY() {
+      return 0;
+    }
+
+    /**
+     * Returns the actual width of the elem.
+     */
+
+  }, {
+    key: 'actualWidth',
+    value: function actualWidth() {
+
+      return this.posture.actualWidth();
+    }
+
+    /**
+     * Returns the actual height of the elem.
+     */
+
+  }, {
+    key: 'actualHeight',
+    value: function actualHeight() {
+
+      return this.posture.actualHeight();
+    }
+
+    /**
+     * Prepares dom of the body.
+     * @override
+     */
+
+  }, {
+    key: 'willShow',
+    value: function willShow() {
+
+      this.updateElem();
+    }
+
+    /**
+     * Gets the right limit in px.
+     * @return {Number} x value of the right limit
+     */
+
+  }, {
+    key: 'rightLimit',
+    value: function rightLimit() {
+
+      return this.posture.rightLimit(this.x);
+    }
+
+    /**
+     * Gets the left limit in px.
+     * @return {Number} x value of the left limit
+     */
+
+  }, {
+    key: 'leftLimit',
+    value: function leftLimit() {
+
+      return this.posture.leftLimit(this.x);
+    }
+
+    /**
+     * Gets the top limit in px.
+     */
+
+  }, {
+    key: 'topLimit',
+    value: function topLimit() {
+
+      return this.posture.topLimit(this.y);
+    }
+
+    /**
+     * Gets the bottom limit in px.
+     */
+
+  }, {
+    key: 'bottomLimit',
+    value: function bottomLimit() {
+
+      return this.posture.bottomLimit(this.y);
+    }
+
+    /**
+     * Gets the x of the center.
+     * @return {Number}
+     */
+
+  }, {
+    key: 'centerX',
+    value: function centerX() {
+
+      return this.posture.centerX(this.x);
+    }
+
+    /**
+     * Gets the y of the center.
+     * @return {Number}
+     */
+
+  }, {
+    key: 'centerY',
+    value: function centerY() {
+
+      return this.posture.centerY(this.y);
+    }
+
+    /**
+     * Updates the elem's offset according to current position.
+     * @private
+     */
+
+  }, {
+    key: 'updateOffset',
+    value: function updateOffset() {
+
+      this.elem.css('top', this.posture.topLimit(this.y));
+      this.elem.css('left', this.posture.leftLimit(this.x));
+    }
+
+    /**
+     * Updates the elem's width and height.
+     * @private
+     */
+
+  }, {
+    key: 'updateRect',
+    value: function updateRect() {
+
+      this.elem.width(this.posture.actualWidth());
+      this.elem.height(this.posture.actualHeight());
+    }
+
+    /**
+     * Updates the actual elem dom according to the current posture.
+     * Returns a promise which resolves with the transitionDuration milliseconds.
+     * @param {Number} [dur] The
+     * @return {Promise}
+     */
+
+  }, {
+    key: 'updateElem',
+    value: function updateElem(dur) {
+
+      if (dur) {
+
+        this.setTransitionDuration(dur);
+      }
+
+      this.updateRect();
+      this.updateOffset();
+
+      return (0, _wait2.default)(this.transitionDuration);
+    }
+
+    /**
+     * Moves the elem to the given y position.
+     * @param {Number} to The y position
+     */
+
+  }, {
+    key: 'moveToY',
+    value: function moveToY(to) {
+
+      this.y = to;
+
+      return this.updateElem();
+    }
+
+    /**
+     * Moves the elem to the given x position.
+     * @param {Number} to The x position
+     */
+
+  }, {
+    key: 'moveToX',
+    value: function moveToX(to) {
+
+      this.x = to;
+
+      return this.updateElem();
+    }
+
+    /**
+     * Sets the transition duration.
+     * @param {Number} dur The transition duration
+     */
+
+  }, {
+    key: 'setTransitionDuration',
+    value: function setTransitionDuration(dur) {
+
+      this.transitionDuration = dur;
+
+      this.elem.css('transition-duration', dur + 'ms');
+
+      (0, _reflow2.default)(this.elem);
+    }
+
+    /**
+     * Fits to the guiding rect (updates the x, y and posture to fit into the given rect. does not update the dom)
+     * @param {Rect} rect
+     */
+
+  }, {
+    key: 'setRect',
+    value: function setRect(rect) {
+
+      this.x = this.posture.getXInRect(rect);
+      this.y = this.posture.getYInRect(rect);
+
+      this.posture.fitToRect(rect);
+    }
+  }]);
+
+  return Body;
+}(_being2.default);
+
+exports.default = Body;
+},{"./being":38,"./posture":50,"./reflow":52,"./wait":55}],40:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -19249,7 +20187,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var CharSprite = (function (_Sprite) {
+var CharSprite = function (_Sprite) {
   _inherits(CharSprite, _Sprite);
 
   function CharSprite() {
@@ -19259,56 +20197,89 @@ var CharSprite = (function (_Sprite) {
   }
 
   return CharSprite;
-})(_sprite2.default);
+}(_sprite2.default);
 
 exports.default = CharSprite;
-},{"./sprite":34}],23:[function(require,module,exports){
+},{"./sprite":53}],41:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _rect = require('./rect');
-
-var _rect2 = _interopRequireDefault(_rect);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var DimensionFactory = (function (_Rect) {
-  _inherits(DimensionFactory, _Rect);
-
-  function DimensionFactory() {
-    _classCallCheck(this, DimensionFactory);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(DimensionFactory).apply(this, arguments));
-  }
-
-  return DimensionFactory;
-})(_rect2.default);
-
-exports.default = DimensionFactory;
-},{"./rect":32}],24:[function(require,module,exports){
-"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var DirStateImageMap = function DirStateImageMap() {
-  _classCallCheck(this, DirStateImageMap);
-};
+/**
+ * The model of the mapping from the direction and state to its corresponding image.
+ */
+
+var DirStateImageMap = function () {
+    function DirStateImageMap() {
+        _classCallCheck(this, DirStateImageMap);
+
+        this.imageMap = {};
+    }
+
+    /**
+    * @param {string} dir The direction
+    * @param {string} state The state
+    * @param {Image} image The image
+     */
+
+
+    _createClass(DirStateImageMap, [{
+        key: 'addImageByDirState',
+        value: function addImageByDirState(image, dir, state) {
+
+            this.imageMap[this.getMapKey(dir, state)] = image;
+        }
+
+        /**
+         * Gets the image by the dir and state.
+         *
+         * @param {string} dir The direction
+         * @param {string} state The state
+         * @return {Image}
+         */
+
+    }, {
+        key: 'get',
+        value: function get(dir, state) {
+
+            var image = this.imageMap[this.getMapKey(dir, state)];
+
+            if (!image) {
+
+                throw new Error('illegal (dir, state): (' + this.dir + ', ' + this.state + ')');
+            }
+
+            return image;
+        }
+
+        /**
+         * Returns the key string for the dir and state.
+         *
+         * @private
+         * @param {string} dir The direction
+         * @param {string} state The state
+         * @return {string}
+         */
+
+    }, {
+        key: 'getMapKey',
+        value: function getMapKey(dir, state) {
+
+            return dir + '/' + state;
+        }
+    }]);
+
+    return DirStateImageMap;
+}();
 
 exports.default = DirStateImageMap;
-},{}],25:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19320,11 +20291,13 @@ var LEFT = exports.LEFT = 1;
 var RIGHT = exports.RIGHT = 2;
 var BOTTOM = exports.BOTTOM = 3;
 var DOWN = exports.DOWN = 3;
-},{}],26:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _body = require('./body');
@@ -19339,34 +20312,533 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var GridWalker = (function (_Body) {
-  _inherits(GridWalker, _Body);
+/**
+ * A GridWalker is a Body which walks along the given Grid.
+ */
 
-  function GridWalker() {
-    _classCallCheck(this, GridWalker);
+var GridWalker = function (_Body) {
+    _inherits(GridWalker, _Body);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(GridWalker).apply(this, arguments));
-  }
+    _createClass(GridWalker, [{
+        key: 'ratioX',
 
-  return GridWalker;
-})(_body2.default);
+
+        /**
+         * @override
+         */
+        value: function ratioX() {
+            return 0.5;
+        }
+
+        /**
+         * @override
+         */
+
+    }, {
+        key: 'ratioY',
+        value: function ratioY() {
+            return 0.5;
+        }
+
+        /**
+         * The ratio of how much the grid walker occupies the given cell width.
+         *
+         * @return {number}
+         */
+
+    }, {
+        key: 'cellRatioX',
+        value: function cellRatioX() {
+            return 1;
+        }
+
+        /**
+         *  The ratio of how much the grid walker occupies the given cell height.
+         *
+         * @return {number}
+         */
+
+    }, {
+        key: 'cellRatioY',
+        value: function cellRatioY() {
+            return 1;
+        }
+    }]);
+
+    function GridWalker(elem) {
+        _classCallCheck(this, GridWalker);
+
+        /**
+         * @property {number} m The horizontal grid position
+         */
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(GridWalker).call(this, elem));
+
+        _this.m = 0;
+
+        /**
+         * @property {number} n The vertical grid position
+         */
+        _this.n = 0;
+
+        return _this;
+    }
+
+    /**
+     * @override
+     */
+
+
+    _createClass(GridWalker, [{
+        key: 'willShow',
+        value: function willShow() {
+
+            return this.fitToGrid();
+        }
+
+        /**
+         * Sets the grid and the position in it.
+         *
+         * @param {Grid} grid The grid layout info
+         * @param {Number} [m] The horizontal grid position
+         * @param {Number} [n] The vertical grid position
+         */
+
+    }, {
+        key: 'setGrid',
+        value: function setGrid(grid, m, n) {
+
+            this.grid = grid;
+
+            this.setGridPosition(m, n);
+        }
+
+        /**
+         * Sets the grid position.
+         *
+         * @param {Number} [m] The horizontal grid position
+         * @param {Number} [n] The vertical grid position
+         */
+
+    }, {
+        key: 'setGridPosition',
+        value: function setGridPosition(m, n) {
+
+            if (typeof m === 'number') {
+
+                this.m = m;
+            }
+
+            if (typeof n === 'number') {
+
+                this.n = n;
+            }
+        }
+
+        /**
+         * Updates the element's dom state using the current grid state info.
+         *
+         * @param {Number} [dur] The duration to change
+         * @return {Promise}
+         */
+
+    }, {
+        key: 'updateElemOnGrid',
+        value: function updateElemOnGrid(dur) {
+
+            this.x = this.grid.getX(this.m);
+            this.y = this.grid.getY(this.n);
+
+            return this.updateElem(dur);
+        }
+
+        /**
+         * Fits the posture into the (grid.cellWidth, grid.cellHeight) and moves to the current grid position.
+         *
+         * @param {Number} [dur] The duration to change
+         * @return {Promise}
+         */
+
+    }, {
+        key: 'fitToGrid',
+        value: function fitToGrid(dur) {
+
+            this.posture.fitInto(this.grid.cellWidth * this.cellRatioX(), this.grid.cellHeight * this.cellRatioY());
+
+            return this.updateElemOnGrid(dur);
+        }
+
+        /**
+         * Moves to the horizontal grid positon m.
+         *
+         * @param {Number} m The horizontal grid position
+         * @param {Number} [dur] The duration to change
+         * @return {Promise}
+         */
+
+    }, {
+        key: 'moveToM',
+        value: function moveToM(m, dur) {
+
+            this.x = this.grid.getX(this.m = m);
+
+            return this.updateElem(dur);
+        }
+
+        /**
+         * Moves to the vertical grid position n.
+         *
+         * @param {Number} n The vertical grid position
+         * @param {Number} [dur] The duration to change
+         * @return {Promise}
+         */
+
+    }, {
+        key: 'moveToN',
+        value: function moveToN(n, dur) {
+
+            this.y = this.grid.getY(this.n = n);
+
+            return this.updateElem(dur);
+        }
+
+        /**
+         * Moves to the given grid position.
+         *
+         * @param {Number} m The horizontal grid position
+         * @param {Number} n The vertical grid position
+         * @param {Number} [dur] The duration to change
+         * @return {Promise}
+         */
+
+    }, {
+        key: 'moveToGridPosition',
+        value: function moveToGridPosition(m, n, dur) {
+
+            this.setGridPosition(m, n);
+
+            return this.updateElemOnGrid(dur);
+        }
+
+        /**
+         * Moves along the grid.
+         *
+         * @param {Number} diffM The move distance along the horizontal line
+         * @param {Number} diffN The move distance along the vertical line
+         * @param {Number} [dur] The duration to change
+         * @return {Promise}
+         */
+
+    }, {
+        key: 'moveOnGrid',
+        value: function moveOnGrid(distM, distN, dur) {
+
+            return this.moveToGridPosition(this.m + distM, this.n + distN, dur);
+        }
+
+        /**
+         * Moves a unit upward along the grid.
+         *
+         * @param {Number} [dur] The duration to change
+         * @return {Promise}
+         */
+
+    }, {
+        key: 'moveUpOnGrid',
+        value: function moveUpOnGrid(dur) {
+
+            return this.moveOnGrid(0, -1, dur);
+        }
+
+        /**
+         * Moves a unit upward along the grid.
+         *
+         * @param {Number} [dur] The duration to change
+         * @return {Promise}
+         */
+
+    }, {
+        key: 'moveRightOnGrid',
+        value: function moveRightOnGrid(dur) {
+
+            return this.moveOnGrid(1, 0, dur);
+        }
+
+        /**
+         * Moves a unit upward along the grid.
+         *
+         * @param {Number} [dur] The duration to change
+         * @return {Promise}
+         */
+
+    }, {
+        key: 'moveDownOnGrid',
+        value: function moveDownOnGrid(dur) {
+
+            return this.moveOnGrid(0, 1, dur);
+        }
+
+        /**
+         * Moves a unit upward along the grid.
+         *
+         * @param {Number} [dur] The duration to change
+         * @return {Promise}
+         */
+
+    }, {
+        key: 'moveLeftOnGrid',
+        value: function moveLeftOnGrid(dur) {
+
+            return this.moveOnGrid(-1, 0, dur);
+        }
+    }]);
+
+    return GridWalker;
+}(_body2.default);
 
 exports.default = GridWalker;
-},{"./body":21}],27:[function(require,module,exports){
-"use strict";
+},{"./body":39}],44:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
+
+var _rect = require('./rect');
+
+var _rect2 = _interopRequireDefault(_rect);
+
+var _ifNumElse = require('./if-num-else');
+
+var _ifNumElse2 = _interopRequireDefault(_ifNumElse);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Grid = function Grid() {
-  _classCallCheck(this, Grid);
-};
+/**
+ * Grid model represents the grid layout.
+ *
+ * The unit of a grid means the rectangle from x_0 to x_1 and from y_0 to x_1
+ * The cell of a grid means the rectangle which is put on each grid point.
+ * The cell size is just a recommendation of the size of cell.
+ *
+ * Usually cell width and height are equal to or less then unit width and height respectively.
+ */
+
+var Grid = function () {
+
+    /**
+     * @param {Number} x The x coordinate
+     * @param {Number} y The y coordinate
+     * @param {Number} [unitWidth] The width of the unit
+     * @param {Number} [unitHeight] The height of the unit
+     * @param {Number} [cellWidth] The width of the cell
+     * @param {Number} [cellHeight] The height of the cell
+     */
+
+    function Grid(_ref) {
+        var x = _ref.x;
+        var y = _ref.y;
+        var unitWidth = _ref.unitWidth;
+        var unitHeight = _ref.unitHeight;
+        var cellWidth = _ref.cellWidth;
+        var cellHeight = _ref.cellHeight;
+
+        _classCallCheck(this, Grid);
+
+        this.x = x;
+        this.y = y;
+        this.unitWidth = (0, _ifNumElse2.default)(unitWidth, 0);
+        this.unitHeight = (0, _ifNumElse2.default)(unitHeight, 0);
+        this.cellWidth = (0, _ifNumElse2.default)(cellWidth, this.unitWidth);
+        this.cellHeight = (0, _ifNumElse2.default)(cellHeight, this.unitHeight);
+    }
+
+    /**
+     * Gets the x of the given grid m position.
+     *
+     * @param {Number} m The m position (Integer)
+     * @return {Number}
+     */
+
+
+    _createClass(Grid, [{
+        key: 'getX',
+        value: function getX(m) {
+
+            return this.x + this.unitWidth * m;
+        }
+
+        /**
+         * Gets the y of the given grid n position.
+         *
+         * @param {Number} n The n position (Integer)
+         * @return {Number}
+         */
+
+    }, {
+        key: 'getY',
+        value: function getY(n) {
+
+            return this.y + this.unitHeight * n;
+        }
+
+        /**
+         * Returns the translated grid by the given distances.
+         *
+         * @param {Number} x The horizontal translate distance
+         * @param {Number} y The vertical translate distance
+         * @return {Grid}
+         */
+
+    }, {
+        key: 'translate',
+        value: function translate(x, y) {
+
+            return this.override({
+                x: this.x + x,
+                y: this.y + y
+            });
+        }
+
+        /**
+         * Returns the shifted grid by the given grid numbers
+         *
+         * @param {Number} m The horizontal shift number
+         * @param {Number} n The vertical shift number
+         * @return {Grid}
+         */
+
+    }, {
+        key: 'shift',
+        value: function shift(m, n) {
+
+            return this.translate(this.unitWidth * m, this.unitHeight * n);
+        }
+
+        /**
+         * Scales the grid by the x axis.
+         *
+         * @param {Number} scale The scale
+         * @return {Grid}
+         */
+
+    }, {
+        key: 'scaleX',
+        value: function scaleX(scale) {
+
+            return this.override({
+                unitWidth: this.unitWidth * scale,
+                cellWidth: this.cellWidth * scale
+            });
+        }
+
+        /**
+         * Scales the grid by the y axis.
+         *
+         * @param {Number} scale The scale
+         * @return {Grid}
+         */
+
+    }, {
+        key: 'scaleY',
+        value: function scaleY(scale) {
+
+            return this.override({
+                unitHeight: this.unitHeight * scale,
+                cellHeight: this.cellHeight * scale
+            });
+        }
+    }, {
+        key: 'scaleCellX',
+        value: function scaleCellX(scale) {
+
+            return this.override({ cellWidth: this.cellWidth * scale });
+        }
+    }, {
+        key: 'scaleCellY',
+        value: function scaleCellY(scale) {
+
+            return this.override({ cellHeight: this.cellHeight * scale });
+        }
+
+        /**
+         * Overrides the given paramter by the given value and returns a new grid.
+         *
+         * @param {number} x The x
+         * @param {number} y The y
+         * @param {number} unitWidth The unitWidth
+         * @param {number} unitHeight The unitHeight
+         * @param {number} cellWidth The cellWidth
+         * @param {number} cellHeight The cellHeight
+         */
+
+    }, {
+        key: 'override',
+        value: function override(_ref2) {
+            var x = _ref2.x;
+            var y = _ref2.y;
+            var unitWidth = _ref2.unitWidth;
+            var unitHeight = _ref2.unitHeight;
+            var cellWidth = _ref2.cellWidth;
+            var cellHeight = _ref2.cellHeight;
+
+
+            return new Grid({
+                x: (0, _ifNumElse2.default)(x, this.x),
+                y: (0, _ifNumElse2.default)(y, this.y),
+                unitWidth: (0, _ifNumElse2.default)(unitWidth, this.unitWidth),
+                unitHeight: (0, _ifNumElse2.default)(unitHeight, this.unitHeight),
+                cellWidth: (0, _ifNumElse2.default)(cellWidth, this.cellWidth),
+                cellHeight: (0, _ifNumElse2.default)(cellHeight, this.cellHeight)
+            });
+        }
+
+        /**
+         * Returns a dual rect.
+         *
+         * @return {Rect}
+         */
+
+    }, {
+        key: 'toRect',
+        value: function toRect() {
+
+            var halfWidth = this.unitWidth / 2;
+            var halfHeight = this.unitHeight / 2;
+
+            return new _rect2.default({
+
+                top: this.y - halfHeight,
+                left: this.x - halfWidth,
+                right: this.x + halfWidth,
+                bottom: this.y + halfHeight
+
+            });
+        }
+
+        /**
+         * Returns a dual rect.
+         *
+         * @return {Rect}
+         */
+
+    }, {
+        key: 'dual',
+        value: function dual() {
+
+            return this.toRect();
+        }
+    }]);
+
+    return Grid;
+}();
 
 exports.default = Grid;
-},{}],28:[function(require,module,exports){
+},{"./if-num-else":45,"./rect":51}],45:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -19383,8 +20855,10 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = function (num, defaultValue) {
   return typeof num === 'number' ? num : defaultValue;
 };
-},{}],29:[function(require,module,exports){
-"use strict";
+},{}],46:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -19392,12 +20866,66 @@ Object.defineProperty(exports, "__esModule", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Image = function Image() {
-  _classCallCheck(this, Image);
-};
+/**
+ * The image object
+ */
+
+var Image = function () {
+
+  /**
+   * @constructor
+   * @param {string} src The url of the image
+   * @param {boolean} mirrorX If the image is mirrored by x-axis
+   * @param {boolean} mirrorY If the image is mirrored by y-axis
+   */
+
+  function Image(src, mirrorX, mirrorY) {
+    _classCallCheck(this, Image);
+
+    this.src = src;
+    this.mirrorX = mirrorX;
+    this.mirrorY = mirrorY;
+
+    this.scaleX = this.mirrorX ? -1 : 1;
+    this.scaleY = this.mirrorY ? -1 : 1;
+  }
+
+  /**
+   * Apply the image src and style to the element.
+   *
+   * @param {jQuery} elem The element to apply the image info (needs to be <img> jquery object)
+   */
+
+
+  _createClass(Image, [{
+    key: 'apply',
+    value: function apply(elem) {
+
+      elem.css('transform', this.makeTransform());
+
+      elem.attr('src', this.src);
+    }
+
+    /**
+     * Makes the transform style.
+     *
+     * @private
+     * @return {string}
+     */
+
+  }, {
+    key: 'makeTransform',
+    value: function makeTransform() {
+
+      return 'scale(' + this.scaleX + ', ' + this.scaleY + ')';
+    }
+  }]);
+
+  return Image;
+}();
 
 exports.default = Image;
-},{}],30:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -19429,9 +20957,9 @@ var _posture = require('./posture');
 
 var _posture2 = _interopRequireDefault(_posture);
 
-var _dimensionFactory = require('./dimension-factory');
+var _layoutFactory = require('./layout-factory');
 
-var _dimensionFactory2 = _interopRequireDefault(_dimensionFactory);
+var _layoutFactory2 = _interopRequireDefault(_layoutFactory);
 
 var _rect = require('./rect');
 
@@ -19483,7 +21011,7 @@ exports.ifNumElse = _ifNumElse2.default;
 exports.Being = _being2.default;
 exports.Body = _body2.default;
 exports.Posture = _posture2.default;
-exports.LayoutFactory = _dimensionFactory2.default;
+exports.LayoutFactory = _layoutFactory2.default;
 exports.Rect = _rect2.default;
 exports.Grid = _grid2.default;
 exports.GridWalker = _gridWalker2.default;
@@ -19494,10 +21022,230 @@ exports.Sprite = _sprite2.default;
 exports.CharSprite = _charSprite2.default;
 exports.StaticSprite = _staticSprite2.default;
 exports.DIRS = DIRS;
-},{"./animation":19,"./being":20,"./body":21,"./char-sprite":22,"./dimension-factory":23,"./dir-state-image-map":24,"./dirs":25,"./grid":27,"./grid-walker":26,"./if-num-else":28,"./image":29,"./posture":31,"./rect":32,"./reflow":33,"./sprite":34,"./static-sprite":35,"./wait":36}],31:[function(require,module,exports){
+},{"./animation":37,"./being":38,"./body":39,"./char-sprite":40,"./dir-state-image-map":41,"./dirs":42,"./grid":44,"./grid-walker":43,"./if-num-else":45,"./image":46,"./layout-factory":49,"./posture":50,"./rect":51,"./reflow":52,"./sprite":53,"./static-sprite":54,"./wait":55}],48:[function(require,module,exports){
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _rect = require('./rect');
+
+var _rect2 = _interopRequireDefault(_rect);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Interval model represents the interval on the line.
+ *
+ * Interval is immutable.
+ */
+
+var Interval = function () {
+
+    /**
+     * @param {number} high The high of the interval
+     * @param {number} low The low of the interval
+     */
+
+    function Interval(high, low) {
+        _classCallCheck(this, Interval);
+
+        if (high < low) {
+            var _ref = [low, high];
+            high = _ref[0];
+            low = _ref[1];
+        }
+
+        this.high = high;
+        this.low = low;
+    }
+
+    /**
+     * Returns the width of the interval.
+     *
+     * @return {number}
+     */
+
+
+    _createClass(Interval, [{
+        key: 'width',
+        value: function width() {
+
+            return this.high - this.low;
+        }
+
+        /**
+         * Returns the middle of the interval.
+         *
+         * @return {number}
+         */
+
+    }, {
+        key: 'middle',
+        value: function middle() {
+
+            return (this.high + this.low) / 2;
+        }
+
+        /**
+         * Returns a product (a rect) of the intervals.
+         *
+         * @param {Interval} interval
+         * @param {Rect}
+         */
+
+    }, {
+        key: 'by',
+        value: function by(interval) {
+
+            return _rect2.default.ofIntervals(this, interval);
+        }
+
+        /**
+         * @param {number} width
+         * @return {Interval}
+         */
+
+    }, {
+        key: 'cutHigh',
+        value: function cutHigh(width) {
+
+            return new Interval(this.high, this.high - width);
+        }
+
+        /**
+         * @param {number} width
+         * @return {Interval}
+         */
+
+    }, {
+        key: 'cutLow',
+        value: function cutLow(width) {
+
+            return new Interval(this.low + width, this.low);
+        }
+
+        /**
+         * Returns an interval which is shifted the given amount.
+         *
+         * @param {number} shift The amount of shift, n means shift higher position by its size * n
+         * @return {Interval}
+         */
+
+    }, {
+        key: 'shift',
+        value: function shift(n) {
+
+            var shiftWidth = this.width() * n;
+
+            return new Interval(this.high + shiftWidth, this.low + shiftWidth);
+        }
+
+        /**
+         * @param {number} highMargin
+         * @param {number} lowMargin
+         * @return {Interval}
+         */
+
+    }, {
+        key: 'margin',
+        value: function margin(highMargin, lowMargin) {
+
+            return new Interval(this.high - highMargin, this.low + lowMargin);
+        }
+
+        /**
+         * @param {number} size The size of the interval
+         * @return {Interval}
+         */
+
+    }], [{
+        key: 'ofSize',
+        value: function ofSize(size) {
+
+            return new Interval(size, 0);
+        }
+    }]);
+
+    return Interval;
+}();
+
+exports.default = Interval;
+},{"./rect":51}],49:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _rect = require('./rect');
+
+var _rect2 = _interopRequireDefault(_rect);
+
+var _grid = require('./grid');
+
+var _grid2 = _interopRequireDefault(_grid);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * The abstact class for dimension factories of various objects in scenes.
+ *
+ * @abstract
+ */
+
+var LayoutFactory = function () {
+  function LayoutFactory() {
+    _classCallCheck(this, LayoutFactory);
+  }
+
+  _createClass(LayoutFactory, [{
+    key: 'grid',
+
+
+    /**
+     * Creates a grid with the given options.
+     *
+     * @param {Object} options The options
+     * @return {Grid}
+     */
+    value: function grid(options) {
+
+      return new _grid2.default(options);
+    }
+
+    /**
+     * Creates a rect with the given options.
+     *
+     * @param {Object} options The options
+     * @return {Rect}
+     */
+
+  }, {
+    key: 'rect',
+    value: function rect(options) {
+
+      return new _rect2.default(options);
+    }
+  }]);
+
+  return LayoutFactory;
+}();
+
+exports.default = LayoutFactory;
+},{"./grid":44,"./rect":51}],50:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -19506,6 +21254,10 @@ Object.defineProperty(exports, "__esModule", {
 var _ifNumElse = require('./if-num-else');
 
 var _ifNumElse2 = _interopRequireDefault(_ifNumElse);
+
+var _rect = require('./rect');
+
+var _rect2 = _interopRequireDefault(_rect);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19517,7 +21269,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * @class
  */
 
-var Posture = (function () {
+var Posture = function () {
 
     /**
      * @param {Number} [width=100] The width
@@ -19568,6 +21320,7 @@ var Posture = (function () {
      *
      * @return {Number}
      */
+
 
     _createClass(Posture, [{
         key: 'actualHeight',
@@ -19726,39 +21479,45 @@ var Posture = (function () {
         }
 
         /**
-         * Returns an posture of the similar rectangle which is the inner tangent of the rectangle of the given width and height.
+         * Gets the horizontal position when it is placed in the given rect.
          *
-         * @param {Number} width The width of the target outer rectangle
-         * @param {Number} height The height of the target outer rectangle
-         * @return {Posture}
+         * @param {Rect} rect
+         * @return {number}
          */
 
     }, {
-        key: 'similarInnerTangent',
-        value: function similarInnerTangent(width, height) {
+        key: 'getXInRect',
+        value: function getXInRect(rect) {
 
-            if (width / height > this.width / this.height) {
+            return rect.left + rect.width() * this.ratioX;
+        }
 
-                width = height * this.width / this.height;
-            } else {
+        /**
+         * Gets the vertical position when it is placed in the given rect.
+         *
+         * @param {Rect} rect
+         * @return {number}
+         */
 
-                height = width * this.height / this.width;
-            }
+    }, {
+        key: 'getYInRect',
+        value: function getYInRect(rect) {
 
-            return new Posture({
+            return rect.top + rect.height() * this.ratioY;
+        }
 
-                width: width,
-                height: height,
-                ratioX: this.ratioX,
-                ratioY: this.ratioY,
-                marginX: this.marginX,
-                marginY: this.marginY,
-                marginTop: this.marginTop,
-                marginRight: this.marginRight,
-                marginBottom: this.marginBottom,
-                marginLeft: this.marginLeft
+        /**
+         * Fits the size to the size of the given rect.
+         *
+         * @param {Rect} rect
+         */
 
-            });
+    }, {
+        key: 'fitToRect',
+        value: function fitToRect(rect) {
+
+            this.width = rect.width();
+            this.height = rect.height();
         }
 
         /**
@@ -19772,32 +21531,549 @@ var Posture = (function () {
         key: 'fitInto',
         value: function fitInto(width, height) {
 
-            var innerTangent = this.similarInnerTangent(width, height);
+            var tangent = new _rect2.default({
+                top: 0,
+                left: 0,
+                right: this.width,
+                bottom: this.height
+            }).similarInnerTangent(new _rect2.default({
+                top: 0,
+                left: 0,
+                right: width,
+                bottom: height
+            }));
 
-            this.width = innerTangent.width;
-            this.height = innerTangent.height;
+            this.width = tangent.width();
+            this.height = tangent.height();
         }
     }]);
 
     return Posture;
-})();
+}();
 
 exports.default = Posture;
-},{"./if-num-else":28}],32:[function(require,module,exports){
-"use strict";
+},{"./if-num-else":45,"./rect":51}],51:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
+
+var _grid = require('./grid');
+
+var _grid2 = _interopRequireDefault(_grid);
+
+var _ifNumElse = require('./if-num-else');
+
+var _ifNumElse2 = _interopRequireDefault(_ifNumElse);
+
+var _interval = require('./interval');
+
+var _interval2 = _interopRequireDefault(_interval);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Rect = function Rect() {
-  _classCallCheck(this, Rect);
-};
+/**
+ * Rect model represents the static rectangle in a screen.
+ *
+ * Rect is immutable.
+ */
+
+var Rect = function () {
+
+    /**
+     * @param {number} top The top position
+     * @param {number} right The right position
+     * @param {number} bottom The bottom position
+     * @param {number} left The left position
+     */
+
+    function Rect(_ref) {
+        var top = _ref.top;
+        var right = _ref.right;
+        var bottom = _ref.bottom;
+        var left = _ref.left;
+
+        _classCallCheck(this, Rect);
+
+        this.horizontal = new _interval2.default(right, left);
+        this.vertical = new _interval2.default(bottom, top);
+    }
+
+    /**
+     * Gets the top position.
+     * @return {number}
+     */
+
+
+    _createClass(Rect, [{
+        key: 'width',
+
+
+        /**
+         * Gets the width.
+         *
+         * @return {number}
+         */
+        value: function width() {
+
+            return this.horizontal.width();
+        }
+
+        /**
+         * Gets the height.
+         *
+         * @return {number}
+         */
+
+    }, {
+        key: 'height',
+        value: function height() {
+
+            return this.vertical.width();
+        }
+
+        /**
+         * Gets the horizontal center.
+         *
+         * @return {number}
+         */
+
+    }, {
+        key: 'centerX',
+        value: function centerX() {
+
+            return this.horizontal.middle();
+        }
+
+        /**
+         * Gets the vertical center.
+         *
+         * @return {number}
+         */
+
+    }, {
+        key: 'centerY',
+        value: function centerY() {
+
+            return this.vertical.middle();
+        }
+
+        /**
+         * Returns a new rect which scales the top side
+         *
+         * @param {number} scale The scale rate
+         * @return {Rect}
+         */
+
+    }, {
+        key: 'scaleTop',
+        value: function scaleTop(scale) {
+
+            return this.cutBottom(this.height() * scale);
+        }
+
+        /**
+         * Returns a new rect which scales the left side
+         *
+         * @param {number} scale The scale rate
+         * @return {Rect}
+         */
+
+    }, {
+        key: 'scaleLeft',
+        value: function scaleLeft(scale) {
+
+            return this.cutRight(this.width() * scale);
+        }
+
+        /**
+         * Returns a new rect which scales the right side
+         *
+         * @param {number} scale The scale rate
+         * @return {Rect}
+         */
+
+    }, {
+        key: 'scaleRight',
+        value: function scaleRight(scale) {
+
+            return this.cutLeft(this.width() * scale);
+        }
+
+        /**
+         * Returns a new rect which scales the bottom side
+         *
+         * @param {number} scale The scale rate
+         * @return {Rect}
+         */
+
+    }, {
+        key: 'scaleBottom',
+        value: function scaleBottom(scale) {
+
+            return this.cutTop(this.height() * scale);
+        }
+
+        /**
+         * Shifts up by the given number of units.
+         *
+         * @param {number} n The number to shift
+         * @return {Rect}
+         */
+
+    }, {
+        key: 'shiftUp',
+        value: function shiftUp() {
+            var n = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
+
+
+            return this.horizontal.by(this.vertical.shift(-n));
+        }
+
+        /**
+         * Shifts left by the given number of units.
+         *
+         * @param {number} n The number to shift
+         * @return {Rect}
+         */
+
+    }, {
+        key: 'shiftLeft',
+        value: function shiftLeft() {
+            var n = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
+
+
+            return this.horizontal.shift(-n).by(this.vertical);
+        }
+
+        /**
+         * Shifts right by the given number of units.
+         *
+         * @param {number} n The number to shift
+         * @return {Rect}
+         */
+
+    }, {
+        key: 'shiftRight',
+        value: function shiftRight() {
+            var n = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
+
+
+            return this.horizontal.shift(n).by(this.vertical);
+        }
+
+        /**
+         * Shifts down by the given number of units.
+         *
+         * @param {number} n The number to shift
+         * @return {Rect}
+         */
+
+    }, {
+        key: 'shiftDown',
+        value: function shiftDown() {
+            var n = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
+
+
+            return this.horizontal.by(this.vertical.shift(n));
+        }
+
+        /**
+         * Cuts out the given height from the top.
+         *
+         * @param {number} [height=0] The height
+         * @return {Rect}
+         */
+
+    }, {
+        key: 'cutTop',
+        value: function cutTop(height) {
+
+            return this.horizontal.by(this.vertical.cutLow(height));
+        }
+
+        /**
+         * Cuts out the given height from the left.
+         *
+         * @param {number} [width=0] The width
+         * @return {Rect}
+         */
+
+    }, {
+        key: 'cutLeft',
+        value: function cutLeft(width) {
+
+            return this.horizontal.cutLow(width).by(this.vertical);
+        }
+
+        /**
+         * Cuts out the given height from the right.
+         *
+         * @param {number} [width=0] The width
+         * @return {Rect}
+         */
+
+    }, {
+        key: 'cutRight',
+        value: function cutRight(width) {
+
+            return this.horizontal.cutHigh(width).by(this.vertical);
+        }
+
+        /**
+         * Cuts out the given height from the bottom.
+         *
+         * @param {number} [height=0] The height
+         * @return {Rect}
+         */
+
+    }, {
+        key: 'cutBottom',
+        value: function cutBottom(height) {
+
+            return this.horizontal.by(this.vertical.cutHigh(height));
+        }
+
+        /**
+         * Return the next rect which shares the top side of the given height
+         *
+         * @param {number} height The height
+         * @return {Rect}
+         */
+
+    }, {
+        key: 'extCutTop',
+        value: function extCutTop(height) {
+
+            return this.shiftUp().cutBottom(height);
+        }
+
+        /**
+         * Return the next rect which shares the left side of the given width
+         *
+         * @param {number} width The width
+         * @return {Rect}
+         */
+
+    }, {
+        key: 'extCutLeft',
+        value: function extCutLeft(width) {
+
+            return this.shiftLeft().cutRight(width);
+        }
+
+        /**
+         * Return the next rect which shares the right side of the given width
+         *
+         * @param {number} width The width
+         * @return {Rect}
+         */
+
+    }, {
+        key: 'extCutRight',
+        value: function extCutRight(width) {
+
+            return this.shiftRight().cutLeft(width);
+        }
+
+        /**
+         * Return the next rect which shares the bottom side of the given height
+         *
+         * @param {number} height The height
+         * @return {Rect}
+         */
+
+    }, {
+        key: 'extCutBottom',
+        value: function extCutBottom(height) {
+
+            return this.shiftDown().cutTop(height);
+        }
+
+        /**
+         * Returns a dual grid
+         *
+         * @return {Grid}
+         */
+
+    }, {
+        key: 'toGrid',
+        value: function toGrid() {
+
+            return new _grid2.default({
+                x: this.centerX(),
+                y: this.centerY(),
+                unitWidth: this.width(),
+                unitHeight: this.height()
+            });
+        }
+
+        /**
+         * Returns the similar rect which is an inner tangent of (and at the center of) the given rect.
+         *
+         * @param {Rect} rect The target rect
+         * @return {Rect}
+         */
+
+    }, {
+        key: 'similarInnerTangent',
+        value: function similarInnerTangent(rect) {
+
+            var horizontal = rect.horizontal;
+            var vertical = rect.vertical;
+
+            if (rect.width() / rect.height() > this.width() / this.height()) {
+
+                var horizontalMargin = (rect.width() - this.width() * rect.height() / this.height()) / 2;
+                horizontal = horizontal.margin(horizontalMargin, horizontalMargin);
+            } else {
+
+                var verticalMargin = (rect.height() - this.height() * rect.width() / this.width()) / 2;
+                vertical = vertical.margin(verticalMargin, verticalMargin);
+            }
+
+            return horizontal.by(vertical);
+        }
+
+        /**
+         * Excludes the margin of the given sides.
+         *
+         * @param {number} top The top margin
+         * @param {number} left The left margin
+         * @param {number} right The right margin
+         * @param {number} bottom The bottom margin
+         */
+
+    }, {
+        key: 'margin',
+        value: function margin(_ref2) {
+            var top = _ref2.top;
+            var left = _ref2.left;
+            var right = _ref2.right;
+            var bottom = _ref2.bottom;
+
+
+            return this.horizontal.margin((0, _ifNumElse2.default)(right, 0), (0, _ifNumElse2.default)(left, 0)).by(this.vertical.margin((0, _ifNumElse2.default)(bottom, 0), (0, _ifNumElse2.default)(top, 0)));
+        }
+
+        /**
+         * Retruns the rect of the size of the current window.
+         *
+         * @return {Rect}
+         */
+
+    }, {
+        key: 'getBestRect',
+
+
+        /**
+         * Gets the best (biggest) available rect inside this rect of the given horizontal and vertical ratio.
+         *
+         * @param {number} horizontal The horizontal ratio
+         * @param {number} vertical The vertical ratio
+         * @return {Rect}
+         */
+        value: function getBestRect(_ref3) {
+            var horizontal = _ref3.horizontal;
+            var vertical = _ref3.vertical;
+
+
+            return Rect.ofSize(horizontal, vertical).similarInnerTangent(this);
+        }
+
+        /**
+         * Creates the rect of the give size.
+         *
+         * @param {number} width The width
+         * @param {number} height The height
+         */
+
+    }, {
+        key: 'dual',
+
+
+        /**
+         * Returns a dual grid
+         *
+         * @return {Grid}
+         */
+        value: function dual() {
+
+            return this.toGrid();
+        }
+    }, {
+        key: 'top',
+        get: function get() {
+            return this.vertical.low;
+        }
+
+        /**
+         * Gets the bottom position.
+         * @return {number}
+         */
+
+    }, {
+        key: 'bottom',
+        get: function get() {
+            return this.vertical.high;
+        }
+
+        /**
+         * Gets the left position.
+         * @return {number}
+         */
+
+    }, {
+        key: 'left',
+        get: function get() {
+            return this.horizontal.low;
+        }
+
+        /**
+         * Gets the right position.
+         * @return {number}
+         */
+
+    }, {
+        key: 'right',
+        get: function get() {
+            return this.horizontal.high;
+        }
+    }], [{
+        key: 'ofIntervals',
+        value: function ofIntervals(horizontal, vertical) {
+
+            return new Rect({
+                top: vertical.low,
+                bottom: vertical.high,
+                left: horizontal.low,
+                right: horizontal.high
+            });
+        }
+    }, {
+        key: 'windowAsRect',
+        value: function windowAsRect() {
+
+            return Rect.ofSize($(window).width(), $(window).height());
+        }
+    }, {
+        key: 'ofSize',
+        value: function ofSize(width, height) {
+
+            return _interval2.default.ofSize(width).by(_interval2.default.ofSize(height));
+        }
+    }]);
+
+    return Rect;
+}();
 
 exports.default = Rect;
-},{}],33:[function(require,module,exports){
+},{"./grid":44,"./if-num-else":45,"./interval":48}],52:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19817,7 +22093,7 @@ function reflow(elem) {
 
   return elem;
 }
-},{}],34:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -19836,7 +22112,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Sprite = (function (_GridWalker) {
+var Sprite = function (_GridWalker) {
   _inherits(Sprite, _GridWalker);
 
   function Sprite() {
@@ -19846,10 +22122,10 @@ var Sprite = (function (_GridWalker) {
   }
 
   return Sprite;
-})(_gridWalker2.default);
+}(_gridWalker2.default);
 
 exports.default = Sprite;
-},{"./grid-walker":26}],35:[function(require,module,exports){
+},{"./grid-walker":43}],54:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -19868,7 +22144,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var StaticSprite = (function (_Sprite) {
+var StaticSprite = function (_Sprite) {
   _inherits(StaticSprite, _Sprite);
 
   function StaticSprite() {
@@ -19878,10 +22154,10 @@ var StaticSprite = (function (_Sprite) {
   }
 
   return StaticSprite;
-})(_sprite2.default);
+}(_sprite2.default);
 
 exports.default = StaticSprite;
-},{"./sprite":34}],36:[function(require,module,exports){
+},{"./sprite":53}],55:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -19903,7 +22179,7 @@ function wait(n, result) {
     }, n);
   });
 }
-},{}],37:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 /**
  * subclassjs v1.3.0
  */
@@ -19994,12 +22270,2330 @@ function wait(n, result) {
 
 }());
 
-},{}],38:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
+/*! tether-drop 1.4.1 */
+
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define(["tether"], factory);
+  } else if (typeof exports === 'object') {
+    module.exports = factory(require('tether'));
+  } else {
+    root.Drop = factory(root.Tether);
+  }
+}(this, function(Tether) {
+
+/* global Tether */
+'use strict';
+
+var _bind = Function.prototype.bind;
+
+var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x2, _x3, _x4) { var _again = true; _function: while (_again) { var object = _x2, property = _x3, receiver = _x4; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x2 = parent; _x3 = property; _x4 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _Tether$Utils = Tether.Utils;
+var extend = _Tether$Utils.extend;
+var addClass = _Tether$Utils.addClass;
+var removeClass = _Tether$Utils.removeClass;
+var hasClass = _Tether$Utils.hasClass;
+var Evented = _Tether$Utils.Evented;
+
+function sortAttach(str) {
+  var _str$split = str.split(' ');
+
+  var _str$split2 = _slicedToArray(_str$split, 2);
+
+  var first = _str$split2[0];
+  var second = _str$split2[1];
+
+  if (['left', 'right'].indexOf(first) >= 0) {
+    var _ref = [second, first];
+    first = _ref[0];
+    second = _ref[1];
+  }
+  return [first, second].join(' ');
+}
+
+function removeFromArray(arr, item) {
+  var index = undefined;
+  var results = [];
+  while ((index = arr.indexOf(item)) !== -1) {
+    results.push(arr.splice(index, 1));
+  }
+  return results;
+}
+
+var clickEvents = ['click'];
+if ('ontouchstart' in document.documentElement) {
+  clickEvents.push('touchstart');
+}
+
+var transitionEndEvents = {
+  'WebkitTransition': 'webkitTransitionEnd',
+  'MozTransition': 'transitionend',
+  'OTransition': 'otransitionend',
+  'transition': 'transitionend'
+};
+
+var transitionEndEvent = '';
+for (var _name in transitionEndEvents) {
+  if (({}).hasOwnProperty.call(transitionEndEvents, _name)) {
+    var tempEl = document.createElement('p');
+    if (typeof tempEl.style[_name] !== 'undefined') {
+      transitionEndEvent = transitionEndEvents[_name];
+    }
+  }
+}
+
+var MIRROR_ATTACH = {
+  left: 'right',
+  right: 'left',
+  top: 'bottom',
+  bottom: 'top',
+  middle: 'middle',
+  center: 'center'
+};
+
+var allDrops = {};
+
+// Drop can be included in external libraries.  Calling createContext gives you a fresh
+// copy of drop which won't interact with other copies on the page (beyond calling the document events).
+
+function createContext() {
+  var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+  var drop = function drop() {
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return new (_bind.apply(DropInstance, [null].concat(args)))();
+  };
+
+  extend(drop, {
+    createContext: createContext,
+    drops: [],
+    defaults: {}
+  });
+
+  var defaultOptions = {
+    classPrefix: 'drop',
+    defaults: {
+      position: 'bottom left',
+      openOn: 'click',
+      beforeClose: null,
+      constrainToScrollParent: true,
+      constrainToWindow: true,
+      classes: '',
+      remove: false,
+      openDelay: 0,
+      closeDelay: 50,
+      // inherited from openDelay and closeDelay if not explicitly defined
+      focusDelay: null,
+      blurDelay: null,
+      hoverOpenDelay: null,
+      hoverCloseDelay: null,
+      tetherOptions: {}
+    }
+  };
+
+  extend(drop, defaultOptions, options);
+  extend(drop.defaults, defaultOptions.defaults, options.defaults);
+
+  if (typeof allDrops[drop.classPrefix] === 'undefined') {
+    allDrops[drop.classPrefix] = [];
+  }
+
+  drop.updateBodyClasses = function () {
+    // There is only one body, so despite the context concept, we still iterate through all
+    // drops which share our classPrefix.
+
+    var anyOpen = false;
+    var drops = allDrops[drop.classPrefix];
+    var len = drops.length;
+    for (var i = 0; i < len; ++i) {
+      if (drops[i].isOpened()) {
+        anyOpen = true;
+        break;
+      }
+    }
+
+    if (anyOpen) {
+      addClass(document.body, drop.classPrefix + '-open');
+    } else {
+      removeClass(document.body, drop.classPrefix + '-open');
+    }
+  };
+
+  var DropInstance = (function (_Evented) {
+    _inherits(DropInstance, _Evented);
+
+    function DropInstance(opts) {
+      _classCallCheck(this, DropInstance);
+
+      _get(Object.getPrototypeOf(DropInstance.prototype), 'constructor', this).call(this);
+      this.options = extend({}, drop.defaults, opts);
+      this.target = this.options.target;
+
+      if (typeof this.target === 'undefined') {
+        throw new Error('Drop Error: You must provide a target.');
+      }
+
+      var dataPrefix = 'data-' + drop.classPrefix;
+
+      var contentAttr = this.target.getAttribute(dataPrefix);
+      if (contentAttr && this.options.content == null) {
+        this.options.content = contentAttr;
+      }
+
+      var attrsOverride = ['position', 'openOn'];
+      for (var i = 0; i < attrsOverride.length; ++i) {
+
+        var override = this.target.getAttribute(dataPrefix + '-' + attrsOverride[i]);
+        if (override && this.options[attrsOverride[i]] == null) {
+          this.options[attrsOverride[i]] = override;
+        }
+      }
+
+      if (this.options.classes && this.options.addTargetClasses !== false) {
+        addClass(this.target, this.options.classes);
+      }
+
+      drop.drops.push(this);
+      allDrops[drop.classPrefix].push(this);
+
+      this._boundEvents = [];
+      this.bindMethods();
+      this.setupElements();
+      this.setupEvents();
+      this.setupTether();
+    }
+
+    _createClass(DropInstance, [{
+      key: '_on',
+      value: function _on(element, event, handler) {
+        this._boundEvents.push({ element: element, event: event, handler: handler });
+        element.addEventListener(event, handler);
+      }
+    }, {
+      key: 'bindMethods',
+      value: function bindMethods() {
+        this.transitionEndHandler = this._transitionEndHandler.bind(this);
+      }
+    }, {
+      key: 'setupElements',
+      value: function setupElements() {
+        var _this = this;
+
+        this.drop = document.createElement('div');
+        addClass(this.drop, drop.classPrefix);
+
+        if (this.options.classes) {
+          addClass(this.drop, this.options.classes);
+        }
+
+        this.content = document.createElement('div');
+        addClass(this.content, drop.classPrefix + '-content');
+
+        if (typeof this.options.content === 'function') {
+          var generateAndSetContent = function generateAndSetContent() {
+            // content function might return a string or an element
+            var contentElementOrHTML = _this.options.content.call(_this, _this);
+
+            if (typeof contentElementOrHTML === 'string') {
+              _this.content.innerHTML = contentElementOrHTML;
+            } else if (typeof contentElementOrHTML === 'object') {
+              _this.content.innerHTML = '';
+              _this.content.appendChild(contentElementOrHTML);
+            } else {
+              throw new Error('Drop Error: Content function should return a string or HTMLElement.');
+            }
+          };
+
+          generateAndSetContent();
+          this.on('open', generateAndSetContent.bind(this));
+        } else if (typeof this.options.content === 'object') {
+          this.content.appendChild(this.options.content);
+        } else {
+          this.content.innerHTML = this.options.content;
+        }
+
+        this.drop.appendChild(this.content);
+      }
+    }, {
+      key: 'setupTether',
+      value: function setupTether() {
+        // Tether expects two attachment points, one in the target element, one in the
+        // drop.  We use a single one, and use the order as well, to allow us to put
+        // the drop on either side of any of the four corners.  This magic converts between
+        // the two:
+        var dropAttach = this.options.position.split(' ');
+        dropAttach[0] = MIRROR_ATTACH[dropAttach[0]];
+        dropAttach = dropAttach.join(' ');
+
+        var constraints = [];
+        if (this.options.constrainToScrollParent) {
+          constraints.push({
+            to: 'scrollParent',
+            pin: 'top, bottom',
+            attachment: 'together none'
+          });
+        } else {
+          // To get 'out of bounds' classes
+          constraints.push({
+            to: 'scrollParent'
+          });
+        }
+
+        if (this.options.constrainToWindow !== false) {
+          constraints.push({
+            to: 'window',
+            attachment: 'together'
+          });
+        } else {
+          // To get 'out of bounds' classes
+          constraints.push({
+            to: 'window'
+          });
+        }
+
+        var opts = {
+          element: this.drop,
+          target: this.target,
+          attachment: sortAttach(dropAttach),
+          targetAttachment: sortAttach(this.options.position),
+          classPrefix: drop.classPrefix,
+          offset: '0 0',
+          targetOffset: '0 0',
+          enabled: false,
+          constraints: constraints,
+          addTargetClasses: this.options.addTargetClasses
+        };
+
+        if (this.options.tetherOptions !== false) {
+          this.tether = new Tether(extend({}, opts, this.options.tetherOptions));
+        }
+      }
+    }, {
+      key: 'setupEvents',
+      value: function setupEvents() {
+        var _this2 = this;
+
+        if (!this.options.openOn) {
+          return;
+        }
+
+        if (this.options.openOn === 'always') {
+          setTimeout(this.open.bind(this));
+          return;
+        }
+
+        var events = this.options.openOn.split(' ');
+
+        if (events.indexOf('click') >= 0) {
+          var openHandler = function openHandler(event) {
+            _this2.toggle(event);
+            event.preventDefault();
+          };
+
+          var closeHandler = function closeHandler(event) {
+            if (!_this2.isOpened()) {
+              return;
+            }
+
+            // Clicking inside dropdown
+            if (event.target === _this2.drop || _this2.drop.contains(event.target)) {
+              return;
+            }
+
+            // Clicking target
+            if (event.target === _this2.target || _this2.target.contains(event.target)) {
+              return;
+            }
+
+            _this2.close(event);
+          };
+
+          for (var i = 0; i < clickEvents.length; ++i) {
+            var clickEvent = clickEvents[i];
+            this._on(this.target, clickEvent, openHandler);
+            this._on(document, clickEvent, closeHandler);
+          }
+        }
+
+        var inTimeout = null;
+        var outTimeout = null;
+
+        var inHandler = function inHandler(event) {
+          if (outTimeout !== null) {
+            clearTimeout(outTimeout);
+          } else {
+            inTimeout = setTimeout(function () {
+              _this2.open(event);
+              inTimeout = null;
+            }, (event.type === 'focus' ? _this2.options.focusDelay : _this2.options.hoverOpenDelay) || _this2.options.openDelay);
+          }
+        };
+
+        var outHandler = function outHandler(event) {
+          if (inTimeout !== null) {
+            clearTimeout(inTimeout);
+          } else {
+            outTimeout = setTimeout(function () {
+              _this2.close(event);
+              outTimeout = null;
+            }, (event.type === 'blur' ? _this2.options.blurDelay : _this2.options.hoverCloseDelay) || _this2.options.closeDelay);
+          }
+        };
+
+        if (events.indexOf('hover') >= 0) {
+          this._on(this.target, 'mouseover', inHandler);
+          this._on(this.drop, 'mouseover', inHandler);
+          this._on(this.target, 'mouseout', outHandler);
+          this._on(this.drop, 'mouseout', outHandler);
+        }
+
+        if (events.indexOf('focus') >= 0) {
+          this._on(this.target, 'focus', inHandler);
+          this._on(this.drop, 'focus', inHandler);
+          this._on(this.target, 'blur', outHandler);
+          this._on(this.drop, 'blur', outHandler);
+        }
+      }
+    }, {
+      key: 'isOpened',
+      value: function isOpened() {
+        if (this.drop) {
+          return hasClass(this.drop, drop.classPrefix + '-open');
+        }
+      }
+    }, {
+      key: 'toggle',
+      value: function toggle(event) {
+        if (this.isOpened()) {
+          this.close(event);
+        } else {
+          this.open(event);
+        }
+      }
+    }, {
+      key: 'open',
+      value: function open(event) {
+        var _this3 = this;
+
+        /* eslint no-unused-vars: 0 */
+        if (this.isOpened()) {
+          return;
+        }
+
+        if (!this.drop.parentNode) {
+          document.body.appendChild(this.drop);
+        }
+
+        if (typeof this.tether !== 'undefined') {
+          this.tether.enable();
+        }
+
+        addClass(this.drop, drop.classPrefix + '-open');
+        addClass(this.drop, drop.classPrefix + '-open-transitionend');
+
+        setTimeout(function () {
+          if (_this3.drop) {
+            addClass(_this3.drop, drop.classPrefix + '-after-open');
+          }
+        });
+
+        if (typeof this.tether !== 'undefined') {
+          this.tether.position();
+        }
+
+        this.trigger('open');
+
+        drop.updateBodyClasses();
+      }
+    }, {
+      key: '_transitionEndHandler',
+      value: function _transitionEndHandler(e) {
+        if (e.target !== e.currentTarget) {
+          return;
+        }
+
+        if (!hasClass(this.drop, drop.classPrefix + '-open')) {
+          removeClass(this.drop, drop.classPrefix + '-open-transitionend');
+        }
+        this.drop.removeEventListener(transitionEndEvent, this.transitionEndHandler);
+      }
+    }, {
+      key: 'beforeCloseHandler',
+      value: function beforeCloseHandler(event) {
+        var shouldClose = true;
+
+        if (!this.isClosing && typeof this.options.beforeClose === 'function') {
+          this.isClosing = true;
+          shouldClose = this.options.beforeClose(event, this) !== false;
+        }
+
+        this.isClosing = false;
+
+        return shouldClose;
+      }
+    }, {
+      key: 'close',
+      value: function close(event) {
+        if (!this.isOpened()) {
+          return;
+        }
+
+        if (!this.beforeCloseHandler(event)) {
+          return;
+        }
+
+        removeClass(this.drop, drop.classPrefix + '-open');
+        removeClass(this.drop, drop.classPrefix + '-after-open');
+
+        this.drop.addEventListener(transitionEndEvent, this.transitionEndHandler);
+
+        this.trigger('close');
+
+        if (typeof this.tether !== 'undefined') {
+          this.tether.disable();
+        }
+
+        drop.updateBodyClasses();
+
+        if (this.options.remove) {
+          this.remove(event);
+        }
+      }
+    }, {
+      key: 'remove',
+      value: function remove(event) {
+        this.close(event);
+        if (this.drop.parentNode) {
+          this.drop.parentNode.removeChild(this.drop);
+        }
+      }
+    }, {
+      key: 'position',
+      value: function position() {
+        if (this.isOpened() && typeof this.tether !== 'undefined') {
+          this.tether.position();
+        }
+      }
+    }, {
+      key: 'destroy',
+      value: function destroy() {
+        this.remove();
+
+        if (typeof this.tether !== 'undefined') {
+          this.tether.destroy();
+        }
+
+        for (var i = 0; i < this._boundEvents.length; ++i) {
+          var _boundEvents$i = this._boundEvents[i];
+          var element = _boundEvents$i.element;
+          var _event = _boundEvents$i.event;
+          var handler = _boundEvents$i.handler;
+
+          element.removeEventListener(_event, handler);
+        }
+
+        this._boundEvents = [];
+
+        this.tether = null;
+        this.drop = null;
+        this.content = null;
+        this.target = null;
+
+        removeFromArray(allDrops[drop.classPrefix], this);
+        removeFromArray(drop.drops, this);
+      }
+    }]);
+
+    return DropInstance;
+  })(Evented);
+
+  return drop;
+}
+
+var Drop = createContext();
+
+document.addEventListener('DOMContentLoaded', function () {
+  Drop.updateBodyClasses();
+});
+return Drop;
+
+}));
+
+},{"tether":58}],58:[function(require,module,exports){
+/*! tether 1.3.1 */
+
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define(factory);
+  } else if (typeof exports === 'object') {
+    module.exports = factory(require, exports, module);
+  } else {
+    root.Tether = factory();
+  }
+}(this, function(require, exports, module) {
+
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var TetherBase = undefined;
+if (typeof TetherBase === 'undefined') {
+  TetherBase = { modules: [] };
+}
+
+var zeroElement = null;
+
+function getScrollParents(el) {
+  // In firefox if the el is inside an iframe with display: none; window.getComputedStyle() will return null;
+  // https://bugzilla.mozilla.org/show_bug.cgi?id=548397
+  var computedStyle = getComputedStyle(el) || {};
+  var position = computedStyle.position;
+  var parents = [];
+
+  if (position === 'fixed') {
+    return [el];
+  }
+
+  var parent = el;
+  while ((parent = parent.parentNode) && parent && parent.nodeType === 1) {
+    var style = undefined;
+    try {
+      style = getComputedStyle(parent);
+    } catch (err) {}
+
+    if (typeof style === 'undefined' || style === null) {
+      parents.push(parent);
+      return parents;
+    }
+
+    var _style = style;
+    var overflow = _style.overflow;
+    var overflowX = _style.overflowX;
+    var overflowY = _style.overflowY;
+
+    if (/(auto|scroll)/.test(overflow + overflowY + overflowX)) {
+      if (position !== 'absolute' || ['relative', 'absolute', 'fixed'].indexOf(style.position) >= 0) {
+        parents.push(parent);
+      }
+    }
+  }
+
+  parents.push(document.body);
+  return parents;
+}
+
+var uniqueId = (function () {
+  var id = 0;
+  return function () {
+    return ++id;
+  };
+})();
+
+var zeroPosCache = {};
+var getOrigin = function getOrigin() {
+  // getBoundingClientRect is unfortunately too accurate.  It introduces a pixel or two of
+  // jitter as the user scrolls that messes with our ability to detect if two positions
+  // are equivilant or not.  We place an element at the top left of the page that will
+  // get the same jitter, so we can cancel the two out.
+  var node = zeroElement;
+  if (!node) {
+    node = document.createElement('div');
+    node.setAttribute('data-tether-id', uniqueId());
+    extend(node.style, {
+      top: 0,
+      left: 0,
+      position: 'absolute'
+    });
+
+    document.body.appendChild(node);
+
+    zeroElement = node;
+  }
+
+  var id = node.getAttribute('data-tether-id');
+  if (typeof zeroPosCache[id] === 'undefined') {
+    zeroPosCache[id] = {};
+
+    var rect = node.getBoundingClientRect();
+    for (var k in rect) {
+      // Can't use extend, as on IE9, elements don't resolve to be hasOwnProperty
+      zeroPosCache[id][k] = rect[k];
+    }
+
+    // Clear the cache when this position call is done
+    defer(function () {
+      delete zeroPosCache[id];
+    });
+  }
+
+  return zeroPosCache[id];
+};
+
+function removeUtilElements() {
+  if (zeroElement) {
+    document.body.removeChild(zeroElement);
+  }
+  zeroElement = null;
+};
+
+function getBounds(el) {
+  var doc = undefined;
+  if (el === document) {
+    doc = document;
+    el = document.documentElement;
+  } else {
+    doc = el.ownerDocument;
+  }
+
+  var docEl = doc.documentElement;
+
+  var box = {};
+  // The original object returned by getBoundingClientRect is immutable, so we clone it
+  // We can't use extend because the properties are not considered part of the object by hasOwnProperty in IE9
+  var rect = el.getBoundingClientRect();
+  for (var k in rect) {
+    box[k] = rect[k];
+  }
+
+  var origin = getOrigin();
+
+  box.top -= origin.top;
+  box.left -= origin.left;
+
+  if (typeof box.width === 'undefined') {
+    box.width = document.body.scrollWidth - box.left - box.right;
+  }
+  if (typeof box.height === 'undefined') {
+    box.height = document.body.scrollHeight - box.top - box.bottom;
+  }
+
+  box.top = box.top - docEl.clientTop;
+  box.left = box.left - docEl.clientLeft;
+  box.right = doc.body.clientWidth - box.width - box.left;
+  box.bottom = doc.body.clientHeight - box.height - box.top;
+
+  return box;
+}
+
+function getOffsetParent(el) {
+  return el.offsetParent || document.documentElement;
+}
+
+function getScrollBarSize() {
+  var inner = document.createElement('div');
+  inner.style.width = '100%';
+  inner.style.height = '200px';
+
+  var outer = document.createElement('div');
+  extend(outer.style, {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    pointerEvents: 'none',
+    visibility: 'hidden',
+    width: '200px',
+    height: '150px',
+    overflow: 'hidden'
+  });
+
+  outer.appendChild(inner);
+
+  document.body.appendChild(outer);
+
+  var widthContained = inner.offsetWidth;
+  outer.style.overflow = 'scroll';
+  var widthScroll = inner.offsetWidth;
+
+  if (widthContained === widthScroll) {
+    widthScroll = outer.clientWidth;
+  }
+
+  document.body.removeChild(outer);
+
+  var width = widthContained - widthScroll;
+
+  return { width: width, height: width };
+}
+
+function extend() {
+  var out = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+  var args = [];
+
+  Array.prototype.push.apply(args, arguments);
+
+  args.slice(1).forEach(function (obj) {
+    if (obj) {
+      for (var key in obj) {
+        if (({}).hasOwnProperty.call(obj, key)) {
+          out[key] = obj[key];
+        }
+      }
+    }
+  });
+
+  return out;
+}
+
+function removeClass(el, name) {
+  if (typeof el.classList !== 'undefined') {
+    name.split(' ').forEach(function (cls) {
+      if (cls.trim()) {
+        el.classList.remove(cls);
+      }
+    });
+  } else {
+    var regex = new RegExp('(^| )' + name.split(' ').join('|') + '( |$)', 'gi');
+    var className = getClassName(el).replace(regex, ' ');
+    setClassName(el, className);
+  }
+}
+
+function addClass(el, name) {
+  if (typeof el.classList !== 'undefined') {
+    name.split(' ').forEach(function (cls) {
+      if (cls.trim()) {
+        el.classList.add(cls);
+      }
+    });
+  } else {
+    removeClass(el, name);
+    var cls = getClassName(el) + (' ' + name);
+    setClassName(el, cls);
+  }
+}
+
+function hasClass(el, name) {
+  if (typeof el.classList !== 'undefined') {
+    return el.classList.contains(name);
+  }
+  var className = getClassName(el);
+  return new RegExp('(^| )' + name + '( |$)', 'gi').test(className);
+}
+
+function getClassName(el) {
+  if (el.className instanceof SVGAnimatedString) {
+    return el.className.baseVal;
+  }
+  return el.className;
+}
+
+function setClassName(el, className) {
+  el.setAttribute('class', className);
+}
+
+function updateClasses(el, add, all) {
+  // Of the set of 'all' classes, we need the 'add' classes, and only the
+  // 'add' classes to be set.
+  all.forEach(function (cls) {
+    if (add.indexOf(cls) === -1 && hasClass(el, cls)) {
+      removeClass(el, cls);
+    }
+  });
+
+  add.forEach(function (cls) {
+    if (!hasClass(el, cls)) {
+      addClass(el, cls);
+    }
+  });
+}
+
+var deferred = [];
+
+var defer = function defer(fn) {
+  deferred.push(fn);
+};
+
+var flush = function flush() {
+  var fn = undefined;
+  while (fn = deferred.pop()) {
+    fn();
+  }
+};
+
+var Evented = (function () {
+  function Evented() {
+    _classCallCheck(this, Evented);
+  }
+
+  _createClass(Evented, [{
+    key: 'on',
+    value: function on(event, handler, ctx) {
+      var once = arguments.length <= 3 || arguments[3] === undefined ? false : arguments[3];
+
+      if (typeof this.bindings === 'undefined') {
+        this.bindings = {};
+      }
+      if (typeof this.bindings[event] === 'undefined') {
+        this.bindings[event] = [];
+      }
+      this.bindings[event].push({ handler: handler, ctx: ctx, once: once });
+    }
+  }, {
+    key: 'once',
+    value: function once(event, handler, ctx) {
+      this.on(event, handler, ctx, true);
+    }
+  }, {
+    key: 'off',
+    value: function off(event, handler) {
+      if (typeof this.bindings !== 'undefined' && typeof this.bindings[event] !== 'undefined') {
+        return;
+      }
+
+      if (typeof handler === 'undefined') {
+        delete this.bindings[event];
+      } else {
+        var i = 0;
+        while (i < this.bindings[event].length) {
+          if (this.bindings[event][i].handler === handler) {
+            this.bindings[event].splice(i, 1);
+          } else {
+            ++i;
+          }
+        }
+      }
+    }
+  }, {
+    key: 'trigger',
+    value: function trigger(event) {
+      if (typeof this.bindings !== 'undefined' && this.bindings[event]) {
+        var i = 0;
+
+        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+          args[_key - 1] = arguments[_key];
+        }
+
+        while (i < this.bindings[event].length) {
+          var _bindings$event$i = this.bindings[event][i];
+          var handler = _bindings$event$i.handler;
+          var ctx = _bindings$event$i.ctx;
+          var once = _bindings$event$i.once;
+
+          var context = ctx;
+          if (typeof context === 'undefined') {
+            context = this;
+          }
+
+          handler.apply(context, args);
+
+          if (once) {
+            this.bindings[event].splice(i, 1);
+          } else {
+            ++i;
+          }
+        }
+      }
+    }
+  }]);
+
+  return Evented;
+})();
+
+TetherBase.Utils = {
+  getScrollParents: getScrollParents,
+  getBounds: getBounds,
+  getOffsetParent: getOffsetParent,
+  extend: extend,
+  addClass: addClass,
+  removeClass: removeClass,
+  hasClass: hasClass,
+  updateClasses: updateClasses,
+  defer: defer,
+  flush: flush,
+  uniqueId: uniqueId,
+  Evented: Evented,
+  getScrollBarSize: getScrollBarSize,
+  removeUtilElements: removeUtilElements
+};
+/* globals TetherBase, performance */
+
+'use strict';
+
+var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x6, _x7, _x8) { var _again = true; _function: while (_again) { var object = _x6, property = _x7, receiver = _x8; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x6 = parent; _x7 = property; _x8 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+if (typeof TetherBase === 'undefined') {
+  throw new Error('You must include the utils.js file before tether.js');
+}
+
+var _TetherBase$Utils = TetherBase.Utils;
+var getScrollParents = _TetherBase$Utils.getScrollParents;
+var getBounds = _TetherBase$Utils.getBounds;
+var getOffsetParent = _TetherBase$Utils.getOffsetParent;
+var extend = _TetherBase$Utils.extend;
+var addClass = _TetherBase$Utils.addClass;
+var removeClass = _TetherBase$Utils.removeClass;
+var updateClasses = _TetherBase$Utils.updateClasses;
+var defer = _TetherBase$Utils.defer;
+var flush = _TetherBase$Utils.flush;
+var getScrollBarSize = _TetherBase$Utils.getScrollBarSize;
+var removeUtilElements = _TetherBase$Utils.removeUtilElements;
+
+function within(a, b) {
+  var diff = arguments.length <= 2 || arguments[2] === undefined ? 1 : arguments[2];
+
+  return a + diff >= b && b >= a - diff;
+}
+
+var transformKey = (function () {
+  if (typeof document === 'undefined') {
+    return '';
+  }
+  var el = document.createElement('div');
+
+  var transforms = ['transform', 'webkitTransform', 'OTransform', 'MozTransform', 'msTransform'];
+  for (var i = 0; i < transforms.length; ++i) {
+    var key = transforms[i];
+    if (el.style[key] !== undefined) {
+      return key;
+    }
+  }
+})();
+
+var tethers = [];
+
+var position = function position() {
+  tethers.forEach(function (tether) {
+    tether.position(false);
+  });
+  flush();
+};
+
+function now() {
+  if (typeof performance !== 'undefined' && typeof performance.now !== 'undefined') {
+    return performance.now();
+  }
+  return +new Date();
+}
+
+(function () {
+  var lastCall = null;
+  var lastDuration = null;
+  var pendingTimeout = null;
+
+  var tick = function tick() {
+    if (typeof lastDuration !== 'undefined' && lastDuration > 16) {
+      // We voluntarily throttle ourselves if we can't manage 60fps
+      lastDuration = Math.min(lastDuration - 16, 250);
+
+      // Just in case this is the last event, remember to position just once more
+      pendingTimeout = setTimeout(tick, 250);
+      return;
+    }
+
+    if (typeof lastCall !== 'undefined' && now() - lastCall < 10) {
+      // Some browsers call events a little too frequently, refuse to run more than is reasonable
+      return;
+    }
+
+    if (pendingTimeout != null) {
+      clearTimeout(pendingTimeout);
+      pendingTimeout = null;
+    }
+
+    lastCall = now();
+    position();
+    lastDuration = now() - lastCall;
+  };
+
+  if (typeof window !== 'undefined' && typeof window.addEventListener !== 'undefined') {
+    ['resize', 'scroll', 'touchmove'].forEach(function (event) {
+      window.addEventListener(event, tick);
+    });
+  }
+})();
+
+var MIRROR_LR = {
+  center: 'center',
+  left: 'right',
+  right: 'left'
+};
+
+var MIRROR_TB = {
+  middle: 'middle',
+  top: 'bottom',
+  bottom: 'top'
+};
+
+var OFFSET_MAP = {
+  top: 0,
+  left: 0,
+  middle: '50%',
+  center: '50%',
+  bottom: '100%',
+  right: '100%'
+};
+
+var autoToFixedAttachment = function autoToFixedAttachment(attachment, relativeToAttachment) {
+  var left = attachment.left;
+  var top = attachment.top;
+
+  if (left === 'auto') {
+    left = MIRROR_LR[relativeToAttachment.left];
+  }
+
+  if (top === 'auto') {
+    top = MIRROR_TB[relativeToAttachment.top];
+  }
+
+  return { left: left, top: top };
+};
+
+var attachmentToOffset = function attachmentToOffset(attachment) {
+  var left = attachment.left;
+  var top = attachment.top;
+
+  if (typeof OFFSET_MAP[attachment.left] !== 'undefined') {
+    left = OFFSET_MAP[attachment.left];
+  }
+
+  if (typeof OFFSET_MAP[attachment.top] !== 'undefined') {
+    top = OFFSET_MAP[attachment.top];
+  }
+
+  return { left: left, top: top };
+};
+
+function addOffset() {
+  var out = { top: 0, left: 0 };
+
+  for (var _len = arguments.length, offsets = Array(_len), _key = 0; _key < _len; _key++) {
+    offsets[_key] = arguments[_key];
+  }
+
+  offsets.forEach(function (_ref) {
+    var top = _ref.top;
+    var left = _ref.left;
+
+    if (typeof top === 'string') {
+      top = parseFloat(top, 10);
+    }
+    if (typeof left === 'string') {
+      left = parseFloat(left, 10);
+    }
+
+    out.top += top;
+    out.left += left;
+  });
+
+  return out;
+}
+
+function offsetToPx(offset, size) {
+  if (typeof offset.left === 'string' && offset.left.indexOf('%') !== -1) {
+    offset.left = parseFloat(offset.left, 10) / 100 * size.width;
+  }
+  if (typeof offset.top === 'string' && offset.top.indexOf('%') !== -1) {
+    offset.top = parseFloat(offset.top, 10) / 100 * size.height;
+  }
+
+  return offset;
+}
+
+var parseOffset = function parseOffset(value) {
+  var _value$split = value.split(' ');
+
+  var _value$split2 = _slicedToArray(_value$split, 2);
+
+  var top = _value$split2[0];
+  var left = _value$split2[1];
+
+  return { top: top, left: left };
+};
+var parseAttachment = parseOffset;
+
+var TetherClass = (function (_Evented) {
+  _inherits(TetherClass, _Evented);
+
+  function TetherClass(options) {
+    var _this = this;
+
+    _classCallCheck(this, TetherClass);
+
+    _get(Object.getPrototypeOf(TetherClass.prototype), 'constructor', this).call(this);
+    this.position = this.position.bind(this);
+
+    tethers.push(this);
+
+    this.history = [];
+
+    this.setOptions(options, false);
+
+    TetherBase.modules.forEach(function (module) {
+      if (typeof module.initialize !== 'undefined') {
+        module.initialize.call(_this);
+      }
+    });
+
+    this.position();
+  }
+
+  _createClass(TetherClass, [{
+    key: 'getClass',
+    value: function getClass() {
+      var key = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
+      var classes = this.options.classes;
+
+      if (typeof classes !== 'undefined' && classes[key]) {
+        return this.options.classes[key];
+      } else if (this.options.classPrefix) {
+        return this.options.classPrefix + '-' + key;
+      } else {
+        return key;
+      }
+    }
+  }, {
+    key: 'setOptions',
+    value: function setOptions(options) {
+      var _this2 = this;
+
+      var pos = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+
+      var defaults = {
+        offset: '0 0',
+        targetOffset: '0 0',
+        targetAttachment: 'auto auto',
+        classPrefix: 'tether'
+      };
+
+      this.options = extend(defaults, options);
+
+      var _options = this.options;
+      var element = _options.element;
+      var target = _options.target;
+      var targetModifier = _options.targetModifier;
+
+      this.element = element;
+      this.target = target;
+      this.targetModifier = targetModifier;
+
+      if (this.target === 'viewport') {
+        this.target = document.body;
+        this.targetModifier = 'visible';
+      } else if (this.target === 'scroll-handle') {
+        this.target = document.body;
+        this.targetModifier = 'scroll-handle';
+      }
+
+      ['element', 'target'].forEach(function (key) {
+        if (typeof _this2[key] === 'undefined') {
+          throw new Error('Tether Error: Both element and target must be defined');
+        }
+
+        if (typeof _this2[key].jquery !== 'undefined') {
+          _this2[key] = _this2[key][0];
+        } else if (typeof _this2[key] === 'string') {
+          _this2[key] = document.querySelector(_this2[key]);
+        }
+      });
+
+      addClass(this.element, this.getClass('element'));
+      if (!(this.options.addTargetClasses === false)) {
+        addClass(this.target, this.getClass('target'));
+      }
+
+      if (!this.options.attachment) {
+        throw new Error('Tether Error: You must provide an attachment');
+      }
+
+      this.targetAttachment = parseAttachment(this.options.targetAttachment);
+      this.attachment = parseAttachment(this.options.attachment);
+      this.offset = parseOffset(this.options.offset);
+      this.targetOffset = parseOffset(this.options.targetOffset);
+
+      if (typeof this.scrollParents !== 'undefined') {
+        this.disable();
+      }
+
+      if (this.targetModifier === 'scroll-handle') {
+        this.scrollParents = [this.target];
+      } else {
+        this.scrollParents = getScrollParents(this.target);
+      }
+
+      if (!(this.options.enabled === false)) {
+        this.enable(pos);
+      }
+    }
+  }, {
+    key: 'getTargetBounds',
+    value: function getTargetBounds() {
+      if (typeof this.targetModifier !== 'undefined') {
+        if (this.targetModifier === 'visible') {
+          if (this.target === document.body) {
+            return { top: pageYOffset, left: pageXOffset, height: innerHeight, width: innerWidth };
+          } else {
+            var bounds = getBounds(this.target);
+
+            var out = {
+              height: bounds.height,
+              width: bounds.width,
+              top: bounds.top,
+              left: bounds.left
+            };
+
+            out.height = Math.min(out.height, bounds.height - (pageYOffset - bounds.top));
+            out.height = Math.min(out.height, bounds.height - (bounds.top + bounds.height - (pageYOffset + innerHeight)));
+            out.height = Math.min(innerHeight, out.height);
+            out.height -= 2;
+
+            out.width = Math.min(out.width, bounds.width - (pageXOffset - bounds.left));
+            out.width = Math.min(out.width, bounds.width - (bounds.left + bounds.width - (pageXOffset + innerWidth)));
+            out.width = Math.min(innerWidth, out.width);
+            out.width -= 2;
+
+            if (out.top < pageYOffset) {
+              out.top = pageYOffset;
+            }
+            if (out.left < pageXOffset) {
+              out.left = pageXOffset;
+            }
+
+            return out;
+          }
+        } else if (this.targetModifier === 'scroll-handle') {
+          var bounds = undefined;
+          var target = this.target;
+          if (target === document.body) {
+            target = document.documentElement;
+
+            bounds = {
+              left: pageXOffset,
+              top: pageYOffset,
+              height: innerHeight,
+              width: innerWidth
+            };
+          } else {
+            bounds = getBounds(target);
+          }
+
+          var style = getComputedStyle(target);
+
+          var hasBottomScroll = target.scrollWidth > target.clientWidth || [style.overflow, style.overflowX].indexOf('scroll') >= 0 || this.target !== document.body;
+
+          var scrollBottom = 0;
+          if (hasBottomScroll) {
+            scrollBottom = 15;
+          }
+
+          var height = bounds.height - parseFloat(style.borderTopWidth) - parseFloat(style.borderBottomWidth) - scrollBottom;
+
+          var out = {
+            width: 15,
+            height: height * 0.975 * (height / target.scrollHeight),
+            left: bounds.left + bounds.width - parseFloat(style.borderLeftWidth) - 15
+          };
+
+          var fitAdj = 0;
+          if (height < 408 && this.target === document.body) {
+            fitAdj = -0.00011 * Math.pow(height, 2) - 0.00727 * height + 22.58;
+          }
+
+          if (this.target !== document.body) {
+            out.height = Math.max(out.height, 24);
+          }
+
+          var scrollPercentage = this.target.scrollTop / (target.scrollHeight - height);
+          out.top = scrollPercentage * (height - out.height - fitAdj) + bounds.top + parseFloat(style.borderTopWidth);
+
+          if (this.target === document.body) {
+            out.height = Math.max(out.height, 24);
+          }
+
+          return out;
+        }
+      } else {
+        return getBounds(this.target);
+      }
+    }
+  }, {
+    key: 'clearCache',
+    value: function clearCache() {
+      this._cache = {};
+    }
+  }, {
+    key: 'cache',
+    value: function cache(k, getter) {
+      // More than one module will often need the same DOM info, so
+      // we keep a cache which is cleared on each position call
+      if (typeof this._cache === 'undefined') {
+        this._cache = {};
+      }
+
+      if (typeof this._cache[k] === 'undefined') {
+        this._cache[k] = getter.call(this);
+      }
+
+      return this._cache[k];
+    }
+  }, {
+    key: 'enable',
+    value: function enable() {
+      var _this3 = this;
+
+      var pos = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
+
+      if (!(this.options.addTargetClasses === false)) {
+        addClass(this.target, this.getClass('enabled'));
+      }
+      addClass(this.element, this.getClass('enabled'));
+      this.enabled = true;
+
+      this.scrollParents.forEach(function (parent) {
+        if (parent !== document) {
+          parent.addEventListener('scroll', _this3.position);
+        }
+      });
+
+      if (pos) {
+        this.position();
+      }
+    }
+  }, {
+    key: 'disable',
+    value: function disable() {
+      var _this4 = this;
+
+      removeClass(this.target, this.getClass('enabled'));
+      removeClass(this.element, this.getClass('enabled'));
+      this.enabled = false;
+
+      if (typeof this.scrollParents !== 'undefined') {
+        this.scrollParents.forEach(function (parent) {
+          parent.removeEventListener('scroll', _this4.position);
+        });
+      }
+    }
+  }, {
+    key: 'destroy',
+    value: function destroy() {
+      var _this5 = this;
+
+      this.disable();
+
+      tethers.forEach(function (tether, i) {
+        if (tether === _this5) {
+          tethers.splice(i, 1);
+        }
+      });
+
+      // Remove any elements we were using for convenience from the DOM
+      if (tethers.length === 0) {
+        removeUtilElements();
+      }
+    }
+  }, {
+    key: 'updateAttachClasses',
+    value: function updateAttachClasses(elementAttach, targetAttach) {
+      var _this6 = this;
+
+      elementAttach = elementAttach || this.attachment;
+      targetAttach = targetAttach || this.targetAttachment;
+      var sides = ['left', 'top', 'bottom', 'right', 'middle', 'center'];
+
+      if (typeof this._addAttachClasses !== 'undefined' && this._addAttachClasses.length) {
+        // updateAttachClasses can be called more than once in a position call, so
+        // we need to clean up after ourselves such that when the last defer gets
+        // ran it doesn't add any extra classes from previous calls.
+        this._addAttachClasses.splice(0, this._addAttachClasses.length);
+      }
+
+      if (typeof this._addAttachClasses === 'undefined') {
+        this._addAttachClasses = [];
+      }
+      var add = this._addAttachClasses;
+
+      if (elementAttach.top) {
+        add.push(this.getClass('element-attached') + '-' + elementAttach.top);
+      }
+      if (elementAttach.left) {
+        add.push(this.getClass('element-attached') + '-' + elementAttach.left);
+      }
+      if (targetAttach.top) {
+        add.push(this.getClass('target-attached') + '-' + targetAttach.top);
+      }
+      if (targetAttach.left) {
+        add.push(this.getClass('target-attached') + '-' + targetAttach.left);
+      }
+
+      var all = [];
+      sides.forEach(function (side) {
+        all.push(_this6.getClass('element-attached') + '-' + side);
+        all.push(_this6.getClass('target-attached') + '-' + side);
+      });
+
+      defer(function () {
+        if (!(typeof _this6._addAttachClasses !== 'undefined')) {
+          return;
+        }
+
+        updateClasses(_this6.element, _this6._addAttachClasses, all);
+        if (!(_this6.options.addTargetClasses === false)) {
+          updateClasses(_this6.target, _this6._addAttachClasses, all);
+        }
+
+        delete _this6._addAttachClasses;
+      });
+    }
+  }, {
+    key: 'position',
+    value: function position() {
+      var _this7 = this;
+
+      var flushChanges = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
+
+      // flushChanges commits the changes immediately, leave true unless you are positioning multiple
+      // tethers (in which case call Tether.Utils.flush yourself when you're done)
+
+      if (!this.enabled) {
+        return;
+      }
+
+      this.clearCache();
+
+      // Turn 'auto' attachments into the appropriate corner or edge
+      var targetAttachment = autoToFixedAttachment(this.targetAttachment, this.attachment);
+
+      this.updateAttachClasses(this.attachment, targetAttachment);
+
+      var elementPos = this.cache('element-bounds', function () {
+        return getBounds(_this7.element);
+      });
+
+      var width = elementPos.width;
+      var height = elementPos.height;
+
+      if (width === 0 && height === 0 && typeof this.lastSize !== 'undefined') {
+        var _lastSize = this.lastSize;
+
+        // We cache the height and width to make it possible to position elements that are
+        // getting hidden.
+        width = _lastSize.width;
+        height = _lastSize.height;
+      } else {
+        this.lastSize = { width: width, height: height };
+      }
+
+      var targetPos = this.cache('target-bounds', function () {
+        return _this7.getTargetBounds();
+      });
+      var targetSize = targetPos;
+
+      // Get an actual px offset from the attachment
+      var offset = offsetToPx(attachmentToOffset(this.attachment), { width: width, height: height });
+      var targetOffset = offsetToPx(attachmentToOffset(targetAttachment), targetSize);
+
+      var manualOffset = offsetToPx(this.offset, { width: width, height: height });
+      var manualTargetOffset = offsetToPx(this.targetOffset, targetSize);
+
+      // Add the manually provided offset
+      offset = addOffset(offset, manualOffset);
+      targetOffset = addOffset(targetOffset, manualTargetOffset);
+
+      // It's now our goal to make (element position + offset) == (target position + target offset)
+      var left = targetPos.left + targetOffset.left - offset.left;
+      var top = targetPos.top + targetOffset.top - offset.top;
+
+      for (var i = 0; i < TetherBase.modules.length; ++i) {
+        var _module2 = TetherBase.modules[i];
+        var ret = _module2.position.call(this, {
+          left: left,
+          top: top,
+          targetAttachment: targetAttachment,
+          targetPos: targetPos,
+          elementPos: elementPos,
+          offset: offset,
+          targetOffset: targetOffset,
+          manualOffset: manualOffset,
+          manualTargetOffset: manualTargetOffset,
+          scrollbarSize: scrollbarSize,
+          attachment: this.attachment
+        });
+
+        if (ret === false) {
+          return false;
+        } else if (typeof ret === 'undefined' || typeof ret !== 'object') {
+          continue;
+        } else {
+          top = ret.top;
+          left = ret.left;
+        }
+      }
+
+      // We describe the position three different ways to give the optimizer
+      // a chance to decide the best possible way to position the element
+      // with the fewest repaints.
+      var next = {
+        // It's position relative to the page (absolute positioning when
+        // the element is a child of the body)
+        page: {
+          top: top,
+          left: left
+        },
+
+        // It's position relative to the viewport (fixed positioning)
+        viewport: {
+          top: top - pageYOffset,
+          bottom: pageYOffset - top - height + innerHeight,
+          left: left - pageXOffset,
+          right: pageXOffset - left - width + innerWidth
+        }
+      };
+
+      var scrollbarSize = undefined;
+      if (document.body.scrollWidth > window.innerWidth) {
+        scrollbarSize = this.cache('scrollbar-size', getScrollBarSize);
+        next.viewport.bottom -= scrollbarSize.height;
+      }
+
+      if (document.body.scrollHeight > window.innerHeight) {
+        scrollbarSize = this.cache('scrollbar-size', getScrollBarSize);
+        next.viewport.right -= scrollbarSize.width;
+      }
+
+      if (['', 'static'].indexOf(document.body.style.position) === -1 || ['', 'static'].indexOf(document.body.parentElement.style.position) === -1) {
+        // Absolute positioning in the body will be relative to the page, not the 'initial containing block'
+        next.page.bottom = document.body.scrollHeight - top - height;
+        next.page.right = document.body.scrollWidth - left - width;
+      }
+
+      if (typeof this.options.optimizations !== 'undefined' && this.options.optimizations.moveElement !== false && !(typeof this.targetModifier !== 'undefined')) {
+        (function () {
+          var offsetParent = _this7.cache('target-offsetparent', function () {
+            return getOffsetParent(_this7.target);
+          });
+          var offsetPosition = _this7.cache('target-offsetparent-bounds', function () {
+            return getBounds(offsetParent);
+          });
+          var offsetParentStyle = getComputedStyle(offsetParent);
+          var offsetParentSize = offsetPosition;
+
+          var offsetBorder = {};
+          ['Top', 'Left', 'Bottom', 'Right'].forEach(function (side) {
+            offsetBorder[side.toLowerCase()] = parseFloat(offsetParentStyle['border' + side + 'Width']);
+          });
+
+          offsetPosition.right = document.body.scrollWidth - offsetPosition.left - offsetParentSize.width + offsetBorder.right;
+          offsetPosition.bottom = document.body.scrollHeight - offsetPosition.top - offsetParentSize.height + offsetBorder.bottom;
+
+          if (next.page.top >= offsetPosition.top + offsetBorder.top && next.page.bottom >= offsetPosition.bottom) {
+            if (next.page.left >= offsetPosition.left + offsetBorder.left && next.page.right >= offsetPosition.right) {
+              // We're within the visible part of the target's scroll parent
+              var scrollTop = offsetParent.scrollTop;
+              var scrollLeft = offsetParent.scrollLeft;
+
+              // It's position relative to the target's offset parent (absolute positioning when
+              // the element is moved to be a child of the target's offset parent).
+              next.offset = {
+                top: next.page.top - offsetPosition.top + scrollTop - offsetBorder.top,
+                left: next.page.left - offsetPosition.left + scrollLeft - offsetBorder.left
+              };
+            }
+          }
+        })();
+      }
+
+      // We could also travel up the DOM and try each containing context, rather than only
+      // looking at the body, but we're gonna get diminishing returns.
+
+      this.move(next);
+
+      this.history.unshift(next);
+
+      if (this.history.length > 3) {
+        this.history.pop();
+      }
+
+      if (flushChanges) {
+        flush();
+      }
+
+      return true;
+    }
+
+    // THE ISSUE
+  }, {
+    key: 'move',
+    value: function move(pos) {
+      var _this8 = this;
+
+      if (!(typeof this.element.parentNode !== 'undefined')) {
+        return;
+      }
+
+      var same = {};
+
+      for (var type in pos) {
+        same[type] = {};
+
+        for (var key in pos[type]) {
+          var found = false;
+
+          for (var i = 0; i < this.history.length; ++i) {
+            var point = this.history[i];
+            if (typeof point[type] !== 'undefined' && !within(point[type][key], pos[type][key])) {
+              found = true;
+              break;
+            }
+          }
+
+          if (!found) {
+            same[type][key] = true;
+          }
+        }
+      }
+
+      var css = { top: '', left: '', right: '', bottom: '' };
+
+      var transcribe = function transcribe(_same, _pos) {
+        var hasOptimizations = typeof _this8.options.optimizations !== 'undefined';
+        var gpu = hasOptimizations ? _this8.options.optimizations.gpu : null;
+        if (gpu !== false) {
+          var yPos = undefined,
+              xPos = undefined;
+          if (_same.top) {
+            css.top = 0;
+            yPos = _pos.top;
+          } else {
+            css.bottom = 0;
+            yPos = -_pos.bottom;
+          }
+
+          if (_same.left) {
+            css.left = 0;
+            xPos = _pos.left;
+          } else {
+            css.right = 0;
+            xPos = -_pos.right;
+          }
+
+          css[transformKey] = 'translateX(' + Math.round(xPos) + 'px) translateY(' + Math.round(yPos) + 'px)';
+
+          if (transformKey !== 'msTransform') {
+            // The Z transform will keep this in the GPU (faster, and prevents artifacts),
+            // but IE9 doesn't support 3d transforms and will choke.
+            css[transformKey] += " translateZ(0)";
+          }
+        } else {
+          if (_same.top) {
+            css.top = _pos.top + 'px';
+          } else {
+            css.bottom = _pos.bottom + 'px';
+          }
+
+          if (_same.left) {
+            css.left = _pos.left + 'px';
+          } else {
+            css.right = _pos.right + 'px';
+          }
+        }
+      };
+
+      var moved = false;
+      if ((same.page.top || same.page.bottom) && (same.page.left || same.page.right)) {
+        css.position = 'absolute';
+        transcribe(same.page, pos.page);
+      } else if ((same.viewport.top || same.viewport.bottom) && (same.viewport.left || same.viewport.right)) {
+        css.position = 'fixed';
+        transcribe(same.viewport, pos.viewport);
+      } else if (typeof same.offset !== 'undefined' && same.offset.top && same.offset.left) {
+        (function () {
+          css.position = 'absolute';
+          var offsetParent = _this8.cache('target-offsetparent', function () {
+            return getOffsetParent(_this8.target);
+          });
+
+          if (getOffsetParent(_this8.element) !== offsetParent) {
+            defer(function () {
+              _this8.element.parentNode.removeChild(_this8.element);
+              offsetParent.appendChild(_this8.element);
+            });
+          }
+
+          transcribe(same.offset, pos.offset);
+          moved = true;
+        })();
+      } else {
+        css.position = 'absolute';
+        transcribe({ top: true, left: true }, pos.page);
+      }
+
+      if (!moved) {
+        var offsetParentIsBody = true;
+        var currentNode = this.element.parentNode;
+        while (currentNode && currentNode.nodeType === 1 && currentNode.tagName !== 'BODY') {
+          if (getComputedStyle(currentNode).position !== 'static') {
+            offsetParentIsBody = false;
+            break;
+          }
+
+          currentNode = currentNode.parentNode;
+        }
+
+        if (!offsetParentIsBody) {
+          this.element.parentNode.removeChild(this.element);
+          document.body.appendChild(this.element);
+        }
+      }
+
+      // Any css change will trigger a repaint, so let's avoid one if nothing changed
+      var writeCSS = {};
+      var write = false;
+      for (var key in css) {
+        var val = css[key];
+        var elVal = this.element.style[key];
+
+        if (elVal !== val) {
+          write = true;
+          writeCSS[key] = val;
+        }
+      }
+
+      if (write) {
+        defer(function () {
+          extend(_this8.element.style, writeCSS);
+        });
+      }
+    }
+  }]);
+
+  return TetherClass;
+})(Evented);
+
+TetherClass.modules = [];
+
+TetherBase.position = position;
+
+var Tether = extend(TetherClass, TetherBase);
+/* globals TetherBase */
+
+'use strict';
+
+var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
+
+var _TetherBase$Utils = TetherBase.Utils;
+var getBounds = _TetherBase$Utils.getBounds;
+var extend = _TetherBase$Utils.extend;
+var updateClasses = _TetherBase$Utils.updateClasses;
+var defer = _TetherBase$Utils.defer;
+
+var BOUNDS_FORMAT = ['left', 'top', 'right', 'bottom'];
+
+function getBoundingRect(tether, to) {
+  if (to === 'scrollParent') {
+    to = tether.scrollParents[0];
+  } else if (to === 'window') {
+    to = [pageXOffset, pageYOffset, innerWidth + pageXOffset, innerHeight + pageYOffset];
+  }
+
+  if (to === document) {
+    to = to.documentElement;
+  }
+
+  if (typeof to.nodeType !== 'undefined') {
+    (function () {
+      var size = getBounds(to);
+      var pos = size;
+      var style = getComputedStyle(to);
+
+      to = [pos.left, pos.top, size.width + pos.left, size.height + pos.top];
+
+      BOUNDS_FORMAT.forEach(function (side, i) {
+        side = side[0].toUpperCase() + side.substr(1);
+        if (side === 'Top' || side === 'Left') {
+          to[i] += parseFloat(style['border' + side + 'Width']);
+        } else {
+          to[i] -= parseFloat(style['border' + side + 'Width']);
+        }
+      });
+    })();
+  }
+
+  return to;
+}
+
+TetherBase.modules.push({
+  position: function position(_ref) {
+    var _this = this;
+
+    var top = _ref.top;
+    var left = _ref.left;
+    var targetAttachment = _ref.targetAttachment;
+
+    if (!this.options.constraints) {
+      return true;
+    }
+
+    var _cache = this.cache('element-bounds', function () {
+      return getBounds(_this.element);
+    });
+
+    var height = _cache.height;
+    var width = _cache.width;
+
+    if (width === 0 && height === 0 && typeof this.lastSize !== 'undefined') {
+      var _lastSize = this.lastSize;
+
+      // Handle the item getting hidden as a result of our positioning without glitching
+      // the classes in and out
+      width = _lastSize.width;
+      height = _lastSize.height;
+    }
+
+    var targetSize = this.cache('target-bounds', function () {
+      return _this.getTargetBounds();
+    });
+
+    var targetHeight = targetSize.height;
+    var targetWidth = targetSize.width;
+
+    var allClasses = [this.getClass('pinned'), this.getClass('out-of-bounds')];
+
+    this.options.constraints.forEach(function (constraint) {
+      var outOfBoundsClass = constraint.outOfBoundsClass;
+      var pinnedClass = constraint.pinnedClass;
+
+      if (outOfBoundsClass) {
+        allClasses.push(outOfBoundsClass);
+      }
+      if (pinnedClass) {
+        allClasses.push(pinnedClass);
+      }
+    });
+
+    allClasses.forEach(function (cls) {
+      ['left', 'top', 'right', 'bottom'].forEach(function (side) {
+        allClasses.push(cls + '-' + side);
+      });
+    });
+
+    var addClasses = [];
+
+    var tAttachment = extend({}, targetAttachment);
+    var eAttachment = extend({}, this.attachment);
+
+    this.options.constraints.forEach(function (constraint) {
+      var to = constraint.to;
+      var attachment = constraint.attachment;
+      var pin = constraint.pin;
+
+      if (typeof attachment === 'undefined') {
+        attachment = '';
+      }
+
+      var changeAttachX = undefined,
+          changeAttachY = undefined;
+      if (attachment.indexOf(' ') >= 0) {
+        var _attachment$split = attachment.split(' ');
+
+        var _attachment$split2 = _slicedToArray(_attachment$split, 2);
+
+        changeAttachY = _attachment$split2[0];
+        changeAttachX = _attachment$split2[1];
+      } else {
+        changeAttachX = changeAttachY = attachment;
+      }
+
+      var bounds = getBoundingRect(_this, to);
+
+      if (changeAttachY === 'target' || changeAttachY === 'both') {
+        if (top < bounds[1] && tAttachment.top === 'top') {
+          top += targetHeight;
+          tAttachment.top = 'bottom';
+        }
+
+        if (top + height > bounds[3] && tAttachment.top === 'bottom') {
+          top -= targetHeight;
+          tAttachment.top = 'top';
+        }
+      }
+
+      if (changeAttachY === 'together') {
+        if (tAttachment.top === 'top') {
+          if (eAttachment.top === 'bottom' && top < bounds[1]) {
+            top += targetHeight;
+            tAttachment.top = 'bottom';
+
+            top += height;
+            eAttachment.top = 'top';
+          } else if (eAttachment.top === 'top' && top + height > bounds[3] && top - (height - targetHeight) >= bounds[1]) {
+            top -= height - targetHeight;
+            tAttachment.top = 'bottom';
+
+            eAttachment.top = 'bottom';
+          }
+        }
+
+        if (tAttachment.top === 'bottom') {
+          if (eAttachment.top === 'top' && top + height > bounds[3]) {
+            top -= targetHeight;
+            tAttachment.top = 'top';
+
+            top -= height;
+            eAttachment.top = 'bottom';
+          } else if (eAttachment.top === 'bottom' && top < bounds[1] && top + (height * 2 - targetHeight) <= bounds[3]) {
+            top += height - targetHeight;
+            tAttachment.top = 'top';
+
+            eAttachment.top = 'top';
+          }
+        }
+
+        if (tAttachment.top === 'middle') {
+          if (top + height > bounds[3] && eAttachment.top === 'top') {
+            top -= height;
+            eAttachment.top = 'bottom';
+          } else if (top < bounds[1] && eAttachment.top === 'bottom') {
+            top += height;
+            eAttachment.top = 'top';
+          }
+        }
+      }
+
+      if (changeAttachX === 'target' || changeAttachX === 'both') {
+        if (left < bounds[0] && tAttachment.left === 'left') {
+          left += targetWidth;
+          tAttachment.left = 'right';
+        }
+
+        if (left + width > bounds[2] && tAttachment.left === 'right') {
+          left -= targetWidth;
+          tAttachment.left = 'left';
+        }
+      }
+
+      if (changeAttachX === 'together') {
+        if (left < bounds[0] && tAttachment.left === 'left') {
+          if (eAttachment.left === 'right') {
+            left += targetWidth;
+            tAttachment.left = 'right';
+
+            left += width;
+            eAttachment.left = 'left';
+          } else if (eAttachment.left === 'left') {
+            left += targetWidth;
+            tAttachment.left = 'right';
+
+            left -= width;
+            eAttachment.left = 'right';
+          }
+        } else if (left + width > bounds[2] && tAttachment.left === 'right') {
+          if (eAttachment.left === 'left') {
+            left -= targetWidth;
+            tAttachment.left = 'left';
+
+            left -= width;
+            eAttachment.left = 'right';
+          } else if (eAttachment.left === 'right') {
+            left -= targetWidth;
+            tAttachment.left = 'left';
+
+            left += width;
+            eAttachment.left = 'left';
+          }
+        } else if (tAttachment.left === 'center') {
+          if (left + width > bounds[2] && eAttachment.left === 'left') {
+            left -= width;
+            eAttachment.left = 'right';
+          } else if (left < bounds[0] && eAttachment.left === 'right') {
+            left += width;
+            eAttachment.left = 'left';
+          }
+        }
+      }
+
+      if (changeAttachY === 'element' || changeAttachY === 'both') {
+        if (top < bounds[1] && eAttachment.top === 'bottom') {
+          top += height;
+          eAttachment.top = 'top';
+        }
+
+        if (top + height > bounds[3] && eAttachment.top === 'top') {
+          top -= height;
+          eAttachment.top = 'bottom';
+        }
+      }
+
+      if (changeAttachX === 'element' || changeAttachX === 'both') {
+        if (left < bounds[0]) {
+          if (eAttachment.left === 'right') {
+            left += width;
+            eAttachment.left = 'left';
+          } else if (eAttachment.left === 'center') {
+            left += width / 2;
+            eAttachment.left = 'left';
+          }
+        }
+
+        if (left + width > bounds[2]) {
+          if (eAttachment.left === 'left') {
+            left -= width;
+            eAttachment.left = 'right';
+          } else if (eAttachment.left === 'center') {
+            left -= width / 2;
+            eAttachment.left = 'right';
+          }
+        }
+      }
+
+      if (typeof pin === 'string') {
+        pin = pin.split(',').map(function (p) {
+          return p.trim();
+        });
+      } else if (pin === true) {
+        pin = ['top', 'left', 'right', 'bottom'];
+      }
+
+      pin = pin || [];
+
+      var pinned = [];
+      var oob = [];
+
+      if (top < bounds[1]) {
+        if (pin.indexOf('top') >= 0) {
+          top = bounds[1];
+          pinned.push('top');
+        } else {
+          oob.push('top');
+        }
+      }
+
+      if (top + height > bounds[3]) {
+        if (pin.indexOf('bottom') >= 0) {
+          top = bounds[3] - height;
+          pinned.push('bottom');
+        } else {
+          oob.push('bottom');
+        }
+      }
+
+      if (left < bounds[0]) {
+        if (pin.indexOf('left') >= 0) {
+          left = bounds[0];
+          pinned.push('left');
+        } else {
+          oob.push('left');
+        }
+      }
+
+      if (left + width > bounds[2]) {
+        if (pin.indexOf('right') >= 0) {
+          left = bounds[2] - width;
+          pinned.push('right');
+        } else {
+          oob.push('right');
+        }
+      }
+
+      if (pinned.length) {
+        (function () {
+          var pinnedClass = undefined;
+          if (typeof _this.options.pinnedClass !== 'undefined') {
+            pinnedClass = _this.options.pinnedClass;
+          } else {
+            pinnedClass = _this.getClass('pinned');
+          }
+
+          addClasses.push(pinnedClass);
+          pinned.forEach(function (side) {
+            addClasses.push(pinnedClass + '-' + side);
+          });
+        })();
+      }
+
+      if (oob.length) {
+        (function () {
+          var oobClass = undefined;
+          if (typeof _this.options.outOfBoundsClass !== 'undefined') {
+            oobClass = _this.options.outOfBoundsClass;
+          } else {
+            oobClass = _this.getClass('out-of-bounds');
+          }
+
+          addClasses.push(oobClass);
+          oob.forEach(function (side) {
+            addClasses.push(oobClass + '-' + side);
+          });
+        })();
+      }
+
+      if (pinned.indexOf('left') >= 0 || pinned.indexOf('right') >= 0) {
+        eAttachment.left = tAttachment.left = false;
+      }
+      if (pinned.indexOf('top') >= 0 || pinned.indexOf('bottom') >= 0) {
+        eAttachment.top = tAttachment.top = false;
+      }
+
+      if (tAttachment.top !== targetAttachment.top || tAttachment.left !== targetAttachment.left || eAttachment.top !== _this.attachment.top || eAttachment.left !== _this.attachment.left) {
+        _this.updateAttachClasses(eAttachment, tAttachment);
+        _this.trigger('update', {
+          attachment: eAttachment,
+          targetAttachment: tAttachment
+        });
+      }
+    });
+
+    defer(function () {
+      if (!(_this.options.addTargetClasses === false)) {
+        updateClasses(_this.target, addClasses, allClasses);
+      }
+      updateClasses(_this.element, addClasses, allClasses);
+    });
+
+    return { top: top, left: left };
+  }
+});
+/* globals TetherBase */
+
+'use strict';
+
+var _TetherBase$Utils = TetherBase.Utils;
+var getBounds = _TetherBase$Utils.getBounds;
+var updateClasses = _TetherBase$Utils.updateClasses;
+var defer = _TetherBase$Utils.defer;
+
+TetherBase.modules.push({
+  position: function position(_ref) {
+    var _this = this;
+
+    var top = _ref.top;
+    var left = _ref.left;
+
+    var _cache = this.cache('element-bounds', function () {
+      return getBounds(_this.element);
+    });
+
+    var height = _cache.height;
+    var width = _cache.width;
+
+    var targetPos = this.getTargetBounds();
+
+    var bottom = top + height;
+    var right = left + width;
+
+    var abutted = [];
+    if (top <= targetPos.bottom && bottom >= targetPos.top) {
+      ['left', 'right'].forEach(function (side) {
+        var targetPosSide = targetPos[side];
+        if (targetPosSide === left || targetPosSide === right) {
+          abutted.push(side);
+        }
+      });
+    }
+
+    if (left <= targetPos.right && right >= targetPos.left) {
+      ['top', 'bottom'].forEach(function (side) {
+        var targetPosSide = targetPos[side];
+        if (targetPosSide === top || targetPosSide === bottom) {
+          abutted.push(side);
+        }
+      });
+    }
+
+    var allClasses = [];
+    var addClasses = [];
+
+    var sides = ['left', 'top', 'right', 'bottom'];
+    allClasses.push(this.getClass('abutted'));
+    sides.forEach(function (side) {
+      allClasses.push(_this.getClass('abutted') + '-' + side);
+    });
+
+    if (abutted.length) {
+      addClasses.push(this.getClass('abutted'));
+    }
+
+    abutted.forEach(function (side) {
+      addClasses.push(_this.getClass('abutted') + '-' + side);
+    });
+
+    defer(function () {
+      if (!(_this.options.addTargetClasses === false)) {
+        updateClasses(_this.target, addClasses, allClasses);
+      }
+      updateClasses(_this.element, addClasses, allClasses);
+    });
+
+    return true;
+  }
+});
+/* globals TetherBase */
+
+'use strict';
+
+var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
+
+TetherBase.modules.push({
+  position: function position(_ref) {
+    var top = _ref.top;
+    var left = _ref.left;
+
+    if (!this.options.shift) {
+      return;
+    }
+
+    var shift = this.options.shift;
+    if (typeof this.options.shift === 'function') {
+      shift = this.options.shift.call(this, { top: top, left: left });
+    }
+
+    var shiftTop = undefined,
+        shiftLeft = undefined;
+    if (typeof shift === 'string') {
+      shift = shift.split(' ');
+      shift[1] = shift[1] || shift[0];
+
+      var _shift = shift;
+
+      var _shift2 = _slicedToArray(_shift, 2);
+
+      shiftTop = _shift2[0];
+      shiftLeft = _shift2[1];
+
+      shiftTop = parseFloat(shiftTop, 10);
+      shiftLeft = parseFloat(shiftLeft, 10);
+    } else {
+      shiftTop = shift.top;
+      shiftLeft = shift.left;
+    }
+
+    top += shiftTop;
+    left += shiftLeft;
+
+    return { top: top, left: left };
+  }
+});
+return Tether;
+
+}));
+
+},{}],59:[function(require,module,exports){
 'use strict';
 
 require('./global');
-
-require('class-component');
 
 require('cc-event');
 
@@ -20007,19 +24601,21 @@ require('event-hub');
 
 require('../../src/namespaces');
 
-require('../../src/util');
+require('../../src/util/jquery');
 
-require('../../infrastructure/infrastructure');
+require('../../src/util/rx');
 
 require('multiflip');
 
 require('multiflip-bubble');
 
+require('@kt3k/puncher');
+
 require('../../src/ui/common/menu-button');
 
 require('../../src/datadomain/');
 
-},{"../../infrastructure/infrastructure":1,"../../src/datadomain/":70,"../../src/namespaces":72,"../../src/ui/common/menu-button":73,"../../src/util":75,"./global":39,"cc-event":4,"class-component":5,"event-hub":13,"multiflip":16,"multiflip-bubble":15}],39:[function(require,module,exports){
+},{"../../src/datadomain/":85,"../../src/namespaces":88,"../../src/ui/common/menu-button":89,"../../src/util/jquery":91,"../../src/util/rx":92,"./global":60,"@kt3k/puncher":1,"cc-event":3,"event-hub":31,"multiflip":34,"multiflip-bubble":33}],60:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -20033,17 +24629,35 @@ var _rxLite2 = _interopRequireDefault(_rxLite);
 
 var _es6Promise = require('es6-promise');
 
+require('es6-symbol/implement');
+
+var _tether = require('tether');
+
+var _tether2 = _interopRequireDefault(_tether);
+
+var _tetherDrop = require('tether-drop');
+
+var _tetherDrop2 = _interopRequireDefault(_tetherDrop);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 global.$ = _jquery2.default;
 global.jQuery = _jquery2.default;
 global.Rx = _rxLite2.default;
+global.Tether = _tether2.default;
+global.Drop = _tetherDrop2.default;
+
+require('class-component');
+
+_jquery2.default.cc.subclass = require('subclassjs');
 
 (0, _es6Promise.polyfill)();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"es6-promise":12,"jquery":14,"rx-lite":18}],40:[function(require,module,exports){
+},{"class-component":8,"es6-promise":25,"es6-symbol/implement":26,"jquery":32,"rx-lite":36,"subclassjs":56,"tether":58,"tether-drop":57}],61:[function(require,module,exports){
 'use strict';
+
+var subclass = $.cc.subclass;
 
 /**
  * The cell.
@@ -20052,6 +24666,7 @@ global.Rx = _rxLite2.default;
  *
  * @class
  */
+
 datadomain.Cell = subclass(function (pt) {
   'use strict';
 
@@ -20063,12 +24678,15 @@ datadomain.Cell = subclass(function (pt) {
   };
 });
 
-},{}],41:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 'use strict';
+
+var subclass = $.cc.subclass;
 
 /**
  * The collection class of Cell.
  */
+
 datadomain.CellCollection = subclass(function (pt) {
   'use strict';
 
@@ -20085,14 +24703,17 @@ datadomain.CellCollection = subclass(function (pt) {
   };
 });
 
-},{}],42:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 'use strict';
+
+var subclass = $.cc.subclass;
 
 /**
  * The factory for Cell.
  *
  * @class
  */
+
 datadomain.CellFactory = subclass(function (pt) {
     'use strict';
 
@@ -20125,12 +24746,15 @@ datadomain.CellFactory = subclass(function (pt) {
     };
 });
 
-},{}],43:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
 'use strict';
+
+var subclass = $.cc.subclass;
 
 /**
  * The position of the character.
  */
+
 datadomain.CharPosition = subclass(function (pt) {
   'use strict';
 
@@ -20165,13 +24789,16 @@ datadomain.CharPosition = subclass(function (pt) {
   };
 });
 
-},{}],44:[function(require,module,exports){
+},{}],65:[function(require,module,exports){
 'use strict';
+
+var subclass = $.cc.subclass;
 
 /**
  * @class
  * CharPositionFactory handles the creation of CharPositions.
  */
+
 datadomain.CharPositionFactory = subclass(function (pt) {
     'use strict';
 
@@ -20202,174 +24829,21 @@ datadomain.CharPositionFactory = subclass(function (pt) {
     };
 });
 
-},{}],45:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 'use strict';
 
-/**
- * Character is the domain model and the aggregate root of character aggregate.
- * It has CharPosition and LevelHistoryCollection as its components.
- *
- * [Entity]
- * [AggregateRoot]
- */
-datadomain.Character = subclass(function (pt) {
-    'use strict';
+var _character = require('../domain/character');
 
-    /**
-     * @constructor
-     * @param {String} id The id of the character
-     * @param {String} name The name of the character
-     * @param {datadomain.CharPosition} position The position of the character
-     * @param {datadomain.LevelHistoryCollection} histories The histories of the current floor
-     * @param {datadomain.PlayingState} playingState The state of playing at the current level
-     * @param {datadomain.LevelLockCollection} locks The collection of the level locks
-     */
+var _character2 = _interopRequireDefault(_character);
 
-    pt.constructor = function (id, name, position, histories, playingState, locks) {
-        /**
-         * @property {String} id The id of the character
-         */
-        this.id = id;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-        /**
-         * @property {String} name The name of the character
-         */
-        this.name = name;
-
-        /**
-         * @property {datadomain.CharPosition} position The position of the character
-         */
-        this.position = position;
-
-        /**
-         * @property {datadomain.LevelHistoryCollection} histories The histories of the current floor
-         */
-        this.histories = histories;
-
-        /**
-         * @property {datadomain.PlayingState} playingState The state of playing at the current level
-         */
-        this.playingState = playingState;
-
-        /**
-         * @property {datadomain.LevelLockCollection} collection The collection of the locks
-         */
-        this.locks = locks;
-    };
-
-    /**
-     * Sets the position of character.
-     *
-     * @param {datadomain.CharPosition} position The position of the character
-     */
-    pt.setPosition = function (position) {
-        this.position = position;
-    };
-
-    /**
-     * Reloads the levelHistories according to the current position.
-     *
-     * @return {Promise} resolves with updated character
-     */
-    pt.reloadHistories = function () {
-        var that = this;
-
-        if (this.position == null) {
-            return Promise.resolve(this);
-        }
-
-        return new datadomain.LevelHistoryRepository(this.id).getByFloorId(this.position.floorId).then(function (histories) {
-            that.histories = histories;
-
-            return that;
-        });
-    };
-
-    /**
-     * Saves the LevelHistories.
-     *
-     * @return {Promise}
-     */
-    pt.saveHistories = function () {
-        var that = this;
-
-        return new datadomain.LevelHistoryRepository(this.id).saveByFloorId(this.position.floorId, this.histories).then(function () {
-            return that;
-        });
-    };
-
-    /**
-     * Reloads the level locks.
-     */
-    pt.reloadLocks = function () {
-        var that = this;
-
-        if (this.position == null) {
-            return Promise.resolve(this);
-        }
-
-        return new datadomain.LevelLockRepository(this.id).getByFloorId(this.position.floorId).then(function (locks) {
-            that.locks = locks;
-
-            return that;
-        });
-    };
-
-    /**
-     * Saves the current level locks.
-     */
-    pt.saveLocks = function () {
-        var that = this;
-
-        return new datadomain.LevelLockRepository(this.id).saveByFloorId(this.position.floorId, this.locks).then(function () {
-            return that;
-        });
-    };
-
-    /**
-     * Reloads the playingState
-     *
-     * @return {Promise}
-     */
-    pt.reloadPlayingState = function () {
-        var that = this;
-
-        return new datadomain.PlayingStateRepository().getByCharIdLevelId(this.id, this.position.floorObjectId).then(function (playingState) {
-            that.playingState = playingState;
-
-            return that;
-        });
-    };
-
-    /**
-     * Saves the playing state.
-     *
-     * @return {Promise}
-     */
-    pt.savePlayingState = function () {
-        var that = this;
-
-        return new datadomain.PlayingStateRepository().save(this.playingState).then(function () {
-            return that;
-        });
-    };
-
-    /**
-     * Clears the playing state.
-     *
-     * @return {Promise}
-     */
-    pt.clearPlayingState = function () {
-        return new datadomain.PlayingStateRepository().clearByCharId(this.id);
-    };
-});
-
-},{}],46:[function(require,module,exports){
-'use strict';
+var subclass = $.cc.subclass;
 
 /**
  * The factory of Character.
  */
+
 datadomain.CharacterFactory = subclass(function (pt) {
     'use strict';
 
@@ -20377,118 +24851,36 @@ datadomain.CharacterFactory = subclass(function (pt) {
      * Creates a character from the object
      *
      * @param {Object} obj The object
-     * @return {datadomain.Character}
+     * @return {Character}
      */
 
     pt.createFromObject = function (obj) {
-        return new datadomain.Character(obj.id, obj.name, new datadomain.CharPositionFactory().createFromObject(obj.position));
+        return new _character2.default(obj.id, obj.name, new datadomain.CharPositionFactory().createFromObject(obj.position));
     };
 
     /**
      * Creates the character of the initial state.
      *
      * @param {String} id The character id
-     * @return {datadomain.Character}
+     * @return {Character}
      */
     pt.createInitialById = function (id) {
         if (id === 'ma') {
-            return new datadomain.Character(id, 'Ma', new datadomain.CharPositionFactory().createFromObject());
+            return new _character2.default(id, 'Ma', new datadomain.CharPositionFactory().createFromObject());
         } else if (id === 'ellen') {
-            return new datadomain.Character(id, 'Ellen', new datadomain.CharPositionFactory().createFromObject());
+            return new _character2.default(id, 'Ellen', new datadomain.CharPositionFactory().createFromObject());
         } else if (id === 'emma') {
-            return new datadomain.Character(id, 'Emma', new datadomain.CharPositionFactory().createFromObject());
+            return new _character2.default(id, 'Emma', new datadomain.CharPositionFactory().createFromObject());
         }
 
         throw new Error('unknown character: ' + id);
     };
 });
 
-},{}],47:[function(require,module,exports){
+},{"../domain/character":86}],67:[function(require,module,exports){
 'use strict';
 
-/**
- * The repository of Character.
- *
- */
-datadomain.CharacterRepository = subclass(function (pt) {
-    'use strict';
-
-    var STORAGE_KEY = 'character-';
-
-    /**
-     * Saves the character.
-     *
-     * @param {datadomain.Character} character The Character
-     * @return {Promise}
-     */
-    pt.save = function (character) {
-        var obj = this.toObject(character);
-
-        return infrastructure.storage.set(STORAGE_KEY + character.id, obj).then(function () {
-            return character;
-        });
-    };
-
-    /**
-     * Gets a character by the id.
-     *
-     * @param {String} id The id
-     * @return {Promise} A promise of a character
-     */
-    pt.getById = function (id) {
-        return infrastructure.storage.get(STORAGE_KEY + id, null).then(function (obj) {
-            var character;
-
-            var factory = new datadomain.CharacterFactory();
-
-            if (obj == null) {
-                character = factory.createInitialById(id);
-            } else {
-                character = factory.createFromObject(obj);
-            }
-
-            return Promise.all([character, character.reloadHistories(), character.reloadPlayingState(), character.reloadLocks()]);
-        }).then(function (array) {
-            return array[0];
-        });
-    };
-
-    /**
-     * @private
-     * Converts the Character object into js object.
-     *
-     * @param {datadomain.Character} character The Character
-     * @return {Object}
-     */
-    pt.toObject = function (character) {
-        return {
-            id: character.id,
-            name: character.name,
-            position: this.positionToObject(character.position)
-        };
-    };
-
-    /**
-     * @private
-     * Converts the CharPosition object into js object.
-     *
-     * @param {datadomain.CharPosition} position The position
-     * @return {Object}
-     */
-    pt.positionToObject = function (position) {
-        if (position == null) {
-            return null;
-        }
-
-        return {
-            floorId: position.floorId,
-            floorObjectId: position.floorObjectId
-        };
-    };
-});
-
-},{}],48:[function(require,module,exports){
-'use strict';
+var subclass = $.cc.subclass;
 
 /**
  * Gene model
@@ -20497,6 +24889,7 @@ datadomain.CharacterRepository = subclass(function (pt) {
  *
  * @class
  */
+
 datadomain.Gene = subclass(function (pt) {
   'use strict';
 
@@ -20520,8 +24913,10 @@ datadomain.Gene = subclass(function (pt) {
   };
 });
 
-},{}],49:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 'use strict';
+
+var subclass = $.cc.subclass;
 
 /**
  * The level model.
@@ -20530,6 +24925,7 @@ datadomain.Gene = subclass(function (pt) {
  *
  * @class
  */
+
 datadomain.Level = subclass(function (pt) {
   'use strict';
 
@@ -20558,12 +24954,15 @@ datadomain.Level = subclass(function (pt) {
   };
 });
 
-},{}],50:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 'use strict';
+
+var subclass = $.cc.subclass;
 
 /**
  * The factory class for Level.
  */
+
 datadomain.LevelFactory = subclass(function (pt) {
     'use strict';
 
@@ -20572,14 +24971,17 @@ datadomain.LevelFactory = subclass(function (pt) {
     };
 });
 
-},{}],51:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 'use strict';
+
+var subclass = $.cc.subclass;
 
 /**
  * LevelHistory is model class which represents the history of the level clearance.
  *
  * @class
  */
+
 datadomain.LevelHistory = subclass(function (pt) {
   'use strict';
 
@@ -20620,14 +25022,17 @@ datadomain.LevelHistory = subclass(function (pt) {
   };
 });
 
-},{}],52:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 'use strict';
+
+var subclass = $.cc.subclass;
 
 /**
  * The collection class of LevelHistory.
  *
  * @class
  */
+
 datadomain.LevelHistoryCollection = subclass(Array, function (pt) {
     'use strict';
 
@@ -20659,12 +25064,15 @@ datadomain.LevelHistoryCollection = subclass(Array, function (pt) {
     };
 });
 
-},{}],53:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 'use strict';
+
+var subclass = $.cc.subclass;
 
 /**
  * The factory class for LevelHistory.
  */
+
 datadomain.LevelHistoryFactory = subclass(function (pt) {
     'use strict';
 
@@ -20698,8 +25106,10 @@ datadomain.LevelHistoryFactory = subclass(function (pt) {
     };
 });
 
-},{}],54:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 'use strict';
+
+var subclass = $.cc.subclass;
 
 /**
  * LevelHistoryRepository is the repository class of LevelHistory.
@@ -20712,6 +25122,7 @@ datadomain.LevelHistoryFactory = subclass(function (pt) {
  *
  * e.g. level-history-ma-7
  */
+
 datadomain.LevelHistoryRepository = subclass(function (pt) {
     'use strict';
 
@@ -20751,14 +25162,17 @@ datadomain.LevelHistoryRepository = subclass(function (pt) {
     };
 });
 
-},{}],55:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 'use strict';
+
+var subclass = $.cc.subclass;
 
 /**
  * The level lock model
  *
  * @class
  */
+
 datadomain.LevelLock = subclass(function (pt) {
     'use strict';
 
@@ -20784,12 +25198,15 @@ datadomain.LevelLock = subclass(function (pt) {
     };
 });
 
-},{}],56:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 'use strict';
+
+var subclass = $.cc.subclass;
 
 /**
  * The collection class of LevelLocks.
  */
+
 datadomain.LevelLockCollection = subclass(function (pt) {
     'use strict';
 
@@ -20861,12 +25278,15 @@ datadomain.LevelLockCollection = subclass(function (pt) {
     };
 });
 
-},{}],57:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 'use strict';
+
+var subclass = $.cc.subclass;
 
 /**
  * The factory class of LevelLocks.
  */
+
 datadomain.LevelLockFactory = subclass(function (pt) {
     'use strict';
 
@@ -20900,8 +25320,10 @@ datadomain.LevelLockFactory = subclass(function (pt) {
     };
 });
 
-},{}],58:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 'use strict';
+
+var subclass = $.cc.subclass;
 
 /**
  * The repository class of the LevelLock.
@@ -20914,6 +25336,7 @@ datadomain.LevelLockFactory = subclass(function (pt) {
  *
  * e.g. if charId is 'ma' and floorId is '7', then the storage key is 'level-lock-ma-7'
  */
+
 datadomain.LevelLockRepository = subclass(function (pt) {
     'use strict';
 
@@ -20988,12 +25411,15 @@ datadomain.LevelLockRepository = subclass(function (pt) {
     };
 });
 
-},{}],59:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 'use strict';
+
+var subclass = $.cc.subclass;
 
 /**
  * The repository of Level.
  */
+
 datadomain.LevelRepository = subclass(function (pt) {
     'use strict';
 
@@ -21026,14 +25452,17 @@ datadomain.LevelRepository = subclass(function (pt) {
     };
 });
 
-},{}],60:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 'use strict';
+
+var subclass = $.cc.subclass;
 
 /**
  * PlayingState model represents the current playing state of the level.
  *
  * [ValueObject]
  */
+
 datadomain.PlayingState = subclass(function (pt) {
   'use strict';
 
@@ -21084,12 +25513,15 @@ datadomain.PlayingState = subclass(function (pt) {
   };
 });
 
-},{}],61:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 'use strict';
+
+var subclass = $.cc.subclass;
 
 /**
  * PlayingStateRepository is the repository class for PlayingState model.
  */
+
 datadomain.PlayingStateRepository = subclass(function (pt) {
     'use strict';
 
@@ -21153,116 +25585,12 @@ datadomain.PlayingStateRepository = subclass(function (pt) {
     };
 });
 
-},{}],62:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 'use strict';
 
-/**
- * The model of user.
- */
-datadomain.User = subclass(function (pt) {
-  'use strict';
+var _bomTable = require('../../domain/genetics/bom-table');
 
-  /**
-   * @constructor
-   * @param {String} charId The id of the character currently chosen
-   * @param {datadomain.UserStatistics} stat The statisctics of the user activity
-   */
-
-  pt.constructor = function (charId, stat) {
-    /**
-     * @property {String} charId The id of the character currently chosen
-     */
-    this.charId = charId;
-
-    /**
-     * @property {datadomain.UserStatistics} stat The statisctics of the user activity
-     */
-    this.stat = stat;
-  };
-
-  /**
-   * Sets the character id.
-   *
-   * @param {String} charId The character id.
-   */
-  pt.setCharId = function (charId) {
-    this.charId = charId;
-  };
-});
-
-},{}],63:[function(require,module,exports){
-'use strict';
-
-/**
- * Factory class of User
- */
-datadomain.UserFactory = subclass(function (pt) {
-    'use strict';
-
-    var DEFAULT_CHAR_ID = 'ma';
-
-    pt.createFromObject = function (obj) {
-        obj = obj || {};
-
-        if (obj.charId == null) {
-            obj.charId = DEFAULT_CHAR_ID;
-        }
-
-        return new datadomain.User(obj.charId, new datadomain.UserStatistics(obj.stat));
-    };
-});
-
-},{}],64:[function(require,module,exports){
-'use strict';
-
-datadomain.UserRepository = subclass(function (pt) {
-    'use strict';
-
-    var KEY = 'LD-user-key';
-
-    pt.save = function (user) {
-        return infrastructure.storage.set(KEY, user).then(function () {
-            return user;
-        });
-    };
-
-    pt.get = function () {
-        return infrastructure.storage.get(KEY, {}).then(function (data) {
-            return new datadomain.UserFactory().createFromObject(data);
-        });
-    };
-});
-
-},{}],65:[function(require,module,exports){
-'use strict';
-
-/**
- * UserStatistics is the collection class of user statistics info.
- *
- */
-datadomain.UserStatistics = subclass(function (pt) {
-  'use strict';
-
-  /**
-   * @constructor
-   * @param {Object} opts The options
-   * @param {Number} [opts.launchTimes] The number of the launches of the app
-   */
-
-  pt.constuctor = function (opts) {
-    /**
-     * @property {Number} launchTimes The number of the launches of the app
-     */
-    this.launchTimes = opts.launchTimes;
-  };
-});
-
-},{}],66:[function(require,module,exports){
-'use strict';
-
-var _BomTable = require('../../domain/common/BomTable');
-
-var _BomTable2 = _interopRequireDefault(_BomTable);
+var _bomTable2 = _interopRequireDefault(_bomTable);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21278,7 +25606,7 @@ datadomain.goal.CollectGoal = function () {
 
     cgPt.toString = function () {
         var number = this.opts.number;
-        var target = _BomTable2.default[this.opts.target];
+        var target = _bomTable2.default[this.opts.target];
 
         return 'This room needs ' + number + ' ' + this.numberize(target, number) + '.';
     };
@@ -21294,7 +25622,7 @@ datadomain.goal.CollectGoal = function () {
     return exports;
 }();
 
-},{"../../domain/common/BomTable":71}],67:[function(require,module,exports){
+},{"../../domain/genetics/bom-table":87}],82:[function(require,module,exports){
 'use strict';
 
 /**
@@ -21329,12 +25657,15 @@ datadomain.goal.Goal = function () {
   return exports;
 }();
 
-},{}],68:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 'use strict';
+
+var subclass = $.cc.subclass;
 
 /**
  * GoalFactory is the factory class of goal models
  */
+
 datadomain.goal.GoalFactory = subclass(function (pt) {
     'use strict';
 
@@ -21371,7 +25702,7 @@ datadomain.goal.GoalFactory = subclass(function (pt) {
     };
 });
 
-},{}],69:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 'use strict';
 
 require('./Goal');
@@ -21380,7 +25711,7 @@ require('./CollectGoal');
 
 require('./GoalFactory');
 
-},{"./CollectGoal":66,"./Goal":67,"./GoalFactory":68}],70:[function(require,module,exports){
+},{"./CollectGoal":81,"./Goal":82,"./GoalFactory":83}],85:[function(require,module,exports){
 'use strict';
 
 require('./Cell');
@@ -21393,11 +25724,7 @@ require('./CharPosition');
 
 require('./CharPositionFactory');
 
-require('./Character');
-
 require('./CharacterFactory');
-
-require('./CharacterRepository');
 
 require('./Gene');
 
@@ -21427,17 +25754,224 @@ require('./PlayingState');
 
 require('./PlayingStateRepository');
 
-require('./User');
-
-require('./UserFactory');
-
-require('./UserRepository');
-
-require('./UserStatistics');
-
 require('./goal');
 
-},{"./Cell":40,"./CellCollection":41,"./CellFactory":42,"./CharPosition":43,"./CharPositionFactory":44,"./Character":45,"./CharacterFactory":46,"./CharacterRepository":47,"./Gene":48,"./Level":49,"./LevelFactory":50,"./LevelHistory":51,"./LevelHistoryCollection":52,"./LevelHistoryFactory":53,"./LevelHistoryRepository":54,"./LevelLock":55,"./LevelLockCollection":56,"./LevelLockFactory":57,"./LevelLockRepository":58,"./LevelRepository":59,"./PlayingState":60,"./PlayingStateRepository":61,"./User":62,"./UserFactory":63,"./UserRepository":64,"./UserStatistics":65,"./goal":69}],71:[function(require,module,exports){
+},{"./Cell":61,"./CellCollection":62,"./CellFactory":63,"./CharPosition":64,"./CharPositionFactory":65,"./CharacterFactory":66,"./Gene":67,"./Level":68,"./LevelFactory":69,"./LevelHistory":70,"./LevelHistoryCollection":71,"./LevelHistoryFactory":72,"./LevelHistoryRepository":73,"./LevelLock":74,"./LevelLockCollection":75,"./LevelLockFactory":76,"./LevelLockRepository":77,"./LevelRepository":78,"./PlayingState":79,"./PlayingStateRepository":80,"./goal":84}],86:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Character is the domain model and the aggregate root of character aggregate.
+ * It has CharPosition and LevelHistoryCollection as its components.
+ *
+ * [Entity]
+ * [AggregateRoot]
+ */
+
+var Character = function () {
+
+  /**
+   * @constructor
+   * @param {String} id The id of the character
+   * @param {String} name The name of the character
+   * @param {datadomain.CharPosition} position The position of the character
+   * @param {datadomain.LevelHistoryCollection} histories The histories of the current floor
+   * @param {datadomain.PlayingState} playingState The state of playing at the current level
+   * @param {datadomain.LevelLockCollection} locks The collection of the level locks
+   */
+
+  function Character(id, name, position, histories, playingState, locks) {
+    _classCallCheck(this, Character);
+
+    /**
+     * @property {String} id The id of the character
+     */
+    this.id = id;
+
+    /**
+     * @property {String} name The name of the character
+     */
+    this.name = name;
+
+    /**
+     * @property {datadomain.CharPosition} position The position of the character
+     */
+    this.position = position;
+
+    /**
+     * @property {datadomain.LevelHistoryCollection} histories The histories of the current floor
+     */
+    this.histories = histories;
+
+    /**
+     * @property {datadomain.PlayingState} playingState The state of playing at the current level
+     */
+    this.playingState = playingState;
+
+    /**
+     * @property {datadomain.LevelLockCollection} collection The collection of the locks
+     */
+    this.locks = locks;
+  }
+
+  /**
+   * Sets the position of character.
+   *
+   * @param {datadomain.CharPosition} position The position of the character
+   */
+
+  _createClass(Character, [{
+    key: "setPosition",
+    value: function setPosition(position) {
+
+      this.position = position;
+    }
+
+    /**
+     * Reloads the levelHistories according to the current position.
+     *
+     * @return {Promise} resolves with updated character
+     */
+
+  }, {
+    key: "reloadHistories",
+    value: function reloadHistories() {
+      var _this = this;
+
+      if (this.position == null) {
+        return Promise.resolve(this);
+      }
+
+      return new datadomain.LevelHistoryRepository(this.id).getByFloorId(this.position.floorId).then(function (histories) {
+
+        _this.histories = histories;
+
+        return _this;
+      });
+    }
+
+    /**
+     * Saves the LevelHistories.
+     *
+     * @return {Promise}
+     */
+
+  }, {
+    key: "saveHistories",
+    value: function saveHistories() {
+      var _this2 = this;
+
+      return new datadomain.LevelHistoryRepository(this.id).saveByFloorId(this.position.floorId, this.histories).then(function () {
+        return _this2;
+      });
+    }
+
+    /**
+     * Reloads the level locks.
+     */
+
+  }, {
+    key: "reloadLocks",
+    value: function reloadLocks() {
+      var _this3 = this;
+
+      if (this.position == null) {
+        return Promise.resolve(this);
+      }
+
+      return new datadomain.LevelLockRepository(this.id).getByFloorId(this.position.floorId).then(function (locks) {
+        _this3.locks = locks;
+
+        return _this3;
+      });
+    }
+
+    /**
+     * Saves the current level locks.
+     */
+
+  }, {
+    key: "saveLocks",
+    value: function saveLocks() {
+      var _this4 = this;
+
+      return new datadomain.LevelLockRepository(this.id).saveByFloorId(this.position.floorId, this.locks).then(function () {
+        return _this4;
+      });
+    }
+
+    /**
+     * Reloads the playingState
+     *
+     * @return {Promise}
+     */
+
+  }, {
+    key: "reloadPlayingState",
+    value: function reloadPlayingState() {
+      var _this5 = this;
+
+      return new datadomain.PlayingStateRepository().getByCharIdLevelId(this.id, this.position.floorObjectId).then(function (playingState) {
+
+        _this5.playingState = playingState;
+
+        return _this5;
+      });
+    }
+
+    /**
+     * Saves the playing state.
+     *
+     * @return {Promise}
+     */
+
+  }, {
+    key: "savePlayingState",
+    value: function savePlayingState() {
+      var _this6 = this;
+
+      return new datadomain.PlayingStateRepository().save(this.playingState).then(function () {
+        return _this6;
+      });
+    }
+
+    /**
+     * Clears the playing state.
+     *
+     * @return {Promise}
+     */
+
+  }, {
+    key: "clearPlayingState",
+    value: function clearPlayingState() {
+
+      return new datadomain.PlayingStateRepository().clearByCharId(this.id);
+    }
+
+    /**
+     */
+
+  }, {
+    key: "getFloorObjectId",
+    value: function getFloorObjectId() {
+
+      return this.position.floorObjectId;
+    }
+  }]);
+
+  return Character;
+}();
+
+exports.default = Character;
+
+},{}],87:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -21458,41 +25992,24 @@ exports.default = {
 
 };
 
-},{}],72:[function(require,module,exports){
+},{}],88:[function(require,module,exports){
 "use strict";
-
-window.subclass = $.cc.subclass;
-
-// game logic domain
-window.domain = {};
-window.domain.common = {};
-window.domain.map = {};
-window.domain.level = {};
-window.domain.genetics = {};
 
 // game data domain
 window.datadomain = {};
 window.datadomain.goal = {};
 
-// ui domain
-window.ui = {};
-window.ui.common = {};
-window.ui.level = {};
-
-// util (infrastructure layer)
-window.util = {};
-
-},{}],73:[function(require,module,exports){
+},{}],89:[function(require,module,exports){
 'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _dec, _dec2, _class, _desc, _value, _class2;
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _dec2, _class, _desc, _value, _class2;
 
 require('./menu-item');
 
@@ -21551,9 +26068,7 @@ var R = 60; // radius of menu item arrangment
 function itemOffsets(offset, num) {
 
     var result = [];
-
     var gutter = Math.PI / 4 / num / num;
-
     var urad = num > 1 ? (Math.PI / 2 - gutter * 2) / (num - 1) : 0;
 
     var r = R * Math.sqrt(num);
@@ -21759,17 +26274,17 @@ var MenuButton = (_dec = component('menu-button'), _dec2 = event('click'), _dec(
 }(Coelement), (_applyDecoratedDescriptor(_class2.prototype, 'toggleMenu', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'toggleMenu'), _class2.prototype)), _class2)) || _class);
 exports.default = MenuButton;
 
-},{"./menu-item":74,"spn":30}],74:[function(require,module,exports){
+},{"./menu-item":90,"spn":47}],90:[function(require,module,exports){
 'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _dec, _dec2, _class, _desc, _value, _class2;
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _dec2, _class, _desc, _value, _class2;
 
 var _spn = require('spn');
 
@@ -21923,14 +26438,7 @@ var MenuItem = (_dec = component('menu-item'), _dec2 = event('click'), _dec(_cla
 }(Coelement), (_applyDecoratedDescriptor(_class2.prototype, 'handleOnClick', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'handleOnClick'), _class2.prototype)), _class2)) || _class);
 exports.default = MenuItem;
 
-},{"spn":30}],75:[function(require,module,exports){
-'use strict';
-
-require('./jquery');
-
-require('./rx');
-
-},{"./jquery":76,"./rx":77}],76:[function(require,module,exports){
+},{"spn":47}],91:[function(require,module,exports){
 'use strict';
 
 var _spn = require('spn');
@@ -22005,7 +26513,7 @@ $.fn.imageLoaded = function () {
     });
 };
 
-},{"spn":30}],77:[function(require,module,exports){
+},{"spn":47}],92:[function(require,module,exports){
 "use strict";
 
 var Rx = window.Rx;
@@ -22114,4 +26622,4 @@ window.Array.prototype.toFlatStream = function () {
   return Rx.Observable.of.apply(null, this).flattenObservable();
 };
 
-},{}]},{},[38]);
+},{}]},{},[59]);
