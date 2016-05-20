@@ -29,7 +29,7 @@ export default class ScreenplayLine {
      */
     play() {
 
-        return this.getActor().speak(p(this.line))
+        return this.getActor().speak(this.line)
 
     }
 

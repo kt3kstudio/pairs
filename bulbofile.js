@@ -28,7 +28,11 @@ asset(`${ SITE }/*.html`)
   .pipe(frontMatter())
   .pipe(wrapper.nunjucks({layout: `${ SITE }/layouts`, data: {configJSON}}))
 
-// others
+// data
 asset(`${ SITE }/data/**/*.*`).base(SITE)
-asset(`${ SITE }/img/**/*.*`).base(SITE)
-asset(`${ SITE }/css/**/*.*`).base(SITE)
+
+// images
+asset(`${ SITE }/**/*.{svg,png}`).base(SITE)
+
+// css
+asset(`${ SITE }/**/*.css`).base(SITE)

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./css/all.css" />
     <link rel="stylesheet" href="./css/tether.css" />
     <link rel="stylesheet" href="./css/drop-theme-arrows-bounce.css" />
+    <link rel="stylesheet" href="./asset/emoji/css/emoji.css" />
     <link rel="icon" href="./img/favicon.png" />
 
     <script>window.config = {{ configJSON | safe }}</script>
