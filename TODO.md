@@ -1,18 +1,18 @@
 # TODO
 
+## chore
+- move BASE_PATH to global.js
+
 ## game
 - Cancel (skip) target in the DSL.
 - Speech timeout in DSL.
-- Speech separator which swipes all the speech bubbles
 - SpeechBubble class
-  - puncher
-  - show
-  - hide
+  - start method, started event, finished event
 - CellSource @component('cell-source')
 
-- Emoji managemenet
+- Design emoji framework
+  - creates cell emoji classes, <i class="emoji-amf"></i>
   - creates love emoji
-  - creates gene (mfmf etc) emoji
 
 - puncher `unit-dur` configurable depending on the character to be punched
 
