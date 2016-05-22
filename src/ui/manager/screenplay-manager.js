@@ -3,10 +3,6 @@ import {parse} from 'scenarioscript'
 
 const {event, component, Coelement} = $.cc
 
-const emojiList = [
-    'love'
-]
-
 /**
  * ScreenplayManager
  */

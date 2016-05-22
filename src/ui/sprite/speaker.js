@@ -1,4 +1,3 @@
-import ScreenplayManager from '../manager/screenplay-manager'
 import {renderEmoji} from '../../util/emoji'
 
 import {wait} from 'spn'

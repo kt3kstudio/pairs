@@ -1,5 +1,3 @@
-import {p} from 'dom-gen'
-
 /**
  * Screenplay line represents a line of a screenplay.
  */

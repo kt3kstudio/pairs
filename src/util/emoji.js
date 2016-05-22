@@ -3,7 +3,7 @@ export const emojis = [
     'f',
     'a',
     'w',
-    'b',
+    'b'
 ]
 
 /**
@@ -11,7 +11,7 @@ export const emojis = [
  * @param {string} text The raw text
  * @return {string}
  */
- export function renderEmoji(text) {
+export function renderEmoji(text) {
     return text.replace(/:([_a-z]+):/g, emojiToTag)
 }
 
