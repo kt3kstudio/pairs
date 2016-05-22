@@ -15,7 +15,7 @@ describe('screenplay-manager', () => {
 
         class TestSpeaker extends Actor {
             speak(line) {
-                this.elem.attr('stored-message', line.text())
+                this.elem.attr('stored-message', line)
             }
         }
 
@@ -26,9 +26,9 @@ describe('screenplay-manager', () => {
     beforeEach(() => {
 
         elem = script `
-            #moo0 Hey!
-            #moo1 Hi!
-            #moo2 Yay!
+            [#moo0] Hey!
+            [#moo1] Hi!
+            [#moo2] Yay!
         `.attr('type', 'text/x-screenplay')
 
         sm = elem.cc.init('screenplay-manager')
