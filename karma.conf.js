@@ -4,6 +4,7 @@ module.exports = function (config) {
     config.set({
         frameworks: ['mocha', 'chai', 'jsmockito-jshamcrest', 'browserify'],
         files: [
+            'site/**/*.css',
             'spec/helper.js',
             'spec/**/*.js'
         ],
