@@ -1,28 +1,25 @@
 # TODO
 
 ## chore
-- move BASE_PATH to global.js
 
-## game
+## feat(speech)
 - Cancel (skip) target in the DSL.
 - Speech timeout in DSL.
-- SpeechBubble class
+- SpeechBalloon class
   - start method, started event, finished event
-- CellSource @component('cell-source')
 
-- Design emoji framework
-  - creates cell emoji classes, <i class="emoji-amf"></i>
-  - creates love emoji
+## refactor(cell)
+- CellSource @component('cell-source')
 
 - puncher `unit-dur` configurable depending on the character to be punched
 
-- SpeechBubble
+- SpeechBalloon
   - multiple bubble handling
   - close all method
   - redesign bubble management
   - transition to class-component based arch - done
 
-## Make residents
+## feat(residents)
 - Who suggest what they need for their rooms
 - draw the residents in the notebook and pin it
 - gather ideas of the residents, the reason for them needing the cells
@@ -35,7 +32,7 @@
 ## game logic
 - Char difference
   - ma - torus
-  - ellen - sphere
+  - ellen - sphere, state
   - emma - P2
 
 ## Tutorial
@@ -47,6 +44,10 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- Design emoji framework
+  - creates cell emoji classes, <i class="emoji-amf"></i>
+  - creates love emoji
+- move BASE_PATH to global.js
 - enhance Speaker can speak letter by letter
 - dont flip bubbles, pop up it.
 - ScreenplayLine @component('screenplay-line')
