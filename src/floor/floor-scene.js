@@ -1,4 +1,4 @@
-import SceneContext from '../scene-context'
+import SceneContext from '../ui/scene-context'
 import BackgroundService from '../ui/common/background-service'
 import UserRepository from '../domain/user-repository'
 import CharacterRepository from '../domain/character-repository'

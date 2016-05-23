@@ -1,4 +1,4 @@
-import SceneContext from '../scene-context'
+import SceneContext from '../ui/scene-context'
 import BackgroundService from '../ui/common/background-service'
 import {loadImage} from '../util/util'
 import {wait} from 'spn'

@@ -1,4 +1,4 @@
-import SceneContext from '../scene-context'
+import SceneContext from '../ui/scene-context'
 import './component'
 
 /**
