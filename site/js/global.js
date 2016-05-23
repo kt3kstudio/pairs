@@ -10,6 +10,7 @@ global.jQuery = $
 global.Rx = Rx
 global.Tether = Tether
 global.Drop = Drop
+global.BASEPATH = ''
 
 require('class-component')
 

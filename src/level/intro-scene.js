@@ -5,7 +5,6 @@ import BackgroundService from '../ui/common/background-service'
 import UserRepository from '../domain/user-repository'
 import CharacterRepository from '../domain/character-repository'
 import '../ui/manager/screenplay-manager'
-import {BASE_PATH} from '../'
 import {wait} from 'spn'
 
 const {component, event} = $.cc
@@ -100,7 +99,7 @@ export default class IntroScene extends Context {
      */
     getLevelDataUrl(id) {
 
-        return `${BASE_PATH}data/level/${id}.html`
+        return `${global.BASEPATH}/data/level/${id}.html`
 
     }
 

@@ -1,5 +1,4 @@
 import Resident from './resident'
-import {BASE_PATH} from '../../'
 import {Animation} from 'spn'
 
 const {component} = $.cc
@@ -18,7 +17,7 @@ export default class Moo extends Resident {
 
     image() {
 
-        return `${BASE_PATH}img/moo.svg`
+        return `${global.BASEPATH}/img/moo.svg`
 
     }
 }
