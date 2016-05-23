@@ -1,6 +1,9 @@
 # TODO
 
-## chore
+## feat(emoji):
+- make emoji appear with animation
+- make emoji appear more slowly
+  - puncher `unit-dur` configurable depending on the character to be punched
 
 ## feat(speech)
 - Cancel (skip) target in the DSL.
@@ -11,13 +14,10 @@
 ## refactor(cell)
 - CellSource @component('cell-source')
 
-- puncher `unit-dur` configurable depending on the character to be punched
-
 - SpeechBalloon
   - multiple bubble handling
   - close all method
   - redesign bubble management
-  - transition to class-component based arch - done
 
 ## feat(residents)
 - Who suggest what they need for their rooms
