@@ -9,10 +9,11 @@ export const emojis = [
 /**
  * Renders the emoji simbols in the text to emoji tag.
  * @param {string} text The raw text
+ * @param {string} cls The additional css class
  * @return {string}
  */
-export function renderEmoji(text) {
-    return text.replace(/:([_a-z]+):/g, emojiToTag)
+export function renderEmoji(text, cls) {
+    return text.replace(/:([_a-z]+):/g, (_, emoji) => emojiToTag(emoji, cls))
 }
 
 /**
@@ -20,7 +21,7 @@ export function renderEmoji(text) {
  * @param {string} emoji The id of emoji symbol
  * @return {string}
  */
-function emojiToTag(_, emoji) {
+function emojiToTag(emoji, cls) {
 
     if (emojis.indexOf(emoji) === -1) {
 
@@ -29,5 +30,5 @@ function emojiToTag(_, emoji) {
 
     }
 
-    return `<i class="emoji emoji-${emoji}"></i>`
+    return `<i class="emoji emoji-${emoji} ${cls || ''}"></i>`
 }

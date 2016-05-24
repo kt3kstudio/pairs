@@ -51,9 +51,10 @@ body {
     position: absolute;
 }
 
-.char {
+.punch-emoji {
+  transition-duration: 400ms;
+  transition-property: opacity;
 }
-
 
 @-webkit-keyframes char-appear {
     0% { opacity: 0 }

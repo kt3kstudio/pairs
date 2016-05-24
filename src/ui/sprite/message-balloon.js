@@ -34,11 +34,9 @@ export default class MessageBalloon extends $.cc.Coelement {
     start() {
         this.elem.trigger('message-balloon.started')
 
-        const html = renderEmoji(this.message)
-
         this.elem.append(
-            p({css: {height: 0, overflow: 'hidden'}}, html), // This is dummy for occupying the space.
-            p(html).cc.up('puncher').trigger('puncher.start') // This is actual message for showing
+            p({css: {height: 0, overflow: 'hidden'}}, renderEmoji(this.message)), // This is dummy for occupying the space.
+            p(renderEmoji(this.message, 'punch-emoji')).cc.up('puncher').trigger('puncher.start') // This is actual message for showing
         )
         const drop = new global.Drop({
             target: this.target,

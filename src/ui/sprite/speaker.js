@@ -1,4 +1,5 @@
 import './message-balloon'
+require('../screenplay/emoji')
 
 import {div} from 'dom-gen'
 
