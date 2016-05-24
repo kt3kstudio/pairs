@@ -13,21 +13,14 @@ module.exports = function (config) {
         },
         browserify: {
             debug: true,
-            noParse: [
-              'jquery',
-              'rx-lite',
-              'es6-promise',
-              'es6-symbol/implement',
-              'tether',
-              'tether-drop',
-              'multiflip',
-              'multiflip-bubble',
-              '@kt3k/puncher'
-            ],
-            transform: ['babelify']
+            noParse: ['jquery'],
+            transform: [require('browserify-istanbul')({
+                instrumenter: require('isparta'),
+                ignore: ['**/spec/**']
+            }), 'babelify']
         },
         coverageReporter: {type: 'lcov'},
-        reporters: ['spec'],
+        reporters: ['spec', 'coverage'],
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,
