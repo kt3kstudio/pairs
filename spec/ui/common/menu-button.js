@@ -1,9 +1,9 @@
-describe('MenuButton', function () {
+describe('MenuButton', () => {
     'use strict'
 
-    var elem, menuBtn
+    let elem, menuBtn
 
-    beforeEach(function () {
+    beforeEach(() => {
         $('body').empty()
 
         $('<menus id="test-menu"><menu src="" /><menu src="" ><menu /><menu /></menu></menus>').appendTo('body')
@@ -13,45 +13,45 @@ describe('MenuButton', function () {
         menuBtn = elem.cc.init('menu-button')
     })
 
-    it('initialize with corresponding id dom element', function () {
+    it('initialize with corresponding id dom element', () => {
         expect(menuBtn.menus).to.have.length(2)
     })
 
-    describe('show', function () {
-        it('shows the menu button', function () {
-            return menuBtn.show().then(function () {
+    describe('show', () => {
+        it('shows the menu button', () => {
+            return menuBtn.show().then(() => {
                 expect(elem.hasClass('hidden')).to.be.false
             })
         })
     })
 
-    describe('hide', function () {
-        it('hides the menu button', function () {
-            return menuBtn.show().then(function () {
+    describe('hide', () => {
+        it('hides the menu button', () => {
+            return menuBtn.show().then(() => {
                 return menuBtn.hide()
-            }).then(function () {
+            }).then(() => {
                 expect(elem.hasClass('hidden')).to.be.true
             })
         })
     })
 
-    describe('openMenu', function () {
-        it('opens the menu', function () {
-            return menuBtn.show().then(function () {
+    describe('openMenu', () => {
+        it('opens the menu', () => {
+            return menuBtn.show().then(() => {
                 return menuBtn.openMenu()
-            }).then(function () {
+            }).then(() => {
                 expect(menuBtn.closed).to.be.false
             })
         })
     })
 
-    describe('closeMenu', function () {
-        it('closes the menu', function () {
-            return menuBtn.show().then(function () {
+    describe('closeMenu', () => {
+        it('closes the menu', () => {
+            return menuBtn.show().then(() => {
                 return menuBtn.openMenu()
-            }).then(function () {
+            }).then(() => {
                 return menuBtn.closeMenu()
-            }).then(function () {
+            }).then(() => {
                 expect(menuBtn.closed).to.be.true
             })
         })
