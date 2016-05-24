@@ -1,5 +1,5 @@
 import './message-balloon'
-require('../screenplay/emoji')
+require('../screenplay/punch-emoji')
 
 import {div} from 'dom-gen'
 

@@ -1,6 +1,6 @@
 import StaticSprite from '../../ui/sprite/static-sprite'
 import RelativeBody from '../../ui/sprite/relative-body'
-import Speaker from '../../ui/sprite/speaker'
+import Speaker from '../../ui/screenplay/speaker'
 import {traits} from 'traits-decorator'
 import {Body} from 'spn'
 

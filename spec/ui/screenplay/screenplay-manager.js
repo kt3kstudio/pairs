@@ -1,4 +1,4 @@
-import '../../../src/ui/manager/screenplay-manager'
+import '../../../src/ui/screenplay/screenplay-manager'
 
 import {expect} from 'chai'
 import domGen from 'dom-gen'

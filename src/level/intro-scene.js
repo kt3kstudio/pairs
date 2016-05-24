@@ -4,7 +4,7 @@ import PlaySceneLayout from './layout/play-scene-layout'
 import BackgroundService from '../ui/common/background-service'
 import UserRepository from '../domain/user-repository'
 import CharacterRepository from '../domain/character-repository'
-import '../ui/manager/screenplay-manager'
+import '../ui/screenplay/screenplay-manager'
 import {wait} from 'spn'
 
 const {component, event} = $.cc

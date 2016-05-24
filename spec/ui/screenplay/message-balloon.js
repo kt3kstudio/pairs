@@ -1,4 +1,4 @@
-require('../../../src/ui/sprite/message-balloon')
+require('../../../src/ui/screenplay/message-balloon')
 
 const {div} = require('dom-gen')
 
