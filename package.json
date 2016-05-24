@@ -12,6 +12,7 @@
     "start": "bulbo serve",
     "lint": "souffle",
     "test": "karma start karma.conf.js",
+    "watch": "karma start karma.watch.conf.js",
     "cov": "karma start karma.cov.conf.js",
     "codecov": "npm run cov && codecov",
     "esdoc": "esdoc -c esdoc.json",
