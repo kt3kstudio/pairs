@@ -14,15 +14,15 @@ module.exports = function (config) {
         browserify: {
             debug: true,
             noParse: [
-              'jquery',
-              'rx-lite',
-              'es6-promise',
-              'es6-symbol/implement',
-              'tether',
-              'tether-drop',
-              'multiflip',
-              'multiflip-bubble',
-              '@kt3k/puncher'
+                'jquery',
+                'rx-lite',
+                'es6-promise',
+                'es6-symbol/implement',
+                'tether',
+                'tether-drop',
+                'multiflip',
+                'multiflip-bubble',
+                '@kt3k/puncher'
             ],
             transform: ['babelify']
         },
