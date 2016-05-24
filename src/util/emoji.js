@@ -29,5 +29,5 @@ function emojiToTag(_, emoji) {
 
     }
 
-    return `<i class="emoji emoji-${emoji}"/><i>`
+    return `<i class="emoji emoji-${emoji}"></i>`
 }
