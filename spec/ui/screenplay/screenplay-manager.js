@@ -3,7 +3,7 @@ import '../../../src/ui/screenplay/screenplay-manager'
 import {expect} from 'chai'
 import domGen from 'dom-gen'
 
-const {component, Actor} = $.cc
+const {component} = $.cc
 
 const script = domGen('script')
 
@@ -13,7 +13,11 @@ describe('screenplay-manager', () => {
 
     before(() => {
 
-        class TestSpeaker extends Actor {
+        class TestSpeaker {
+            constructor(elem) {
+                elem.data('speaker', this)
+            }
+
             speak(line) {
                 this.elem.attr('stored-message', line)
             }

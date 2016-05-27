@@ -18,12 +18,6 @@ describe('FloorAsset', () => {
 
     describe('constructor', () => {
 
-        it('registers as actor', () => {
-
-            expect($dom.cc.getActor()).to.equal(floorAsset)
-
-        })
-
         it('gets w, h, x, y and id properties from the given dom', () => {
 
             expect(floorAsset.x).to.equal(200)

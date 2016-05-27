@@ -13,7 +13,7 @@ describe('message-balloon', () => {
             'skip-target': document.body,
             message: 'foo bar baz',
             timeout: 100
-        }}).cc.up('message-balloon')
+        }}).cc('message-balloon')
 
         balloon = elem.cc.get('message-balloon')
 

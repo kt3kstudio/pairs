@@ -10,7 +10,7 @@ describe('Door', () => {
         $dom = $('<div w="100" h="90" x="200" y="300" level="701" id="701" />')
         $dom.appendTo(document.body)
 
-        door = new Door($dom)
+        door = $dom.cc.init('door')
 
     })
 
