@@ -17,6 +17,7 @@ export default class Resident extends Body {
         super(elem)
 
         this.initSprite()
+        this.setSpeaker()
 
         const [x, y] = elem.attr('xy').split(/\s+/)
 

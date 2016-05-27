@@ -29,12 +29,21 @@ export default class FloorAssetCollection extends Being {
         // init floor assets
         $.cc.init('door staircase', this.elem)
 
-        // collect floor assets in the property
-        this.items = this.elem.find('.staircase, .door').map(function () {
+        // collect staircases
+        this.staircases = this.elem.find('.staircase .door').map(function () {
 
-            return $(this).cc.getActor()
+            return $(this).cc.get('staircase')
 
         }).toArray()
+
+        // collect doors
+        this.doors = this.elem.find('.door').map(function () {
+
+            return $(this).cc.get('door')
+
+        }).toArray()
+
+        this.items = [].concat(this.staircases, this.doors)
 
         // set floor width
         this.elem.width(this.elem.find('.floor-data').data('floor-width'))

@@ -100,7 +100,7 @@ export default class FloorAsset extends Body {
 
         }
 
-        const frog = frogDom.cc.getActor()
+        const frog = frogDom.cc.get('frog')
 
         if (frog == null) {
 

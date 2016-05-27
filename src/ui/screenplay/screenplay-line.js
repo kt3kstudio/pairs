@@ -18,7 +18,7 @@ export default class ScreenplayLine {
      */
     getActor() {
 
-        return $(this.selector, this.context).cc.getActor()
+        return $(this.selector, this.context).data('speaker')
 
     }
 

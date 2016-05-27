@@ -19,6 +19,7 @@ export default class Character extends GridWalker {
         this.elem.addClass('hero')
 
         this.initSprite()
+        this.setSpeaker()
     }
 
     ratioX() { return 0.5 }

@@ -1,5 +1,4 @@
 import './global'
-import 'cc-event'
 import 'event-hub'
 import '../../src/namespaces'
 import '../../src/util/jquery'

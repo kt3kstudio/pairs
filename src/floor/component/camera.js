@@ -23,7 +23,7 @@ export default class Camera extends $.cc.Coelement {
      */
     setUp() {
 
-        this.scrollSet($('.floor-asset-collection').cc.getActor().findById($('.floor-walker').cc.getActor().getPosition().floorObjectId).centerX())
+        this.scrollSet($('.floor-asset-collection').cc.get('floor-asset-collection').findById($('.floor-walker').cc.get('floor-walker').getPosition().floorObjectId).centerX())
 
     }
 

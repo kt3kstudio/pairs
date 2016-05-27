@@ -12,6 +12,10 @@ const DEFAULT_SPEECH_TIMEOUT = 5000
  */
 export default class Speaker {
 
+    setSpeaker() {
+        this.elem.data('speaker', this)
+    }
+
     /**
      * Speaks the phrase
      *
@@ -29,7 +33,7 @@ export default class Speaker {
             timeout,
             target: this.elem,
             'skip-target': this.elem
-        }}).cc.up('message-balloon').trigger('message-balloon.start').once('message-balloon.ended')
+        }}).cc('message-balloon').trigger('message-balloon.start').once('message-balloon.ended')
         .then(() => this.elem.trigger('speech.ended'))
     }
 }

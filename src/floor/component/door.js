@@ -73,7 +73,7 @@ export default class Door extends FloorAsset {
 
                     })
                 )
-            ).cc.up()
+            ).cc()
         )
 
         this.doorBody = this.elem.find('.door-body')
