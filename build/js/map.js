@@ -188,8 +188,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * Being represents a dom with visual representation which has the phases, such as show, hide and disappear.
  */
 
-var Being = function (_$$cc$Actor) {
-  _inherits(Being, _$$cc$Actor);
+var Being = function (_$$cc$Coelement) {
+  _inherits(Being, _$$cc$Coelement);
 
   function Being() {
     _classCallCheck(this, Being);
@@ -327,7 +327,7 @@ var Being = function (_$$cc$Actor) {
   }]);
 
   return Being;
-}($.cc.Actor);
+}($.cc.Coelement);
 
 exports.default = Being;
 },{}],4:[function(require,module,exports){
@@ -3307,7 +3307,7 @@ var Camera = (_dec = component('camera'), _dec2 = event('character-focus'), _dec
         key: 'setUp',
         value: function setUp() {
 
-            this.scrollSet($('.floor-asset-collection').cc.getActor().findById($('.floor-walker').cc.getActor().getPosition().floorObjectId).centerX());
+            this.scrollSet($('.floor-asset-collection').cc.get('floor-asset-collection').findById($('.floor-walker').cc.get('floor-walker').getPosition().floorObjectId).centerX());
         }
 
         /**
@@ -3484,7 +3484,7 @@ var Door = (_dec = component('door'), _dec(_class = function (_FloorAsset) {
 
                 event.preventDefault();
                 $(this).trigger('goToLevel');
-            }))).cc.up());
+            }))).cc());
 
             this.doorBody = this.elem.find('.door-body');
             this.informationPanel = this.elem.find('.door-info').cc.get('multiflip');
@@ -3643,11 +3643,19 @@ var FloorAssetCollection = (_dec = component('floor-asset-collection'), _dec(_cl
             // init floor assets
             $.cc.init('door staircase', this.elem);
 
-            // collect floor assets in the property
-            this.items = this.elem.find('.staircase, .door').map(function () {
+            // collect staircases
+            this.staircases = this.elem.find('.staircase .door').map(function () {
 
-                return $(this).cc.getActor();
+                return $(this).cc.get('staircase');
             }).toArray();
+
+            // collect doors
+            this.doors = this.elem.find('.door').map(function () {
+
+                return $(this).cc.get('door');
+            }).toArray();
+
+            this.items = [].concat(this.staircases, this.doors);
 
             // set floor width
             this.elem.width(this.elem.find('.floor-data').data('floor-width'));
@@ -3906,7 +3914,7 @@ var FloorAsset = function (_Body) {
         return;
       }
 
-      var frog = frogDom.cc.getActor();
+      var frog = frogDom.cc.get('frog');
 
       if (frog == null) {
 
@@ -4539,7 +4547,7 @@ var _get = function get(object, property, receiver) { if (object === null) objec
 
 var _dec, _dec2, _dec3, _dec4, _dec5, _class, _desc, _value, _class2;
 
-var _sceneContext = require('../scene-context');
+var _sceneContext = require('../ui/scene-context');
 
 var _sceneContext2 = _interopRequireDefault(_sceneContext);
 
@@ -4896,7 +4904,87 @@ var MapScene = (_dec = component('map-scene'), _dec2 = event('scene-start'), _de
 }(_sceneContext2.default), (_applyDecoratedDescriptor(_class2.prototype, 'main', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'main'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'goToLevel', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'goToLevel'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'sceneReload', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'sceneReload'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'assetUnlock', [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, 'assetUnlock'), _class2.prototype)), _class2)) || _class);
 exports.default = MapScene;
 
-},{"../domain/character-repository":23,"../domain/user-repository":25,"../scene-context":38,"../ui/common/background-service":39,"./component":35,"spn":12}],38:[function(require,module,exports){
+},{"../domain/character-repository":23,"../domain/user-repository":25,"../ui/common/background-service":38,"../ui/scene-context":39,"./component":35,"spn":12}],38:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _spn = require('spn');
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Dur = 700;
+
+/**
+ * BackgroundService handles the animation of background colors.
+ */
+
+var BackgroundService = function () {
+  function BackgroundService() {
+    _classCallCheck(this, BackgroundService);
+  }
+
+  _createClass(BackgroundService, null, [{
+    key: 'turnWhite',
+
+    /**
+     * Turns the bg color white.
+     *
+     * @param {Number} dur The duration
+     * @return {Promise}
+     */
+    value: function turnWhite(dur) {
+
+      return this.turn('', dur, false);
+    }
+
+    /**
+     * Turns the bg color white.
+     *
+     * @param {Number} dur The duration
+     * @return {Promise}
+     */
+
+  }, {
+    key: 'turnBlack',
+    value: function turnBlack(dur) {
+
+      return this.turn('', dur, true);
+    }
+
+    /**
+     * Turns the bg color to the given color.
+     *
+     * @private
+     * @param {String} color The color in css color
+     * @param {Number} dur The duration
+     * @param {Boolean} darkBg True if use dark background format
+     * @return {Promise}
+     */
+
+  }, {
+    key: 'turn',
+    value: function turn(color, dur, darkBg) {
+
+      dur = dur || Dur;
+
+      $(document.body).toggleClass('dark-bg', darkBg).css('background-color', color);
+
+      return (0, _spn.wait)(dur);
+    }
+  }]);
+
+  return BackgroundService;
+}();
+
+exports.default = BackgroundService;
+
+},{"spn":12}],39:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5032,87 +5120,7 @@ var SceneContext = function (_Coelement) {
 
 exports.default = SceneContext;
 
-},{}],39:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _spn = require('spn');
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Dur = 700;
-
-/**
- * BackgroundService handles the animation of background colors.
- */
-
-var BackgroundService = function () {
-  function BackgroundService() {
-    _classCallCheck(this, BackgroundService);
-  }
-
-  _createClass(BackgroundService, null, [{
-    key: 'turnWhite',
-
-    /**
-     * Turns the bg color white.
-     *
-     * @param {Number} dur The duration
-     * @return {Promise}
-     */
-    value: function turnWhite(dur) {
-
-      return this.turn('', dur, false);
-    }
-
-    /**
-     * Turns the bg color white.
-     *
-     * @param {Number} dur The duration
-     * @return {Promise}
-     */
-
-  }, {
-    key: 'turnBlack',
-    value: function turnBlack(dur) {
-
-      return this.turn('', dur, true);
-    }
-
-    /**
-     * Turns the bg color to the given color.
-     *
-     * @private
-     * @param {String} color The color in css color
-     * @param {Number} dur The duration
-     * @param {Boolean} darkBg True if use dark background format
-     * @return {Promise}
-     */
-
-  }, {
-    key: 'turn',
-    value: function turn(color, dur, darkBg) {
-
-      dur = dur || Dur;
-
-      $(document.body).toggleClass('dark-bg', darkBg).css('background-color', color);
-
-      return (0, _spn.wait)(dur);
-    }
-  }]);
-
-  return BackgroundService;
-}();
-
-exports.default = BackgroundService;
-
-},{"spn":12}],40:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

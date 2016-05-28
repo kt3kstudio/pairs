@@ -1,54 +1,67 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _coelement = require('./coelement');
-
-var _coelement2 = _interopRequireDefault(_coelement);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+var ListenerInfo = require('./listener-info');
 
 /**
- * Actor is the primary coelement on a dom. A dom is able to have only one actor.
+ * The decorator for registering event listener info to the method.
+ * @param {string} event The event name
+ * @param {string} selector The selector for listening. When null is passed, the listener listens on the root element of the component.
+ * @param {object} prototype The prototype of the coelement class
+ * @param {string} name The name of the method
  */
+var event = function event(_event, selector) {
+  return function (prototype, name) {
+    var method = prototype[name];
 
-var Actor = function (_Coelement) {
-    _inherits(Actor, _Coelement);
+    method.__events__ = method.__events__ || [];
 
-    function Actor(elem) {
-        _classCallCheck(this, Actor);
+    method.__events__.push(new ListenerInfo(_event, selector, method));
+  };
+};
 
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Actor).call(this, elem));
+/**
+ * The decorator to prepend and append event trigger.
+ * @param {string} start The event name when the method started
+ * @param {string} end The event name when the method finished
+ * @param {string} error the event name when the method errored
+ */
+var trigger = function trigger(start, end, error) {
+  return function (prototype, name) {
+    var method = prototype[name];
 
-        if (elem.data('__primary_coelement') != null) {
+    prototype[name] = function () {
+      var _this = this;
 
-            throw new Error('actor is already set: ' + elem.data('__primary_coelement').constructor.coelementName);
-        }
+      if (start != null) {
+        this.elem.trigger(start);
+      }
 
-        elem.data('__primary_coelement', _this);
+      var result = method.apply(this, arguments);
 
-        return _this;
-    }
+      var promise = Promise.resolve(result);
 
-    return Actor;
-}(_coelement2.default);
+      if (end != null) {
+        promise.then(function () {
+          return _this.elem.trigger(end);
+        });
+      }
 
-exports.default = Actor;
-},{"./coelement":6}],2:[function(require,module,exports){
+      if (error != null) {
+        promise.catch(function () {
+          return _this.elem.trigger(error);
+        });
+      }
+
+      return result;
+    };
+  };
+};
+
+exports.event = event;
+exports.trigger = trigger;
+},{"./listener-info":8}],2:[function(require,module,exports){
 'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -59,20 +72,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 
 var ClassComponentConfiguration = function () {
-
   /**
    * @param {String} className The class name
-   * @param {Function} definingFunction The defining function
+   * @param {Function} Constructor The constructor of the coelement of the class component
    */
 
-  function ClassComponentConfiguration(className, definingFunction) {
+  function ClassComponentConfiguration(className, Constructor) {
     _classCallCheck(this, ClassComponentConfiguration);
 
     this.className = className;
-    this.definingFunction = definingFunction;
+    this.Constructor = Constructor;
+
+    this.ProxyConstructor = function () {};
+    this.ProxyConstructor.prototype = Constructor.prototype;
   }
 
   /**
+   * Gets the initialized class name.
    * @private
    * @return {String}
    */
@@ -81,13 +97,11 @@ var ClassComponentConfiguration = function () {
   _createClass(ClassComponentConfiguration, [{
     key: 'initializedClass',
     value: function initializedClass() {
-
       return this.className + '-initialized';
     }
 
     /**
      * Returns the selector for uninitialized class component.
-     *
      * @public
      * @return {String}
      */
@@ -95,13 +109,11 @@ var ClassComponentConfiguration = function () {
   }, {
     key: 'selector',
     value: function selector() {
-
       return '.' + this.className + ':not(.' + this.initializedClass() + ')';
     }
 
     /**
      * Marks the given element as initialized as this class component.
-     *
      * @private
      * @param {jQuery} elem
      */
@@ -109,13 +121,11 @@ var ClassComponentConfiguration = function () {
   }, {
     key: 'markInitialized',
     value: function markInitialized(elem) {
-
       elem.addClass(this.initializedClass());
     }
 
     /**
      * Applies the defining function to the element.
-     *
      * @private
      * @param {jQuery} elem
      */
@@ -123,37 +133,81 @@ var ClassComponentConfiguration = function () {
   }, {
     key: 'applyCustomDefinition',
     value: function applyCustomDefinition(elem) {
+      var coelem = new this.ProxyConstructor();
 
-      this.definingFunction(elem);
+      coelem.elem = elem; // Injects elem at this.elem
+
+      this.getAllListenerInfo().forEach(function (listenerInfo) {
+        return listenerInfo.bindTo(elem, coelem);
+      });
+
+      this.Constructor.call(coelem, elem); // Simulates the constructor call
+
+      elem.data('__coelement:' + this.className, coelem);
     }
 
     /**
-     * Initialize the element by the configuration.
-     *
-     * @public
-     * @param {jQuery} elem The element
+     * Gets the list of the event-decorated handlers.
+     * @private
+     * @return {Function[]}
+     */
+
+  }, {
+    key: 'getHandlers',
+    value: function getHandlers() {
+      var prototype = this.Constructor.prototype;
+
+      return Object.getOwnPropertyNames(prototype).map(function (key) {
+        return prototype[key];
+      }).filter(ClassComponentConfiguration.isHandler);
+    }
+
+    /**
+     * Gets all the listener info of the coelement.
+     * @return {ListenerInfo[]}
+     */
+
+  }, {
+    key: 'getAllListenerInfo',
+    value: function getAllListenerInfo() {
+      return [].concat.apply([], this.getHandlers().map(function (handler) {
+        return handler.__events__;
+      }));
+    }
+
+    /**
+     * Returns true when the given property is an event handler.
+     * @param {object} property The property
+     * @return {boolean}
      */
 
   }, {
     key: 'initElem',
-    value: function initElem(elem) {
 
+
+    /**
+     * Initialize the element by the configuration.
+     * @public
+     * @param {jQuery} elem The element
+     */
+    value: function initElem(elem) {
       this.markInitialized(elem);
       this.applyCustomDefinition(elem);
+    }
+  }], [{
+    key: 'isHandler',
+    value: function isHandler(property) {
+      return typeof property === 'function' && property.__events__ != null;
     }
   }]);
 
   return ClassComponentConfiguration;
 }();
 
-exports.default = ClassComponentConfiguration;
+module.exports = ClassComponentConfiguration;
 },{}],3:[function(require,module,exports){
 (function (global){
 'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -166,288 +220,255 @@ var $ = global.jQuery;
  */
 
 var ClassComponentContext = function () {
-    function ClassComponentContext(jqObj) {
-        _classCallCheck(this, ClassComponentContext);
+  function ClassComponentContext(jqObj) {
+    _classCallCheck(this, ClassComponentContext);
 
-        this.jqObj = jqObj;
+    this.jqObj = jqObj;
+  }
+
+  /**
+   * Inserts the class name, initializes as the class component and returns the coelement if exists.
+   *
+   * @param {String} className The class name
+   * @return {Object}
+   */
+
+
+  _createClass(ClassComponentContext, [{
+    key: 'init',
+    value: function init(className) {
+
+      this.jqObj.addClass(className);
+
+      $.cc.__manager__.initAt(className, this.jqObj);
+
+      return this.jqObj.data('__coelement:' + className);
     }
 
     /**
-     * Inserts the class name, initializes as the class component and returns the coelement if exists.
+     * Initializes the element if it has registered class component names. Returns the jquery object itself.
      *
-     * @param {String} className The class name
+     * @param {string} [classNames] The class name.
+     * @return {jQuery}
+     */
+
+  }, {
+    key: 'up',
+    value: function up(classNames) {
+      var _this = this;
+
+      if (classNames != null) {
+
+        classNames.split(/\s+/).forEach(function (className) {
+
+          $.cc.__manager__.initAt(className, _this.jqObj);
+        });
+      } else {
+
+        // Initializes anything it already has.
+        $.cc.__manager__.initAllAtElem(this.jqObj);
+      }
+
+      return this.jqObj;
+    }
+
+    /**
+     * Gets the coelement of the given name.
+     *
+     * @param {String} coelementName The name of the coelement
      * @return {Object}
      */
 
+  }, {
+    key: 'get',
+    value: function get(coelementName) {
 
-    _createClass(ClassComponentContext, [{
-        key: 'init',
-        value: function init(className) {
+      var coelement = this.jqObj.data('__coelement:' + coelementName);
 
-            this.jqObj.addClass(className);
+      if (coelement) {
 
-            $.cc.__manager__.initAt(className, this.jqObj);
+        return coelement;
+      }
 
-            return this.jqObj.data('__coelement:' + className);
-        }
+      if (this.jqObj.length === 0) {
 
-        /**
-         * Initializes the element if it has registered class component names. Returns the jquery object itself.
-         *
-         * @param {string} [classNames] The class name.
-         * @return {jQuery}
-         */
+        throw new Error('coelement "' + coelementName + '" unavailable at empty dom selection');
+      }
 
-    }, {
-        key: 'up',
-        value: function up(classNames) {
-            var _this = this;
+      throw new Error('no coelement named: ' + coelementName + ', on the dom: ' + this.jqObj.get(0).tagName);
+    }
+  }]);
 
-            if (classNames != null) {
-
-                classNames.split(/\s+/).forEach(function (className) {
-
-                    $.cc.__manager__.initAt(className, _this.jqObj);
-                });
-            } else {
-
-                // Initializes anything it already has.
-                $.cc.__manager__.initAllAtElem(this.jqObj);
-            }
-
-            return this.jqObj;
-        }
-
-        /**
-         * Gets the coelement of the given name.
-         *
-         * @param {String} coelementName The name of the coelement
-         * @return {Object}
-         */
-
-    }, {
-        key: 'get',
-        value: function get(coelementName) {
-
-            var coelement = this.jqObj.data('__coelement:' + coelementName);
-
-            if (coelement) {
-
-                return coelement;
-            }
-
-            if (this.jqObj.length === 0) {
-
-                throw new Error('coelement "' + coelementName + '" unavailable at empty dom selection');
-            }
-
-            throw new Error('no coelement named: ' + coelementName + ', on the dom: ' + this.jqObj.get(0).tagName);
-        }
-
-        /**
-         * Gets the actor class. Actor class is the special Coelement which is labeled as `actor`. A dom has only one actor Coelement.
-         */
-
-    }, {
-        key: 'getActor',
-        value: function getActor() {
-
-            var actor = this.jqObj.data('__primary_coelement');
-
-            if (!actor) {
-
-                throw new Error('no actor on the dom: ' + this.jqObj.get(0).tagName);
-            }
-
-            return actor;
-        }
-    }]);
-
-    return ClassComponentContext;
+  return ClassComponentContext;
 }();
 
-exports.default = ClassComponentContext;
+module.exports = ClassComponentContext;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],4:[function(require,module,exports){
 (function (global){
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _classComponentConfiguration = require('./class-component-configuration');
-
-var _classComponentConfiguration2 = _interopRequireDefault(_classComponentConfiguration);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var $ = global.jQuery;
+
+var ClassComponentConfiguration = require('./class-component-configuration');
 
 /**
  * ClassComponentManger handles the registration and initialization of the class compoents.
  */
 
 var ClassComponentManager = function () {
-    function ClassComponentManager() {
-        _classCallCheck(this, ClassComponentManager);
+  function ClassComponentManager() {
+    _classCallCheck(this, ClassComponentManager);
 
-        /**
-         * @property {Object<ClassComponentConfiguration>} ccc
-         */
-        this.ccc = {};
+    /**
+     * @property {Object<ClassComponentConfiguration>} ccc
+     */
+    this.ccc = {};
+  }
+
+  /**
+   * Registers the class component configuration for the given name.
+   *
+   * @param {String} name The name
+   * @param {Function} Constructor The constructor of the class component
+   */
+
+
+  _createClass(ClassComponentManager, [{
+    key: 'register',
+    value: function register(name, Constructor) {
+
+      Constructor.coelementName = name;
+
+      this.ccc[name] = new ClassComponentConfiguration(name, Constructor);
     }
 
     /**
-     * Registers the class component configuration for the given name.
+     * Initializes the class components of the given name in the given element.
      *
-     * @param {String} name The name
-     * @param {Function} ccc The class component configuration
+     * @param {String} className The class name
+     * @param {jQuery|HTMLElement|String} elem The dom where class componets are initialized
+     * @return {Array<HTMLElement>} The elements which are initialized in this initialization
+     * @throw {Error}
      */
 
+  }, {
+    key: 'init',
+    value: function init(className, elem) {
 
-    _createClass(ClassComponentManager, [{
-        key: 'register',
-        value: function register(name, definingFunction) {
+      var ccc = this.getConfiguration(className);
 
-            this.ccc[name] = new _classComponentConfiguration2.default(name, definingFunction);
-        }
+      return $(ccc.selector(), elem).each(function () {
 
-        /**
-         * Initializes the class components of the given name in the given element.
-         *
-         * @param {String} className The class name
-         * @param {jQuery|HTMLElement|String} elem The dom where class componets are initialized
-         * @return {Array<HTMLElement>} The elements which are initialized in this initialization
-         * @throw {Error}
-         */
+        ccc.initElem($(this));
+      }).toArray();
+    }
 
-    }, {
-        key: 'init',
-        value: function init(className, elem) {
+    /**
+     * Initializes the class component of the give name at the given element.
+     *
+     * @param {String} className The class name
+     * @param {jQuery|HTMLElement|String} elem The element
+     */
 
-            var ccc = this.getConfiguration(className);
+  }, {
+    key: 'initAt',
+    value: function initAt(className, elem) {
 
-            return $(ccc.selector(), elem).each(function () {
+      var ccc = this.getConfiguration(className);
 
-                ccc.initElem($(this));
-            }).toArray();
-        }
+      ccc.initElem($(elem));
+    }
 
-        /**
-         * Initializes the class component of the give name at the given element.
-         *
-         * @param {String} className The class name
-         * @param {jQuery|HTMLElement|String} elem The element
-         */
+    /**
+     * Initializes all the class component at the element.
+     *
+     * @param {HTMLElement}
+     */
 
-    }, {
-        key: 'initAt',
-        value: function initAt(className, elem) {
+  }, {
+    key: 'initAllAtElem',
+    value: function initAllAtElem(elem) {
+      var _this = this;
 
-            var ccc = this.getConfiguration(className);
+      var classes = $(elem).attr('class');
 
-            ccc.initElem($(elem));
-        }
+      if (!classes) {
+        return;
+      }
 
-        /**
-         * Initializes all the class component at the element.
-         *
-         * @param {HTMLElement}
-         */
+      classes.split(/\s+/).map(function (className) {
+        return _this.ccc[className];
+      }).filter(function (ccc) {
+        return ccc;
+      }).forEach(function (ccc) {
+        return ccc.initElem(elem);
+      });
+    }
 
-    }, {
-        key: 'initAllAtElem',
-        value: function initAllAtElem(elem) {
-            var _this = this;
+    /**
+     * @param {jQuery|HTMLElement|String} elem The element
+     */
 
-            var classes = $(elem).attr('class');
+  }, {
+    key: 'initAll',
+    value: function initAll(elem) {
+      var _this2 = this;
 
-            if (!classes) {
-                return;
-            }
+      Object.keys(this.ccc).forEach(function (className) {
 
-            classes.split(/\s+/).map(function (className) {
-                return _this.ccc[className];
-            }).filter(function (ccc) {
-                return ccc;
-            }).forEach(function (ccc) {
-                return ccc.initElem(elem);
-            });
-        }
+        _this2.init(className, elem);
+      });
+    }
 
-        /**
-         * @param {jQuery|HTMLElement|String} elem The element
-         */
+    /**
+     * Gets the configuration of the given class name.
+     *
+     * @param {String} className The class name
+     * @return {ClassComponentConfiguration}
+     * @throw {Error}
+     */
 
-    }, {
-        key: 'initAll',
-        value: function initAll(elem) {
-            var _this2 = this;
+  }, {
+    key: 'getConfiguration',
+    value: function getConfiguration(className) {
 
-            Object.keys(this.ccc).forEach(function (className) {
+      var ccc = this.ccc[className];
 
-                _this2.init(className, elem);
-            });
-        }
+      if (ccc == null) {
 
-        /**
-         * Gets the configuration of the given class name.
-         *
-         * @param {String} className The class name
-         * @return {ClassComponentConfiguration}
-         * @throw {Error}
-         */
+        throw new Error('Class componet "' + className + '" is not defined.');
+      }
 
-    }, {
-        key: 'getConfiguration',
-        value: function getConfiguration(className) {
+      return ccc;
+    }
+  }]);
 
-            var ccc = this.ccc[className];
-
-            if (ccc == null) {
-
-                throw new Error('Class componet "' + className + '" is not defined.');
-            }
-
-            return ccc;
-        }
-    }]);
-
-    return ClassComponentManager;
+  return ClassComponentManager;
 }();
 
-exports.default = ClassComponentManager;
+module.exports = ClassComponentManager;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./class-component-configuration":2}],5:[function(require,module,exports){
 'use strict';
 
-var _actor = require('./actor');
-
-var _actor2 = _interopRequireDefault(_actor);
-
-var _coelement = require('./coelement');
-
-var _coelement2 = _interopRequireDefault(_coelement);
-
-var _classComponentManager = require('./class-component-manager');
-
-var _classComponentManager2 = _interopRequireDefault(_classComponentManager);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 /**
- * class-component.js v5.7.6
+ * class-component.js v7.0.0
  * author: Yoshiya Hinosawa ( http://github.com/kt3k )
  * license: MIT
  */
 var $ = jQuery;
 
 var reSpaces = / +/;
+
+var Coelement = require('./coelement');
+var ClassComponentManager = require('./class-component-manager');
+var event = require('./cc-event').event;
+var trigger = require('./cc-event').trigger;
 
 /**
  * Initializes the module object.
@@ -456,132 +477,104 @@ var reSpaces = / +/;
  */
 function initializeModule() {
 
-    require('./fn.cc');
+  require('./fn.cc');
 
-    /**
-     * The main namespace for class component module.
-     */
-    var cc = {};
+  var __manager__ = new ClassComponentManager();
 
-    cc.__manager__ = new _classComponentManager2.default();
+  /**
+   * The main namespace for class component module.
+   * Registers a class component of the given name using the given defining function.
+   * @param {String} name The class name
+   * @param {Function} Constructor The class definition
+   */
+  var cc = function cc(name, Constructor) {
+    if (typeof name !== 'string') {
 
-    /**
-     Registers a class component of the given name using the given defining function.
-      See README.md for details.
-      @param {String} className The class name
-     @param {Function} definingFunction The class definition
-     */
-    cc.register = function (name, definingFunction) {
+      throw new Error('`name` of a class component has to be a string');
+    }
 
-        if (typeof name !== 'string') {
+    if (typeof Constructor !== 'function') {
 
-            throw new Error('`name` of a class component has to be a string');
-        }
+      throw new Error('`Constructor` of a class component has to be a function');
+    }
 
-        if (typeof definingFunction !== 'function') {
+    __manager__.register(name, Constructor);
 
-            throw new Error('`definingFunction` of a class component has to be a function');
-        }
+    $(document).ready(function () {
 
-        cc.__manager__.register(name, definingFunction);
+      __manager__.init(name);
+    });
+  };
 
-        $(document).ready(function () {
+  /**
+   * Initialized the all class components of the given names and returns of the promise of all initialization.
+   *
+   * @param {String[]|String} arguments
+   * @return {Object<HTMLElement[]>}
+   */
+  cc.init = function (classNames, elem) {
 
-            cc.__manager__.init(name);
-        });
+    if (classNames == null) {
+
+      __manager__.initAll(elem);
+
+      return;
+    }
+
+    if (typeof classNames === 'string') {
+
+      classNames = classNames.split(reSpaces);
+    }
+
+    return classNames.map(function (className) {
+      return __manager__.init(className, elem);
+    });
+  };
+
+  /**
+   * The decorator for class assignment.
+   *
+   * @example
+   *   @$.cc.component('foo')
+   *   class Foo extends Bar {
+   *     ...
+   *   }
+   *
+   * The above is the same as `$.cc.assign('foo', Foo)`
+   *
+   * @param {String} className The class name
+   * @return {Function}
+   */
+  cc.component = function (className) {
+    return function (Cls) {
+      return cc(className, Cls);
     };
+  };
 
-    /**
-     * Initialized the all class components of the given names and returns of the promise of all initialization.
-     *
-     * @param {String[]|String} arguments
-     * @return {Object<HTMLElement[]>}
-     */
-    cc.init = function (classNames, elem) {
+  // Exports __manager__
+  cc.__manager__ = __manager__;
 
-        if (classNames == null) {
+  // Exports Actor.
+  cc.Coelement = Coelement;
 
-            cc.__manager__.initAll(elem);
+  // Exports event decorator
+  cc.event = event;
 
-            return;
-        }
+  // Exports trigger decorator
+  cc.trigger = trigger;
 
-        if (typeof classNames === 'string') {
-
-            classNames = classNames.split(reSpaces);
-        }
-
-        return classNames.map(function (className) {
-            return cc.__manager__.init(className, elem);
-        });
-    };
-
-    /**
-     * Assign a class as the accompanying coelement of the class component
-     *
-     * @param {String} className
-     * @param {Function} DefiningClass
-     */
-    cc.assign = function (className, DefiningClass) {
-
-        DefiningClass.coelementName = className;
-
-        cc.register(className, function (elem) {
-
-            var coelement = new DefiningClass(elem);
-
-            elem.data('__coelement:' + DefiningClass.coelementName, coelement);
-        });
-    };
-
-    /**
-     * The decorator for class assignment.
-     *
-     * @example
-     *   @$.cc.component('foo')
-     *   class Foo extends Bar {
-     *     ...
-     *   }
-     *
-     * The above is the same as:
-     *
-     * @example
-     *   class Foo extends Bar {
-     *   }
-     *
-     *   $.cc.assign('foo', Foo)
-     *
-     * @param {String} className The class name
-     * @return {Function}
-     */
-    cc.component = function (className) {
-        return function (Cls) {
-            return cc.assign(className, Cls);
-        };
-    };
-
-    // Exports Actor.
-    cc.Actor = _actor2.default;
-
-    // Exports Actor.
-    cc.Coelement = _coelement2.default;
-
-    return cc;
+  return cc;
 }
 
 // If the cc is not set, then create one.
 if ($.cc == null) {
 
-    $.cc = initializeModule();
+  $.cc = initializeModule();
 }
 
 module.exports = $.cc;
-},{"./actor":1,"./class-component-manager":4,"./coelement":6,"./fn.cc":7}],6:[function(require,module,exports){
+},{"./cc-event":1,"./class-component-manager":4,"./coelement":6,"./fn.cc":7}],6:[function(require,module,exports){
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -589,44 +582,105 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * Coelement is the dual of element (usual dom). Its instance accompanies an element and forms a Dom Component together with it.
  */
 
-var Coelement = function Coelement(elem) {
-    _classCallCheck(this, Coelement);
+var Coelement =
+/**
+ * @param {jQuery} elem The jquery element
+ */
+function Coelement(elem) {
+  _classCallCheck(this, Coelement);
 
-    this.elem = elem;
+  this.elem = elem;
 };
 
-exports.default = Coelement;
+module.exports = Coelement;
 },{}],7:[function(require,module,exports){
 'use strict';
 
-var _classComponentContext = require('./class-component-context');
+var ClassComponentContext = require('./class-component-context');
 
-var _classComponentContext2 = _interopRequireDefault(_classComponentContext);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var CLASS_COMPONENT_DATA_KEY = '__class_component_data__';
 
 // Defines the special property cc on a jquery property.
 Object.defineProperty(jQuery.fn, 'cc', {
+  get: function get() {
+    var cc = this.data(CLASS_COMPONENT_DATA_KEY);
 
-    get: function get() {
+    if (cc) {
+      return cc;
+    }
 
-        var ctx = this.data('__class_component_context__');
+    var ctx = new ClassComponentContext(this);
 
-        if (!ctx) {
+    cc = function cc(classNames) {
+      return ctx.up(classNames);
+    };
 
-            ctx = new _classComponentContext2.default(this);
+    cc.get = function (className) {
+      return ctx.get(className);
+    };
+    cc.init = function (className) {
+      return ctx.init(className);
+    };
 
-            this.data('__class_component_context__', ctx);
-        }
+    this.data(CLASS_COMPONENT_DATA_KEY, cc);
 
-        return ctx;
-    },
+    return cc;
+  },
 
-    enumerable: false,
-    configurable: false
+
+  enumerable: false,
+  configurable: false
 
 });
 },{"./class-component-context":3}],8:[function(require,module,exports){
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * The event listener's information.
+ */
+
+var ListenerInfo = function () {
+  /**
+   * @param {string} event The event name to bind
+   * @param {string} selector The selector to bind the listener
+   * @param {Function} handler The handler for the event
+   */
+
+  function ListenerInfo(event, selector, handler) {
+    _classCallCheck(this, ListenerInfo);
+
+    this.event = event;
+    this.selector = selector;
+    this.handler = handler;
+  }
+
+  /**
+   * Binds the listener to the given element with the given coelement.
+   * @param {jQuery} elem The jquery element
+   * @param {object} coelem The coelement which is bound to the element
+   */
+
+
+  _createClass(ListenerInfo, [{
+    key: "bindTo",
+    value: function bindTo(elem, coelem) {
+      var handler = this.handler;
+
+      elem.on(this.event, this.selector, function () {
+        handler.apply(coelem, arguments);
+      });
+    }
+  }]);
+
+  return ListenerInfo;
+}();
+
+module.exports = ListenerInfo;
+},{}],9:[function(require,module,exports){
 'use strict';
 
 var assign        = require('es5-ext/object/assign')
@@ -691,19 +745,19 @@ d.gs = function (dscr, get, set/*, options*/) {
 	return !options ? desc : assign(normalizeOpts(options), desc);
 };
 
-},{"es5-ext/object/assign":10,"es5-ext/object/is-callable":13,"es5-ext/object/normalize-options":17,"es5-ext/string/#/contains":19}],9:[function(require,module,exports){
+},{"es5-ext/object/assign":11,"es5-ext/object/is-callable":14,"es5-ext/object/normalize-options":18,"es5-ext/string/#/contains":20}],10:[function(require,module,exports){
 'use strict';
 
 module.exports = new Function("return this")();
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./is-implemented')()
 	? Object.assign
 	: require('./shim');
 
-},{"./is-implemented":11,"./shim":12}],11:[function(require,module,exports){
+},{"./is-implemented":12,"./shim":13}],12:[function(require,module,exports){
 'use strict';
 
 module.exports = function () {
@@ -714,7 +768,7 @@ module.exports = function () {
 	return (obj.foo + obj.bar + obj.trzy) === 'razdwatrzy';
 };
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';
 
 var keys  = require('../keys')
@@ -738,21 +792,21 @@ module.exports = function (dest, src/*, …srcn*/) {
 	return dest;
 };
 
-},{"../keys":14,"../valid-value":18}],13:[function(require,module,exports){
+},{"../keys":15,"../valid-value":19}],14:[function(require,module,exports){
 // Deprecated
 
 'use strict';
 
 module.exports = function (obj) { return typeof obj === 'function'; };
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./is-implemented')()
 	? Object.keys
 	: require('./shim');
 
-},{"./is-implemented":15,"./shim":16}],15:[function(require,module,exports){
+},{"./is-implemented":16,"./shim":17}],16:[function(require,module,exports){
 'use strict';
 
 module.exports = function () {
@@ -762,7 +816,7 @@ module.exports = function () {
 	} catch (e) { return false; }
 };
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 var keys = Object.keys;
@@ -771,7 +825,7 @@ module.exports = function (object) {
 	return keys(object == null ? object : Object(object));
 };
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 var forEach = Array.prototype.forEach, create = Object.create;
@@ -790,7 +844,7 @@ module.exports = function (options/*, …options*/) {
 	return result;
 };
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 module.exports = function (value) {
@@ -798,14 +852,14 @@ module.exports = function (value) {
 	return value;
 };
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./is-implemented')()
 	? String.prototype.contains
 	: require('./shim');
 
-},{"./is-implemented":20,"./shim":21}],20:[function(require,module,exports){
+},{"./is-implemented":21,"./shim":22}],21:[function(require,module,exports){
 'use strict';
 
 var str = 'razdwatrzy';
@@ -815,7 +869,7 @@ module.exports = function () {
 	return ((str.contains('dwa') === true) && (str.contains('foo') === false));
 };
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 var indexOf = String.prototype.indexOf;
@@ -824,7 +878,7 @@ module.exports = function (searchString/*, position*/) {
 	return indexOf.call(this, searchString, arguments[1]) > -1;
 };
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 (function (process,global){
 /*!
  * @overview es6-promise - a tiny implementation of Promises/A+.
@@ -1795,7 +1849,7 @@ module.exports = function (searchString/*, position*/) {
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":29}],23:[function(require,module,exports){
+},{"_process":30}],24:[function(require,module,exports){
 'use strict';
 
 if (!require('./is-implemented')()) {
@@ -1804,7 +1858,7 @@ if (!require('./is-implemented')()) {
 			writable: true });
 }
 
-},{"./is-implemented":24,"./polyfill":26,"es5-ext/global":9}],24:[function(require,module,exports){
+},{"./is-implemented":25,"./polyfill":27,"es5-ext/global":10}],25:[function(require,module,exports){
 'use strict';
 
 module.exports = function () {
@@ -1824,14 +1878,14 @@ module.exports = function () {
 	return true;
 };
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 module.exports = function (x) {
 	return (x && ((typeof x === 'symbol') || (x['@@toStringTag'] === 'Symbol'))) || false;
 };
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 // ES2015 Symbol polyfill for environments that do not support it (or partially support it_
 
 'use strict';
@@ -1940,7 +1994,7 @@ defineProperty(HiddenSymbol.prototype, SymbolPolyfill.toStringTag,
 defineProperty(HiddenSymbol.prototype, SymbolPolyfill.toPrimitive,
 	d('c', SymbolPolyfill.prototype[SymbolPolyfill.toPrimitive]));
 
-},{"./validate-symbol":27,"d":8}],27:[function(require,module,exports){
+},{"./validate-symbol":28,"d":9}],28:[function(require,module,exports){
 'use strict';
 
 var isSymbol = require('./is-symbol');
@@ -1950,7 +2004,7 @@ module.exports = function (value) {
 	return value;
 };
 
-},{"./is-symbol":25}],28:[function(require,module,exports){
+},{"./is-symbol":26}],29:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.2.0
  * http://jquery.com/
@@ -11783,7 +11837,7 @@ if ( !noGlobal ) {
 return jQuery;
 }));
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -11876,7 +11930,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 (function (process,global){
 // Copyright (c) Microsoft, All rights reserved. See License.txt in the project root for license information.
 
@@ -18784,7 +18838,7 @@ Observable.fromNodeCallback = function (fn, ctx, selector) {
 }.call(this));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":29}],31:[function(require,module,exports){
+},{"_process":30}],32:[function(require,module,exports){
 /**
  * subclassjs v1.3.0
  */
@@ -18875,7 +18929,7 @@ Observable.fromNodeCallback = function (fn, ctx, selector) {
 
 }());
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 /*! tether-drop 1.4.1 */
 
 (function(root, factory) {
@@ -19437,7 +19491,7 @@ return Drop;
 
 }));
 
-},{"tether":33}],33:[function(require,module,exports){
+},{"tether":34}],34:[function(require,module,exports){
 /*! tether 1.3.1 */
 
 (function(root, factory) {
@@ -21195,7 +21249,7 @@ return Tether;
 
 }));
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -21226,6 +21280,7 @@ global.jQuery = _jquery2.default;
 global.Rx = _rxLite2.default;
 global.Tether = _tether2.default;
 global.Drop = _tetherDrop2.default;
+global.BASEPATH = '';
 
 require('class-component');
 
@@ -21234,4 +21289,4 @@ _jquery2.default.cc.subclass = require('subclassjs');
 (0, _es6Promise.polyfill)();
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"class-component":5,"es6-promise":22,"es6-symbol/implement":23,"jquery":28,"rx-lite":30,"subclassjs":31,"tether":33,"tether-drop":32}]},{},[34]);
+},{"class-component":5,"es6-promise":23,"es6-symbol/implement":24,"jquery":29,"rx-lite":31,"subclassjs":32,"tether":34,"tether-drop":33}]},{},[35]);

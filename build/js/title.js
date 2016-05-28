@@ -87,8 +87,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * Being represents a dom with visual representation which has the phases, such as show, hide and disappear.
  */
 
-var Being = function (_$$cc$Actor) {
-  _inherits(Being, _$$cc$Actor);
+var Being = function (_$$cc$Coelement) {
+  _inherits(Being, _$$cc$Coelement);
 
   function Being() {
     _classCallCheck(this, Being);
@@ -226,7 +226,7 @@ var Being = function (_$$cc$Actor) {
   }]);
 
   return Being;
-}($.cc.Actor);
+}($.cc.Coelement);
 
 exports.default = Being;
 },{}],3:[function(require,module,exports){
@@ -2575,7 +2575,225 @@ function wait(n, result) {
 
 require('../../src/title/title-scene');
 
-},{"../../src/title/title-scene":22}],21:[function(require,module,exports){
+},{"../../src/title/title-scene":21}],21:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _dec2, _class, _desc, _value, _class2;
+
+var _sceneContext = require('../ui/scene-context');
+
+var _sceneContext2 = _interopRequireDefault(_sceneContext);
+
+var _backgroundService = require('../ui/common/background-service');
+
+var _backgroundService2 = _interopRequireDefault(_backgroundService);
+
+var _util = require('../util/util');
+
+var _spn = require('spn');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+    var desc = {};
+    Object['ke' + 'ys'](descriptor).forEach(function (key) {
+        desc[key] = descriptor[key];
+    });
+    desc.enumerable = !!desc.enumerable;
+    desc.configurable = !!desc.configurable;
+
+    if ('value' in desc || desc.initializer) {
+        desc.writable = true;
+    }
+
+    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+        return decorator(target, property, desc) || desc;
+    }, desc);
+
+    if (context && desc.initializer !== void 0) {
+        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+        desc.initializer = undefined;
+    }
+
+    if (desc.initializer === void 0) {
+        Object['define' + 'Property'](target, property, desc);
+        desc = null;
+    }
+
+    return desc;
+}
+
+var _$$cc = $.cc;
+var component = _$$cc.component;
+var event = _$$cc.event;
+
+/**
+ * TitleScene class handles the motions sequences of the title scene.
+ */
+
+var TitleScene = (_dec = component('title-scene'), _dec2 = event('scene-start'), _dec(_class = (_class2 = function (_SceneContext) {
+    _inherits(TitleScene, _SceneContext);
+
+    function TitleScene() {
+        _classCallCheck(this, TitleScene);
+
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(TitleScene).apply(this, arguments));
+    }
+
+    _createClass(TitleScene, [{
+        key: 'start',
+        value: function start() {
+            var _this2 = this;
+
+            (0, _util.loadImage)('img/title-logo.svg', 'title-logo elem', this.elem).then(function ($img) {
+                return $img.anim('title-appear', 2000).then(function () {
+                    return $img.animation('float 6000ms infinite');
+                });
+            });
+
+            (0, _spn.wait)(500).then(function () {
+
+                _this2.getMenuButton().show();
+
+                $('<p />').text('GET UP').addClass('touch-here elem').appendTo(_this2.elem).click(function () {
+                    return _this2.goToMap();
+                }).anim('title-appear', 1000).then(function (p) {
+                    return p.animation('float 1000ms infinite');
+                });
+            });
+        }
+
+        /**
+         * Fades out the scene.
+         */
+
+    }, {
+        key: 'fadeOut',
+        value: function fadeOut() {
+
+            return Promise.all([this.getMenuButton().hide(), $('.elem').css('opacity', 0).anim('disappear', 500).then(function () {
+
+                $('.elem').remove();
+
+                return (0, _spn.wait)(100);
+            })]);
+        }
+
+        /**
+         * Transions to the map scene.
+         */
+
+    }, {
+        key: 'goToMap',
+        value: function goToMap() {
+
+            this.fadeOut().then(function () {
+                return _backgroundService2.default.turnBlack();
+            }).then(function () {
+
+                location.href = 'map.html';
+            });
+        }
+    }]);
+
+    return TitleScene;
+}(_sceneContext2.default), (_applyDecoratedDescriptor(_class2.prototype, 'start', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'start'), _class2.prototype)), _class2)) || _class);
+exports.default = TitleScene;
+
+},{"../ui/common/background-service":22,"../ui/scene-context":23,"../util/util":24,"spn":11}],22:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _spn = require('spn');
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Dur = 700;
+
+/**
+ * BackgroundService handles the animation of background colors.
+ */
+
+var BackgroundService = function () {
+  function BackgroundService() {
+    _classCallCheck(this, BackgroundService);
+  }
+
+  _createClass(BackgroundService, null, [{
+    key: 'turnWhite',
+
+    /**
+     * Turns the bg color white.
+     *
+     * @param {Number} dur The duration
+     * @return {Promise}
+     */
+    value: function turnWhite(dur) {
+
+      return this.turn('', dur, false);
+    }
+
+    /**
+     * Turns the bg color white.
+     *
+     * @param {Number} dur The duration
+     * @return {Promise}
+     */
+
+  }, {
+    key: 'turnBlack',
+    value: function turnBlack(dur) {
+
+      return this.turn('', dur, true);
+    }
+
+    /**
+     * Turns the bg color to the given color.
+     *
+     * @private
+     * @param {String} color The color in css color
+     * @param {Number} dur The duration
+     * @param {Boolean} darkBg True if use dark background format
+     * @return {Promise}
+     */
+
+  }, {
+    key: 'turn',
+    value: function turn(color, dur, darkBg) {
+
+      dur = dur || Dur;
+
+      $(document.body).toggleClass('dark-bg', darkBg).css('background-color', color);
+
+      return (0, _spn.wait)(dur);
+    }
+  }]);
+
+  return BackgroundService;
+}();
+
+exports.default = BackgroundService;
+
+},{"spn":11}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2711,225 +2929,7 @@ var SceneContext = function (_Coelement) {
 
 exports.default = SceneContext;
 
-},{}],22:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _dec, _dec2, _class, _desc, _value, _class2;
-
-var _sceneContext = require('../scene-context');
-
-var _sceneContext2 = _interopRequireDefault(_sceneContext);
-
-var _backgroundService = require('../ui/common/background-service');
-
-var _backgroundService2 = _interopRequireDefault(_backgroundService);
-
-var _util = require('../util/util');
-
-var _spn = require('spn');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-    var desc = {};
-    Object['ke' + 'ys'](descriptor).forEach(function (key) {
-        desc[key] = descriptor[key];
-    });
-    desc.enumerable = !!desc.enumerable;
-    desc.configurable = !!desc.configurable;
-
-    if ('value' in desc || desc.initializer) {
-        desc.writable = true;
-    }
-
-    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-        return decorator(target, property, desc) || desc;
-    }, desc);
-
-    if (context && desc.initializer !== void 0) {
-        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-        desc.initializer = undefined;
-    }
-
-    if (desc.initializer === void 0) {
-        Object['define' + 'Property'](target, property, desc);
-        desc = null;
-    }
-
-    return desc;
-}
-
-var _$$cc = $.cc;
-var component = _$$cc.component;
-var event = _$$cc.event;
-
-/**
- * TitleScene class handles the motions sequences of the title scene.
- */
-
-var TitleScene = (_dec = component('title-scene'), _dec2 = event('scene-start'), _dec(_class = (_class2 = function (_SceneContext) {
-    _inherits(TitleScene, _SceneContext);
-
-    function TitleScene() {
-        _classCallCheck(this, TitleScene);
-
-        return _possibleConstructorReturn(this, Object.getPrototypeOf(TitleScene).apply(this, arguments));
-    }
-
-    _createClass(TitleScene, [{
-        key: 'start',
-        value: function start() {
-            var _this2 = this;
-
-            (0, _util.loadImage)('img/title-logo.svg', 'title-logo elem', this.elem).then(function ($img) {
-                return $img.anim('title-appear', 2000).then(function () {
-                    return $img.animation('float 6000ms infinite');
-                });
-            });
-
-            (0, _spn.wait)(500).then(function () {
-
-                _this2.getMenuButton().show();
-
-                $('<p />').text('GET UP').addClass('touch-here elem').appendTo(_this2.elem).click(function () {
-                    return _this2.goToMap();
-                }).anim('title-appear', 1000).then(function (p) {
-                    return p.animation('float 1000ms infinite');
-                });
-            });
-        }
-
-        /**
-         * Fades out the scene.
-         */
-
-    }, {
-        key: 'fadeOut',
-        value: function fadeOut() {
-
-            return Promise.all([this.getMenuButton().hide(), $('.elem').css('opacity', 0).anim('disappear', 500).then(function () {
-
-                $('.elem').remove();
-
-                return (0, _spn.wait)(100);
-            })]);
-        }
-
-        /**
-         * Transions to the map scene.
-         */
-
-    }, {
-        key: 'goToMap',
-        value: function goToMap() {
-
-            this.fadeOut().then(function () {
-                return _backgroundService2.default.turnBlack();
-            }).then(function () {
-
-                location.href = 'map.html';
-            });
-        }
-    }]);
-
-    return TitleScene;
-}(_sceneContext2.default), (_applyDecoratedDescriptor(_class2.prototype, 'start', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'start'), _class2.prototype)), _class2)) || _class);
-exports.default = TitleScene;
-
-},{"../scene-context":21,"../ui/common/background-service":23,"../util/util":24,"spn":11}],23:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _spn = require('spn');
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Dur = 700;
-
-/**
- * BackgroundService handles the animation of background colors.
- */
-
-var BackgroundService = function () {
-  function BackgroundService() {
-    _classCallCheck(this, BackgroundService);
-  }
-
-  _createClass(BackgroundService, null, [{
-    key: 'turnWhite',
-
-    /**
-     * Turns the bg color white.
-     *
-     * @param {Number} dur The duration
-     * @return {Promise}
-     */
-    value: function turnWhite(dur) {
-
-      return this.turn('', dur, false);
-    }
-
-    /**
-     * Turns the bg color white.
-     *
-     * @param {Number} dur The duration
-     * @return {Promise}
-     */
-
-  }, {
-    key: 'turnBlack',
-    value: function turnBlack(dur) {
-
-      return this.turn('', dur, true);
-    }
-
-    /**
-     * Turns the bg color to the given color.
-     *
-     * @private
-     * @param {String} color The color in css color
-     * @param {Number} dur The duration
-     * @param {Boolean} darkBg True if use dark background format
-     * @return {Promise}
-     */
-
-  }, {
-    key: 'turn',
-    value: function turn(color, dur, darkBg) {
-
-      dur = dur || Dur;
-
-      $(document.body).toggleClass('dark-bg', darkBg).css('background-color', color);
-
-      return (0, _spn.wait)(dur);
-    }
-  }]);
-
-  return BackgroundService;
-}();
-
-exports.default = BackgroundService;
-
-},{"spn":11}],24:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

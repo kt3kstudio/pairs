@@ -444,8 +444,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * Being represents a dom with visual representation which has the phases, such as show, hide and disappear.
  */
 
-var Being = function (_$$cc$Actor) {
-  _inherits(Being, _$$cc$Actor);
+var Being = function (_$$cc$Coelement) {
+  _inherits(Being, _$$cc$Coelement);
 
   function Being() {
     _classCallCheck(this, Being);
@@ -583,7 +583,7 @@ var Being = function (_$$cc$Actor) {
   }]);
 
   return Being;
-}($.cc.Actor);
+}($.cc.Coelement);
 
 exports.default = Being;
 },{}],6:[function(require,module,exports){
@@ -3561,7 +3561,7 @@ require('../../src/level/play-scene');
 
 require('../../src/level/outro-scene');
 
-},{"../../src/level/intro-scene":54,"../../src/level/outro-scene":57,"../../src/level/play-scene":58,"arrowkeys":1,"swipe-event/swipe-cross":23,"swipe-event/swipe-event":24}],27:[function(require,module,exports){
+},{"../../src/level/intro-scene":53,"../../src/level/outro-scene":56,"../../src/level/play-scene":57,"arrowkeys":1,"swipe-event/swipe-cross":23,"swipe-event/swipe-event":24}],27:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4028,14 +4028,6 @@ exports.default = User;
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var BASE_PATH = exports.BASE_PATH = '';
-
-},{}],35:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = undefined;
@@ -4242,7 +4234,7 @@ var Mobs = function () {
     return Mobs;
 }();
 
-},{"./possible-move-detection-service":48,"spn":14}],36:[function(require,module,exports){
+},{"./possible-move-detection-service":47,"spn":14}],35:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4412,7 +4404,7 @@ var Ball = (_dec = component('ball'), _dec(_class = function (_GridWalker) {
 }(_spn.GridWalker)) || _class);
 exports.default = Ball;
 
-},{"spn":14}],37:[function(require,module,exports){
+},{"spn":14}],36:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4691,7 +4683,7 @@ var CellCollection = (_dec = component('cell-collection'), _dec(_class = functio
 }(Coelement)) || _class);
 exports.default = CellCollection;
 
-},{"../../util/FieldIndexGenerator":69,"spn":14}],38:[function(require,module,exports){
+},{"../../util/FieldIndexGenerator":70,"spn":14}],37:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5006,7 +4998,7 @@ var Cell = (_dec = component('cell'), _dec(_class = function (_GridWalker) {
 }(_spn.GridWalker)) || _class);
 exports.default = Cell;
 
-},{"../../domain/genetics/bom-table":28,"spn":14}],39:[function(require,module,exports){
+},{"../../domain/genetics/bom-table":28,"spn":14}],38:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5026,7 +5018,7 @@ var _charSprite2 = _interopRequireDefault(_charSprite);
 
 var _spn = require('spn');
 
-var _speaker = require('../../ui/sprite/speaker');
+var _speaker = require('../../ui/screenplay/speaker');
 
 var _speaker2 = _interopRequireDefault(_speaker);
 
@@ -5057,6 +5049,7 @@ var Character = (_dec = (0, _traitsDecorator.traits)(_speaker2.default), _dec2 =
         _this.elem.addClass('hero');
 
         _this.initSprite();
+        _this.setSpeaker();
         return _this;
     }
 
@@ -5163,7 +5156,7 @@ var Character = (_dec = (0, _traitsDecorator.traits)(_speaker2.default), _dec2 =
 }(_spn.GridWalker)) || _class) || _class) || _class);
 exports.default = Character;
 
-},{"../../ui/sprite/char-sprite":63,"../../ui/sprite/speaker":66,"spn":14,"traits-decorator":25}],40:[function(require,module,exports){
+},{"../../ui/screenplay/speaker":64,"../../ui/sprite/char-sprite":65,"spn":14,"traits-decorator":25}],39:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5345,7 +5338,7 @@ var Queuee = function () {
     return Queuee;
 }();
 
-},{"spn":14}],41:[function(require,module,exports){
+},{"spn":14}],40:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5414,7 +5407,7 @@ var Field = (_dec = component('field-grid'), _dec(_class = function (_Body) {
 }(_spn.Body)) || _class);
 exports.default = Field;
 
-},{"spn":14}],42:[function(require,module,exports){
+},{"spn":14}],41:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5559,7 +5552,7 @@ var FusionPair = function () {
 
 exports.default = FusionPair;
 
-},{"../../domain/genetics/meiotic-service":29}],43:[function(require,module,exports){
+},{"../../domain/genetics/meiotic-service":29}],42:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5736,7 +5729,7 @@ var PreparationStack = function () {
     return PreparationStack;
 }();
 
-},{"./fusion-pair":42}],44:[function(require,module,exports){
+},{"./fusion-pair":41}],43:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5886,7 +5879,7 @@ var FusionService = (_dec = component('fusion-service'), _dec(_class = function 
 }($.cc.Coelement)) || _class);
 exports.default = FusionService;
 
-},{}],45:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 'use strict';
 
 require('./ball');
@@ -5909,7 +5902,8 @@ require('./swipe-field');
 
 require('./moo');
 
-},{"./ball":36,"./cell-collection":37,"./character":39,"./field":41,"./fusion-service":44,"./moo":46,"./paper":47,"./result-pane":50,"./scoreboard":51,"./swipe-field":52}],46:[function(require,module,exports){
+},{"./ball":35,"./cell-collection":36,"./character":38,"./field":40,"./fusion-service":43,"./moo":45,"./paper":46,"./result-pane":49,"./scoreboard":50,"./swipe-field":51}],45:[function(require,module,exports){
+(function (global){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5924,8 +5918,6 @@ var _dec, _class;
 var _resident = require('./resident');
 
 var _resident2 = _interopRequireDefault(_resident);
-
-var _ = require('../../');
 
 var _spn = require('spn');
 
@@ -5967,7 +5959,7 @@ var Moo = (_dec = component('moo'), _dec(_class = function (_Resident) {
         key: 'image',
         value: function image() {
 
-            return _.BASE_PATH + 'img/moo.svg';
+            return global.BASEPATH + '/img/moo.svg';
         }
     }]);
 
@@ -5975,7 +5967,8 @@ var Moo = (_dec = component('moo'), _dec(_class = function (_Resident) {
 }(_resident2.default)) || _class);
 exports.default = Moo;
 
-},{"../../":34,"./resident":49,"spn":14}],47:[function(require,module,exports){
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./resident":48,"spn":14}],46:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6071,7 +6064,7 @@ var Paper = (_dec = component('paper'), _dec2 = (0, _traitsDecorator.traits)(_st
 }(_spn.GridWalker)) || _class) || _class);
 exports.default = Paper;
 
-},{"../../ui/sprite/static-sprite":68,"spn":14,"traits-decorator":25}],48:[function(require,module,exports){
+},{"../../ui/sprite/static-sprite":69,"spn":14,"traits-decorator":25}],47:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6147,7 +6140,7 @@ var PossibleMoveDetectionService = function () {
 
 exports.default = PossibleMoveDetectionService;
 
-},{}],49:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6171,7 +6164,7 @@ var _relativeBody = require('../../ui/sprite/relative-body');
 
 var _relativeBody2 = _interopRequireDefault(_relativeBody);
 
-var _speaker = require('../../ui/sprite/speaker');
+var _speaker = require('../../ui/screenplay/speaker');
 
 var _speaker2 = _interopRequireDefault(_speaker);
 
@@ -6208,6 +6201,7 @@ var Resident = (_dec = (0, _traitsDecorator.traits)(_relativeBody2.default), _de
         var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Resident).call(this, elem));
 
         _this.initSprite();
+        _this.setSpeaker();
 
         var _elem$attr$split = elem.attr('xy').split(/\s+/);
 
@@ -6238,7 +6232,7 @@ var Resident = (_dec = (0, _traitsDecorator.traits)(_relativeBody2.default), _de
 }(_spn.Body)) || _class) || _class) || _class);
 exports.default = Resident;
 
-},{"../../ui/sprite/relative-body":65,"../../ui/sprite/speaker":66,"../../ui/sprite/static-sprite":68,"spn":14,"traits-decorator":25}],50:[function(require,module,exports){
+},{"../../ui/screenplay/speaker":64,"../../ui/sprite/relative-body":67,"../../ui/sprite/static-sprite":69,"spn":14,"traits-decorator":25}],49:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6362,7 +6356,7 @@ var ResultPane = (_dec = component('result-pane'), _dec(_class = function (_Body
 }(_spn.Body)) || _class);
 exports.default = ResultPane;
 
-},{"dom-gen":2,"spn":14}],51:[function(require,module,exports){
+},{"dom-gen":2,"spn":14}],50:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6521,7 +6515,7 @@ var Scoreboard = (_dec = component('scoreboard'), _dec(_class = function (_Body)
 }(_spn.Body)) || _class);
 exports.default = Scoreboard;
 
-},{"../../util/util":70,"spn":14}],52:[function(require,module,exports){
+},{"../../util/util":72,"spn":14}],51:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6575,7 +6569,7 @@ var SwipeField = (_dec = component('swipe-field'), _dec(_class = function (_Coel
 }(Coelement)) || _class);
 exports.default = SwipeField;
 
-},{}],53:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6585,7 +6579,7 @@ exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _sceneContext = require('../scene-context');
+var _sceneContext = require('../ui/scene-context');
 
 var _sceneContext2 = _interopRequireDefault(_sceneContext);
 
@@ -6710,7 +6704,8 @@ var Context = function (_SceneContext) {
 
 exports.default = Context;
 
-},{"../scene-context":59,"./component":45}],54:[function(require,module,exports){
+},{"../ui/scene-context":59,"./component":44}],53:[function(require,module,exports){
+(function (global){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6748,9 +6743,7 @@ var _characterRepository = require('../domain/character-repository');
 
 var _characterRepository2 = _interopRequireDefault(_characterRepository);
 
-require('../ui/manager/screenplay-manager');
-
-var _ = require('../');
+require('../ui/screenplay/screenplay-manager');
 
 var _spn = require('spn');
 
@@ -6910,7 +6903,7 @@ var IntroScene = (_dec = component('intro-scene'), _dec2 = event('scene-start'),
         key: 'getLevelDataUrl',
         value: function getLevelDataUrl(id) {
 
-            return _.BASE_PATH + 'data/level/' + id + '.html';
+            return global.BASEPATH + '/data/level/' + id + '.html';
         }
 
         /**
@@ -7044,7 +7037,8 @@ var IntroScene = (_dec = component('intro-scene'), _dec2 = event('scene-start'),
 }(_context2.default), (_applyDecoratedDescriptor(_class2.prototype, 'main', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'main'), _class2.prototype)), _class2)) || _class);
 exports.default = IntroScene;
 
-},{"../":34,"../domain/character-repository":27,"../domain/user-repository":31,"../ui/common/background-service":60,"../ui/manager/screenplay-manager":62,"./context":53,"./layout/intro-scene-layout":55,"./layout/play-scene-layout":56,"spn":14}],55:[function(require,module,exports){
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../domain/character-repository":27,"../domain/user-repository":31,"../ui/common/background-service":58,"../ui/screenplay/screenplay-manager":63,"./context":52,"./layout/intro-scene-layout":54,"./layout/play-scene-layout":55,"spn":14}],54:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7117,7 +7111,7 @@ var IntroSceneLayout = function (_LayoutFactory) {
 
 exports.default = IntroSceneLayout;
 
-},{"spn":14}],56:[function(require,module,exports){
+},{"spn":14}],55:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7260,7 +7254,7 @@ var PlaySceneLayout = function (_LayoutFactory) {
 
 exports.default = PlaySceneLayout;
 
-},{"spn":14}],57:[function(require,module,exports){
+},{"spn":14}],56:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7407,7 +7401,7 @@ var OutroScene = (_dec = component('outro-scene'), _dec2 = event('play-scene-suc
 }(_context2.default), (_applyDecoratedDescriptor(_class2.prototype, 'main', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'main'), _class2.prototype)), _class2)) || _class);
 exports.default = OutroScene;
 
-},{"../ui/common/background-service":60,"./component/cell":38,"./context":53,"./layout/play-scene-layout":56}],58:[function(require,module,exports){
+},{"../ui/common/background-service":58,"./component/cell":37,"./context":52,"./layout/play-scene-layout":55}],57:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7718,7 +7712,87 @@ var PlayScene = (_dec = component('play-scene'), _dec2 = event('main.play-scene'
 }(_context2.default), (_applyDecoratedDescriptor(_class2.prototype, 'main', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'main'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'finish', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'finish'), _class2.prototype)), _class2)) || _class);
 exports.default = PlayScene;
 
-},{"./component/ball-move-mob-leave-service":35,"./component/exit-queue":40,"./component/fusion-preparation-service":43,"./context":53,"./layout/play-scene-layout":56,"spn":14}],59:[function(require,module,exports){
+},{"./component/ball-move-mob-leave-service":34,"./component/exit-queue":39,"./component/fusion-preparation-service":42,"./context":52,"./layout/play-scene-layout":55,"spn":14}],58:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _spn = require('spn');
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Dur = 700;
+
+/**
+ * BackgroundService handles the animation of background colors.
+ */
+
+var BackgroundService = function () {
+  function BackgroundService() {
+    _classCallCheck(this, BackgroundService);
+  }
+
+  _createClass(BackgroundService, null, [{
+    key: 'turnWhite',
+
+    /**
+     * Turns the bg color white.
+     *
+     * @param {Number} dur The duration
+     * @return {Promise}
+     */
+    value: function turnWhite(dur) {
+
+      return this.turn('', dur, false);
+    }
+
+    /**
+     * Turns the bg color white.
+     *
+     * @param {Number} dur The duration
+     * @return {Promise}
+     */
+
+  }, {
+    key: 'turnBlack',
+    value: function turnBlack(dur) {
+
+      return this.turn('', dur, true);
+    }
+
+    /**
+     * Turns the bg color to the given color.
+     *
+     * @private
+     * @param {String} color The color in css color
+     * @param {Number} dur The duration
+     * @param {Boolean} darkBg True if use dark background format
+     * @return {Promise}
+     */
+
+  }, {
+    key: 'turn',
+    value: function turn(color, dur, darkBg) {
+
+      dur = dur || Dur;
+
+      $(document.body).toggleClass('dark-bg', darkBg).css('background-color', color);
+
+      return (0, _spn.wait)(dur);
+    }
+  }]);
+
+  return BackgroundService;
+}();
+
+exports.default = BackgroundService;
+
+},{"spn":14}],59:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7855,96 +7929,219 @@ var SceneContext = function (_Coelement) {
 exports.default = SceneContext;
 
 },{}],60:[function(require,module,exports){
+(function (global){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _dec2, _class, _desc, _value, _class2;
+
+var _emoji = require('../../util/emoji');
 
 var _spn = require('spn');
 
+var _domGen = require('dom-gen');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Dur = 700;
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+    var desc = {};
+    Object['ke' + 'ys'](descriptor).forEach(function (key) {
+        desc[key] = descriptor[key];
+    });
+    desc.enumerable = !!desc.enumerable;
+    desc.configurable = !!desc.configurable;
+
+    if ('value' in desc || desc.initializer) {
+        desc.writable = true;
+    }
+
+    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+        return decorator(target, property, desc) || desc;
+    }, desc);
+
+    if (context && desc.initializer !== void 0) {
+        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+        desc.initializer = undefined;
+    }
+
+    if (desc.initializer === void 0) {
+        Object['define' + 'Property'](target, property, desc);
+        desc = null;
+    }
+
+    return desc;
+}
+
+var _$$cc = $.cc;
+var component = _$$cc.component;
+var event = _$$cc.event;
+
+var DEFAULT_SPEECH_TIMEOUT = 500;
 
 /**
- * BackgroundService handles the animation of background colors.
+ * SpeechBubble class is ui class for a speech bubble
+ * [data] {HTMLElement|string|jQuery} target The target of the bubble
+ * [data] {HTMLElement|string|jQuery} skipTarget The target of the bubble
+ * [data] {string} message The contents of speech
+ * [data] {number} timeout The timeout duration of showing of the bubble
+ */
+var MessageBalloon = (_dec = component('message-balloon'), _dec2 = event('message-balloon.start'), _dec(_class = (_class2 = function (_$$cc$Coelement) {
+    _inherits(MessageBalloon, _$$cc$Coelement);
+
+    function MessageBalloon(elem) {
+        _classCallCheck(this, MessageBalloon);
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MessageBalloon).call(this, elem));
+
+        _this.target = $(elem.data('target'))[0];
+        _this.skipTarget = $(elem.data('skip-target'));
+        _this.message = elem.data('message');
+        _this.timeout = +elem.data('timeout') || DEFAULT_SPEECH_TIMEOUT;
+        return _this;
+    }
+
+    /**
+     * Starts showing the balloon and returns a promise.
+     * @return {Promise}
+     */
+
+    _createClass(MessageBalloon, [{
+        key: 'start',
+        value: function start() {
+            var _this2 = this;
+
+            this.elem.trigger('message-balloon.started');
+
+            this.elem.append((0, _domGen.p)({ css: { height: 0, overflow: 'hidden' } }, (0, _emoji.renderEmoji)(this.message)), // This is dummy for occupying the space.
+            (0, _domGen.p)((0, _emoji.renderEmoji)(this.message, 'punch-emoji')).cc('puncher').trigger('puncher.start') // This is actual message for showing
+            );
+            var drop = new global.Drop({
+                target: this.target,
+                content: this.elem[0],
+                classes: 'drop-theme-arrows-bounce',
+                position: 'top center',
+                openOn: 'always'
+            });
+
+            return this.elem.once('puncher.ended').then(function () {
+                return (0, _spn.wait)(_this2.timeout / 10);
+            }).then(function () {
+                return drop.close();
+            }).then(function () {
+                return (0, _spn.wait)(500);
+            }).then(function () {
+                return _this2.elem.trigger('message-balloon.ended');
+            });
+        }
+    }]);
+
+    return MessageBalloon;
+}($.cc.Coelement), (_applyDecoratedDescriptor(_class2.prototype, 'start', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'start'), _class2.prototype)), _class2)) || _class);
+exports.default = MessageBalloon;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../../util/emoji":71,"dom-gen":2,"spn":14}],61:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _dec2, _class, _desc, _value, _class2;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+    var desc = {};
+    Object['ke' + 'ys'](descriptor).forEach(function (key) {
+        desc[key] = descriptor[key];
+    });
+    desc.enumerable = !!desc.enumerable;
+    desc.configurable = !!desc.configurable;
+
+    if ('value' in desc || desc.initializer) {
+        desc.writable = true;
+    }
+
+    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+        return decorator(target, property, desc) || desc;
+    }, desc);
+
+    if (context && desc.initializer !== void 0) {
+        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+        desc.initializer = undefined;
+    }
+
+    if (desc.initializer === void 0) {
+        Object['define' + 'Property'](target, property, desc);
+        desc = null;
+    }
+
+    return desc;
+}
+
+var _require = require('spn');
+
+var wait = _require.wait;
+var _$$cc = $.cc;
+var component = _$$cc.component;
+var event = _$$cc.event;
+
+/**
+ * Emoji character component.
  */
 
-var BackgroundService = function () {
-  function BackgroundService() {
-    _classCallCheck(this, BackgroundService);
-  }
+var PunchEmoji = (_dec = component('punch-emoji'), _dec2 = event('puncher.appended'), _dec(_class = (_class2 = function (_$$cc$Coelement) {
+    _inherits(PunchEmoji, _$$cc$Coelement);
 
-  _createClass(BackgroundService, null, [{
-    key: 'turnWhite',
+    function PunchEmoji(elem) {
+        _classCallCheck(this, PunchEmoji);
 
-    /**
-     * Turns the bg color white.
-     *
-     * @param {Number} dur The duration
-     * @return {Promise}
-     */
-    value: function turnWhite(dur) {
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PunchEmoji).call(this, elem));
 
-      return this.turn('', dur, false);
+        _this.elem.css('opacity', 0);
+        return _this;
     }
 
-    /**
-     * Turns the bg color white.
-     *
-     * @param {Number} dur The duration
-     * @return {Promise}
-     */
+    _createClass(PunchEmoji, [{
+        key: 'onAppended',
+        value: function onAppended() {
+            var _this2 = this;
 
-  }, {
-    key: 'turnBlack',
-    value: function turnBlack(dur) {
+            wait(100).then(function () {
+                return _this2.elem.css('opacity', 1);
+            });
+        }
+    }]);
 
-      return this.turn('', dur, true);
-    }
+    return PunchEmoji;
+}($.cc.Coelement), (_applyDecoratedDescriptor(_class2.prototype, 'onAppended', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'onAppended'), _class2.prototype)), _class2)) || _class);
+exports.default = PunchEmoji;
 
-    /**
-     * Turns the bg color to the given color.
-     *
-     * @private
-     * @param {String} color The color in css color
-     * @param {Number} dur The duration
-     * @param {Boolean} darkBg True if use dark background format
-     * @return {Promise}
-     */
-
-  }, {
-    key: 'turn',
-    value: function turn(color, dur, darkBg) {
-
-      dur = dur || Dur;
-
-      $(document.body).toggleClass('dark-bg', darkBg).css('background-color', color);
-
-      return (0, _spn.wait)(dur);
-    }
-  }]);
-
-  return BackgroundService;
-}();
-
-exports.default = BackgroundService;
-
-},{"spn":14}],61:[function(require,module,exports){
+},{"spn":14}],62:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _domGen = require('dom-gen');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -7975,7 +8172,7 @@ var ScreenplayLine = function () {
     key: 'getActor',
     value: function getActor() {
 
-      return $(this.selector, this.context).cc.getActor();
+      return $(this.selector, this.context).data('speaker');
     }
 
     /**
@@ -7986,7 +8183,7 @@ var ScreenplayLine = function () {
     key: 'play',
     value: function play() {
 
-      return this.getActor().speak((0, _domGen.p)(this.line));
+      return this.getActor().speak(this.line);
     }
 
     /**
@@ -8011,7 +8208,7 @@ var ScreenplayLine = function () {
 
 exports.default = ScreenplayLine;
 
-},{"dom-gen":2}],62:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8026,8 +8223,6 @@ var _dec, _dec2, _class, _desc, _value, _class2;
 var _screenplayLine = require('./screenplay-line');
 
 var _screenplayLine2 = _interopRequireDefault(_screenplayLine);
-
-var _2 = require('../../');
 
 var _scenarioscript = require('scenarioscript');
 
@@ -8073,11 +8268,10 @@ var event = _$$cc.event;
 var component = _$$cc.component;
 var Coelement = _$$cc.Coelement;
 
-var emojiList = ['love'];
-
 /**
  * ScreenplayManager
  */
+
 var ScreenplayManager = (_dec = component('screenplay-manager'), _dec2 = event('screenplay-start'), _dec(_class = (_class2 = function (_Coelement) {
     _inherits(ScreenplayManager, _Coelement);
 
@@ -8130,13 +8324,6 @@ var ScreenplayManager = (_dec = component('screenplay-manager'), _dec2 = event('
                 });
             }, Promise.resolve());
         }
-
-        /**
-         * Renders the emoji simbols in the text to emoji tag.
-         * @param {string} raw The raw text
-         * @return {string}
-         */
-
     }], [{
         key: 'parse',
         value: function parse(text) {
@@ -8145,37 +8332,83 @@ var ScreenplayManager = (_dec = component('screenplay-manager'), _dec2 = event('
                 return new _screenplayLine2.default(line.role, line.message);
             });
         }
-    }, {
-        key: 'renderEmoji',
-        value: function renderEmoji(raw) {
-            return raw.replace(/:([_a-z]+):/g, ScreenplayManager.emojiToTag);
-        }
-
-        /**
-         * Returns the html expression of the emoji.
-         * @param {string} emoji The id of emoji symbol
-         * @return {string}
-         */
-
-    }, {
-        key: 'emojiToTag',
-        value: function emojiToTag(_, emoji) {
-
-            if (!/[amf]+/.test(emoji) && emojiList.indexOf(emoji) === -1) {
-
-                console.log('unknown emoji', emoji);
-                return ':' + emoji + ':';
-            }
-
-            return '<img class="emoji-' + emoji + '" src="' + _2.BASE_PATH + '/img/quatron.svg" style="width: 20px; height: 20px; vertical-align: middle;" />';
-        }
     }]);
 
     return ScreenplayManager;
 }(Coelement), (_applyDecoratedDescriptor(_class2.prototype, 'play', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'play'), _class2.prototype)), _class2)) || _class);
 exports.default = ScreenplayManager;
 
-},{"../../":34,"./screenplay-line":61,"scenarioscript":3}],63:[function(require,module,exports){
+},{"./screenplay-line":62,"scenarioscript":3}],64:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+require('./message-balloon');
+
+var _domGen = require('dom-gen');
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+require('../screenplay/punch-emoji');
+
+var DEFAULT_SPEECH_TIMEOUT = 5000;
+
+/**
+ * Speaker is a trait of the component which is able to "speak".
+ *
+ * Trait.
+ */
+
+var Speaker = function () {
+    function Speaker() {
+        _classCallCheck(this, Speaker);
+    }
+
+    _createClass(Speaker, [{
+        key: 'setSpeaker',
+        value: function setSpeaker() {
+            this.elem.data('speaker', this);
+        }
+
+        /**
+         * Speaks the phrase
+         *
+         * @param {string} message The contents of the speech
+         * @fires 'speech.started' when the speech started
+         * @fires 'speech.ended' when the speech ended
+         */
+
+    }, {
+        key: 'speak',
+        value: function speak(message) {
+            var _this = this;
+
+            this.elem.trigger('speech.started');
+
+            var timeout = +this.elem.data('speech-timeout') || DEFAULT_SPEECH_TIMEOUT;
+
+            return (0, _domGen.div)({ data: {
+                    message: message,
+                    timeout: timeout,
+                    target: this.elem,
+                    'skip-target': this.elem
+                } }).cc('message-balloon').trigger('message-balloon.start').once('message-balloon.ended').then(function () {
+                return _this.elem.trigger('speech.ended');
+            });
+        }
+    }]);
+
+    return Speaker;
+}();
+
+exports.default = Speaker;
+
+},{"../screenplay/punch-emoji":61,"./message-balloon":60,"dom-gen":2}],65:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8318,7 +8551,7 @@ var CharSprite = (_dec = (0, _traitsDecorator.traits)(_sprite2.default), _dec(_c
 }()) || _class);
 exports.default = CharSprite;
 
-},{"./ma":64,"./sprite":67,"spn":14,"traits-decorator":25}],64:[function(require,module,exports){
+},{"./ma":66,"./sprite":68,"spn":14,"traits-decorator":25}],66:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8359,7 +8592,7 @@ exports.default = function () {
 
 var _spn = require('spn');
 
-},{"spn":14}],65:[function(require,module,exports){
+},{"spn":14}],67:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8401,105 +8634,7 @@ var RelativeBody = function () {
 
 exports.default = RelativeBody;
 
-},{}],66:[function(require,module,exports){
-(function (global){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _screenplayManager = require('../manager/screenplay-manager');
-
-var _screenplayManager2 = _interopRequireDefault(_screenplayManager);
-
-var _spn = require('spn');
-
-var _domGen = require('dom-gen');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var DEFAULT_SPEECH_TIMEOUT = 5000;
-
-/**
- * Speaker is a trait of the component which is able to "speak".
- *
- * Trait.
- */
-
-var Speaker = function () {
-    function Speaker() {
-        _classCallCheck(this, Speaker);
-    }
-
-    _createClass(Speaker, [{
-        key: 'speak',
-
-        /**
-         * Speaks the phrase
-         *
-         * @param {string} speech The contents of the speech
-         * @fires 'speech.started' when the speech started
-         * @fires 'speech.ended' when the speech ended
-         */
-        value: function speak(speech) {
-            var _this = this;
-
-            this.elem.trigger('speech.started');
-
-            // const cancelDom = this.elem.data('speech-ok') || this.elem
-            var timeout = +this.elem.data('speech-timeout') || DEFAULT_SPEECH_TIMEOUT;
-
-            var text = speech.text();
-
-            text = _screenplayManager2.default.renderEmoji(text);
-
-            var speech0 = (0, _domGen.p)(text);
-
-            speech0.css('text-align', 'left');
-            speech0.css('display', 'block');
-            speech0.css('height', '0px');
-            speech0.css('overflow', 'hidden');
-
-            var speech1 = (0, _domGen.p)(text);
-
-            speech1.css('text-align', 'left');
-            speech1.css('display', 'inline');
-
-            var wrapper = (0, _domGen.div)(speech0, speech1);
-
-            var drop = new global.Drop({
-                target: this.elem[0],
-                content: wrapper.appendTo(document.body)[0],
-                classes: 'drop-theme-arrows-bounce',
-                position: 'top center',
-                openOn: 'always'
-            });
-
-            return speech1.cc.up('puncher').trigger('puncher.start').once('puncher.ended').then(function () {
-                return (0, _spn.wait)(timeout / 10);
-            }).then(function () {
-                return drop.close();
-            }).then(function () {
-                return (0, _spn.wait)(500);
-            }).then(function () {
-                return _this.elem.trigger('speech.ended');
-            });
-        }
-    }]);
-
-    return Speaker;
-}();
-
-exports.default = Speaker;
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../manager/screenplay-manager":62,"dom-gen":2,"spn":14}],67:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8592,7 +8727,7 @@ var Sprite = function () {
 
 exports.default = Sprite;
 
-},{}],68:[function(require,module,exports){
+},{}],69:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8674,7 +8809,7 @@ var StaticSprite = (_dec = (0, _traitsDecorator.traits)(_sprite2.default), _dec(
 }()) || _class);
 exports.default = StaticSprite;
 
-},{"./sprite":67,"spn":14,"traits-decorator":25}],69:[function(require,module,exports){
+},{"./sprite":68,"spn":14,"traits-decorator":25}],70:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -8811,7 +8946,44 @@ var IndexPointer = function () {
     return IndexPointer;
 }();
 
-},{}],70:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.renderEmoji = renderEmoji;
+var emojis = exports.emojis = ['m', 'f', 'a', 'w', 'b'];
+
+/**
+ * Renders the emoji simbols in the text to emoji tag.
+ * @param {string} text The raw text
+ * @param {string} cls The additional css class
+ * @return {string}
+ */
+function renderEmoji(text, cls) {
+    return text.replace(/:([_a-z]+):/g, function (_, emoji) {
+        return emojiToTag(emoji, cls);
+    });
+}
+
+/**
+ * Returns the html expression of the emoji.
+ * @param {string} emoji The id of emoji symbol
+ * @return {string}
+ */
+function emojiToTag(emoji, cls) {
+
+    if (emojis.indexOf(emoji) === -1) {
+
+        console.log('unknown emoji:', emoji);
+        return ':' + emoji + ':';
+    }
+
+    return '<i class="emoji emoji-' + emoji + ' ' + (cls || '') + '"></i>';
+}
+
+},{}],72:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

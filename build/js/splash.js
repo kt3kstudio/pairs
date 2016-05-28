@@ -87,8 +87,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * Being represents a dom with visual representation which has the phases, such as show, hide and disappear.
  */
 
-var Being = function (_$$cc$Actor) {
-  _inherits(Being, _$$cc$Actor);
+var Being = function (_$$cc$Coelement) {
+  _inherits(Being, _$$cc$Coelement);
 
   function Being() {
     _classCallCheck(this, Being);
@@ -226,7 +226,7 @@ var Being = function (_$$cc$Actor) {
   }]);
 
   return Being;
-}($.cc.Actor);
+}($.cc.Coelement);
 
 exports.default = Being;
 },{}],3:[function(require,module,exports){
