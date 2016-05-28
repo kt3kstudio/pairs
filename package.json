@@ -39,7 +39,7 @@
     "es6-promise": "^3.0.2",
     "es6-symbol": "^3.0.2",
     "esdoc": "^0.4.3",
-    "event-hub": "^4.1.0",
+    "event-hub": "^5.0.0",
     "gulp-front-matter": "^1.3.0",
     "isparta": "^4.0.0",
     "jquery": "^2.1.4",
