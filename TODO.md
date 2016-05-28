@@ -1,28 +1,19 @@
 # TODO
 
+## goal
+- Goal panel
+
 ## feat(emoji):
-- make emoji appear with animation
 - make emoji appear more slowly
   - puncher `unit-dur` configurable depending on the character to be punched
 
 ## feat(speech)
 - Cancel (skip) target in the DSL.
-- Speech timeout in DSL.
-- SpeechBalloon class
-  - start method, started event, finished event
 
 ## refactor(cell)
 - CellSource @component('cell-source')
 
-- SpeechBalloon
-  - multiple bubble handling
-  - close all method
-  - redesign bubble management
-
 ## feat(residents)
-- Who suggest what they need for their rooms
-- draw the residents in the notebook and pin it
-- gather ideas of the residents, the reason for them needing the cells
 - give a meaning to the sequence of the residents
 
 ## Ad
@@ -38,12 +29,13 @@
 ## Tutorial
 - create tutorial (guidance) - guiding finger swipes the screen
 
-## sprite framework
-- move sprite(trait version) to spn
-- move static-sprite(trait version) to spn
+## sprite
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- SpeechBalloon class
+  - start method, started event, finished event
+- make emoji appear with animation
 - Design emoji framework
   - creates cell emoji classes, <i class="emoji-amf"></i>
   - creates love emoji
