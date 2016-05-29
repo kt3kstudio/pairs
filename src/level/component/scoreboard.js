@@ -19,11 +19,9 @@ export default class Scoreboard extends Body {
      * @constructor
      */
     constructor(elem) {
-
         super(elem)
 
         this.score = 0
-
     }
 
     /**
@@ -33,15 +31,11 @@ export default class Scoreboard extends Body {
      * @return {Rx.Observable<FusionPair>}
      */
     hookToFusionPairStream(fusionPairStream) {
-
-        return fusionPairStream.map((fusionPair) => {
-
+        return fusionPairStream.map(fusionPair => {
             this.addScore(fusionPair.score())
 
             return fusionPair
-
         })
-
     }
 
     showAnim() { return new Animation('bom-appear', 400) }
@@ -51,46 +45,35 @@ export default class Scoreboard extends Body {
      * Set up the initial dom state.
      */
     willShow() {
-
         super.willShow()
 
         this.elem.css('line-height', this.posture.actualHeight() + 'px')
 
         this.update()
-
     }
 
     /**
      * Updates the scoreboard's number.
      */
     update() {
-
         this.elem.text(commaNumber(this.score))
-
     }
 
     /**
      * Add the score to the total score.
-     *
      * @param {Number} score The score to add
      */
     addScore(score) {
-
         this.score += score
 
         this.update()
-
     }
 
     /**
      * Gets the current score.
-     *
      * @return {Number}
      */
     getScore() {
-
         return this.score
-
     }
-
 }
