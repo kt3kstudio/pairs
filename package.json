@@ -55,7 +55,7 @@
     "layout-wrapper": "^1.1.0",
     "mocha": "^2.1.0",
     "multiflip": "^2.0.3",
-    "multiflip-bubble": "^3.0.0",
+    "multiflip-bubble": "^4.0.0",
     "nunjucks": "^2.3.0",
     "rx-lite": "^4.0.7",
     "scenarioscript": "^1.0.1",
