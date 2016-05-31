@@ -216,13 +216,9 @@ export default class IntroScene extends Context {
 
     /**
      * Spawns the character sprite.
-     *
      * @private
      */
     spawnCharacter(character) {
-
-        $('<img />').appendTo(this.elem).data({character: character}).cc.init('character-on-level')
-
+        $('<img />').appendTo(this.elem).data({character: character}).cc('hero')
     }
-
 }

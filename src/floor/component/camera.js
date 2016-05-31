@@ -5,7 +5,7 @@ const {component, event} = $.cc
  * Camera handles the screen position.
  */
 @component('camera')
-export default class Camera extends $.cc.Coelement {
+export default class Camera {
 
     /**
      * Gets the window width.

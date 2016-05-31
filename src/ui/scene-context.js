@@ -1,12 +1,10 @@
-const {Coelement} = $.cc
-
 /**
  * SceneContext is the base class for scene classes. This defines the for phases of the scene.
  *
  * @abstract
  * @class
  */
-export default class SceneContext extends Coelement {
+export default class SceneContext {
 
     main() {
 

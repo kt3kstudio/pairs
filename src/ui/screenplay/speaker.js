@@ -12,8 +12,12 @@ const DEFAULT_SPEECH_TIMEOUT = 5000
  */
 export default class Speaker {
 
-    setSpeaker() {
-        this.elem.data('speaker', this)
+    /**
+     * Sets the speaker data.
+     * @param {jQuery} elem
+     */
+    setSpeaker(elem) {
+        elem.data('speaker', this)
     }
 
     /**

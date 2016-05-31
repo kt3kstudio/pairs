@@ -1,7 +1,7 @@
 import './menu-item'
 import {wait} from 'spn'
 
-const {event, component, Coelement} = $.cc
+const {event, component} = $.cc
 
 const TRANS_DUR = 800
 const R = 60 // radius of menu item arrangment
@@ -42,16 +42,14 @@ function itemOffsets(offset, num) {
  * MenuButton handles the behaviour of the menu button.
  */
 @component('menu-button')
-export default class MenuButton extends Coelement {
+export default class MenuButton {
 
     constructor(elem) {
-
-        super(elem)
+        this.elem = elem
 
         this.closed = true
 
         this.menus = this.getMenuItemSource().map(menu => this.createMenuItem(menu))
-
     }
 
     /**

@@ -16,15 +16,15 @@ const CENTER_N = 1
 export default class Ball extends GridWalker {
 
     constructor(elem) {
-
-        super(elem)
+        super()
 
         this.maxX = MAX
         this.maxY = MAX
 
         this.setGrid(elem.data('grid'), CENTER_M, CENTER_N)
-        this.setTransitionDuration(TRANS_DUR)
 
+        this.elem = elem
+        this.setTransitionDuration(TRANS_DUR)
     }
 
     showAnim() { return new Animation('ball-appear', TRANS_DUR) }

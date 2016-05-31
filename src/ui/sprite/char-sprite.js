@@ -25,9 +25,13 @@ export default class CharSprite {
      */
     defaultState() { return 'default' }
 
-    initSprite() {
+    /**
+     * Initializes the sprite.
+     * @param {jQuery} elem The jquery dom element
+     */
+    initSprite(elem) {
 
-        this.character = this.elem.data('character')
+        this.character = elem.data('character')
 
         CHR_TABLE[this.character.id].call(this)
 

@@ -1,16 +1,15 @@
 import {wait} from 'spn'
 
-const {event, component, Coelement} = $.cc
+const {event, component} = $.cc
 
 /**
  * MenuItem handles the behaviour of items of the menu.
  */
 @component('menu-item')
-export default class MenuItem extends Coelement {
+export default class MenuItem {
 
     constructor(elem) {
-
-        super(elem)
+        this.elem = elem
 
         const menu = this.elem.data('menu')
 

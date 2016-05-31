@@ -1,25 +1,16 @@
 import FieldIndexGenerator from '../../util/FieldIndexGenerator'
 import {wait} from 'spn'
 
-const {component, Coelement} = $.cc
+const {component} = $.cc
 
 /**
  * CellCollection class represents the grid positioned queues of cells around the field.
  */
 @component('cell-collection')
-export default class CellCollection extends Coelement {
+export default class CellCollection {
 
-    /**
-     * @constructor
-     * @param {Object} dimension The cell dimension
-     * @param {String|HTMLElement} dom The dom to put Cell's dom
-     */
-    constructor(elem) {
-
-        super(elem)
-
+    constructor() {
         this.cells = []
-
     }
 
     /**

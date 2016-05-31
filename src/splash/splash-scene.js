@@ -1,22 +1,20 @@
 import './logo'
 
-const {Coelement, component, event} = $.cc
+const {component, event} = $.cc
 
 /**
  * SplashScene controls the splash screen.
  */
 @component('splash-scene')
-export default class SplashScene extends Coelement {
+export default class SplashScene {
 
     @event('scene-start')
     main() {
-
         return this.performSplash('studio')
 
         .then(() => this.performSplash('straw'))
 
         .then(() => this.goToTitle())
-
     }
 
     /**
@@ -26,9 +24,7 @@ export default class SplashScene extends Coelement {
      * @return {Promise}
      */
     performSplash(className) {
-
         return this.elem.find('.splash-logo.' + className).cc.get('splash-logo').perform()
-
     }
 
     /**
@@ -36,9 +32,6 @@ export default class SplashScene extends Coelement {
      */
     @event('click', '.splash-logo')
     goToTitle() {
-
         location.replace('title.html')
-
     }
-
 }

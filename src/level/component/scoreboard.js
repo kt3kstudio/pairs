@@ -18,8 +18,8 @@ export default class Scoreboard extends Body {
     /**
      * @constructor
      */
-    constructor(elem) {
-        super(elem)
+    constructor() {
+        super()
 
         this.score = 0
     }

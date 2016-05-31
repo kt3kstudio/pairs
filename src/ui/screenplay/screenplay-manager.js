@@ -1,17 +1,15 @@
 import ScreenplayLine from './screenplay-line'
 import {parse} from 'scenarioscript'
 
-const {event, component, Coelement} = $.cc
+const {event, component} = $.cc
 
 /**
  * ScreenplayManager
  */
 @component('screenplay-manager')
-export default class ScreenplayManager extends Coelement {
+export default class ScreenplayManager {
 
     constructor(elem) {
-        super(elem)
-
         this.context = elem.data('context')
 
         this.lines = ScreenplayManager.parse(elem.text())

@@ -5,12 +5,10 @@ const {component, event} = $.cc
  * Emoji character component.
  */
 @component('punch-emoji')
-export default class PunchEmoji extends $.cc.Coelement {
+export default class PunchEmoji {
 
     constructor(elem) {
-        super(elem)
-
-        this.elem.css('opacity', 0)
+        elem.css('opacity', 0)
     }
 
     @event('puncher.appended')

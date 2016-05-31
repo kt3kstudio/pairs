@@ -4,7 +4,7 @@ const {component} = $.cc
  * FusionService performs the fusion of the pair of cells.
  */
 @component('fusion-service')
-export default class FusionService extends $.cc.Coelement {
+export default class FusionService {
 
     /**
      * @param {Grid} grid The grid

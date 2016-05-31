@@ -6,27 +6,24 @@ import BallMoveMobLeaveService from './component/ball-move-mob-leave-service'
 import ExitQueue from './component/exit-queue'
 
 const {component, event} = $.cc
+
 /**
  * PlayScene controlls the main playing scene of the level page.
  */
 @component('play-scene')
-export default class PlayScene extends Context {
-
+class PlayScene extends Context {
     /**
      * The entry point
      */
     @event('main.play-scene')
     main() {
-
         super.main()
-
     }
 
     /**
      * Sets up the components.
      */
     setUp() {
-
         const layout = new PlaySceneLayout()
 
         this.character = this.getCharacter().character
@@ -50,23 +47,20 @@ export default class PlayScene extends Context {
         // init scoreboard dimension
         this.getScoreboard().setRect(layout.scoreboardRect())
 
+        // sets goal-panel dimension
+        this.goalPanel().setRect(layout.goalPanelRect())
     }
 
     /**
      * Records the stream of the directions.
-     *
      * @param {Rx.Observable<String>} dirs
      */
     recordDirStream(dirStream) {
-
-        dirStream.forEach((dir) => {
-
+        dirStream.forEach(dir => {
             this.character.playingState.add(dir)
 
             this.character.savePlayingState()
-
         })
-
     }
 
     /**
@@ -164,6 +158,8 @@ export default class PlayScene extends Context {
 
         .then(() => this.getScoreboard().show())
 
+        .then(() => this.goalPanel().show())
+
         .then(() => this.replayRounds())
 
         .then(() => this.userPlay())
@@ -217,3 +213,5 @@ export default class PlayScene extends Context {
     }
 
 }
+
+module.exports = PlayScene

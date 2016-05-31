@@ -10,16 +10,14 @@ const {component} = $.cc
  */
 @traits(Speaker)
 @traits(CharSprite)
-@component('character-on-level')
+@component('hero')
 export default class Character extends GridWalker {
 
     constructor(elem) {
-        super(elem)
+        super()
 
-        this.elem.addClass('hero')
-
-        this.initSprite()
-        this.setSpeaker()
+        this.initSprite(elem)
+        this.setSpeaker(elem)
     }
 
     ratioX() { return 0.5 }

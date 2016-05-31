@@ -13,11 +13,10 @@ export default class Resident extends Body {
     ratioY() { return 1 }
 
     constructor(elem) {
-
-        super(elem)
+        super()
 
         this.initSprite()
-        this.setSpeaker()
+        this.setSpeaker(elem)
 
         const [x, y] = elem.attr('xy').split(/\s+/)
 
@@ -25,7 +24,6 @@ export default class Resident extends Body {
         this.relY = y / 100
         this.relW = 1 / 8
         this.relH = 1 / 8
-
     }
 
     willShow() {

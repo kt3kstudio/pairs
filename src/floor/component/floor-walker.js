@@ -15,13 +15,11 @@ const {component, event} = $.cc
 export default class FloorWalker extends Body {
 
     constructor(elem) {
+        super()
 
-        super(elem)
-
-        this.initSprite()
+        this.initSprite(elem)
 
         this.characterRepository = new CharacterRepository()
-
     }
 
     ratioX() { return 0.5 }

@@ -35,18 +35,15 @@ main_scene: intro-scene
     z-index: -1;
 }
 
-.piece-of-paper {
+.paper {
+    position: absolute;
     z-index: -1;
 }
 
-.ma-speech {
-    line-height: 50px;
-    text-align: center;
-    color: #191B1D;
-
-}
-.ma-speech p {
-    width: 100%;
+.hero,
+.moo,
+.cell {
+    position: absolute;
 }
 
 .scoreboard {
@@ -55,6 +52,13 @@ main_scene: intro-scene
     color: #C1C6CB;
     background-color: #393F44;
     border-radius: 7px;
+}
+
+.goal-panel {
+  position: absolute;
+  color: #C1C6CB;
+  background-color: #393F44;
+  border-radius: 7px;
 }
 
 .result-pane .result-content {
@@ -141,6 +145,8 @@ main_scene: intro-scene
   <img class="field-grid" src="img/field.svg" />
 
   <div class="scoreboard"></div>
+
+  <div class="goal-panel"></div>
 
   <div class="result-pane"></div>
 

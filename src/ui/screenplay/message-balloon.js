@@ -15,11 +15,9 @@ const DEFAULT_SPEECH_TIMEOUT = 500
  * [data] {number} timeout The timeout duration of showing of the bubble
  */
 @component('message-balloon')
-export default class MessageBalloon extends $.cc.Coelement {
+export default class MessageBalloon {
 
     constructor(elem) {
-        super(elem)
-
         this.target = $(elem.data('target'))[0]
         this.skipTarget = $(elem.data('skip-target'))
         this.message = elem.data('message')
