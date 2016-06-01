@@ -1,7 +1,7 @@
 # TODO
 
 ## goal
-- Goal panel
+- Show goals in goal panel
 
 ## feat(emoji):
 - make emoji appear more slowly
@@ -33,6 +33,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- Goal panel
 - SpeechBalloon class
   - start method, started event, finished event
 - make emoji appear with animation
