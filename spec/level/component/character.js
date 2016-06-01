@@ -1,5 +1,5 @@
-import {Grid} from 'spn'
-import Character from '../../../src/level/component/character'
+const {Grid} = require('spn')
+require('../../../src/level/component/character')
 
 describe('Character', () => {
     'use strict'

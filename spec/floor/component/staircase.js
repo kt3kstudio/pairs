@@ -1,4 +1,4 @@
-import Staircase from '../../../src/floor/component/staircase'
+require('../../../src/floor/component/staircase')
 
 describe('Staircase', () => {
     'use strict'

@@ -13,7 +13,7 @@ describe('FloorAsset', () => {
 
     beforeEach(() => {
 
-        elem = div({attr: {x: "200", y: "300", id: "abc"}}).appendTo(document.body)
+        elem = div({attr: {x: '200', y: '300', id: 'abc'}}).appendTo(document.body)
 
         floorAsset = elem.cc.init('floor-asset')
 
