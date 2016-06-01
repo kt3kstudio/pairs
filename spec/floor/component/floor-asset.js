@@ -1,20 +1,25 @@
 import FloorAsset from '../../../src/floor/component/floor-asset'
 
+const {div} = require('dom-gen')
+
 describe('FloorAsset', () => {
     'use strict'
 
-    let floorAsset, $dom
+    let floorAsset, elem
+
+    before(() => {
+        $.cc('floor-asset', FloorAsset)
+    })
 
     beforeEach(() => {
 
-        $dom = $('<div x="200" y="300" id="abc" />')
-        $dom.appendTo(document.body)
+        elem = div({attr: {x: "200", y: "300", id: "abc"}}).appendTo(document.body)
 
-        floorAsset = new FloorAsset($dom)
+        floorAsset = elem.cc.init('floor-asset')
 
     })
 
-    afterEach(() => $dom.remove())
+    afterEach(() => elem.remove())
 
     describe('constructor', () => {
 

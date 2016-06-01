@@ -12,7 +12,7 @@ const {component, event} = $.cc
  */
 @traits(CharSprite)
 @component('floor-walker')
-export default class FloorWalker extends Body {
+class FloorWalker extends Body {
 
     constructor(elem) {
         super()
@@ -175,3 +175,5 @@ export default class FloorWalker extends Body {
     }
 
 }
+
+module.exports = FloorWalker

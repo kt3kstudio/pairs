@@ -12,7 +12,7 @@ describe('Character', () => {
 
         elem.data('character', {id: 'ma'})
 
-        character = new Character(elem)
+        character = elem.cc.init('hero')
 
         character.setGrid(new Grid({x: 0, y: 0}))
 

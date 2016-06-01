@@ -3,25 +3,19 @@ import Sprite from '../../../src/ui/sprite/sprite'
 import {traits} from 'traits-decorator'
 import {img} from 'dom-gen'
 
-const {Coelement} = $.cc
-
 describe('Sprite', () => {
 
     let sprite, elem
 
     @traits(Sprite)
-    class MySprite extends Coelement {
+    class MySprite {
 
-        constructor(elem) {
-
-            super(elem)
-
+        constructor() {
             this.dirStateImage = new DirStateImageMap()
             this.dirStateImage.addImageByDirState(new Image('up-run.svg'), 'up', 'run')
             this.dirStateImage.addImageByDirState(new Image('up-stay.svg'), 'up', 'stay')
             this.dirStateImage.addImageByDirState(new Image('down-run.svg'), 'down', 'run')
             this.dirStateImage.addImageByDirState(new Image('down-stay.svg'), 'down', 'stay')
-
         }
 
         defaultDir() { return 'up' }
@@ -36,11 +30,13 @@ describe('Sprite', () => {
 
     }
 
+    $.cc('my-sprite', MySprite)
+
     beforeEach(() => {
 
         elem = img()
 
-        sprite = new MySprite(elem)
+        sprite = elem.cc.init('my-sprite')
 
     })
 

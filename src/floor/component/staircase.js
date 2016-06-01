@@ -16,13 +16,11 @@ export default class Staircase extends FloorAsset {
     hideAnim() { return new Animation('door-disappear', STAIRCASE_ANIMATION_DUR) }
 
     constructor(elem) {
-
         super(elem)
 
         this.goto = elem.data('goto') // must be parsed position object, not string
 
         this.locked = true
-
     }
 
     /**

@@ -8,7 +8,7 @@ describe('Staircase', () => {
     beforeEach(() => {
 
         $dom = $('<div data-goto=\'{"floorId": "abc", "floorObjectId": "def"}\' />')
-        staircase = new Staircase($dom)
+        staircase = $dom.cc.init('staircase')
 
     })
 
