@@ -47,98 +47,95 @@ main_scene: intro-scene
 }
 
 .scoreboard {
-    position: absolute;
-    text-align: center;
-    color: #C1C6CB;
-    background-color: #393F44;
-    border-radius: 7px;
-}
-
-.goal-panel {
   position: absolute;
+  text-align: center;
   color: #C1C6CB;
   background-color: #393F44;
   border-radius: 7px;
 }
 
+.goal-panel {
+  position: absolute;
+  color: #C1C6CB;
+  text-align: center;
+  background-color: #393F44;
+  border-radius: 7px;
+}
+
 .result-pane .result-content {
-    position: absolute;
-    text-align: center;
-    color: #C1C6CB;
-    background-color: #393F44;
+  position: absolute;
+  text-align: center;
+  color: #C1C6CB;
+  background-color: #393F44;
 }
 
 
 @-webkit-keyframes ball-appear {
-    0% { opacity: 0; transform: scale(0); }
+  0% { opacity: 0; transform: scale(0); }
 }
 
 @-webkit-keyframes ball-disappear {
-    100% { opacity: 0; transform: scale(0); }
+  100% { opacity: 0; transform: scale(0); }
 }
 
 @-webkit-keyframes ball-refuse-x {
-    50% { transform: scale(2, 0.5); opacity: 0.2; }
+  50% { transform: scale(2, 0.5); opacity: 0.2; }
 }
 
 @-webkit-keyframes ball-refuse-y {
-    50% { transform: scale(0.5, 2); opacity: 0.2; }
+  50% { transform: scale(0.5, 2); opacity: 0.2; }
 }
 
 @-webkit-keyframes field-appear {
-    0% { opacity: 0; transform: scale(2); }
+  0% { opacity: 0; transform: scale(2); }
 }
 
 @-webkit-keyframes field-disappear {
-    100% { opacity: 0; transform: scale(0); }
+  100% { opacity: 0; transform: scale(0); }
 }
 
 @-webkit-keyframes bom-appear {
-    0% { opacity: 0; transform: translate(0, 10px); }
-    100% { opacity: 1; transform: translate(0, 0); }
+  0% { opacity: 0; transform: translate(0, 10px); }
+  100% { opacity: 1; transform: translate(0, 0); }
 }
 
 @-webkit-keyframes bom-disappear {
-    0% { opacity: 1; transform: translate(0, 0); }
-    100% { opacity: 0; transform: translate(0, 10px); }
+  0% { opacity: 1; transform: translate(0, 0); }
+  100% { opacity: 0; transform: translate(0, 10px); }
 }
 
 @-webkit-keyframes bom-born {
-    0% { opacity: 0; transform: translate(0, 10px) scale(0); }
-    50% { opacity: 1; transform: translate(0, 0px) scale(1.2); }
-    100% { opacity: 1; transform: translate(0, 0px) scale(1); }
+  0% { opacity: 0; transform: translate(0, 10px) scale(0); }
+  50% { opacity: 1; transform: translate(0, 0px) scale(1.2); }
+  100% { opacity: 1; transform: translate(0, 0px) scale(1); }
 }
 
 @-webkit-keyframes go-to-trash {
-    100% { opacity: 0; transform: translate(0, 10px) scale(0); }
+  100% { opacity: 0; transform: translate(0, 10px) scale(0); }
 }
 
 @-webkit-keyframes get-to-reactor-left {
-    0% { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
-    50% { opacity: 1; transform: translate(20px, 0) rotate(0) scale(1); }
-    100% { opacity: 0; transform: translate(40px, 0) rotate(360deg) scale(0); }
+  0% { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
+  50% { opacity: 1; transform: translate(20px, 0) rotate(0) scale(1); }
+  100% { opacity: 0; transform: translate(40px, 0) rotate(360deg) scale(0); }
 }
 
 @-webkit-keyframes get-to-reactor-right {
-    0% { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
-    50% { opacity: 1; transform: translate(-20px, 0) rotate(0) scale(1); }
-    100% { opacity: 0; transform: translate(-40px, 0) rotate(-360deg) scale(0); }
+  0% { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
+  50% { opacity: 1; transform: translate(-20px, 0) rotate(0) scale(1); }
+  100% { opacity: 0; transform: translate(-40px, 0) rotate(-360deg) scale(0); }
 }
 
 @-webkit-keyframes paper-appear {
-    0% { opacity: 0 }
-    100% { opacity: 1 }
+  0% { opacity: 0 }
+  100% { opacity: 1 }
 }
 
 @-webkit-keyframes paper-disappear {
-    0% { opacity: 1 }
-    100% { opacity: 0 }
+  0% { opacity: 1 }
+  100% { opacity: 0 }
 }
-
-
-
 </style>
-
 
 <div id="main" class="intro-scene play-scene outro-scene fusion-service cell-collection">
 
@@ -161,7 +158,6 @@ main_scene: intro-scene
 <menu src="img/back-button.svg" onclick="$('.play-scene').cc.get('play-scene').end();"></menu>
 <menu src="img/reset-button.svg" onclick="$('.play-scene').cc.get('play-scene').end();"></menu>
 </menus>
-
 
 <!-- templates, a bit old-fashioned templating -->
 <script type="text/template" id="tpl-ball">
