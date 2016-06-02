@@ -9,13 +9,11 @@ const {component, event} = $.cc
  * OutroScene handles the scene after finishing main play.
  */
 @component('outro-scene')
-export default class OutroScene extends Context {
+class OutroScene extends Context {
 
-    @event('play-scene-success play-scene-failure')
+    @event('play-scene.won play-scene.failed')
     main() {
-
         super.main()
-
     }
 
     /**
@@ -24,12 +22,10 @@ export default class OutroScene extends Context {
      * @override
      */
     setUp() {
-
         const layout = new PlaySceneLayout()
 
         this.getResultPane().setRect(layout.resultPaneRect())
         this.getResultPane().setScore(this.getScoreboard().score)
-
     }
 
     /**
@@ -38,7 +34,6 @@ export default class OutroScene extends Context {
      * @override
      */
     start() {
-
         return this.getResultPane().show(30000000)
 
         .then(() => {
@@ -70,7 +65,7 @@ export default class OutroScene extends Context {
         .then(() => BackgroundService.turnBlack())
 
         .then(() => history.back())
-
     }
-
 }
+
+module.exports = OutroScene

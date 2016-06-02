@@ -5,7 +5,7 @@ import FusionPreparationService from './component/fusion-preparation-service'
 import BallMoveMobLeaveService from './component/ball-move-mob-leave-service'
 import ExitQueue from './component/exit-queue'
 
-const {component, event} = $.cc
+const {component, event, trigger} = $.cc
 
 /**
  * PlayScene controlls the main playing scene of the level page.
@@ -15,10 +15,8 @@ class PlayScene extends Context {
     /**
      * The entry point
      */
-    @event('main.play-scene')
-    main() {
-        super.main()
-    }
+    @event('intro-scene.finished')
+    main() { super.main() }
 
     /**
      * Sets up the components.
@@ -27,22 +25,20 @@ class PlayScene extends Context {
         const layout = new PlaySceneLayout()
 
         this.character = this.getCharacter().character
-        this.level = this.getAtElem('intro-scene').level
+        this.level = this.introScene().level
 
-        // models
-        this.cells = this.getAtElem('cell-collection')
-        this.cells.setGrid(layout.playGrid())
-        this.cells.loadFromObjectList(this.level.cells.cells)
+        this.cells().setGrid(layout.playGrid())
+        this.cells().loadFromObjectList(this.level.cells.cells)
 
         this.getField().setRect(layout.fieldRect())
 
         // services
         this.fps = new FusionPreparationService(layout.evalRoomGrid())
-        this.fusionService = this.getAtElem('fusion-service').setGrid(layout.fusionBoxGrid())
+        this.fusionService().setGrid(layout.fusionBoxGrid())
         this.exitQueue = new ExitQueue(layout.queueGrid())
 
         // ball move service
-        this.bms = new BallMoveMobLeaveService(this.getBall(), this.cells)
+        this.bms = new BallMoveMobLeaveService(this.getBall(), this.cells())
 
         // init scoreboard dimension
         this.getScoreboard().setRect(layout.scoreboardRect())
@@ -70,71 +66,55 @@ class PlayScene extends Context {
      * @return {Rx.Observable}
      */
     hookPlayingStateBumping(stream) {
-
         return stream.filter(() => {
-
             this.character.playingState.bump()
 
             return true
-
         })
-
     }
 
     /**
      * Binds event handlers to the stream.
-     *
      * @param {Rx.Observable} dirStream The stream of directions
      * @return {Promise}
      */
     playLoop(dirStream) {
-
         const cellStream = this.bms.processDirStream(dirStream)
 
         let fusionPairStream = this.fps.processCellStream(cellStream)
 
         fusionPairStream = this.getScoreboard().hookToFusionPairStream(fusionPairStream)
 
-        const newCellStream = this.fusionService.processFusionPairStream(fusionPairStream)
+        const newCellStream = this.fusionService().processFusionPairStream(fusionPairStream)
 
         let releasedCellStream = this.exitQueue.processNewCellStream(newCellStream)
 
         releasedCellStream = this.hookPlayingStateBumping(releasedCellStream)
 
-        return this.cells.processCellStream(releasedCellStream).getPromise()
-
+        return this.cells().processCellStream(releasedCellStream).getPromise()
     }
 
     /**
      * Replays the saved playing state.
-     *
      * @return {Promise}
      */
     replayRounds() {
-
         return this.character.playingState.rounds.reduce((promise, round) =>
-
             promise.then(() =>
-
                 this.playLoop(round.map((dir, i) => wait(i * 180, dir)).toFlatStream())
-
             ), Promise.resolve()
-
         )
-
     }
 
     /**
      * @return {Promise}
      */
     userPlay() {
-
         const userDirStream = this.getUserSwipeStream()
 
         this.recordDirStream(userDirStream)
 
         return this.playLoop(userDirStream)
-
     }
 
     /**
@@ -142,8 +122,8 @@ class PlayScene extends Context {
      *
      * @return {Promise}
      */
+    @trigger(null, 'play-scene.finished')
     start() {
-
         this.getMenuButton().show()
 
         return this.getField().show()
@@ -154,7 +134,7 @@ class PlayScene extends Context {
 
         .then(() => Promise.all(this.residents('moo').map(moo => moo.hide())))
 
-        .then(() => this.cells.appear())
+        .then(() => this.cells().appear())
 
         .then(() => this.getScoreboard().show())
 
@@ -165,9 +145,6 @@ class PlayScene extends Context {
         .then(() => this.userPlay())
 
         .then(() => this.removeSwipeField())
-
-        .then(() => this.elem.trigger('finish.play-scene'))
-
     }
 
     /**
@@ -176,7 +153,6 @@ class PlayScene extends Context {
      * @return {Rx.Observable}
      */
     getUserSwipeStream() {
-
         const field = $('.swipe-field')
 
         return Rx.Observable.merge(
@@ -185,7 +161,6 @@ class PlayScene extends Context {
             field.streamOf('swipeleft').map('left'),
             field.streamOf('swiperight').map('right')
         )
-
     }
 
     /**
@@ -203,12 +178,12 @@ class PlayScene extends Context {
      * @param {Event} e The event object (unused)
      * @param {Boolean} playerWon True if the player won the game
      */
-    @event('finish.play-scene')
+    @event('play-scene.finished')
     finish(e, playerWon) {
 
         this.character.clearPlayingState()
 
-        this.elem.trigger(playerWon ? 'play-scene-success' : 'play-scene-failure')
+        this.elem.trigger(playerWon ? 'play-scene.won' : 'play-scene.failed')
 
     }
 

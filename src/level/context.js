@@ -69,6 +69,37 @@ class Context extends SceneContext {
     residents(name) {
         return this.elem.find('.' + name).toArray().map(dom => $(dom).cc.get(name))
     }
+
+    /**
+     * Gets the scenes.
+     */
+    introScene() { return this.getAtElem('intro-scene') }
+    playScene() { return this.getAtElem('play-scene') }
+    outroScene() { return this.getAtElem('outro-scene') }
+
+    /**
+     * Gets the cells.
+     * @return {CellCollection}
+     */
+    cells() {
+        return this.getAtElem('cell-collection')
+    }
+
+    /**
+     * Gets the fusion service.
+     * @return {FusionService}
+     */
+    fusionService() {
+        return this.getAtElem('fusion-service')
+    }
+
+    /**
+     * Gets the screenplay manager.
+     * @return {ScreenplayManager}
+     */
+    screenplayManager() {
+        return this.get('screenplay-manager')
+    }
 }
 
 module.exports = Context

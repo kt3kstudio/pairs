@@ -7,7 +7,7 @@ import CharacterRepository from '../domain/character-repository'
 import '../ui/screenplay/screenplay-manager'
 import {wait} from 'spn'
 
-const {component, event} = $.cc
+const {component, event, trigger} = $.cc
 
 /**
  * IntroScene class handles the introduction scene of the level page.
@@ -83,13 +83,9 @@ export default class IntroScene extends Context {
      * @return {Promise}
      */
     loadLevelNext(id) {
-
         return Promise.resolve($.get(this.getLevelDataUrl(id))).then(levelData => {
-
             $(levelData).appendTo(this.elem)
-
         })
-
     }
 
     /**
@@ -98,9 +94,7 @@ export default class IntroScene extends Context {
      * @return {string}
      */
     getLevelDataUrl(id) {
-
         return `${global.BASEPATH}/data/level/${id}.html`
-
     }
 
     /**
@@ -110,7 +104,6 @@ export default class IntroScene extends Context {
      * @return {Promise}
      */
     setUp() {
-
         $.cc.init()
 
         const layout = new IntroSceneLayout()
@@ -132,7 +125,6 @@ export default class IntroScene extends Context {
         character.fitToGrid()
 
         this.residents('moo').forEach(moo => moo.onSetParentRect(layout.main))
-
     }
 
     /**
@@ -140,8 +132,8 @@ export default class IntroScene extends Context {
      *
      * @return {Promise}
      */
+    @trigger(null, 'intro-scene.finished')
     start() {
-
         this.getPaper().show()
 
         return BackgroundService.turnWhite()
@@ -149,40 +141,20 @@ export default class IntroScene extends Context {
         .then(() => this.getCharacter().moveUpOnGrid(600))
 
         .then(() => {
-
             this.getPaper().disappear()
 
             return Promise.all(this.residents('moo').map(moo => {
-
                 return wait(Math.random() * 500).then(() => moo.show())
-
             }))
-
         })
 
-        .then(() => {
-
-            /*
-            const goals = $('<p />').text(this.level.goal.toString())
-
-            // the character read up the goals of the room
-            return this.getCharacter().speak(goals, {cancelDom: '.wrapper'})
-            */
-
-            return this.get('screenplay-manager').play()
-
-        })
+        .then(() => this.screenplayManager().play())
 
         .then(() => {
-
             this.getCharacter().hide()
 
             return this.getBall().show()
-
         })
-
-        .then(() => this.elem.trigger('main.play-scene'))
-
     }
 
     /**
@@ -191,7 +163,6 @@ export default class IntroScene extends Context {
      * @private
      */
     spawnBall() {
-
         const playSceneLayout = new PlaySceneLayout()
 
         $($('#tpl-ball').html()).css({display: 'none'}).data({
@@ -200,7 +171,6 @@ export default class IntroScene extends Context {
             pos: {m: 1, n: 1}
 
         }).appendTo(this.elem).cc.init('ball')
-
     }
 
     /**
@@ -209,9 +179,7 @@ export default class IntroScene extends Context {
      * @private
      */
     spawnPaper() {
-
         $('<img />').appendTo(this.elem).cc.init('paper')
-
     }
 
     /**
