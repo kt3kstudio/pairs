@@ -100,6 +100,18 @@ class Context extends SceneContext {
     screenplayManager() {
         return this.get('screenplay-manager')
     }
+
+    /**
+     * Shows the goal panel and its contents.
+     * @param {string} goals The goal html
+     * @return {Promise}
+     */
+    showGoalPanel(goals) {
+        this.goalPanel().setGoals(goals)
+
+        return this.goalPanel().show()
+        .then(() => this.goalPanel().showGoals())
+    }
 }
 
 module.exports = Context

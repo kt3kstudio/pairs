@@ -47,8 +47,6 @@ export default class Scoreboard extends Body {
     willShow() {
         super.willShow()
 
-        this.elem.css('line-height', this.posture.actualHeight() + 'px')
-
         this.update()
     }
 

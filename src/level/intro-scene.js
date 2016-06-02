@@ -107,6 +107,7 @@ export default class IntroScene extends Context {
         $.cc.init()
 
         const layout = new IntroSceneLayout()
+        const pLayout = new PlaySceneLayout()
 
         this.spawnBall()
         this.spawnPaper()
@@ -119,12 +120,13 @@ export default class IntroScene extends Context {
         const character = this.getCharacter()
 
         character.setGrid(centerGrid, 0, 1)
-
         character.setTransitionDuration(500)
-
         character.fitToGrid()
 
         this.residents('moo').forEach(moo => moo.onSetParentRect(layout.main))
+
+        // sets goal-panel dimension
+        this.goalPanel().setRect(pLayout.goalPanelRect())
     }
 
     /**
@@ -155,6 +157,11 @@ export default class IntroScene extends Context {
 
             return this.getBall().show()
         })
+    }
+
+    @event('screenplay.goals')
+    onGoalsSuggested(e, goals) {
+        this.showGoalPanel(goals)
     }
 
     /**

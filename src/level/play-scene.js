@@ -42,9 +42,6 @@ class PlayScene extends Context {
 
         // init scoreboard dimension
         this.getScoreboard().setRect(layout.scoreboardRect())
-
-        // sets goal-panel dimension
-        this.goalPanel().setRect(layout.goalPanelRect())
     }
 
     /**
@@ -126,9 +123,9 @@ class PlayScene extends Context {
     start() {
         this.getMenuButton().show()
 
-        return this.getField().show()
+        return Promise.resolve()
 
-        .then(() => this.getCharacter().speechEndPromise)
+        .then(() => this.getField().show())
 
         .then(() => this.character.reloadPlayingState())
 
@@ -137,8 +134,6 @@ class PlayScene extends Context {
         .then(() => this.cells().appear())
 
         .then(() => this.getScoreboard().show())
-
-        .then(() => this.goalPanel().show())
 
         .then(() => this.replayRounds())
 

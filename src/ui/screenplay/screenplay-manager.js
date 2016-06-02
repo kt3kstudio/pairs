@@ -12,19 +12,7 @@ export default class ScreenplayManager {
     constructor(elem) {
         this.context = elem.data('context')
 
-        this.lines = ScreenplayManager.parse(elem.text())
-        this.lines.forEach(line => line.context = this.context)
-    }
-
-    /**
-     * Parses the screenplay DSL.
-     * @private
-     * @param {string} text The text of screenplay
-     */
-    static parse(text) {
-
-        return parse(text).map(line => new ScreenplayLine(line.role, line.message))
-
+        this.lines = parse(elem.text()).map(line => new ScreenplayLine(line.role, line.message, this.context, line.params))
     }
 
     /**
@@ -32,9 +20,7 @@ export default class ScreenplayManager {
      * @return {boolean}
      */
     actorsReady() {
-
         return this.lines.filter(line => !line.actorIsReady()).length === 0
-
     }
 
     /**
@@ -43,8 +29,6 @@ export default class ScreenplayManager {
      */
     @event('screenplay-start')
     play() {
-
         return this.lines.reduce((previous, line) => previous.then(() => line.play()), Promise.resolve())
-
     }
 }
