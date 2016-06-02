@@ -1,14 +1,7 @@
 # TODO
 
 ## goal
-- Show goals in goal panel
-
-## feat(emoji):
-- make emoji appear more slowly
-  - puncher `unit-dur` configurable depending on the character to be punched
-
-## feat(speech)
-- Cancel (skip) target in the DSL.
+- Show goals (cells) in goal panel
 
 ## refactor(cell)
 - CellSource @component('cell-source')
@@ -16,18 +9,28 @@
 ## feat(residents)
 - give a meaning to the sequence of the residents
 
-## Ad
-- Ad integration (in android, ios side, maybe better to create it as straw plugin)
-- Choose ad platform
-
 ## game logic
 - Char difference
   - ma - torus
   - ellen - sphere, state
   - emma - P2
+- Make char have some simple states
+
+## Ad
+- Ad integration (in android, ios side, maybe better to create it as straw plugin)
+- Choose ad platform
 
 ## Tutorial
-- create tutorial (guidance) - guiding finger swipes the screen
+- create tutorial (guidance) - guiding finger (or blinking light) swipes the screen
+
+--
+
+## feat(speech)
+- Cancel (skip) target in the DSL.
+
+## feat(emoji):
+- make emoji appear more slowly
+  - puncher `unit-dur` configurable depending on the character to be punched
 
 ## sprite
 - refactor char-sprite not to use word Ma, character detail should be in the dom
