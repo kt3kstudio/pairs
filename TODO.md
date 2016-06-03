@@ -1,7 +1,7 @@
 # TODO
 
 ## goal
-- Show goals (cells) in goal panel
+- goal detection
 
 ## refactor(cell)
 - CellSource @component('cell-source')
@@ -36,6 +36,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- Show goals (cells) in goal panel
 - Goal panel
 - SpeechBalloon class
   - start method, started event, finished event
