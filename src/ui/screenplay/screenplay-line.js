@@ -35,11 +35,8 @@ export default class ScreenplayLine {
      * Plays the role.
      */
     play() {
-        console.log(this.options)
-        return this.getActor().speak(this.line).then(() => {
+        return Promise.resolve(this.getActor().speak(this.line)).then(() => {
             if (typeof this.options.goals === 'string') {
-                console.log('bar')
-                console.log(this.context)
                 this.getElement().trigger('screenplay.goals', this.options.goals)
             }
         })
