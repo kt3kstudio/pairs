@@ -36,10 +36,10 @@ describe('Door', () => {
 
             door.willShow()
 
-            expect($dom.find('.doorknob').size()).to.equal(1)
-            expect($dom.find('.door-body').size()).to.equal(1)
-            expect($dom.find('.door-info-content').size()).to.equal(1)
-            expect($dom.find('.door-info-content button').size()).to.equal(1)
+            expect($dom.find('.doorknob').length).to.equal(1)
+            expect($dom.find('.door-body').length).to.equal(1)
+            expect($dom.find('.door-info-content').length).to.equal(1)
+            expect($dom.find('.door-info-content button').length).to.equal(1)
 
         })
 
