@@ -13,32 +13,29 @@ const ALL_CELLS = []
  */
 @component('cell')
 export default class Cell extends GridWalker {
-
     cellRatioX() { return 0.65 }
     cellRatioY() { return 0.65 }
 
-    /**
-     * @constructor
-     * @param {String} gene The gene string
-     * @param {String|HTMLElement} parent The parent dom
-     */
     constructor(elem) {
+        super()
 
-        super(elem)
-
+        /**
+         * @property {string} gene The gene
+         */
         this.gene = elem.data('gene')
 
         this.__isLastOne = false
         this.__isEvolved = false
 
         ALL_CELLS.push(this)
-
     }
 
+    /**
+     * Disappears all the cells.
+     * @return {Promise<Cell[]>}
+     */
     static disappear() {
-
-        return ALL_CELLS.map((cell, i) => wait(40 * i).then(() => cell.disappear())).pop()
-
+        return Promise.all(ALL_CELLS.map((cell, i) => wait(40 * i).then(() => cell.disappear())))
     }
 
     /**
@@ -47,11 +44,9 @@ export default class Cell extends GridWalker {
      * @return {Cell}
      */
     setLastOne() {
-
         this.__isLastOne = true
 
         return this
-
     }
 
     /**
