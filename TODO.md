@@ -3,6 +3,9 @@
 ## goal
 - goal detection
 
+## deprecated
+- replace @event with @on
+
 ## refactor(cell)
 - CellSource @component('cell-source')
 
