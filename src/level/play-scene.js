@@ -135,7 +135,7 @@ class PlayScene extends Context {
 
         .then(() => this.getScoreboard().show())
 
-        .then(() => this.replayRounds())
+        // .then(() => this.replayRounds())
 
         .then(() => this.userPlay())
 
