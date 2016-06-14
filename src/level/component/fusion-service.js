@@ -1,4 +1,8 @@
-const {component} = $.cc
+const domGen = require('dom-gen')
+
+const object = domGen.default('object')
+
+const {emit, component} = $.cc
 
 /**
  * FusionService performs the fusion of the pair of cells.
@@ -10,11 +14,7 @@ export default class FusionService {
      * @param {Grid} grid The grid
      */
     setGrid(grid) {
-
         this.grid = grid
-
-        return this
-
     }
 
     /**
@@ -66,38 +66,29 @@ export default class FusionService {
 
     /**
      * Perform cell fusion.
-     *
      * @private
-     * @param {FusionPair} pair The pair
+     * @param {FusionPair} pair The fusion pair
      * @return {Promise} The new cell {Promise<Cell>}
      */
+    @emit('cell-fusion').last
     fusion(pair) {
-
         const dur = 600
 
-        const cell = $('<object />', {
-
+        const cell = object({
             data: {gene: pair.newGene()},
             prependTo: this.elem
-
         }).cc.init('cell')
 
         cell.setGrid(this.grid, 0, 0)
 
         if (pair.isLastOne()) {
-
             cell.setLastOne()
-
         }
 
         if (pair.isEvolving()) {
-
             cell.setEvolved()
-
         }
 
         return cell.show(dur).then(() => cell)
-
     }
-
 }

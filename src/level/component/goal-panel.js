@@ -1,7 +1,11 @@
+require('../service/goal-detection')
+
 const {renderEmoji} = require('../../util/emoji')
 const {Body, Animation} = require('spn')
 
-const {component} = $.cc
+const {on, component} = $.cc
+
+const CSS_CLASS_GOAL_EMOJI = 'emoji-round-yellow'
 
 /**
  * The goal panel on the top right corner.
@@ -27,6 +31,25 @@ class GoalPanel extends Body {
      */
     setGoals(goals) {
         this.goals = goals
+        this.elem.data('goals-text', goals)
+        this.elem.cc('goal-detection')
+    }
+
+    /**
+     * The handler for the goal detection.
+     * @param {object} e The event
+     * @param {number} index The index of goaled cell
+     */
+    @on('goal-detection.goal')
+    onGoalDetection(e, index) {
+        const target = this.elem.find('.emoji')[index]
+
+        $(target).addClass(CSS_CLASS_GOAL_EMOJI)
+    }
+
+    @on('goal-detection.finish')
+    onGoalFinished() {
+        window.alert('finish!')
     }
 
     /**
