@@ -33,7 +33,7 @@
     "bulbo": "^6.1.0",
     "bundle-through": "^1.0.3",
     "chai": "^3.5.0",
-    "class-component": "^9.0.0",
+    "class-component": "^9.1.2",
     "codecov": "^1.0.1",
     "dom-gen": "^2.1.0",
     "es6-promise": "^3.0.2",
