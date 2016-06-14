@@ -2,11 +2,11 @@
 
 ## chore
 - update dom-gen to 2.2 and replace object usage
-- update class-component to v9.2 and replace goal-detection.goal usage
 - replace @event with @on
 
-## goal
-- goal detection
+## feat(goal):
+- finish the game when the goals are achieved
+- show failure when the game is finished without all goals finished
 
 ## refactor(cell)
 - CellSource @component('cell-source')
@@ -41,6 +41,8 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- goal detection
+- update class-component to v9.2 and replace goal-detection.goal usage
 - Show goals (cells) in goal panel
 - Goal panel
 - SpeechBalloon class

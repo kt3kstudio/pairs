@@ -1,6 +1,6 @@
 const {extractCells} = require('../../util/emoji')
 
-const {on, component} = $.cc
+const {on, emit, component} = $.cc
 
 /**
  * The service class which detects if the goals are achieved.
@@ -33,9 +33,8 @@ class GoalDetectionService {
      * Counts the goal at the given index. This means the goal of the given index is achieved.
      * @param {number} index The index of the goal
      */
+    @emit('goal-detection.goal')
     countGoal(index) {
-        this.elem.trigger('goal-detection.goal', index)
-
         delete this.goals[index]
 
         if (this.remaining() === 0) {
