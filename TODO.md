@@ -1,10 +1,12 @@
 # TODO
 
+## chore
+- update dom-gen to 2.2 and replace object usage
+- update class-component to v9.2 and replace goal-detection.goal usage
+- replace @event with @on
+
 ## goal
 - goal detection
-
-## deprecated
-- replace @event with @on
 
 ## refactor(cell)
 - CellSource @component('cell-source')
