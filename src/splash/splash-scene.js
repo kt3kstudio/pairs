@@ -1,6 +1,6 @@
 import './logo'
 
-const {component, event} = $.cc
+const {component, on} = $.cc
 
 /**
  * SplashScene controls the splash screen.
@@ -8,7 +8,7 @@ const {component, event} = $.cc
 @component('splash-scene')
 export default class SplashScene {
 
-    @event('scene-start')
+    @on('scene-start')
     main() {
         return this.performSplash('studio')
 
@@ -30,7 +30,7 @@ export default class SplashScene {
     /**
      * The scene goes to the title.
      */
-    @event('click', '.splash-logo')
+    @on('click').at('.splash-logo')
     goToTitle() {
         location.replace('title.html')
     }

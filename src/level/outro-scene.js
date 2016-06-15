@@ -3,7 +3,7 @@ import PlaySceneLayout from './layout/play-scene-layout'
 import BackgroundService from '../ui/common/background-service'
 import Cell from './component/cell'
 
-const {component, event} = $.cc
+const {component, on} = $.cc
 
 /**
  * OutroScene handles the scene after finishing main play.
@@ -11,7 +11,7 @@ const {component, event} = $.cc
 @component('outro-scene')
 class OutroScene extends Context {
 
-    @event('play-scene.won play-scene.failed')
+    @on('play-scene.won play-scene.failed')
     main() {
         super.main()
     }

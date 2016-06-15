@@ -1,6 +1,6 @@
 import {wait} from 'spn'
 
-const {event, component} = $.cc
+const {on, component} = $.cc
 
 /**
  * MenuItem handles the behaviour of items of the menu.
@@ -24,9 +24,8 @@ export default class MenuItem {
     /**
      * Invokes custom onclick handler.
      */
-    @event('click')
+    @on('click')
     handleOnClick() {
-
         const onclick = this.elem.data('onclick')
 
         if (typeof onclick !== 'string' || onclick === '') {
@@ -34,7 +33,6 @@ export default class MenuItem {
         }
 
         window.eval(onclick)
-
     }
 
     /**

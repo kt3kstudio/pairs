@@ -1,7 +1,7 @@
 import ScreenplayLine from './screenplay-line'
 import {parse} from 'scenarioscript'
 
-const {event, component} = $.cc
+const {on, component} = $.cc
 
 /**
  * ScreenplayManager
@@ -27,7 +27,7 @@ export default class ScreenplayManager {
      * Plays the screenplay
      * @return {Promise}
      */
-    @event('screenplay-start')
+    @on('screenplay-start')
     play() {
         return this.lines.reduce((previous, line) => previous.then(() => line.play()), Promise.resolve())
     }

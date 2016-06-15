@@ -1,8 +1,11 @@
 # TODO
 
-## chore
+## refactor:
+- use dom-gen where possible
 - update dom-gen to 2.2 and replace object usage
-- replace @event with @on
+
+## style:
+- switch to standard
 
 ## feat(goal):
 - finish the game when the goals are achieved
@@ -41,6 +44,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- replace @event with @on
 - goal detection
 - update class-component to v9.2 and replace goal-detection.goal usage
 - Show goals (cells) in goal panel

@@ -3,7 +3,7 @@ import {renderEmoji} from '../../util/emoji'
 import {wait} from 'spn'
 import {p} from 'dom-gen'
 
-const {component, event} = $.cc
+const {component, on} = $.cc
 
 const DEFAULT_SPEECH_TIMEOUT = 500
 
@@ -28,7 +28,7 @@ export default class MessageBalloon {
      * Starts showing the balloon and returns a promise.
      * @return {Promise}
      */
-    @event('message-balloon.start')
+    @on('message-balloon.start')
     start() {
         this.elem.trigger('message-balloon.started')
 

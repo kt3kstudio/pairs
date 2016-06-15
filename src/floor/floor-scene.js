@@ -6,7 +6,7 @@ import {wait} from 'spn'
 
 import './component'
 
-const {component, event} = $.cc
+const {component, on} = $.cc
 
 /**
  * MapScene handles the scene of map
@@ -24,33 +24,25 @@ export default class MapScene extends SceneContext {
      *
      * Loads things, initializes things in order, controls everything.
      */
-    @event('scene-start')
+    @on('scene-start')
     main() {
-
         super.main()
-
     }
 
     /**
      * Gets the floor asset collection.
-     *
      * @return {FloorAssetCollection}
      */
     getFloorAssets() {
-
         return this.get('floor-asset-collection')
-
     }
 
     /**
      * Gets the camera.
-     *
      * @return {Camera}
      */
     getCamera() {
-
         return this.getAtElem('camera')
-
     }
 
     /**
@@ -59,90 +51,71 @@ export default class MapScene extends SceneContext {
      * @return {FloorWalker}
      */
     getWalker() {
-
         return this.get('floor-walker')
-
     }
 
     /**
      * Gets the floorboard.
-     *
      * @return {Floorboard}
      */
     getFloorboard() {
-
         return this.get('floorboard')
-
     }
 
     /**
      * Loads the data for the scene.
      */
     load() {
-
         return this.loadUserAndCharacter()
 
         .then(() => this.loadFloorData())
-
     }
 
     /**
      * Loads the user data and character data
      */
     loadUserAndCharacter() {
-
         return new UserRepository().get()
 
         .then(user => new CharacterRepository().getById(user.charId))
 
         .then(character => this.character = character)
-
     }
 
     /**
      * Loads the floor data.
-     *
      * @return {Promise<string>}
      */
     loadFloorData() {
-
         return Promise.resolve($.get(this.getFloorDataURL()))
 
         .then(data => this.floorData = data)
-
     }
 
     /**
      * Gets the floor data url.
-     *
      * @return {string}
      */
     getFloorDataURL() {
-
-        return 'data/floor/' + this.character.position.floorId + '.html'
-
+        return `${global.BASEPATH}/data/floor/${this.character.position.floorId}.html`
     }
 
     /**
      * Sets up the components
      */
     setUp() {
-
         this.spawnFloorWalker(this.character)
 
         this.initFloorAssets(this.character)
 
         this.getCamera().setUp()
-
     }
 
     /**
      * Initializes the floor walker.
-     *
      * @param {Character} character
      */
     spawnFloorWalker(character) {
-
         $('<img />', {
 
             addClass: 'sub-door-knock sub-character-goto',
@@ -150,12 +123,10 @@ export default class MapScene extends SceneContext {
             data: {character: character}
 
         }).cc.init('floor-walker')
-
     }
 
     /**
      * Initializes the floor assets.
-     *
      * @param {Character} character
      */
     initFloorAssets(character) {
@@ -219,7 +190,7 @@ export default class MapScene extends SceneContext {
      *
      * @param {String} level The level
      */
-    @event('goToLevel')
+    @on('goToLevel')
     goToLevel() {
 
         return this.walkerFadeIntoDoor().then(() => (location.href = 'level.html'))
@@ -233,7 +204,7 @@ export default class MapScene extends SceneContext {
      *
      * @return {Promise}
      */
-    @event('sceneReload')
+    @on('sceneReload')
     sceneReload() {
 
         return this.walkerFadeIntoDoor().then(() => location.reload())
@@ -246,7 +217,7 @@ export default class MapScene extends SceneContext {
      * @param {Event} e The event
      * @return {Promise}
      */
-    @event('assetUnlock')
+    @on('assetUnlock')
     assetUnlock(e) {
 
         const asset = e.floorAsset

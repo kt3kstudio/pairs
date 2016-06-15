@@ -3,7 +3,7 @@ import CharacterRepository from '../../domain/character-repository'
 import {traits} from 'traits-decorator'
 import {Body} from 'spn'
 
-const {component, event} = $.cc
+const {component, on} = $.cc
 
 /**
  * FloorWalker is the role of CharSprite which handles the behaviours of the character on the floor.
@@ -60,7 +60,7 @@ class FloorWalker extends Body {
      * @param {Eevent} e The event
      * @param {FloorAsset} floorAsset The floor asset
      */
-    @event('door-knock')
+    @on('door-knock')
     doorKnock(e, floorAsset) {
 
         this.moveToFloorAsset(floorAsset)
@@ -72,7 +72,7 @@ class FloorWalker extends Body {
      *
      * @param {Event} e The event object
      */
-    @event('character-goto')
+    @on('character-goto')
     characterGoto(e) {
 
         this.character.position.floorId = e.goto.floorId

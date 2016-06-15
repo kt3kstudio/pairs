@@ -5,7 +5,7 @@ import FusionPreparationService from './component/fusion-preparation-service'
 import BallMoveMobLeaveService from './component/ball-move-mob-leave-service'
 import ExitQueue from './component/exit-queue'
 
-const {component, event, trigger} = $.cc
+const {component, on, trigger} = $.cc
 
 /**
  * PlayScene controlls the main playing scene of the level page.
@@ -15,7 +15,7 @@ class PlayScene extends Context {
     /**
      * The entry point
      */
-    @event('intro-scene.finished')
+    @on('intro-scene.finished')
     main() { super.main() }
 
     /**
@@ -173,7 +173,7 @@ class PlayScene extends Context {
      * @param {Event} e The event object (unused)
      * @param {Boolean} playerWon True if the player won the game
      */
-    @event('play-scene.finished')
+    @on('play-scene.finished')
     finish(e, playerWon) {
 
         this.character.clearPlayingState()

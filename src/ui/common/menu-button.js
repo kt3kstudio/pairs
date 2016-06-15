@@ -1,7 +1,7 @@
 import './menu-item'
 import {wait} from 'spn'
 
-const {event, component} = $.cc
+const {on, component} = $.cc
 
 const TRANS_DUR = 800
 const R = 60 // radius of menu item arrangment
@@ -160,11 +160,9 @@ export default class MenuButton {
     /**
      * Toggles the menu's open/close state.
      */
-    @event('click')
+    @on('click')
     toggleMenu() {
-
         return this.closed ? this.openMenu() : this.closeMenu()
-
     }
 
     /**

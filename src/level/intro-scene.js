@@ -7,7 +7,7 @@ import CharacterRepository from '../domain/character-repository'
 import '../ui/screenplay/screenplay-manager'
 import {wait} from 'spn'
 
-const {component, event, trigger} = $.cc
+const {component, on, trigger} = $.cc
 
 /**
  * IntroScene class handles the introduction scene of the level page.
@@ -21,7 +21,7 @@ export default class IntroScene extends Context {
      * @protected
      * @return {Promise}
      */
-    @event('scene-start')
+    @on('scene-start')
     main() { super.main() }
 
     /**
@@ -31,7 +31,6 @@ export default class IntroScene extends Context {
      * @return {Promise}
      */
     load() {
-
         return this.loadUser()
 
         .then(() => this.loadCharacter(this.user.charId))
@@ -39,7 +38,6 @@ export default class IntroScene extends Context {
         .then(() => this.loadLevel(this.character.getFloorObjectId()))
 
         .then(() => this.loadLevelNext(this.character.getFloorObjectId()))
-
     }
 
     /**
@@ -159,7 +157,7 @@ export default class IntroScene extends Context {
         })
     }
 
-    @event('screenplay.goals')
+    @on('screenplay.goals')
     onGoalsSuggested(e, goals) {
         this.showGoalPanel(goals)
     }
