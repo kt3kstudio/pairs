@@ -1,19 +1,43 @@
 # TODO
 
+## feat(goal):
+- finish the game when the goals are achieved
+- show failure when the game is finished without all goals finished
+- finish the game when the field is empty and the exit queue has length 1
+
+## feat(cell-source):
+- CellSource @component('cell-source')
+
+## feat(unlock):
+- unlock the next level when the result is success
+- unlock the staircase
+
+## feat(special-stage):
+- create special stage
+
+## feat(opening):
+- create opening
+
+## feat(ending):
+- create ending
+
+## feat(tutorial)
+- create tutorial (guidance) - guiding finger (or blinking light) swipes the screen
+
+## feat(settings):
+- create settings page
+- create "reset progress" button
+
+## feat(level):
+- create 100 levels
+
 ## refactor:
 - use dom-gen where possible
-- update dom-gen to 2.2 and replace object usage
+- update dom-gen to 2.3 and replace object usage
 - move datadomain.* to domain
 
 ## style:
 - switch to standard (very difficult because of decorator uses.)
-
-## feat(goal):
-- finish the game when the goals are achieved
-- show failure when the game is finished without all goals finished
-
-## refactor(cell)
-- CellSource @component('cell-source')
 
 ## feat(residents)
 - give a meaning to the sequence of the residents
@@ -23,14 +47,11 @@
   - ma - torus
   - ellen - sphere, state
   - emma - P2
-- Make char have some simple states
+- Make char have some simple states (like black and white)
 
-## Ad
+## feat(ad):
 - Ad integration (in android, ios side, maybe better to create it as straw plugin)
 - Choose ad platform
-
-## Tutorial
-- create tutorial (guidance) - guiding finger (or blinking light) swipes the screen
 
 --
 
