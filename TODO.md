@@ -3,9 +3,10 @@
 ## refactor:
 - use dom-gen where possible
 - update dom-gen to 2.2 and replace object usage
+- move datadomain.* to domain
 
 ## style:
-- switch to standard
+- switch to standard (very difficult because of decorator uses.)
 
 ## feat(goal):
 - finish the game when the goals are achieved
