@@ -35,7 +35,7 @@
     "chai": "^3.5.0",
     "class-component": "^9.2.0",
     "codecov": "^1.0.1",
-    "dom-gen": "^2.1.0",
+    "dom-gen": "^2.3.0",
     "es6-promise": "^3.0.2",
     "es6-symbol": "^3.0.2",
     "esdoc": "^0.4.3",
