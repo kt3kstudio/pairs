@@ -33,8 +33,6 @@
 - create 100 levels
 
 ## refactor:
-- use dom-gen where possible
-- update dom-gen to 2.3 and replace object usage
 - move datadomain.* to domain
 
 ## style:
@@ -68,6 +66,8 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- use dom-gen where possible
+- update dom-gen to 2.3 and replace object usage
 - finish the game when the goals are achieved
 - finish the game when the field is empty and the exit queue has length 1
 - replace @event with @on

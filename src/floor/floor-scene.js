@@ -2,7 +2,9 @@ import SceneContext from '../ui/scene-context'
 import BackgroundService from '../ui/common/background-service'
 import UserRepository from '../domain/user-repository'
 import CharacterRepository from '../domain/character-repository'
+
 import {wait} from 'spn'
+const {img} = require('dom-gen')
 
 import './component'
 
@@ -116,13 +118,12 @@ export default class MapScene extends SceneContext {
      * @param {Character} character
      */
     spawnFloorWalker(character) {
-        $('<img />', {
-
-            addClass: 'sub-door-knock sub-character-goto',
-            appendTo: this.elem.find('.floor-asset-collection'),
-            data: {character: character}
-
-        }).cc.init('floor-walker')
+        this.elem.find('.floor-asset-collection').append(
+            img({
+                addClass: 'sub-door-knock sub-character-goto',
+                data: {character: character}
+            }).cc('floor-walker')
+        )
     }
 
     /**

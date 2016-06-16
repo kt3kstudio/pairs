@@ -1,5 +1,7 @@
 import './menu-item'
+
 import {wait} from 'spn'
+const {img} = require('dom-gen')
 
 const {on, component} = $.cc
 
@@ -175,7 +177,7 @@ export default class MenuButton {
 
         menu = $(menu)
 
-        return $('<img />', {
+        return img({
 
             attr: {
                 src: menu.attr('src')

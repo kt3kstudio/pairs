@@ -1,5 +1,7 @@
 import FieldIndexGenerator from '../../util/FieldIndexGenerator'
+
 import {wait} from 'spn'
+const {object} = require('dom-gen')
 
 const {component} = $.cc
 
@@ -29,7 +31,7 @@ export default class CellCollection {
      * @return {Cell}
      */
     createCellFromObject(obj) {
-        return $('<object />', {
+        return object({
             data: {gene: obj.gene},
             prependTo: this.elem
         }).cc.init('cell')

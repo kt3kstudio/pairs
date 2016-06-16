@@ -5,7 +5,9 @@ import BackgroundService from '../ui/common/background-service'
 import UserRepository from '../domain/user-repository'
 import CharacterRepository from '../domain/character-repository'
 import '../ui/screenplay/screenplay-manager'
+
 import {wait} from 'spn'
+const {img} = require('dom-gen')
 
 const {component, on, trigger} = $.cc
 
@@ -184,7 +186,7 @@ export default class IntroScene extends Context {
      * @private
      */
     spawnPaper() {
-        $('<img />').appendTo(this.elem).cc.init('paper')
+        this.elem.append(img({cc: 'paper'}))
     }
 
     /**
@@ -192,6 +194,6 @@ export default class IntroScene extends Context {
      * @private
      */
     spawnCharacter(character) {
-        $('<img />').appendTo(this.elem).data({character: character}).cc('hero')
+        this.elem.append(img({data: {character: character}, cc: 'hero'}))
     }
 }

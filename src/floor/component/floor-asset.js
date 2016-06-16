@@ -1,4 +1,5 @@
 import {Grid, Body} from 'spn'
+const {img} = require('dom-gen')
 
 /**
  * FloorAsset is an abstract class which represents the something on the wall in the map view.
@@ -77,7 +78,7 @@ export default class FloorAsset extends Body {
      */
     spawnFrog() {
 
-        const frog = $('<img />').css({zIndex: 2}).appendTo(this.elem).cc.init('frog')
+        const frog = img().css({zIndex: 2}).appendTo(this.elem).cc.init('frog')
 
         frog.setGrid(new Grid({x: 35, y: 130, unitWidth: 100, unitHeight: 100}))
 

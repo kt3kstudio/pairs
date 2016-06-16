@@ -1,10 +1,11 @@
+const {img} = require('dom-gen')
 
 /**
  * Load image and returns promise which resolves when the image loaded.
  */
 export const loadImage = (path, cls, dom) => new Promise((resolve) => {
 
-    const $img = $('<img />')
+    const $img = img()
     .attr('src', path)
     .addClass(cls)
     .appendTo(dom)
