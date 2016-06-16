@@ -17,11 +17,9 @@ export default class CellCollection {
      * @param {Grid} grid
      */
     setGrid(grid) {
-
         this.grid = grid
 
         return this
-
     }
 
     /**
@@ -31,12 +29,10 @@ export default class CellCollection {
      * @return {Cell}
      */
     createCellFromObject(obj) {
-
         return $('<object />', {
             data: {gene: obj.gene},
             prependTo: this.elem
         }).cc.init('cell')
-
     }
 
     /**
@@ -90,16 +86,12 @@ export default class CellCollection {
      * @param {Rx.Observable<Cell[]>}
      * @return {Rx.Observable}
      */
-    processCellStream(releasedCellStream) {
-
+    rearangeCells(releasedCellStream) {
         return releasedCellStream.pipe(releasedCells => {
-
             this.loadList(releasedCells)
 
             return this.resetShapeAndLocate()
-
         })
-
     }
 
     /**

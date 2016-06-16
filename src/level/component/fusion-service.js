@@ -1,6 +1,4 @@
-const domGen = require('dom-gen')
-
-const object = domGen.default('object')
+const {object} = require('dom-gen')
 
 const {emit, component} = $.cc
 

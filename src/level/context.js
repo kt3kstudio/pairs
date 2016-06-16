@@ -102,6 +102,13 @@ class Context extends SceneContext {
     }
 
     /**
+     * @return {CellQueueBumpService}
+     */
+    cellQueueBumpService() {
+        return this.getAtElem('cell-queue-bump-service')
+    }
+
+    /**
      * Shows the goal panel and its contents.
      * @param {string} goals The goal html
      * @return {Promise}

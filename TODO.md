@@ -1,9 +1,10 @@
 # TODO
 
 ## feat(goal):
-- finish the game when the goals are achieved
 - show failure when the game is finished without all goals finished
-- finish the game when the field is empty and the exit queue has length 1
+
+## refactor(Rx.Observable)
+- remove prototype extension
 
 ## feat(cell-source):
 - CellSource @component('cell-source')
@@ -38,6 +39,7 @@
 
 ## style:
 - switch to standard (very difficult because of decorator uses.)
+- remove import export and use require exports instead
 
 ## feat(residents)
 - give a meaning to the sequence of the residents
@@ -66,6 +68,8 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- finish the game when the goals are achieved
+- finish the game when the field is empty and the exit queue has length 1
 - replace @event with @on
 - goal detection
 - update class-component to v9.2 and replace goal-detection.goal usage

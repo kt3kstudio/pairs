@@ -5,6 +5,8 @@ import FusionPreparationService from './component/fusion-preparation-service'
 import BallMoveMobLeaveService from './component/ball-move-mob-leave-service'
 import ExitQueue from './component/exit-queue'
 
+require('./service/cell-queue-bump-service')
+
 const {component, on, trigger} = $.cc
 
 /**
@@ -31,6 +33,8 @@ class PlayScene extends Context {
         this.cells().loadFromObjectList(this.level.cells.cells)
 
         this.getField().setRect(layout.fieldRect())
+
+        this.elem.cc('cell-queue-bump-service')
 
         // services
         this.fps = new FusionPreparationService(layout.evalRoomGrid())
@@ -76,19 +80,27 @@ class PlayScene extends Context {
      * @return {Promise}
      */
     playLoop(dirStream) {
+        const FINISH_TAG = 'finish'
         const cellStream = this.bms.processDirStream(dirStream)
 
-        let fusionPairStream = this.fps.processCellStream(cellStream)
+        let fusionPairs = this.fps.processCellStream(cellStream)
 
-        fusionPairStream = this.getScoreboard().hookToFusionPairStream(fusionPairStream)
+        fusionPairs = this.getScoreboard().hookToFusionPairStream(fusionPairs)
 
-        const newCellStream = this.fusionService().processFusionPairStream(fusionPairStream)
+        let newCells = this.fusionService().processFusionPairStream(fusionPairs)
 
-        let releasedCellStream = this.exitQueue.processNewCellStream(newCellStream)
+        newCells = Rx.Observable.merge(
+            newCells,
+            Rx.Observable.fromEvent(this.elem, 'goal-detection.finish').map(FINISH_TAG)
+        ).takeWhile(x => x !== FINISH_TAG)
 
-        releasedCellStream = this.hookPlayingStateBumping(releasedCellStream)
+        let exitCells = this.exitQueue.processNewCellStream(newCells)
 
-        return this.cells().processCellStream(releasedCellStream).getPromise()
+        exitCells = this.cellQueueBumpService().bump(exitCells)
+
+        exitCells = this.hookPlayingStateBumping(exitCells)
+
+        return this.cells().rearangeCells(exitCells).getPromise()
     }
 
     /**
@@ -162,9 +174,7 @@ class PlayScene extends Context {
      * Removes the swipe field.
      */
     removeSwipeField() {
-
         $('.swipe-field').remove()
-
     }
 
     /**
@@ -175,13 +185,10 @@ class PlayScene extends Context {
      */
     @on('play-scene.finished')
     finish(e, playerWon) {
-
         this.character.clearPlayingState()
 
         this.elem.trigger(playerWon ? 'play-scene.won' : 'play-scene.failed')
-
     }
-
 }
 
 module.exports = PlayScene
