@@ -5,19 +5,16 @@ const STORAGE_KEY = 'character-'
  *
  */
 export default class CharacterRepository {
-
   /**
    * Saves the character.
    *
    * @param {Character} character The Character
    * @return {Promise}
    */
-  save(character) {
-
+  save (character) {
     const obj = this.toObject(character)
 
     return infrastructure.storage.set(STORAGE_KEY + character.id, obj).then(() => character)
-
   }
 
   /**
@@ -26,22 +23,16 @@ export default class CharacterRepository {
    * @param {String} id The id
    * @return {Promise} A promise of a character
    */
-  getById(id) {
-
+  getById (id) {
     return infrastructure.storage.get(STORAGE_KEY + id, null).then(obj => {
-
       let character
 
       const factory = new datadomain.CharacterFactory()
 
       if (obj == null) {
-
         character = factory.createInitialById(id)
-
       } else {
-
         character = factory.createFromObject(obj)
-
       }
 
       return Promise.all([
@@ -50,9 +41,7 @@ export default class CharacterRepository {
         character.reloadPlayingState(),
         character.reloadLocks()
       ])
-
     }).then(array => array[0])
-
   }
 
   /**
@@ -62,14 +51,12 @@ export default class CharacterRepository {
    * @param {Character} character The Character
    * @return {Object}
    */
-  toObject(character) {
-
+  toObject (character) {
     return {
       id: character.id,
       name: character.name,
       position: this.positionToObject(character.position)
     }
-
   }
 
   /**
@@ -79,8 +66,7 @@ export default class CharacterRepository {
    * @param {datadomain.CharPosition} position The position
    * @return {Object}
    */
-  positionToObject(position) {
-
+  positionToObject (position) {
     if (position == null) {
       return null
     }
@@ -89,7 +75,5 @@ export default class CharacterRepository {
       floorId: position.floorId,
       floorObjectId: position.floorObjectId
     }
-
   }
-
 }

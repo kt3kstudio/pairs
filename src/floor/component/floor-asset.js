@@ -1,65 +1,42 @@
 import {Grid, Body} from 'spn'
-const {img} = require('dom-gen')
 
 /**
  * FloorAsset is an abstract class which represents the something on the wall in the map view.
  */
 export default class FloorAsset extends Body {
+  width () { return 80 }
+  height () { return 100 }
+  ratioX () { return 0.5 }
+  ratioY () { return 1 }
 
-  /**
-   * @override
-   */
-  width() { return 80 }
+  constructor (elem) {
+    super(elem)
 
-  /**
-   * @override
-   */
-  height() { return 100 }
+    this.x = +this.elem.attr('x')
+    this.y = +this.elem.attr('y')
 
-  /**
-   * @override
-   */
-  ratioX() { return 0.5 }
-
-  /**
-   * @override
-   */
-  ratioY() { return 1 }
-
-  constructor(elem) {
-    super()
-
-    this.x = +elem.attr('x')
-    this.y = +elem.attr('y')
-
-    this.id = elem.attr('id')
+    this.id = this.elem.attr('id')
   }
 
   /**
    * Knocks the door (figuratively).
    */
-  doorKnock() {
-
+  doorKnock () {
     this.elem.trigger('door-knock', [this])
-
   }
 
   /**
    * @abstract
    */
-  open() {
-
+  open () {
     return Promise.resolve()
-
   }
 
   /**
    * @abstract
    */
-  close() {
-
+  close () {
     return Promise.resolve()
-
   }
 
   /**
@@ -67,48 +44,37 @@ export default class FloorAsset extends Body {
    *
    * @abstract
    */
-  onGetWalker() {
-
+  onGetWalker () {
     return Promise.resolve()
-
   }
 
   /**
    * Spawn the frog to the front of the floor asset.
    */
-  spawnFrog() {
-
-    const frog = img().css({zIndex: 2}).appendTo(this.elem).cc.init('frog')
+  spawnFrog () {
+    const frog = $('<img />').css({zIndex: 2}).appendTo(this.elem).cc.init('frog')
 
     frog.setGrid(new Grid({x: 35, y: 130, unitWidth: 100, unitHeight: 100}))
 
     frog.show()
-
   }
 
   /**
    * Removes the frog in front of the floor asset.
    */
-  removeFrog() {
-
+  removeFrog () {
     const frogDom = this.elem.find('.frog')
 
     if (frogDom.length === 0) {
-
       return
-
     }
 
     const frog = frogDom.cc.get('frog')
 
     if (frog == null) {
-
       return
-
     }
 
     frog.runAwayRight()
-
   }
-
 }

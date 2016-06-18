@@ -16,7 +16,7 @@ export default class TitleScene extends SceneContext {
    * Entry point of the title scene.
    */
   @on('scene-start')
-  start() {
+  start () {
     loadImage('img/title-logo.svg', 'title-logo elem', this.elem)
 
     .then(elem => elem.anim('title-appear', 2000))
@@ -37,7 +37,7 @@ export default class TitleScene extends SceneContext {
   /**
    * Fades out the scene.
    */
-  fadeOut() {
+  fadeOut () {
     return Promise.all([this.getMenuButton().hide(), $('.elem').css('opacity', 0).anim('disappear', 500).then(() => {
       $('.elem').remove()
 
@@ -48,7 +48,7 @@ export default class TitleScene extends SceneContext {
   /**
    * Transions to the map scene.
    */
-  goToMap() {
+  goToMap () {
     this.fadeOut()
 
     .then(() => BackgroundService.turnBlack())

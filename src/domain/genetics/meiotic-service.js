@@ -8,19 +8,15 @@ const GENE_SCORE_TABLE = {
   b: 512
 }
 
-function virtualLengthOfMonon(monon) {
-
+function virtualLengthOfMonon (monon) {
   return GENE_SCORE_TABLE[monon] || 0
-
 }
 
-function countChar(string, c) {
-
+function countChar (string, c) {
   return string.split(c).length - 1
-
 }
 
-function sumArray(array) {
+function sumArray (array) {
   return array.reduce((n, m) => n + m)
 }
 
@@ -28,7 +24,6 @@ function sumArray(array) {
  * MeioticService is the service class which handles meiotic recombination and calculation of its value.
  */
 export default class MeioticService {
-
   /**
    * Calculates the recombination the maternal gene and the paternal gene and returns a new gene.
    *
@@ -36,8 +31,7 @@ export default class MeioticService {
    * @param {String} paternalGene The gene of the father
    * @return {String}
    */
-  recombination(maternalGene, paternalGene) {
-
+  recombination (maternalGene, paternalGene) {
     let newGene = (maternalGene + paternalGene).replace(/([fm])(\1)+/g, '$1')
 
     if (newGene.length >= 8) {
@@ -69,7 +63,6 @@ export default class MeioticService {
     }
 
     return newGene
-
   }
 
   /**
@@ -78,9 +71,7 @@ export default class MeioticService {
    * @param {String} gene The gene
    * @return {Number}
    */
-  virtualLength(gene) {
-
+  virtualLength (gene) {
     return sumArray(GENES.map(c => countChar(gene, c) * virtualLengthOfMonon(c)))
-
   }
 }

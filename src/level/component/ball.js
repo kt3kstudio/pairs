@@ -15,7 +15,7 @@ const CENTER_N = 1
 @component('ball')
 export default class Ball extends GridWalker {
 
-  constructor(elem) {
+  constructor (elem) {
     super()
 
     this.maxX = MAX
@@ -27,14 +27,12 @@ export default class Ball extends GridWalker {
     this.setTransitionDuration(TRANS_DUR)
   }
 
-  showAnim() { return new Animation('ball-appear', TRANS_DUR) }
+  showAnim () { return new Animation('ball-appear', TRANS_DUR) }
 
-  hideAnim() { return new Animation('ball-disappear', TRANS_DUR) }
+  hideAnim () { return new Animation('ball-disappear', TRANS_DUR) }
 
-  willShow() {
-
+  willShow () {
     return super.willShow().then(() => this.elem.css('display', 'inline'))
-
   }
 
   /**
@@ -43,10 +41,8 @@ export default class Ball extends GridWalker {
    * @param {String} dir
    * @return {Promise}
    */
-  move(dir) {
-
+  move (dir) {
     return this.setPos(this.posAhead(dir))
-
   }
 
   /**
@@ -54,10 +50,8 @@ export default class Ball extends GridWalker {
    *
    * @return {Promise}
    */
-  goCenterX() {
-
+  goCenterX () {
     return this.moveToM(CENTER_M)
-
   }
 
   /**
@@ -65,35 +59,25 @@ export default class Ball extends GridWalker {
    *
    * @return {Promise}
    */
-  goCenterY() {
-
+  goCenterY () {
     return this.moveToN(CENTER_N)
-
   }
 
-  posAhead(dir) {
-
+  posAhead (dir) {
     switch (dir) {
-
       case 'up': return this.relativePos(0, -1)
       case 'down': return this.relativePos(0, 1)
       case 'left': return this.relativePos(-1, 0)
       case 'right': return this.relativePos(1, 0)
-
     }
-
   }
 
-  relativePos(m, n) {
-
+  relativePos (m, n) {
     return {m: (this.m + m + this.maxX) % this.maxX, n: (this.n + n + this.maxY) % this.maxY}
-
   }
 
-  setPos(pos) {
-
+  setPos (pos) {
     this.moveToGridPosition(pos.m, pos.n)
-
   }
 
   /**
@@ -101,24 +85,15 @@ export default class Ball extends GridWalker {
    *
    * @return {Object}
    */
-  pos() {
-
+  pos () {
     return {m: this.m, n: this.n}
-
   }
 
-  refuseToMove(dir) {
-
+  refuseToMove (dir) {
     if (dir === 'up' || dir === 'down') {
-
       return this.elem.anim('ball-refuse-y', TRANS_DUR)
-
     } else {
-
       return this.elem.anim('ball-refuse-x', TRANS_DUR)
-
     }
-
   }
-
 }

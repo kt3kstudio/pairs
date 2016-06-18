@@ -1,4 +1,4 @@
-import {wait} from 'spn'
+import { wait } from 'spn'
 const Dur = 700
 
 /**
@@ -12,10 +12,8 @@ export default class BackgroundService {
    * @param {Number} dur The duration
    * @return {Promise}
    */
-  static turnWhite(dur) {
-
+  static turnWhite (dur) {
     return this.turn('', dur, false)
-
   }
 
   /**
@@ -24,10 +22,8 @@ export default class BackgroundService {
    * @param {Number} dur The duration
    * @return {Promise}
    */
-  static turnBlack(dur) {
-
+  static turnBlack (dur) {
     return this.turn('', dur, true)
-
   }
 
   /**
@@ -39,14 +35,12 @@ export default class BackgroundService {
    * @param {Boolean} darkBg True if use dark background format
    * @return {Promise}
    */
-  static turn(color, dur, darkBg) {
-
+  static turn (color, dur, darkBg) {
     dur = dur || Dur
 
     $(document.body).toggleClass('dark-bg', darkBg).css('background-color', color)
 
     return wait(dur)
-
   }
 
 }

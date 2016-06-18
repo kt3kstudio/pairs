@@ -14,7 +14,7 @@ export const emojis = CELLS
  * @param {string} cls The additional css class
  * @return {string}
  */
-export function renderEmoji(text, cls) {
+export function renderEmoji (text, cls) {
   return text.replace(/:([_a-z]+):/g, (_, emoji) => emojiToTag(emoji, cls))
 }
 
@@ -23,7 +23,7 @@ export function renderEmoji(text, cls) {
  * @param {string} text The source text
  * @return {string[]}
  */
-export function extractCells(text) {
+export function extractCells (text) {
   const cells = []
 
   text.replace(/:([_a-z]+):/g, (_, cell) => cells.push(cell))
@@ -36,13 +36,10 @@ export function extractCells(text) {
  * @param {string} emoji The id of emoji symbol
  * @return {string}
  */
-function emojiToTag(emoji, cls) {
-
+function emojiToTag (emoji, cls) {
   if (emojis.indexOf(emoji) === -1) {
-
     console.log('unknown emoji:', emoji)
     return ':' + emoji + ':'
-
   }
 
   return `<i class="emoji emoji-${emoji} ${cls || ''}"></i>`

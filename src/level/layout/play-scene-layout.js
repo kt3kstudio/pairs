@@ -10,7 +10,7 @@ class PlaySceneLayout extends LayoutFactory {
   /**
    * @constructor
    */
-  constructor() {
+  constructor () {
     super()
 
     this.main = Rect.windowAsRect().margin({
@@ -25,90 +25,90 @@ class PlaySceneLayout extends LayoutFactory {
     this.unit = this.main.scaleBottom(1 / 6).scaleRight(1 / 4)
   }
 
-  playGrid() {
+  playGrid () {
     return this.unit
-    .shiftRight(0.5)
-    .shiftDown(2)
-    .toGrid()
+      .shiftRight(0.5)
+      .shiftDown(2)
+      .toGrid()
   }
 
   /**
    * Returns the dimension for the field.
    * @return {Rect}
    */
-  fieldRect() {
+  fieldRect () {
     return this.unit
-    .shiftRight(0.5)
-    .shiftDown(2)
-    .scaleRight(3)
-    .scaleBottom(3)
+      .shiftRight(0.5)
+      .shiftDown(2)
+      .scaleRight(3)
+      .scaleBottom(3)
   }
 
   /**
    * Returns the dimension for the evaluation room.
    * @return {Grid}
    */
-  evalRoomGrid() {
+  evalRoomGrid () {
     return this.unit
-    .scaleBottom(1.7)
-    .scaleRight(2)
-    .shiftDown(0.4)
-    .toGrid()
+      .scaleBottom(1.7)
+      .scaleRight(2)
+      .shiftDown(0.4)
+      .toGrid()
   }
 
   /**
    * Returns the dimension for the exit queue. (The unit is a bit smaller.)
    * @return {Grid}
    */
-  queueGrid() {
+  queueGrid () {
     return this.unit
-    .scaleBottom(0.5)
-    .scaleRight(0.5)
-    .shiftDown(0.5)
-    .shiftRight(3.5)
-    .toGrid()
+      .scaleBottom(0.5)
+      .scaleRight(0.5)
+      .shiftDown(0.5)
+      .shiftRight(3.5)
+      .toGrid()
   }
 
   /**
    * Returns the dimension for the fusion box.
    * @return {Grid}
    */
-  fusionBoxGrid() {
+  fusionBoxGrid () {
     return this.unit
-    .scaleRight(0.5)
-    .scaleBottom(0.5)
-    .shiftDown(2.5)
-    .shiftRight(3.5)
-    .toGrid()
+      .scaleRight(0.5)
+      .scaleBottom(0.5)
+      .shiftDown(2.5)
+      .shiftRight(3.5)
+      .toGrid()
   }
 
   /**
    * Returns the dimension for the result pane.
    * @return {Rect}
    */
-  resultPaneRect() {
+  resultPaneRect () {
     return this.main
-    .scaleTop(4.5 / 6)
-    .scaleBottom(4 / 4.5)
+      .scaleTop(4.5 / 6)
+      .scaleBottom(4 / 4.5)
   }
 
   /**
    * Returns the dimension for the scoreboard.
    * @return {Rect}
    */
-  scoreboardRect() {
+  scoreboardRect () {
     return this.main
-    .scaleRight(0.5)
-    .extCutTop(50)
+      .scaleRight(0.5)
+      .extCutTop(50)
   }
 
   /**
    * Returns the rect of the goal pane
    */
-  goalPanelRect() {
+  goalPanelRect () {
     return this.main
-    .scaleLeft(0.5)
-    .extCutTop(50)
+      .scaleLeft(0.5)
+      .extCutTop(50)
   }
 }
 

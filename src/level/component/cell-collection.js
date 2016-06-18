@@ -10,15 +10,14 @@ const {component} = $.cc
  */
 @component('cell-collection')
 export default class CellCollection {
-
-  constructor() {
+  constructor () {
     this.cells = []
   }
 
   /**
    * @param {Grid} grid
    */
-  setGrid(grid) {
+  setGrid (grid) {
     this.grid = grid
 
     return this
@@ -30,7 +29,7 @@ export default class CellCollection {
    * @param {Object} obj The bom object
    * @return {Cell}
    */
-  createCellFromObject(obj) {
+  createCellFromObject (obj) {
     return object({
       data: {gene: obj.gene},
       prependTo: this.elem
@@ -42,10 +41,8 @@ export default class CellCollection {
    *
    * @return {Boolean}
    */
-  isEmpty() {
-
+  isEmpty () {
     return this.cells.length === 0
-
   }
 
   /**
@@ -54,10 +51,8 @@ export default class CellCollection {
    * @param {Array} list The list of cells (Object)
    * @return {CellCollection}
    */
-  loadFromObjectList(list) {
-
+  loadFromObjectList (list) {
     return this.loadList(list.map(obj => this.createCellFromObject(obj)))
-
   }
 
   /**
@@ -65,21 +60,17 @@ export default class CellCollection {
    *
    * @param {Array<Cell>}
    */
-  loadList(list) {
-
+  loadList (list) {
     const indices = new FieldIndexGenerator().generate(list.length, this.usedIndices())
 
     list.forEach((cell, i) => {
-
       const nm = indices[i]
 
       cell.setGrid(this.grid, nm[1], nm[0])
       cell.unsetLastOne()
 
       this.cells.push(cell)
-
     })
-
   }
 
   /**
@@ -88,7 +79,7 @@ export default class CellCollection {
    * @param {Rx.Observable<Cell[]>}
    * @return {Rx.Observable}
    */
-  rearangeCells(releasedCellStream) {
+  rearangeCells (releasedCellStream) {
     return releasedCellStream.pipe(releasedCells => {
       this.loadList(releasedCells)
 
@@ -101,10 +92,8 @@ export default class CellCollection {
    *
    * @return {Promise} The promise which resolves with the last cell when it resolved
    */
-  appear() {
-
+  appear () {
     return this.cells.map((cell, i) => wait(i * 56).then(() => cell.show())).pop()
-
   }
 
   /**
@@ -112,10 +101,8 @@ export default class CellCollection {
    *
    * @return {Promise}
    */
-  resetShapeAndLocate() {
-
+  resetShapeAndLocate () {
     return this.cells.map((cell, i) => wait(i * 56).then(() => cell.resetShapeAndLocate())).pop()
-
   }
 
   /**
@@ -124,10 +111,8 @@ export default class CellCollection {
    * @param {Object} pos The position
    * @return {Array}
    */
-  select(pos) {
-
+  select (pos) {
     return this.cells.filter(cell => cell.m === pos.m && cell.n === pos.n)
-
   }
 
   /**
@@ -136,18 +121,14 @@ export default class CellCollection {
    * @param {Object} pos The position.
    * @return {Cell}
    */
-  find(pos) {
-
+  find (pos) {
     const candidates = this.select(pos)
 
     if (candidates.length === 0) {
-
       return null
-
     }
 
     return candidates[0]
-
   }
 
   /**
@@ -156,10 +137,8 @@ export default class CellCollection {
    * @param {Object} pos The position
    * @return {Array}
    */
-  selectRange(pos) {
-
+  selectRange (pos) {
     return this.cells.filter(cell => cell.m === pos.m && cell.n > pos.n)
-
   }
 
   /**
@@ -167,10 +146,8 @@ export default class CellCollection {
    *
    * @param {Array} cells The cells
    */
-  remove(cells) {
-
+  remove (cells) {
     this.cells = this.cells.filter(cell => cells.indexOf(cell) < 0)
-
   }
 
   /**
@@ -178,10 +155,7 @@ export default class CellCollection {
    *
    * @return {Array}
    */
-  usedIndices() {
-
+  usedIndices () {
     return this.cells.map(cell => [cell.m, cell.n])
-
   }
-
 }

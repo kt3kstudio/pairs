@@ -26,10 +26,14 @@ datadomain.goal.GoalFactory = subclass(function (pt) {
     var type = obj.type
 
     switch (type) {
-      case 'C': return new datadomain.goal.CollectGoal(obj.type, obj.opts)
-      case 'L': return new datadomain.goal.ClearGoal(obj.type, obj.opts)
-      case 'F': return new datadomain.goal.FusionGoal(obj.type, obj.opts)
-      case 'S': return new datadomain.goal.ScoreGoal(obj.type, obj.opts)
+      case 'C':
+        return new datadomain.goal.CollectGoal(obj.type, obj.opts)
+      case 'L':
+        return new datadomain.goal.ClearGoal(obj.type, obj.opts)
+      case 'F':
+        return new datadomain.goal.FusionGoal(obj.type, obj.opts)
+      case 'S':
+        return new datadomain.goal.ScoreGoal(obj.type, obj.opts)
     }
   }
 })

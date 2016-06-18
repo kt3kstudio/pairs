@@ -9,7 +9,7 @@ const {component, on} = $.cc
 export default class SplashScene {
 
   @on('scene-start')
-  main() {
+  main () {
     return this.performSplash('studio')
 
     .then(() => this.performSplash('straw'))
@@ -23,7 +23,7 @@ export default class SplashScene {
    * @param {String} className The class name to animate
    * @return {Promise}
    */
-  performSplash(className) {
+  performSplash (className) {
     return this.elem.find('.splash-logo.' + className).cc.get('splash-logo').perform()
   }
 
@@ -31,7 +31,7 @@ export default class SplashScene {
    * The scene goes to the title.
    */
   @on('click').at('.splash-logo')
-  goToTitle() {
+  goToTitle () {
     location.replace('title.html')
   }
 }

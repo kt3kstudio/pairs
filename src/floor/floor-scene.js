@@ -20,14 +20,13 @@ const {component, on} = $.cc
  */
 @component('map-scene')
 export default class MapScene extends SceneContext {
-
   /**
    * The entry point of the map scene.
    *
    * Loads things, initializes things in order, controls everything.
    */
   @on('scene-start')
-  main() {
+  main () {
     super.main()
   }
 
@@ -35,7 +34,7 @@ export default class MapScene extends SceneContext {
    * Gets the floor asset collection.
    * @return {FloorAssetCollection}
    */
-  getFloorAssets() {
+  getFloorAssets () {
     return this.get('floor-asset-collection')
   }
 
@@ -43,7 +42,7 @@ export default class MapScene extends SceneContext {
    * Gets the camera.
    * @return {Camera}
    */
-  getCamera() {
+  getCamera () {
     return this.getAtElem('camera')
   }
 
@@ -52,7 +51,7 @@ export default class MapScene extends SceneContext {
    *
    * @return {FloorWalker}
    */
-  getWalker() {
+  getWalker () {
     return this.get('floor-walker')
   }
 
@@ -60,14 +59,14 @@ export default class MapScene extends SceneContext {
    * Gets the floorboard.
    * @return {Floorboard}
    */
-  getFloorboard() {
+  getFloorboard () {
     return this.get('floorboard')
   }
 
   /**
    * Loads the data for the scene.
    */
-  load() {
+  load () {
     return this.loadUserAndCharacter()
 
     .then(() => this.loadFloorData())
@@ -76,36 +75,36 @@ export default class MapScene extends SceneContext {
   /**
    * Loads the user data and character data
    */
-  loadUserAndCharacter() {
+  loadUserAndCharacter () {
     return new UserRepository().get()
 
     .then(user => new CharacterRepository().getById(user.charId))
 
-    .then(character => this.character = character)
+    .then(character => { this.character = character })
   }
 
   /**
    * Loads the floor data.
    * @return {Promise<string>}
    */
-  loadFloorData() {
+  loadFloorData () {
     return Promise.resolve($.get(this.getFloorDataURL()))
 
-    .then(data => this.floorData = data)
+    .then(data => { this.floorData = data })
   }
 
   /**
    * Gets the floor data url.
    * @return {string}
    */
-  getFloorDataURL() {
+  getFloorDataURL () {
     return `${global.BASEPATH}/data/floor/${this.character.position.floorId}.html`
   }
 
   /**
    * Sets up the components
    */
-  setUp() {
+  setUp () {
     this.spawnFloorWalker(this.character)
 
     this.initFloorAssets(this.character)
@@ -117,7 +116,7 @@ export default class MapScene extends SceneContext {
    * Initializes the floor walker.
    * @param {Character} character
    */
-  spawnFloorWalker(character) {
+  spawnFloorWalker (character) {
     this.elem.find('.floor-asset-collection').append(
       img({
         addClass: 'sub-door-knock sub-character-goto',
@@ -130,8 +129,7 @@ export default class MapScene extends SceneContext {
    * Initializes the floor assets.
    * @param {Character} character
    */
-  initFloorAssets(character) {
-
+  initFloorAssets (character) {
     this.getFloorAssets().loadAssetsFromData(this.floorData)
 
     this.getFloorAssets().updateAssetsByLocksAndHistories(character.locks, character.histories)
@@ -139,15 +137,11 @@ export default class MapScene extends SceneContext {
     const currentFloorAsset = this.getFloorAssets().findById(character.position.floorObjectId)
 
     if (currentFloorAsset) {
-
       currentFloorAsset.locked = false
-
     }
-
   }
 
-  start() {
-
+  start () {
     this.getMenuButton().show()
 
     BackgroundService.turnWhite()
@@ -157,33 +151,24 @@ export default class MapScene extends SceneContext {
     .then(() => this.getFloorAssets().show())
 
     .then(() => {
-
       let floorAsset = this.getFloorAssets().findById(this.getWalker().getPosition().floorObjectId)
 
       return this.getWalker().appearAt(floorAsset)
-
     })
-
   }
 
-  fadeOut() {
-
+  fadeOut () {
     this.getMenuButton().hide()
 
     return this.getFloorAssets().hide().then(() => {
-
       this.getFloorboard().hide()
 
       return BackgroundService.turnBlack()
-
     })
-
   }
 
-  walkerFadeIntoDoor() {
-
+  walkerFadeIntoDoor () {
     return this.getWalker().getIntoDoor().then(() => this.fadeOut())
-
   }
 
   /**
@@ -192,10 +177,8 @@ export default class MapScene extends SceneContext {
    * @param {String} level The level
    */
   @on('goToLevel')
-  goToLevel() {
-
+  goToLevel () {
     return this.walkerFadeIntoDoor().then(() => (location.href = 'level.html'))
-
   }
 
   /**
@@ -206,10 +189,8 @@ export default class MapScene extends SceneContext {
    * @return {Promise}
    */
   @on('sceneReload')
-  sceneReload() {
-
+  sceneReload () {
     return this.walkerFadeIntoDoor().then(() => location.reload())
-
   }
 
   /**
@@ -219,24 +200,19 @@ export default class MapScene extends SceneContext {
    * @return {Promise}
    */
   @on('assetUnlock')
-  assetUnlock(e) {
-
+  assetUnlock (e) {
     const asset = e.floorAsset
 
     return this.getCamera().scrollTo(asset.centerX(), 500)
 
     .then(() => {
-
       asset.removeFrog()
       asset.locked = false
       asset.enableDoorKnock()
 
       return wait(500)
-
     })
 
     .then(() => this.getCamera().scrollTo(this.getWalker().x, 500))
-
   }
-
 }

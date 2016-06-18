@@ -17,7 +17,7 @@ const DEFAULT_SPEECH_TIMEOUT = 500
 @component('message-balloon')
 export default class MessageBalloon {
 
-  constructor(elem) {
+  constructor (elem) {
     this.target = $(elem.data('target'))[0]
     this.skipTarget = $(elem.data('skip-target'))
     this.message = elem.data('message')
@@ -29,7 +29,7 @@ export default class MessageBalloon {
    * @return {Promise}
    */
   @on('message-balloon.start')
-  start() {
+  start () {
     this.elem.trigger('message-balloon.started')
 
     this.elem.append(

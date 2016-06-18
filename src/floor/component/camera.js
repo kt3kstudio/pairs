@@ -7,19 +7,18 @@ const {component, on} = $.cc
  */
 @component('camera')
 export default class Camera {
-
   /**
    * Gets the window width.
    * @return {number}
    */
-  getWindowWidth() {
+  getWindowWidth () {
     return $(window).width()
   }
 
   /**
    * Sets up the initial position.
    */
-  setUp() {
+  setUp () {
     this.scrollSet($('.floor-asset-collection').cc.get('floor-asset-collection').findById($('.floor-walker').cc.get('floor-walker').getPosition().floorObjectId).centerX())
   }
 
@@ -29,7 +28,7 @@ export default class Camera {
    * @param {number} x The horizontal position
    */
   @on('character-focus')
-  focusToX(e, x) {
+  focusToX (e, x) {
     if (!this.visible(x)) {
       this.scrollSet(x)
     }
@@ -38,7 +37,7 @@ export default class Camera {
   /**
    * Sets the horizontal scroll position.
    */
-  scrollSet(x) {
+  scrollSet (x) {
     this.elem.scrollLeft(x - this.getWindowWidth() / 2)
   }
 
@@ -50,7 +49,7 @@ export default class Camera {
    * @return {Promise}
    */
   @on('character-move')
-  scrollTo(e, x, dur) {
+  scrollTo (e, x, dur) {
     this.elem.animate({scrollLeft: x - this.getWindowWidth() / 2}, dur)
 
     return wait(dur)
@@ -61,7 +60,7 @@ export default class Camera {
    * @param {Number} x The focus position
    * @returns {Boolean}
    */
-  visible(x) {
+  visible (x) {
     return x > this.elem.scrollLeft() && x < this.elem.scrollLeft() + this.getWindowWidth()
   }
 }

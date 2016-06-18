@@ -12,14 +12,12 @@ const {component} = $.cc
  */
 @component('floor-asset-collection')
 export default class FloorAssetCollection extends Being {
-
   /**
    * Loads assets from the given string html data.
    *
    * @param {String} data The data
    */
-  loadAssetsFromData(data) {
-
+  loadAssetsFromData (data) {
     // prepend loaded (string) data to the elem
     $(data).prependTo(this.elem)
 
@@ -31,23 +29,18 @@ export default class FloorAssetCollection extends Being {
 
     // collect staircases
     this.staircases = this.elem.find('.staircase .door').map(function () {
-
       return $(this).cc.get('staircase')
-
     }).toArray()
 
     // collect doors
     this.doors = this.elem.find('.door').map(function () {
-
       return $(this).cc.get('door')
-
     }).toArray()
 
     this.items = [].concat(this.staircases, this.doors)
 
     // set floor width
     this.elem.width(this.elem.find('.floor-data').data('floor-width'))
-
   }
 
   /**
@@ -55,22 +48,16 @@ export default class FloorAssetCollection extends Being {
    *
    * @param {datadomain.LevelLockCollection} locks The level locks
    */
-  updateAssetsByLocksAndHistories(locks, histories) {
-
+  updateAssetsByLocksAndHistories (locks, histories) {
     this.items.forEach(asset => {
-
       asset.locked = locks.isLocked(asset.id)
 
       let history = histories.getById(asset.id)
 
       if (history) {
-
         asset.score = history.score
-
       }
-
     })
-
   }
 
   /**
@@ -78,16 +65,12 @@ export default class FloorAssetCollection extends Being {
    *
    * @override
    */
-  willShow() {
-
+  willShow () {
     return this.foldByFunc(item => {
-
       item.show()
 
       return wait(100)
-
     })
-
   }
 
   /**
@@ -95,16 +78,12 @@ export default class FloorAssetCollection extends Being {
    *
    * @override
    */
-  willHide() {
-
+  willHide () {
     return this.foldByFunc(item => {
-
       item.disappear()
 
       return wait(100)
-
     })
-
   }
 
   /**
@@ -113,10 +92,8 @@ export default class FloorAssetCollection extends Being {
    * @private
    * @param {Function} func The folding function of each item
    */
-  foldByFunc(func) {
-
+  foldByFunc (func) {
     return this.items.reduce((p, item) => p.then(() => func(item)), Promise.resolve())
-
   }
 
   /**
@@ -125,10 +102,7 @@ export default class FloorAssetCollection extends Being {
    * @param {String} id The id of the wall object
    * @returns {domain.map.Door}
    */
-  findById(id) {
-
+  findById (id) {
     return this.items.filter(item => item.id === id)[0]
-
   }
-
 }

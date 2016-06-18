@@ -18,12 +18,12 @@ class PlayScene extends Context {
    * The entry point
    */
   @on('intro-scene.finished')
-  main() { super.main() }
+  main () { super.main() }
 
   /**
    * Sets up the components.
    */
-  setUp() {
+  setUp () {
     const layout = new PlaySceneLayout()
 
     this.character = this.getCharacter().character
@@ -52,7 +52,7 @@ class PlayScene extends Context {
    * Records the stream of the directions.
    * @param {Rx.Observable<String>} dirs
    */
-  recordDirStream(dirStream) {
+  recordDirStream (dirStream) {
     dirStream.forEach(dir => {
       this.character.playingState.add(dir)
 
@@ -66,7 +66,7 @@ class PlayScene extends Context {
    * @param {Rx.Observable} stream The stream
    * @return {Rx.Observable}
    */
-  hookPlayingStateBumping(stream) {
+  hookPlayingStateBumping (stream) {
     return stream.filter(() => {
       this.character.playingState.bump()
 
@@ -79,7 +79,7 @@ class PlayScene extends Context {
    * @param {Rx.Observable} dirStream The stream of directions
    * @return {Promise}
    */
-  playLoop(dirStream) {
+  playLoop (dirStream) {
     const FINISH_TAG = 'finish'
     const cellStream = this.bms.processDirStream(dirStream)
 
@@ -107,7 +107,7 @@ class PlayScene extends Context {
    * Replays the saved playing state.
    * @return {Promise}
    */
-  replayRounds() {
+  replayRounds () {
     return this.character.playingState.rounds.reduce((promise, round) =>
       promise.then(() =>
         this.playLoop(round.map((dir, i) => wait(i * 180, dir)).toFlatStream())
@@ -118,7 +118,7 @@ class PlayScene extends Context {
   /**
    * @return {Promise}
    */
-  userPlay() {
+  userPlay () {
     const userDirStream = this.getUserSwipeStream()
 
     this.recordDirStream(userDirStream)
@@ -132,7 +132,7 @@ class PlayScene extends Context {
    * @return {Promise}
    */
   @trigger(null, 'play-scene.finished')
-  start() {
+  start () {
     this.getMenuButton().show()
 
     return Promise.resolve()
@@ -159,7 +159,7 @@ class PlayScene extends Context {
    *
    * @return {Rx.Observable}
    */
-  getUserSwipeStream() {
+  getUserSwipeStream () {
     const field = $('.swipe-field')
 
     return Rx.Observable.merge(
@@ -173,7 +173,7 @@ class PlayScene extends Context {
   /**
    * Removes the swipe field.
    */
-  removeSwipeField() {
+  removeSwipeField () {
     $('.swipe-field').remove()
   }
 
@@ -184,7 +184,7 @@ class PlayScene extends Context {
    * @param {Boolean} playerWon True if the player won the game
    */
   @on('play-scene.finished')
-  finish(e, playerWon) {
+  finish (e, playerWon) {
     this.character.clearPlayingState()
 
     this.elem.trigger(playerWon ? 'play-scene.won' : 'play-scene.failed')

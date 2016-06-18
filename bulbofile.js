@@ -11,28 +11,28 @@ const SITE = 'site'
 const SRC = 'src'
 
 // js
-asset(`${ SITE }/**/*.js`)
+asset(`${SITE}/**/*.js`)
   .assetOptions({read: false})
-  .watch(`${ SITE }/**/*.js`, `${ SRC }/**/*.js`)
+  .watch(`${SITE}/**/*.js`, `${SRC}/**/*.js`)
   .pipe(bundler({transform: 'babelify'}))
 
 // infrastructure.js
-asset(`${ SRC }/infrastructure/infrastructure.js`)
-  .watch(`${ SRC }/infrastructure/*.js`)
-  .base(`${ SRC }/infrastructure`)
+asset(`${SRC}/infrastructure/infrastructure.js`)
+  .watch(`${SRC}/infrastructure/*.js`)
+  .base(`${SRC}/infrastructure`)
   .pipe(bundler({transform: 'babelify'}))
 
 // html
-asset(`${ SITE }/*.html`)
-  .watch(`${ SITE }/*.html`, `${ SITE }/layout/*.nunjucks`)
+asset(`${SITE}/*.html`)
+  .watch(`${SITE}/*.html`, `${SITE}/layout/*.nunjucks`)
   .pipe(frontMatter())
-  .pipe(wrapper.nunjucks({layout: `${ SITE }/layouts`, data: {configJSON}}))
+  .pipe(wrapper.nunjucks({layout: `${SITE}/layouts`, data: {configJSON}}))
 
 // data
-asset(`${ SITE }/data/**/*.*`).base(SITE)
+asset(`${SITE}/data/**/*.*`).base(SITE)
 
 // images
-asset(`${ SITE }/**/*.{svg,png}`).base(SITE)
+asset(`${SITE}/**/*.{svg,png}`).base(SITE)
 
 // css
-asset(`${ SITE }/**/*.css`).base(SITE)
+asset(`${SITE}/**/*.css`).base(SITE)

@@ -1,7 +1,7 @@
 import './message-balloon'
 require('../screenplay/punch-emoji')
 
-import {div} from 'dom-gen'
+import { div } from 'dom-gen'
 
 const DEFAULT_SPEECH_TIMEOUT = 5000
 
@@ -16,7 +16,7 @@ export default class Speaker {
    * Sets the speaker data.
    * @param {jQuery} elem
    */
-  setSpeaker(elem) {
+  setSpeaker (elem) {
     elem.data('speaker', this)
   }
 
@@ -27,7 +27,7 @@ export default class Speaker {
    * @fires 'speech.started' when the speech started
    * @fires 'speech.ended' when the speech ended
    */
-  speak(message) {
+  speak (message) {
     this.elem.trigger('speech.started')
 
     const timeout = +this.elem.data('speech-timeout') || DEFAULT_SPEECH_TIMEOUT

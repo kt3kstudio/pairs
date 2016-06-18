@@ -8,13 +8,10 @@ export default class UserStatistics {
    * @param {Object} opts The options
    * @param {Number} [opts.launchTimes] The number of the launches of the app
    */
-  constuctor(opts) {
-
+  constuctor (opts) {
     /**
      * @property {Number} launchTimes The number of the launches of the app
      */
     this.launchTimes = opts.launchTimes
-
   }
-
 }

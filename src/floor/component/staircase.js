@@ -11,11 +11,11 @@ const STAIRCASE_ANIMATION_DUR = 400
 @component('staircase')
 export default class Staircase extends FloorAsset {
 
-  showAnim() { return new Animation('door-appear', STAIRCASE_ANIMATION_DUR) }
+  showAnim () { return new Animation('door-appear', STAIRCASE_ANIMATION_DUR) }
 
-  hideAnim() { return new Animation('door-disappear', STAIRCASE_ANIMATION_DUR) }
+  hideAnim () { return new Animation('door-disappear', STAIRCASE_ANIMATION_DUR) }
 
-  constructor(elem) {
+  constructor (elem) {
     super(elem)
 
     this.goto = elem.data('goto') // must be parsed position object, not string
@@ -26,47 +26,34 @@ export default class Staircase extends FloorAsset {
   /**
    * Sets up the dom.
    */
-  willShow() {
-
+  willShow () {
     super.willShow()
 
     if (this.locked) {
-
       this.spawnFrog()
-
     } else {
-
       this.enableDoorKnock()
-
     }
-
   }
 
   /**
    * Enables the knock interaction.
    */
-  enableDoorKnock() {
-
+  enableDoorKnock () {
     this.elem.one('click', () => this.doorKnock())
-
   }
 
   /**
    * Disables the knock interaction.
    */
-  disableDoorKnock() {
-
+  disableDoorKnock () {
     this.elem.off('click')
-
   }
 
   /**
    * Triggers the reload event.
    */
-  onGetWalker() {
-
+  onGetWalker () {
     this.elem.trigger($.Event('character-goto', {goto: this.goto}))
-
   }
-
 }

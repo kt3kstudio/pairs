@@ -8,11 +8,9 @@ export default class PossibleMoveDetectionService {
    * @param {Ball} ball The ball
    * @param {CellCollection} cells The field cells
    */
-  constructor(ball, cells) {
-
+  constructor (ball, cells) {
     this.ball = ball
     this.cells = cells
-
   }
 
   /**
@@ -20,8 +18,7 @@ export default class PossibleMoveDetectionService {
    *
    * @returns {Boolean} true if possible move available
    */
-  possible() {
-
+  possible () {
     // if any of the next cells has a bom, then the next move is possible.
     if (this.cells.find(this.ball.posAhead('up'))) { return true }
     if (this.cells.find(this.ball.posAhead('down'))) { return true }
@@ -29,7 +26,6 @@ export default class PossibleMoveDetectionService {
     if (this.cells.find(this.ball.posAhead('right'))) { return true }
 
     return false
-
   }
 
   /**
@@ -37,10 +33,7 @@ export default class PossibleMoveDetectionService {
    *
    * @return {Boolean} true iff there is a cell at the ball
    */
-  cellRemainsAtBall() {
-
+  cellRemainsAtBall () {
     return this.cells.find(this.ball.pos()) != null
-
   }
-
 }

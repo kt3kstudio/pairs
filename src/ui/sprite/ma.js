@@ -1,10 +1,9 @@
-import {Animation} from 'spn'
+import { Animation } from 'spn'
 
 /**
  * The sprite modifier of Ma (the protagonist).
  */
 export default function () {
-
   this.id = 'ma'
   this.name = 'ma'
 
@@ -21,5 +20,4 @@ export default function () {
 
   this.showAnim = () => new Animation('char-appear', 1000)
   this.hideAnim = () => new Animation('char-disappear', 1000)
-
 }

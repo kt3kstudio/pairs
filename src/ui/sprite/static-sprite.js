@@ -13,30 +13,25 @@ export default class StaticSprite {
   /**
    * Returns the default direction.
    */
-  defaultDir() { return 'down' }
+  defaultDir () { return 'down' }
 
   /**
    * Returns the default state.
    */
-  defaultState() { return 'default' }
+  defaultState () { return 'default' }
 
   /**
    * Initialize the dir state image map.
    */
-  initDirStateImage() {
-
+  initDirStateImage () {
     this.dirStateImage = new DirStateImageMap()
     this.dirStateImage.addImageByDirState(new Image(this.image()), 'down', 'default')
-
   }
 
   /**
    * Initializes sprite things.
    */
-  initSprite() {
-
+  initSprite () {
     this.initDirStateImage()
-
   }
-
 }

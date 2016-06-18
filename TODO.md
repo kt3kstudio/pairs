@@ -36,7 +36,6 @@
 - move datadomain.* to domain
 
 ## style:
-- switch to standard (very difficult because of decorator uses.)
 - remove import export and use require exports instead
 
 ## feat(residents)
@@ -66,6 +65,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- switch to standard (very difficult because of decorator uses.)
 - use dom-gen where possible
 - update dom-gen to 2.3 and replace object usage
 - finish the game when the goals are achieved

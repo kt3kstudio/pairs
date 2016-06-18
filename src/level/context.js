@@ -9,7 +9,7 @@ class Context extends SceneContext {
    * Gets the field grid.
    * @return {Field}
    */
-  getField() {
+  getField () {
     return this.get('field-grid')
   }
 
@@ -17,7 +17,7 @@ class Context extends SceneContext {
    * Gets the character.
    * @return {Character}
    */
-  getCharacter() {
+  getCharacter () {
     return this.get('hero')
   }
 
@@ -25,7 +25,7 @@ class Context extends SceneContext {
    * Gets the ball
    * @return {Ball}
    */
-  getBall() {
+  getBall () {
     return this.get('ball')
   }
 
@@ -33,7 +33,7 @@ class Context extends SceneContext {
    * Gets the paper.
    * @return {Paper}
    */
-  getPaper() {
+  getPaper () {
     return this.get('paper')
   }
 
@@ -41,7 +41,7 @@ class Context extends SceneContext {
    * Gets the scoreboard.
    * @return {Scoreboard}
    */
-  getScoreboard() {
+  getScoreboard () {
     return this.get('scoreboard')
   }
 
@@ -49,7 +49,7 @@ class Context extends SceneContext {
    * Gets the goal-panel
    * @return {GoalPanel}
    */
-  goalPanel() {
+  goalPanel () {
     return this.get('goal-panel')
   }
 
@@ -57,7 +57,7 @@ class Context extends SceneContext {
    * Gets the result pane.
    * @return {ResultPane}
    */
-  getResultPane() {
+  getResultPane () {
     return this.get('result-pane')
   }
 
@@ -66,22 +66,22 @@ class Context extends SceneContext {
    * @param {string} name The name of the residents
    * @return {Resident[]}
    */
-  residents(name) {
+  residents (name) {
     return this.elem.find('.' + name).toArray().map(dom => $(dom).cc.get(name))
   }
 
   /**
    * Gets the scenes.
    */
-  introScene() { return this.getAtElem('intro-scene') }
-  playScene() { return this.getAtElem('play-scene') }
-  outroScene() { return this.getAtElem('outro-scene') }
+  introScene () { return this.getAtElem('intro-scene') }
+  playScene () { return this.getAtElem('play-scene') }
+  outroScene () { return this.getAtElem('outro-scene') }
 
   /**
    * Gets the cells.
    * @return {CellCollection}
    */
-  cells() {
+  cells () {
     return this.getAtElem('cell-collection')
   }
 
@@ -89,7 +89,7 @@ class Context extends SceneContext {
    * Gets the fusion service.
    * @return {FusionService}
    */
-  fusionService() {
+  fusionService () {
     return this.getAtElem('fusion-service')
   }
 
@@ -97,14 +97,14 @@ class Context extends SceneContext {
    * Gets the screenplay manager.
    * @return {ScreenplayManager}
    */
-  screenplayManager() {
+  screenplayManager () {
     return this.get('screenplay-manager')
   }
 
   /**
    * @return {CellQueueBumpService}
    */
-  cellQueueBumpService() {
+  cellQueueBumpService () {
     return this.getAtElem('cell-queue-bump-service')
   }
 
@@ -113,11 +113,11 @@ class Context extends SceneContext {
    * @param {string} goals The goal html
    * @return {Promise}
    */
-  showGoalPanel(goals) {
+  showGoalPanel (goals) {
     this.goalPanel().setGoals(goals)
 
     return this.goalPanel().show()
-    .then(() => this.goalPanel().showGoals())
+      .then(() => this.goalPanel().showGoals())
   }
 }
 

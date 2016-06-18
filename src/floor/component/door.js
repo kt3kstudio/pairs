@@ -15,15 +15,13 @@ const DOOR_APPEAR_DUR = 400
  */
 @component('door')
 export default class Door extends FloorAsset {
-
-  showAnim() { return new Animation('door-appear', DOOR_APPEAR_DUR) }
-  hideAnim() { return new Animation('door-disappear', DOOR_APPEAR_DUR) }
+  showAnim () { return new Animation('door-appear', DOOR_APPEAR_DUR) }
+  hideAnim () { return new Animation('door-disappear', DOOR_APPEAR_DUR) }
 
   /**
    * @constructor
    */
-  constructor(elem) {
-
+  constructor (elem) {
     super(elem)
 
     this.level = elem.attr('level')
@@ -33,7 +31,6 @@ export default class Door extends FloorAsset {
     this.doorActionDur = 400
 
     this.locked = true
-
   }
 
   /**
@@ -41,8 +38,7 @@ export default class Door extends FloorAsset {
    *
    * @override
    */
-  willShow() {
-
+  willShow () {
     super.willShow()
 
     this.elem.css('opcaity', 0).append(
@@ -67,10 +63,8 @@ export default class Door extends FloorAsset {
           p(small`♛ Best ♛`, br(), this.score),
           hr(),
           button`▶`.click(function (event) {
-
             event.preventDefault()
             $(this).trigger('goToLevel')
-
           })
         )
       ).cc()
@@ -79,24 +73,17 @@ export default class Door extends FloorAsset {
     this.doorBody = this.elem.find('.door-body')
     this.informationPanel = this.elem.find('.door-info').cc.get('multiflip')
 
-
     if (!this.locked) {
-
       this.enableDoorKnock()
-
     } else {
-
       return this.spawnFrog()
-
     }
-
   }
 
   /**
    * Opens the door.
    */
-  open() {
-
+  open () {
     this.informationPanel.show()
 
     this.doorBody.addClass('open')
@@ -106,14 +93,12 @@ export default class Door extends FloorAsset {
     this.disableDoorKnock()
 
     return wait(this.doorActionDur)
-
   }
 
   /**
    * Closes the door.
    */
-  close() {
-
+  close () {
     this.informationPanel.hide()
 
     this.doorBody.removeClass('open')
@@ -121,38 +106,30 @@ export default class Door extends FloorAsset {
     this.enableDoorKnock()
 
     return wait(this.doorActionDur)
-
   }
 
   /**
    * Unlocks the door.
    */
-  unlocks() {
-
+  unlocks () {
     this.locked = false
 
     this.enableDoorKnock()
 
     this.removeFrog()
-
   }
 
   /**
    * Enables the door knock.
    */
-  enableDoorKnock() {
-
+  enableDoorKnock () {
     this.doorBody.one('click', () => this.doorKnock())
-
   }
 
   /**
    * Disables the door knock.
    */
-  disableDoorKnock() {
-
+  disableDoorKnock () {
     this.doorBody.off('click')
-
   }
-
 }

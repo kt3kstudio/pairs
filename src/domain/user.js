@@ -8,8 +8,7 @@ export default class User {
    * @param {String} charId The id of the character currently chosen
    * @param {UserStatistics} stat The statisctics of the user activity
    */
-  constructor(charId, stat) {
-
+  constructor (charId, stat) {
     /**
      * @property {String} charId The id of the character currently chosen
      */
@@ -19,7 +18,6 @@ export default class User {
      * @property {UserStatistics} stat The statisctics of the user activity
      */
     this.stat = stat
-
   }
 
   /**
@@ -27,10 +25,7 @@ export default class User {
    *
    * @param {String} charId The character id.
    */
-  setCharId(charId) {
-
+  setCharId (charId) {
     this.charId = charId
-
   }
-
 }

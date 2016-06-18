@@ -7,50 +7,36 @@ const {component} = $.cc
  */
 @component('splash-logo')
 export default class Logo extends Being {
-
   /**
    * Performs splash screen's logo animation.
    *
    * @return {Promise}
    */
-  perform() {
-
+  perform () {
     return this.show()
 
     .then(() => wait(700))
 
     .then(() => this.hide())
-
   }
 
-  willShow() {
-
+  willShow () {
     return this.elem.imageLoaded()
-
   }
 
-  didShow() {
-
+  didShow () {
     this.elem.css('opacity', 1)
-
   }
 
-  didHide() {
-
+  didHide () {
     this.elem.css('opacity', 0)
-
   }
 
-  showAnim() {
-
+  showAnim () {
     return new Animation('logo-show', 350)
-
   }
 
-  hideAnim() {
-
+  hideAnim () {
     return new Animation('logo-hide', 350)
-
   }
-
 }

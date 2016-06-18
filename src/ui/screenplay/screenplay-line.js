@@ -9,7 +9,7 @@ export default class ScreenplayLine {
    * @param {jQuery} context The context (range) of screenplay
    * @param {object} options The option parameters
    */
-  constructor(selector, line, context, options = {}) {
+  constructor (selector, line, context, options = {}) {
     this.selector = selector
     this.line = line
     this.context = context
@@ -19,7 +19,7 @@ export default class ScreenplayLine {
   /**
    * Gets the actor of this line.
    */
-  getActor() {
+  getActor () {
     return this.getElement().data('speaker')
   }
 
@@ -27,14 +27,14 @@ export default class ScreenplayLine {
    * Gets the element.
    * @return {jQuery}
    */
-  getElement() {
+  getElement () {
     return $(this.selector, this.context)
   }
 
   /**
    * Plays the role.
    */
-  play() {
+  play () {
     return Promise.resolve(this.getActor().speak(this.line)).then(() => {
       if (typeof this.options.goals === 'string') {
         this.getElement().trigger('screenplay.goals', this.options.goals)
@@ -48,7 +48,7 @@ export default class ScreenplayLine {
    * If actor is available as a dom and the class has speak method, then it's "ready".
    * @return {boolean}
    */
-  actorIsReady() {
+  actorIsReady () {
     const actor = this.getActor()
 
     return actor != null && typeof actor.speak === 'function'

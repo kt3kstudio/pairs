@@ -16,7 +16,6 @@ const {component, on, trigger} = $.cc
  */
 @component('intro-scene')
 export default class IntroScene extends Context {
-
   /**
    * The entry point of the level scene.
    *
@@ -24,7 +23,7 @@ export default class IntroScene extends Context {
    * @return {Promise}
    */
   @on('scene-start')
-  main() { super.main() }
+  main () { super.main() }
 
   /**
    * Loads the data
@@ -32,7 +31,7 @@ export default class IntroScene extends Context {
    * @protected
    * @return {Promise}
    */
-  load() {
+  load () {
     return this.loadUser()
 
     .then(() => this.loadCharacter(this.user.charId))
@@ -46,10 +45,8 @@ export default class IntroScene extends Context {
    * Loads the user.
    * @return {Promise}
    */
-  loadUser() {
-
-    return new UserRepository().get().then(user => this.user = user)
-
+  loadUser () {
+    return new UserRepository().get().then(user => { this.user = user })
   }
 
   /**
@@ -57,11 +54,9 @@ export default class IntroScene extends Context {
    * @param {string} id The id of the character
    * @return {Promise}
    */
-  loadCharacter(id) {
-
+  loadCharacter (id) {
     return new CharacterRepository().getById(id)
-    .then(character => this.character = character)
-
+    .then(character => { this.character = character })
   }
 
   /**
@@ -70,11 +65,9 @@ export default class IntroScene extends Context {
    * @param {string} id The id of the level
    * @return {Promise}
    */
-  loadLevel(id) {
-
+  loadLevel (id) {
     return new datadomain.LevelRepository().getById(id)
-    .then(level => this.level = level)
-
+    .then(level => { this.level = level })
   }
 
   /**
@@ -82,7 +75,7 @@ export default class IntroScene extends Context {
    * @param {string} id The id of the level
    * @return {Promise}
    */
-  loadLevelNext(id) {
+  loadLevelNext (id) {
     return Promise.resolve($.get(this.getLevelDataUrl(id))).then(levelData => {
       $(levelData).appendTo(this.elem)
     })
@@ -93,17 +86,16 @@ export default class IntroScene extends Context {
    * @param {string} id The id of the level
    * @return {string}
    */
-  getLevelDataUrl(id) {
+  getLevelDataUrl (id) {
     return `${global.BASEPATH}/data/level/${id}.html`
   }
 
   /**
    * Sets up the components.
-   *
    * @protected
    * @return {Promise}
    */
-  setUp() {
+  setUp () {
     $.cc.init()
 
     const layout = new IntroSceneLayout()
@@ -135,7 +127,7 @@ export default class IntroScene extends Context {
    * @return {Promise}
    */
   @trigger(null, 'intro-scene.finished')
-  start() {
+  start () {
     this.getPaper().show()
 
     return BackgroundService.turnWhite()
@@ -160,7 +152,7 @@ export default class IntroScene extends Context {
   }
 
   @on('screenplay.goals')
-  onGoalsSuggested(e, goals) {
+  onGoalsSuggested (e, goals) {
     this.showGoalPanel(goals)
   }
 
@@ -169,7 +161,7 @@ export default class IntroScene extends Context {
    *
    * @private
    */
-  spawnBall() {
+  spawnBall () {
     const playSceneLayout = new PlaySceneLayout()
 
     $($('#tpl-ball').html()).css({display: 'none'}).data({
@@ -185,7 +177,7 @@ export default class IntroScene extends Context {
    *
    * @private
    */
-  spawnPaper() {
+  spawnPaper () {
     this.elem.append(img({cc: 'paper'}))
   }
 
@@ -193,7 +185,7 @@ export default class IntroScene extends Context {
    * Spawns the character sprite.
    * @private
    */
-  spawnCharacter(character) {
+  spawnCharacter (character) {
     this.elem.append(img({data: {character: character}, cc: 'hero'}))
   }
 }

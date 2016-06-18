@@ -12,14 +12,14 @@ export default class ResultPane extends Body {
    * Sets the score.
    * @param {number} score The score to set
    */
-  setScore(score) {
+  setScore (score) {
     this.score = score
   }
 
   /**
    * @param {boolean} isSuccess True iff the result is successful
    */
-  setSuccess(isSuccess) {
+  setSuccess (isSuccess) {
     this.isSuccess = isSuccess
   }
 
@@ -27,14 +27,14 @@ export default class ResultPane extends Body {
    * Sets the number of the stars.
    * @param {number} star The number of stars
    */
-  setStar(star) {
+  setStar (star) {
     this.star = star
   }
 
   /**
    * @override
    */
-  willShow() {
+  willShow () {
     this.elem.append(
       div({addClass: 'result-content', css: {opacity: 0, position: 'relative'}},
         ul(
@@ -53,7 +53,7 @@ export default class ResultPane extends Body {
    * @param {number} timeout The time after which the pane hides itself
    * @return {Promise} The promise which resolves when the pane hides
    */
-  show(timeout) {
+  show (timeout) {
     return super.show().then(() => this.showInfoPane(timeout))
   }
 
@@ -62,7 +62,7 @@ export default class ResultPane extends Body {
    * @param {Number} timeout
    * @return {Promise}
    */
-  showInfoPane(timeout) {
+  showInfoPane (timeout) {
     return this.elem.attr({m: 9, n: 7}).cc.init('multiflip').show()
 
     .then(() => Promise.race([wait(timeout), this.elem.once('click touchstart')]))

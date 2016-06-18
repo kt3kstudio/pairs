@@ -8,17 +8,16 @@ const {component} = $.cc
  */
 @component('scoreboard')
 export default class Scoreboard extends Body {
+  ratioX () { return 0 }
+  ratioY () { return 0 }
 
-  ratioX() { return 0 }
-  ratioY() { return 0 }
-
-  marginX() { return 6 }
-  marginY() { return 6 }
+  marginX () { return 6 }
+  marginY () { return 6 }
 
   /**
    * @constructor
    */
-  constructor() {
+  constructor () {
     super()
 
     this.score = 0
@@ -30,7 +29,7 @@ export default class Scoreboard extends Body {
    * @param {Rx.Observable<FusionPair>} fusionPairStream
    * @return {Rx.Observable<FusionPair>}
    */
-  hookToFusionPairStream(fusionPairStream) {
+  hookToFusionPairStream (fusionPairStream) {
     return fusionPairStream.map(fusionPair => {
       this.addScore(fusionPair.score())
 
@@ -38,13 +37,13 @@ export default class Scoreboard extends Body {
     })
   }
 
-  showAnim() { return new Animation('bom-appear', 400) }
-  hideAnim() { return new Animation('bom-disappear', 400) }
+  showAnim () { return new Animation('bom-appear', 400) }
+  hideAnim () { return new Animation('bom-disappear', 400) }
 
   /**
    * Set up the initial dom state.
    */
-  willShow() {
+  willShow () {
     super.willShow()
 
     this.update()
@@ -53,7 +52,7 @@ export default class Scoreboard extends Body {
   /**
    * Updates the scoreboard's number.
    */
-  update() {
+  update () {
     this.elem.text(commaNumber(this.score))
   }
 
@@ -61,7 +60,7 @@ export default class Scoreboard extends Body {
    * Add the score to the total score.
    * @param {Number} score The score to add
    */
-  addScore(score) {
+  addScore (score) {
     this.score += score
 
     this.update()
@@ -71,7 +70,7 @@ export default class Scoreboard extends Body {
    * Gets the current score.
    * @return {Number}
    */
-  getScore() {
+  getScore () {
     return this.score
   }
 }

@@ -16,20 +16,20 @@ const CSS_CLASS_GOAL_EMOJI = 'emoji-round-yellow'
 // @margin(6, 6, 6, 6)
 @component('goal-panel')
 class GoalPanel extends Body {
-  ratioX() { return 0 }
-  ratioY() { return 0 }
+  ratioX () { return 0 }
+  ratioY () { return 0 }
 
-  marginX() { return 6 }
-  marginY() { return 6 }
+  marginX () { return 6 }
+  marginY () { return 6 }
 
-  showAnim() { return new Animation('bom-appear', 400) }
-  hideAnim() { return new Animation('bom-disappear', 400) }
+  showAnim () { return new Animation('bom-appear', 400) }
+  hideAnim () { return new Animation('bom-disappear', 400) }
 
   /**
    * Sets the goals as text.
    * @param {string} goals The goals in text
    */
-  setGoals(goals) {
+  setGoals (goals) {
     this.goals = goals
     this.elem.data('goals-text', goals)
     this.elem.cc('goal-detection')
@@ -41,25 +41,25 @@ class GoalPanel extends Body {
    * @param {number} index The index of goaled cell
    */
   @on('goal-detection.goal')
-  onGoalDetection(e, index) {
+  onGoalDetection (e, index) {
     const target = this.elem.find('.emoji')[index]
 
     $(target).addClass(CSS_CLASS_GOAL_EMOJI)
   }
 
   @on('goal-detection.finish')
-  onGoalFinished() {
+  onGoalFinished () {
     window.alert('finish!')
   }
 
   /**
    * Shows the goals.
    */
-  showGoals() {
+  showGoals () {
     this.elem.html(renderEmoji(this.goals))
   }
 
-  willShow() {
+  willShow () {
     this.showGoals()
 
     this.updateElem()

@@ -12,52 +12,44 @@ const {component} = $.cc
 @traits(CharSprite)
 @component('hero')
 export default class Character extends GridWalker {
-
-  constructor(elem) {
+  constructor (elem) {
     super()
 
     this.initSprite(elem)
     this.setSpeaker(elem)
   }
 
-  ratioX() { return 0.5 }
-  ratioY() { return 1 }
+  ratioX () { return 0.5 }
+  ratioY () { return 1 }
 
   /**
    * @param {number} dur The duration
    */
-  willShow(dur) {
-
+  willShow (dur) {
     this.elem.css('display', 'inline')
     this.updateSprite()
 
     return super.willShow(dur)
-
   }
 
   /**
    * @param {number} dur The duration
    */
-  didHide(dur) {
-
+  didHide (dur) {
     this.elem.css('display', 'none')
 
     return super.didHide(dur)
-
   }
-
 
   /**
    * Moves a unit upward along the grid.
    *
    * @return {Promise}
    */
-  moveUpOnGrid() {
-
+  moveUpOnGrid () {
     this.turn('up')
 
     return super.moveUpOnGrid()
-
   }
 
   /**
@@ -65,12 +57,10 @@ export default class Character extends GridWalker {
    *
    * @return {Promise}
    */
-  moveRightOnGrid() {
-
+  moveRightOnGrid () {
     this.turn('right')
 
     return super.moveRightOnGrid()
-
   }
 
   /**
@@ -78,12 +68,10 @@ export default class Character extends GridWalker {
    *
    * @return {Promise}
    */
-  moveDownOnGrid() {
-
+  moveDownOnGrid () {
     this.turn('down')
 
     return super.moveDownOnGrid()
-
   }
 
   /**
@@ -91,12 +79,9 @@ export default class Character extends GridWalker {
    *
    * @return {Promise}
    */
-  moveLeftOnGrid() {
-
+  moveLeftOnGrid () {
     this.turn('left')
 
     return super.moveLeftOnGrid()
-
   }
-
 }

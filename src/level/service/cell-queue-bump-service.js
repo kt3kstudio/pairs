@@ -9,7 +9,7 @@ class CellQueueBumpService {
   /**
    * @param {Rx.Observable<Cell[]>} exitCells The stream of the lists of the exit cells
    */
-  bump(exitCells) {
+  bump (exitCells) {
     return exitCells.takeWhile(cells => {
       if (cells.length <= 1) {
         return false

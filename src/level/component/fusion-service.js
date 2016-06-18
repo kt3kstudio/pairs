@@ -7,11 +7,10 @@ const {emit, component} = $.cc
  */
 @component('fusion-service')
 export default class FusionService {
-
   /**
    * @param {Grid} grid The grid
    */
-  setGrid(grid) {
+  setGrid (grid) {
     this.grid = grid
   }
 
@@ -21,10 +20,8 @@ export default class FusionService {
    * @param {Rx.Observable<FusionPair>}
    * @return {Rx.Observable<Cell>}
    */
-  processFusionPairStream(fusionPairStream) {
-
+  processFusionPairStream (fusionPairStream) {
     return fusionPairStream.pipe(fusionPair => this.performFusion(fusionPair))
-
   }
 
   /**
@@ -33,10 +30,8 @@ export default class FusionService {
    * @param {FusionPair} pair The pair
    * @return {Promise} {Promise<Cell>} The new cell
    */
-  performFusion(pair) {
-
+  performFusion (pair) {
     return this.getToReactor(pair).then(() => this.fusion(pair))
-
   }
 
   /**
@@ -46,20 +41,16 @@ export default class FusionService {
    * @param {FusionPair} pair The pair going to fusion reactor
    * @return {Promise} The end of the animation of going to the reactor
    */
-  getToReactor(pair) {
-
+  getToReactor (pair) {
     const dur = 1000
 
     // pair.right could be null
     if (pair.right) {
-
       pair.right.anim('get-to-reactor-right', dur).then(() => pair.right.remove())
-
     }
 
     // pair.left always exists
     return pair.left.anim('get-to-reactor-left', dur).then(() => pair.left.remove())
-
   }
 
   /**
@@ -69,7 +60,7 @@ export default class FusionService {
    * @return {Promise} The new cell {Promise<Cell>}
    */
   @emit('cell-fusion').last
-  fusion(pair) {
+  fusion (pair) {
     const dur = 600
 
     const cell = object({

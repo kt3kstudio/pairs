@@ -11,10 +11,8 @@ export default class FusionPreparationService {
    * @constructor
    * @param {Grid} grid The grid
    */
-  constructor(grid) {
-
+  constructor (grid) {
     this.stack = new PreparationStack(grid)
-
   }
 
   /**
@@ -23,10 +21,8 @@ export default class FusionPreparationService {
    * @param {Rx.Observable<Cell>} cellStream
    * @return {Rx.Observable<FunsionPair>}
    */
-  processCellStream(cellStream) {
-
+  processCellStream (cellStream) {
     return cellStream.pipe(cell => this.take(cell)).filterNull()
-
   }
 
   /**
@@ -35,18 +31,14 @@ export default class FusionPreparationService {
    * @param {Cell} cell The cell
    * @return {Promise} {Promise<FusionPair>}
    */
-  take(cell) {
-
+  take (cell) {
     this.stack.push(cell)
 
     if (!this.stack.isPrepared()) {
-
       return
-
     }
 
     return Promise.all(this.stack.popAll()).then(([left, right]) => new FusionPair(left, right))
-
   }
 
 }
@@ -60,13 +52,11 @@ class PreparationStack {
    * @constructor
    * @param {Grid} grid The grid
    */
-  constructor(grid) {
-
+  constructor (grid) {
     this.grid = grid
     this.stack = []
     this.isFinished = false
     this.takeDur = 700 // The duration of going to fusion preparation position.
-
   }
 
   /**
@@ -74,12 +64,10 @@ class PreparationStack {
    *
    * @param {Cell} cell The cell
    */
-  push(cell) {
-
+  push (cell) {
     this.isFinished = cell.isLastOne()
 
     this.stack.push(this.locate(cell, this.stack.length))
-
   }
 
   /**
@@ -89,8 +77,7 @@ class PreparationStack {
    * @param {Number} index The index
    * @return {Promise<Cell>}
    */
-  locate(cell, index) {
-
+  locate (cell, index) {
     cell.setGrid(this.grid)
 
     cell.m = index
@@ -99,19 +86,14 @@ class PreparationStack {
     cell.setTransitionDuration(this.takeDur)
 
     return cell.fitToGrid().then(() => cell)
-
   }
 
-  isPrepared() {
-
+  isPrepared () {
     return this.isFinished || this.isFull()
-
   }
 
-  isFull() {
-
+  isFull () {
     return this.stack.length >= 2
-
   }
 
   /**
@@ -119,10 +101,7 @@ class PreparationStack {
    *
    * @return {Array<Promise<Cell>>}
    */
-  popAll() {
-
+  popAll () {
     return this.stack.splice(0)
-
   }
-
 }

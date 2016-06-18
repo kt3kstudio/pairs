@@ -18,19 +18,18 @@ export default class CharSprite {
   /**
    * Returns the default direction.
    */
-  defaultDir() { return 'down' }
+  defaultDir () { return 'down' }
 
   /**
    * Returns the default state.
    */
-  defaultState() { return 'default' }
+  defaultState () { return 'default' }
 
   /**
    * Initializes the sprite.
    * @param {jQuery} elem The jquery dom element
    */
-  initSprite(elem) {
-
+  initSprite (elem) {
     this.character = elem.data('character')
 
     CHR_TABLE[this.character.id].call(this)
@@ -41,19 +40,15 @@ export default class CharSprite {
     this.dirStateImage.addImageByDirState(new Image(this.downImage()), 'down', 'default')
     this.dirStateImage.addImageByDirState(new Image(this.leftImage()), 'left', 'default')
     this.dirStateImage.addImageByDirState(new Image(this.rightImage()), 'right', 'default')
-
   }
-
 
   /**
    * Changes the direction the character currently heading for.
    *
    * @param {string} dir The direction (one of up, down, left or right)
    */
-  turn(dir) {
-
+  turn (dir) {
     this.setDir(dir)
-
   }
 
   /**
@@ -62,16 +57,12 @@ export default class CharSprite {
    * @param {string} coordinate 'x' or 'y'
    * @param {number} to The position
    */
-  getDirection(coordinate, to) {
-
+  getDirection (coordinate, to) {
     if (coordinate === 'x') {
-
       return to > this.x ? 'right' : 'left'
-
     }
 
     return to > this.y ? 'down' : 'up'
-
   }
 
   /**
@@ -81,8 +72,7 @@ export default class CharSprite {
    * @param {number} to The position to go
    * @param {number} dur The duration of movement in ms
    */
-  moveTo(coordinate, to, dur) {
-
+  moveTo (coordinate, to, dur) {
     const dir = this.getDirection(coordinate, to)
 
     this.turn(dir)
@@ -90,17 +80,11 @@ export default class CharSprite {
     this.setTransitionDuration(dur)
 
     if (dir === 'up' || dir === 'down') {
-
       this.moveToY(to)
-
     } else {
-
       this.moveToX(to)
-
     }
 
     return wait(dur)
-
   }
-
 }

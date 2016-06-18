@@ -8,7 +8,6 @@ const {on, component} = $.cc
 const TRANS_DUR = 800
 const R = 60 // radius of menu item arrangment
 
-
 /**
  * Culculates item offsets of the given number
  *
@@ -16,8 +15,7 @@ const R = 60 // radius of menu item arrangment
  * @param {number} num The number of items
  * @return {Object[]}
  */
-function itemOffsets(offset, num) {
-
+function itemOffsets (offset, num) {
   const result = []
   const gutter = Math.PI / 4 / num / num
   const urad = num > 1 ? (Math.PI / 2 - gutter * 2) / (num - 1) : 0
@@ -25,7 +23,6 @@ function itemOffsets(offset, num) {
   const r = R * Math.sqrt(num)
 
   for (let i = 0; i < num; i++) {
-
     const rad = urad * i
     const cos = r * Math.cos(rad + gutter)
     const sin = r * Math.sin(rad + gutter)
@@ -33,11 +30,9 @@ function itemOffsets(offset, num) {
     const res = {left: offset.left + cos, top: offset.top - sin}
 
     result.push(res)
-
   }
 
   return result
-
 }
 
 /**
@@ -46,7 +41,7 @@ function itemOffsets(offset, num) {
 @component('menu-button')
 export default class MenuButton {
 
-  constructor(elem) {
+  constructor (elem) {
     this.elem = elem
 
     this.closed = true
@@ -59,22 +54,16 @@ export default class MenuButton {
    *
    * @return {jQuery[]}
    */
-  getMenuItemSource() {
-
+  getMenuItemSource () {
     if (this.elem.data('menu')) {
-
       return this.elem.data('menu')
-
     }
 
     if (this.elem.attr('menu')) {
-
       return $('#' + this.elem.attr('menu')).children().toArray()
-
     }
 
     throw new Error('no menu')
-
   }
 
   /**
@@ -83,10 +72,8 @@ export default class MenuButton {
    * @param {Number} offset.left The left offset
    * @param {Number} offset.top The top offset
    */
-  setOffset(offset) {
-
+  setOffset (offset) {
     this.menus.forEach(menu => menu.setOffset(offset))
-
   }
 
   /**
@@ -94,12 +81,10 @@ export default class MenuButton {
    *
    * @return {Promise}
    */
-  show() {
-
+  show () {
     this.elem.removeClass('hidden')
 
     return wait(TRANS_DUR).then(() => this.setOffset(this.elem.offset()))
-
   }
 
   /**
@@ -107,20 +92,16 @@ export default class MenuButton {
    *
    * @return {Promise}
    */
-  hide() {
-
+  hide () {
     return this.closeMenu()
 
     .then(() => wait(300))
 
     .then(() => {
-
       this.elem.addClass('hidden')
 
       return wait(TRANS_DUR)
-
     })
-
   }
 
   /**
@@ -128,14 +109,12 @@ export default class MenuButton {
    *
    * @return {Promise}
    */
-  openMenu() {
-
+  openMenu () {
     this.closed = false
 
     const toOffsets = itemOffsets(this.elem.offset(), this.menus.length)
 
     return Promise.all(this.menus.map((menu, i) => wait(50 * i).then(() => menu.show(toOffsets[i]))))
-
   }
 
   /**
@@ -143,12 +122,9 @@ export default class MenuButton {
    *
    * @return {Promise}
    */
-  closeMenu(offset) {
-
+  closeMenu (offset) {
     if (this.closed) {
-
       return Promise.resolve()
-
     }
 
     this.closed = true
@@ -156,14 +132,13 @@ export default class MenuButton {
     offset = offset || this.elem.offset()
 
     return Promise.all(this.menus.map(menu => menu.hide(offset)))
-
   }
 
   /**
    * Toggles the menu's open/close state.
    */
   @on('click')
-  toggleMenu() {
+  toggleMenu () {
     return this.closed ? this.openMenu() : this.closeMenu()
   }
 
@@ -173,12 +148,10 @@ export default class MenuButton {
    * @private
    * @param {jQuery} menu
    */
-  createMenuItem(menu) {
-
+  createMenuItem (menu) {
     menu = $(menu)
 
     return img({
-
       attr: {
         src: menu.attr('src')
       },
@@ -188,9 +161,6 @@ export default class MenuButton {
         menu: menu.children().toArray(),
         onclick: menu.attr('onclick')
       }
-
     }).cc.init('menu-item')
-
   }
-
 }

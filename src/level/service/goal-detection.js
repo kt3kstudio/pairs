@@ -12,7 +12,7 @@ class GoalDetectionService {
    * Sets the goals.
    * @param {string} goals The goals in text
    */
-  constructor(elem) {
+  constructor (elem) {
     this.goals = extractCells(elem.data('goals-text'))
   }
 
@@ -21,7 +21,7 @@ class GoalDetectionService {
    * @param {Cell} cell The new born cell
    */
   @on('cell-fusion')
-  onCellFusion(e, cell) {
+  onCellFusion (e, cell) {
     const index = this.goals.indexOf(cell.gene)
 
     if (index !== -1) {
@@ -34,7 +34,7 @@ class GoalDetectionService {
    * @param {number} index The index of the goal
    */
   @emit('goal-detection.goal')
-  countGoal(index) {
+  countGoal (index) {
     delete this.goals[index]
 
     if (this.remaining() === 0) {
@@ -46,7 +46,7 @@ class GoalDetectionService {
    * Returns the number of remaining goals.
    * @return {number}
    */
-  remaining() {
+  remaining () {
     return this.goals.filter(x => x != null).length
   }
 }

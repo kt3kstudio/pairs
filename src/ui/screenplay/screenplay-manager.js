@@ -9,7 +9,7 @@ const {on, component} = $.cc
 @component('screenplay-manager')
 export default class ScreenplayManager {
 
-  constructor(elem) {
+  constructor (elem) {
     this.context = elem.data('context')
 
     this.lines = parse(elem.text()).map(line => new ScreenplayLine(line.role, line.message, this.context, line.params))
@@ -19,7 +19,7 @@ export default class ScreenplayManager {
    * Returns true iff all the actors are ready.
    * @return {boolean}
    */
-  actorsReady() {
+  actorsReady () {
     return this.lines.filter(line => !line.actorIsReady()).length === 0
   }
 
@@ -28,7 +28,7 @@ export default class ScreenplayManager {
    * @return {Promise}
    */
   @on('screenplay-start')
-  play() {
+  play () {
     return this.lines.reduce((previous, line) => previous.then(() => line.play()), Promise.resolve())
   }
 }

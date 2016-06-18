@@ -1,4 +1,3 @@
-
 const Rx = window.Rx
 
 /**
@@ -18,9 +17,7 @@ const wrapUnobservable = x => Rx.helpers.isObservableLike(x) ? x : [x]
  * @return {Rx.Observable}
  */
 Rx.Observable.prototype.pipe = function (f) {
-
   return this.map(f).flattenObservable()
-
 }
 
 /**
@@ -29,9 +26,7 @@ Rx.Observable.prototype.pipe = function (f) {
  * @return {Rx.Observable}
  */
 Rx.Observable.prototype.flattenObservable = function () {
-
   return this.map(wrapUnobservable).flatMap(x => x)
-
 }
 
 /**
@@ -40,9 +35,7 @@ Rx.Observable.prototype.flattenObservable = function () {
  * @return {Rx.Observable}
  */
 Rx.Observable.prototype.filterNull = function () {
-
   return this.filter(x => x != null)
-
 }
 
 /**
@@ -51,9 +44,7 @@ Rx.Observable.prototype.filterNull = function () {
  * @return {Promise}
  */
 Rx.Observable.prototype.getPromise = function () {
-
   return new Promise((resolve, reject) => this.takeLast(1).subscribe(x => resolve(x), error => reject(error), () => resolve()))
-
 }
 
 /**
@@ -63,9 +54,7 @@ Rx.Observable.prototype.getPromise = function () {
  * @return {Object}
  */
 Rx.Observable.prototype.emitInto = function (dom) {
-
   return this.forEach(event => $(dom).trigger(event))
-
 }
 
 /**
@@ -75,9 +64,7 @@ Rx.Observable.prototype.emitInto = function (dom) {
  * @return {Rx.Observable}
  */
 Rx.Observable.prototype.hook = function (f) {
-
   return this.filter(item => (f(item) || true))
-
 }
 
 /**
@@ -86,7 +73,5 @@ Rx.Observable.prototype.hook = function (f) {
  * @return {Rx.Observable}
  */
 window.Array.prototype.toFlatStream = function () {
-
   return Rx.Observable.of.apply(null, this).flattenObservable()
-
 }

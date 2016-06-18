@@ -12,7 +12,7 @@ const {component, on} = $.cc
 class OutroScene extends Context {
 
   @on('play-scene.won play-scene.failed')
-  main() {
+  main () {
     super.main()
   }
 
@@ -21,7 +21,7 @@ class OutroScene extends Context {
    *
    * @override
    */
-  setUp() {
+  setUp () {
     const layout = new PlaySceneLayout()
 
     this.getResultPane().setRect(layout.resultPaneRect())
@@ -33,11 +33,10 @@ class OutroScene extends Context {
    *
    * @override
    */
-  start() {
+  start () {
     return this.getResultPane().show(30000000)
 
     .then(() => {
-
       Cell.disappear()
 
       this.getMenuButton().hide()
@@ -45,7 +44,6 @@ class OutroScene extends Context {
       this.getScoreboard().disappear()
 
       return this.getField().disappear()
-
     })
 
     .then(() => this.getBall().goCenterX())
@@ -53,11 +51,9 @@ class OutroScene extends Context {
     .then(() => this.getBall().goCenterY())
 
     .then(() => Promise.all([
-
       this.getCharacter().turn('down'),
       this.getCharacter().show(400),
       this.getBall().disappear()
-
     ]))
 
     .then(() => this.getCharacter().moveTo('y', 800, 1000))

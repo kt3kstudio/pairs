@@ -9,22 +9,19 @@ import {wait, Image, DirStateImageMap} from 'spn'
  */
 @traits(Sprite)
 export default class StayRunSprite {
-
   /**
    * Returns the default direction.
    */
-  defaultDir() { return 'left' }
-  defaultState() { return 'stay' }
+  defaultDir () { return 'left' }
+  defaultState () { return 'stay' }
 
-  initSprite() {
-
+  initSprite () {
     this.dirStateImage = new DirStateImageMap()
 
     this.dirStateImage.addImageByDirState(new Image(this.leftStayImage()), 'left', 'stay')
     this.dirStateImage.addImageByDirState(new Image(this.leftRunImage()), 'left', 'run')
     this.dirStateImage.addImageByDirState(new Image(this.leftStayImage(), true), 'right', 'stay')
     this.dirStateImage.addImageByDirState(new Image(this.leftRunImage(), true), 'right', 'run')
-
   }
 
   /**
@@ -32,8 +29,7 @@ export default class StayRunSprite {
    * @param {string} dir The direction to run away
    * @return {Promise}
    */
-  runAway(dir) {
-
+  runAway (dir) {
     this.setDirState(dir, 'run')
 
     const isRight = dir === 'right'
@@ -53,16 +49,11 @@ export default class StayRunSprite {
     .then(() => this.elem.remove())
   }
 
-  runAwayRight() {
-
+  runAwayRight () {
     return this.runAway('right')
-
   }
 
-  runAwayLeft() {
-
+  runAwayLeft () {
     return this.runAway('left')
-
   }
-
 }

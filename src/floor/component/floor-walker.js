@@ -14,7 +14,7 @@ const {component, on} = $.cc
 @component('floor-walker')
 class FloorWalker extends Body {
 
-  constructor(elem) {
+  constructor (elem) {
     super()
 
     this.initSprite(elem)
@@ -22,15 +22,13 @@ class FloorWalker extends Body {
     this.characterRepository = new CharacterRepository()
   }
 
-  ratioX() { return 0.5 }
-  ratioY() { return 1 }
+  ratioX () { return 0.5 }
+  ratioY () { return 1 }
 
-  willShow() {
-
+  willShow () {
     this.updateSprite()
 
     return super.willShow()
-
   }
 
   /**
@@ -39,21 +37,17 @@ class FloorWalker extends Body {
    * @param {FloorAsset} floorAsset The wall object
    * @return {Promise}
    */
-  appearAt(floorAsset) {
-
+  appearAt (floorAsset) {
     this.current = floorAsset
 
     this.x = floorAsset.x
     this.y = floorAsset.y
 
     return floorAsset.open().then(() => {
-
       this.turn('down')
 
       return this.show()
-
     })
-
   }
 
   /**
@@ -61,25 +55,20 @@ class FloorWalker extends Body {
    * @param {FloorAsset} floorAsset The floor asset
    */
   @on('door-knock')
-  doorKnock(e, floorAsset) {
-
+  doorKnock (e, floorAsset) {
     this.moveToFloorAsset(floorAsset)
-
   }
 
   /**
    * Character goes to another floor.
-   *
    * @param {Event} e The event object
    */
   @on('character-goto')
-  characterGoto(e) {
-
+  characterGoto (e) {
     this.character.position.floorId = e.goto.floorId
     this.character.position.floorObjectId = e.goto.floorObjectId
 
     this.saveCharacter().then(() => this.elem.trigger('sceneReload'))
-
   }
 
   /**
@@ -87,10 +76,8 @@ class FloorWalker extends Body {
    *
    * @return {datadomain.CharPosition}
    */
-  getPosition() {
-
+  getPosition () {
     return this.character.position
-
   }
 
   /**
@@ -98,21 +85,17 @@ class FloorWalker extends Body {
    *
    * @param {String} floorObjectId The floor object id
    */
-  setFloorObjectId(floorObjectId) {
-
+  setFloorObjectId (floorObjectId) {
     this.character.position.floorObjectId = floorObjectId
 
     this.saveCharacter()
-
   }
 
   /**
    * Saves the character data.
    */
-  saveCharacter() {
-
+  saveCharacter () {
     return this.characterRepository.save(this.character)
-
   }
 
   /**
@@ -121,8 +104,7 @@ class FloorWalker extends Body {
    * @param {FloorAsset} floorAsset The wall object to go to
    * @return {Promise}
    */
-  moveToFloorAsset(floorAsset) {
-
+  moveToFloorAsset (floorAsset) {
     const current = this.current
 
     this.setFloorObjectId(floorAsset.id)
@@ -140,40 +122,32 @@ class FloorWalker extends Body {
     return this.moveTo('y', current.y + goOutDistance, goOutDur)
 
     .then(() => {
-
       this.elem.trigger('character-move', [floorAsset.x, moveOnCorridor])
 
       floorAsset.open()
 
       return this.moveTo('x', floorAsset.x, moveOnCorridor)
-
     })
 
     .then(() => this.moveTo('y', floorAsset.y, goIntoDur))
 
     .then(() => {
-
       this.current = floorAsset
 
       floorAsset.onGetWalker(this)
 
       return this.turn('down')
-
     })
-
   }
 
   /**
    * Gets the character into the door.
    */
-  getIntoDoor() {
-
+  getIntoDoor () {
     this.turn('up')
 
     return this.disappear().then(() => this.current.close())
-
   }
-
 }
 
 module.exports = FloorWalker

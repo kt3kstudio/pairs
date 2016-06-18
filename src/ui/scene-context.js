@@ -6,16 +6,14 @@
  */
 export default class SceneContext {
 
-  main() {
-
+  main () {
     return Promise
 
-    .resolve(this.load())
+      .resolve(this.load())
 
-    .then(() => this.setUp())
+      .then(() => this.setUp())
 
-    .then(() => this.start())
-
+      .then(() => this.start())
   }
 
   /**
@@ -23,7 +21,7 @@ export default class SceneContext {
    *
    * @abstract
    */
-  load() {}
+  load () {}
 
   /**
    * Sets up the services necessary for the scene.
@@ -32,22 +30,21 @@ export default class SceneContext {
    *
    * @abstract
    */
-  setUp() {}
+  setUp () {}
 
   /**
    * Starts the scene.
    *
    * @abstract
    */
-  start() {}
+  start () {}
 
   /**
    * Gets the class component of the given name inside the element.
    *
    * @param {string} className The class name of the component
    */
-  get(className) {
-
+  get (className) {
     return this.elem.find('.' + className).cc.get(className)
   }
 
@@ -56,10 +53,8 @@ export default class SceneContext {
    *
    * @param {string} className The class name of the component
    */
-  getAtElem(className) {
-
+  getAtElem (className) {
     return this.elem.cc.get(className)
-
   }
 
   /**
@@ -68,10 +63,8 @@ export default class SceneContext {
    * @param {string} selector The selector for searching
    * @param {string} className The class name of the component
    */
-  getGlobal(selector, className) {
-
+  getGlobal (selector, className) {
     return $(selector).cc.get(className)
-
   }
 
   /**
@@ -79,10 +72,8 @@ export default class SceneContext {
    *
    * @return {ui.common.MenuButton}
    */
-  getMenuButton() {
-
+  getMenuButton () {
     return this.getGlobal('.menu-button-root', 'menu-button')
-
   }
 
 }

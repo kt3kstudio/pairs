@@ -5,7 +5,7 @@ const {component} = $.cc
  */
 @component('swipe-field')
 export default class SwipeField {
-  constructor(elem) {
+  constructor (elem) {
     elem.swipeCross()
 
     $(document).arrowkeys()

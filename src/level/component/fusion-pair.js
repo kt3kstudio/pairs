@@ -14,13 +14,11 @@ export default class FusionPair {
    * @param {Cell} left The left cell
    * @param {Cell} right The right cell
    */
-  constructor(left, right) {
-
+  constructor (left, right) {
     this.left = left
     this.right = right
 
     this.__newGene__ = meiosis.recombination(this.leftGene(), this.rightGene())
-
   }
 
   /**
@@ -30,10 +28,8 @@ export default class FusionPair {
    * @param {String} y The second gene
    * @returns {String} The new gene
    */
-  newGene() {
-
+  newGene () {
     return this.__newGene__
-
   }
 
   /**
@@ -41,13 +37,11 @@ export default class FusionPair {
    *
    * @return {Boolean}
    */
-  isEvolving() {
-
+  isEvolving () {
     const prevLength = Math.max(meiosis.virtualLength(this.leftGene()), meiosis.virtualLength(this.rightGene()))
     const newLength = meiosis.virtualLength(this.newGene())
 
     return newLength > prevLength
-
   }
 
   /**
@@ -55,10 +49,8 @@ export default class FusionPair {
    *
    * @return {Boolean}
    */
-  isLastOne() {
-
+  isLastOne () {
     return isLastOne(this.left) || isLastOne(this.right)
-
   }
 
   /**
@@ -66,10 +58,8 @@ export default class FusionPair {
    *
    * @return {String}
    */
-  leftGene() {
-
+  leftGene () {
     return getGene(this.left)
-
   }
 
   /**
@@ -77,10 +67,8 @@ export default class FusionPair {
    *
    * @return {String}
    */
-  rightGene() {
-
+  rightGene () {
     return getGene(this.right)
-
   }
 
   /**
@@ -88,20 +76,15 @@ export default class FusionPair {
    *
    * @return {Number} The score
    */
-  score() {
-
+  score () {
     const length = meiosis.virtualLength(this.newGene())
 
     let s = Math.pow(length, 2) * 10
 
     if (this.isLastOne()) {
-
       s *= 2
-
     }
 
     return s
-
   }
-
 }

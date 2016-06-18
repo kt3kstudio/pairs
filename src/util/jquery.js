@@ -1,4 +1,4 @@
-import {wait, reflow} from 'spn'
+import { wait, reflow } from 'spn'
 
 /**
  * Performs the animation.
@@ -6,13 +6,11 @@ import {wait, reflow} from 'spn'
  * @param {String} animation The css animation
  */
 $.fn.animation = function (animation) {
-
   this.css('-webkit-animation', '')
   reflow(this)
   this.css('-webkit-animation', animation)
 
   return this
-
 }
 
 /**
@@ -23,11 +21,9 @@ $.fn.animation = function (animation) {
  * @return {Promise}
  */
 $.fn.anim = function (animation, dur) {
-
   this.animation(animation + ' ' + dur + 'ms')
 
   return wait(dur, this)
-
 }
 
 /**
@@ -37,9 +33,7 @@ $.fn.anim = function (animation, dur) {
  * @return {Promise}
  */
 $.fn.once = function (events) {
-
   return new Promise((resolve) => this.one(events, resolve))
-
 }
 
 /**
@@ -49,9 +43,7 @@ $.fn.once = function (events) {
  * @return {Rx.Observable}
  */
 $.fn.streamOf = function (events) {
-
   return Rx.Observable.fromEvent(this, events)
-
 }
 
 /**
@@ -60,10 +52,7 @@ $.fn.streamOf = function (events) {
  * @return {Promise}
  */
 $.fn.imageLoaded = function () {
-
-  return new Promise((resolve, reject) =>
-
-    this
+  return new Promise((resolve, reject) => this
 
     .on('error', () => reject(new Error('image can not be loaded: ' + this.attr('src'))))
 
@@ -72,6 +61,4 @@ $.fn.imageLoaded = function () {
     .attr('src', this.attr('src'))
 
   )
-
 }
-

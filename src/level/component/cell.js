@@ -13,10 +13,10 @@ const ALL_CELLS = []
  */
 @component('cell')
 export default class Cell extends GridWalker {
-  cellRatioX() { return 0.65 }
-  cellRatioY() { return 0.65 }
+  cellRatioX () { return 0.65 }
+  cellRatioY () { return 0.65 }
 
-  constructor(elem) {
+  constructor (elem) {
     super()
 
     /**
@@ -34,7 +34,7 @@ export default class Cell extends GridWalker {
    * Disappears all the cells.
    * @return {Promise<Cell[]>}
    */
-  static disappear() {
+  static disappear () {
     return Promise.all(ALL_CELLS.map((cell, i) => wait(40 * i).then(() => cell.disappear())))
   }
 
@@ -43,7 +43,7 @@ export default class Cell extends GridWalker {
    *
    * @return {Cell}
    */
-  setLastOne() {
+  setLastOne () {
     this.__isLastOne = true
 
     return this
@@ -54,12 +54,10 @@ export default class Cell extends GridWalker {
    *
    * @return {Cell}
    */
-  unsetLastOne() {
-
+  unsetLastOne () {
     this.__isLastOne = false
 
     return this
-
   }
 
   /**
@@ -67,32 +65,26 @@ export default class Cell extends GridWalker {
    *
    * @return {Boolean}
    */
-  isLastOne() {
-
+  isLastOne () {
     return this.__isLastOne
-
   }
 
   /**
    * Sets the flag of being evolved from the parents.
    */
-  setEvolved() {
-
+  setEvolved () {
     this.__evolved = true
 
     return this
-
   }
 
   /**
    * Unsets the flag of being evolved.
    */
-  unsetEvolved() {
-
+  unsetEvolved () {
     this.__evolved = false
 
     return this
-
   }
 
   /**
@@ -100,10 +92,8 @@ export default class Cell extends GridWalker {
    *
    * @return {Boolean}
    */
-  isEvolved() {
-
+  isEvolved () {
     return this.__evolved
-
   }
 
   /**
@@ -112,42 +102,30 @@ export default class Cell extends GridWalker {
    * @private
    * @return {String}
    */
-  selectImage() {
-
+  selectImage () {
     if (this.gene === 'f') {
-
       return 'img/neef.svg'
-
     }
 
     if (this.gene === 'm') {
-
       return 'img/nim.svg'
-
     }
 
     if (this.gene === 'a') {
-
       return 'img/ankh.svg'
-
     }
 
     if (this.gene === 'w') {
-
       return 'img/wheel.svg'
-
     }
 
     if (this.gene === 'b') {
-
       return 'img/box.svg'
-
     }
 
     const cellKind = BomTable[this.gene.length]
 
     return 'img/' + cellKind + '.svg'
-
   }
 
   /**
@@ -155,22 +133,18 @@ export default class Cell extends GridWalker {
    *
    * @return {jQuery}
    */
-  willShow() {
-
+  willShow () {
     return super.willShow()
 
     .then(() => {
-
       this.elem.attr('data', this.selectImage())
 
       this.setTransitionDuration(300)
 
       return this.elem.once('load')
-
     })
 
     .then(() => {
-
       this.fitToGrid()
 
       const genes = this.gene.split('')
@@ -178,13 +152,9 @@ export default class Cell extends GridWalker {
       const $svg = $(this.elem[0].contentDocument)
 
       for (let i = 0; i < genes.length; i++) {
-
         $('#' + i, $svg).attr('class', genes[i])
-
       }
-
     })
-
   }
 
   /**
@@ -192,22 +162,18 @@ export default class Cell extends GridWalker {
    *
    * For example, change the size of the dom.
    */
-  resetShapeAndLocate() {
-
+  resetShapeAndLocate () {
     return this.fitToGrid()
-
   }
 
-  showAnim() { return new Animation('bom-appear', 500) }
+  showAnim () { return new Animation('bom-appear', 500) }
 
-  hideAnim() { return new Animation('bom-disappear', 500) }
+  hideAnim () { return new Animation('bom-disappear', 500) }
 
-  remove() {
-
+  remove () {
     this.elem.remove()
 
     ALL_CELLS.splice(ALL_CELLS.indexOf(this), 1)
-
   }
 
   /**
@@ -216,34 +182,23 @@ export default class Cell extends GridWalker {
    * @param {string} animation
    * @param {number} duration
    */
-  anim(animation, duration) {
-
+  anim (animation, duration) {
     return this.elem.anim(animation, duration)
-
   }
 
-  up() {
-
+  up () {
     return this.moveUpOnGrid()
-
   }
 
-  down() {
-
+  down () {
     return this.moveDownOnGrid()
-
   }
 
-  left() {
-
+  left () {
     return this.moveLeftOnGrid()
-
   }
 
-  right() {
-
+  right () {
     return this.moveRightOnGrid()
-
   }
-
 }

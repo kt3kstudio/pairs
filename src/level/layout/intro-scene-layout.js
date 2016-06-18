@@ -1,4 +1,4 @@
-import {Rect, LayoutFactory} from 'spn'
+import { Rect, LayoutFactory } from 'spn'
 
 const BOTTOM_AD_SAFETY_HEIGHT = 50 // The ad safety zone
 /**
@@ -6,8 +6,7 @@ const BOTTOM_AD_SAFETY_HEIGHT = 50 // The ad safety zone
  */
 export default class IntroSceneLayout extends LayoutFactory {
 
-  constructor() {
-
+  constructor () {
     super()
 
     this.main = Rect.windowAsRect().margin({
@@ -16,7 +15,6 @@ export default class IntroSceneLayout extends LayoutFactory {
       horizontal: 2,
       vertical: 3
     })
-
   }
 
   /**
@@ -24,14 +22,12 @@ export default class IntroSceneLayout extends LayoutFactory {
    *
    * @return {Grid}
    */
-  centerGrid() {
-
+  centerGrid () {
     return this
-    .main
-    .shiftDown(0.21)
-    .toGrid()
-    .override({cellWidth: 70, cellHeight: 70})
-
+      .main
+      .shiftDown(0.21)
+      .toGrid()
+      .override({cellWidth: 70, cellHeight: 70})
   }
 
   /**
@@ -39,14 +35,11 @@ export default class IntroSceneLayout extends LayoutFactory {
    *
    * @return {Grid}
    */
-  residentGrid() {
-
+  residentGrid () {
     return this
-    .main
-    .scaleRight(1 / 3)
-    .scaleBottom(1 / 2)
-    .toGrid()
-
+      .main
+      .scaleRight(1 / 3)
+      .scaleBottom(1 / 2)
+      .toGrid()
   }
-
 }

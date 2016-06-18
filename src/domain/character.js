@@ -6,7 +6,6 @@
  * [AggregateRoot]
  */
 export default class Character {
-
   /**
    * @constructor
    * @param {String} id The id of the character
@@ -16,7 +15,7 @@ export default class Character {
    * @param {datadomain.PlayingState} playingState The state of playing at the current level
    * @param {datadomain.LevelLockCollection} locks The collection of the level locks
    */
-  constructor(id, name, position, histories, playingState, locks) {
+  constructor (id, name, position, histories, playingState, locks) {
     /**
      * @property {String} id The id of the character
      */
@@ -46,7 +45,6 @@ export default class Character {
      * @property {datadomain.LevelLockCollection} collection The collection of the locks
      */
     this.locks = locks
-
   }
 
   /**
@@ -54,10 +52,8 @@ export default class Character {
    *
    * @param {datadomain.CharPosition} position The position of the character
    */
-  setPosition(position) {
-
+  setPosition (position) {
     this.position = position
-
   }
 
   /**
@@ -65,20 +61,16 @@ export default class Character {
    *
    * @return {Promise} resolves with updated character
    */
-  reloadHistories() {
-
+  reloadHistories () {
     if (this.position == null) {
       return Promise.resolve(this)
     }
 
     return new datadomain.LevelHistoryRepository(this.id).getByFloorId(this.position.floorId).then(histories => {
-
       this.histories = histories
 
       return this
-
     })
-
   }
 
   /**
@@ -86,17 +78,14 @@ export default class Character {
    *
    * @return {Promise}
    */
-  saveHistories() {
-
+  saveHistories () {
     return new datadomain.LevelHistoryRepository(this.id).saveByFloorId(this.position.floorId, this.histories).then(() => this)
-
   }
 
   /**
    * Reloads the level locks.
    */
-  reloadLocks() {
-
+  reloadLocks () {
     if (this.position == null) {
       return Promise.resolve(this)
     }
@@ -106,16 +95,13 @@ export default class Character {
 
       return this
     })
-
   }
 
   /**
    * Saves the current level locks.
    */
-  saveLocks() {
-
+  saveLocks () {
     return new datadomain.LevelLockRepository(this.id).saveByFloorId(this.position.floorId, this.locks).then(() => this)
-
   }
 
   /**
@@ -123,16 +109,12 @@ export default class Character {
    *
    * @return {Promise}
    */
-  reloadPlayingState() {
-
+  reloadPlayingState () {
     return new datadomain.PlayingStateRepository().getByCharIdLevelId(this.id, this.position.floorObjectId).then(playingState => {
-
       this.playingState = playingState
 
       return this
-
     })
-
   }
 
   /**
@@ -140,10 +122,8 @@ export default class Character {
    *
    * @return {Promise}
    */
-  savePlayingState() {
-
+  savePlayingState () {
     return new datadomain.PlayingStateRepository().save(this.playingState).then(() => this)
-
   }
 
   /**
@@ -151,18 +131,13 @@ export default class Character {
    *
    * @return {Promise}
    */
-  clearPlayingState() {
-
+  clearPlayingState () {
     return new datadomain.PlayingStateRepository().clearByCharId(this.id)
-
   }
 
   /**
    */
-  getFloorObjectId() {
-
+  getFloorObjectId () {
     return this.position.floorObjectId
-
   }
-
 }

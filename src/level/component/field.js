@@ -10,20 +10,17 @@ const {component} = $.cc
 @component('field-grid')
 export default class Field extends Body {
 
-  showAnim() { return new Animation('field-appear', 200) }
+  showAnim () { return new Animation('field-appear', 200) }
 
-  hideAnim() { return new Animation('field-disappear', 400) }
+  hideAnim () { return new Animation('field-disappear', 400) }
 
   /**
    * @param {Rect} rect The rect to fit into
    */
-  setRect(rect) {
-
+  setRect (rect) {
     super.setRect(rect)
 
     this.posture.marginX = -5
     this.posture.marginY = -5
-
   }
-
 }

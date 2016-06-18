@@ -10,27 +10,25 @@ const {component} = $.cc
 @component('paper')
 @traits(StaticSprite)
 export default class Paper extends GridWalker {
-
-  constructor(elem) {
+  constructor (elem) {
     super(elem)
 
     this.initSprite()
   }
 
-  willShow() {
+  willShow () {
     this.updateSprite()
 
     return super.willShow()
   }
 
-  width() { return 50 }
-  height() { return 50 }
-  ratioX() { return 0.5 }
-  ratioY() { return 1 }
+  width () { return 50 }
+  height () { return 50 }
+  ratioX () { return 0.5 }
+  ratioY () { return 1 }
 
-  image() { return 'img/paper.svg' }
+  image () { return 'img/paper.svg' }
 
-  showAnim() { return new Animation('paper-appear', 500) }
-  hideAnim() { return new Animation('paper-disappear', 500) }
-
+  showAnim () { return new Animation('paper-appear', 500) }
+  hideAnim () { return new Animation('paper-disappear', 500) }
 }
