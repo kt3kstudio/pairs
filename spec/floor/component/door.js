@@ -1,13 +1,14 @@
 import '../../../src/floor/component/door'
 
+const {div} = require('dom-gen')
+
 describe('Door', () => {
   'use strict'
 
   let door, $dom
 
   beforeEach(() => {
-    $dom = $('<div w="100" h="90" x="200" y="300" level="701" id="701" />')
-    $dom.appendTo(document.body)
+    $dom = div({attr: {w: 100, h: 90, x: 200, y: 300, level: 701, id: 701}}).appendTo(document.body)
 
     door = $dom.cc.init('door')
   })
