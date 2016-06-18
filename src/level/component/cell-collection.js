@@ -23,7 +23,6 @@ export default class CellCollection {
 
   /**
    * Checks if the field is empty.
-   *
    * @return {Boolean}
    */
   isEmpty () {
@@ -79,8 +78,7 @@ export default class CellCollection {
   }
 
   /**
-   * Appears all the cells
-   *
+   * Appears all the cells.
    * @return {Promise} The promise which resolves with the last cell when it resolved
    */
   appear () {
@@ -89,7 +87,6 @@ export default class CellCollection {
 
   /**
    * Reset the shapes of the cells and locate them.
-   *
    * @return {Promise}
    */
   resetShapeAndLocate () {
@@ -98,7 +95,6 @@ export default class CellCollection {
 
   /**
    * Selects all the cells at the position.
-   *
    * @param {Object} pos The position
    * @return {Array}
    */
@@ -108,7 +104,6 @@ export default class CellCollection {
 
   /**
    * Finds a cell at the position.
-   *
    * @param {Object} pos The position.
    * @return {Cell}
    */
@@ -124,7 +119,6 @@ export default class CellCollection {
 
   /**
    * Selects the cells below the given postion.
-   *
    * @param {Object} pos The position
    * @return {Array}
    */
@@ -134,7 +128,6 @@ export default class CellCollection {
 
   /**
    * Removes the given cells.
-   *
    * @param {Array} cells The cells
    */
   remove (cells) {
@@ -143,7 +136,6 @@ export default class CellCollection {
 
   /**
    * Returns the list of used position indices.
-   *
    * @return {Array}
    */
   usedIndices () {
