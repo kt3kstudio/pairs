@@ -26,19 +26,17 @@ describe('Staircase', () => {
       // TODO: some assertion
     })
 
-    it('binds to click event', function (done) {
+    it('binds to click event', done => {
       staircase.willShow()
 
-      staircase.elem.on('click', function () {
-        done()
-      })
+      staircase.elem.on('click', () => done())
 
       staircase.elem.trigger('click')
     })
   })
 
   describe('onGetWalker', () => {
-    it('triggers the character-goto event', (done) => {
+    it('triggers the character-goto event', done => {
       staircase.elem.on('character-goto', () => {
         done()
       })
