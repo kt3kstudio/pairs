@@ -10,12 +10,12 @@ export default class FloorAsset extends Body {
   ratioY () { return 1 }
 
   constructor (elem) {
-    super(elem)
+    super()
 
-    this.x = +this.elem.attr('x')
-    this.y = +this.elem.attr('y')
+    this.x = +elem.attr('x')
+    this.y = +elem.attr('y')
 
-    this.id = this.elem.attr('id')
+    this.id = elem.attr('id')
   }
 
   /**
