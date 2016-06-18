@@ -122,7 +122,7 @@ class Mobs {
 
     w = w[0]
 
-    this.cells.selectRange(pos).forEach(cell => cell.up())
+    this.cells.selectRange(pos).forEach(cell => cell.moveUpOnGrid())
 
     return w
   }

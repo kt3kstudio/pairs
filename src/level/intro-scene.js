@@ -36,9 +36,7 @@ export default class IntroScene extends Context {
 
     .then(() => this.loadCharacter(this.user.charId))
 
-    .then(() => this.loadLevel(this.character.getFloorObjectId()))
-
-    .then(() => this.loadLevelNext(this.character.getFloorObjectId()))
+    .then(() => this.loadLevelContents(this.character.getFloorObjectId()))
   }
 
   /**
@@ -61,21 +59,10 @@ export default class IntroScene extends Context {
 
   /**
    * Loads the level of the given id.
-   * @deprecated
    * @param {string} id The id of the level
    * @return {Promise}
    */
-  loadLevel (id) {
-    return new datadomain.LevelRepository().getById(id)
-    .then(level => { this.level = level })
-  }
-
-  /**
-   * Loads the level of the given id.
-   * @param {string} id The id of the level
-   * @return {Promise}
-   */
-  loadLevelNext (id) {
+  loadLevelContents (id) {
     return Promise.resolve($.get(this.getLevelDataUrl(id))).then(levelData => {
       $(levelData).appendTo(this.elem)
     })

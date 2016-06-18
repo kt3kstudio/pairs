@@ -1,5 +1,6 @@
 import SceneContext from '../ui/scene-context'
 require('./component')
+require('./service')
 
 /**
  * The common context for level scenes.
@@ -68,6 +69,14 @@ class Context extends SceneContext {
    */
   residents (name) {
     return this.elem.find('.' + name).toArray().map(dom => $(dom).cc.get(name))
+  }
+
+  /**
+   * Gets the gene source.
+   * @return {GeneSource}
+   */
+  geneSource () {
+    return this.get('gene-source')
   }
 
   /**

@@ -5,8 +5,6 @@ import FusionPreparationService from './component/fusion-preparation-service'
 import BallMoveMobLeaveService from './component/ball-move-mob-leave-service'
 import ExitQueue from './component/exit-queue'
 
-require('./service/cell-queue-bump-service')
-
 const {component, on, trigger} = $.cc
 
 /**
@@ -27,10 +25,9 @@ class PlayScene extends Context {
     const layout = new PlaySceneLayout()
 
     this.character = this.getCharacter().character
-    this.level = this.introScene().level
 
     this.cells().setGrid(layout.playGrid())
-    this.cells().loadFromObjectList(this.level.cells.cells)
+    this.cells().loadFromGenes(this.geneSource().genes)
 
     this.getField().setRect(layout.fieldRect())
 

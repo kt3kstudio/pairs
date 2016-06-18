@@ -6,15 +6,12 @@
 ## refactor(Rx.Observable)
 - remove prototype extension
 
-## feat(cell-source):
-- CellSource @component('cell-source')
-
 ## feat(unlock):
 - unlock the next level when the result is success
 - unlock the staircase
 
 ## feat(special-stage):
-- create special stage
+- create special stage per floor
 
 ## feat(opening):
 - create opening
@@ -52,8 +49,6 @@
 - Ad integration (in android, ios side, maybe better to create it as straw plugin)
 - Choose ad platform
 
---
-
 ## feat(speech)
 - Cancel (skip) target in the DSL.
 
@@ -65,6 +60,8 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- GeneSource @component('gene-source')
+- remove Level, Cell and Goal models in datadomain
 - switch to standard (very difficult because of decorator uses.)
 - use dom-gen where possible
 - update dom-gen to 2.3 and replace object usage

@@ -19,21 +19,6 @@ export default class CellCollection {
    */
   setGrid (grid) {
     this.grid = grid
-
-    return this
-  }
-
-  /**
-   * Create a cell from a bom object.
-   *
-   * @param {Object} obj The bom object
-   * @return {Cell}
-   */
-  createCellFromObject (obj) {
-    return object({
-      data: {gene: obj.gene},
-      prependTo: this.elem
-    }).cc.init('cell')
   }
 
   /**
@@ -45,14 +30,20 @@ export default class CellCollection {
     return this.cells.length === 0
   }
 
+  loadFromGenes (genes) {
+    this.loadList(genes.map(gene => this.createCellFromGene(gene)))
+  }
+
   /**
-   * Loads field cells from object list.
-   *
-   * @param {Array} list The list of cells (Object)
-   * @return {CellCollection}
+   * Create a cell from the gene.
+   * @param {string} gene The gene string
+   * @return {Cell}
    */
-  loadFromObjectList (list) {
-    return this.loadList(list.map(obj => this.createCellFromObject(obj)))
+  createCellFromGene (gene) {
+    return object({
+      data: {gene: gene},
+      prependTo: this.elem
+    }).cc.init('cell')
   }
 
   /**
@@ -102,7 +93,7 @@ export default class CellCollection {
    * @return {Promise}
    */
   resetShapeAndLocate () {
-    return this.cells.map((cell, i) => wait(i * 56).then(() => cell.resetShapeAndLocate())).pop()
+    return this.cells.map((cell, i) => wait(i * 56).then(() => cell.fitToGrid())).pop()
   }
 
   /**

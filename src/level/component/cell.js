@@ -157,15 +157,6 @@ export default class Cell extends GridWalker {
     })
   }
 
-  /**
-   * Reset the shape of the cell.
-   *
-   * For example, change the size of the dom.
-   */
-  resetShapeAndLocate () {
-    return this.fitToGrid()
-  }
-
   showAnim () { return new Animation('bom-appear', 500) }
 
   hideAnim () { return new Animation('bom-disappear', 500) }
@@ -184,21 +175,5 @@ export default class Cell extends GridWalker {
    */
   anim (animation, duration) {
     return this.elem.anim(animation, duration)
-  }
-
-  up () {
-    return this.moveUpOnGrid()
-  }
-
-  down () {
-    return this.moveDownOnGrid()
-  }
-
-  left () {
-    return this.moveLeftOnGrid()
-  }
-
-  right () {
-    return this.moveRightOnGrid()
   }
 }
