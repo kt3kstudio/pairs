@@ -1,62 +1,62 @@
 describe('Scoreboard', function () {
-    'use strict'
+  'use strict'
 
-    var elem, scoreboard
+  var elem, scoreboard
 
-    beforeEach(function () {
+  beforeEach(function () {
 
-        elem = $('<div />')
+    elem = $('<div />')
 
-        scoreboard = elem.cc.init('scoreboard')
+    scoreboard = elem.cc.init('scoreboard')
 
-    })
+  })
 
-    it('sets the initial score 0', function () {
+  it('sets the initial score 0', function () {
 
-        expect(scoreboard.getScore()).to.equal(0)
+    expect(scoreboard.getScore()).to.equal(0)
 
-    })
+  })
 
-    describe('show', function () {
+  describe('show', function () {
 
-        it('shows the element', function () {
+    it('shows the element', function () {
 
-            return scoreboard.show()
-
-        })
+      return scoreboard.show()
 
     })
 
-    describe('addScore', function () {
+  })
 
-        it('adds the score', function () {
+  describe('addScore', function () {
 
-            scoreboard.addScore(10)
+    it('adds the score', function () {
 
-            expect(scoreboard.getScore()).to.equal(10)
+      scoreboard.addScore(10)
 
-            scoreboard.addScore(1000)
+      expect(scoreboard.getScore()).to.equal(10)
 
-            expect(scoreboard.getScore()).to.equal(1010)
-            expect(scoreboard.elem.text()).to.equal('1,010')
+      scoreboard.addScore(1000)
 
-            scoreboard.addScore(20000)
+      expect(scoreboard.getScore()).to.equal(1010)
+      expect(scoreboard.elem.text()).to.equal('1,010')
 
-            expect(scoreboard.getScore()).to.equal(21010)
-            expect(scoreboard.elem.text()).to.equal('21,010')
+      scoreboard.addScore(20000)
 
-        })
+      expect(scoreboard.getScore()).to.equal(21010)
+      expect(scoreboard.elem.text()).to.equal('21,010')
+
+    })
+
+  })
+
+  describe('getScore', function () {
+
+    it('gets the score', function () {
+
+      expect(scoreboard.getScore()).to.equal(0)
 
     })
 
-    describe('getScore', function () {
-
-        it('gets the score', function () {
-
-            expect(scoreboard.getScore()).to.equal(0)
-
-        })
-
-    })
+  })
 
 })

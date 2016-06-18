@@ -18,25 +18,25 @@ const R = 60 // radius of menu item arrangment
  */
 function itemOffsets(offset, num) {
 
-    const result = []
-    const gutter = Math.PI / 4 / num / num
-    const urad = num > 1 ? (Math.PI / 2 - gutter * 2) / (num - 1) : 0
+  const result = []
+  const gutter = Math.PI / 4 / num / num
+  const urad = num > 1 ? (Math.PI / 2 - gutter * 2) / (num - 1) : 0
 
-    const r = R * Math.sqrt(num)
+  const r = R * Math.sqrt(num)
 
-    for (let i = 0; i < num; i++) {
+  for (let i = 0; i < num; i++) {
 
-        const rad = urad * i
-        const cos = r * Math.cos(rad + gutter)
-        const sin = r * Math.sin(rad + gutter)
+    const rad = urad * i
+    const cos = r * Math.cos(rad + gutter)
+    const sin = r * Math.sin(rad + gutter)
 
-        const res = {left: offset.left + cos, top: offset.top - sin}
+    const res = {left: offset.left + cos, top: offset.top - sin}
 
-        result.push(res)
+    result.push(res)
 
-    }
+  }
 
-    return result
+  return result
 
 }
 
@@ -46,151 +46,151 @@ function itemOffsets(offset, num) {
 @component('menu-button')
 export default class MenuButton {
 
-    constructor(elem) {
-        this.elem = elem
+  constructor(elem) {
+    this.elem = elem
 
-        this.closed = true
+    this.closed = true
 
-        this.menus = this.getMenuItemSource().map(menu => this.createMenuItem(menu))
-    }
+    this.menus = this.getMenuItemSource().map(menu => this.createMenuItem(menu))
+  }
 
-    /**
-     * Gets item source doms.
-     *
-     * @return {jQuery[]}
-     */
-    getMenuItemSource() {
+  /**
+   * Gets item source doms.
+   *
+   * @return {jQuery[]}
+   */
+  getMenuItemSource() {
 
-        if (this.elem.data('menu')) {
+    if (this.elem.data('menu')) {
 
-            return this.elem.data('menu')
-
-        }
-
-        if (this.elem.attr('menu')) {
-
-            return $('#' + this.elem.attr('menu')).children().toArray()
-
-        }
-
-        throw new Error('no menu')
+      return this.elem.data('menu')
 
     }
 
-    /**
-     * Sets the offset.
-     *
-     * @param {Number} offset.left The left offset
-     * @param {Number} offset.top The top offset
-     */
-    setOffset(offset) {
+    if (this.elem.attr('menu')) {
 
-        this.menus.forEach(menu => menu.setOffset(offset))
+      return $('#' + this.elem.attr('menu')).children().toArray()
 
     }
 
-    /**
-     * Shows the menu button.
-     *
-     * @return {Promise}
-     */
-    show() {
+    throw new Error('no menu')
 
-        this.elem.removeClass('hidden')
+  }
 
-        return wait(TRANS_DUR).then(() => this.setOffset(this.elem.offset()))
+  /**
+   * Sets the offset.
+   *
+   * @param {Number} offset.left The left offset
+   * @param {Number} offset.top The top offset
+   */
+  setOffset(offset) {
 
-    }
+    this.menus.forEach(menu => menu.setOffset(offset))
 
-    /**
-     * Hides the menu button.
-     *
-     * @return {Promise}
-     */
-    hide() {
+  }
 
-        return this.closeMenu()
+  /**
+   * Shows the menu button.
+   *
+   * @return {Promise}
+   */
+  show() {
 
-        .then(() => wait(300))
+    this.elem.removeClass('hidden')
 
-        .then(() => {
+    return wait(TRANS_DUR).then(() => this.setOffset(this.elem.offset()))
 
-            this.elem.addClass('hidden')
+  }
 
-            return wait(TRANS_DUR)
+  /**
+   * Hides the menu button.
+   *
+   * @return {Promise}
+   */
+  hide() {
 
-        })
+    return this.closeMenu()
 
-    }
+    .then(() => wait(300))
 
-    /**
-     * Opens the menu.
-     *
-     * @return {Promise}
-     */
-    openMenu() {
+    .then(() => {
 
-        this.closed = false
+      this.elem.addClass('hidden')
 
-        const toOffsets = itemOffsets(this.elem.offset(), this.menus.length)
+      return wait(TRANS_DUR)
 
-        return Promise.all(this.menus.map((menu, i) => wait(50 * i).then(() => menu.show(toOffsets[i]))))
+    })
 
-    }
+  }
 
-    /**
-     * Closes the menu.
-     *
-     * @return {Promise}
-     */
-    closeMenu(offset) {
+  /**
+   * Opens the menu.
+   *
+   * @return {Promise}
+   */
+  openMenu() {
 
-        if (this.closed) {
+    this.closed = false
 
-            return Promise.resolve()
+    const toOffsets = itemOffsets(this.elem.offset(), this.menus.length)
 
-        }
+    return Promise.all(this.menus.map((menu, i) => wait(50 * i).then(() => menu.show(toOffsets[i]))))
 
-        this.closed = true
+  }
 
-        offset = offset || this.elem.offset()
+  /**
+   * Closes the menu.
+   *
+   * @return {Promise}
+   */
+  closeMenu(offset) {
 
-        return Promise.all(this.menus.map(menu => menu.hide(offset)))
+    if (this.closed) {
 
-    }
-
-    /**
-     * Toggles the menu's open/close state.
-     */
-    @on('click')
-    toggleMenu() {
-        return this.closed ? this.openMenu() : this.closeMenu()
-    }
-
-    /**
-     * Creates a menu item from menu source item.
-     *
-     * @private
-     * @param {jQuery} menu
-     */
-    createMenuItem(menu) {
-
-        menu = $(menu)
-
-        return img({
-
-            attr: {
-                src: menu.attr('src')
-            },
-            addClass: 'hidden',
-            insertBefore: this.elem,
-            data: {
-                menu: menu.children().toArray(),
-                onclick: menu.attr('onclick')
-            }
-
-        }).cc.init('menu-item')
+      return Promise.resolve()
 
     }
+
+    this.closed = true
+
+    offset = offset || this.elem.offset()
+
+    return Promise.all(this.menus.map(menu => menu.hide(offset)))
+
+  }
+
+  /**
+   * Toggles the menu's open/close state.
+   */
+  @on('click')
+  toggleMenu() {
+    return this.closed ? this.openMenu() : this.closeMenu()
+  }
+
+  /**
+   * Creates a menu item from menu source item.
+   *
+   * @private
+   * @param {jQuery} menu
+   */
+  createMenuItem(menu) {
+
+    menu = $(menu)
+
+    return img({
+
+      attr: {
+        src: menu.attr('src')
+      },
+      addClass: 'hidden',
+      insertBefore: this.elem,
+      data: {
+        menu: menu.children().toArray(),
+        onclick: menu.attr('onclick')
+      }
+
+    }).cc.init('menu-item')
+
+  }
 
 }

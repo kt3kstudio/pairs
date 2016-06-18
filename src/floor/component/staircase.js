@@ -11,62 +11,62 @@ const STAIRCASE_ANIMATION_DUR = 400
 @component('staircase')
 export default class Staircase extends FloorAsset {
 
-    showAnim() { return new Animation('door-appear', STAIRCASE_ANIMATION_DUR) }
+  showAnim() { return new Animation('door-appear', STAIRCASE_ANIMATION_DUR) }
 
-    hideAnim() { return new Animation('door-disappear', STAIRCASE_ANIMATION_DUR) }
+  hideAnim() { return new Animation('door-disappear', STAIRCASE_ANIMATION_DUR) }
 
-    constructor(elem) {
-        super(elem)
+  constructor(elem) {
+    super(elem)
 
-        this.goto = elem.data('goto') // must be parsed position object, not string
+    this.goto = elem.data('goto') // must be parsed position object, not string
 
-        this.locked = true
-    }
+    this.locked = true
+  }
 
-    /**
-     * Sets up the dom.
-     */
-    willShow() {
+  /**
+   * Sets up the dom.
+   */
+  willShow() {
 
-        super.willShow()
+    super.willShow()
 
-        if (this.locked) {
+    if (this.locked) {
 
-            this.spawnFrog()
+      this.spawnFrog()
 
-        } else {
+    } else {
 
-            this.enableDoorKnock()
-
-        }
+      this.enableDoorKnock()
 
     }
 
-    /**
-     * Enables the knock interaction.
-     */
-    enableDoorKnock() {
+  }
 
-        this.elem.one('click', () => this.doorKnock())
+  /**
+   * Enables the knock interaction.
+   */
+  enableDoorKnock() {
 
-    }
+    this.elem.one('click', () => this.doorKnock())
 
-    /**
-     * Disables the knock interaction.
-     */
-    disableDoorKnock() {
+  }
 
-        this.elem.off('click')
+  /**
+   * Disables the knock interaction.
+   */
+  disableDoorKnock() {
 
-    }
+    this.elem.off('click')
 
-    /**
-     * Triggers the reload event.
-     */
-    onGetWalker() {
+  }
 
-        this.elem.trigger($.Event('character-goto', {goto: this.goto}))
+  /**
+   * Triggers the reload event.
+   */
+  onGetWalker() {
 
-    }
+    this.elem.trigger($.Event('character-goto', {goto: this.goto}))
+
+  }
 
 }

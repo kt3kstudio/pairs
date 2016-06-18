@@ -1,65 +1,65 @@
 describe('Logo', function () {
-    'use strict'
+  'use strict'
 
-    var elem, logo
+  var elem, logo
 
-    beforeEach(function () {
-        elem = $('<img />')
+  beforeEach(function () {
+    elem = $('<img />')
 
-        logo = elem.cc.init('splash-logo')
+    logo = elem.cc.init('splash-logo')
+  })
+
+  describe('perform', function () {
+    it('shows and hides the component', function () {
+      var showCalled = false
+      var hideCalled = false
+
+      logo.show = function () {
+        showCalled = true
+
+        expect(hideCalled).to.be.false
+
+        return Promise.resolve()
+      }
+
+      logo.hide = function () {
+        expect(showCalled).to.be.true
+
+        hideCalled = true
+
+        return Promise.resolve()
+      }
+
+      return logo.perform().then(function () {
+        expect(showCalled).to.be.true
+        expect(hideCalled).to.be.true
+      })
     })
+  })
 
-    describe('perform', function () {
-        it('shows and hides the component', function () {
-            var showCalled = false
-            var hideCalled = false
+  describe('willShow', function () {
+    it('returns the imageLoaded promise', function () {
+      var dummyPromise = Promise.resolve()
 
-            logo.show = function () {
-                showCalled = true
+      logo.elem = {imageLoaded: function () { return dummyPromise }}
 
-                expect(hideCalled).to.be.false
-
-                return Promise.resolve()
-            }
-
-            logo.hide = function () {
-                expect(showCalled).to.be.true
-
-                hideCalled = true
-
-                return Promise.resolve()
-            }
-
-            return logo.perform().then(function () {
-                expect(showCalled).to.be.true
-                expect(hideCalled).to.be.true
-            })
-        })
+      expect(logo.willShow()).to.equal(dummyPromise)
     })
+  })
 
-    describe('willShow', function () {
-        it('returns the imageLoaded promise', function () {
-            var dummyPromise = Promise.resolve()
+  describe('didShow', function () {
+    it('sets opacity 1', function () {
+      logo.didShow()
 
-            logo.elem = {imageLoaded: function () { return dummyPromise }}
-
-            expect(logo.willShow()).to.equal(dummyPromise)
-        })
+      expect(logo.elem.css('opacity')).to.equal('1')
     })
+  })
 
-    describe('didShow', function () {
-        it('sets opacity 1', function () {
-            logo.didShow()
+  describe('didHide', function () {
+    it('sets opacity 0', function () {
+      logo.didHide()
 
-            expect(logo.elem.css('opacity')).to.equal('1')
-        })
+      expect(logo.elem.css('opacity')).to.equal('0')
     })
-
-    describe('didHide', function () {
-        it('sets opacity 0', function () {
-            logo.didHide()
-
-            expect(logo.elem.css('opacity')).to.equal('0')
-        })
-    })
+  })
 })

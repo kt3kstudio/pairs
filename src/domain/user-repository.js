@@ -7,21 +7,21 @@ const KEY = 'LD-user-key'
  */
 export default class UserRepository {
 
-    /**
-     * Saves the user.
-     */
-    save(user) {
+  /**
+   * Saves the user.
+   */
+  save(user) {
 
-        return infrastructure.storage.set(KEY, user).then(() => user)
-    }
+    return infrastructure.storage.set(KEY, user).then(() => user)
+  }
 
-    /**
-     * Gets the user.
-     */
-    get() {
+  /**
+   * Gets the user.
+   */
+  get() {
 
-        return infrastructure.storage.get(KEY, {}).then(data => new UserFactory().createFromObject(data))
+    return infrastructure.storage.get(KEY, {}).then(data => new UserFactory().createFromObject(data))
 
-    }
+  }
 
 }

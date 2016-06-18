@@ -6,47 +6,47 @@ const BOTTOM_AD_SAFETY_HEIGHT = 50 // The ad safety zone
  */
 export default class IntroSceneLayout extends LayoutFactory {
 
-    constructor() {
+  constructor() {
 
-        super()
+    super()
 
-        this.main = Rect.windowAsRect().margin({
-            bottom: BOTTOM_AD_SAFETY_HEIGHT
-        }).getBestRect({
-            horizontal: 2,
-            vertical: 3
-        })
+    this.main = Rect.windowAsRect().margin({
+      bottom: BOTTOM_AD_SAFETY_HEIGHT
+    }).getBestRect({
+      horizontal: 2,
+      vertical: 3
+    })
 
-    }
+  }
 
-    /**
-     * Returns the grid for the paper.
-     *
-     * @return {Grid}
-     */
-    centerGrid() {
+  /**
+   * Returns the grid for the paper.
+   *
+   * @return {Grid}
+   */
+  centerGrid() {
 
-        return this
-        .main
-        .shiftDown(0.21)
-        .toGrid()
-        .override({cellWidth: 70, cellHeight: 70})
+    return this
+    .main
+    .shiftDown(0.21)
+    .toGrid()
+    .override({cellWidth: 70, cellHeight: 70})
 
-    }
+  }
 
-    /**
-     * Returns the grid for residents.
-     *
-     * @return {Grid}
-     */
-    residentGrid() {
+  /**
+   * Returns the grid for residents.
+   *
+   * @return {Grid}
+   */
+  residentGrid() {
 
-        return this
-        .main
-        .scaleRight(1 / 3)
-        .scaleBottom(1 / 2)
-        .toGrid()
+    return this
+    .main
+    .scaleRight(1 / 3)
+    .scaleBottom(1 / 2)
+    .toGrid()
 
-    }
+  }
 
 }

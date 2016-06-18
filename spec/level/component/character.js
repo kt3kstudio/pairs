@@ -2,44 +2,44 @@ const {Grid} = require('spn')
 require('../../../src/level/component/character')
 
 describe('Character', () => {
-    'use strict'
+  'use strict'
 
-    let elem, character
+  let elem, character
 
-    beforeEach(() => {
+  beforeEach(() => {
 
-        elem = $('<span />')
+    elem = $('<span />')
 
-        elem.data('character', {id: 'ma'})
+    elem.data('character', {id: 'ma'})
 
-        character = elem.cc.init('hero')
+    character = elem.cc.init('hero')
 
-        character.setGrid(new Grid({x: 0, y: 0}))
+    character.setGrid(new Grid({x: 0, y: 0}))
 
-    })
+  })
 
-    describe('willShow', () => {
+  describe('willShow', () => {
 
-        it('sets the display of the element inline', () => {
+    it('sets the display of the element inline', () => {
 
-            character.willShow()
+      character.willShow()
 
-            expect(character.elem.css('display')).to.equal('inline')
-
-        })
+      expect(character.elem.css('display')).to.equal('inline')
 
     })
 
-    describe('didHide', () => {
+  })
 
-        it('sets the display of the element none', () => {
+  describe('didHide', () => {
 
-            character.didHide()
+    it('sets the display of the element none', () => {
 
-            expect(character.elem.css('display')).to.equal('none')
+      character.didHide()
 
-        })
+      expect(character.elem.css('display')).to.equal('none')
 
     })
+
+  })
 
 })

@@ -10,50 +10,50 @@ const HEIGHT_RATE = 0.35
 @component('floorboard')
 export default class Floorboard extends Being {
 
-    static get HEIGHT_RATE() {
+  static get HEIGHT_RATE() {
 
-        return 0.35
+    return 0.35
 
-    }
+  }
 
-    /**
-     * Returns the y coordinate of the ground line.
-     *
-     * @return {Number}
-     */
-    static groundLevel() {
+  /**
+   * Returns the y coordinate of the ground line.
+   *
+   * @return {Number}
+   */
+  static groundLevel() {
 
-        return $(window).height() * (1 - HEIGHT_RATE)
+    return $(window).height() * (1 - HEIGHT_RATE)
 
-    }
+  }
 
-    /**
-     * Returns the visual height of the ground on the screen.
-     *
-     * @return {Number}
-     */
-    static groundHeight() {
+  /**
+   * Returns the visual height of the ground on the screen.
+   *
+   * @return {Number}
+   */
+  static groundHeight() {
 
-        return $(window).height() * HEIGHT_RATE
+    return $(window).height() * HEIGHT_RATE
 
-    }
+  }
 
-    willShow() {
+  willShow() {
 
-        this.elem.css('height', this.constructor.groundHeight())
-        this.elem.css('top', this.constructor.groundLevel())
-        this.elem.css('transform', 'scale(1)')
+    this.elem.css('height', this.constructor.groundHeight())
+    this.elem.css('top', this.constructor.groundLevel())
+    this.elem.css('transform', 'scale(1)')
 
-        return wait(FLOORBOARD_MOVE_DUR)
+    return wait(FLOORBOARD_MOVE_DUR)
 
-    }
+  }
 
-    willHide() {
+  willHide() {
 
-        this.elem.css('transform', 'scale(1, 0)')
+    this.elem.css('transform', 'scale(1, 0)')
 
-        return wait(FLOORBOARD_MOVE_DUR)
+    return wait(FLOORBOARD_MOVE_DUR)
 
-    }
+  }
 
 }

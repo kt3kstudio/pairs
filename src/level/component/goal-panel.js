@@ -16,54 +16,54 @@ const CSS_CLASS_GOAL_EMOJI = 'emoji-round-yellow'
 // @margin(6, 6, 6, 6)
 @component('goal-panel')
 class GoalPanel extends Body {
-    ratioX() { return 0 }
-    ratioY() { return 0 }
+  ratioX() { return 0 }
+  ratioY() { return 0 }
 
-    marginX() { return 6 }
-    marginY() { return 6 }
+  marginX() { return 6 }
+  marginY() { return 6 }
 
-    showAnim() { return new Animation('bom-appear', 400) }
-    hideAnim() { return new Animation('bom-disappear', 400) }
+  showAnim() { return new Animation('bom-appear', 400) }
+  hideAnim() { return new Animation('bom-disappear', 400) }
 
-    /**
-     * Sets the goals as text.
-     * @param {string} goals The goals in text
-     */
-    setGoals(goals) {
-        this.goals = goals
-        this.elem.data('goals-text', goals)
-        this.elem.cc('goal-detection')
-    }
+  /**
+   * Sets the goals as text.
+   * @param {string} goals The goals in text
+   */
+  setGoals(goals) {
+    this.goals = goals
+    this.elem.data('goals-text', goals)
+    this.elem.cc('goal-detection')
+  }
 
-    /**
-     * The handler for the goal detection.
-     * @param {object} e The event
-     * @param {number} index The index of goaled cell
-     */
-    @on('goal-detection.goal')
-    onGoalDetection(e, index) {
-        const target = this.elem.find('.emoji')[index]
+  /**
+   * The handler for the goal detection.
+   * @param {object} e The event
+   * @param {number} index The index of goaled cell
+   */
+  @on('goal-detection.goal')
+  onGoalDetection(e, index) {
+    const target = this.elem.find('.emoji')[index]
 
-        $(target).addClass(CSS_CLASS_GOAL_EMOJI)
-    }
+    $(target).addClass(CSS_CLASS_GOAL_EMOJI)
+  }
 
-    @on('goal-detection.finish')
-    onGoalFinished() {
-        window.alert('finish!')
-    }
+  @on('goal-detection.finish')
+  onGoalFinished() {
+    window.alert('finish!')
+  }
 
-    /**
-     * Shows the goals.
-     */
-    showGoals() {
-        this.elem.html(renderEmoji(this.goals))
-    }
+  /**
+   * Shows the goals.
+   */
+  showGoals() {
+    this.elem.html(renderEmoji(this.goals))
+  }
 
-    willShow() {
-        this.showGoals()
+  willShow() {
+    this.showGoals()
 
-        this.updateElem()
-    }
+    this.updateElem()
+  }
 }
 
 module.exports = GoalPanel

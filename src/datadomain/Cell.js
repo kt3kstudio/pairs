@@ -9,12 +9,12 @@ const {subclass} = $.cc
  * @class
  */
 datadomain.Cell = subclass(function (pt) {
-    'use strict'
+  'use strict'
 
-    pt.constructor = function (gene) {
-        /**
-         * @property {String} gene The gene
-         */
-        this.gene = gene
-    }
+  pt.constructor = function (gene) {
+    /**
+     * @property {String} gene The gene
+     */
+    this.gene = gene
+  }
 })

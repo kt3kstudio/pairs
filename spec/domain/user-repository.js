@@ -3,58 +3,58 @@ import UserFactory from '../../src/domain/user-factory'
 import User from '../../src/domain/user'
 
 describe('UserRepository', () => {
-    'use strict'
+  'use strict'
 
-    let repo
+  let repo
 
-    beforeEach(() => {
+  beforeEach(() => {
 
-        window.infrastructure = {}
+    window.infrastructure = {}
 
-        window.infrastructure.storage = {
-            get: spy(() => {}),
-            set: spy(() => {})
-        }
+    window.infrastructure.storage = {
+      get: spy(() => {}),
+      set: spy(() => {})
+    }
 
-        repo = new UserRepository()
+    repo = new UserRepository()
 
-    })
+  })
 
-    describe('save', () => {
+  describe('save', () => {
 
-        it('calls the set of the infrastructure', () => {
+    it('calls the set of the infrastructure', () => {
 
-            const user = new UserFactory().createFromObject({})
+      const user = new UserFactory().createFromObject({})
 
-            when(infrastructure.storage.set)().then(() => Promise.resolve({}))
+      when(infrastructure.storage.set)().then(() => Promise.resolve({}))
 
-            return repo.save(user).then(user => {
+      return repo.save(user).then(user => {
 
-                expect(user).to.be.instanceof(User)
+        expect(user).to.be.instanceof(User)
 
-                verify(infrastructure.storage.set)('LD-user-key')
+        verify(infrastructure.storage.set)('LD-user-key')
 
-            })
-
-        })
+      })
 
     })
 
-    describe('get', () => {
+  })
 
-        it('gets the User', () => {
+  describe('get', () => {
 
-            when(infrastructure.storage.get)('LD-user-key').then(() => Promise.resolve({charId: 'ma'}))
+    it('gets the User', () => {
 
-            return repo.get().then(user => {
+      when(infrastructure.storage.get)('LD-user-key').then(() => Promise.resolve({charId: 'ma'}))
 
-                expect(user).to.be.instanceof(User)
-                expect(user.charId).to.equal('ma')
+      return repo.get().then(user => {
 
-            })
+        expect(user).to.be.instanceof(User)
+        expect(user.charId).to.equal('ma')
 
-        })
+      })
 
     })
+
+  })
 
 })

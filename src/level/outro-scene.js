@@ -11,61 +11,61 @@ const {component, on} = $.cc
 @component('outro-scene')
 class OutroScene extends Context {
 
-    @on('play-scene.won play-scene.failed')
-    main() {
-        super.main()
-    }
+  @on('play-scene.won play-scene.failed')
+  main() {
+    super.main()
+  }
 
-    /**
-     * Sets up the scene.
-     *
-     * @override
-     */
-    setUp() {
-        const layout = new PlaySceneLayout()
+  /**
+   * Sets up the scene.
+   *
+   * @override
+   */
+  setUp() {
+    const layout = new PlaySceneLayout()
 
-        this.getResultPane().setRect(layout.resultPaneRect())
-        this.getResultPane().setScore(this.getScoreboard().score)
-    }
+    this.getResultPane().setRect(layout.resultPaneRect())
+    this.getResultPane().setScore(this.getScoreboard().score)
+  }
 
-    /**
-     * Starts the scene.
-     *
-     * @override
-     */
-    start() {
-        return this.getResultPane().show(30000000)
+  /**
+   * Starts the scene.
+   *
+   * @override
+   */
+  start() {
+    return this.getResultPane().show(30000000)
 
-        .then(() => {
+    .then(() => {
 
-            Cell.disappear()
+      Cell.disappear()
 
-            this.getMenuButton().hide()
+      this.getMenuButton().hide()
 
-            this.getScoreboard().disappear()
+      this.getScoreboard().disappear()
 
-            return this.getField().disappear()
+      return this.getField().disappear()
 
-        })
+    })
 
-        .then(() => this.getBall().goCenterX())
+    .then(() => this.getBall().goCenterX())
 
-        .then(() => this.getBall().goCenterY())
+    .then(() => this.getBall().goCenterY())
 
-        .then(() => Promise.all([
+    .then(() => Promise.all([
 
-            this.getCharacter().turn('down'),
-            this.getCharacter().show(400),
-            this.getBall().disappear()
+      this.getCharacter().turn('down'),
+      this.getCharacter().show(400),
+      this.getBall().disappear()
 
-        ]))
+    ]))
 
-        .then(() => this.getCharacter().moveTo('y', 800, 1000))
+    .then(() => this.getCharacter().moveTo('y', 800, 1000))
 
-        .then(() => BackgroundService.turnBlack())
+    .then(() => BackgroundService.turnBlack())
 
-        .then(() => history.back())
-    }
+    .then(() => history.back())
+  }
 }
 
 module.exports = OutroScene

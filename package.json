@@ -10,7 +10,7 @@
   "scripts": {
     "build": "bulbo build",
     "start": "bulbo serve",
-    "lint": "souffle",
+    "lint": "souffle -2",
     "test": "karma start karma.conf.js",
     "watch": "karma start karma.watch.conf.js",
     "cov": "karma start karma.cov.conf.js",

@@ -9,29 +9,29 @@ import {Body} from 'spn'
 @traits(Speaker)
 export default class Resident extends Body {
 
-    ratioX() { return 0.5 }
-    ratioY() { return 1 }
+  ratioX() { return 0.5 }
+  ratioY() { return 1 }
 
-    constructor(elem) {
-        super()
+  constructor(elem) {
+    super()
 
-        this.initSprite()
-        this.setSpeaker(elem)
+    this.initSprite()
+    this.setSpeaker(elem)
 
-        const [x, y] = elem.attr('xy').split(/\s+/)
+    const [x, y] = elem.attr('xy').split(/\s+/)
 
-        this.relX = x / 100
-        this.relY = y / 100
-        this.relW = 1 / 8
-        this.relH = 1 / 8
-    }
+    this.relX = x / 100
+    this.relY = y / 100
+    this.relW = 1 / 8
+    this.relH = 1 / 8
+  }
 
-    willShow() {
+  willShow() {
 
-        this.updateSprite()
+    this.updateSprite()
 
-        return super.willShow()
+    return super.willShow()
 
-    }
+  }
 
 }

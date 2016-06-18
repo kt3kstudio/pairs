@@ -5,11 +5,11 @@ const {img} = require('dom-gen')
  */
 export const loadImage = (path, cls, dom) => new Promise((resolve) => {
 
-    const $img = img()
-    .attr('src', path)
-    .addClass(cls)
-    .appendTo(dom)
-    .on('load', () => resolve($img))
+  const $img = img()
+  .attr('src', path)
+  .addClass(cls)
+  .appendTo(dom)
+  .on('load', () => resolve($img))
 
 })
 

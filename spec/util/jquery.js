@@ -1,4 +1,4 @@
 describe('$', () => {
-    'use strict'
+  'use strict'
 
 })

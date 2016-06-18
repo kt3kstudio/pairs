@@ -14,27 +14,27 @@ const {component} = $.cc
 @component('frog')
 export default class FrogSprite extends GridWalker {
 
-    constructor(elem) {
-        super(elem)
+  constructor(elem) {
+    super(elem)
 
-        this.initSprite()
-    }
+    this.initSprite()
+  }
 
-    willShow() {
-        this.updateSprite()
+  willShow() {
+    this.updateSprite()
 
-        return super.willShow()
-    }
+    return super.willShow()
+  }
 
-    leftStayImage() { return 'img/frog-stay.out.svg' }
-    leftRunImage() { return 'img/frog-run.out.svg' }
+  leftStayImage() { return 'img/frog-stay.out.svg' }
+  leftRunImage() { return 'img/frog-run.out.svg' }
 
-    awayDur() { return 400 }
-    awayAnim() { return new Animation('foo', 400) }
+  awayDur() { return 400 }
+  awayAnim() { return new Animation('foo', 400) }
 
-    width() { return 100 }
-    height() { return 50 }
-    ratioX() { return 0.5 }
-    ratioY() { return 1 }
+  width() { return 100 }
+  height() { return 50 }
+  ratioX() { return 0.5 }
+  ratioY() { return 1 }
 
 }

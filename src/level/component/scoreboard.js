@@ -9,69 +9,69 @@ const {component} = $.cc
 @component('scoreboard')
 export default class Scoreboard extends Body {
 
-    ratioX() { return 0 }
-    ratioY() { return 0 }
+  ratioX() { return 0 }
+  ratioY() { return 0 }
 
-    marginX() { return 6 }
-    marginY() { return 6 }
+  marginX() { return 6 }
+  marginY() { return 6 }
 
-    /**
-     * @constructor
-     */
-    constructor() {
-        super()
+  /**
+   * @constructor
+   */
+  constructor() {
+    super()
 
-        this.score = 0
-    }
+    this.score = 0
+  }
 
-    /**
-     * Hooks the score retrieving process to the fusion pair stream.
-     *
-     * @param {Rx.Observable<FusionPair>} fusionPairStream
-     * @return {Rx.Observable<FusionPair>}
-     */
-    hookToFusionPairStream(fusionPairStream) {
-        return fusionPairStream.map(fusionPair => {
-            this.addScore(fusionPair.score())
+  /**
+   * Hooks the score retrieving process to the fusion pair stream.
+   *
+   * @param {Rx.Observable<FusionPair>} fusionPairStream
+   * @return {Rx.Observable<FusionPair>}
+   */
+  hookToFusionPairStream(fusionPairStream) {
+    return fusionPairStream.map(fusionPair => {
+      this.addScore(fusionPair.score())
 
-            return fusionPair
-        })
-    }
+      return fusionPair
+    })
+  }
 
-    showAnim() { return new Animation('bom-appear', 400) }
-    hideAnim() { return new Animation('bom-disappear', 400) }
+  showAnim() { return new Animation('bom-appear', 400) }
+  hideAnim() { return new Animation('bom-disappear', 400) }
 
-    /**
-     * Set up the initial dom state.
-     */
-    willShow() {
-        super.willShow()
+  /**
+   * Set up the initial dom state.
+   */
+  willShow() {
+    super.willShow()
 
-        this.update()
-    }
+    this.update()
+  }
 
-    /**
-     * Updates the scoreboard's number.
-     */
-    update() {
-        this.elem.text(commaNumber(this.score))
-    }
+  /**
+   * Updates the scoreboard's number.
+   */
+  update() {
+    this.elem.text(commaNumber(this.score))
+  }
 
-    /**
-     * Add the score to the total score.
-     * @param {Number} score The score to add
-     */
-    addScore(score) {
-        this.score += score
+  /**
+   * Add the score to the total score.
+   * @param {Number} score The score to add
+   */
+  addScore(score) {
+    this.score += score
 
-        this.update()
-    }
+    this.update()
+  }
 
-    /**
-     * Gets the current score.
-     * @return {Number}
-     */
-    getScore() {
-        return this.score
-    }
+  /**
+   * Gets the current score.
+   * @return {Number}
+   */
+  getScore() {
+    return this.score
+  }
 }

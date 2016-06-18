@@ -1,9 +1,9 @@
 export const CELLS = [
-    'm',
-    'f',
-    'a',
-    'w',
-    'b'
+  'm',
+  'f',
+  'a',
+  'w',
+  'b'
 ]
 
 export const emojis = CELLS
@@ -15,7 +15,7 @@ export const emojis = CELLS
  * @return {string}
  */
 export function renderEmoji(text, cls) {
-    return text.replace(/:([_a-z]+):/g, (_, emoji) => emojiToTag(emoji, cls))
+  return text.replace(/:([_a-z]+):/g, (_, emoji) => emojiToTag(emoji, cls))
 }
 
 /**
@@ -24,11 +24,11 @@ export function renderEmoji(text, cls) {
  * @return {string[]}
  */
 export function extractCells(text) {
-    const cells = []
+  const cells = []
 
-    text.replace(/:([_a-z]+):/g, (_, cell) => cells.push(cell))
+  text.replace(/:([_a-z]+):/g, (_, cell) => cells.push(cell))
 
-    return cells.filter(cell => CELLS.indexOf(cell) !== -1)
+  return cells.filter(cell => CELLS.indexOf(cell) !== -1)
 }
 
 /**
@@ -38,12 +38,12 @@ export function extractCells(text) {
  */
 function emojiToTag(emoji, cls) {
 
-    if (emojis.indexOf(emoji) === -1) {
+  if (emojis.indexOf(emoji) === -1) {
 
-        console.log('unknown emoji:', emoji)
-        return ':' + emoji + ':'
+    console.log('unknown emoji:', emoji)
+    return ':' + emoji + ':'
 
-    }
+  }
 
-    return `<i class="emoji emoji-${emoji} ${cls || ''}"></i>`
+  return `<i class="emoji emoji-${emoji} ${cls || ''}"></i>`
 }

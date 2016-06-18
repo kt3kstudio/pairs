@@ -5,44 +5,44 @@
  */
 export default class FieldIndexGenerator {
 
-    /**
-     * @constructor
-     * @param {Number} [max] The max number of colums on each row
-     */
-    constructor(max) {
-        this.max = max || 3
-    }
+  /**
+   * @constructor
+   * @param {Number} [max] The max number of colums on each row
+   */
+  constructor(max) {
+    this.max = max || 3
+  }
 
-    /**
-     * Generates indices.
-     *
-     * @param {Number} need The necessary number
-     * @param {Array} used The used (unavailable) indices
-     * @return {Array}
-     */
-    generate(need, used) {
+  /**
+   * Generates indices.
+   *
+   * @param {Number} need The necessary number
+   * @param {Array} used The used (unavailable) indices
+   * @return {Array}
+   */
+  generate(need, used) {
 
-        const results = []
-        const ip = new IndexPointer(this.max)
+    const results = []
+    const ip = new IndexPointer(this.max)
 
-        used = used || []
-        used = used.map((x) => x.toString())
+    used = used || []
+    used = used.map((x) => x.toString())
 
-        while (results.length < need) {
+    while (results.length < need) {
 
-            if (used.indexOf(ip.get().toString()) === -1) {
+      if (used.indexOf(ip.get().toString()) === -1) {
 
-                results.push(ip.get())
+        results.push(ip.get())
 
-            }
+      }
 
-            ip.next()
-
-        }
-
-        return results
+      ip.next()
 
     }
+
+    return results
+
+  }
 
 }
 
@@ -51,63 +51,63 @@ export default class FieldIndexGenerator {
  */
 class IndexPointer {
 
-    /**
-     * @constructor
-     * @param {Number} max The max of number of columns
-     */
-    constructor(max) {
+  /**
+   * @constructor
+   * @param {Number} max The max of number of columns
+   */
+  constructor(max) {
 
-        this.x = 0
-        this.y = 0
-        this.max = max
-        this.maxIndex = max - 1
+    this.x = 0
+    this.y = 0
+    this.max = max
+    this.maxIndex = max - 1
 
-    }
+  }
 
-    /**
-     * Gets the current index as an array.
-     *
-     * @return {Array}
-     */
-    get() {
+  /**
+   * Gets the current index as an array.
+   *
+   * @return {Array}
+   */
+  get() {
 
-        return [this.x, this.y]
+    return [this.x, this.y]
 
-    }
+  }
 
-    /**
-     * The pointer goes to the next position.
-     */
-    next() {
+  /**
+   * The pointer goes to the next position.
+   */
+  next() {
 
-        if (this.x % 2 === 0) {
+    if (this.x % 2 === 0) {
 
-            if (this.y >= this.maxIndex) {
+      if (this.y >= this.maxIndex) {
 
-                this.x += 1
+        this.x += 1
 
-            } else {
+      } else {
 
-                this.y += 1
+        this.y += 1
 
-            }
+      }
 
-        } else {
+    } else {
 
-            if (this.y <= 0) {
+      if (this.y <= 0) {
 
-                this.x += 1
+        this.x += 1
 
-            } else {
+      } else {
 
-                this.y -= 1
+        this.y -= 1
 
-            }
-
-        }
-
-        return this.get()
+      }
 
     }
+
+    return this.get()
+
+  }
 
 }

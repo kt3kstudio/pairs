@@ -13,122 +13,122 @@ const {component} = $.cc
 @component('floor-asset-collection')
 export default class FloorAssetCollection extends Being {
 
-    /**
-     * Loads assets from the given string html data.
-     *
-     * @param {String} data The data
-     */
-    loadAssetsFromData(data) {
+  /**
+   * Loads assets from the given string html data.
+   *
+   * @param {String} data The data
+   */
+  loadAssetsFromData(data) {
 
-        // prepend loaded (string) data to the elem
-        $(data).prependTo(this.elem)
+    // prepend loaded (string) data to the elem
+    $(data).prependTo(this.elem)
 
-        // set y coordinate to doors and staircases
-        this.elem.find('.door, .staircase').attr('y', Floorboard.groundLevel())
+    // set y coordinate to doors and staircases
+    this.elem.find('.door, .staircase').attr('y', Floorboard.groundLevel())
 
-        // init floor assets
-        $.cc.init('door staircase', this.elem)
+    // init floor assets
+    $.cc.init('door staircase', this.elem)
 
-        // collect staircases
-        this.staircases = this.elem.find('.staircase .door').map(function () {
+    // collect staircases
+    this.staircases = this.elem.find('.staircase .door').map(function () {
 
-            return $(this).cc.get('staircase')
+      return $(this).cc.get('staircase')
 
-        }).toArray()
+    }).toArray()
 
-        // collect doors
-        this.doors = this.elem.find('.door').map(function () {
+    // collect doors
+    this.doors = this.elem.find('.door').map(function () {
 
-            return $(this).cc.get('door')
+      return $(this).cc.get('door')
 
-        }).toArray()
+    }).toArray()
 
-        this.items = [].concat(this.staircases, this.doors)
+    this.items = [].concat(this.staircases, this.doors)
 
-        // set floor width
-        this.elem.width(this.elem.find('.floor-data').data('floor-width'))
+    // set floor width
+    this.elem.width(this.elem.find('.floor-data').data('floor-width'))
 
-    }
+  }
 
-    /**
-     * Update the floor assets by the level locks and level histories.
-     *
-     * @param {datadomain.LevelLockCollection} locks The level locks
-     */
-    updateAssetsByLocksAndHistories(locks, histories) {
+  /**
+   * Update the floor assets by the level locks and level histories.
+   *
+   * @param {datadomain.LevelLockCollection} locks The level locks
+   */
+  updateAssetsByLocksAndHistories(locks, histories) {
 
-        this.items.forEach(asset => {
+    this.items.forEach(asset => {
 
-            asset.locked = locks.isLocked(asset.id)
+      asset.locked = locks.isLocked(asset.id)
 
-            let history = histories.getById(asset.id)
+      let history = histories.getById(asset.id)
 
-            if (history) {
+      if (history) {
 
-                asset.score = history.score
+        asset.score = history.score
 
-            }
+      }
 
-        })
+    })
 
-    }
+  }
 
-    /**
-     * Shows the floor assets.
-     *
-     * @override
-     */
-    willShow() {
+  /**
+   * Shows the floor assets.
+   *
+   * @override
+   */
+  willShow() {
 
-        return this.foldByFunc(item => {
+    return this.foldByFunc(item => {
 
-            item.show()
+      item.show()
 
-            return wait(100)
+      return wait(100)
 
-        })
+    })
 
-    }
+  }
 
-    /**
-     * Hides the floor assets.
-     *
-     * @override
-     */
-    willHide() {
+  /**
+   * Hides the floor assets.
+   *
+   * @override
+   */
+  willHide() {
 
-        return this.foldByFunc(item => {
+    return this.foldByFunc(item => {
 
-            item.disappear()
+      item.disappear()
 
-            return wait(100)
+      return wait(100)
 
-        })
+    })
 
-    }
+  }
 
-    /**
-     * Folds the items by the given function. This is the private utility method.
-     *
-     * @private
-     * @param {Function} func The folding function of each item
-     */
-    foldByFunc(func) {
+  /**
+   * Folds the items by the given function. This is the private utility method.
+   *
+   * @private
+   * @param {Function} func The folding function of each item
+   */
+  foldByFunc(func) {
 
-        return this.items.reduce((p, item) => p.then(() => func(item)), Promise.resolve())
+    return this.items.reduce((p, item) => p.then(() => func(item)), Promise.resolve())
 
-    }
+  }
 
-    /**
-     * Find the floor asset of the given id.
-     *
-     * @param {String} id The id of the wall object
-     * @returns {domain.map.Door}
-     */
-    findById(id) {
+  /**
+   * Find the floor asset of the given id.
+   *
+   * @param {String} id The id of the wall object
+   * @returns {domain.map.Door}
+   */
+  findById(id) {
 
-        return this.items.filter(item => item.id === id)[0]
+    return this.items.filter(item => item.id === id)[0]
 
-    }
+  }
 
 }

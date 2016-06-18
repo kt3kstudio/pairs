@@ -1,69 +1,69 @@
 require('../../../src/floor/component/staircase')
 
 describe('Staircase', () => {
-    'use strict'
+  'use strict'
 
-    let $dom, staircase
+  let $dom, staircase
 
-    beforeEach(() => {
+  beforeEach(() => {
 
-        $dom = $('<div data-goto=\'{"floorId": "abc", "floorObjectId": "def"}\' />')
-        staircase = $dom.cc.init('staircase')
+    $dom = $('<div data-goto=\'{"floorId": "abc", "floorObjectId": "def"}\' />')
+    staircase = $dom.cc.init('staircase')
 
-    })
+  })
 
-    describe('constructor', () => {
+  describe('constructor', () => {
 
-        it('sets the goto property', () => {
+    it('sets the goto property', () => {
 
-            expect(staircase.goto).to.eql({
-                floorId: 'abc',
-                floorObjectId: 'def'
-            })
-
-        })
+      expect(staircase.goto).to.eql({
+        floorId: 'abc',
+        floorObjectId: 'def'
+      })
 
     })
 
-    describe('willShow', () => {
+  })
 
-        it('sets up the dom', () => {
+  describe('willShow', () => {
 
-            staircase.willShow()
+    it('sets up the dom', () => {
 
-        // TODO: some assertion
-        })
+      staircase.willShow()
 
-        it('binds to click event', function (done) {
+    // TODO: some assertion
+    })
 
-            staircase.willShow()
+    it('binds to click event', function (done) {
 
-            staircase.elem.on('click', function () {
+      staircase.willShow()
 
-                done()
+      staircase.elem.on('click', function () {
 
-            })
+        done()
 
-            staircase.elem.trigger('click')
+      })
 
-        })
+      staircase.elem.trigger('click')
 
     })
 
-    describe('onGetWalker', () => {
+  })
 
-        it('triggers the character-goto event', (done) => {
+  describe('onGetWalker', () => {
 
-            staircase.elem.on('character-goto', () => {
+    it('triggers the character-goto event', (done) => {
 
-                done()
+      staircase.elem.on('character-goto', () => {
 
-            })
+        done()
 
-            staircase.onGetWalker()
+      })
 
-        })
+      staircase.onGetWalker()
 
     })
+
+  })
 
 })

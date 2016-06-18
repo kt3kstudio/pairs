@@ -7,98 +7,98 @@ import {wait} from 'spn'
  */
 export default class BallMoveMobLeaveService {
 
-    /**
-     * @constructor
-     * @param {Ball} ball The ball
-     * @param {CellCollection} cells The cells
-     */
-    constructor(ball, cells) {
+  /**
+   * @constructor
+   * @param {Ball} ball The ball
+   * @param {CellCollection} cells The cells
+   */
+  constructor(ball, cells) {
 
-        this.ball = ball
-        this.mobs = new Mobs(cells)
+    this.ball = ball
+    this.mobs = new Mobs(cells)
 
-        this.pmds = new PossibleMoveDetectionService(this.ball, cells)
+    this.pmds = new PossibleMoveDetectionService(this.ball, cells)
 
-    }
+  }
 
-    /**
-     * Processes the stream of direction and returns the stream of cells.
-     *
-     * @param {Rx.Observable<String>} dirStream The stream of directions
-     * @return {Rx.Observable<Cell>}
-     */
-    processDirStream(dirStream) {
+  /**
+   * Processes the stream of direction and returns the stream of cells.
+   *
+   * @param {Rx.Observable<String>} dirStream The stream of directions
+   * @return {Rx.Observable<Cell>}
+   */
+  processDirStream(dirStream) {
 
-        return dirStream.pipe(dir => this.ballMoveAndLeaveOne(dir)).filterNull()
+    return dirStream.pipe(dir => this.ballMoveAndLeaveOne(dir)).filterNull()
 
-    }
+  }
 
-    /**
-     * Makes the ball move to the specified direction and a mob leave the field.
-     *
-     * @param {String} dir The direction the ball moves (up|down|right|left)
-     * @returns {Cell|Rx.Observable} A promise which resolves when the mob(bom) left the field
-     */
-    ballMoveAndLeaveOne(dir) {
+  /**
+   * Makes the ball move to the specified direction and a mob leave the field.
+   *
+   * @param {String} dir The direction the ball moves (up|down|right|left)
+   * @returns {Cell|Rx.Observable} A promise which resolves when the mob(bom) left the field
+   */
+  ballMoveAndLeaveOne(dir) {
 
-        const pos = this.ball.posAhead(dir)
+    const pos = this.ball.posAhead(dir)
 
-        if (this.mobs.find(pos) == null) {
+    if (this.mobs.find(pos) == null) {
 
-            this.ball.refuseToMove(dir)
+      this.ball.refuseToMove(dir)
 
-            return null
-
-        }
-
-        this.ball.move(dir)
-
-        return this.leaveAtPos(pos)
+      return null
 
     }
 
-    /**
-     * Make the mob at the ball leave the field.
-     *
-     * @return {Cell}
-     */
-    leaveLastOneAtBall() {
+    this.ball.move(dir)
 
-        return this.mobs.leave(this.ball.pos()).setLastOne()
+    return this.leaveAtPos(pos)
+
+  }
+
+  /**
+   * Make the mob at the ball leave the field.
+   *
+   * @return {Cell}
+   */
+  leaveLastOneAtBall() {
+
+    return this.mobs.leave(this.ball.pos()).setLastOne()
+
+  }
+
+  /**
+   * Make a mob at the specified position leave the field.
+   *
+   * @param {Object} pos The position
+   * @return {Cell|Rx.Observable}
+   */
+  leaveAtPos(pos) {
+
+    const mob = this.mobs.leave(pos)
+
+    if (this.pmds.possible()) {
+
+      return mob
+
+    }
+
+    console.log('no more move!')
+
+    if (this.pmds.cellRemainsAtBall()) {
+
+      console.log('cell remains at ball')
+
+      return [mob, wait(600).then(() => this.leaveLastOneAtBall())].toFlatStream()
 
     }
 
-    /**
-     * Make a mob at the specified position leave the field.
-     *
-     * @param {Object} pos The position
-     * @return {Cell|Rx.Observable}
-     */
-    leaveAtPos(pos) {
+    console.log('no cell left')
 
-        const mob = this.mobs.leave(pos)
+    return mob.setLastOne()
 
-        if (this.pmds.possible()) {
-
-            return mob
-
-        }
-
-        console.log('no more move!')
-
-        if (this.pmds.cellRemainsAtBall()) {
-
-            console.log('cell remains at ball')
-
-            return [mob, wait(600).then(() => this.leaveLastOneAtBall())].toFlatStream()
-
-        }
-
-        console.log('no cell left')
-
-        return mob.setLastOne()
-
-    }
+  }
 
 
 }
@@ -111,55 +111,55 @@ export default class BallMoveMobLeaveService {
  */
 class Mobs {
 
-    /**
-     * @constructor
-     * @param {CellCollection} cells The collection of cells
-     */
-    constructor(cells) {
+  /**
+   * @constructor
+   * @param {CellCollection} cells The collection of cells
+   */
+  constructor(cells) {
 
-        this.cells = cells
+    this.cells = cells
 
-    }
+  }
 
-    /**
-     * Check if the field is empty of cells.
-     *
-     * @return {Boolean}
-     */
-    isEmpty() {
+  /**
+   * Check if the field is empty of cells.
+   *
+   * @return {Boolean}
+   */
+  isEmpty() {
 
-        return this.cells.isEmpty()
+    return this.cells.isEmpty()
 
-    }
+  }
 
-    /**
-     * Makes the cell at the position leave the field.
-     *
-     * @param {Object} pos The position
-     */
-    leave(pos) {
+  /**
+   * Makes the cell at the position leave the field.
+   *
+   * @param {Object} pos The position
+   */
+  leave(pos) {
 
-        let w = this.cells.select(pos)
+    let w = this.cells.select(pos)
 
-        this.cells.remove(w)
+    this.cells.remove(w)
 
-        w = w[0]
+    w = w[0]
 
-        this.cells.selectRange(pos).forEach(cell => cell.up())
+    this.cells.selectRange(pos).forEach(cell => cell.up())
 
-        return w
+    return w
 
-    }
+  }
 
-    /**
-     * Finds the cell at the position.
-     *
-     * @param {Object} pos The position
-     */
-    find(pos) {
+  /**
+   * Finds the cell at the position.
+   *
+   * @param {Object} pos The position
+   */
+  find(pos) {
 
-        return this.cells.find(pos)
+    return this.cells.find(pos)
 
-    }
+  }
 
 }

@@ -8,85 +8,85 @@ const {emit, component} = $.cc
 @component('fusion-service')
 export default class FusionService {
 
-    /**
-     * @param {Grid} grid The grid
-     */
-    setGrid(grid) {
-        this.grid = grid
-    }
+  /**
+   * @param {Grid} grid The grid
+   */
+  setGrid(grid) {
+    this.grid = grid
+  }
 
-    /**
-     * Processes the funsion pair stream and returns the stream of new born cells
-     *
-     * @param {Rx.Observable<FusionPair>}
-     * @return {Rx.Observable<Cell>}
-     */
-    processFusionPairStream(fusionPairStream) {
+  /**
+   * Processes the funsion pair stream and returns the stream of new born cells
+   *
+   * @param {Rx.Observable<FusionPair>}
+   * @return {Rx.Observable<Cell>}
+   */
+  processFusionPairStream(fusionPairStream) {
 
-        return fusionPairStream.pipe(fusionPair => this.performFusion(fusionPair))
+    return fusionPairStream.pipe(fusionPair => this.performFusion(fusionPair))
 
-    }
+  }
 
-    /**
-     * Performs fusion.
-     *
-     * @param {FusionPair} pair The pair
-     * @return {Promise} {Promise<Cell>} The new cell
-     */
-    performFusion(pair) {
+  /**
+   * Performs fusion.
+   *
+   * @param {FusionPair} pair The pair
+   * @return {Promise} {Promise<Cell>} The new cell
+   */
+  performFusion(pair) {
 
-        return this.getToReactor(pair).then(() => this.fusion(pair))
+    return this.getToReactor(pair).then(() => this.fusion(pair))
 
-    }
+  }
 
-    /**
-     * Makes the pair go to the reactor.
-     *
-     * @private
-     * @param {FusionPair} pair The pair going to fusion reactor
-     * @return {Promise} The end of the animation of going to the reactor
-     */
-    getToReactor(pair) {
+  /**
+   * Makes the pair go to the reactor.
+   *
+   * @private
+   * @param {FusionPair} pair The pair going to fusion reactor
+   * @return {Promise} The end of the animation of going to the reactor
+   */
+  getToReactor(pair) {
 
-        const dur = 1000
+    const dur = 1000
 
-        // pair.right could be null
-        if (pair.right) {
+    // pair.right could be null
+    if (pair.right) {
 
-            pair.right.anim('get-to-reactor-right', dur).then(() => pair.right.remove())
-
-        }
-
-        // pair.left always exists
-        return pair.left.anim('get-to-reactor-left', dur).then(() => pair.left.remove())
+      pair.right.anim('get-to-reactor-right', dur).then(() => pair.right.remove())
 
     }
 
-    /**
-     * Perform cell fusion.
-     * @private
-     * @param {FusionPair} pair The fusion pair
-     * @return {Promise} The new cell {Promise<Cell>}
-     */
-    @emit('cell-fusion').last
-    fusion(pair) {
-        const dur = 600
+    // pair.left always exists
+    return pair.left.anim('get-to-reactor-left', dur).then(() => pair.left.remove())
 
-        const cell = object({
-            data: {gene: pair.newGene()},
-            prependTo: this.elem
-        }).cc.init('cell')
+  }
 
-        cell.setGrid(this.grid, 0, 0)
+  /**
+   * Perform cell fusion.
+   * @private
+   * @param {FusionPair} pair The fusion pair
+   * @return {Promise} The new cell {Promise<Cell>}
+   */
+  @emit('cell-fusion').last
+  fusion(pair) {
+    const dur = 600
 
-        if (pair.isLastOne()) {
-            cell.setLastOne()
-        }
+    const cell = object({
+      data: {gene: pair.newGene()},
+      prependTo: this.elem
+    }).cc.init('cell')
 
-        if (pair.isEvolving()) {
-            cell.setEvolved()
-        }
+    cell.setGrid(this.grid, 0, 0)
 
-        return cell.show(dur).then(() => cell)
+    if (pair.isLastOne()) {
+      cell.setLastOne()
     }
+
+    if (pair.isEvolving()) {
+      cell.setEvolved()
+    }
+
+    return cell.show(dur).then(() => cell)
+  }
 }

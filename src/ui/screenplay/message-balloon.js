@@ -17,37 +17,37 @@ const DEFAULT_SPEECH_TIMEOUT = 500
 @component('message-balloon')
 export default class MessageBalloon {
 
-    constructor(elem) {
-        this.target = $(elem.data('target'))[0]
-        this.skipTarget = $(elem.data('skip-target'))
-        this.message = elem.data('message')
-        this.timeout = +elem.data('timeout') || DEFAULT_SPEECH_TIMEOUT
-    }
+  constructor(elem) {
+    this.target = $(elem.data('target'))[0]
+    this.skipTarget = $(elem.data('skip-target'))
+    this.message = elem.data('message')
+    this.timeout = +elem.data('timeout') || DEFAULT_SPEECH_TIMEOUT
+  }
 
-    /**
-     * Starts showing the balloon and returns a promise.
-     * @return {Promise}
-     */
-    @on('message-balloon.start')
-    start() {
-        this.elem.trigger('message-balloon.started')
+  /**
+   * Starts showing the balloon and returns a promise.
+   * @return {Promise}
+   */
+  @on('message-balloon.start')
+  start() {
+    this.elem.trigger('message-balloon.started')
 
-        this.elem.append(
-            p({css: {height: 0, overflow: 'hidden'}}, renderEmoji(this.message)), // This is dummy for occupying the space.
-            p(renderEmoji(this.message, 'punch-emoji')).cc('puncher').trigger('puncher.start') // This is actual message for showing
-        )
-        const drop = new global.Drop({
-            target: this.target,
-            content: this.elem[0],
-            classes: 'drop-theme-arrows-bounce',
-            position: 'top center',
-            openOn: 'always'
-        })
+    this.elem.append(
+      p({css: {height: 0, overflow: 'hidden'}}, renderEmoji(this.message)), // This is dummy for occupying the space.
+      p(renderEmoji(this.message, 'punch-emoji')).cc('puncher').trigger('puncher.start') // This is actual message for showing
+    )
+    const drop = new global.Drop({
+      target: this.target,
+      content: this.elem[0],
+      classes: 'drop-theme-arrows-bounce',
+      position: 'top center',
+      openOn: 'always'
+    })
 
-        return this.elem.once('puncher.ended')
-        .then(() => wait(this.timeout / 10))
-        .then(() => drop.close())
-        .then(() => wait(500))
-        .then(() => this.elem.trigger('message-balloon.ended'))
-    }
+    return this.elem.once('puncher.ended')
+    .then(() => wait(this.timeout / 10))
+    .then(() => drop.close())
+    .then(() => wait(500))
+    .then(() => this.elem.trigger('message-balloon.ended'))
+  }
 }

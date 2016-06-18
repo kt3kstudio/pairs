@@ -9,81 +9,81 @@ const script = domGen('script')
 
 describe('screenplay-manager', () => {
 
-    let elem, sm
+  let elem, sm
 
-    before(() => {
+  before(() => {
 
-        class TestSpeaker {
-            constructor(elem) {
-                elem.data('speaker', this)
-            }
+    class TestSpeaker {
+      constructor(elem) {
+        elem.data('speaker', this)
+      }
 
-            speak(line) {
-                this.elem.attr('stored-message', line)
-            }
-        }
+      speak(line) {
+        this.elem.attr('stored-message', line)
+      }
+    }
 
-        component('test-speaker')(TestSpeaker)
+    component('test-speaker')(TestSpeaker)
 
-    })
+  })
 
-    beforeEach(() => {
+  beforeEach(() => {
 
-        elem = script `
-            [#moo0] Hey!
-            [#moo1] Hi!
-            [#moo2] Yay!
-        `.attr('type', 'text/x-screenplay')
+    elem = script `
+      [#moo0] Hey!
+      [#moo1] Hi!
+      [#moo2] Yay!
+    `.attr('type', 'text/x-screenplay')
 
-        sm = elem.cc.init('screenplay-manager')
+    sm = elem.cc.init('screenplay-manager')
 
-        $('<div id="moo0" />').appendTo(document.body).cc.init('test-speaker')
-        $('<div id="moo1" />').appendTo(document.body).cc.init('test-speaker')
-        $('<div id="moo2" />').appendTo(document.body).cc.init('test-speaker')
+    $('<div id="moo0" />').appendTo(document.body).cc.init('test-speaker')
+    $('<div id="moo1" />').appendTo(document.body).cc.init('test-speaker')
+    $('<div id="moo2" />').appendTo(document.body).cc.init('test-speaker')
 
-    })
+  })
 
-    afterEach(() => {
+  afterEach(() => {
 
-        $('.test-speaker').remove()
+    $('.test-speaker').remove()
 
-    })
+  })
 
-    it('stores the parsed screenplay-lines', () => {
+  it('stores the parsed screenplay-lines', () => {
 
-        expect(sm.lines.length).to.equal(3)
-        expect(sm.lines[0].selector).to.equal('#moo0')
-        expect(sm.lines[0].line).to.equal('Hey!')
-        expect(sm.lines[1].selector).to.equal('#moo1')
-        expect(sm.lines[1].line).to.equal('Hi!')
-        expect(sm.lines[2].selector).to.equal('#moo2')
-        expect(sm.lines[2].line).to.equal('Yay!')
+    expect(sm.lines.length).to.equal(3)
+    expect(sm.lines[0].selector).to.equal('#moo0')
+    expect(sm.lines[0].line).to.equal('Hey!')
+    expect(sm.lines[1].selector).to.equal('#moo1')
+    expect(sm.lines[1].line).to.equal('Hi!')
+    expect(sm.lines[2].selector).to.equal('#moo2')
+    expect(sm.lines[2].line).to.equal('Yay!')
 
-    })
+  })
 
-    describe('actorsReady', () => {
+  describe('actorsReady', () => {
 
-        it('returns true when all the actors are ready', () => {
+    it('returns true when all the actors are ready', () => {
 
-            expect(sm.actorsReady()).to.be.true
-
-        })
+      expect(sm.actorsReady()).to.be.true
 
     })
 
-    describe('start', () => {
+  })
 
-        it('starts the screenplay', done => {
+  describe('start', () => {
 
-            sm.play().then(() => {
-                expect($('#moo0').attr('stored-message')).to.equal('Hey!')
-                expect($('#moo1').attr('stored-message')).to.equal('Hi!')
-                expect($('#moo2').attr('stored-message')).to.equal('Yay!')
-                done()
-            }).catch(done)
+    it('starts the screenplay', done => {
 
-        })
+      sm.play().then(() => {
+        expect($('#moo0').attr('stored-message')).to.equal('Hey!')
+        expect($('#moo1').attr('stored-message')).to.equal('Hi!')
+        expect($('#moo2').attr('stored-message')).to.equal('Yay!')
+        done()
+      }).catch(done)
 
     })
+
+  })
 
 })

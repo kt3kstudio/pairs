@@ -7,47 +7,47 @@ import FusionPair from './fusion-pair'
  */
 export default class FusionPreparationService {
 
-    /**
-     * @constructor
-     * @param {Grid} grid The grid
-     */
-    constructor(grid) {
+  /**
+   * @constructor
+   * @param {Grid} grid The grid
+   */
+  constructor(grid) {
 
-        this.stack = new PreparationStack(grid)
+    this.stack = new PreparationStack(grid)
 
-    }
+  }
 
-    /**
-     * Processes the cell stream and returns the fusion pair stream.
-     *
-     * @param {Rx.Observable<Cell>} cellStream
-     * @return {Rx.Observable<FunsionPair>}
-     */
-    processCellStream(cellStream) {
+  /**
+   * Processes the cell stream and returns the fusion pair stream.
+   *
+   * @param {Rx.Observable<Cell>} cellStream
+   * @return {Rx.Observable<FunsionPair>}
+   */
+  processCellStream(cellStream) {
 
-        return cellStream.pipe(cell => this.take(cell)).filterNull()
+    return cellStream.pipe(cell => this.take(cell)).filterNull()
 
-    }
+  }
 
-    /**
-     * Takes cell into the fusion preparing position.
-     *
-     * @param {Cell} cell The cell
-     * @return {Promise} {Promise<FusionPair>}
-     */
-    take(cell) {
+  /**
+   * Takes cell into the fusion preparing position.
+   *
+   * @param {Cell} cell The cell
+   * @return {Promise} {Promise<FusionPair>}
+   */
+  take(cell) {
 
-        this.stack.push(cell)
+    this.stack.push(cell)
 
-        if (!this.stack.isPrepared()) {
+    if (!this.stack.isPrepared()) {
 
-            return
-
-        }
-
-        return Promise.all(this.stack.popAll()).then(([left, right]) => new FusionPair(left, right))
+      return
 
     }
+
+    return Promise.all(this.stack.popAll()).then(([left, right]) => new FusionPair(left, right))
+
+  }
 
 }
 
@@ -56,73 +56,73 @@ export default class FusionPreparationService {
  */
 class PreparationStack {
 
-    /**
-     * @constructor
-     * @param {Grid} grid The grid
-     */
-    constructor(grid) {
+  /**
+   * @constructor
+   * @param {Grid} grid The grid
+   */
+  constructor(grid) {
 
-        this.grid = grid
-        this.stack = []
-        this.isFinished = false
-        this.takeDur = 700 // The duration of going to fusion preparation position.
+    this.grid = grid
+    this.stack = []
+    this.isFinished = false
+    this.takeDur = 700 // The duration of going to fusion preparation position.
 
-    }
+  }
 
-    /**
-     * Pushes to the stack.
-     *
-     * @param {Cell} cell The cell
-     */
-    push(cell) {
+  /**
+   * Pushes to the stack.
+   *
+   * @param {Cell} cell The cell
+   */
+  push(cell) {
 
-        this.isFinished = cell.isLastOne()
+    this.isFinished = cell.isLastOne()
 
-        this.stack.push(this.locate(cell, this.stack.length))
+    this.stack.push(this.locate(cell, this.stack.length))
 
-    }
+  }
 
-    /**
-     * locate the cell at the index.
-     *
-     * @param {Cell} cell The cell
-     * @param {Number} index The index
-     * @return {Promise<Cell>}
-     */
-    locate(cell, index) {
+  /**
+   * locate the cell at the index.
+   *
+   * @param {Cell} cell The cell
+   * @param {Number} index The index
+   * @return {Promise<Cell>}
+   */
+  locate(cell, index) {
 
-        cell.setGrid(this.grid)
+    cell.setGrid(this.grid)
 
-        cell.m = index
-        cell.n = 0
+    cell.m = index
+    cell.n = 0
 
-        cell.setTransitionDuration(this.takeDur)
+    cell.setTransitionDuration(this.takeDur)
 
-        return cell.fitToGrid().then(() => cell)
+    return cell.fitToGrid().then(() => cell)
 
-    }
+  }
 
-    isPrepared() {
+  isPrepared() {
 
-        return this.isFinished || this.isFull()
+    return this.isFinished || this.isFull()
 
-    }
+  }
 
-    isFull() {
+  isFull() {
 
-        return this.stack.length >= 2
+    return this.stack.length >= 2
 
-    }
+  }
 
-    /**
-     * Pops all the cells.
-     *
-     * @return {Array<Promise<Cell>>}
-     */
-    popAll() {
+  /**
+   * Pops all the cells.
+   *
+   * @return {Array<Promise<Cell>>}
+   */
+  popAll() {
 
-        return this.stack.splice(0)
+    return this.stack.splice(0)
 
-    }
+  }
 
 }

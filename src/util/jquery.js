@@ -7,11 +7,11 @@ import {wait, reflow} from 'spn'
  */
 $.fn.animation = function (animation) {
 
-    this.css('-webkit-animation', '')
-    reflow(this)
-    this.css('-webkit-animation', animation)
+  this.css('-webkit-animation', '')
+  reflow(this)
+  this.css('-webkit-animation', animation)
 
-    return this
+  return this
 
 }
 
@@ -24,9 +24,9 @@ $.fn.animation = function (animation) {
  */
 $.fn.anim = function (animation, dur) {
 
-    this.animation(animation + ' ' + dur + 'ms')
+  this.animation(animation + ' ' + dur + 'ms')
 
-    return wait(dur, this)
+  return wait(dur, this)
 
 }
 
@@ -38,7 +38,7 @@ $.fn.anim = function (animation, dur) {
  */
 $.fn.once = function (events) {
 
-    return new Promise((resolve) => this.one(events, resolve))
+  return new Promise((resolve) => this.one(events, resolve))
 
 }
 
@@ -50,7 +50,7 @@ $.fn.once = function (events) {
  */
 $.fn.streamOf = function (events) {
 
-    return Rx.Observable.fromEvent(this, events)
+  return Rx.Observable.fromEvent(this, events)
 
 }
 
@@ -61,17 +61,17 @@ $.fn.streamOf = function (events) {
  */
 $.fn.imageLoaded = function () {
 
-    return new Promise((resolve, reject) =>
+  return new Promise((resolve, reject) =>
 
-        this
+    this
 
-        .on('error', () => reject(new Error('image can not be loaded: ' + this.attr('src'))))
+    .on('error', () => reject(new Error('image can not be loaded: ' + this.attr('src'))))
 
-        .on('load', () => resolve())
+    .on('load', () => resolve())
 
-        .attr('src', this.attr('src'))
+    .attr('src', this.attr('src'))
 
-    )
+  )
 
 }
 

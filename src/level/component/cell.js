@@ -13,237 +13,237 @@ const ALL_CELLS = []
  */
 @component('cell')
 export default class Cell extends GridWalker {
-    cellRatioX() { return 0.65 }
-    cellRatioY() { return 0.65 }
+  cellRatioX() { return 0.65 }
+  cellRatioY() { return 0.65 }
 
-    constructor(elem) {
-        super()
-
-        /**
-         * @property {string} gene The gene
-         */
-        this.gene = elem.data('gene')
-
-        this.__isLastOne = false
-        this.__isEvolved = false
-
-        ALL_CELLS.push(this)
-    }
+  constructor(elem) {
+    super()
 
     /**
-     * Disappears all the cells.
-     * @return {Promise<Cell[]>}
+     * @property {string} gene The gene
      */
-    static disappear() {
-        return Promise.all(ALL_CELLS.map((cell, i) => wait(40 * i).then(() => cell.disappear())))
-    }
+    this.gene = elem.data('gene')
 
-    /**
-     * Sets the flag of the last one.
-     *
-     * @return {Cell}
-     */
-    setLastOne() {
-        this.__isLastOne = true
+    this.__isLastOne = false
+    this.__isEvolved = false
 
-        return this
-    }
+    ALL_CELLS.push(this)
+  }
 
-    /**
-     * Unsets the flag of the last one.
-     *
-     * @return {Cell}
-     */
-    unsetLastOne() {
+  /**
+   * Disappears all the cells.
+   * @return {Promise<Cell[]>}
+   */
+  static disappear() {
+    return Promise.all(ALL_CELLS.map((cell, i) => wait(40 * i).then(() => cell.disappear())))
+  }
 
-        this.__isLastOne = false
+  /**
+   * Sets the flag of the last one.
+   *
+   * @return {Cell}
+   */
+  setLastOne() {
+    this.__isLastOne = true
 
-        return this
+    return this
+  }
 
-    }
+  /**
+   * Unsets the flag of the last one.
+   *
+   * @return {Cell}
+   */
+  unsetLastOne() {
 
-    /**
-     * Returns true if it's the last one of the round.
-     *
-     * @return {Boolean}
-     */
-    isLastOne() {
+    this.__isLastOne = false
 
-        return this.__isLastOne
+    return this
 
-    }
+  }
 
-    /**
-     * Sets the flag of being evolved from the parents.
-     */
-    setEvolved() {
+  /**
+   * Returns true if it's the last one of the round.
+   *
+   * @return {Boolean}
+   */
+  isLastOne() {
 
-        this.__evolved = true
+    return this.__isLastOne
 
-        return this
+  }
 
-    }
+  /**
+   * Sets the flag of being evolved from the parents.
+   */
+  setEvolved() {
 
-    /**
-     * Unsets the flag of being evolved.
-     */
-    unsetEvolved() {
+    this.__evolved = true
 
-        this.__evolved = false
+    return this
 
-        return this
+  }
 
-    }
+  /**
+   * Unsets the flag of being evolved.
+   */
+  unsetEvolved() {
 
-    /**
-     * Returns true if it's evolved from its parents, otherwise false.
-     *
-     * @return {Boolean}
-     */
-    isEvolved() {
+    this.__evolved = false
 
-        return this.__evolved
+    return this
 
-    }
+  }
 
-    /**
-     * Chooses the image for the gene.
-     *
-     * @private
-     * @return {String}
-     */
-    selectImage() {
+  /**
+   * Returns true if it's evolved from its parents, otherwise false.
+   *
+   * @return {Boolean}
+   */
+  isEvolved() {
 
-        if (this.gene === 'f') {
+    return this.__evolved
 
-            return 'img/neef.svg'
+  }
 
-        }
+  /**
+   * Chooses the image for the gene.
+   *
+   * @private
+   * @return {String}
+   */
+  selectImage() {
 
-        if (this.gene === 'm') {
+    if (this.gene === 'f') {
 
-            return 'img/nim.svg'
-
-        }
-
-        if (this.gene === 'a') {
-
-            return 'img/ankh.svg'
-
-        }
-
-        if (this.gene === 'w') {
-
-            return 'img/wheel.svg'
-
-        }
-
-        if (this.gene === 'b') {
-
-            return 'img/box.svg'
-
-        }
-
-        const cellKind = BomTable[this.gene.length]
-
-        return 'img/' + cellKind + '.svg'
+      return 'img/neef.svg'
 
     }
 
-    /**
-     * Creates the dom for this
-     *
-     * @return {jQuery}
-     */
-    willShow() {
+    if (this.gene === 'm') {
 
-        return super.willShow()
-
-        .then(() => {
-
-            this.elem.attr('data', this.selectImage())
-
-            this.setTransitionDuration(300)
-
-            return this.elem.once('load')
-
-        })
-
-        .then(() => {
-
-            this.fitToGrid()
-
-            const genes = this.gene.split('')
-
-            const $svg = $(this.elem[0].contentDocument)
-
-            for (let i = 0; i < genes.length; i++) {
-
-                $('#' + i, $svg).attr('class', genes[i])
-
-            }
-
-        })
+      return 'img/nim.svg'
 
     }
 
-    /**
-     * Reset the shape of the cell.
-     *
-     * For example, change the size of the dom.
-     */
-    resetShapeAndLocate() {
+    if (this.gene === 'a') {
 
-        return this.fitToGrid()
+      return 'img/ankh.svg'
 
     }
 
-    showAnim() { return new Animation('bom-appear', 500) }
+    if (this.gene === 'w') {
 
-    hideAnim() { return new Animation('bom-disappear', 500) }
-
-    remove() {
-
-        this.elem.remove()
-
-        ALL_CELLS.splice(ALL_CELLS.indexOf(this), 1)
+      return 'img/wheel.svg'
 
     }
 
-    /**
-     * Animates the cell using the give css animation with the given duration.
-     *
-     * @param {string} animation
-     * @param {number} duration
-     */
-    anim(animation, duration) {
+    if (this.gene === 'b') {
 
-        return this.elem.anim(animation, duration)
+      return 'img/box.svg'
 
     }
 
-    up() {
+    const cellKind = BomTable[this.gene.length]
 
-        return this.moveUpOnGrid()
+    return 'img/' + cellKind + '.svg'
 
-    }
+  }
 
-    down() {
+  /**
+   * Creates the dom for this
+   *
+   * @return {jQuery}
+   */
+  willShow() {
 
-        return this.moveDownOnGrid()
+    return super.willShow()
 
-    }
+    .then(() => {
 
-    left() {
+      this.elem.attr('data', this.selectImage())
 
-        return this.moveLeftOnGrid()
+      this.setTransitionDuration(300)
 
-    }
+      return this.elem.once('load')
 
-    right() {
+    })
 
-        return this.moveRightOnGrid()
+    .then(() => {
 
-    }
+      this.fitToGrid()
+
+      const genes = this.gene.split('')
+
+      const $svg = $(this.elem[0].contentDocument)
+
+      for (let i = 0; i < genes.length; i++) {
+
+        $('#' + i, $svg).attr('class', genes[i])
+
+      }
+
+    })
+
+  }
+
+  /**
+   * Reset the shape of the cell.
+   *
+   * For example, change the size of the dom.
+   */
+  resetShapeAndLocate() {
+
+    return this.fitToGrid()
+
+  }
+
+  showAnim() { return new Animation('bom-appear', 500) }
+
+  hideAnim() { return new Animation('bom-disappear', 500) }
+
+  remove() {
+
+    this.elem.remove()
+
+    ALL_CELLS.splice(ALL_CELLS.indexOf(this), 1)
+
+  }
+
+  /**
+   * Animates the cell using the give css animation with the given duration.
+   *
+   * @param {string} animation
+   * @param {number} duration
+   */
+  anim(animation, duration) {
+
+    return this.elem.anim(animation, duration)
+
+  }
+
+  up() {
+
+    return this.moveUpOnGrid()
+
+  }
+
+  down() {
+
+    return this.moveDownOnGrid()
+
+  }
+
+  left() {
+
+    return this.moveLeftOnGrid()
+
+  }
+
+  right() {
+
+    return this.moveRightOnGrid()
+
+  }
 
 }

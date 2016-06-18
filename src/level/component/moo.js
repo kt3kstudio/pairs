@@ -6,18 +6,18 @@ const {component} = $.cc
 @component('moo')
 export default class Moo extends Resident {
 
-    showAnim() { return new Animation('bom-appear', 400) }
-    hideAnim() { return new Animation('bom-disappear', 400) }
+  showAnim() { return new Animation('bom-appear', 400) }
+  hideAnim() { return new Animation('bom-disappear', 400) }
 
-    willHide() {
+  willHide() {
 
-        this.elem.css('opacity', 0)
+    this.elem.css('opacity', 0)
 
-    }
+  }
 
-    image() {
+  image() {
 
-        return `${global.BASEPATH}/img/moo.svg`
+    return `${global.BASEPATH}/img/moo.svg`
 
-    }
+  }
 }

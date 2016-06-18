@@ -8,65 +8,65 @@ const {component} = $.cc
  */
 @component('result-pane')
 export default class ResultPane extends Body {
-    /**
-     * Sets the score.
-     * @param {number} score The score to set
-     */
-    setScore(score) {
-        this.score = score
-    }
+  /**
+   * Sets the score.
+   * @param {number} score The score to set
+   */
+  setScore(score) {
+    this.score = score
+  }
 
-    /**
-     * @param {boolean} isSuccess True iff the result is successful
-     */
-    setSuccess(isSuccess) {
-        this.isSuccess = isSuccess
-    }
+  /**
+   * @param {boolean} isSuccess True iff the result is successful
+   */
+  setSuccess(isSuccess) {
+    this.isSuccess = isSuccess
+  }
 
-    /**
-     * Sets the number of the stars.
-     * @param {number} star The number of stars
-     */
-    setStar(star) {
-        this.star = star
-    }
+  /**
+   * Sets the number of the stars.
+   * @param {number} star The number of stars
+   */
+  setStar(star) {
+    this.star = star
+  }
 
-    /**
-     * @override
-     */
-    willShow() {
-        this.elem.append(
-            div({addClass: 'result-content', css: {opacity: 0, position: 'relative'}},
-                ul(
-                    li('score: ' + this.score),
-                    li('success: ' + this.isSuccess)
-                )
-            )
+  /**
+   * @override
+   */
+  willShow() {
+    this.elem.append(
+      div({addClass: 'result-content', css: {opacity: 0, position: 'relative'}},
+        ul(
+          li('score: ' + this.score),
+          li('success: ' + this.isSuccess)
         )
+      )
+    )
 
-        return super.willShow()
-    }
+    return super.willShow()
+  }
 
-    /**
-     * Shows the result pane and it automatically hides timeout later.
-     *
-     * @param {number} timeout The time after which the pane hides itself
-     * @return {Promise} The promise which resolves when the pane hides
-     */
-    show(timeout) {
-        return super.show().then(() => this.showInfoPane(timeout))
-    }
+  /**
+   * Shows the result pane and it automatically hides timeout later.
+   *
+   * @param {number} timeout The time after which the pane hides itself
+   * @return {Promise} The promise which resolves when the pane hides
+   */
+  show(timeout) {
+    return super.show().then(() => this.showInfoPane(timeout))
+  }
 
-    /**
-     * Shows the info pane with the given timeout.
-     * @param {Number} timeout
-     * @return {Promise}
-     */
-    showInfoPane(timeout) {
-        return this.elem.attr({m: 9, n: 7}).cc.init('multiflip').show()
+  /**
+   * Shows the info pane with the given timeout.
+   * @param {Number} timeout
+   * @return {Promise}
+   */
+  showInfoPane(timeout) {
+    return this.elem.attr({m: 9, n: 7}).cc.init('multiflip').show()
 
-        .then(() => Promise.race([wait(timeout), this.elem.once('click touchstart')]))
+    .then(() => Promise.race([wait(timeout), this.elem.once('click touchstart')]))
 
-        .then(() => this.elem.cc.get('multiflip').hide())
-    }
+    .then(() => this.elem.cc.get('multiflip').hide())
+  }
 }

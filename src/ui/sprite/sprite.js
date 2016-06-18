@@ -5,57 +5,57 @@
  */
 export default class Sprite {
 
-    /**
-     * Changes the direction and state.
-     * @param {String} dir The direction
-     * @param {String} state The state
-     */
-    setDirState(dir = null, state = null) {
+  /**
+   * Changes the direction and state.
+   * @param {String} dir The direction
+   * @param {String} state The state
+   */
+  setDirState(dir = null, state = null) {
 
-        this.dir = dir || this.dir
-        this.state = state || this.state
+    this.dir = dir || this.dir
+    this.state = state || this.state
 
-        this.updateElemByDirState()
+    this.updateElemByDirState()
 
-    }
+  }
 
-    /**
-     * Updates the element by the dir and state.
-     */
-    updateElemByDirState() {
+  /**
+   * Updates the element by the dir and state.
+   */
+  updateElemByDirState() {
 
-        this.dirStateImage.get(this.dir || this.defaultDir(), this.state || this.defaultState()).apply(this.elem)
+    this.dirStateImage.get(this.dir || this.defaultDir(), this.state || this.defaultState()).apply(this.elem)
 
-    }
+  }
 
-    /**
-     * Updates sprite related things.
-     */
-    updateSprite() {
+  /**
+   * Updates sprite related things.
+   */
+  updateSprite() {
 
-        this.updateElemByDirState()
+    this.updateElemByDirState()
 
-    }
+  }
 
-    /**
-     * Keeps the direction and sets the given state.
-     *
-     * @param {string} state The state
-     */
-    setState(state) {
+  /**
+   * Keeps the direction and sets the given state.
+   *
+   * @param {string} state The state
+   */
+  setState(state) {
 
-        this.setDirState(null, state)
+    this.setDirState(null, state)
 
-    }
+  }
 
-    /**
-     * Sets the direction.
-     * @param {string} dir The direction
-     */
-    setDir(dir) {
+  /**
+   * Sets the direction.
+   * @param {string} dir The direction
+   */
+  setDir(dir) {
 
-        this.setDirState(dir, null)
+    this.setDirState(dir, null)
 
-    }
+  }
 
 }

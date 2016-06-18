@@ -6,47 +6,47 @@ const Dur = 700
  */
 export default class BackgroundService {
 
-    /**
-     * Turns the bg color white.
-     *
-     * @param {Number} dur The duration
-     * @return {Promise}
-     */
-    static turnWhite(dur) {
+  /**
+   * Turns the bg color white.
+   *
+   * @param {Number} dur The duration
+   * @return {Promise}
+   */
+  static turnWhite(dur) {
 
-        return this.turn('', dur, false)
+    return this.turn('', dur, false)
 
-    }
+  }
 
-    /**
-     * Turns the bg color white.
-     *
-     * @param {Number} dur The duration
-     * @return {Promise}
-     */
-    static turnBlack(dur) {
+  /**
+   * Turns the bg color white.
+   *
+   * @param {Number} dur The duration
+   * @return {Promise}
+   */
+  static turnBlack(dur) {
 
-        return this.turn('', dur, true)
+    return this.turn('', dur, true)
 
-    }
+  }
 
-    /**
-     * Turns the bg color to the given color.
-     *
-     * @private
-     * @param {String} color The color in css color
-     * @param {Number} dur The duration
-     * @param {Boolean} darkBg True if use dark background format
-     * @return {Promise}
-     */
-    static turn(color, dur, darkBg) {
+  /**
+   * Turns the bg color to the given color.
+   *
+   * @private
+   * @param {String} color The color in css color
+   * @param {Number} dur The duration
+   * @param {Boolean} darkBg True if use dark background format
+   * @return {Promise}
+   */
+  static turn(color, dur, darkBg) {
 
-        dur = dur || Dur
+    dur = dur || Dur
 
-        $(document.body).toggleClass('dark-bg', darkBg).css('background-color', color)
+    $(document.body).toggleClass('dark-bg', darkBg).css('background-color', color)
 
-        return wait(dur)
+    return wait(dur)
 
-    }
+  }
 
 }

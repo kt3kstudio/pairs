@@ -9,99 +9,99 @@ const isLastOne = cell => cell ? cell.isLastOne() : false
  */
 export default class FusionPair {
 
-    /**
-     * @constructor
-     * @param {Cell} left The left cell
-     * @param {Cell} right The right cell
-     */
-    constructor(left, right) {
+  /**
+   * @constructor
+   * @param {Cell} left The left cell
+   * @param {Cell} right The right cell
+   */
+  constructor(left, right) {
 
-        this.left = left
-        this.right = right
+    this.left = left
+    this.right = right
 
-        this.__newGene__ = meiosis.recombination(this.leftGene(), this.rightGene())
+    this.__newGene__ = meiosis.recombination(this.leftGene(), this.rightGene())
 
-    }
+  }
 
-    /**
-     * Creates a new gene from the pair of cells
-     *
-     * @param {String} x The first gene
-     * @param {String} y The second gene
-     * @returns {String} The new gene
-     */
-    newGene() {
+  /**
+   * Creates a new gene from the pair of cells
+   *
+   * @param {String} x The first gene
+   * @param {String} y The second gene
+   * @returns {String} The new gene
+   */
+  newGene() {
 
-        return this.__newGene__
+    return this.__newGene__
 
-    }
+  }
 
-    /**
-     * Checks if the pair is evolving.
-     *
-     * @return {Boolean}
-     */
-    isEvolving() {
+  /**
+   * Checks if the pair is evolving.
+   *
+   * @return {Boolean}
+   */
+  isEvolving() {
 
-        const prevLength = Math.max(meiosis.virtualLength(this.leftGene()), meiosis.virtualLength(this.rightGene()))
-        const newLength = meiosis.virtualLength(this.newGene())
+    const prevLength = Math.max(meiosis.virtualLength(this.leftGene()), meiosis.virtualLength(this.rightGene()))
+    const newLength = meiosis.virtualLength(this.newGene())
 
-        return newLength > prevLength
+    return newLength > prevLength
 
-    }
+  }
 
-    /**
-     * Returns true if the pair is the last one of the round.
-     *
-     * @return {Boolean}
-     */
-    isLastOne() {
+  /**
+   * Returns true if the pair is the last one of the round.
+   *
+   * @return {Boolean}
+   */
+  isLastOne() {
 
-        return isLastOne(this.left) || isLastOne(this.right)
+    return isLastOne(this.left) || isLastOne(this.right)
 
-    }
+  }
 
-    /**
-     * Returns the left gene.
-     *
-     * @return {String}
-     */
-    leftGene() {
+  /**
+   * Returns the left gene.
+   *
+   * @return {String}
+   */
+  leftGene() {
 
-        return getGene(this.left)
+    return getGene(this.left)
 
-    }
+  }
 
-    /**
-     * Returns the right gene.
-     *
-     * @return {String}
-     */
-    rightGene() {
+  /**
+   * Returns the right gene.
+   *
+   * @return {String}
+   */
+  rightGene() {
 
-        return getGene(this.right)
+    return getGene(this.right)
 
-    }
+  }
 
-    /**
-     * Calculates the score of the pair.
-     *
-     * @return {Number} The score
-     */
-    score() {
+  /**
+   * Calculates the score of the pair.
+   *
+   * @return {Number} The score
+   */
+  score() {
 
-        const length = meiosis.virtualLength(this.newGene())
+    const length = meiosis.virtualLength(this.newGene())
 
-        let s = Math.pow(length, 2) * 10
+    let s = Math.pow(length, 2) * 10
 
-        if (this.isLastOne()) {
+    if (this.isLastOne()) {
 
-            s *= 2
-
-        }
-
-        return s
+      s *= 2
 
     }
+
+    return s
+
+  }
 
 }

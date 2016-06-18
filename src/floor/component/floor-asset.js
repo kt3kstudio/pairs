@@ -6,109 +6,109 @@ const {img} = require('dom-gen')
  */
 export default class FloorAsset extends Body {
 
-    /**
-     * @override
-     */
-    width() { return 80 }
+  /**
+   * @override
+   */
+  width() { return 80 }
 
-    /**
-     * @override
-     */
-    height() { return 100 }
+  /**
+   * @override
+   */
+  height() { return 100 }
 
-    /**
-     * @override
-     */
-    ratioX() { return 0.5 }
+  /**
+   * @override
+   */
+  ratioX() { return 0.5 }
 
-    /**
-     * @override
-     */
-    ratioY() { return 1 }
+  /**
+   * @override
+   */
+  ratioY() { return 1 }
 
-    constructor(elem) {
-        super()
+  constructor(elem) {
+    super()
 
-        this.x = +elem.attr('x')
-        this.y = +elem.attr('y')
+    this.x = +elem.attr('x')
+    this.y = +elem.attr('y')
 
-        this.id = elem.attr('id')
-    }
+    this.id = elem.attr('id')
+  }
 
-    /**
-     * Knocks the door (figuratively).
-     */
-    doorKnock() {
+  /**
+   * Knocks the door (figuratively).
+   */
+  doorKnock() {
 
-        this.elem.trigger('door-knock', [this])
+    this.elem.trigger('door-knock', [this])
 
-    }
+  }
 
-    /**
-     * @abstract
-     */
-    open() {
+  /**
+   * @abstract
+   */
+  open() {
 
-        return Promise.resolve()
+    return Promise.resolve()
 
-    }
+  }
 
-    /**
-     * @abstract
-     */
-    close() {
+  /**
+   * @abstract
+   */
+  close() {
 
-        return Promise.resolve()
+    return Promise.resolve()
 
-    }
+  }
 
-    /**
-     * The handler when it gets the walker.
-     *
-     * @abstract
-     */
-    onGetWalker() {
+  /**
+   * The handler when it gets the walker.
+   *
+   * @abstract
+   */
+  onGetWalker() {
 
-        return Promise.resolve()
+    return Promise.resolve()
 
-    }
+  }
 
-    /**
-     * Spawn the frog to the front of the floor asset.
-     */
-    spawnFrog() {
+  /**
+   * Spawn the frog to the front of the floor asset.
+   */
+  spawnFrog() {
 
-        const frog = img().css({zIndex: 2}).appendTo(this.elem).cc.init('frog')
+    const frog = img().css({zIndex: 2}).appendTo(this.elem).cc.init('frog')
 
-        frog.setGrid(new Grid({x: 35, y: 130, unitWidth: 100, unitHeight: 100}))
+    frog.setGrid(new Grid({x: 35, y: 130, unitWidth: 100, unitHeight: 100}))
 
-        frog.show()
+    frog.show()
 
-    }
+  }
 
-    /**
-     * Removes the frog in front of the floor asset.
-     */
-    removeFrog() {
+  /**
+   * Removes the frog in front of the floor asset.
+   */
+  removeFrog() {
 
-        const frogDom = this.elem.find('.frog')
+    const frogDom = this.elem.find('.frog')
 
-        if (frogDom.length === 0) {
+    if (frogDom.length === 0) {
 
-            return
-
-        }
-
-        const frog = frogDom.cc.get('frog')
-
-        if (frog == null) {
-
-            return
-
-        }
-
-        frog.runAwayRight()
+      return
 
     }
+
+    const frog = frogDom.cc.get('frog')
+
+    if (frog == null) {
+
+      return
+
+    }
+
+    frog.runAwayRight()
+
+  }
 
 }

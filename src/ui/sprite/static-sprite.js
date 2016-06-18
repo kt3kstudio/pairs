@@ -10,33 +10,33 @@ import Sprite from './sprite'
 @traits(Sprite)
 export default class StaticSprite {
 
-    /**
-     * Returns the default direction.
-     */
-    defaultDir() { return 'down' }
+  /**
+   * Returns the default direction.
+   */
+  defaultDir() { return 'down' }
 
-    /**
-     * Returns the default state.
-     */
-    defaultState() { return 'default' }
+  /**
+   * Returns the default state.
+   */
+  defaultState() { return 'default' }
 
-    /**
-     * Initialize the dir state image map.
-     */
-    initDirStateImage() {
+  /**
+   * Initialize the dir state image map.
+   */
+  initDirStateImage() {
 
-        this.dirStateImage = new DirStateImageMap()
-        this.dirStateImage.addImageByDirState(new Image(this.image()), 'down', 'default')
+    this.dirStateImage = new DirStateImageMap()
+    this.dirStateImage.addImageByDirState(new Image(this.image()), 'down', 'default')
 
-    }
+  }
 
-    /**
-     * Initializes sprite things.
-     */
-    initSprite() {
+  /**
+   * Initializes sprite things.
+   */
+  initSprite() {
 
-        this.initDirStateImage()
+    this.initDirStateImage()
 
-    }
+  }
 
 }

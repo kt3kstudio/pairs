@@ -8,14 +8,14 @@ const DEFAULT_CHAR_ID = 'ma'
  */
 export default class UserFactory {
 
-    createFromObject(obj = {}) {
+  createFromObject(obj = {}) {
 
-        if (obj.charId == null) {
-            obj.charId = DEFAULT_CHAR_ID
-        }
-
-        return new User(obj.charId, new UserStatistics(obj.stat))
-
+    if (obj.charId == null) {
+      obj.charId = DEFAULT_CHAR_ID
     }
+
+    return new User(obj.charId, new UserStatistics(obj.stat))
+
+  }
 
 }

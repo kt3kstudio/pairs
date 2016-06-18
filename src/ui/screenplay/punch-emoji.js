@@ -7,15 +7,15 @@ const {component, on} = $.cc
 @component('punch-emoji')
 export default class PunchEmoji {
 
-    /**
-     * @param {jQuery} elem The jquery object
-     */
-    constructor(elem) {
-        elem.css('opacity', 0)
-    }
+  /**
+   * @param {jQuery} elem The jquery object
+   */
+  constructor(elem) {
+    elem.css('opacity', 0)
+  }
 
-    @on('puncher.appended')
-    onAppended() {
-        wait(100).then(() => this.elem.css('opacity', 1))
-    }
+  @on('puncher.appended')
+  onAppended() {
+    wait(100).then(() => this.elem.css('opacity', 1))
+  }
 }

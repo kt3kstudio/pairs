@@ -13,90 +13,90 @@ const {component} = $.cc
 @component('hero')
 export default class Character extends GridWalker {
 
-    constructor(elem) {
-        super()
+  constructor(elem) {
+    super()
 
-        this.initSprite(elem)
-        this.setSpeaker(elem)
-    }
+    this.initSprite(elem)
+    this.setSpeaker(elem)
+  }
 
-    ratioX() { return 0.5 }
-    ratioY() { return 1 }
+  ratioX() { return 0.5 }
+  ratioY() { return 1 }
 
-    /**
-     * @param {number} dur The duration
-     */
-    willShow(dur) {
+  /**
+   * @param {number} dur The duration
+   */
+  willShow(dur) {
 
-        this.elem.css('display', 'inline')
-        this.updateSprite()
+    this.elem.css('display', 'inline')
+    this.updateSprite()
 
-        return super.willShow(dur)
+    return super.willShow(dur)
 
-    }
+  }
 
-    /**
-     * @param {number} dur The duration
-     */
-    didHide(dur) {
+  /**
+   * @param {number} dur The duration
+   */
+  didHide(dur) {
 
-        this.elem.css('display', 'none')
+    this.elem.css('display', 'none')
 
-        return super.didHide(dur)
+    return super.didHide(dur)
 
-    }
+  }
 
 
-    /**
-     * Moves a unit upward along the grid.
-     *
-     * @return {Promise}
-     */
-    moveUpOnGrid() {
+  /**
+   * Moves a unit upward along the grid.
+   *
+   * @return {Promise}
+   */
+  moveUpOnGrid() {
 
-        this.turn('up')
+    this.turn('up')
 
-        return super.moveUpOnGrid()
+    return super.moveUpOnGrid()
 
-    }
+  }
 
-    /**
-     * Moves a unit upward along the grid.
-     *
-     * @return {Promise}
-     */
-    moveRightOnGrid() {
+  /**
+   * Moves a unit upward along the grid.
+   *
+   * @return {Promise}
+   */
+  moveRightOnGrid() {
 
-        this.turn('right')
+    this.turn('right')
 
-        return super.moveRightOnGrid()
+    return super.moveRightOnGrid()
 
-    }
+  }
 
-    /**
-     * Moves a unit upward along the grid.
-     *
-     * @return {Promise}
-     */
-    moveDownOnGrid() {
+  /**
+   * Moves a unit upward along the grid.
+   *
+   * @return {Promise}
+   */
+  moveDownOnGrid() {
 
-        this.turn('down')
+    this.turn('down')
 
-        return super.moveDownOnGrid()
+    return super.moveDownOnGrid()
 
-    }
+  }
 
-    /**
-     * Moves a unit upward along the grid.
-     *
-     * @return {Promise}
-     */
-    moveLeftOnGrid() {
+  /**
+   * Moves a unit upward along the grid.
+   *
+   * @return {Promise}
+   */
+  moveLeftOnGrid() {
 
-        this.turn('left')
+    this.turn('left')
 
-        return super.moveLeftOnGrid()
+    return super.moveLeftOnGrid()
 
-    }
+  }
 
 }

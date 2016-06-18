@@ -1,28 +1,28 @@
 describe('SwipeField', function () {
-    'use strict'
+  'use strict'
 
-    var elem
+  var elem
 
-    beforeEach(function () {
-        elem = $('<div />')
+  beforeEach(function () {
+    elem = $('<div />')
 
-        elem.cc.init('swipe-field')
+    elem.cc.init('swipe-field')
+  })
+
+  it('binds swipe events on the element', function (done) {
+    var c = 0
+
+    elem.on('swipeup swipedown swipeleft swiperight', function () {
+      c++
+
+      if (c === 4) {
+        done()
+      }
     })
 
-    it('binds swipe events on the element', function (done) {
-        var c = 0
-
-        elem.on('swipeup swipedown swipeleft swiperight', function () {
-            c++
-
-            if (c === 4) {
-                done()
-            }
-        })
-
-        $(document).trigger('upkey')
-        $(document).trigger('downkey')
-        $(document).trigger('leftkey')
-        $(document).trigger('rightkey')
-    })
+    $(document).trigger('upkey')
+    $(document).trigger('downkey')
+    $(document).trigger('leftkey')
+    $(document).trigger('rightkey')
+  })
 })
