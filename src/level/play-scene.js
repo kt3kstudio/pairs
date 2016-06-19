@@ -5,7 +5,7 @@ import FusionPreparationService from './component/fusion-preparation-service'
 import BallMoveMobLeaveService from './component/ball-move-mob-leave-service'
 import ExitQueue from './component/exit-queue'
 
-const {component, on, trigger} = $.cc
+const {component, on, emit} = $.cc
 
 /**
  * PlayScene controlls the main playing scene of the level page.
@@ -128,7 +128,7 @@ class PlayScene extends Context {
    *
    * @return {Promise}
    */
-  @trigger(null, 'play-scene.finished')
+  @emit('play-scene.finished').last
   start () {
     this.getMenuButton().show()
 

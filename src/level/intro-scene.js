@@ -9,7 +9,7 @@ import '../ui/screenplay/screenplay-manager'
 import {wait} from 'spn'
 const {img} = require('dom-gen')
 
-const {component, on, trigger} = $.cc
+const {component, on, emit} = $.cc
 
 /**
  * IntroScene class handles the introduction scene of the level page.
@@ -113,7 +113,7 @@ export default class IntroScene extends Context {
    *
    * @return {Promise}
    */
-  @trigger(null, 'intro-scene.finished')
+  @emit('intro-scene.finished').last
   start () {
     this.getPaper().show()
 
