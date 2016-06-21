@@ -3,9 +3,6 @@
 ## feat(goal):
 - show failure when the game is finished without all goals finished
 
-## refactor(Rx.Observable)
-- remove prototype extension
-
 ## feat(unlock):
 - unlock the next level when the result is success
 - unlock the staircase
@@ -49,6 +46,14 @@
 - Ad integration (in android, ios side, maybe better to create it as straw plugin)
 - Choose ad platform
 
+## refactor(Rx.Observable)
+- remove Rx.Observable.prototype.filterNull
+- remove Rx.Observable.prototype.pipe
+- remove Rx.Observable.prototype.flattenObservable
+- remove Rx.Observable.prototype.emitInto
+- remove Rx.Observable.prototype.hook
+- remove Array.prototype.toFlatStream
+
 ## feat(speech)
 - Cancel (skip) target in the DSL.
 
@@ -60,6 +65,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- remove Rx.Observable.prototype.getPromise
 - GeneSource @component('gene-source')
 - remove Level, Cell and Goal models in datadomain
 - switch to standard (very difficult because of decorator uses.)

@@ -47,6 +47,8 @@ Rx.Observable.prototype.getPromise = function () {
   return new Promise((resolve, reject) => this.takeLast(1).subscribe(x => resolve(x), error => reject(error), () => resolve()))
 }
 
+exports.toPromise = source => new Promise((resolve, reject) => source.takeLast(1).subscribe(x => resolve(x), err => reject(err), () => resolve()))
+
 /**
  * Emit to the given dom element. assume the observable is a stream of the event.
  *

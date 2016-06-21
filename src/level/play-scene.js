@@ -1,6 +1,7 @@
 import Context from './context'
 import PlaySceneLayout from './layout/play-scene-layout'
 import {wait} from 'spn'
+const {toPromise} = require('../util/rx')
 import FusionPreparationService from './component/fusion-preparation-service'
 import BallMoveMobLeaveService from './component/ball-move-mob-leave-service'
 import ExitQueue from './component/exit-queue'
@@ -97,7 +98,7 @@ class PlayScene extends Context {
 
     exitCells = this.hookPlayingStateBumping(exitCells)
 
-    return this.cells().rearangeCells(exitCells).getPromise()
+    return toPromise(this.cells().rearangeCells(exitCells))
   }
 
   /**
