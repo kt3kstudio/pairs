@@ -3,6 +3,13 @@
 ## feat(goal):
 - show failure when the game is finished without all goals finished
 
+## refactor:
+- move datadomain.CharacterFactory to domain
+- move datadomain.CharPosition* to domain
+- move datadomain.LevelLock* to domain
+- move datadomain.LevelHistory* to domain
+- move datadomain.PlayingState* to domain
+
 ## feat(unlock):
 - unlock the next level when the result is success
 - unlock the staircase
@@ -25,9 +32,6 @@
 
 ## feat(level):
 - create 100 levels
-
-## refactor:
-- move datadomain.* to domain
 
 ## style:
 - remove import export and use require exports instead

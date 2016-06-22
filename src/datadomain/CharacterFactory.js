@@ -1,4 +1,5 @@
 import Character from '../domain/character'
+const LevelKeyFactory = require('../domain/level-key-factory')
 
 const {subclass} = $.cc
 
@@ -18,7 +19,8 @@ datadomain.CharacterFactory = subclass(function (pt) {
     return new Character(
       obj.id,
       obj.name,
-      new datadomain.CharPositionFactory().createFromObject(obj.position)
+      new datadomain.CharPositionFactory().createFromObject(obj.position),
+      new LevelKeyFactory().createFromArray(obj.keys)
     )
   }
 

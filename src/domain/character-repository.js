@@ -55,7 +55,36 @@ export default class CharacterRepository {
     return {
       id: character.id,
       name: character.name,
+      keys: this.keysToArray(character.keys),
       position: this.positionToObject(character.position)
+    }
+  }
+
+  /**
+   * Converts the level keys to objects.
+   * @param {LevelKey[]}
+   * @return {object[]}
+   */
+  keysToArray (keys) {
+    if (keys == null) {
+      return []
+    }
+
+    return keys.map(key => this.keyToObject(key))
+  }
+
+  /**
+   * Converts the level key to an object.
+   * @param {LevelKey} key The level key
+   * @return {object}
+   */
+  keyToObject (key) {
+    if (key == null) {
+      return null
+    }
+
+    return {
+      levelId: key.levelId
     }
   }
 

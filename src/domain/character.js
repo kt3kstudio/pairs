@@ -8,14 +8,15 @@
 export default class Character {
   /**
    * @constructor
-   * @param {String} id The id of the character
-   * @param {String} name The name of the character
+   * @param {string} id The id of the character
+   * @param {string} name The name of the character
    * @param {datadomain.CharPosition} position The position of the character
+   * @param {LevelKey[]} keys The keys of the levels
    * @param {datadomain.LevelHistoryCollection} histories The histories of the current floor
    * @param {datadomain.PlayingState} playingState The state of playing at the current level
    * @param {datadomain.LevelLockCollection} locks The collection of the level locks
    */
-  constructor (id, name, position, histories, playingState, locks) {
+  constructor (id, name, position, keys, histories, playingState, locks) {
     /**
      * @property {String} id The id of the character
      */
@@ -30,6 +31,8 @@ export default class Character {
      * @property {datadomain.CharPosition} position The position of the character
      */
     this.position = position
+
+    this.keys = keys
 
     /**
      * @property {datadomain.LevelHistoryCollection} histories The histories of the current floor
