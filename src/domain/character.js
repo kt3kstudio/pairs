@@ -5,7 +5,7 @@
  * [Entity]
  * [AggregateRoot]
  */
-export default class Character {
+class Character {
   /**
    * @constructor
    * @param {string} id The id of the character
@@ -144,3 +144,5 @@ export default class Character {
     return this.position.floorObjectId
   }
 }
+
+module.exports = Character

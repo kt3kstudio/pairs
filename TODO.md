@@ -4,7 +4,6 @@
 - show failure when the game is finished without all goals finished
 
 ## refactor:
-- move datadomain.CharacterFactory to domain
 - move datadomain.CharPosition* to domain
 - move datadomain.LevelLock* to domain
 - move datadomain.LevelHistory* to domain
@@ -69,6 +68,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- move datadomain.CharacterFactory to domain
 - remove Rx.Observable.prototype.getPromise
 - GeneSource @component('gene-source')
 - remove Level, Cell and Goal models in datadomain

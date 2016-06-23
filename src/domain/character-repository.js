@@ -1,10 +1,12 @@
+const CharacterFactory = require('./character-factory')
+
 const STORAGE_KEY = 'character-'
 
 /**
  * The repository of Character.
  *
  */
-export default class CharacterRepository {
+class CharacterRepository {
   /**
    * Saves the character.
    *
@@ -27,7 +29,7 @@ export default class CharacterRepository {
     return infrastructure.storage.get(STORAGE_KEY + id, null).then(obj => {
       let character
 
-      const factory = new datadomain.CharacterFactory()
+      const factory = new CharacterFactory()
 
       if (obj == null) {
         character = factory.createInitialById(id)
@@ -106,3 +108,5 @@ export default class CharacterRepository {
     }
   }
 }
+
+module.exports = CharacterRepository

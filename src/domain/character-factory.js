@@ -1,21 +1,16 @@
-import Character from '../domain/character'
-const LevelKeyFactory = require('../domain/level-key-factory')
-
-const {subclass} = $.cc
+const Character = require('./character')
+const LevelKeyFactory = require('./level-key-factory')
 
 /**
  * The factory of Character.
  */
-datadomain.CharacterFactory = subclass(function (pt) {
-  'use strict'
-
+class CharacterFactory {
   /**
    * Creates a character from the object
-   *
-   * @param {Object} obj The object
+   * @param {object} obj The object
    * @return {Character}
    */
-  pt.createFromObject = function (obj) {
+  createFromObject (obj) {
     return new Character(
       obj.id,
       obj.name,
@@ -26,11 +21,10 @@ datadomain.CharacterFactory = subclass(function (pt) {
 
   /**
    * Creates the character of the initial state.
-   *
-   * @param {String} id The character id
+   * @param {string} id The character id
    * @return {Character}
    */
-  pt.createInitialById = function (id) {
+  createInitialById (id) {
     if (id === 'ma') {
       return new Character(
         id,
@@ -53,4 +47,6 @@ datadomain.CharacterFactory = subclass(function (pt) {
 
     throw new Error('unknown character: ' + id)
   }
-})
+}
+
+module.exports = CharacterFactory
