@@ -36,12 +36,12 @@ export default class CharacterRepository {
       }
 
       return Promise.all([
-        character,
         character.reloadHistories(),
         character.reloadPlayingState(),
         character.reloadLocks()
       ])
-    }).then(array => array[0])
+      .then(() => character)
+    })
   }
 
   /**

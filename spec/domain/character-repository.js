@@ -1,4 +1,5 @@
 import Character from '../../src/domain/character'
+const LevelKey = require('../../src/domain/level-key')
 import CharacterRepository from '../../src/domain/character-repository'
 
 describe('CharacterRepository', () => {
@@ -10,10 +11,8 @@ describe('CharacterRepository', () => {
     window.infrastructure = {}
 
     window.infrastructure.storage = {
-      get: spy(() => {
-      }),
-      set: spy(() => {
-      })
+      get: spy(() => {}),
+      set: spy(() => {})
     }
   })
 
@@ -23,7 +22,19 @@ describe('CharacterRepository', () => {
 
       when(infrastructure.storage.set)().then(() => Promise.resolve({}))
 
-      return repo.save(character).then(character => expect(character).to.be.instanceof(Character))
+      return repo.save(character).then(character => {
+        expect(character).to.be.instanceof(Character)
+      })
+    })
+
+    it('saves the character\'s position ans keys', () => {
+      const character = new Character('ma', 'Ma', new datadomain.CharPosition('7', '701'), [new LevelKey('702'), null])
+
+      when(infrastructure.storage.set)().then(() => Promise.resolve({}))
+
+      return repo.save(character).then(character => {
+        expect(character).to.be.instanceof(Character)
+      })
     })
   })
 
