@@ -18,17 +18,6 @@ class CharacterPosition {
      */
     this.floorObjectId = floorObjectId
   }
-
-  /**
-   * Returns the object representation of the character's position
-   * @return {Object}
-   */
-  toObject () {
-    return {
-      floorId: this.floorId,
-      floorObjectId: this.floorObjectId
-    }
-  }
 }
 
 module.exports = CharacterPosition
