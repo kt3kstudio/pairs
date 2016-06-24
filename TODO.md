@@ -6,7 +6,6 @@
 ## refactor:
 - move datadomain.LevelLock* to domain
 - move datadomain.LevelHistory* to domain
-- move datadomain.PlayingState* to domain
 
 ## feat(unlock):
 - unlock the next level when the result is success
@@ -67,6 +66,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- move datadomain.PlayingState* to domain
 - move datadomain.CharPosition* to domain
 - move datadomain.CharacterFactory to domain
 - remove Rx.Observable.prototype.getPromise

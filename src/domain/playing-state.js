@@ -1,20 +1,16 @@
-const {subclass} = $.cc
-
 /**
  * PlayingState model represents the current playing state of the level.
  *
- * [ValueObject]
+ * [Entity]
  */
-datadomain.PlayingState = subclass(function (pt) {
-  'use strict'
-
+class PlayingState {
   /**
    * @constructor
    * @param {String} charId The character id
    * @param {String} levelId The level id
    * @param {Array} [rounds] The directions
    */
-  pt.constructor = function (charId, levelId, rounds) {
+  constructor (charId, levelId, rounds) {
     this.charId = charId
     this.levelId = levelId
     this.rounds = rounds || [[]]
@@ -23,17 +19,16 @@ datadomain.PlayingState = subclass(function (pt) {
   /**
    * Moves to the next round.
    */
-  pt.bump = function () {
+  bump () {
     this.rounds.unshift([])
   }
 
   /**
    * Releases the round data and init the obj state.
-   *
    * @return {Array} The array of round data
    */
-  pt.release = function () {
-    var rounds = this.rounds.splice(0).reverse()
+  release () {
+    const rounds = this.rounds.splice(0).reverse()
 
     this.bump()
 
@@ -41,11 +36,12 @@ datadomain.PlayingState = subclass(function (pt) {
   }
 
   /**
-   * Adds a direction
-   *
+   * Adds a direction.
    * @param {String} dir The direction
    */
-  pt.add = function (dir) {
+  add (dir) {
     this.rounds[0].push(dir)
   }
-})
+}
+
+module.exports = PlayingState

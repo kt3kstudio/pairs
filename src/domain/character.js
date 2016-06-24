@@ -1,3 +1,5 @@
+const PlayingStateRepository = require('./playing-state-repository')
+
 /**
  * Character is the domain model and the aggregate root of character aggregate.
  * It has CharacterPosition and LevelHistoryCollection as its components.
@@ -13,7 +15,7 @@ class Character {
    * @param {CharacterPosition} position The position of the character
    * @param {LevelKey[]} keys The keys of the levels
    * @param {datadomain.LevelHistoryCollection} histories The histories of the current floor
-   * @param {datadomain.PlayingState} playingState The state of playing at the current level
+   * @param {PlayingState} playingState The state of playing at the current level
    * @param {datadomain.LevelLockCollection} locks The collection of the level locks
    */
   constructor (id, name, position, keys, histories, playingState, locks) {
@@ -40,7 +42,7 @@ class Character {
     this.histories = histories
 
     /**
-     * @property {datadomain.PlayingState} playingState The state of playing at the current level
+     * @property {PlayingState} playingState The state of playing at the current level
      */
     this.playingState = playingState
 
@@ -113,7 +115,7 @@ class Character {
    * @return {Promise}
    */
   reloadPlayingState () {
-    return new datadomain.PlayingStateRepository().getByCharIdLevelId(this.id, this.position.floorObjectId).then(playingState => {
+    return new PlayingStateRepository().getByCharIdLevelId(this.id, this.position.floorObjectId).then(playingState => {
       this.playingState = playingState
 
       return this
@@ -126,7 +128,7 @@ class Character {
    * @return {Promise}
    */
   savePlayingState () {
-    return new datadomain.PlayingStateRepository().save(this.playingState).then(() => this)
+    return new PlayingStateRepository().save(this.playingState).then(() => this)
   }
 
   /**
@@ -135,7 +137,7 @@ class Character {
    * @return {Promise}
    */
   clearPlayingState () {
-    return new datadomain.PlayingStateRepository().clearByCharId(this.id)
+    return new PlayingStateRepository().clearByCharId(this.id)
   }
 
   /**
