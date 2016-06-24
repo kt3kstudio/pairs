@@ -1,6 +1,3 @@
-import './CharPosition'
-import './CharPositionFactory'
-import './Gene'
 import './LevelHistory'
 import './LevelHistoryCollection'
 import './LevelHistoryFactory'

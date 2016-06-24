@@ -1,4 +1,5 @@
 const Character = require('./character')
+const CharacterPositionFactory = require('./character-position-factory')
 const LevelKeyFactory = require('./level-key-factory')
 
 /**
@@ -14,7 +15,7 @@ class CharacterFactory {
     return new Character(
       obj.id,
       obj.name,
-      new datadomain.CharPositionFactory().createFromObject(obj.position),
+      new CharacterPositionFactory().createFromObject(obj.position),
       new LevelKeyFactory().createFromArray(obj.keys)
     )
   }
@@ -29,19 +30,19 @@ class CharacterFactory {
       return new Character(
         id,
         'Ma',
-        new datadomain.CharPositionFactory().createFromObject()
+        new CharacterPositionFactory().createFromObject()
       )
     } else if (id === 'ellen') {
       return new Character(
         id,
         'Ellen',
-        new datadomain.CharPositionFactory().createFromObject()
+        new CharacterPositionFactory().createFromObject()
       )
     } else if (id === 'emma') {
       return new Character(
         id,
         'Emma',
-        new datadomain.CharPositionFactory().createFromObject()
+        new CharacterPositionFactory().createFromObject()
       )
     }
 

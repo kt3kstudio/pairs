@@ -74,7 +74,7 @@ class FloorWalker extends Body {
   /**
    * Gets the character's position.
    *
-   * @return {datadomain.CharPosition}
+   * @return {CharacterPosition}
    */
   getPosition () {
     return this.character.position

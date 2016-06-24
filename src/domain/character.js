@@ -1,6 +1,6 @@
 /**
  * Character is the domain model and the aggregate root of character aggregate.
- * It has CharPosition and LevelHistoryCollection as its components.
+ * It has CharacterPosition and LevelHistoryCollection as its components.
  *
  * [Entity]
  * [AggregateRoot]
@@ -10,7 +10,7 @@ class Character {
    * @constructor
    * @param {string} id The id of the character
    * @param {string} name The name of the character
-   * @param {datadomain.CharPosition} position The position of the character
+   * @param {CharacterPosition} position The position of the character
    * @param {LevelKey[]} keys The keys of the levels
    * @param {datadomain.LevelHistoryCollection} histories The histories of the current floor
    * @param {datadomain.PlayingState} playingState The state of playing at the current level
@@ -28,7 +28,7 @@ class Character {
     this.name = name
 
     /**
-     * @property {datadomain.CharPosition} position The position of the character
+     * @property {CharacterPosition} position The position of the character
      */
     this.position = position
 
@@ -53,7 +53,7 @@ class Character {
   /**
    * Sets the position of character.
    *
-   * @param {datadomain.CharPosition} position The position of the character
+   * @param {CharacterPosition} position The position of the character
    */
   setPosition (position) {
     this.position = position

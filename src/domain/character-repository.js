@@ -91,10 +91,9 @@ class CharacterRepository {
   }
 
   /**
+   * Converts the CharacterPosition object into js object.
    * @private
-   * Converts the CharPosition object into js object.
-   *
-   * @param {datadomain.CharPosition} position The position
+   * @param {CharacterPosition} position The position
    * @return {Object}
    */
   positionToObject (position) {

@@ -1,6 +1,7 @@
-import Character from '../../src/domain/character'
+const Character = require('../../src/domain/character')
+const CharacterPosition = require('../../src/domain/character-position')
 const LevelKey = require('../../src/domain/level-key')
-import CharacterRepository from '../../src/domain/character-repository'
+const CharacterRepository = require('../../src/domain/character-repository')
 
 describe('CharacterRepository', () => {
   'use strict'
@@ -28,7 +29,7 @@ describe('CharacterRepository', () => {
     })
 
     it('saves the character\'s position ans keys', () => {
-      const character = new Character('ma', 'Ma', new datadomain.CharPosition('7', '701'), [new LevelKey('702'), null])
+      const character = new Character('ma', 'Ma', new CharacterPosition('7', '701'), [new LevelKey('702'), null])
 
       when(infrastructure.storage.set)().then(() => Promise.resolve({}))
 

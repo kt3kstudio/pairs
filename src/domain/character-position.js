@@ -1,17 +1,13 @@
-const {subclass} = $.cc
-
 /**
  * The position of the character.
  */
-datadomain.CharPosition = subclass(function (pt) {
-  'use strict'
-
+class CharacterPosition {
   /**
    * @constructor
-   * @param {String} floorId The id of the floor
-   * @param {String} floorObjectId The id of the floor object
+   * @param {string} floorId The id of the floor
+   * @param {string} floorObjectId The id of the floor object
    */
-  pt.constructor = function (floorId, floorObjectId) {
+  constructor (floorId, floorObjectId) {
     /**
      * @property {String} floorId The id of the floor
      */
@@ -25,13 +21,14 @@ datadomain.CharPosition = subclass(function (pt) {
 
   /**
    * Returns the object representation of the character's position
-   *
    * @return {Object}
    */
-  pt.toObject = function () {
+  toObject () {
     return {
       floorId: this.floorId,
       floorObjectId: this.floorObjectId
     }
   }
-})
+}
+
+module.exports = CharacterPosition
