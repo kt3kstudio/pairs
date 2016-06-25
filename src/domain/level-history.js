@@ -1,13 +1,7 @@
-const {subclass} = $.cc
-
 /**
  * LevelHistory is model class which represents the history of the level clearance.
- *
- * @class
  */
-datadomain.LevelHistory = subclass(function (pt) {
-  'use strict'
-
+class LevelHistory {
   /**
    * @constructor
    * @param {String} levelId The id of the level
@@ -16,7 +10,7 @@ datadomain.LevelHistory = subclass(function (pt) {
    * @param {Boolean} cleared If cleared or not
    * @param {Date} clearedAt The datetime of the clear
    */
-  pt.constructor = function (levelId, score, goalGenes, cleared, clearedAt) {
+  constructor (levelId, score, goalGenes, cleared, clearedAt) {
     /**
      * @property {String} levelId The id of the level
      */
@@ -42,4 +36,6 @@ datadomain.LevelHistory = subclass(function (pt) {
      */
     this.clearedAt = clearedAt
   }
-})
+}
+
+module.exports = LevelHistory

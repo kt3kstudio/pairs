@@ -1,4 +1,4 @@
-const {subclass} = $.cc
+const LevelHistoryFactory = require('./level-history-factory')
 
 /**
  * LevelHistoryRepository is the repository class of LevelHistory.
@@ -11,40 +11,37 @@ const {subclass} = $.cc
  *
  * e.g. level-history-ma-7
  */
-datadomain.LevelHistoryRepository = subclass(function (pt) {
-  'use strict'
-
+class LevelHistoryRepository {
   /**
    * @constructor
    * @param {String} charId The character id
    */
-  pt.constructor = function (charId) {
+  constructor (charId) {
     this.charId = charId
-    this.factory = new datadomain.LevelHistoryFactory()
+    this.factory = new LevelHistoryFactory()
   }
 
   /**
    * Gets the level histories (LevelHistoryCollection) by the floor.
-   *
    * @param {String} floorId The floor id
    * @return {Promise}
    */
-  pt.getByFloorId = function (floorId) {
-    var that = this
-
-    return infrastructure.storage.get(this.createStorageKey(floorId), []).then(function (array) {
-      return that.factory.createCollectionFromArray(array)
+  getByFloorId (floorId) {
+    return infrastructure.storage.get(this.createStorageKey(floorId), [])
+    .then(array => {
+      return this.factory.createCollectionFromArray(array)
     })
   }
 
   /**
    * Creates storage key name for the floor.
-   *
    * @private
    * @param {String} floorId The floor id
    * @return {Promise}
    */
-  pt.createStorageKey = function (floorId) {
+  createStorageKey (floorId) {
     return 'level-history-' + this.charId + '-' + floorId
   }
-})
+}
+
+module.exports = LevelHistoryRepository
