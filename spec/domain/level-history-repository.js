@@ -7,7 +7,6 @@ const storage = require('../../src/infrastructure/storage')
 const repository = new LevelHistoryRepository('ma')
 
 describe('LevelHistoryRepository', () => {
-
   beforeEach(() => {
     window.infrastructure = {storage}
   })

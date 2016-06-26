@@ -20,7 +20,7 @@ class LevelKeyFactory {
    * @param {object} obj The object
    * @return {LevelKey}
    */
-  createFromObject(obj) {
+  createFromObject (obj) {
     if (obj == null) {
       return null
     }
