@@ -25,9 +25,8 @@ class LevelHistoryFactory {
    */
   createFromObject (obj) {
     return new LevelHistory(
-      obj.levelName,
+      obj.levelId,
       obj.score,
-      obj.highestGene,
       obj.cleared,
       obj.clearedAt
     )

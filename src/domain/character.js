@@ -85,7 +85,7 @@ class Character {
    * @return {Promise}
    */
   saveHistories () {
-    return new datadomain.LevelHistoryRepository(this.id).saveByFloorId(this.position.floorId, this.histories).then(() => this)
+    return new LevelHistoryRepository(this.id).saveForFloorId(this.position.floorId, this.histories).then(() => this)
   }
 
   /**

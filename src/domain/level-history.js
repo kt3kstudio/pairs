@@ -4,13 +4,12 @@
 class LevelHistory {
   /**
    * @constructor
-   * @param {String} levelId The id of the level
-   * @param {Number} score The score
-   * @param {datadomain.Gene[]} goalGenes The goal genes
-   * @param {Boolean} cleared If cleared or not
+   * @param {string} levelId The id of the level
+   * @param {number} score The score
+   * @param {boolean} cleared If cleared or not
    * @param {Date} clearedAt The datetime of the clear
    */
-  constructor (levelId, score, goalGenes, cleared, clearedAt) {
+  constructor (levelId, score, cleared, clearedAt) {
     /**
      * @property {String} levelId The id of the level
      */
@@ -20,11 +19,6 @@ class LevelHistory {
      * @property {Number} score The score
      */
     this.score = score
-
-    /**
-     * @property {datadomain.Gene[]} goalGenes The goal genes
-     */
-    this.goalGenes = goalGenes
 
     /**
      * @property {Boolean} cleared If cleared or not

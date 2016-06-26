@@ -13,8 +13,7 @@ const LevelHistoryFactory = require('./level-history-factory')
  */
 class LevelHistoryRepository {
   /**
-   * @constructor
-   * @param {String} charId The character id
+   * @param {string} charId The character id
    */
   constructor (charId) {
     this.charId = charId
@@ -22,8 +21,8 @@ class LevelHistoryRepository {
   }
 
   /**
-   * Gets the level histories (LevelHistoryCollection) by the floor.
-   * @param {String} floorId The floor id
+   * Gets the level histories (LevelHistoryCollection) by the floor id.
+   * @param {string} floorId The floor id
    * @return {Promise}
    */
   getByFloorId (floorId) {
@@ -34,9 +33,42 @@ class LevelHistoryRepository {
   }
 
   /**
+   * Saves the level histories for the floor id.
+   * @param {string} floorId The floor id
+   * @param {LevelHistoryCollection} histories The history collection
+   * @return {Promise}
+   */
+  saveForFloorId (floorId, histories) {
+    return infrastructure.storage.set(this.createStorageKey(floorId), this.collectionToArray(histories))
+  }
+
+  /**
+   * Converts the collection to an array.
+   * @param {LevelHistoryCollection}
+   * @return {object[]}
+   */
+  collectionToArray (collection) {
+    return collection.list.map(history => this.toObject(history))
+  }
+
+  /**
+   * Converts the history to an object.
+   * @param {LevelHistory} levelHistory
+   * @return {object}
+   */
+  toObject (history) {
+    return {
+      levelId: history.levelId,
+      score: history.score,
+      cleared: history.cleared,
+      clearedAt: history.clearedAt
+    }
+  }
+
+  /**
    * Creates storage key name for the floor.
    * @private
-   * @param {String} floorId The floor id
+   * @param {string} floorId The floor id
    * @return {Promise}
    */
   createStorageKey (floorId) {
