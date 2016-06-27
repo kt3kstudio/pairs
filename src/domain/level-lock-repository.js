@@ -35,7 +35,7 @@ class LevelLockRepository {
   /**
    * Saves the collection of the locks by the floor id and char id.
    * @param {String} floorId The floor id
-   * @param {datadomain.LevelLockCollection} collection The level lock collection
+   * @param {LevelLockCollection} collection The level lock collection
    */
   saveByFloorId (floorId, collection) {
     return infrastructure.storage.set(this.createStorageKey(floorId), this.toObjectList(collection))
@@ -44,7 +44,7 @@ class LevelLockRepository {
   /**
    * Converts the collection of the locks to an object list.
    * @private
-   * @param {datadomain.LevelLockCollection} collection The level lock collection
+   * @param {LevelLockCollection} collection The level lock collection
    * @return {Array} the array of the objects
    */
   toObjectList (collection) {
@@ -54,7 +54,7 @@ class LevelLockRepository {
   /**
    * Converts the lock to an object.
    * @private
-   * @param {datadomain.LevelLock} lock The lock
+   * @param {LevelLock} lock The lock
    * @return {Object}
    */
   toObject (lock) {

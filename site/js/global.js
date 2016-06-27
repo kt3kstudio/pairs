@@ -1,19 +1,13 @@
-import $ from 'jquery'
-import Rx from 'rx-lite'
-import {polyfill} from 'es6-promise'
-import 'es6-symbol/implement'
-import Tether from 'tether'
-import Drop from 'tether-drop'
+global.jQuery = global.$ = require('jquery')
 
-global.$ = $
-global.jQuery = $
-global.Rx = Rx
-global.Tether = Tether
-global.Drop = Drop
-global.BASEPATH = ''
+global.Rx = require('rx-lite')
+
+global.Tether = require('tether')
+global.Drop = require('tether-drop')
 
 require('class-component')
 
-$.cc.subclass = require('subclassjs')
+require('es6-promise').polyfill()
+require('es6-symbol/implement')
 
-polyfill()
+global.BASEPATH = ''

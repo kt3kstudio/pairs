@@ -1,9 +1,8 @@
-import './global'
-import 'event-hub'
-import '../../src/namespaces'
-import '../../src/util/jquery'
-import '../../src/util/rx'
-import 'multiflip'
-import 'multiflip-bubble'
-import '@kt3k/puncher'
-import '../../src/ui/common/menu-button'
+require('./global')
+require('event-hub')
+require('../../src/util/jquery')
+require('../../src/util/rx')
+require('multiflip')
+require('multiflip-bubble')
+require('@kt3k/puncher')
+require('../../src/ui/common/menu-button')

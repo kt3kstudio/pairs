@@ -45,8 +45,8 @@ export default class FloorAssetCollection extends Being {
 
   /**
    * Update the floor assets by the level locks and level histories.
-   *
-   * @param {datadomain.LevelLockCollection} locks The level locks
+   * @param {LevelLockCollection} locks The level locks
+   * @param {LevelHistoryCollection} histories The level histories
    */
   updateAssetsByLocksAndHistories (locks, histories) {
     this.items.forEach(asset => {
