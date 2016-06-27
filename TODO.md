@@ -3,10 +3,8 @@
 ## feat(goal):
 - show failure when the game is finished without all goals finished
 
-## refactor:
-- move datadomain.LevelLock* to domain
-
 ## feat(unlock):
+- give key when success
 - unlock the next level when the result is success
 - unlock the staircase
 
@@ -65,6 +63,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- move datadomain.LevelLock* to domain
 - move datadomain.LevelHistory* to domain
 - move datadomain.PlayingState* to domain
 - move datadomain.CharPosition* to domain

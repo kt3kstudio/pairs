@@ -1,5 +1,6 @@
 const PlayingStateRepository = require('./playing-state-repository')
 const LevelHistoryRepository = require('./level-history-repository')
+const LevelLockRepository = require('./level-lock-repository')
 
 /**
  * Character is the domain model and the aggregate root of character aggregate.
@@ -17,7 +18,7 @@ class Character {
    * @param {LevelKey[]} keys The keys of the levels
    * @param {LevelHistoryCollection} histories The histories of the current floor
    * @param {PlayingState} playingState The state of playing at the current level
-   * @param {datadomain.LevelLockCollection} locks The collection of the level locks
+   * @param {LevelLockCollection} locks The collection of the level locks
    */
   constructor (id, name, position, keys, histories, playingState, locks) {
     /**
@@ -48,7 +49,7 @@ class Character {
     this.playingState = playingState
 
     /**
-     * @property {datadomain.LevelLockCollection} collection The collection of the locks
+     * @property {LevelLockCollection} collection The collection of the locks
      */
     this.locks = locks
   }
@@ -96,7 +97,7 @@ class Character {
       return Promise.resolve(this)
     }
 
-    return new datadomain.LevelLockRepository(this.id).getByFloorId(this.position.floorId).then(locks => {
+    return new LevelLockRepository(this.id).getByFloorId(this.position.floorId).then(locks => {
       this.locks = locks
 
       return this
@@ -107,7 +108,7 @@ class Character {
    * Saves the current level locks.
    */
   saveLocks () {
-    return new datadomain.LevelLockRepository(this.id).saveByFloorId(this.position.floorId, this.locks).then(() => this)
+    return new LevelLockRepository(this.id).saveByFloorId(this.position.floorId, this.locks).then(() => this)
   }
 
   /**

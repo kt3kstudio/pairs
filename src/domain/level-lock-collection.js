@@ -1,29 +1,26 @@
-const {subclass} = $.cc
 
 /**
  * The collection class of LevelLocks.
  */
-datadomain.LevelLockCollection = subclass(function (pt) {
-  'use strict'
-
+class LevelLockCollection {
   /**
    * @param {Array} locks
    */
-  pt.constructor = function (locks) {
+  constructor (locks) {
     this.locks = locks || []
+
+    const LevelLockFactory = require('./level-lock-factory')
+    this.factory = new LevelLockFactory()
   }
 
   /**
    * Finds the level of the given level id, or returns null when the level not found.
-   *
    * @private
    * @param {String} levelId The id of the level
-   * @return {datadomain.LevelLock}
+   * @return {LevelLock}
    */
-  pt.find = function (levelId) {
-    var locks = this.locks.filter(function (lock) {
-      return lock.levelId === levelId
-    })
+  find (levelId) {
+    const locks = this.locks.filter(lock => lock.levelId === levelId)
 
     if (locks.length === 0) {
       return null
@@ -34,11 +31,10 @@ datadomain.LevelLockCollection = subclass(function (pt) {
 
   /**
    * Unlocks the level of the given id.
-   *
    * @param {String} levelId The id of the level
    */
-  pt.unlock = function (levelId) {
-    var lock = this.find(levelId)
+  unlock (levelId) {
+    let lock = this.find(levelId)
 
     if (lock != null) {
       lock.unlock()
@@ -47,7 +43,7 @@ datadomain.LevelLockCollection = subclass(function (pt) {
     }
 
     // Create a new lock object if it doesn't exist
-    lock = new datadomain.LevelLockFactory().createFromObject({
+    lock = this.factory.createFromObject({
       levelId: levelId,
       locked: false
     })
@@ -57,12 +53,11 @@ datadomain.LevelLockCollection = subclass(function (pt) {
 
   /**
    * Checks if the lock of the given level id is locked.
-   *
    * @param {String} levelId The id of the level
    * @return {Boolean}
    */
-  pt.isLocked = function (levelId) {
-    var lock = this.find(levelId)
+  isLocked (levelId) {
+    const lock = this.find(levelId)
 
     if (!lock) {
       // If lock object doesn't exist, then it means the level is locked.
@@ -71,4 +66,6 @@ datadomain.LevelLockCollection = subclass(function (pt) {
 
     return lock.isLocked()
   }
-})
+}
+
+module.exports = LevelLockCollection
