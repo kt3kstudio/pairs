@@ -5,8 +5,8 @@
 
 ## feat(unlock):
 - give key when success
-- unlock the next level when the result is success
-- unlock the staircase
+- unlock the next level when the hero has the keys
+- unlock the staircase when the hero has the keys
 
 ## feat(special-stage):
 - create special stage per floor
