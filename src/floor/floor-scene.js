@@ -18,7 +18,7 @@ const {component, on} = $.cc
  * - interaction between view and model
  * - sequence of multi agents perfomance
  */
-@component('map-scene')
+@component('floor-scene')
 export default class MapScene extends SceneContext {
   /**
    * The entry point of the map scene.

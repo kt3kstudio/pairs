@@ -1,9 +1,9 @@
 ---
 title: LD-map
-js: map.js
-css: map.css
+js: floor.js
+css: floor.css
 body: dark-bg
-main_scene: map-scene
+main_scene: floor-scene
 ---
 <style>
 
@@ -19,7 +19,7 @@ main_scene: map-scene
     transform: scale(1, 0);
 }
 
-.map-scene {
+.floor-scene {
     position: absolute;
     left: 0; top: 0;
     width: 100%;
@@ -152,7 +152,7 @@ main_scene: map-scene
 </style>
 
 
-<div class="map-scene camera event-hub" channel="door-knock character-goto">
+<div class="floor-scene camera event-hub" channel="door-knock character-goto">
 
     <div class="floor-asset-collection">
 
@@ -167,7 +167,7 @@ main_scene: map-scene
 
 <menus id="map-menu">
   <menu src="img/back-button.svg"
-    onclick="$('.map-scene').getActor().walkerFadeIntoDoor().then(function () { history.back(); });"></menu>
+    onclick="$('.floor-scene').getActor().walkerFadeIntoDoor().then(function () { history.back(); });"></menu>
   <menu src="img/reset-button.svg"
-    onclick="$('.map-scene').getActor().walkerFadeIntoDoor().then(function () { localStorage.clear(); location.reload(); });"></menu>
+    onclick="$('.floor-scene').getActor().walkerFadeIntoDoor().then(function () { localStorage.clear(); location.reload(); });"></menu>
 </menus>

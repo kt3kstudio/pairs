@@ -54,7 +54,7 @@ export default class TitleScene extends SceneContext {
     .then(() => BackgroundService.turnBlack())
 
     .then(() => {
-      location.href = 'map.html'
+      location.href = 'floor.html'
     })
   }
 }
