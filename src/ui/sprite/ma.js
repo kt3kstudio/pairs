@@ -3,7 +3,7 @@ import { Animation } from 'spn'
 /**
  * The sprite modifier of Ma (the protagonist).
  */
-export default function () {
+module.exports = function () {
   this.id = 'ma'
   this.name = 'ma'
 

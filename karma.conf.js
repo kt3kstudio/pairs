@@ -5,11 +5,11 @@ module.exports = function (config) {
     frameworks: ['mocha', 'chai', 'jsmockito-jshamcrest', 'browserify'],
     files: [
       'site/**/*.css',
-      'spec/helper.js',
-      'spec/**/*.js'
+      'test/helper.js',
+      'test/**/*.js'
     ],
     preprocessors: {
-      'spec/**/*.js': ['browserify']
+      'test/**/*.js': ['browserify']
     },
     browserify: {
       debug: true,
@@ -26,7 +26,6 @@ module.exports = function (config) {
       ],
       transform: ['babelify']
     },
-    coverageReporter: {type: 'lcov'},
     reporters: ['spec'],
     port: 9876,
     colors: true,

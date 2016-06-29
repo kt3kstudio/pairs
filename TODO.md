@@ -12,7 +12,7 @@
 - create special stage per floor
 
 ## feat(opening):
-- create opening
+- create opening sequence of the game
 
 ## feat(ending):
 - create ending
