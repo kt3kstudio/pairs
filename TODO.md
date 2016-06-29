@@ -2,11 +2,19 @@
 
 ## feat(goal):
 - show failure when the game is finished without all goals finished
+- finish game when the queue finish with one remaining
 
 ## feat(unlock):
 - give key when success
 - unlock the next level when the hero has the keys
 - unlock the staircase when the hero has the keys
+
+## fix:
+- fix goal-panel hide animation
+- fix hero(level) show animation (it is blinking now)
+
+## feat(emoji):
+- add all the other necessary emojis
 
 ## feat(special-stage):
 - create special stage per floor
