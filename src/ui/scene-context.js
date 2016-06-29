@@ -4,7 +4,7 @@
  * @abstract
  * @class
  */
-export default class SceneContext {
+class SceneContext {
 
   main () {
     return Promise
@@ -77,3 +77,5 @@ export default class SceneContext {
   }
 
 }
+
+module.exports = SceneContext
