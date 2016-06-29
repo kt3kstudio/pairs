@@ -1,8 +1,7 @@
 # TODO
 
-## feat(goal):
-- show failure when the game is finished without all goals finished
-- finish game when the queue finish with one remaining
+## fix(goal):
+- fix the bug when the exit queue finished with 2 members (it should not be finished)
 
 ## feat(unlock):
 - give key when success
@@ -71,6 +70,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- show failure when the game is finished without all goals finished
 - move datadomain.LevelLock* to domain
 - move datadomain.LevelHistory* to domain
 - move datadomain.PlayingState* to domain

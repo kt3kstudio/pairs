@@ -114,6 +114,7 @@ class PlayScene extends Context {
   }
 
   /**
+   * Is called when the user start playing the game.
    * @return {Promise}
    */
   userPlay () {
@@ -126,7 +127,6 @@ class PlayScene extends Context {
 
   /**
    * Starts the scene.
-   *
    * @return {Promise}
    */
   @emit('play-scene.finished').last
@@ -149,7 +149,15 @@ class PlayScene extends Context {
 
     .then(() => this.userPlay())
 
-    .then(() => this.removeSwipeField())
+    .then(() => this.onSceneFinish())
+  }
+
+  /**
+   * Process the things necessary when this scene is finished
+   */
+  onSceneFinish() {
+    this.removeSwipeField()
+    this.character.clearPlayingState()
   }
 
   /**
@@ -173,19 +181,6 @@ class PlayScene extends Context {
    */
   removeSwipeField () {
     $('.swipe-field').remove()
-  }
-
-  /**
-   * Ends the playing scene, clear playing data, and kicks the next scene.
-   *
-   * @param {Event} e The event object (unused)
-   * @param {Boolean} playerWon True if the player won the game
-   */
-  @on('play-scene.finished')
-  finish (e, playerWon) {
-    this.character.clearPlayingState()
-
-    this.elem.trigger(playerWon ? 'play-scene.won' : 'play-scene.failed')
   }
 }
 

@@ -47,9 +47,12 @@ class GoalPanel extends Body {
     $(target).addClass(CSS_CLASS_GOAL_EMOJI)
   }
 
-  @on('goal-detection.finish')
-  onGoalFinished () {
-    window.alert('finish!')
+  /**
+   * Returns true iff all the goals have been achieved.
+   * @return {boolean}
+   */
+  isFull() {
+    return this.elem.cc.get('goal-detection').remaining() === 0
   }
 
   /**

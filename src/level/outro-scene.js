@@ -11,10 +11,8 @@ const {component, on} = $.cc
 @component('outro-scene')
 class OutroScene extends Context {
 
-  @on('play-scene.won play-scene.failed')
-  main () {
-    super.main()
-  }
+  @on('play-scene.finished')
+  main () { super.main() }
 
   /**
    * Sets up the scene.
@@ -26,6 +24,7 @@ class OutroScene extends Context {
 
     this.getResultPane().setRect(layout.resultPaneRect())
     this.getResultPane().setScore(this.getScoreboard().score)
+    this.getResultPane().setSuccess(this.goalPanel().isFull())
   }
 
   /**
