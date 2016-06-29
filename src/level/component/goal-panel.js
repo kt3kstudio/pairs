@@ -51,7 +51,7 @@ class GoalPanel extends Body {
    * Returns true iff all the goals have been achieved.
    * @return {boolean}
    */
-  isFull() {
+  isFull () {
     return this.elem.cc.get('goal-detection').remaining() === 0
   }
 

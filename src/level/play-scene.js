@@ -131,19 +131,7 @@ class PlayScene extends Context {
    */
   @emit('play-scene.finished').last
   start () {
-    this.getMenuButton().show()
-
-    return Promise.resolve()
-
-    .then(() => this.getField().show())
-
-    .then(() => this.character.reloadPlayingState())
-
-    .then(() => Promise.all(this.residents('moo').map(moo => moo.hide())))
-
-    .then(() => this.cells().appear())
-
-    .then(() => this.getScoreboard().show())
+    return this.showComponents()
 
     // .then(() => this.replayRounds())
 
@@ -153,9 +141,26 @@ class PlayScene extends Context {
   }
 
   /**
+   * @return {Promise}
+   */
+  showComponents () {
+    this.getMenuButton().show()
+
+    return this.getField().show()
+
+    .then(() => this.character.reloadPlayingState())
+
+    .then(() => Promise.all(this.residents('moo').map(moo => moo.hide())))
+
+    .then(() => this.cells().appear())
+
+    .then(() => this.getScoreboard().show())
+  }
+
+  /**
    * Process the things necessary when this scene is finished
    */
-  onSceneFinish() {
+  onSceneFinish () {
     this.removeSwipeField()
     this.character.clearPlayingState()
   }

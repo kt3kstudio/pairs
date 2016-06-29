@@ -10,7 +10,6 @@ const {component, on} = $.cc
  */
 @component('outro-scene')
 class OutroScene extends Context {
-
   @on('play-scene.finished')
   main () { super.main() }
 
