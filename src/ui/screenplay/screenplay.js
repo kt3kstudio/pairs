@@ -1,13 +1,13 @@
-import ScreenplayLine from './screenplay-line'
-import {parse} from 'scenarioscript'
+const ScreenplayLine = require('./screenplay-line')
+const {parse} = require('scenarioscript')
 
 const {on, component} = $.cc
 
 /**
- * ScreenplayManager
+ * The manager class of screenplay.
  */
-@component('screenplay-manager')
-export default class ScreenplayManager {
+@component('screenplay')
+class Screenplay {
 
   constructor (elem) {
     this.context = elem.data('context')
@@ -32,3 +32,5 @@ export default class ScreenplayManager {
     return this.lines.reduce((previous, line) => previous.then(() => line.play()), Promise.resolve())
   }
 }
+
+module.exports = Screenplay

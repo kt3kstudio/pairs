@@ -4,9 +4,10 @@ import PlaySceneLayout from './layout/play-scene-layout'
 import BackgroundService from '../ui/common/background-service'
 import UserRepository from '../domain/user-repository'
 import CharacterRepository from '../domain/character-repository'
-import '../ui/screenplay/screenplay-manager'
 
-import {wait} from 'spn'
+require('../ui/screenplay/screenplay')
+
+const {wait} = require('spn')
 const {img} = require('dom-gen')
 
 const {component, on, emit} = $.cc
@@ -124,12 +125,10 @@ export default class IntroScene extends Context {
     .then(() => {
       this.getPaper().disappear()
 
-      return Promise.all(this.residents('moo').map(moo => {
-        return wait(Math.random() * 500).then(() => moo.show())
-      }))
+      return this.showResidents('moo')
     })
 
-    .then(() => this.screenplayManager().play())
+    .then(() => this.screenplay('level-beginning').play())
 
     .then(() => {
       this.getCharacter().hide()

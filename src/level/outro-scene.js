@@ -23,7 +23,7 @@ class OutroScene extends Context {
 
     this.getResultPane().setRect(layout.resultPaneRect())
     this.getResultPane().setScore(this.getScoreboard().score)
-    this.getResultPane().setSuccess(this.goalPanel().isFull())
+    this.getResultPane().setSuccess(this.goalAchieved())
   }
 
   /**
@@ -34,12 +34,13 @@ class OutroScene extends Context {
   start () {
     return this.getResultPane().show(30000000)
 
-    .then(() => {
-      Cell.disappear()
+    .then(() => Cell.disappear())
 
+    .then(() => {
       this.getMenuButton().hide()
 
       this.getScoreboard().disappear()
+      this.hideGoalPanel()
 
       return this.getField().disappear()
     })
@@ -49,10 +50,14 @@ class OutroScene extends Context {
     .then(() => this.getBall().goCenterY())
 
     .then(() => Promise.all([
-      this.getCharacter().turn('down'),
+      this.showResidents('moo'),
       this.getCharacter().show(400),
       this.getBall().disappear()
     ]))
+
+    .then(() => this.screenplay(this.goalAchieved() ? 'level-success' : 'level-failure').play())
+
+    .then(() => this.hideResidents('moo'))
 
     .then(() => this.getCharacter().moveTo('y', 800, 1000))
 

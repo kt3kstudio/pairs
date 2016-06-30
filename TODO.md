@@ -1,9 +1,11 @@
 # TODO
 
-## fix(goal):
-- fix the bug when the exit queue finished with 2 members (it should not be finished)
+## deprecate:
+- remove paper
+- remove result-pane
 
 ## feat(unlock):
+- do level end screenplay
 - give key when success
 - unlock the next level when the hero has the keys
 - unlock the staircase when the hero has the keys

@@ -1,7 +1,7 @@
 /**
  * Screenplay line represents a line of a screenplay.
  */
-export default class ScreenplayLine {
+class ScreenplayLine {
 
   /**
    * @param {string} selector The selector of the actor
@@ -54,3 +54,5 @@ export default class ScreenplayLine {
     return actor != null && typeof actor.speak === 'function'
   }
 }
+
+module.exports = ScreenplayLine

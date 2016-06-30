@@ -67,6 +67,10 @@ class GoalPanel extends Body {
 
     this.updateElem()
   }
+
+  willHide () {
+    this.elem.css('opacity', 0)
+  }
 }
 
 module.exports = GoalPanel

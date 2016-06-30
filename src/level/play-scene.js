@@ -150,7 +150,7 @@ class PlayScene extends Context {
 
     .then(() => this.character.reloadPlayingState())
 
-    .then(() => Promise.all(this.residents('moo').map(moo => moo.hide())))
+    .then(() => this.hideResidents('moo'))
 
     .then(() => this.cells().appear())
 

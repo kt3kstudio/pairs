@@ -161,6 +161,10 @@ export default class Cell extends GridWalker {
 
   hideAnim () { return new Animation('bom-disappear', 500) }
 
+  willHide () {
+    this.elem.css('opacity', 0)
+  }
+
   remove () {
     this.elem.remove()
 

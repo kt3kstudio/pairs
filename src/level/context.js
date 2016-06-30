@@ -2,6 +2,8 @@ import SceneContext from '../ui/scene-context'
 require('./component')
 require('./service')
 
+const {wait} = require('spn')
+
 /**
  * The common context for level scenes.
  */
@@ -103,11 +105,12 @@ class Context extends SceneContext {
   }
 
   /**
-   * Gets the screenplay manager.
-   * @return {ScreenplayManager}
+   * Gets the screenplay managers.
+   * @param {string} part The part of the screenplay (one of 'level-begining', 'level-failure' or 'level-success')
+   * @return {Screenplay}
    */
-  screenplayManager () {
-    return this.get('screenplay-manager')
+  screenplay (part) {
+    return this.elem.find('.screenplay.' + part).cc.get('screenplay')
   }
 
   /**
@@ -115,6 +118,24 @@ class Context extends SceneContext {
    */
   cellQueueBumpService () {
     return this.getAtElem('cell-queue-bump-service')
+  }
+
+  /**
+   * Shows the residents.
+   * @param {string} name The name of the residents to show
+   * @return {Promise}
+   */
+  showResidents(name) {
+    return Promise.all(this.residents(name).map(resident => wait(Math.random() * 500).then(() => resident.show())))
+  }
+
+  /**
+   * Hides the residents.
+   * @param {string} name The name of the residents to hide
+   * @return {Promise}
+   */
+  hideResidents(name) {
+    return Promise.all(this.residents(name).map(resident => resident.hide()))
   }
 
   /**
@@ -127,6 +148,22 @@ class Context extends SceneContext {
 
     return this.goalPanel().show()
       .then(() => this.goalPanel().showGoals())
+  }
+
+  /**
+   * Hides the goal panel.
+   * @return {Promise}
+   */
+  hideGoalPanel () {
+    return this.goalPanel().hide()
+  }
+
+  /**
+   * Returns true iff the goals are achieved.
+   * @return {boolean}
+   */
+  goalAchieved() {
+    return this.goalPanel().isFull()
   }
 }
 
