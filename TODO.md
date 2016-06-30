@@ -10,9 +10,6 @@
 - unlock the next level when the hero has the keys
 - unlock the staircase when the hero has the keys
 
-## fix:
-- fix hero(level) show animation (it is blinking now)
-
 ## feat(emoji):
 - add all the other necessary emojis
 
@@ -71,6 +68,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- fix hero(level) show animation (it is blinking now)
 - fix goal-panel hide animation
 - do level end screenplay
 - remove paper

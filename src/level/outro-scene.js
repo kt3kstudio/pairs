@@ -51,7 +51,7 @@ class OutroScene extends Context {
 
     .then(() => Promise.all([
       this.showResidents('moo'),
-      this.getCharacter().show(400),
+      this.getCharacter().show(),
       this.getBall().disappear()
     ]))
 

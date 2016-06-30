@@ -23,22 +23,23 @@ export default class Character extends GridWalker {
   ratioY () { return 1 }
 
   /**
-   * @param {number} dur The duration
+   * @override
    */
-  willShow (dur) {
-    this.elem.css('display', 'inline')
+  willShow () {
     this.updateSprite()
 
-    return super.willShow(dur)
+    return super.willShow()
+  }
+
+  didShow() {
+    this.elem.css('opacity', 1)
   }
 
   /**
-   * @param {number} dur The duration
+   * @override
    */
-  didHide (dur) {
-    this.elem.css('display', 'none')
-
-    return super.didHide(dur)
+  willHide () {
+    this.elem.css('opacity', 0)
   }
 
   /**
