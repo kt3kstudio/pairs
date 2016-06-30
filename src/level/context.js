@@ -33,14 +33,6 @@ class Context extends SceneContext {
   }
 
   /**
-   * Gets the paper.
-   * @return {Paper}
-   */
-  getPaper () {
-    return this.get('paper')
-  }
-
-  /**
    * Gets the scoreboard.
    * @return {Scoreboard}
    */

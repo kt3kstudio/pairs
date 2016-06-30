@@ -90,12 +90,9 @@ export default class IntroScene extends Context {
     const pLayout = new PlaySceneLayout()
 
     this.spawnBall()
-    this.spawnPaper()
     this.spawnCharacter(this.character)
 
     const centerGrid = layout.centerGrid()
-
-    this.getPaper().setGrid(centerGrid, 0, 0)
 
     const character = this.getCharacter()
 
@@ -116,17 +113,11 @@ export default class IntroScene extends Context {
    */
   @emit('intro-scene.finished').last
   start () {
-    this.getPaper().show()
-
     return BackgroundService.turnWhite()
 
     .then(() => this.getCharacter().moveUpOnGrid(600))
 
-    .then(() => {
-      this.getPaper().disappear()
-
-      return this.showResidents('moo')
-    })
+    .then(() => this.showResidents('moo'))
 
     .then(() => this.screenplay('level-beginning').play())
 
@@ -156,15 +147,6 @@ export default class IntroScene extends Context {
       pos: {m: 1, n: 1}
 
     }).appendTo(this.elem).cc.init('ball')
-  }
-
-  /**
-   * Spawns the paper.
-   *
-   * @private
-   */
-  spawnPaper () {
-    this.elem.append(img({cc: 'paper'}))
   }
 
   /**

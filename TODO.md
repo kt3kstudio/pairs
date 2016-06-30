@@ -1,17 +1,16 @@
 # TODO
 
 ## deprecate:
-- remove paper
 - remove result-pane
 
 ## feat(unlock):
-- do level end screenplay
-- give key when success
+- create key component
+- give key when the hero is successful
+- the hero holds the key when it is given
 - unlock the next level when the hero has the keys
 - unlock the staircase when the hero has the keys
 
 ## fix:
-- fix goal-panel hide animation
 - fix hero(level) show animation (it is blinking now)
 
 ## feat(emoji):
@@ -72,6 +71,9 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- fix goal-panel hide animation
+- do level end screenplay
+- remove paper
 - show failure when the game is finished without all goals finished
 - move datadomain.LevelLock* to domain
 - move datadomain.LevelHistory* to domain
