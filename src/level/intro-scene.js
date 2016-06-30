@@ -7,7 +7,6 @@ import CharacterRepository from '../domain/character-repository'
 
 require('../ui/screenplay/screenplay')
 
-const {wait} = require('spn')
 const {img} = require('dom-gen')
 
 const {component, on, emit} = $.cc

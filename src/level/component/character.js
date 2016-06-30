@@ -31,7 +31,7 @@ export default class Character extends GridWalker {
     return super.willShow()
   }
 
-  didShow() {
+  didShow () {
     this.elem.css('opacity', 1)
   }
 

@@ -117,7 +117,7 @@ class Context extends SceneContext {
    * @param {string} name The name of the residents to show
    * @return {Promise}
    */
-  showResidents(name) {
+  showResidents (name) {
     return Promise.all(this.residents(name).map(resident => wait(Math.random() * 500).then(() => resident.show())))
   }
 
@@ -126,7 +126,7 @@ class Context extends SceneContext {
    * @param {string} name The name of the residents to hide
    * @return {Promise}
    */
-  hideResidents(name) {
+  hideResidents (name) {
     return Promise.all(this.residents(name).map(resident => resident.hide()))
   }
 
@@ -154,7 +154,7 @@ class Context extends SceneContext {
    * Returns true iff the goals are achieved.
    * @return {boolean}
    */
-  goalAchieved() {
+  goalAchieved () {
     return this.goalPanel().isFull()
   }
 }
