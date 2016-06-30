@@ -2,7 +2,7 @@
 
 [![Circle CI](https://circleci.com/gh/kt3kstudio/long-dream-core.svg?style=svg)](https://circleci.com/gh/kt3kstudio/long-dream-core)
 [![codecov](https://codecov.io/gh/kt3kstudio/long-dream-core/branch/master/graph/badge.svg)](https://codecov.io/gh/kt3kstudio/long-dream-core)
-[![js-soufflé-style](https://img.shields.io/badge/code%20style-soufflé-brightgreen.svg)](https://github.com/kt3k/souffle)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 > A puzzle game on straw platform
 
