@@ -1,4 +1,4 @@
-import '../../../src/ui/screenplay/screenplay-manager'
+import '../../../src/ui/screenplay/screenplay'
 
 import { expect } from 'chai'
 import domGen from 'dom-gen'
@@ -7,7 +7,7 @@ const {component} = $.cc
 
 const script = domGen('script')
 
-describe('screenplay-manager', () => {
+describe('screenplay', () => {
   let elem, sm
 
   before(() => {
@@ -31,7 +31,7 @@ describe('screenplay-manager', () => {
       [#moo2] Yay!
     `.attr('type', 'text/x-screenplay')
 
-    sm = elem.cc.init('screenplay-manager')
+    sm = elem.cc.init('screenplay')
 
     $('<div id="moo0" />').appendTo(document.body).cc.init('test-speaker')
     $('<div id="moo1" />').appendTo(document.body).cc.init('test-speaker')
