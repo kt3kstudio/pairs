@@ -1,12 +1,14 @@
-export const CELLS = [
+const CELLS = [
   'm',
   'f',
   'a',
   'w',
   'b'
 ]
+exports.CELLS = CELLS
 
-export const emojis = CELLS
+const emojis = CELLS
+exports.emojis = emojis
 
 /**
  * Renders the emoji simbols in the text to emoji tag.
@@ -14,16 +16,14 @@ export const emojis = CELLS
  * @param {string} cls The additional css class
  * @return {string}
  */
-export function renderEmoji (text, cls) {
-  return text.replace(/:([_a-z]+):/g, (_, emoji) => emojiToTag(emoji, cls))
-}
+exports.renderEmoji = (text, cls) => text.replace(/:([_a-z]+):/g, (_, emoji) => emojiToTag(emoji, cls))
 
 /**
  * Parses the text and returns a list of cells in it.
  * @param {string} text The source text
  * @return {string[]}
  */
-export function extractCells (text) {
+exports.extractCells = text => {
   const cells = []
 
   text.replace(/:([_a-z]+):/g, (_, cell) => cells.push(cell))
@@ -38,7 +38,6 @@ export function extractCells (text) {
  */
 function emojiToTag (emoji, cls) {
   if (emojis.indexOf(emoji) === -1) {
-    console.log('unknown emoji:', emoji)
     return ':' + emoji + ':'
   }
 
