@@ -1,12 +1,10 @@
-'use strict'
+const {toPromise, flatten} = require('../../src/util/rx')
 
-const {toPromise} = require('../../src/util/rx')
-
-describe('Rx', function () {
-  describe('helpers', function () {
-    describe('isFlatMappable', function () {
-      it('checkes if the given object is flatMappable', function () {
-        expect(Rx.helpers.isObservableLike(new Promise(function () {}))).to.be.true
+describe('Rx', () => {
+  describe('helpers', () => {
+    describe('isFlatMappable', () => {
+      it('checkes if the given object is flatMappable', () => {
+        expect(Rx.helpers.isObservableLike(new Promise(() => {}))).to.be.true
         expect(Rx.helpers.isObservableLike(Rx.Observable.of(1))).to.be.true
 
         expect(Rx.helpers.isObservableLike(1)).to.be.false
@@ -16,41 +14,27 @@ describe('Rx', function () {
     })
   })
 
-  describe('Observable', function () {
-    describe('pipe', function () {
-      it('returns Observable', function () {
-        expect(Rx.Observable.of(1).pipe(function (x) { return x })).to.be.instanceof(Rx.Observable)
+  describe('Observable', () => {
+    describe('pipe', () => {
+      it('returns Observable', () => {
+        expect(Rx.Observable.of(1).pipe(x => x)).to.be.instanceof(Rx.Observable)
       })
     })
 
-    describe('flattenObservable', function () {
-      it('returns Observable', function () {
-        expect(Rx.Observable.of(1, new Promise(function () {})).flattenObservable()).to.be.instanceof(Rx.Observable)
-      })
-
-      it('flattens stream values if they are Observable or Promise', function (done) {
-        Rx.Observable.of(10, Rx.Observable.of(20, 30), Promise.resolve(40)).flattenObservable().toArray().forEach(function (x) {
-          expect(x).to.eql([10, 20, 30, 40])
-
-          done()
-        })
-      })
-    })
-
-    describe('filterNull', function () {
-      it('filters null equivalents', function (done) {
-        Rx.Observable.of(1, null, 2, undefined, 3).filterNull().toArray().forEach(function (x) {
+    describe('filterNull', () => {
+      it('filters null equivalents', done => {
+        Rx.Observable.of(1, null, 2, undefined, 3).filterNull().toArray().forEach(x => {
           expect(x).to.eql([1, 2, 3])
 
           done()
         })
       })
     })
-    describe('emitInto', function () {
-      it('supposes the observable is the stream of the event and emit them into the given element', function (done) {
+    describe('emitInto', () => {
+      it('supposes the observable is the stream of the event and emit them into the given element', done => {
         var elem = $('<div />')
 
-        elem.on('click', function () {
+        elem.on('click', () => {
           done()
         })
 
@@ -60,10 +44,24 @@ describe('Rx', function () {
   })
 })
 
-describe('Array', function () {
-  describe('toFlatStream', function () {
-    it('returns a stream', function () {
-      expect([1, 2, new Promise(function () {})].toFlatStream()).to.be.instanceof(Rx.Observable)
+describe('Array', () => {
+  describe('toFlatStream', () => {
+    it('returns a stream', () => {
+      expect([1, 2, new Promise(() => {})].toFlatStream()).to.be.instanceof(Rx.Observable)
+    })
+  })
+})
+
+describe('flatten', () => {
+  it('returns Observable', () => {
+    expect(flatten(Rx.Observable.of(1, new Promise(() => {})))).to.be.instanceof(Rx.Observable)
+  })
+
+  it('flattens stream values if they are Observable or Promise', done => {
+    flatten(Rx.Observable.of(10, Rx.Observable.of(20, 30), Promise.resolve(40))).toArray().forEach(x => {
+      expect(x).to.eql([10, 20, 30, 40])
+
+      done()
     })
   })
 })

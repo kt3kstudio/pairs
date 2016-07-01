@@ -3,11 +3,16 @@ const Rx = window.Rx
 /**
  * Checks if it's flatMappable or not.
  *
- * @param {Object} x Testing object
- * @return {Boolean}
+ * @param {object} x The param
+ * @return {boolean}
  */
 Rx.helpers.isObservableLike = x => x instanceof Rx.Observable || Rx.helpers.isPromise(x)
 
+/**
+ * Wraps the object if it doesn't seem an observable.
+ * @param {object} x The thing
+ * @return {object}
+ */
 const wrapUnobservable = x => Rx.helpers.isObservableLike(x) ? x : [x]
 
 /**
@@ -17,17 +22,15 @@ const wrapUnobservable = x => Rx.helpers.isObservableLike(x) ? x : [x]
  * @return {Rx.Observable}
  */
 Rx.Observable.prototype.pipe = function (f) {
-  return this.map(f).flattenObservable()
+  return exports.flatten(this.map(f))
 }
 
 /**
- * Flattens it.
- *
+ * Flattens the asynchronous types in the observable.
+ * @param {Rx.Observable} source The source
  * @return {Rx.Observable}
  */
-Rx.Observable.prototype.flattenObservable = function () {
-  return this.map(wrapUnobservable).flatMap(x => x)
-}
+exports.flatten = source => source.map(wrapUnobservable).flatMap(x => x)
 
 /**
  * Filters null equivalent element.
@@ -56,20 +59,10 @@ Rx.Observable.prototype.emitInto = function (dom) {
 }
 
 /**
- * Hooks the function to the stream
- *
- * @param {Function} f The hooking function
- * @return {Rx.Observable}
- */
-Rx.Observable.prototype.hook = function (f) {
-  return this.filter(item => (f(item) || true))
-}
-
-/**
  * Makes into flattenned stream.
  *
  * @return {Rx.Observable}
  */
 window.Array.prototype.toFlatStream = function () {
-  return Rx.Observable.of.apply(null, this).flattenObservable()
+  return exports.flatten(Rx.Observable.of.apply(null, this))
 }

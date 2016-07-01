@@ -57,9 +57,7 @@
 ## refactor(Rx.Observable)
 - remove Rx.Observable.prototype.filterNull
 - remove Rx.Observable.prototype.pipe
-- remove Rx.Observable.prototype.flattenObservable
 - remove Rx.Observable.prototype.emitInto
-- remove Rx.Observable.prototype.hook
 - remove Array.prototype.toFlatStream
 
 ## feat(speech)
@@ -73,6 +71,8 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- remove Rx.Observable.prototype.flattenObservable
+- remove Rx.Observable.prototype.hook
 - fix hero(level) show animation (it is blinking now)
 - fix goal-panel hide animation
 - do level end screenplay
