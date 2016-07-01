@@ -40,13 +40,9 @@ Rx.Observable.prototype.filterNull = function () {
 
 /**
  * Returns promise which resolves the last value of the stream when the stream completed.
- *
+ * @param {Rx.Observable} source The source observable
  * @return {Promise}
  */
-Rx.Observable.prototype.getPromise = function () {
-  return new Promise((resolve, reject) => this.takeLast(1).subscribe(x => resolve(x), error => reject(error), () => resolve()))
-}
-
 exports.toPromise = source => new Promise((resolve, reject) => source.takeLast(1).subscribe(x => resolve(x), err => reject(err), () => resolve()))
 
 /**
