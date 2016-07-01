@@ -6,7 +6,7 @@ class UserStatistics {
    * @param {object} opts The options
    * @param {number} [opts.launchTimes] The number of the launches of the app
    */
-  constuctor (opts) {
+  constructor (opts) {
     /**
      * @property {number} launchTimes The number of the launches of the app
      */

@@ -1,6 +1,7 @@
 const UserRepository = require('../../src/domain/user-repository')
 const UserFactory = require('../../src/domain/user-factory')
 const User = require('../../src/domain/user')
+const UserStatistics = require('../../src/domain/user-statistics')
 
 describe('UserRepository', () => {
   let repo
@@ -37,6 +38,8 @@ describe('UserRepository', () => {
       return repo.get().then(user => {
         expect(user).to.be.instanceof(User)
         expect(user.charId).to.equal('ma')
+
+        expect(user.stat).to.be.instanceof(UserStatistics)
       })
     })
   })

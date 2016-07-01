@@ -17,14 +17,6 @@ class User {
      */
     this.stat = stat
   }
-
-  /**
-   * Sets the character id.
-   * @param {string} charId The character id.
-   */
-  setCharId (charId) {
-    this.charId = charId
-  }
 }
 
 module.exports = User

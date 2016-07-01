@@ -12,7 +12,9 @@ class UserFactory {
       obj.charId = DEFAULT_CHAR_ID
     }
 
-    return new User(obj.charId, new UserStatistics(obj.stat))
+    const stat = obj.stat || {}
+
+    return new User(obj.charId, new UserStatistics(stat))
   }
 }
 
