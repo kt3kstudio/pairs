@@ -1,11 +1,9 @@
 /**
  * The model of user.
  */
-export default class User {
-
+class User {
   /**
-   * @constructor
-   * @param {String} charId The id of the character currently chosen
+   * @param {string} charId The id of the character currently chosen
    * @param {UserStatistics} stat The statisctics of the user activity
    */
   constructor (charId, stat) {
@@ -22,10 +20,11 @@ export default class User {
 
   /**
    * Sets the character id.
-   *
-   * @param {String} charId The character id.
+   * @param {string} charId The character id.
    */
   setCharId (charId) {
     this.charId = charId
   }
 }
+
+module.exports = User

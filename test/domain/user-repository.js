@@ -1,20 +1,16 @@
-import UserRepository from '../../src/domain/user-repository'
-import UserFactory from '../../src/domain/user-factory'
-import User from '../../src/domain/user'
+const UserRepository = require('../../src/domain/user-repository')
+const UserFactory = require('../../src/domain/user-factory')
+const User = require('../../src/domain/user')
 
 describe('UserRepository', () => {
-  'use strict'
-
   let repo
 
   beforeEach(() => {
     window.infrastructure = {}
 
     window.infrastructure.storage = {
-      get: spy(() => {
-      }),
-      set: spy(() => {
-      })
+      get: spy(() => {}),
+      set: spy(() => {})
     }
 
     repo = new UserRepository()

@@ -1,11 +1,11 @@
-import UserFactory from './user-factory'
+const UserFactory = require('./user-factory')
 
 const KEY = 'LD-user-key'
 
 /**
  * The repository class for the user model.
  */
-export default class UserRepository {
+class UserRepository {
   /**
    * Saves the user.
    */
@@ -20,3 +20,5 @@ export default class UserRepository {
     return infrastructure.storage.get(KEY, {}).then(data => new UserFactory().createFromObject(data))
   }
 }
+
+module.exports = UserRepository

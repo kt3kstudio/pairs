@@ -1,12 +1,12 @@
-import User from './user'
-import UserStatistics from './user-statistics'
+const User = require('./user')
+const UserStatistics = require('./user-statistics')
 
 const DEFAULT_CHAR_ID = 'ma'
 
 /**
  * Factory class of User
  */
-export default class UserFactory {
+class UserFactory {
   createFromObject (obj = {}) {
     if (obj.charId == null) {
       obj.charId = DEFAULT_CHAR_ID
@@ -15,3 +15,5 @@ export default class UserFactory {
     return new User(obj.charId, new UserStatistics(obj.stat))
   }
 }
+
+module.exports = UserFactory
