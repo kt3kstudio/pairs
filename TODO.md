@@ -1,8 +1,5 @@
 # TODO
 
-## deprecate:
-- remove result-pane
-
 ## feat(unlock):
 - create key component
 - give key when the hero is successful
@@ -10,8 +7,16 @@
 - unlock the next level when the hero has the keys
 - unlock the staircase when the hero has the keys
 
+## feat(level-name):
+- create level-panel class
+- show level-panel when entering the level
+- show level-panel again when leaving the level
+
 ## feat(emoji):
 - add all the other necessary emojis
+
+## deprecate:
+- remove result-pane
 
 ## feat(special-stage):
 - create special stage per floor
