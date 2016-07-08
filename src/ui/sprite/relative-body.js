@@ -1,8 +1,7 @@
 /**
  * RelativeBody is a trait class which works in relative scale with its parent rect.
  */
-export default class RelativeBody {
-
+class RelativeBody {
   /**
    * Handler when the parent rect is set.
    * This method should be called with its parent rect before initial rendering.
@@ -11,7 +10,11 @@ export default class RelativeBody {
   onSetParentRect (rect) {
     this.x = rect.left + rect.width() * this.relX
     this.y = rect.top + rect.height() * this.relY
-    this.posture.width = rect.width() * this.relW
-    this.posture.height = rect.width() * this.relH
+
+    const size = Math.min(rect.width(), rect.height())
+    this.posture.width = size * this.relW
+    this.posture.height = size * this.relH
   }
 }
+
+module.exports = RelativeBody

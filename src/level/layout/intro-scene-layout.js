@@ -4,7 +4,7 @@ const BOTTOM_AD_SAFETY_HEIGHT = 50 // The ad safety zone
 /**
  * The layout manager for intro scene
  */
-export default class IntroSceneLayout extends LayoutFactory {
+class IntroSceneLayout extends LayoutFactory {
 
   constructor () {
     super()
@@ -43,3 +43,5 @@ export default class IntroSceneLayout extends LayoutFactory {
       .toGrid()
   }
 }
+
+module.exports = IntroSceneLayout

@@ -1,10 +1,11 @@
-import './ball'
-import './cell-collection'
-import './character'
-import './field'
-import './fusion-service'
-import './result-pane'
-import './scoreboard'
-import './goal-panel'
-import './swipe-field'
-import './moo'
+require('./ball')
+require('./cell-collection')
+require('./character')
+require('./field')
+require('./fusion-service')
+require('./result-pane')
+require('./scoreboard')
+require('./goal-panel')
+require('./swipe-field')
+require('./moo')
+require('./level-key')

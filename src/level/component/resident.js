@@ -31,4 +31,12 @@ export default class Resident extends Body {
 
     return super.willShow()
   }
+
+  didShow () {
+    this.elem.css('opacity', 1)
+  }
+
+  willHide () {
+    this.elem.css('opacity', 0)
+  }
 }

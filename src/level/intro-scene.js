@@ -54,7 +54,10 @@ export default class IntroScene extends Context {
    */
   loadCharacter (id) {
     return new CharacterRepository().getById(id)
-    .then(character => { this.character = character })
+    .then(character => {
+      this.character = character
+      this.elem.data('character', character)
+    })
   }
 
   /**

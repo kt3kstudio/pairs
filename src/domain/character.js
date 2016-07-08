@@ -1,6 +1,7 @@
 const PlayingStateRepository = require('./playing-state-repository')
 const LevelHistoryRepository = require('./level-history-repository')
 const LevelLockRepository = require('./level-lock-repository')
+const LevelKey = require('./level-key')
 
 /**
  * Character is the domain model and the aggregate root of character aggregate.
@@ -143,9 +144,19 @@ class Character {
   }
 
   /**
+   * Gets the floow object id.
+   * @return {string}
    */
   getFloorObjectId () {
     return this.position.floorObjectId
+  }
+
+  /**
+   * Add the level key of the given id.
+   * @param {string} levelId The level id
+   */
+  addKeyOf (levelId) {
+    this.keys.push(new LevelKey(levelId))
   }
 }
 

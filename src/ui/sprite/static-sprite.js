@@ -8,7 +8,7 @@ import Sprite from './sprite'
  * Trait.
  */
 @traits(Sprite)
-export default class StaticSprite {
+class StaticSprite {
 
   /**
    * Returns the default direction.
@@ -35,3 +35,5 @@ export default class StaticSprite {
     this.initDirStateImage()
   }
 }
+
+module.exports = StaticSprite

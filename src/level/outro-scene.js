@@ -1,7 +1,10 @@
 import Context from './context'
+import IntroSceneLayout from './layout/intro-scene-layout'
 import PlaySceneLayout from './layout/play-scene-layout'
 import BackgroundService from '../ui/common/background-service'
 import Cell from './component/cell'
+
+const {img} = require('dom-gen')
 
 const {component, on} = $.cc
 
@@ -55,7 +58,21 @@ class OutroScene extends Context {
       this.getBall().disappear()
     ]))
 
-    .then(() => this.screenplay(this.goalAchieved() ? 'level-success' : 'level-failure').play())
+    .then(() => {
+      if (!this.goalAchieved()) {
+        return this.screenplay('level-failure').play()
+      }
+
+      return this.screenplay('level-success').play()
+
+      .then(() => this.sequenceGivingLevelKey())
+
+      .then(() => {
+        const character = this.elem.data('character')
+
+        character.addKeyOf(character.getFloorObjectId())
+      })
+    })
 
     .then(() => this.hideResidents('moo'))
 
@@ -64,6 +81,34 @@ class OutroScene extends Context {
     .then(() => BackgroundService.turnBlack())
 
     .then(() => history.back())
+  }
+
+  /**
+   * Plays the sequence where the residents gives the level key to the hero.
+   * @return {Promise}
+   */
+  sequenceGivingLevelKey () {
+    const leader = this.residents('moo')[0]
+    const x = leader.relX
+    const y = leader.relY
+
+    const levelKey = img({data: {x, y}}).cc.init('level-key')
+
+    const layout = new IntroSceneLayout()
+
+    levelKey.onSetParentRect(layout.main)
+    levelKey.setTransitionDuration(800)
+
+    this.elem.append(levelKey.elem)
+
+    return levelKey.show()
+
+    .then(() => {
+      levelKey.moveToX(this.getCharacter().x)
+      return levelKey.moveToY(this.getCharacter().y)
+    })
+
+    .then(() => levelKey.hide())
   }
 }
 
