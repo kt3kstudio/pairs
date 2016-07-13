@@ -6,7 +6,6 @@ const {traits} = require('traits-decorator')
 const {component} = $.cc
 
 @traits(StaticSprite)
-@traits(RelativeBody)
 @component('level-key')
 class LevelKey extends Body {
   /**
@@ -14,11 +13,6 @@ class LevelKey extends Body {
    */
   constructor (elem) {
     super()
-
-    this.relX = elem.data('x')
-    this.relY = elem.data('y')
-    this.relW = 1 / 10
-    this.relH = 1 / 10
 
     this.initSprite()
   }

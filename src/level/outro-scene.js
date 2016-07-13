@@ -4,6 +4,7 @@ import PlaySceneLayout from './layout/play-scene-layout'
 import BackgroundService from '../ui/common/background-service'
 import Cell from './component/cell'
 
+const {Area} = require('spn')
 const {img} = require('dom-gen')
 
 const {component, on} = $.cc
@@ -88,15 +89,14 @@ class OutroScene extends Context {
    * @return {Promise}
    */
   sequenceGivingLevelKey () {
-    const leader = this.residents('moo')[0]
-    const x = leader.relX
-    const y = leader.relY
+    const leaderMoo = this.residents('moo')[0]
 
-    const levelKey = img({data: {x, y}}).cc.init('level-key')
+    const levelKey = img().cc.init('level-key')
 
     const layout = new IntroSceneLayout()
 
-    levelKey.onSetParentRect(layout.main)
+    levelKey.setAt(leaderMoo.getPoint())
+    levelKey.setArea(Area.square(layout.main.width() / 10))
     levelKey.setTransitionDuration(800)
 
     this.elem.append(levelKey.elem)
@@ -104,8 +104,9 @@ class OutroScene extends Context {
     return levelKey.show()
 
     .then(() => {
-      levelKey.moveToX(this.getCharacter().x)
-      return levelKey.moveToY(this.getCharacter().y)
+      levelKey.setAt(this.getCharacter().getPoint())
+
+      return levelKey.engage()
     })
 
     .then(() => levelKey.hide())
