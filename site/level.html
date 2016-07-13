@@ -118,6 +118,16 @@ main_scene: intro-scene
   100% { opacity: 0; transform: translate(0, 10px); }
 }
 
+@-webkit-keyframes level-key-show {
+  0% { opacity: 0; transform: rotate(2880deg) translate(0, 50px); }
+  100% { opacity: 1; transform: rotate(0) translate(0, 0); }
+}
+
+@-webkit-keyframes level-key-hide {
+  0% { opacity: 1; transform: rotate(0) scale(1); }
+  100% { opacity: 0; transform: rotate(2880deg) scale(0); }
+}
+
 @-webkit-keyframes bom-born {
   0% { opacity: 0; transform: translate(0, 10px) scale(0); }
   50% { opacity: 1; transform: translate(0, 0px) scale(1.2); }

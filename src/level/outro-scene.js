@@ -75,8 +75,6 @@ class OutroScene extends Context {
       })
     })
 
-    .then(() => this.hideResidents('moo'))
-
     .then(() => this.getCharacter().moveTo('y', 800, 1000))
 
     .then(() => BackgroundService.turnBlack())
@@ -96,20 +94,23 @@ class OutroScene extends Context {
     const layout = new IntroSceneLayout()
 
     levelKey.setAt(leaderMoo.getPoint())
-    levelKey.setArea(Area.square(layout.main.width() / 10))
-    levelKey.setTransitionDuration(800)
+    levelKey.setArea(Area.square(layout.main.width() / 6))
 
     this.elem.append(levelKey.elem)
 
     return levelKey.show()
 
     .then(() => {
-      levelKey.setAt(this.getCharacter().getPoint())
+      this.hideResidents('moo')
 
-      return levelKey.engage()
+      levelKey.setAt(this.getCharacter().getPoint())
+      return levelKey.engage(800)
     })
 
-    .then(() => levelKey.hide())
+    .then(() => {
+      this.getCharacter().turn('down')
+      return levelKey.hide()
+    })
   }
 }
 

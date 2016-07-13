@@ -1,11 +1,15 @@
 const StaticSprite = require('../../ui/sprite/static-sprite')
 const RelativeBody = require('../../ui/sprite/relative-body')
 
-const {GridWalker, Body, Animation} = require('spn')
+const {GridWalker, Body, Animation, decorators} = require('spn')
+const {animation, ratio} = decorators
 const {traits} = require('traits-decorator')
 const {component} = $.cc
 
 @traits(StaticSprite)
+@ratio.x(0.5) @ratio.y(1)
+@animation.show('level-key-show', 3000)
+@animation.hide('level-key-hide', 1500)
 @component('level-key')
 class LevelKey extends Body {
   /**
@@ -16,12 +20,6 @@ class LevelKey extends Body {
 
     this.initSprite()
   }
-
-  showAnim () { return new Animation('bom-appear', 400) }
-  hideAnim () { return new Animation('bom-disappear', 400) }
-
-  ratioX () { return 0.5 }
-  ratioY () { return 1 }
 
   image () {
     return `${global.BASEPATH}/img/key.svg`
