@@ -7,6 +7,9 @@
 - unlock the next level when the hero has the keys
 - unlock the staircase when the hero has the keys
 
+## story(hero)
+- rename Ma to Qu
+
 ## feat(level-name):
 - create level-panel class
 - show level-panel when entering the level
