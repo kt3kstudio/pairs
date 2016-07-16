@@ -118,6 +118,12 @@ main_scene: intro-scene
   100% { opacity: 0; transform: translate(0, 10px); }
 }
 
+@-webkit-keyframes jump {
+  0% { transform: translate(0, 0px); }
+  50% { transform: translate(0, -30px); }
+  100% { transform: translate(0, 0px); }
+}
+
 @-webkit-keyframes level-key-show {
   0% { opacity: 0; transform: rotate(2880deg) translate(0, 50px); }
   100% { opacity: 1; transform: rotate(0) translate(0, 0); }

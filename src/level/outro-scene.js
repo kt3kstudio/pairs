@@ -3,6 +3,7 @@ import IntroSceneLayout from './layout/intro-scene-layout'
 import PlaySceneLayout from './layout/play-scene-layout'
 import BackgroundService from '../ui/common/background-service'
 import Cell from './component/cell'
+const CharacterRepository = require('../domain/character-repository')
 
 const {Area} = require('spn')
 const {img} = require('dom-gen')
@@ -71,9 +72,14 @@ class OutroScene extends Context {
       .then(() => {
         const character = this.elem.data('character')
 
+        const repository = new CharacterRepository()
+
         character.addKeyOf(character.getFloorObjectId())
+        repository.save(character)
       })
     })
+
+    .then(() => this.getCharacter().elem.anim('jump', 300))
 
     .then(() => this.getCharacter().moveTo('y', 800, 1000))
 
