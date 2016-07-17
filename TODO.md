@@ -1,9 +1,6 @@
 # TODO
 
 ## feat(unlock):
-- create key component
-- give key when the hero is successful
-- the hero holds the key when it is given
 - unlock the next level when the hero has the keys
 - unlock the staircase when the hero has the keys
 
@@ -16,7 +13,9 @@
 - show level-panel again when leaving the level
 
 ## feat(emoji):
-- add all the other necessary emojis
+- add w emoji
+- add b emoji
+- add the combination emojis
 
 ## deprecate:
 - remove result-pane
@@ -31,11 +30,12 @@
 - create ending
 
 ## feat(tutorial)
-- create tutorial (guidance) - guiding finger (or blinking light) swipes the screen
+- create tutorial (guidance) - guiding finger (or blinking poing) swipes the screen
 
 ## feat(settings):
 - create settings page
 - create "reset progress" button
+- add link to settings page from the title page
 
 ## feat(level):
 - create 100 levels
@@ -74,6 +74,8 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- create level-key component
+- give level-key when the hero is successful
 - remove Rx.Observable.prototype.flattenObservable
 - remove Rx.Observable.prototype.hook
 - fix hero(level) show animation (it is blinking now)
