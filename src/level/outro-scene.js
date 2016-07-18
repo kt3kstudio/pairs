@@ -26,9 +26,9 @@ class OutroScene extends Context {
   setUp () {
     const layout = new PlaySceneLayout()
 
-    this.getResultPane().setRect(layout.resultPaneRect())
-    this.getResultPane().setScore(this.getScoreboard().score)
-    this.getResultPane().setSuccess(this.goalAchieved())
+    this.resultPane().setRect(layout.resultPaneRect())
+    this.resultPane().setScore(this.scoreboard().score)
+    this.resultPane().setSuccess(this.goalAchieved())
   }
 
   /**
@@ -37,27 +37,27 @@ class OutroScene extends Context {
    * @override
    */
   start () {
-    return this.getResultPane().show(30000000)
+    return this.resultPane().show(30000000)
 
     .then(() => Cell.disappear())
 
     .then(() => {
       this.getMenuButton().hide()
 
-      this.getScoreboard().disappear()
+      this.scoreboard().disappear()
       this.hideGoalPanel()
 
-      return this.getField().disappear()
+      return this.field().disappear()
     })
 
-    .then(() => this.getBall().goCenterX())
+    .then(() => this.ball().goCenterX())
 
-    .then(() => this.getBall().goCenterY())
+    .then(() => this.ball().goCenterY())
 
     .then(() => Promise.all([
       this.showResidents('moo'),
-      this.getCharacter().show(),
-      this.getBall().disappear()
+      this.hero().show(),
+      this.ball().disappear()
     ]))
 
     .then(() => {
@@ -79,14 +79,14 @@ class OutroScene extends Context {
       })
     })
 
-    .then(() => this.getCharacter().elem.anim('jump', 300))
+    .then(() => this.hero().elem.anim('jump', 300))
 
     .then(() => {
       this.hideResidents('moo')
 
-      this.getCharacter().setTo(this.getCharacter().getPoint().down($(window).height()))
+      this.hero().setTo(this.hero().getPoint().down($(window).height()))
 
-      this.getCharacter().engage(1000)
+      this.hero().engage(1000)
     })
 
     .then(() => BackgroundService.turnBlack())
@@ -113,12 +113,12 @@ class OutroScene extends Context {
     return levelKey.show()
 
     .then(() => {
-      levelKey.setAt(this.getCharacter().getPoint())
+      levelKey.setAt(this.hero().getPoint())
       return levelKey.engage(800)
     })
 
     .then(() => {
-      this.getCharacter().turn(DIRS.DOWN)
+      this.hero().turn(DIRS.DOWN)
       return levelKey.hide()
     })
   }

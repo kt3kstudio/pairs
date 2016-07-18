@@ -12,7 +12,7 @@ class Context extends SceneContext {
    * Gets the field grid.
    * @return {Field}
    */
-  getField () {
+  field () {
     return this.get('field-grid')
   }
 
@@ -20,7 +20,7 @@ class Context extends SceneContext {
    * Gets the character.
    * @return {Character}
    */
-  getCharacter () {
+  hero () {
     return this.get('hero')
   }
 
@@ -28,7 +28,7 @@ class Context extends SceneContext {
    * Gets the ball
    * @return {Ball}
    */
-  getBall () {
+  ball () {
     return this.get('ball')
   }
 
@@ -36,7 +36,7 @@ class Context extends SceneContext {
    * Gets the scoreboard.
    * @return {Scoreboard}
    */
-  getScoreboard () {
+  scoreboard () {
     return this.get('scoreboard')
   }
 
@@ -52,7 +52,7 @@ class Context extends SceneContext {
    * Gets the result pane.
    * @return {ResultPane}
    */
-  getResultPane () {
+  resultPane () {
     return this.get('result-pane')
   }
 

@@ -25,12 +25,12 @@ class PlayScene extends Context {
   setUp () {
     const layout = new PlaySceneLayout()
 
-    this.character = this.getCharacter().character
+    this.character = this.hero().character
 
     this.cells().setGrid(layout.playGrid())
     this.cells().loadFromGenes(this.geneSource().genes)
 
-    this.getField().setRect(layout.fieldRect())
+    this.field().setRect(layout.fieldRect())
 
     this.elem.cc('cell-queue-bump-service')
 
@@ -40,10 +40,10 @@ class PlayScene extends Context {
     this.exitQueue = new ExitQueue(layout.queueGrid())
 
     // ball move service
-    this.bms = new BallMoveMobLeaveService(this.getBall(), this.cells())
+    this.bms = new BallMoveMobLeaveService(this.ball(), this.cells())
 
     // init scoreboard dimension
-    this.getScoreboard().setRect(layout.scoreboardRect())
+    this.scoreboard().setRect(layout.scoreboardRect())
   }
 
   /**
@@ -83,7 +83,7 @@ class PlayScene extends Context {
 
     let fusionPairs = this.fps.processCellStream(cellStream)
 
-    fusionPairs = this.getScoreboard().hookToFusionPairStream(fusionPairs)
+    fusionPairs = this.scoreboard().hookToFusionPairStream(fusionPairs)
 
     let newCells = this.fusionService().processFusionPairStream(fusionPairs)
 
@@ -146,7 +146,7 @@ class PlayScene extends Context {
   showComponents () {
     this.getMenuButton().show()
 
-    return this.getField().show()
+    return this.field().show()
 
     .then(() => this.character.reloadPlayingState())
 
@@ -154,7 +154,7 @@ class PlayScene extends Context {
 
     .then(() => this.cells().appear())
 
-    .then(() => this.getScoreboard().show())
+    .then(() => this.scoreboard().show())
   }
 
   /**

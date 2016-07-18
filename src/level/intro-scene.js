@@ -96,7 +96,7 @@ export default class IntroScene extends Context {
 
     const centerGrid = layout.centerGrid()
 
-    const character = this.getCharacter()
+    const character = this.hero()
 
     character.setGrid(centerGrid, 0, 1)
     character.setTransitionDuration(500)
@@ -117,16 +117,16 @@ export default class IntroScene extends Context {
   start () {
     return BackgroundService.turnWhite()
 
-    .then(() => this.getCharacter().moveUpOnGrid(600))
+    .then(() => this.hero().moveUpOnGrid(600))
 
     .then(() => this.showResidents('moo'))
 
     .then(() => this.screenplay('level-beginning').play())
 
     .then(() => {
-      this.getCharacter().hide()
+      this.hero().hide()
 
-      return this.getBall().show()
+      return this.ball().show()
     })
   }
 
