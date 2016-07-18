@@ -1,7 +1,8 @@
-import CharSprite from '../../ui/sprite/char-sprite'
-import CharacterRepository from '../../domain/character-repository'
-import {traits} from 'traits-decorator'
-import {Body} from 'spn'
+const CharSprite = require('../../ui/sprite/char-sprite')
+const CharacterRepository = require('../../domain/character-repository')
+const {traits} = require('traits-decorator')
+const {Body, decorators} = require('spn')
+const {ratio} = decorators
 
 const {component, on} = $.cc
 
@@ -11,6 +12,7 @@ const {component, on} = $.cc
  * Service Component
  */
 @traits(CharSprite)
+@ratio.x(0.5) @ratio.y(1)
 @component('floor-walker')
 class FloorWalker extends Body {
 
@@ -21,9 +23,6 @@ class FloorWalker extends Body {
 
     this.characterRepository = new CharacterRepository()
   }
-
-  ratioX () { return 0.5 }
-  ratioY () { return 1 }
 
   willShow () {
     this.updateSprite()

@@ -3,7 +3,7 @@
  *
  * This is a trait class. Use with traits syntax like `traits-decorator`.
  */
-export default class Sprite {
+class Sprite {
 
   /**
    * Changes the direction and state.
@@ -48,3 +48,5 @@ export default class Sprite {
     this.setDirState(dir, null)
   }
 }
+
+module.exports = Sprite

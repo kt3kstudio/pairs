@@ -1,7 +1,7 @@
-import Sprite from './sprite'
-import Ma from './ma'
-import {wait, Image, DirStateImageMap} from 'spn'
-import {traits} from 'traits-decorator'
+const Sprite = require('./sprite')
+const Ma = require('./ma')
+const {wait, Image, DirStateImageMap} = require('spn')
+const {traits} = require('traits-decorator')
 
 const CHR_TABLE = {
   ma: Ma
@@ -13,7 +13,7 @@ const CHR_TABLE = {
  * Trant.
  */
 @traits(Sprite)
-export default class CharSprite {
+class CharSprite {
 
   /**
    * Returns the default direction.
@@ -88,3 +88,5 @@ export default class CharSprite {
     return wait(dur)
   }
 }
+
+module.exports = CharSprite
