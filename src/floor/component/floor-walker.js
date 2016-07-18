@@ -118,24 +118,34 @@ class FloorWalker extends Body {
 
     current.close()
 
-    return this.moveTo('y', current.y + goOutDistance, goOutDur)
+    this.setTo(this.getPoint().down(goOutDistance))
+
+    return this.engage(goOutDur)
 
     .then(() => {
+      // Notifies the character starts moving to the floorAsset.x.
+      // The camera take this info and move following the hero.
       this.elem.trigger('character-move', [floorAsset.x, moveOnCorridor])
 
       floorAsset.open()
 
-      return this.moveTo('x', floorAsset.x, moveOnCorridor)
+      this.setTo(floorAsset.getPoint().down(goOutDistance))
+
+      return this.engage(moveOnCorridor)
     })
 
-    .then(() => this.moveTo('y', floorAsset.y, goIntoDur))
+    .then(() => {
+      this.setTo(floorAsset.getPoint())
+
+      return this.engage(goIntoDur)
+    })
 
     .then(() => {
       this.current = floorAsset
 
       floorAsset.onGetWalker(this)
 
-      return this.turn(DIRS.DOWN)
+      this.turn(DIRS.DOWN)
     })
   }
 

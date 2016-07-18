@@ -81,7 +81,13 @@ class OutroScene extends Context {
 
     .then(() => this.getCharacter().elem.anim('jump', 300))
 
-    .then(() => this.getCharacter().moveTo('y', 800, 1000))
+    .then(() => {
+      this.hideResidents('moo')
+
+      this.getCharacter().setTo(this.getCharacter().getPoint().down($(window).height()))
+
+      this.getCharacter().engage(1000)
+    })
 
     .then(() => BackgroundService.turnBlack())
 
@@ -107,8 +113,6 @@ class OutroScene extends Context {
     return levelKey.show()
 
     .then(() => {
-      this.hideResidents('moo')
-
       levelKey.setAt(this.getCharacter().getPoint())
       return levelKey.engage(800)
     })

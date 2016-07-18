@@ -86,6 +86,16 @@ class CharSprite {
 
     return wait(dur)
   }
+
+  /**
+   * Sets at the point.
+   * @param {Point} point The point to go to
+   */
+  setTo (point) {
+    this.setDir(point.minus(this.getPoint()).getDir())
+
+    this.setAt(point)
+  }
 }
 
 module.exports = CharSprite
