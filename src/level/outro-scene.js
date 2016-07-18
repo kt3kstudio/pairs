@@ -5,7 +5,7 @@ import BackgroundService from '../ui/common/background-service'
 import Cell from './component/cell'
 const CharacterRepository = require('../domain/character-repository')
 
-const {Area} = require('spn')
+const {Area, DIRS} = require('spn')
 const {img} = require('dom-gen')
 
 const {component, on} = $.cc
@@ -114,7 +114,7 @@ class OutroScene extends Context {
     })
 
     .then(() => {
-      this.getCharacter().turn('down')
+      this.getCharacter().turn(DIRS.DOWN)
       return levelKey.hide()
     })
   }

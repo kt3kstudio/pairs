@@ -1,5 +1,5 @@
 import CharSprite from '../../ui/sprite/char-sprite'
-import {GridWalker} from 'spn'
+import {GridWalker, DIRS} from 'spn'
 import Speaker from '../../ui/screenplay/speaker'
 import {traits} from 'traits-decorator'
 
@@ -48,7 +48,7 @@ export default class Character extends GridWalker {
    * @return {Promise}
    */
   moveUpOnGrid () {
-    this.turn('up')
+    this.turn(DIRS.UP)
 
     return super.moveUpOnGrid()
   }
@@ -59,7 +59,7 @@ export default class Character extends GridWalker {
    * @return {Promise}
    */
   moveRightOnGrid () {
-    this.turn('right')
+    this.turn(DIRS.RIGHT)
 
     return super.moveRightOnGrid()
   }
@@ -70,7 +70,7 @@ export default class Character extends GridWalker {
    * @return {Promise}
    */
   moveDownOnGrid () {
-    this.turn('down')
+    this.turn(DIRS.DOWN)
 
     return super.moveDownOnGrid()
   }
@@ -81,7 +81,7 @@ export default class Character extends GridWalker {
    * @return {Promise}
    */
   moveLeftOnGrid () {
-    this.turn('left')
+    this.turn(DIRS.LEFT)
 
     return super.moveLeftOnGrid()
   }

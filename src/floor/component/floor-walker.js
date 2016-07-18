@@ -1,7 +1,7 @@
 const CharSprite = require('../../ui/sprite/char-sprite')
 const CharacterRepository = require('../../domain/character-repository')
 const {traits} = require('traits-decorator')
-const {Body, decorators} = require('spn')
+const {Body, decorators, DIRS} = require('spn')
 const {ratio} = decorators
 
 const {component, on} = $.cc
@@ -43,7 +43,7 @@ class FloorWalker extends Body {
     this.y = floorAsset.y
 
     return floorAsset.open().then(() => {
-      this.turn('down')
+      this.turn(DIRS.DOWN)
 
       return this.show()
     })
@@ -135,7 +135,7 @@ class FloorWalker extends Body {
 
       floorAsset.onGetWalker(this)
 
-      return this.turn('down')
+      return this.turn(DIRS.DOWN)
     })
   }
 
@@ -143,7 +143,7 @@ class FloorWalker extends Body {
    * Gets the character into the door.
    */
   getIntoDoor () {
-    this.turn('up')
+    this.turn(DIRS.UP)
 
     return this.disappear().then(() => this.current.close())
   }

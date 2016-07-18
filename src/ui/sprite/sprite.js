@@ -10,18 +10,18 @@ class Sprite {
    * @param {String} dir The direction
    * @param {String} state The state
    */
-  setDirState (dir = null, state = null) {
-    this.dir = dir || this.dir
-    this.state = state || this.state
+  setDirState (dir, state) {
+    this.dir = dir == null ? this.dir : dir
+    this.state = state == null ? this.state : state
 
-    this.updateElemByDirState()
+    this.updateElemByDirState(this.dir, this.state)
   }
 
   /**
    * Updates the element by the dir and state.
    */
-  updateElemByDirState () {
-    this.dirStateImage.get(this.dir || this.defaultDir(), this.state || this.defaultState()).apply(this.elem)
+  updateElemByDirState (dir, state) {
+    this.dirStateImage.get(dir == null ? this.defaultDir() : dir, state == null ? this.defaultState() : state).apply(this.elem)
   }
 
   /**

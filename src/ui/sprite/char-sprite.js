@@ -1,6 +1,6 @@
 const Sprite = require('./sprite')
 const Ma = require('./ma')
-const {wait, Image, DirStateImageMap} = require('spn')
+const {wait, Image, DirStateImageMap, DIRS} = require('spn')
 const {traits} = require('traits-decorator')
 
 const CHR_TABLE = {
@@ -18,7 +18,7 @@ class CharSprite {
   /**
    * Returns the default direction.
    */
-  defaultDir () { return 'down' }
+  defaultDir () { return DIRS.DOWN }
 
   /**
    * Returns the default state.
@@ -36,16 +36,15 @@ class CharSprite {
 
     this.dirStateImage = new DirStateImageMap()
 
-    this.dirStateImage.addImageByDirState(new Image(this.upImage()), 'up', 'default')
-    this.dirStateImage.addImageByDirState(new Image(this.downImage()), 'down', 'default')
-    this.dirStateImage.addImageByDirState(new Image(this.leftImage()), 'left', 'default')
-    this.dirStateImage.addImageByDirState(new Image(this.rightImage()), 'right', 'default')
+    this.dirStateImage.addImageByDirState(new Image(this.upImage()), DIRS.UP, 'default')
+    this.dirStateImage.addImageByDirState(new Image(this.downImage()), DIRS.DOWN, 'default')
+    this.dirStateImage.addImageByDirState(new Image(this.leftImage()), DIRS.LEFT, 'default')
+    this.dirStateImage.addImageByDirState(new Image(this.rightImage()), DIRS.RIGHT, 'default')
   }
 
   /**
    * Changes the direction the character currently heading for.
-   *
-   * @param {string} dir The direction (one of up, down, left or right)
+   * @param {DIRS} dir The direction (one of up, down, left or right)
    */
   turn (dir) {
     this.setDir(dir)
@@ -59,10 +58,10 @@ class CharSprite {
    */
   getDirection (coordinate, to) {
     if (coordinate === 'x') {
-      return to > this.x ? 'right' : 'left'
+      return to > this.x ? DIRS.RIGHT : DIRS.LEFT
     }
 
-    return to > this.y ? 'down' : 'up'
+    return to > this.y ? DIRS.DOWN : DIRS.UP
   }
 
   /**
@@ -79,7 +78,7 @@ class CharSprite {
 
     this.setTransitionDuration(dur)
 
-    if (dir === 'up' || dir === 'down') {
+    if (dir === DIRS.UP || dir === DIRS.DOWN) {
       this.moveToY(to)
     } else {
       this.moveToX(to)
