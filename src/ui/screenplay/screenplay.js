@@ -8,7 +8,6 @@ const {on, component} = $.cc
  */
 @component('screenplay')
 class Screenplay {
-
   constructor (elem) {
     this.context = elem.data('context')
 

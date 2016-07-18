@@ -6,7 +6,7 @@ class ScreenplayLine {
   /**
    * @param {string} selector The selector of the actor
    * @param {string} line The screenplay line
-   * @param {jQuery} context The context (range) of screenplay
+   * @param {jQuery} context The context (range) of screenplay. Every role should be inside this range. If null is given, then this class looking for the role in the entire document.
    * @param {object} options The option parameters
    */
   constructor (selector, line, context, options = {}) {
