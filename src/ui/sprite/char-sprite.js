@@ -53,7 +53,7 @@ class CharSprite {
 
   /**
    * Gets the direction to the target point.
-   *
+   * @deprecated
    * @param {string} coordinate 'x' or 'y'
    * @param {number} to The position
    */
@@ -67,7 +67,7 @@ class CharSprite {
 
   /**
    * Moves the sprite to the given position within the given duration.
-   *
+   * @deprecated
    * @param {string} coordinate 'x' or 'y'
    * @param {number} to The position to go
    * @param {number} dur The duration of movement in ms
