@@ -2,10 +2,15 @@
 
 ## feat(unlock):
 - unlock the next level when the hero has the keys
+- start unlocking sequence when the hero has a key
+- detect the corresponding door or staircase of the given key
+- unlocking sequence
+- camera handling
 - unlock the staircase when the hero has the keys
+- restore staircase (where does it go?)
 
 ## story(hero)
-- rename Ma to Qu
+- rename Ma to Qu or Ko Ju
 
 ## feat(level-name):
 - create level-panel class
@@ -27,7 +32,7 @@
 - create opening sequence of the game
 
 ## feat(ending):
-- create ending
+- create ending sequence of the game
 
 ## feat(tutorial)
 - create tutorial (guidance) - guiding finger (or blinking poing) swipes the screen
