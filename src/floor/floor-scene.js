@@ -34,7 +34,7 @@ export default class MapScene extends SceneContext {
    * Gets the floor asset collection.
    * @return {FloorAssetCollection}
    */
-  getFloorAssets () {
+  floorAssets () {
     return this.get('floor-asset-collection')
   }
 
@@ -42,7 +42,7 @@ export default class MapScene extends SceneContext {
    * Gets the camera.
    * @return {Camera}
    */
-  getCamera () {
+  camera () {
     return this.getAtElem('camera')
   }
 
@@ -51,7 +51,7 @@ export default class MapScene extends SceneContext {
    *
    * @return {FloorWalker}
    */
-  getWalker () {
+  walker () {
     return this.get('floor-walker')
   }
 
@@ -59,7 +59,7 @@ export default class MapScene extends SceneContext {
    * Gets the floorboard.
    * @return {Floorboard}
    */
-  getFloorboard () {
+  floorboard () {
     return this.get('floorboard')
   }
 
@@ -109,7 +109,7 @@ export default class MapScene extends SceneContext {
 
     this.initFloorAssets(this.character)
 
-    this.getCamera().setUp()
+    this.camera().setUp()
   }
 
   /**
@@ -130,11 +130,11 @@ export default class MapScene extends SceneContext {
    * @param {Character} character
    */
   initFloorAssets (character) {
-    this.getFloorAssets().loadAssetsFromData(this.floorData)
+    this.floorAssets().loadAssetsFromData(this.floorData)
 
-    this.getFloorAssets().updateAssetsByLocksAndHistories(character.locks, character.histories)
+    this.floorAssets().updateAssetsByLocksAndHistories(character.locks, character.histories)
 
-    const currentFloorAsset = this.getFloorAssets().findById(character.position.floorObjectId)
+    const currentFloorAsset = this.floorAssets().findById(character.position.floorObjectId)
 
     if (currentFloorAsset) {
       currentFloorAsset.locked = false
@@ -146,29 +146,29 @@ export default class MapScene extends SceneContext {
 
     BackgroundService.turnWhite()
 
-    return this.getFloorboard().show()
+    return this.floorboard().show()
 
-    .then(() => this.getFloorAssets().show())
+    .then(() => this.floorAssets().show())
 
     .then(() => {
-      let floorAsset = this.getFloorAssets().findById(this.getWalker().getPosition().floorObjectId)
+      let floorAsset = this.floorAssets().findById(this.walker().getPosition().floorObjectId)
 
-      return this.getWalker().appearAt(floorAsset)
+      return this.walker().appearAt(floorAsset)
     })
   }
 
   fadeOut () {
     this.getMenuButton().hide()
 
-    return this.getFloorAssets().hide().then(() => {
-      this.getFloorboard().hide()
+    return this.floorAssets().hide().then(() => {
+      this.floorboard().hide()
 
       return BackgroundService.turnBlack()
     })
   }
 
   walkerFadeIntoDoor () {
-    return this.getWalker().getIntoDoor().then(() => this.fadeOut())
+    return this.walker().getIntoDoor().then(() => this.fadeOut())
   }
 
   /**
@@ -203,7 +203,7 @@ export default class MapScene extends SceneContext {
   assetUnlock (e) {
     const asset = e.floorAsset
 
-    return this.getCamera().scrollTo(asset.centerX(), 500)
+    return this.camera().scrollTo(asset.centerX(), 500)
 
     .then(() => {
       asset.removeFrog()
@@ -213,6 +213,6 @@ export default class MapScene extends SceneContext {
       return wait(500)
     })
 
-    .then(() => this.getCamera().scrollTo(this.getWalker().x, 500))
+    .then(() => this.camera().scrollTo(this.walker().x, 500))
   }
 }
