@@ -3,6 +3,8 @@ const {parse} = require('scenarioscript')
 
 const {on, component} = $.cc
 
+const variables = {}
+
 /**
  * The manager class of screenplay.
  */
@@ -11,7 +13,35 @@ class Screenplay {
   constructor (elem) {
     this.context = elem.data('context')
 
-    this.lines = parse(elem.text()).map(line => new ScreenplayLine(line.role, line.message, this.context, line.params))
+    let text = elem.text()
+
+    this.lines = parse(text).map(line => new ScreenplayLine(line.role, line.message, this.context, line.params))
+  }
+
+  /**
+   * Replaces @word@ style variables in the text.
+   * @param {string} text The text
+   * @param {object} vars The variables
+   */
+  static replaceVars (text, vars) {
+    Object.keys(vars).forEach(key => {
+      const value = vars[key]
+
+      text = text.replace(`@${key}@`, value)
+    })
+
+    return text
+  }
+
+  /**
+   * @param {object} vars The variables
+   */
+  static addVars(vars) {
+    Object.keys(vars).forEach(key => {
+      const value = vars[key]
+
+      variables[key] = value
+    })
   }
 
   /**
@@ -23,12 +53,16 @@ class Screenplay {
   }
 
   /**
-   * Plays the screenplay
+   * Plays the screenplay.
+   * @param {object} [vars] The template variables
    * @return {Promise}
    */
   @on('screenplay-start')
-  play () {
-    return this.lines.reduce((previous, line) => previous.then(() => line.play()), Promise.resolve())
+  play ({vars} = {}) {
+    vars = vars || {}
+    vars = Object.assign({}, variables, vars)
+
+    return this.lines.reduce((previous, line) => previous.then(() => line.play({vars})), Promise.resolve())
   }
 }
 

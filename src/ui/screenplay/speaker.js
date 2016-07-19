@@ -1,7 +1,8 @@
-import './message-balloon'
+const Screenplay = require('./screenplay')
+require('./message-balloon')
 require('../screenplay/punch-emoji')
 
-import { div } from 'dom-gen'
+const {div} = require('dom-gen')
 
 const DEFAULT_SPEECH_TIMEOUT = 5000
 
@@ -21,16 +22,18 @@ export default class Speaker {
   }
 
   /**
-   * Speaks the phrase
-   *
+   * Speaks the phrase.
    * @param {string} message The contents of the speech
+   * @param {object} opts The options
    * @fires 'speech.started' when the speech started
    * @fires 'speech.ended' when the speech ended
    */
-  speak (message) {
+  speak (message, opts) {
     this.elem.trigger('speech.started')
 
     const timeout = +this.elem.data('speech-timeout') || DEFAULT_SPEECH_TIMEOUT
+
+    message = Screenplay.replaceVars(message, opts.vars)
 
     return div({data: {
       message,

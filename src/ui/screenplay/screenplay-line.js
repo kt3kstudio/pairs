@@ -33,9 +33,10 @@ class ScreenplayLine {
 
   /**
    * Plays the role.
+   * @param {object} opts The options
    */
-  play () {
-    return Promise.resolve(this.getActor().speak(this.line)).then(() => {
+  play (opts) {
+    return Promise.resolve(this.getActor().speak(this.line, opts)).then(() => {
       if (typeof this.options.goals === 'string') {
         this.getElement().trigger('screenplay.goals', this.options.goals)
       }

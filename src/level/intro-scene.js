@@ -5,7 +5,7 @@ import BackgroundService from '../ui/common/background-service'
 import UserRepository from '../domain/user-repository'
 import CharacterRepository from '../domain/character-repository'
 
-require('../ui/screenplay/screenplay')
+const Screenplay = require('../ui/screenplay/screenplay')
 
 const {img} = require('dom-gen')
 
@@ -101,6 +101,8 @@ export default class IntroScene extends Context {
     character.setGrid(centerGrid, 0, 1)
     character.setTransitionDuration(500)
     character.fitToGrid()
+
+    Screenplay.addVars({hero: this.character.name})
 
     this.residents('moo').forEach(moo => moo.onSetParentRect(layout.main))
 
