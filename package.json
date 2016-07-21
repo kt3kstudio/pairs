@@ -36,6 +36,7 @@
     "class-component": "^10.0.0",
     "codecov": "^1.0.1",
     "dom-gen": "^2.3.0",
+    "es6-object-assign": "^1.0.2",
     "es6-promise": "^3.0.2",
     "es6-symbol": "^3.0.2",
     "esdoc": "^0.4.3",

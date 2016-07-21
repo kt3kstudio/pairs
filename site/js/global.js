@@ -8,6 +8,7 @@ global.Drop = require('tether-drop')
 require('class-component')
 
 require('es6-promise').polyfill()
+require('es6-object-assign').polyfill()
 require('es6-symbol/implement')
 
 global.BASEPATH = ''
