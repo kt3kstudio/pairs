@@ -1,4 +1,4 @@
-import {wait} from 'spn'
+const {wait} = require('spn')
 
 const {on, component} = $.cc
 

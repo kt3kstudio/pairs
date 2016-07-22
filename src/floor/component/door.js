@@ -1,6 +1,7 @@
-import {wait, Animation} from 'spn'
-import domGen, {div, hr, br, p, small} from 'dom-gen'
-import FloorAsset from './floor-asset'
+const {wait, Animation} = require('spn')
+const domGen = require('dom-gen')
+const {div, hr, br, p, small} = domGen
+const FloorAsset = require('./floor-asset')
 
 const button = domGen('button')
 

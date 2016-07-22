@@ -1,9 +1,9 @@
-import Context from './context'
-import IntroSceneLayout from './layout/intro-scene-layout'
-import PlaySceneLayout from './layout/play-scene-layout'
-import BackgroundService from '../ui/common/background-service'
-import UserRepository from '../domain/user-repository'
-import CharacterRepository from '../domain/character-repository'
+const Context = require('./context')
+const IntroSceneLayout = require('./layout/intro-scene-layout')
+const PlaySceneLayout = require('./layout/play-scene-layout')
+const BackgroundService = require('../ui/common/background-service')
+const UserRepository = require('../domain/user-repository')
+const CharacterRepository = require('../domain/character-repository')
 
 const Screenplay = require('../ui/screenplay/screenplay')
 

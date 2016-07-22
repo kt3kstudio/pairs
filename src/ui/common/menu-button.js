@@ -1,6 +1,6 @@
-import './menu-item'
+require('./menu-item')
 
-import {wait} from 'spn'
+const {wait} = require('spn')
 const {img} = require('dom-gen')
 
 const {on, component} = $.cc

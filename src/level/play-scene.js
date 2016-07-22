@@ -1,10 +1,10 @@
-import Context from './context'
-import PlaySceneLayout from './layout/play-scene-layout'
-import {wait} from 'spn'
+const Context = require('./context')
+const PlaySceneLayout = require('./layout/play-scene-layout')
+const {wait} = require('spn')
 const {toPromise} = require('../util/rx')
-import FusionPreparationService from './component/fusion-preparation-service'
-import BallMoveMobLeaveService from './component/ball-move-mob-leave-service'
-import ExitQueue from './component/exit-queue'
+const FusionPreparationService = require('./component/fusion-preparation-service')
+const BallMoveMobLeaveService = require('./component/ball-move-mob-leave-service')
+const ExitQueue = require('./component/exit-queue')
 
 const {component, on, emit} = $.cc
 

@@ -1,5 +1,5 @@
-import {Animation} from 'spn'
-import FloorAsset from './floor-asset'
+const {Animation} = require('spn')
+const FloorAsset = require('./floor-asset')
 
 const {component} = $.cc
 

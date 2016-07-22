@@ -1,4 +1,4 @@
-import FloorAsset from '../../../src/floor/component/floor-asset'
+const FloorAsset = require('../../../src/floor/component/floor-asset')
 
 const {div} = require('dom-gen')
 

@@ -1,5 +1,5 @@
-import {wait, Body} from 'spn'
-import {div, ul, li} from 'dom-gen'
+const {wait, Body} = require('spn')
+const {div, ul, li} = require('dom-gen')
 
 const {component} = $.cc
 

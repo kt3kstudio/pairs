@@ -1,4 +1,4 @@
-import { wait } from 'spn'
+const {wait} = require('spn')
 
 /**
  * ExitQueue class represents the exit queue at the level view.

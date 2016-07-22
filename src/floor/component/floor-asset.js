@@ -1,4 +1,4 @@
-import {Grid, Body} from 'spn'
+const {Grid, Body} = require('spn')
 
 /**
  * FloorAsset is an abstract class which represents the something on the wall in the map view.

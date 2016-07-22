@@ -1,1 +1,1 @@
-import '../../src/splash/splash-scene'
+require('../../src/splash/splash-scene')

@@ -1,4 +1,4 @@
-import {Animation, Body} from 'spn'
+const {Animation, Body} = require('spn')
 
 const {component} = $.cc
 

@@ -1,8 +1,8 @@
-import '../site/js/common'
-import '../site/js/splash'
-import '../site/js/title'
-import '../site/js/floor'
-import '../site/js/level'
-import '../src/infrastructure/infrastructure'
+require('../site/js/common')
+require('../site/js/splash')
+require('../site/js/title')
+require('../site/js/floor')
+require('../site/js/level')
+require('../src/infrastructure/infrastructure')
 
 global.localStorage.clear()

@@ -1,7 +1,7 @@
-import CharSprite from '../../ui/sprite/char-sprite'
-import {GridWalker, DIRS} from 'spn'
-import Speaker from '../../ui/screenplay/speaker'
-import {traits} from 'traits-decorator'
+const CharSprite = require('../../ui/sprite/char-sprite')
+const {GridWalker, DIRS} = require('spn')
+const Speaker = require('../../ui/screenplay/speaker')
+const {traits} = require('traits-decorator')
 
 const {component} = $.cc
 

@@ -1,6 +1,6 @@
-import StayRunSprite from '../../ui/sprite/stay-run-sprite'
-import {traits} from 'traits-decorator'
-import {Animation, GridWalker, decorators} from 'spn'
+const StayRunSprite = require('../../ui/sprite/stay-run-sprite')
+const {traits} = require('traits-decorator')
+const {Animation, GridWalker, decorators} = require('spn')
 const {width, height, ratio} = decorators
 
 const {component, on} = $.cc

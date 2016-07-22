@@ -1,4 +1,4 @@
-import SceneContext from '../ui/scene-context'
+const SceneContext = require('../ui/scene-context')
 require('./component')
 require('./service')
 

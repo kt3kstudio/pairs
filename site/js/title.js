@@ -1,1 +1,1 @@
-import '../../src/title/title-scene'
+require('../../src/title/title-scene')

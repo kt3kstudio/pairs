@@ -1,5 +1,5 @@
-import {wait, Being} from 'spn'
-import Floorboard from './floorboard'
+const {wait, Being} = require('spn')
+const Floorboard = require('./floorboard')
 
 const {component} = $.cc
 

@@ -1,5 +1,5 @@
-import FusionPair from '../../../src/level/component/fusion-pair'
-import Cell from '../../../src/level/component/cell'
+const FusionPair = require('../../../src/level/component/fusion-pair')
+const Cell = require('../../../src/level/component/cell')
 
 describe('FusionPair', function () {
   'use strict'

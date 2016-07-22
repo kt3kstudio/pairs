@@ -1,6 +1,6 @@
-import Sprite from './sprite'
-import {traits} from 'traits-decorator'
-import {wait, Image, DirStateImageMap} from 'spn'
+const Sprite = require('./sprite')
+const {traits} = require('traits-decorator')
+const {wait, Image, DirStateImageMap} = require('spn')
 
 /**
  * The sprite class for stay-run creatures.

@@ -1,4 +1,4 @@
-import { Animation } from 'spn'
+const {Animation} = require('spn')
 
 /**
  * The sprite modifier of Ma (the protagonist).

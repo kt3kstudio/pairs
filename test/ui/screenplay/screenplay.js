@@ -1,7 +1,7 @@
-import '../../../src/ui/screenplay/screenplay'
+require('../../../src/ui/screenplay/screenplay')
 
-import { expect } from 'chai'
-import domGen from 'dom-gen'
+const {expect} = require('chai')
+const domGen = require('dom-gen')
 
 const {component} = $.cc
 

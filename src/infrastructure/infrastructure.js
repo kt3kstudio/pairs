@@ -1,3 +1,3 @@
-import * as storage from './storage'
+const storage = require('./storage')
 
 global.infrastructure = {storage}

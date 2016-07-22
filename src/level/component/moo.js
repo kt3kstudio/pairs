@@ -1,5 +1,5 @@
-import Resident from './resident'
-import {Animation} from 'spn'
+const Resident = require('./resident')
+const {Animation} = require('spn')
 
 const {component} = $.cc
 

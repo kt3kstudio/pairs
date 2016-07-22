@@ -1,4 +1,4 @@
-import {wait, Being, Animation} from 'spn'
+const {wait, Being, Animation} = require('spn')
 
 const {component} = $.cc
 

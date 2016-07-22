@@ -1,7 +1,7 @@
-import {renderEmoji} from '../../util/emoji'
+const {renderEmoji} = require('../../util/emoji')
 
-import {wait} from 'spn'
-import {p} from 'dom-gen'
+const {wait} = require('spn')
+const {p} = require('dom-gen')
 
 const {component, on} = $.cc
 

@@ -1,4 +1,4 @@
-import './logo'
+require('./logo')
 
 const {component, on} = $.cc
 

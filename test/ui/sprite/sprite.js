@@ -1,7 +1,7 @@
-import {Image, DirStateImageMap} from 'spn'
-import Sprite from '../../../src/ui/sprite/sprite'
-import {traits} from 'traits-decorator'
-import {img} from 'dom-gen'
+const {Image, DirStateImageMap} = require('spn')
+const Sprite = require('../../../src/ui/sprite/sprite')
+const {traits} = require('traits-decorator')
+const {img} = require('dom-gen')
 
 describe('Sprite', () => {
   let sprite, elem

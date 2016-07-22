@@ -1,6 +1,6 @@
-import FieldIndexGenerator from '../../util/FieldIndexGenerator'
+const FieldIndexGenerator = require('../../util/FieldIndexGenerator')
 
-import {wait} from 'spn'
+const {wait} = require('spn')
 const {object} = require('dom-gen')
 
 const {component} = $.cc

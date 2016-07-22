@@ -1,6 +1,6 @@
-import {traits} from 'traits-decorator'
-import {DirStateImageMap, Image} from 'spn'
-import Sprite from './sprite'
+const {traits} = require('traits-decorator')
+const {DirStateImageMap, Image} = require('spn')
+const Sprite = require('./sprite')
 
 /**
  * The sprite class which has only one image.

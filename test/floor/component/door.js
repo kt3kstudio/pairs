@@ -1,4 +1,4 @@
-import '../../../src/floor/component/door'
+require('../../../src/floor/component/door')
 
 const {div} = require('dom-gen')
 

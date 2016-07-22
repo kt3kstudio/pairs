@@ -1,4 +1,4 @@
-import { wait, reflow } from 'spn'
+const {wait, reflow} = require('spn')
 
 /**
  * Performs the animation.

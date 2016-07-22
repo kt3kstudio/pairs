@@ -1,4 +1,4 @@
-import FusionPair from './fusion-pair'
+const FusionPair = require('./fusion-pair')
 
 /**
  * FusionPreparationService takes cells in sequence and move them into the preparation position. After that it emits the list of cells for the actual fusion.

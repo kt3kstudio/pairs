@@ -1,7 +1,7 @@
-import 'arrowkeys'
-import 'swipe-event/swipe-event'
-import 'swipe-event/swipe-cross'
+require('arrowkeys')
+require('swipe-event/swipe-event')
+require('swipe-event/swipe-cross')
 
-import '../../src/level/intro-scene'
-import '../../src/level/play-scene'
-import '../../src/level/outro-scene'
+require('../../src/level/intro-scene')
+require('../../src/level/play-scene')
+require('../../src/level/outro-scene')

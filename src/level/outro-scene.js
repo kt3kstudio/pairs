@@ -1,8 +1,8 @@
-import Context from './context'
-import IntroSceneLayout from './layout/intro-scene-layout'
-import PlaySceneLayout from './layout/play-scene-layout'
-import BackgroundService from '../ui/common/background-service'
-import Cell from './component/cell'
+const Context = require('./context')
+const IntroSceneLayout = require('./layout/intro-scene-layout')
+const PlaySceneLayout = require('./layout/play-scene-layout')
+const BackgroundService = require('../ui/common/background-service')
+const Cell = require('./component/cell')
 const CharacterRepository = require('../domain/character-repository')
 
 const {Area, DIRS} = require('spn')

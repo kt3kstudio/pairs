@@ -1,4 +1,4 @@
-import {wait, Being} from 'spn'
+const {wait, Being} = require('spn')
 
 const {component} = $.cc
 const FLOORBOARD_MOVE_DUR = 400

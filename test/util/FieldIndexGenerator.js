@@ -1,4 +1,4 @@
-import FieldIndexGenerator from '../../src/util/FieldIndexGenerator'
+const FieldIndexGenerator = require('../../src/util/FieldIndexGenerator')
 
 describe('FieldIndexGenerator', () => {
   'use strict'

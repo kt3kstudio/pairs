@@ -1,5 +1,5 @@
-import PossibleMoveDetectionService from './possible-move-detection-service'
-import { wait } from 'spn'
+const PossibleMoveDetectionService = require('./possible-move-detection-service')
+const { wait } = require('spn')
 
 /**
  * BallMoveMobLeaveService provides the function to move ball and process field boms collectly.

@@ -1,8 +1,8 @@
-import SceneContext from '../ui/scene-context'
-import BackgroundService from '../ui/common/background-service'
-import {loadImage} from '../util/util'
+const SceneContext = require('../ui/scene-context')
+const BackgroundService = require('../ui/common/background-service')
+const {loadImage} = require('../util/util')
 
-import {wait} from 'spn'
+const {wait} = require('spn')
 const {p} = require('dom-gen')
 
 const {component, on} = $.cc

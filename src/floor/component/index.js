@@ -1,7 +1,7 @@
-import './camera'
-import './door'
-import './floor-asset-collection'
-import './floor-walker'
-import './floorboard'
-import './frog-sprite'
-import './staircase'
+require('./camera')
+require('./door')
+require('./floor-asset-collection')
+require('./floor-walker')
+require('./floorboard')
+require('./frog-sprite')
+require('./staircase')

@@ -1,4 +1,4 @@
-import {Animation, GridWalker} from 'spn'
+const {Animation, GridWalker} = require('spn')
 
 const {component} = $.cc
 

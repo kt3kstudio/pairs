@@ -1,8 +1,8 @@
-import StaticSprite from '../../ui/sprite/static-sprite'
-import RelativeBody from '../../ui/sprite/relative-body'
-import Speaker from '../../ui/screenplay/speaker'
-import {traits} from 'traits-decorator'
-import {Body} from 'spn'
+const StaticSprite = require('../../ui/sprite/static-sprite')
+const RelativeBody = require('../../ui/sprite/relative-body')
+const Speaker = require('../../ui/screenplay/speaker')
+const {traits} = require('traits-decorator')
+const {Body} = require('spn')
 
 @traits(RelativeBody)
 @traits(StaticSprite)

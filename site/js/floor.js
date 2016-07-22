@@ -1,1 +1,1 @@
-import '../../src/floor/floor-scene'
+require('../../src/floor/floor-scene')

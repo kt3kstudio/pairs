@@ -1,5 +1,5 @@
-import {Animation, Body} from 'spn'
-import {commaNumber} from '../../util/util'
+const {Animation, Body} = require('spn')
+const {commaNumber} = require('../../util/util')
 
 const {component} = $.cc
 
