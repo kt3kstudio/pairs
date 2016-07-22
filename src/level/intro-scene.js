@@ -15,7 +15,7 @@ const {component, on, emit} = $.cc
  * IntroScene class handles the introduction scene of the level page.
  */
 @component('intro-scene')
-export default class IntroScene extends Context {
+class IntroScene extends Context {
   /**
    * The entry point of the level scene.
    *
@@ -161,3 +161,5 @@ export default class IntroScene extends Context {
     this.elem.append(img({data: {character: character}, cc: 'hero'}))
   }
 }
+
+module.exports = IntroScene

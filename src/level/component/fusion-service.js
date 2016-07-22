@@ -6,7 +6,7 @@ const {emit, component} = $.cc
  * FusionService performs the fusion of the pair of cells.
  */
 @component('fusion-service')
-export default class FusionService {
+class FusionService {
   /**
    * @param {Grid} grid The grid
    */
@@ -81,3 +81,5 @@ export default class FusionService {
     return cell.show(dur).then(() => cell)
   }
 }
+
+module.exports = FusionService

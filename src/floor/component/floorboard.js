@@ -8,7 +8,7 @@ const HEIGHT_RATE = 0.35
  * Floor class handles the behaviour of floor of the Map view
  */
 @component('floorboard')
-export default class Floorboard extends Being {
+class Floorboard extends Being {
 
   static get HEIGHT_RATE () {
     return 0.35
@@ -46,3 +46,5 @@ export default class Floorboard extends Being {
     return wait(FLOORBOARD_MOVE_DUR)
   }
 }
+
+module.exports = Floorboard

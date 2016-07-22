@@ -6,7 +6,7 @@ const {component, on} = $.cc
  * Camera handles the screen position.
  */
 @component('camera')
-export default class Camera {
+class Camera {
   /**
    * Gets the window width.
    * @return {number}
@@ -64,3 +64,5 @@ export default class Camera {
     return x > this.elem.scrollLeft() && x < this.elem.scrollLeft() + this.getWindowWidth()
   }
 }
+
+module.exports = Camera

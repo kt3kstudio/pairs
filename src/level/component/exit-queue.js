@@ -3,7 +3,7 @@ import { wait } from 'spn'
 /**
  * ExitQueue class represents the exit queue at the level view.
  */
-export default class ExitQueue {
+class ExitQueue {
   /**
    * @param {Grid} grid The grid
    */
@@ -86,3 +86,5 @@ class Queuee {
     return this.cell.updateElemOnGrid()
   }
 }
+
+module.exports = ExitQueue

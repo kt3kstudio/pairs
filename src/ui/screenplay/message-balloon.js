@@ -15,7 +15,7 @@ const DEFAULT_SPEECH_TIMEOUT = 500
  * [data] {number} timeout The timeout duration of showing of the bubble
  */
 @component('message-balloon')
-export default class MessageBalloon {
+class MessageBalloon {
 
   constructor (elem) {
     this.target = $(elem.data('target'))[0]
@@ -51,3 +51,5 @@ export default class MessageBalloon {
     .then(() => this.elem.trigger('message-balloon.ended'))
   }
 }
+
+module.exports = MessageBalloon

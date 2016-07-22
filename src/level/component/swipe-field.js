@@ -4,7 +4,7 @@ const {component} = $.cc
  * SwipeEvent class provides the stream of the swipe events.
  */
 @component('swipe-field')
-export default class SwipeField {
+class SwipeField {
   constructor (elem) {
     elem.swipeCross()
 
@@ -16,3 +16,5 @@ export default class SwipeField {
     $(document).on('rightkey', () => elem.trigger('swiperight'))
   }
 }
+
+module.exports = SwipeField

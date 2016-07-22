@@ -11,7 +11,7 @@ const {component, on} = $.cc
  * TitleScene class handles the motions sequences of the title scene.
  */
 @component('title-scene')
-export default class TitleScene extends SceneContext {
+class TitleScene extends SceneContext {
   /**
    * Entry point of the title scene.
    */
@@ -58,3 +58,5 @@ export default class TitleScene extends SceneContext {
     })
   }
 }
+
+module.exports = TitleScene

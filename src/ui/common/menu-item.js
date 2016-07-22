@@ -6,7 +6,7 @@ const {on, component} = $.cc
  * MenuItem handles the behaviour of items of the menu.
  */
 @component('menu-item')
-export default class MenuItem {
+class MenuItem {
   constructor (elem) {
     this.elem = elem
 
@@ -80,3 +80,5 @@ export default class MenuItem {
     return p
   }
 }
+
+module.exports = MenuItem

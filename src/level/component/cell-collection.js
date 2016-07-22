@@ -9,7 +9,7 @@ const {component} = $.cc
  * CellCollection class represents the grid positioned queues of cells around the field.
  */
 @component('cell-collection')
-export default class CellCollection {
+class CellCollection {
   constructor () {
     this.cells = []
   }
@@ -142,3 +142,5 @@ export default class CellCollection {
     return this.cells.map(cell => [cell.m, cell.n])
   }
 }
+
+module.exports = CellCollection

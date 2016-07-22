@@ -8,7 +8,7 @@ const {component} = $.cc
  * This class doesn't handle the mechanism above the field, which is the responsibility of FieldCells and BallMoveMobLeaveService classes.
  */
 @component('field-grid')
-export default class Field extends Body {
+class Field extends Body {
 
   showAnim () { return new Animation('field-appear', 200) }
 
@@ -24,3 +24,5 @@ export default class Field extends Body {
     this.posture.marginY = -5
   }
 }
+
+module.exports = Field

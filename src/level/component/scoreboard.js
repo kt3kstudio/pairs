@@ -7,7 +7,7 @@ const {component} = $.cc
  * Scoreboard handles the behaviour of the score board of the level view.
  */
 @component('scoreboard')
-export default class Scoreboard extends Body {
+class Scoreboard extends Body {
   ratioX () { return 0 }
   ratioY () { return 0 }
 
@@ -74,3 +74,5 @@ export default class Scoreboard extends Body {
     return this.score
   }
 }
+
+module.exports = Scoreboard

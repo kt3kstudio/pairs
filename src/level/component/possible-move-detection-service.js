@@ -1,7 +1,7 @@
 /**
  * PossibleMoveDetectionService provides the functionality of detecting the possible moves in the play field.
  */
-export default class PossibleMoveDetectionService {
+class PossibleMoveDetectionService {
 
   /**
    * @constructor
@@ -37,3 +37,5 @@ export default class PossibleMoveDetectionService {
     return this.cells.find(this.ball.pos()) != null
   }
 }
+
+module.exports = PossibleMoveDetectionService

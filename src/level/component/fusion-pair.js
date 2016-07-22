@@ -7,7 +7,7 @@ const isLastOne = cell => cell ? cell.isLastOne() : false
 /**
  * FusionPair represents the pair of cells which perform the fusion of them.
  */
-export default class FusionPair {
+class FusionPair {
 
   /**
    * @constructor
@@ -88,3 +88,5 @@ export default class FusionPair {
     return s
   }
 }
+
+module.exports = FusionPair

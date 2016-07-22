@@ -23,7 +23,7 @@ function sumArray (array) {
 /**
  * MeioticService is the service class which handles meiotic recombination and calculation of its value.
  */
-export default class MeioticService {
+class MeioticService {
   /**
    * Calculates the recombination the maternal gene and the paternal gene and returns a new gene.
    *
@@ -75,3 +75,5 @@ export default class MeioticService {
     return sumArray(GENES.map(c => countChar(gene, c) * virtualLengthOfMonon(c)))
   }
 }
+
+module.exports = MeioticService

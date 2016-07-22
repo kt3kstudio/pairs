@@ -14,7 +14,7 @@ const {component, on} = $.cc
 @traits(StayRunSprite)
 @width(100) @height(50) @ratio.x(0.5) @ratio.y(1)
 @component('frog')
-export default class FrogSprite extends GridWalker {
+class FrogSprite extends GridWalker {
 
   constructor (elem) {
     super(elem)
@@ -39,3 +39,5 @@ export default class FrogSprite extends GridWalker {
     this.elem.anim('jump', 300)
   }
 }
+
+module.exports = FrogSprite

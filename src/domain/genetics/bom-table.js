@@ -1,7 +1,7 @@
 /**
  * BomTable is the master table of the cell name for each number.
  */
-export default {
+module.exports = {
   1: 'monon',
   2: 'deutron',
   3: 'triton',

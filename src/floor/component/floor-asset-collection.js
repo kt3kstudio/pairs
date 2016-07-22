@@ -11,7 +11,7 @@ const {component} = $.cc
  * Collective Component
  */
 @component('floor-asset-collection')
-export default class FloorAssetCollection extends Being {
+class FloorAssetCollection extends Being {
   /**
    * Loads assets from the given string html data.
    *
@@ -106,3 +106,5 @@ export default class FloorAssetCollection extends Being {
     return this.items.filter(item => item.id === id)[0]
   }
 }
+
+module.exports = FloorAssetCollection

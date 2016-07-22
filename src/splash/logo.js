@@ -6,7 +6,7 @@ const {component} = $.cc
  * Logo animation componenent in the splash screen.
  */
 @component('splash-logo')
-export default class Logo extends Being {
+class Logo extends Being {
   /**
    * Performs splash screen's logo animation.
    *
@@ -40,3 +40,5 @@ export default class Logo extends Being {
     return new Animation('logo-hide', 350)
   }
 }
+
+module.exports = Logo

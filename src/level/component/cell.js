@@ -12,7 +12,7 @@ const ALL_CELLS = []
  * @class
  */
 @component('cell')
-export default class Cell extends GridWalker {
+class Cell extends GridWalker {
   cellRatioX () { return 0.65 }
   cellRatioY () { return 0.65 }
 
@@ -181,3 +181,5 @@ export default class Cell extends GridWalker {
     return this.elem.anim(animation, duration)
   }
 }
+
+module.exports = Cell

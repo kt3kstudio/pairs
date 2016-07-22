@@ -39,7 +39,7 @@ function itemOffsets (offset, num) {
  * MenuButton handles the behaviour of the menu button.
  */
 @component('menu-button')
-export default class MenuButton {
+class MenuButton {
 
   constructor (elem) {
     this.elem = elem
@@ -164,3 +164,5 @@ export default class MenuButton {
     }).cc.init('menu-item')
   }
 }
+
+module.exports = MenuButton

@@ -9,7 +9,7 @@ const STAIRCASE_ANIMATION_DUR = 400
  * Staircase class represents the staircases in the map view.
  */
 @component('staircase')
-export default class Staircase extends FloorAsset {
+class Staircase extends FloorAsset {
 
   showAnim () { return new Animation('door-appear', STAIRCASE_ANIMATION_DUR) }
 
@@ -57,3 +57,5 @@ export default class Staircase extends FloorAsset {
     this.elem.trigger($.Event('character-goto', {goto: this.goto}))
   }
 }
+
+module.exports = Staircase

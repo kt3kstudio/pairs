@@ -5,7 +5,7 @@ const {component, on} = $.cc
  * Emoji character component.
  */
 @component('punch-emoji')
-export default class PunchEmoji {
+class PunchEmoji {
   /**
    * @param {jQuery} elem The jquery object
    */
@@ -18,3 +18,5 @@ export default class PunchEmoji {
     wait(100).then(() => this.elem.css('opacity', 1))
   }
 }
+
+module.exports = PunchEmoji

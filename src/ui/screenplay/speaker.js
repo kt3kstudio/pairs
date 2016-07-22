@@ -11,7 +11,7 @@ const DEFAULT_SPEECH_TIMEOUT = 5000
  *
  * Trait.
  */
-export default class Speaker {
+class Speaker {
 
   /**
    * Sets the speaker data.
@@ -44,3 +44,5 @@ export default class Speaker {
     .then(() => this.elem.trigger('speech.ended'))
   }
 }
+
+module.exports = Speaker

@@ -19,7 +19,7 @@ const {component, on, wire} = $.cc
  * - sequence of multi agents perfomance
  */
 @component('floor-scene')
-export default class FloorScene extends SceneContext {
+class FloorScene extends SceneContext {
   /**
    * The entry point of the map scene.
    *
@@ -209,3 +209,5 @@ export default class FloorScene extends SceneContext {
     .then(() => this.camera.scrollTo(this.walker.x, 500))
   }
 }
+
+module.exports = FloorScene

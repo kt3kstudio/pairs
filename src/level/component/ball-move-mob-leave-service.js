@@ -5,7 +5,7 @@ import { wait } from 'spn'
  * BallMoveMobLeaveService provides the function to move ball and process field boms collectly.
  * @class
  */
-export default class BallMoveMobLeaveService {
+class BallMoveMobLeaveService {
 
   /**
    * @constructor
@@ -136,3 +136,5 @@ class Mobs {
     return this.cells.find(pos)
   }
 }
+
+module.exports = BallMoveMobLeaveService

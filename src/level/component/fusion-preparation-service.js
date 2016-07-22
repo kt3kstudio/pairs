@@ -5,7 +5,7 @@ import FusionPair from './fusion-pair'
  *
  * @class
  */
-export default class FusionPreparationService {
+class FusionPreparationService {
 
   /**
    * @constructor
@@ -105,3 +105,5 @@ class PreparationStack {
     return this.stack.splice(0)
   }
 }
+
+module.exports = FusionPreparationService

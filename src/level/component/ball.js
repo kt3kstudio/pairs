@@ -13,7 +13,7 @@ const CENTER_N = 1
  * @class
  */
 @component('ball')
-export default class Ball extends GridWalker {
+class Ball extends GridWalker {
 
   constructor (elem) {
     super()
@@ -97,3 +97,5 @@ export default class Ball extends GridWalker {
     }
   }
 }
+
+module.exports = Ball

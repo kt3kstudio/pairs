@@ -3,7 +3,7 @@
  *
  * The list is like a snake on the wall, inspired by the charactor arrangment of the mayan scripture.
  */
-export default class FieldIndexGenerator {
+class FieldIndexGenerator {
 
   /**
    * @constructor
@@ -87,3 +87,5 @@ class IndexPointer {
   }
 
 }
+
+module.exports = FieldIndexGenerator

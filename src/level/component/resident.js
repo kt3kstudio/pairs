@@ -7,7 +7,7 @@ import {Body} from 'spn'
 @traits(RelativeBody)
 @traits(StaticSprite)
 @traits(Speaker)
-export default class Resident extends Body {
+class Resident extends Body {
 
   ratioX () { return 0.5 }
   ratioY () { return 1 }
@@ -40,3 +40,5 @@ export default class Resident extends Body {
     this.elem.css('opacity', 0)
   }
 }
+
+module.exports = Resident

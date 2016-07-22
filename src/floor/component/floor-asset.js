@@ -3,7 +3,7 @@ import {Grid, Body} from 'spn'
 /**
  * FloorAsset is an abstract class which represents the something on the wall in the map view.
  */
-export default class FloorAsset extends Body {
+class FloorAsset extends Body {
   width () { return 80 }
   height () { return 100 }
   ratioX () { return 0.5 }
@@ -78,3 +78,5 @@ export default class FloorAsset extends Body {
     frog.runAwayRight()
   }
 }
+
+module.exports = FloorAsset

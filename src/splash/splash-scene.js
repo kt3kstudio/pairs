@@ -6,7 +6,7 @@ const {component, on} = $.cc
  * SplashScene controls the splash screen.
  */
 @component('splash-scene')
-export default class SplashScene {
+class SplashScene {
 
   @on('scene-start')
   main () {
@@ -35,3 +35,5 @@ export default class SplashScene {
     location.replace('title.html')
   }
 }
+
+module.exports = SplashScene

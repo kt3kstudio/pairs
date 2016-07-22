@@ -7,7 +7,7 @@ const {component} = $.cc
  * ResultPane class handles the behaviour of the pane which appears when the game finished with a score.
  */
 @component('result-pane')
-export default class ResultPane extends Body {
+class ResultPane extends Body {
   /**
    * Sets the score.
    * @param {number} score The score to set
@@ -70,3 +70,5 @@ export default class ResultPane extends Body {
     .then(() => this.elem.cc.get('multiflip').hide())
   }
 }
+
+module.exports = ResultPane

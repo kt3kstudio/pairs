@@ -11,7 +11,7 @@ const {component} = $.cc
 @traits(Speaker)
 @traits(CharSprite)
 @component('hero')
-export default class Character extends GridWalker {
+class Character extends GridWalker {
   constructor (elem) {
     super()
 
@@ -86,3 +86,5 @@ export default class Character extends GridWalker {
     return super.moveLeftOnGrid()
   }
 }
+
+module.exports = Character

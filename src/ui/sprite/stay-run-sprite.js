@@ -8,7 +8,7 @@ import {wait, Image, DirStateImageMap} from 'spn'
  * Trait.
  */
 @traits(Sprite)
-export default class StayRunSprite {
+class StayRunSprite {
   /**
    * Returns the default direction.
    */
@@ -57,3 +57,5 @@ export default class StayRunSprite {
     return this.runAway('left')
   }
 }
+
+module.exports = StayRunSprite

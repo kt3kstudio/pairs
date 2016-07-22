@@ -3,7 +3,7 @@ const {img} = require('dom-gen')
 /**
  * Load image and returns promise which resolves when the image loaded.
  */
-export const loadImage = (path, cls, dom) => new Promise(resolve => {
+exports.loadImage = (path, cls, dom) => new Promise(resolve => {
   const $img = img()
     .attr('src', path)
     .addClass(cls)
@@ -17,7 +17,7 @@ export const loadImage = (path, cls, dom) => new Promise(resolve => {
  * @param {Number} number The number
  * @return {String}
  */
-export const commaNumber = number => number.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')
+exports.commaNumber = number => number.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')
 
 /**
  * Chains elements of the array as promise chain using the promise generating function.
@@ -25,4 +25,4 @@ export const commaNumber = number => number.toString().replace(/(\d)(?=(\d\d\d)+
  * @param {Array} array The array
  * @param {Function} createPromise The function for creating promise
  */
-export const chainPromise = (array, createPromise) => array.reduce((promise, item) => promise.then(() => createPromise(item)), Promise.resolve())
+exports.chainPromise = (array, createPromise) => array.reduce((promise, item) => promise.then(() => createPromise(item)), Promise.resolve())
