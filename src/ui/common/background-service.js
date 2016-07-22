@@ -4,7 +4,7 @@ const Dur = 700
 /**
  * BackgroundService handles the animation of background colors.
  */
-export default class BackgroundService {
+class BackgroundService {
 
   /**
    * Turns the bg color white.
@@ -44,3 +44,5 @@ export default class BackgroundService {
   }
 
 }
+
+module.exports = BackgroundService

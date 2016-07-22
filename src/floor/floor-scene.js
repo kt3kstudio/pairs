@@ -1,14 +1,14 @@
-import SceneContext from '../ui/scene-context'
-import BackgroundService from '../ui/common/background-service'
-import UserRepository from '../domain/user-repository'
-import CharacterRepository from '../domain/character-repository'
+const SceneContext = require('../ui/scene-context')
+const BackgroundService = require('../ui/common/background-service')
+const UserRepository = require('../domain/user-repository')
+const CharacterRepository = require('../domain/character-repository')
 
-import {wait} from 'spn'
+const {wait} = require('spn')
 const {img} = require('dom-gen')
 
-import './component'
+require('./component')
 
-const {component, on} = $.cc
+const {component, on, wire} = $.cc
 
 /**
  * MapScene handles the scene of map
@@ -34,34 +34,25 @@ export default class FloorScene extends SceneContext {
    * Gets the floor asset collection.
    * @return {FloorAssetCollection}
    */
-  get floorAssets () {
-    return this.get('floor-asset-collection')
-  }
+  @wire('floor-asset-collection') get floorAssets () {}
 
   /**
    * Gets the camera.
    * @return {Camera}
    */
-  get camera () {
-    return this.getAtElem('camera')
-  }
+  @wire get camera () {}
 
   /**
    * Gets the floor walker.
-   *
    * @return {FloorWalker}
    */
-  get walker () {
-    return this.get('floor-walker')
-  }
+  @wire('floor-walker') get walker () {}
 
   /**
    * Gets the floorboard.
    * @return {Floorboard}
    */
-  get floorboard () {
-    return this.get('floorboard')
-  }
+  @wire get floorboard () {}
 
   /**
    * Loads the data for the scene.
