@@ -1,6 +1,7 @@
 const Character = require('../../src/domain/character')
 const CharacterPosition = require('../../src/domain/character-position')
 const LevelKey = require('../../src/domain/level-key')
+const LevelKeyCollection = require('../../src/domain/level-key-collection')
 const CharacterRepository = require('../../src/domain/character-repository')
 
 describe('CharacterRepository', () => {
@@ -28,8 +29,8 @@ describe('CharacterRepository', () => {
       })
     })
 
-    it('saves the character\'s position ans keys', () => {
-      const character = new Character('ma', 'Ma', new CharacterPosition('7', '701'), [new LevelKey('702'), null])
+    it('saves the character\'s position and keys', () => {
+      const character = new Character('ma', 'Ma', new CharacterPosition('7', '701'), new LevelKeyCollection([new LevelKey('702')]))
 
       when(infrastructure.storage.set)().then(() => Promise.resolve({}))
 

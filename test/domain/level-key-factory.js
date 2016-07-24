@@ -1,4 +1,5 @@
 const LevelKeyFactory = require('../../src/domain/level-key-factory')
+const LevelKeyCollection = require('../../src/domain/level-key-collection')
 const LevelKey = require('../../src/domain/level-key')
 
 const factory = new LevelKeyFactory()
@@ -12,11 +13,7 @@ describe('LevelKeyFactory', () => {
         levelId: '702'
       }])
 
-      expect(keys).to.be.an('array')
-
-      keys.forEach(key => {
-        expect(key).to.be.instanceof(LevelKey)
-      })
+      expect(keys).to.be.instanceof(LevelKeyCollection)
     })
   })
 
