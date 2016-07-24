@@ -1,4 +1,5 @@
 const LevelKey = require('./level-key')
+const LevelKeyCollection = require('./level-key-collection')
 
 /**
  * The factory class of LevelKey.
@@ -10,10 +11,10 @@ class LevelKeyFactory {
    */
   createFromArray (array) {
     if (array == null) {
-      return []
+      return new LevelKeyCollection()
     }
 
-    return array.map(obj => this.createFromObject(obj))
+    return new LevelKeyCollection(array.map(obj => this.createFromObject(obj)))
   }
 
   /**

@@ -36,7 +36,7 @@ class Screenplay {
   /**
    * @param {object} vars The variables
    */
-  static addVars(vars) {
+  static addVars (vars) {
     Object.keys(vars).forEach(key => {
       const value = vars[key]
 

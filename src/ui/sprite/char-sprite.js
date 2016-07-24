@@ -1,6 +1,6 @@
 const Sprite = require('./sprite')
 const Ma = require('./ma')
-const {wait, Image, DirStateImageMap, DIRS} = require('spn')
+const {Image, DirStateImageMap, DIRS} = require('spn')
 const {traits} = require('traits-decorator')
 
 const CHR_TABLE = {

@@ -1,7 +1,6 @@
 const StaticSprite = require('../../ui/sprite/static-sprite')
-const RelativeBody = require('../../ui/sprite/relative-body')
 
-const {GridWalker, Body, Animation, decorators} = require('spn')
+const {Body, decorators} = require('spn')
 const {animation, ratio} = decorators
 const {traits} = require('traits-decorator')
 const {component} = $.cc

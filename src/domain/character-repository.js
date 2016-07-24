@@ -72,7 +72,7 @@ class CharacterRepository {
       return []
     }
 
-    return keys.map(key => this.keyToObject(key))
+    return keys.keys.map(key => this.keyToObject(key))
   }
 
   /**

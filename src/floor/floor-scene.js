@@ -25,8 +25,7 @@ class FloorScene extends SceneContext {
    *
    * Loads things, initializes things in order, controls everything.
    */
-  @on('scene-start')
-  main () {
+  @on('scene-start') main () {
     super.main()
   }
 
@@ -108,12 +107,11 @@ class FloorScene extends SceneContext {
    * @param {Character} character
    */
   spawnFloorWalker (character) {
-    this.elem.find('.floor-asset-collection').append(
-      img({
-        addClass: 'sub-door-knock sub-character-goto',
-        data: {character: character}
-      }).cc('floor-walker')
-    )
+    this.floorAssets.elem.append(img({
+      addClass: 'sub-door-knock sub-character-goto',
+      data: {character: character},
+      cc: 'floor-walker'
+    }))
   }
 
   /**
@@ -133,6 +131,17 @@ class FloorScene extends SceneContext {
   }
 
   start () {
+    return this.sequenceInitial()
+
+    .then(() => {
+      if (this.character.hasAnyKey()) {}
+    })
+  }
+
+  /**
+   * Plays the initial sequence.
+   */
+  sequenceInitial () {
     this.getMenuButton().show()
 
     BackgroundService.turnWhite()

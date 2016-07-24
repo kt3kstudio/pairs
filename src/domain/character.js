@@ -16,7 +16,7 @@ class Character {
    * @param {string} id The id of the character
    * @param {string} name The name of the character
    * @param {CharacterPosition} position The position of the character
-   * @param {LevelKey[]} keys The keys of the levels
+   * @param {LevelKeyCollection} keys The keys of the levels
    * @param {LevelHistoryCollection} histories The histories of the current floor
    * @param {PlayingState} playingState The state of playing at the current level
    * @param {LevelLockCollection} locks The collection of the level locks
@@ -156,7 +156,14 @@ class Character {
    * @param {string} levelId The level id
    */
   addKeyOf (levelId) {
-    this.keys.push(new LevelKey(levelId))
+    this.keys.add(new LevelKey(levelId))
+  }
+
+  /**
+   * @return {boolean}
+   */
+  hasAnyKey () {
+    return this.keys.hasAny()
   }
 }
 

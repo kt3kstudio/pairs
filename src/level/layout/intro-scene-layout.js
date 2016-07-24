@@ -1,4 +1,4 @@
-const {Rect, LayoutFactory } = require('spn')
+const {Rect, LayoutFactory} = require('spn')
 
 const BOTTOM_AD_SAFETY_HEIGHT = 50 // The ad safety zone
 /**
