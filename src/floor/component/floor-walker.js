@@ -39,8 +39,7 @@ class FloorWalker extends Body {
   appearAt (floorAsset) {
     this.current = floorAsset
 
-    this.x = floorAsset.x
-    this.y = floorAsset.y
+    this.setAt(floorAsset.getPoint())
 
     return floorAsset.open().then(() => {
       this.turn(DIRS.DOWN)
@@ -114,12 +113,9 @@ class FloorWalker extends Body {
   moveToFloorAsset (floorAsset) {
     const current = this.current
 
-    this.setFloorObjectId(floorAsset.id)
-
     const goOutDur = 220
     const moveOnCorridor = 300
     const goIntoDur = goOutDur
-
     const goOutDistance = 80
 
     this.focusMe()
@@ -150,6 +146,8 @@ class FloorWalker extends Body {
 
     .then(() => {
       this.current = floorAsset
+
+      this.setFloorObjectId(floorAsset.id)
 
       floorAsset.onGetWalker(this)
 
