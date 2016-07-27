@@ -111,8 +111,6 @@ class FloorWalker extends Body {
    * @return {Promise}
    */
   moveToFloorAsset (floorAsset) {
-    const current = this.current
-
     const goOutDur = 220
     const moveOnCorridor = 300
     const goIntoDur = goOutDur
@@ -120,9 +118,9 @@ class FloorWalker extends Body {
 
     this.focusMe()
 
-    current.close()
+    this.current.close()
 
-    this.setTo(this.getPoint().down(goOutDistance))
+    this.setTo(this.current.getPoint().down(goOutDistance))
 
     return this.engage(goOutDur)
 
