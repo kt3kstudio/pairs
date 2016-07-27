@@ -27,8 +27,10 @@ class Camera {
    * @param {object} e The event object
    * @param {number} x The horizontal position
    */
-  @on('character-focus')
+  @on('camera-focus')
   focusToX (e, x) {
+    console.log('camera-focus')
+    console.log(x)
     if (!this.visible(x)) {
       this.scrollSet(x)
     }
@@ -48,7 +50,7 @@ class Camera {
    * @param {Number} dur The duration
    * @return {Promise}
    */
-  @on('character-move')
+  @on('camera-move')
   scrollTo (e, x, dur) {
     this.elem.animate({scrollLeft: x - this.getWindowWidth() / 2}, dur)
 

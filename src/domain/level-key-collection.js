@@ -40,6 +40,28 @@ class LevelKeyCollection {
   hasAny () {
     return this.keys.length > 0
   }
+
+  /**
+   * Reduces the level keys by the given 2-arity function starting with the given value.
+   * @param {Function} func The reducer
+   * @param {any} [init] The initial value
+   */
+  reduce (func, init) {
+    return this.keys.slice(0).reduce(func, init)
+  }
+
+  /**
+   * Deletes the key by the given level id.
+   * @param {string} levelId The level id
+   */
+  deleteByLevelId (levelId) {
+    if (!this.dict[levelId]) {
+      return
+    }
+
+    this.keys = this.keys.filter(key => key.levelId !== levelId)
+    delete this.dict[levelId]
+  }
 }
 
 module.exports = LevelKeyCollection

@@ -75,7 +75,7 @@ class OutroScene extends Context {
 
         const repository = new CharacterRepository()
 
-        character.addKeyOf(character.getFloorObjectId())
+        character.addKeyOf(this.elem.find('.level-signboard').attr('unlocks'))
         repository.save(character)
       })
     })
@@ -120,7 +120,7 @@ class OutroScene extends Context {
 
     .then(() => {
       this.hero().turn(DIRS.DOWN)
-      return levelKey.hide()
+      return levelKey.disappear()
     })
   }
 }

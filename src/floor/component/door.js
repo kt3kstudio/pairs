@@ -112,7 +112,7 @@ class Door extends FloorAsset {
   /**
    * Unlocks the door.
    */
-  unlocks () {
+  unlock () {
     this.locked = false
 
     this.enableDoorKnock()

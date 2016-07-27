@@ -134,8 +134,12 @@ class FloorScene extends SceneContext {
     return this.sequenceInitial()
 
     .then(() => {
-      if (this.character.hasAnyKey()) {}
+      if (this.character.hasAnyKey()) {
+        return this.character.keys.reduce((promise, key) => promise.then(() => this.sequenceUnlocking(key)), Promise.resolve())
+      }
     })
+
+    .then(() => this.walker.focusMe())
   }
 
   /**
@@ -154,6 +158,47 @@ class FloorScene extends SceneContext {
       let floorAsset = this.floorAssets.findById(this.walker.getPosition().floorObjectId)
 
       return this.walker.appearAt(floorAsset)
+    })
+  }
+
+  /**
+   * The sequence of unlocking levels or next floors.
+   * @param {LevelKey} levelKey The domain model of level key
+   * @return {Promise}
+   */
+  sequenceUnlocking (levelKey) {
+    console.log('reducing')
+    console.log(levelKey)
+
+    let asset
+    const key = this.spawnLevelKey(levelKey)
+
+    key.setAt(this.walker.getPoint())
+
+    this.elem.trigger('camera-focus', [key.getPoint().x])
+
+    return key.show()
+
+    .then(() => {
+      asset = this.floorAssets.findById(levelKey.levelId)
+
+      key.setAt(asset.getPoint())
+
+      const keyGivingDur = 800;
+
+      this.elem.trigger('camera-move', [key.getPoint().x, keyGivingDur])
+
+      return key.engage(keyGivingDur)
+    })
+
+    .then(() => {
+      return key.elem.anim('jump', 300)
+    })
+
+    .then(() => {
+      asset.unlock()
+
+      return key.disappear()
     })
   }
 
@@ -216,6 +261,14 @@ class FloorScene extends SceneContext {
     })
 
     .then(() => this.camera.scrollTo(this.walker.x, 500))
+  }
+
+  /**
+   * Spawns level-keys
+   * @param {LevelKey} levelKey
+   */
+  spawnLevelKey (levelKey) {
+    return img({cc: 'level-key'}).appendTo(this.floorAssets.elem).cc.get('level-key')
   }
 }
 

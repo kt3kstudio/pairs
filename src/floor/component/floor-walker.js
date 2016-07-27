@@ -4,7 +4,7 @@ const {traits} = require('traits-decorator')
 const {Body, decorators, DIRS} = require('spn')
 const {ratio} = decorators
 
-const {component, on} = $.cc
+const {component, on, emit} = $.cc
 
 /**
  * FloorWalker is the role of CharSprite which handles the behaviours of the character on the floor.
@@ -98,6 +98,14 @@ class FloorWalker extends Body {
   }
 
   /**
+   * Makes the camera focus at me.
+   */
+  @emit('camera-focus').last
+  focusMe () {
+    return this.getPoint().x
+  }
+
+  /**
    * Moves the character sprite to wall object
    *
    * @param {FloorAsset} floorAsset The wall object to go to
@@ -114,7 +122,7 @@ class FloorWalker extends Body {
 
     const goOutDistance = 80
 
-    this.elem.trigger('character-focus', [current.x])
+    this.focusMe()
 
     current.close()
 
@@ -125,7 +133,7 @@ class FloorWalker extends Body {
     .then(() => {
       // Notifies the character starts moving to the floorAsset.x.
       // The camera take this info and move following the hero.
-      this.elem.trigger('character-move', [floorAsset.x, moveOnCorridor])
+      this.elem.trigger('camera-move', [floorAsset.x, moveOnCorridor])
 
       floorAsset.open()
 

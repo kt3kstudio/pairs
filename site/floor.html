@@ -118,13 +118,18 @@ main_scene: floor-scene
 }
 
 .staircase {
-    position: absolute;
     background-color: #191B1D;
 }
 
 .frog,
-.floor-walker {
+.floor-walker,
+.level-key,
+.staircase {
     position: absolute;
+}
+
+.level-key {
+    z-index: 2;
 }
 
 /* anims */
