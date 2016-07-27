@@ -1,21 +1,22 @@
 # TODO
 
+## feat(message-panel):
+- create message-panel component
+
 ## feat(unlock):
-- unlock the next level when the hero has the keys
-- start unlocking sequence when the hero has a key
-- detect the corresponding door or staircase of the given key
-- unlocking sequence
-- camera handling
+- block UI while unlocking
 - unlock the staircase when the hero has the keys
 - restore staircase (where does it go?)
 
-## story(hero)
-- rename Ma to Qu or Ko Ju
+## chore(app)
+- rename app name to Tic Tac Coupling
 
-## feat(level-name):
-- create level-panel class
-- show level-panel when entering the level
-- show level-panel again when leaving the level
+## story(hero)
+
+## feat(level-signboard):
+- create level-signboard class
+- show level-signboard when entering the level
+- show level-signboard again when leaving the level
 
 ## feat(emoji):
 - add w emoji
@@ -27,6 +28,7 @@
 
 ## feat(special-stage):
 - create special stage per floor
+- which use what user created at each level as goals
 
 ## feat(opening):
 - create opening sequence of the game
@@ -79,6 +81,11 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- unlocking sequence
+- camera handling
+- detect the corresponding door or staircase of the given key
+- unlock the next level when the hero has the keys
+- start unlocking sequence when the hero has a key
 - create level-key component
 - give level-key when the hero is successful
 - remove Rx.Observable.prototype.flattenObservable
