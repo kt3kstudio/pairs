@@ -2,6 +2,8 @@ const Screenplay = require('./screenplay')
 require('./message-balloon')
 require('../screenplay/punch-emoji')
 
+const {traits} = require('traits-decorator')
+
 const {div} = require('dom-gen')
 
 const DEFAULT_SPEECH_TIMEOUT = 5000
@@ -44,5 +46,7 @@ class Speaker {
     .then(() => this.elem.trigger('speech.ended'))
   }
 }
+
+Speaker.speaker = traits(Speaker)
 
 module.exports = Speaker

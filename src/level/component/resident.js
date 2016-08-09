@@ -1,16 +1,12 @@
-const StaticSprite = require('../../ui/sprite/static-sprite')
-const RelativeBody = require('../../ui/sprite/relative-body')
-const Speaker = require('../../ui/screenplay/speaker')
-const {traits} = require('traits-decorator')
-const {Body} = require('spn')
+const sprite = require('../../ui/sprite')
+const {speaker} = require('../../ui/screenplay/speaker')
+const {Body, ratio} = require('spn')
 
-@traits(RelativeBody)
-@traits(StaticSprite)
-@traits(Speaker)
+@sprite.static
+@sprite.relativeBody
+@speaker
+@ratio.x(0.5).y(1)
 class Resident extends Body {
-
-  ratioX () { return 0.5 }
-  ratioY () { return 1 }
 
   constructor (elem) {
     super()
