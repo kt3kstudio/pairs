@@ -1,16 +1,16 @@
-const CharSprite = require('../../ui/sprite/char-sprite')
-const {GridWalker, DIRS} = require('spn')
-const Speaker = require('../../ui/screenplay/speaker')
-const {traits} = require('traits-decorator')
+const sprite = require('../../ui/sprite/')
+const {GridWalker, DIRS, ratio} = require('spn')
+const {speaker} = require('../../ui/screenplay/speaker')
 
 const {component} = $.cc
 
 /**
  * The main character on the level scene.
  */
-@traits(Speaker)
-@traits(CharSprite)
+@speaker
+@sprite.character
 @component('hero')
+@ratio.x(0.5).y(1)
 class Character extends GridWalker {
   constructor (elem) {
     super()
@@ -18,9 +18,6 @@ class Character extends GridWalker {
     this.initSprite(elem)
     this.setSpeaker(elem)
   }
-
-  ratioX () { return 0.5 }
-  ratioY () { return 1 }
 
   /**
    * @override
