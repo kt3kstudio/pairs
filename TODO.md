@@ -1,5 +1,8 @@
 # TODO
 
+## relative-body problem
+- make relative-body a bit more cleaver
+
 ## feat(message-panel):
 - create message-panel component
 
