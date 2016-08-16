@@ -1,7 +1,12 @@
 # TODO
 
-## relative-body problem
-- make relative-body a bit more cleaver
+## block problem
+- make block more simple
+- make rect have more usable methods like. scaleCenter, scaleMiddle etc
+
+## refactor
+- use bare @wire and refactor level/context
+- use bare @component and refactor level/components
 
 ## feat(message-panel):
 - create message-panel component
@@ -84,6 +89,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- make relative-body a bit more cleaver
 - unlocking sequence
 - camera handling
 - detect the corresponding door or staircase of the given key
