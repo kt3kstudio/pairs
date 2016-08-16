@@ -5,7 +5,10 @@ const BackgroundService = require('../ui/common/background-service')
 const UserRepository = require('../domain/user-repository')
 const CharacterRepository = require('../domain/character-repository')
 
+const block = require('../ui/block')
 const Screenplay = require('../ui/screenplay/screenplay')
+
+const {wait} = require('spn')
 
 const {img} = require('dom-gen')
 
@@ -15,6 +18,7 @@ const {component, on, emit} = $.cc
  * IntroScene class handles the introduction scene of the level page.
  */
 @component('intro-scene')
+@block
 class IntroScene extends Context {
   /**
    * The entry point of the level scene.
@@ -80,6 +84,11 @@ class IntroScene extends Context {
     return `${global.BASEPATH}/data/level/${id}.html`
   }
 
+  @on('block-need-guiding-rect')
+  onBlockNeedRect (e, child) {
+    this.onChildNeedGuidingRect(e, child)
+  }
+
   /**
    * Sets up the components.
    * @protected
@@ -90,6 +99,8 @@ class IntroScene extends Context {
 
     const layout = new IntroSceneLayout()
     const pLayout = new PlaySceneLayout()
+
+    this.rect = layout.main
 
     this.spawnBall()
     this.spawnCharacter(this.character)
@@ -117,7 +128,14 @@ class IntroScene extends Context {
    */
   @emit('intro-scene.finished').last
   start () {
+
     return BackgroundService.turnWhite()
+
+    .then(() => this.levelSignboard.show())
+
+    .then(() => wait(700))
+
+    .then(() => this.levelSignboard.hide())
 
     .then(() => this.hero().moveUpOnGrid(600))
 

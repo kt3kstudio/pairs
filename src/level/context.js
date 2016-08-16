@@ -3,11 +3,16 @@ require('./component')
 require('./service')
 
 const {wait} = require('spn')
+const {wire} = $.cc
 
 /**
  * The common context for level scenes.
  */
 class Context extends SceneContext {
+
+  /** @return {LevelSignboard} */
+  @wire get levelSignboard () {}
+
   /**
    * Gets the field grid.
    * @return {Field}

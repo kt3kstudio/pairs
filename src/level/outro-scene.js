@@ -5,7 +5,7 @@ const BackgroundService = require('../ui/common/background-service')
 const Cell = require('./component/cell')
 const CharacterRepository = require('../domain/character-repository')
 
-const {Area, DIRS} = require('spn')
+const {Area, DIRS, wait} = require('spn')
 const {img} = require('dom-gen')
 
 const {component, on} = $.cc
@@ -83,12 +83,18 @@ class OutroScene extends Context {
     .then(() => this.hero().elem.anim('jump', 300))
 
     .then(() => {
-      this.hideResidents('moo')
-
       this.hero().setTo(this.hero().getPoint().down($(window).height()))
 
       this.hero().engage(1000)
+
+      return this.hideResidents('moo')
     })
+
+    .then(() => this.levelSignboard.show())
+
+    .then(() => wait(700))
+
+    .then(() => this.levelSignboard.hide())
 
     .then(() => BackgroundService.turnBlack())
 

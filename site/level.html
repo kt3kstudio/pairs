@@ -42,8 +42,16 @@ main_scene: intro-scene
 
 .hero,
 .moo,
-.cell {
-    position: absolute;
+.cell,
+.level-signboard,
+.level-key {
+  position: absolute;
+}
+
+.level-signboard {
+  opacity: 0;
+  text-align: center;
+  display: block;
 }
 
 .hero {
@@ -78,11 +86,6 @@ main_scene: intro-scene
   color: #C1C6CB;
   background-color: #393F44;
 }
-
-.level-key {
-  position: absolute;
-}
-
 
 @-webkit-keyframes ball-appear {
   0% { opacity: 0; transform: scale(0); }
