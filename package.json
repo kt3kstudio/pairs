@@ -46,7 +46,7 @@
     "karma": "^1.0.0",
     "karma-browserify": "^5.0.5",
     "karma-chai": "^0.1.0",
-    "karma-chrome-launcher": "^1.0.1",
+    "karma-chrome-launcher": "^2.0.0",
     "karma-cli": "^1.0.0",
     "karma-coverage": "^1.0.0",
     "karma-jsmockito-jshamcrest": "0.0.6",
