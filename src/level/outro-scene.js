@@ -26,6 +26,8 @@ class OutroScene extends Context {
   setUp () {
     const layout = new PlaySceneLayout()
 
+    this.levelSignboard.setLeaving()
+
     this.resultPane().setRect(layout.resultPaneRect())
     this.resultPane().setScore(this.scoreboard().score)
     this.resultPane().setSuccess(this.goalAchieved())
@@ -89,6 +91,8 @@ class OutroScene extends Context {
 
       return this.hideResidents('moo')
     })
+
+    .then(() => wait(400))
 
     .then(() => this.levelSignboard.show())
 

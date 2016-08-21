@@ -115,6 +115,8 @@ class IntroScene extends Context {
 
     Screenplay.addVars({hero: this.character.name})
 
+    this.levelSignboard.setEntering()
+
     this.residents('moo').forEach(moo => moo.onSetParentRect(layout.main))
 
     // sets goal-panel dimension
