@@ -1,5 +1,8 @@
 # TODO
 
+## Refactor(wire):
+- refactor scene classes using @wire decorators
+
 ## block problem
 - make block more simple
 - make rect have more usable methods like. scaleCenter, scaleMiddle etc
