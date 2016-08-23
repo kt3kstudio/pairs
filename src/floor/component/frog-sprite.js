@@ -1,7 +1,5 @@
-const StayRunSprite = require('../../ui/sprite/stay-run-sprite')
-const {traits} = require('traits-decorator')
-const {Animation, GridWalker, decorators} = require('spn')
-const {width, height, ratio} = decorators
+const sprite = require('../../ui/sprite')
+const {Animation, GridWalker, width, height, ratio} = require('spn')
 
 const {component, on} = $.cc
 
@@ -11,8 +9,8 @@ const {component, on} = $.cc
  *
  * @extends domain.common.StayRunSprite
  */
-@traits(StayRunSprite)
-@width(100) @height(50) @ratio.x(0.5) @ratio.y(1)
+@sprite.stayRun
+@width(100) @height(50) @ratio.x(0.5).y(1)
 @component('frog')
 class FrogSprite extends GridWalker {
 

@@ -1,16 +1,17 @@
-const StaticSprite = require('../../ui/sprite/static-sprite')
+const sprite = require('../../ui/sprite')
 
 const {traits} = require('traits-decorator')
 const {ratio, width, height, Body, animation} = require('spn')
 
 const {component} = $.cc
 
-@traits(StaticSprite)
-@ratio.x(0.5) @ratio.y(1)
+@sprite.static
+@ratio.x(0.5).y(1)
 @width(50) @height(50)
-@animation.show('char-appear', 1000)
-@animation.hide('char-disappear', 1000)
-@component('level-key')
+@animation
+  .show('char-appear', 1000)
+  .hide('char-disappear', 1000)
+@component
 class LevelKey extends Body {
   /**
    * @param {jQuery} elem The element

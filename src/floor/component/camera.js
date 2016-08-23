@@ -5,7 +5,7 @@ const {component, on} = $.cc
 /**
  * Camera handles the screen position.
  */
-@component('camera')
+@component
 class Camera {
   /**
    * Gets the window width.

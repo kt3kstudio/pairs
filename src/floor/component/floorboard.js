@@ -7,7 +7,7 @@ const HEIGHT_RATE = 0.35
 /**
  * Floor class handles the behaviour of floor of the Map view
  */
-@component('floorboard')
+@component
 class Floorboard extends Being {
 
   static get HEIGHT_RATE () {

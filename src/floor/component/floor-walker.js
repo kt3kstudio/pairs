@@ -1,4 +1,4 @@
-const CharSprite = require('../../ui/sprite/char-sprite')
+const sprite = require('../../ui/sprite')
 const CharacterRepository = require('../../domain/character-repository')
 const {traits} = require('traits-decorator')
 const {Body, DIRS, ratio} = require('spn')
@@ -10,9 +10,9 @@ const {component, on, emit} = $.cc
  *
  * Service Component
  */
-@traits(CharSprite)
-@ratio.x(0.5) @ratio.y(1)
-@component('floor-walker')
+@sprite.character
+@ratio.x(0.5).y(1)
+@component
 class FloorWalker extends Body {
 
   constructor (elem) {

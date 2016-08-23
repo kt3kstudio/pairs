@@ -10,7 +10,7 @@ const {component} = $.cc
  *
  * Collective Component
  */
-@component('floor-asset-collection')
+@component
 class FloorAssetCollection extends Being {
   /**
    * Loads assets from the given string html data.

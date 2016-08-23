@@ -18,7 +18,7 @@ const {component, on, wire} = $.cc
  * - interaction between view and model
  * - sequence of multi agents perfomance
  */
-@component('floor-scene')
+@component
 class FloorScene extends SceneContext {
   /**
    * The entry point of the map scene.

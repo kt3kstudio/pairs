@@ -14,7 +14,7 @@ const DOOR_APPEAR_DUR = 400
  * @class
  * @extends domain.map.FloorAsset
  */
-@component('door')
+@component
 class Door extends FloorAsset {
   showAnim () { return new Animation('door-appear', DOOR_APPEAR_DUR) }
   hideAnim () { return new Animation('door-disappear', DOOR_APPEAR_DUR) }
