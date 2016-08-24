@@ -44,7 +44,7 @@ class OutroScene extends Context {
     .then(() => Cell.disappear())
 
     .then(() => {
-      this.getMenuButton().hide()
+      this.menuButton.hide()
 
       this.scoreboard().disappear()
       this.hideGoalPanel()

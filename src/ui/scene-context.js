@@ -53,28 +53,11 @@ class SceneContext {
   }
 
   /**
-   * Gets the class component of the given name at the given selector
-   *
-   * @param {string} selector The selector for searching
-   * @param {string} className The class name of the component
-   */
-  getGlobal (selector, className) {
-    return $(selector).cc.get(className)
-  }
-
-  /**
-   * Gets the menu button.
-   *
-   * @return {ui.common.MenuButton}
-   */
-  getMenuButton () {
-    return this.getGlobal('.menu-button-root', 'menu-button')
-  }
-
-  /**
    * @return {MenuButton}
    */
-  @wire('menu-button', '.menu-button-root') get menuButton () {}
+  get menuButton () {
+    return $('.menu-button-root').cc.get('menu-button')
+  }
 }
 
 module.exports = SceneContext

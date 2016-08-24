@@ -146,7 +146,7 @@ class FloorScene extends SceneContext {
    * Plays the initial sequence.
    */
   sequenceInitial () {
-    this.getMenuButton().show()
+    this.menuButton.show()
 
     BackgroundService.turnWhite()
 
@@ -203,7 +203,7 @@ class FloorScene extends SceneContext {
   }
 
   fadeOut () {
-    this.getMenuButton().hide()
+    this.menuButton.hide()
 
     return this.floorAssets.hide().then(() => {
       this.floorboard.hide()

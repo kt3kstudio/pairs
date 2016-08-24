@@ -144,7 +144,7 @@ class PlayScene extends Context {
    * @return {Promise}
    */
   showComponents () {
-    this.getMenuButton().show()
+    this.menuButton.show()
 
     return this.field().show()
 
