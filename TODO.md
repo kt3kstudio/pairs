@@ -1,15 +1,9 @@
 # TODO
 
-## Refactor(wire):
-- refactor scene classes using @wire decorators
-
-## block problem
+## block refactoring
 - make block more simple
 - make rect have more usable methods like. scaleCenter, scaleMiddle etc
-
-## refactor
-- use bare @wire and refactor level/context
-- use bare @component and refactor level/components
+- remove XXXLayout classes and create local rects locally
 
 ## feat(message-panel):
 - create message-panel component
@@ -18,6 +12,8 @@
 - block UI while unlocking
 - unlock the staircase when the hero has the keys
 - restore staircase (where does it go?)
+- remove keys when used
+- add levelHistory when unlocked
 
 ## chore(app)
 - rename app name to Tic Tac Coupling
@@ -25,9 +21,6 @@
 ## story(hero)
 
 ## feat(level-signboard):
-- create level-signboard class
-- show level-signboard when entering the level
-- show level-signboard again when leaving the level
 
 ## feat(emoji):
 - add w emoji
@@ -92,6 +85,11 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- create level-signboard class
+- show level-signboard when entering the level
+- show level-signboard again when leaving the level
+- use bare @wire and refactor level/context
+- use bare @component and refactor level/components
 - make relative-body a bit more cleaver
 - unlocking sequence
 - camera handling
