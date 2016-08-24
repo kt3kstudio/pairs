@@ -2,7 +2,6 @@
  * PossibleMoveDetectionService provides the functionality of detecting the possible moves in the play field.
  */
 class PossibleMoveDetectionService {
-
   /**
    * @constructor
    * @param {Ball} ball The ball

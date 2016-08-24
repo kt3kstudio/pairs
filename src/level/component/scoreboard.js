@@ -1,4 +1,4 @@
-const {Animation, Body} = require('spn')
+const {animation, Body, ratio} = require('spn')
 const {commaNumber} = require('../../util/util')
 
 const {component} = $.cc
@@ -6,11 +6,12 @@ const {component} = $.cc
 /**
  * Scoreboard handles the behaviour of the score board of the level view.
  */
-@component('scoreboard')
+@component
+@animation
+  .show('bom-appear', 400)
+  .hide('bom-disappear', 400)
+@ratio.x(0).y(0)
 class Scoreboard extends Body {
-  ratioX () { return 0 }
-  ratioY () { return 0 }
-
   marginX () { return 6 }
   marginY () { return 6 }
 
@@ -36,9 +37,6 @@ class Scoreboard extends Body {
       return fusionPair
     })
   }
-
-  showAnim () { return new Animation('bom-appear', 400) }
-  hideAnim () { return new Animation('bom-disappear', 400) }
 
   /**
    * Set up the initial dom state.

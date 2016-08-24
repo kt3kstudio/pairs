@@ -1,15 +1,15 @@
-const StaticSprite = require('../../ui/sprite/static-sprite')
+const sprite = require('../../ui/sprite')
 
 const {Body, decorators} = require('spn')
 const {animation, ratio} = decorators
-const {traits} = require('traits-decorator')
 const {component} = $.cc
 
-@traits(StaticSprite)
-@ratio.x(0.5) @ratio.y(1)
-@animation.show('level-key-show', 3000)
-@animation.hide('level-key-hide', 1500)
-@component('level-key')
+@sprite.static
+@ratio.x(0.5).y(1)
+@animation
+  .show('level-key-show', 3000)
+  .hide('level-key-hide', 1500)
+@component
 class LevelKey extends Body {
   /**
    * @param {jQuery} elem The element

@@ -8,7 +8,7 @@ const {component} = $.cc
 /**
  * CellCollection class represents the grid positioned queues of cells around the field.
  */
-@component('cell-collection')
+@component
 class CellCollection {
   constructor () {
     this.cells = []

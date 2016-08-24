@@ -8,10 +8,8 @@ const ALL_CELLS = []
  * Cell class represents a unit (nim and neef) on the field of the level.
  *
  * This class can move along the given grid which is specified as the dimension object.
- *
- * @class
  */
-@component('cell')
+@component
 class Cell extends GridWalker {
   cellRatioX () { return 0.65 }
   cellRatioY () { return 0.65 }

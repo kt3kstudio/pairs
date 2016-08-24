@@ -3,10 +3,8 @@ const { wait } = require('spn')
 
 /**
  * BallMoveMobLeaveService provides the function to move ball and process field boms collectly.
- * @class
  */
 class BallMoveMobLeaveService {
-
   /**
    * @constructor
    * @param {Ball} ball The ball

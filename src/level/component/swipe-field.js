@@ -3,7 +3,7 @@ const {component} = $.cc
 /**
  * SwipeEvent class provides the stream of the swipe events.
  */
-@component('swipe-field')
+@component
 class SwipeField {
   constructor (elem) {
     elem.swipeCross()

@@ -1,13 +1,13 @@
 const Resident = require('./resident')
-const {Animation} = require('spn')
+const {animation} = require('spn')
 
 const {component} = $.cc
 
-@component('moo')
+@component
+@animation
+  .show('bom-appear', 400)
+  .hide('bom-disappear', 400)
 class Moo extends Resident {
-  showAnim () { return new Animation('bom-appear', 400) }
-  hideAnim () { return new Animation('bom-disappear', 400) }
-
   image () {
     return `${global.BASEPATH}/img/moo.svg`
   }

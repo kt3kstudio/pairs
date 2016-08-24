@@ -9,10 +9,8 @@ const CENTER_N = 1
 
 /**
  * Ball class represents the ball inside the field of the level.
- *
- * @class
  */
-@component('ball')
+@component
 class Ball extends GridWalker {
 
   constructor (elem) {

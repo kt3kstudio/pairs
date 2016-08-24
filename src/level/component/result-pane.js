@@ -6,7 +6,7 @@ const {component} = $.cc
 /**
  * ResultPane class handles the behaviour of the pane which appears when the game finished with a score.
  */
-@component('result-pane')
+@component
 class ResultPane extends Body {
   /**
    * Sets the score.
