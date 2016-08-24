@@ -10,7 +10,7 @@ const {component, on} = $.cc
 /**
  * TitleScene class handles the motions sequences of the title scene.
  */
-@component('title-scene')
+@component
 class TitleScene extends SceneContext {
   /**
    * Entry point of the title scene.
@@ -23,7 +23,7 @@ class TitleScene extends SceneContext {
     .then(elem => elem.animation('float 6000ms infinite'))
 
     wait(500).then(() => {
-      this.getMenuButton().show()
+      this.menuButton.show()
 
       p('GET UP')
       .addClass('touch-here elem')
@@ -38,7 +38,7 @@ class TitleScene extends SceneContext {
    * Fades out the scene.
    */
   fadeOut () {
-    return Promise.all([this.getMenuButton().hide(), $('.elem').css('opacity', 0).anim('disappear', 500).then(() => {
+    return Promise.all([this.menuButton.hide(), $('.elem').css('opacity', 0).anim('disappear', 500).then(() => {
       $('.elem').remove()
 
       return wait(100)

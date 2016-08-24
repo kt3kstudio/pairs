@@ -5,7 +5,7 @@ const {component, on} = $.cc
 /**
  * SplashScene controls the splash screen.
  */
-@component('splash-scene')
+@component
 class SplashScene {
 
   @on('scene-start')

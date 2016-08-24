@@ -1,8 +1,6 @@
 /**
  * SceneContext is the base class for scene classes. This defines the for phases of the scene.
- *
  * @abstract
- * @class
  */
 class SceneContext {
 
@@ -18,7 +16,6 @@ class SceneContext {
 
   /**
    * Loads the data necessary for the scene.
-   *
    * @abstract
    */
   load () {}
@@ -27,14 +24,12 @@ class SceneContext {
    * Sets up the services necessary for the scene.
    *
    * This must be a sync process.
-   *
    * @abstract
    */
   setUp () {}
 
   /**
    * Starts the scene.
-   *
    * @abstract
    */
   start () {}
@@ -76,6 +71,10 @@ class SceneContext {
     return this.getGlobal('.menu-button-root', 'menu-button')
   }
 
+  /**
+   * @return {MenuButton}
+   */
+  @wire('menu-button', '.menu-button-root') get menuButton () {}
 }
 
 module.exports = SceneContext
