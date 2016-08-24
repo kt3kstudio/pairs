@@ -17,7 +17,7 @@ const {component, on, emit} = $.cc
 /**
  * IntroScene class handles the introduction scene of the level page.
  */
-@component('intro-scene')
+@component
 @block
 class IntroScene extends Context {
   /**
@@ -107,7 +107,7 @@ class IntroScene extends Context {
 
     const centerGrid = layout.centerGrid()
 
-    const character = this.hero()
+    const character = this.hero
 
     character.setGrid(centerGrid, 0, 1)
     character.setTransitionDuration(500)
@@ -120,7 +120,7 @@ class IntroScene extends Context {
     this.residents('moo').forEach(moo => moo.onSetParentRect(layout.main))
 
     // sets goal-panel dimension
-    this.goalPanel().setRect(pLayout.goalPanelRect())
+    this.goalPanel.setRect(pLayout.goalPanelRect())
   }
 
   /**
@@ -139,16 +139,16 @@ class IntroScene extends Context {
 
     .then(() => this.levelSignboard.hide())
 
-    .then(() => this.hero().moveUpOnGrid(600))
+    .then(() => this.hero.moveUpOnGrid(600))
 
     .then(() => this.showResidents('moo'))
 
     .then(() => this.screenplay('level-beginning').play())
 
     .then(() => {
-      this.hero().hide()
+      this.hero.hide()
 
-      return this.ball().show()
+      return this.ball.show()
     })
   }
 

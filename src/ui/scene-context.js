@@ -29,30 +29,6 @@ class SceneContext {
   setUp () {}
 
   /**
-   * Starts the scene.
-   * @abstract
-   */
-  start () {}
-
-  /**
-   * Gets the class component of the given name inside the element.
-   *
-   * @param {string} className The class name of the component
-   */
-  get (className) {
-    return this.elem.find('.' + className).cc.get(className)
-  }
-
-  /**
-   * Gets the class component of the given name at the element.
-   *
-   * @param {string} className The class name of the component
-   */
-  getAtElem (className) {
-    return this.elem.cc.get(className)
-  }
-
-  /**
    * @return {MenuButton}
    */
   get menuButton () {

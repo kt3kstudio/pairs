@@ -17,49 +17,37 @@ class Context extends SceneContext {
    * Gets the field grid.
    * @return {Field}
    */
-  field () {
-    return this.get('field-grid')
-  }
+  @wire('field-grid') get field () {}
 
   /**
    * Gets the character.
    * @return {Character}
    */
-  hero () {
-    return this.get('hero')
-  }
+  @wire get hero () {}
 
   /**
    * Gets the ball
    * @return {Ball}
    */
-  ball () {
-    return this.get('ball')
-  }
+  @wire get ball () {}
 
   /**
    * Gets the scoreboard.
    * @return {Scoreboard}
    */
-  scoreboard () {
-    return this.get('scoreboard')
-  }
+  @wire get scoreboard () {}
 
   /**
    * Gets the goal-panel
    * @return {GoalPanel}
    */
-  goalPanel () {
-    return this.get('goal-panel')
-  }
+  @wire get goalPanel () {}
 
   /**
    * Gets the result pane.
    * @return {ResultPane}
    */
-  resultPane () {
-    return this.get('result-pane')
-  }
+  @wire get resultPane () {}
 
   /**
    * Gets the residents
@@ -74,32 +62,26 @@ class Context extends SceneContext {
    * Gets the gene source.
    * @return {GeneSource}
    */
-  geneSource () {
-    return this.get('gene-source')
-  }
+  @wire get geneSource () {}
 
   /**
    * Gets the scenes.
    */
-  introScene () { return this.getAtElem('intro-scene') }
-  playScene () { return this.getAtElem('play-scene') }
-  outroScene () { return this.getAtElem('outro-scene') }
+  @wire get introScene () {}
+  @wire get playScene () {}
+  @wire get outroScene () {}
 
   /**
    * Gets the cells.
    * @return {CellCollection}
    */
-  cells () {
-    return this.getAtElem('cell-collection')
-  }
+  @wire('cell-collection') get cells () {}
 
   /**
    * Gets the fusion service.
    * @return {FusionService}
    */
-  fusionService () {
-    return this.getAtElem('fusion-service')
-  }
+  @wire get fusionService () {}
 
   /**
    * Gets the screenplay managers.
@@ -113,9 +95,7 @@ class Context extends SceneContext {
   /**
    * @return {CellQueueBumpService}
    */
-  cellQueueBumpService () {
-    return this.getAtElem('cell-queue-bump-service')
-  }
+  @wire get cellQueueBumpService () {}
 
   /**
    * Shows the residents.
@@ -141,10 +121,10 @@ class Context extends SceneContext {
    * @return {Promise}
    */
   showGoalPanel (goals) {
-    this.goalPanel().setGoals(goals)
+    this.goalPanel.setGoals(goals)
 
-    return this.goalPanel().show()
-      .then(() => this.goalPanel().showGoals())
+    return this.goalPanel.show()
+      .then(() => this.goalPanel.showGoals())
   }
 
   /**
@@ -152,7 +132,7 @@ class Context extends SceneContext {
    * @return {Promise}
    */
   hideGoalPanel () {
-    return this.goalPanel().hide()
+    return this.goalPanel.hide()
   }
 
   /**
@@ -160,7 +140,7 @@ class Context extends SceneContext {
    * @return {boolean}
    */
   goalAchieved () {
-    return this.goalPanel().isFull()
+    return this.goalPanel.isFull()
   }
 }
 

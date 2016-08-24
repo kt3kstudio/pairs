@@ -13,10 +13,9 @@ const {component, on} = $.cc
 /**
  * OutroScene handles the scene after finishing main play.
  */
-@component('outro-scene')
+@component
 class OutroScene extends Context {
-  @on('play-scene.finished')
-  main () { super.main() }
+  @on('play-scene.finished') main () { super.main() }
 
   /**
    * Sets up the scene.
@@ -28,9 +27,9 @@ class OutroScene extends Context {
 
     this.levelSignboard.setLeaving()
 
-    this.resultPane().setRect(layout.resultPaneRect())
-    this.resultPane().setScore(this.scoreboard().score)
-    this.resultPane().setSuccess(this.goalAchieved())
+    this.resultPane.setRect(layout.resultPaneRect())
+    this.resultPane.setScore(this.scoreboard.score)
+    this.resultPane.setSuccess(this.goalAchieved())
   }
 
   /**
@@ -39,28 +38,28 @@ class OutroScene extends Context {
    * @override
    */
   start () {
-    return this.resultPane().show(30000000)
+    return this.resultPane.show(30000000)
 
     .then(() => Cell.disappear())
 
     .then(() => {
       this.menuButton.hide()
 
-      this.scoreboard().disappear()
+      this.scoreboard.disappear()
       this.hideGoalPanel()
 
-      return this.field().disappear()
+      return this.field.disappear()
     })
 
-    .then(() => this.ball().goCenterX())
+    .then(() => this.ball.goCenterX())
 
-    .then(() => this.ball().goCenterY())
+    .then(() => this.ball.goCenterY())
 
     .then(() => Promise.all([
       this.showResidents('moo'),
-      this.hero().show(),
-      this.hero().turn(DIRS.UP),
-      this.ball().disappear()
+      this.hero.show(),
+      this.hero.turn(DIRS.UP),
+      this.ball.disappear()
     ]))
 
     .then(() => {
@@ -82,12 +81,12 @@ class OutroScene extends Context {
       })
     })
 
-    .then(() => this.hero().elem.anim('jump', 300))
+    .then(() => this.hero.elem.anim('jump', 300))
 
     .then(() => {
-      this.hero().setTo(this.hero().getPoint().down($(window).height()))
+      this.hero.setTo(this.hero.getPoint().down($(window).height()))
 
-      this.hero().engage(1000)
+      this.hero.engage(1000)
 
       return this.hideResidents('moo')
     })
@@ -124,12 +123,12 @@ class OutroScene extends Context {
     return levelKey.show()
 
     .then(() => {
-      levelKey.setAt(this.hero().getPoint())
+      levelKey.setAt(this.hero.getPoint())
       return levelKey.engage(800)
     })
 
     .then(() => {
-      this.hero().turn(DIRS.DOWN)
+      this.hero.turn(DIRS.DOWN)
       return levelKey.disappear()
     })
   }

@@ -11,13 +11,12 @@ const {component, on, emit} = $.cc
 /**
  * PlayScene controlls the main playing scene of the level page.
  */
-@component('play-scene')
+@component
 class PlayScene extends Context {
   /**
    * The entry point
    */
-  @on('intro-scene.finished')
-  main () { super.main() }
+  @on('intro-scene.finished') main () { super.main() }
 
   /**
    * Sets up the components.
@@ -25,25 +24,25 @@ class PlayScene extends Context {
   setUp () {
     const layout = new PlaySceneLayout()
 
-    this.character = this.hero().character
+    this.character = this.hero.character
 
-    this.cells().setGrid(layout.playGrid())
-    this.cells().loadFromGenes(this.geneSource().genes)
+    this.cells.setGrid(layout.playGrid())
+    this.cells.loadFromGenes(this.geneSource.genes)
 
-    this.field().setRect(layout.fieldRect())
+    this.field.setRect(layout.fieldRect())
 
     this.elem.cc('cell-queue-bump-service')
 
     // services
     this.fps = new FusionPreparationService(layout.evalRoomGrid())
-    this.fusionService().setGrid(layout.fusionBoxGrid())
+    this.fusionService.setGrid(layout.fusionBoxGrid())
     this.exitQueue = new ExitQueue(layout.queueGrid())
 
     // ball move service
-    this.bms = new BallMoveMobLeaveService(this.ball(), this.cells())
+    this.bms = new BallMoveMobLeaveService(this.ball, this.cells)
 
     // init scoreboard dimension
-    this.scoreboard().setRect(layout.scoreboardRect())
+    this.scoreboard.setRect(layout.scoreboardRect())
   }
 
   /**
@@ -83,9 +82,9 @@ class PlayScene extends Context {
 
     let fusionPairs = this.fps.processCellStream(cellStream)
 
-    fusionPairs = this.scoreboard().hookToFusionPairStream(fusionPairs)
+    fusionPairs = this.scoreboard.hookToFusionPairStream(fusionPairs)
 
-    let newCells = this.fusionService().processFusionPairStream(fusionPairs)
+    let newCells = this.fusionService.processFusionPairStream(fusionPairs)
 
     newCells = Rx.Observable.merge(
       newCells,
@@ -94,11 +93,11 @@ class PlayScene extends Context {
 
     let exitCells = this.exitQueue.processNewCellStream(newCells)
 
-    exitCells = this.cellQueueBumpService().bump(exitCells)
+    exitCells = this.cellQueueBumpService.bump(exitCells)
 
     exitCells = this.hookPlayingStateBumping(exitCells)
 
-    return toPromise(this.cells().rearangeCells(exitCells))
+    return toPromise(this.cells.rearangeCells(exitCells))
   }
 
   /**
@@ -146,15 +145,15 @@ class PlayScene extends Context {
   showComponents () {
     this.menuButton.show()
 
-    return this.field().show()
+    return this.field.show()
 
     .then(() => this.character.reloadPlayingState())
 
     .then(() => this.hideResidents('moo'))
 
-    .then(() => this.cells().appear())
+    .then(() => this.cells.appear())
 
-    .then(() => this.scoreboard().show())
+    .then(() => this.scoreboard.show())
   }
 
   /**
