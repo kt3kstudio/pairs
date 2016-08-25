@@ -11,4 +11,4 @@ require('es6-promise').polyfill()
 require('es6-object-assign').polyfill()
 require('es6-symbol/implement')
 
-global.BASEPATH = ''
+global.BASEPATH = global.BASEPATH || ''

@@ -4,16 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="./css/all.css" />
-    <link rel="stylesheet" href="./css/tether.css" />
-    <link rel="stylesheet" href="./css/drop-theme-arrows-bounce.css" />
-    <link rel="stylesheet" href="./asset/emoji/css/emoji.css" />
-    <link rel="icon" href="./img/favicon.png" />
+    <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/all.css" />
+    <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/tether.css" />
+    <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/drop-theme-arrows-bounce.css" />
+    <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/asset/emoji/css/emoji.css" />
+    <link rel="icon" href="{{ file.frontMatter.basepath }}/img/favicon.png" />
 
     <script>window.config = {{ configJSON | safe }}</script>
-    <script src="./js/common.js"></script>
-    <script src="./infrastructure.js"></script>
-    <script src="./js/{{ file.frontMatter.js }}"></script>
+    <script>window.BASEPATH = '{{ file.frontMatter.basepath }}'</script>
+    <script src="{{ file.frontMatter.basepath }}/js/common.js"></script>
+    <script src="{{ file.frontMatter.basepath }}/infrastructure.js"></script>
+    <script src="{{ file.frontMatter.basepath }}/js/{{ file.frontMatter.js }}"></script>
     <script>
       $(function () {
         setTimeout(function () {
@@ -21,7 +22,6 @@
         }, 50);
       });
     </script>
-
   </head>
   <body class="{{ file.frontMatter.body }}">
     {{ contents }}

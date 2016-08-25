@@ -7,6 +7,7 @@ const frontMatter = require('gulp-front-matter')
 
 const config = {lang: 'en'}
 const configJSON = JSON.stringify(config)
+const basepath = process.env.BASEPATH || ''
 const SITE = 'site'
 const SRC = 'src'
 
@@ -23,10 +24,10 @@ asset(`${SRC}/infrastructure/infrastructure.js`)
   .pipe(bundler({transform: 'babelify'}))
 
 // html
-asset(`${SITE}/*.html`)
-  .watch(`${SITE}/*.html`, `${SITE}/layout/*.nunjucks`)
+asset(`${SITE}/**/*.html`)
+  .watch(`${SITE}/**/*.html`, `${SITE}/layout/*.nunjucks`)
   .pipe(frontMatter())
-  .pipe(wrapper.nunjucks({layout: `${SITE}/layouts`, data: {configJSON}}))
+  .pipe(wrapper.nunjucks({layout: `${SITE}/layouts`, data: {configJSON, basepath}}))
 
 // data
 asset(`${SITE}/data/**/*.*`).base(SITE)
