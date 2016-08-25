@@ -24,8 +24,9 @@ asset(`${SRC}/infrastructure/infrastructure.js`)
   .pipe(bundler({transform: 'babelify'}))
 
 // html
-asset(`${SITE}/**/*.html`)
-  .watch(`${SITE}/**/*.html`, `${SITE}/layout/*.nunjucks`)
+asset(`${SITE}/*.html`, `${SITE}/bed/*.html`)
+  .base(SITE)
+  .watch(`${SITE}/*.html`, `${SITE}/bed/*.html`, `${SITE}/layout/*.nunjucks`)
   .pipe(frontMatter())
   .pipe(wrapper.nunjucks({layout: `${SITE}/layouts`, data: {configJSON, basepath}}))
 
