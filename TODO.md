@@ -1,5 +1,9 @@
 # TODO
 
+## test/dev improvement
+- reset storage state widget
+- create test bed of spn module / block module
+
 ## block refactoring
 - make block more simple
 - make rect have more usable methods like. scaleCenter, scaleMiddle etc
