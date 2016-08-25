@@ -1,7 +1,6 @@
 const Context = require('./context')
 const IntroSceneLayout = require('./layout/intro-scene-layout')
 const PlaySceneLayout = require('./layout/play-scene-layout')
-const BackgroundService = require('../ui/common/background-service')
 const UserRepository = require('../domain/user-repository')
 const CharacterRepository = require('../domain/character-repository')
 
@@ -131,7 +130,7 @@ class IntroScene extends Context {
   @emit('intro-scene.finished').last
   start () {
 
-    return BackgroundService.turnWhite()
+    return this.bg.turnWhite()
 
     .then(() => this.levelSignboard.show())
 

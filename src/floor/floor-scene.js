@@ -1,5 +1,4 @@
 const SceneContext = require('../ui/scene-context')
-const BackgroundService = require('../ui/common/background-service')
 const UserRepository = require('../domain/user-repository')
 const CharacterRepository = require('../domain/character-repository')
 
@@ -148,7 +147,7 @@ class FloorScene extends SceneContext {
   sequenceInitial () {
     this.menuButton.show()
 
-    BackgroundService.turnWhite()
+    this.bg.turnWhite()
 
     return this.floorboard.show()
 
@@ -208,7 +207,7 @@ class FloorScene extends SceneContext {
     return this.floorAssets.hide().then(() => {
       this.floorboard.hide()
 
-      return BackgroundService.turnBlack()
+      return this.bg.turnBlack()
     })
   }
 

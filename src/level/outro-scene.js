@@ -1,7 +1,6 @@
 const Context = require('./context')
 const IntroSceneLayout = require('./layout/intro-scene-layout')
 const PlaySceneLayout = require('./layout/play-scene-layout')
-const BackgroundService = require('../ui/common/background-service')
 const Cell = require('./component/cell')
 const CharacterRepository = require('../domain/character-repository')
 
@@ -99,7 +98,7 @@ class OutroScene extends Context {
 
     .then(() => this.levelSignboard.hide())
 
-    .then(() => BackgroundService.turnBlack())
+    .then(() => this.bg.turnBlack())
 
     .then(() => history.back())
   }

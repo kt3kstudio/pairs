@@ -1,5 +1,4 @@
 const SceneContext = require('../ui/scene-context')
-const BackgroundService = require('../ui/common/background-service')
 const {loadImage} = require('../util/util')
 
 const {wait} = require('spn')
@@ -51,7 +50,7 @@ class TitleScene extends SceneContext {
   goToMap () {
     this.fadeOut()
 
-    .then(() => BackgroundService.turnBlack())
+    .then(() => this.bg.turnBlack())
 
     .then(() => {
       location.href = 'floor.html'
