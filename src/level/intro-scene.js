@@ -83,11 +83,6 @@ class IntroScene extends Context {
     return `${global.BASEPATH}/data/level/${id}.html`
   }
 
-  @on('block-need-guiding-rect')
-  onBlockNeedRect (e, child) {
-    this.onChildNeedGuidingRect(e, child)
-  }
-
   /**
    * Sets up the components.
    * @protected
