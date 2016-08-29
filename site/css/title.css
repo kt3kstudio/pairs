@@ -1,0 +1,30 @@
+@-webkit-keyframes title-appear {
+    0% { opacity: 0; transform: translate(0, 10px); }
+}
+
+@-webkit-keyframes float {
+    50% { transform: scale(0.97, 1.03); }
+}
+
+@-webkit-keyframes disappear {
+    0% { opacity: 1; transform: translate(0,  0px); }
+    100% { opacity: 0; transform: translate(0, 10px); }
+}
+
+.title-logo {
+    position: absolute;
+    left: 7.5%;
+    width: 85%;
+    max-height: 300px;
+    top: 50px;
+}
+
+.touch-here {
+    position: absolute;
+    top: 400px;
+    width: 100%;
+    text-align: center;
+    text-weight: bold;
+    font-size: 1.5em;
+    font-family: 'sans-serif';
+}

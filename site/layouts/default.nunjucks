@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/all.css" />
+    <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/{{ file.frontMatter.css }}" />
     <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/tether.css" />
     <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/drop-theme-arrows-bounce.css" />
     <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/asset/emoji/css/emoji.css" />
