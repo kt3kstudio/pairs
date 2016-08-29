@@ -1,6 +1,7 @@
 # TODO
 
 ## test/dev improvement
+- write test of @block
 - reset storage state widget
 - create test bed of spn module / block module
 
