@@ -21,7 +21,6 @@ const {component, on, emit} = $.cc
 class IntroScene extends Context {
   /**
    * The entry point of the level scene.
-   *
    * @protected
    * @return {Promise}
    */
@@ -29,8 +28,7 @@ class IntroScene extends Context {
   main () { super.main() }
 
   /**
-   * Loads the data
-   *
+   * Loads the data.
    * @protected
    * @return {Promise}
    */
@@ -94,7 +92,7 @@ class IntroScene extends Context {
     const layout = new IntroSceneLayout()
     const pLayout = new PlaySceneLayout()
 
-    this.rect = layout.main
+    this.blockRect = layout.main
 
     this.spawnBall()
     this.spawnCharacter(this.character)

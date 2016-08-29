@@ -6,18 +6,37 @@ class Block {
    * Requires the guiding rect.
    */
   needsGuidingRect () {
-    this.elem.trigger('block-need-guiding-rect', this)
+    this.elem.parent().trigger('block-need-guiding-rect', this)
 
-    if (!this.guidingRect) {
-      throw new Error('Guiding Rect not found.')
+    if (!this.__guidingRect__) {
+      this.__guidingRect__ = Rect.windowAsRect()
     }
   }
 
   /**
-   * @param {Rect} rect The rect
+   * @abstract
+   * @param {Rect} guidingRect The guiding rect
+   * @return {Rect} The block rect
+  block (guidingRect) {
+    return guidingRect
+  }*/
+
+  /**
+   * Initializes the block's rect by the overriden `block` method
    */
-  onGetGuidingRect (rect) {
-    this.guidingRect = rect
+  initBlock () {
+    this.blockRect = this.block(this.getGuidingRect())
+    this.setRect(this.blockRect)
+  }
+
+  getGuidingRect () {
+    if (this.__guidingRect__) {
+      return this.__guidingRect__
+    }
+
+    this.needsGuidingRect()
+
+    return this.__guidingRect__
   }
 
   /**
@@ -25,7 +44,15 @@ class Block {
    * @param {Block} child The child block
    */
   onChildNeedGuidingRect (e, child) {
-    child.onGetGuidingRect(this.rect)
+    e.stopPropagation()
+
+    if (this.blockRect) {
+      child.__guidingRect__ = this.blockRect
+
+      return
+    }
+
+    child.__guidingRect__ = this.getGuidingRect()
   }
 }
 

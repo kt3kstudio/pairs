@@ -37,11 +37,17 @@ class LevelSignboard extends Body {
     this.setLabel(small('Leaving'), br(), span('Level' + this.level))
   }
 
-  willShow () {
-    this.needsGuidingRect()
+  /**
+   * Defines the block's rect by the given guiding rect.
+   * @param {Rect} guidingRect
+   * @return {Rect}
+   */
+  block (guidingRect) {
+    return guidingRect.scaleLeft(8/9).scaleRight(7/8).scaleTop(2/3).scaleBottom(1/2)
+  }
 
-    this.initialRect = this.guidingRect.scaleLeft(8/9).scaleRight(7/8).scaleTop(2/3).scaleBottom(1/2)
-    this.setRect(this.initialRect)
+  willShow () {
+    this.initBlock()
 
     super.willShow()
   }
@@ -49,6 +55,7 @@ class LevelSignboard extends Body {
   didShow () {
     this.elem.css('opacity', 1)
   }
+
   willHide () {
     this.elem.css('opacity', 0)
   }
