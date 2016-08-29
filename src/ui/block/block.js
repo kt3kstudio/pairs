@@ -1,3 +1,5 @@
+const {Rect} = require('spn')
+
 /**
  * Block is a trait which has its own dimension which is relative to its parent's guiding rect.
  */
@@ -12,14 +14,6 @@ class Block {
       this.__guidingRect__ = Rect.windowAsRect()
     }
   }
-
-  /**
-   * @abstract
-   * @param {Rect} guidingRect The guiding rect
-   * @return {Rect} The block rect
-  block (guidingRect) {
-    return guidingRect
-  }*/
 
   /**
    * Initializes the block's rect by the overriden `block` method
