@@ -4,6 +4,10 @@
 - write test of @block
 - reset storage state widget
 - create test bed of spn module / block module
+- rect visualizer - spn-debug
+- grid visualizer - spn-debug
+- debug panel - another project
+- class-component method invoke panel
 
 ## block refactoring
 - make block more simple
