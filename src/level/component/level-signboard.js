@@ -34,7 +34,7 @@ class LevelSignboard extends Body {
    * Sets the text label for the entering scene.
    */
   setLeaving () {
-    this.setLabel(small('Leaving'), br(), span('Level' + this.level))
+    this.setLabel(small('Leaving'), br(), span(`Level ${this.level}`))
   }
 
   /**
