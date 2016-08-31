@@ -13,6 +13,7 @@
 - make block more simple
 - make rect have more usable methods like. scaleCenter, scaleMiddle etc
 - remove XXXLayout classes and create local rects locally
+- make @scene decorator
 
 ## feat(message-panel):
 - create message-panel component

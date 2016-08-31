@@ -67,6 +67,7 @@ class DebugPanel {
   @on('click').at('.reset') reset () {
     this.container().empty()
     this.target.empty()
+    this.target.trigger('scene-start')
 
     this.createComponentButtons()
   }

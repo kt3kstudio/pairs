@@ -20,7 +20,7 @@ class Block {
    */
   initBlock () {
     this.blockRect = this.block(this.getGuidingRect())
-    this.setRect(this.blockRect)
+    return this.blockRect
   }
 
   getGuidingRect () {
