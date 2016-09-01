@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/all.css" />
-    <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/{{ file.frontMatter.css }}" />
+    {% for css in file.frontMatter.css %}
+    <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/{{ css }}" />
+    {% endfor %}
     <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/tether.css" />
     <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/drop-theme-arrows-bounce.css" />
     <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/asset/emoji/css/emoji.css" />
@@ -15,11 +17,13 @@
     <script>window.BASEPATH = '{{ file.frontMatter.basepath }}'</script>
     <script src="{{ file.frontMatter.basepath }}/js/common.js"></script>
     <script src="{{ file.frontMatter.basepath }}/infrastructure.js"></script>
-    <script src="{{ file.frontMatter.basepath }}/js/{{ file.frontMatter.js }}"></script>
+    {% for js in file.frontMatter.js %}
+    <script src="{{ file.frontMatter.basepath }}/js/{{ js }}"></script>
+    {% endfor %}
     <script>
       $(function () {
         setTimeout(function () {
-          $('.{{ file.frontMatter.main_scene }}').trigger('scene-start');
+          $('#main').trigger('scene-start');
         }, 50);
       });
     </script>
