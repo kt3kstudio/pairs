@@ -39,16 +39,20 @@ describe('Block', () => {
 
       parent.elem.append(block.elem)
 
-      parent.rect = {}
+      parent.blockRect = {}
 
       block.needsGuidingRect()
-      expect(block.guidingRect).to.equal(parent.rect)
+      expect(block.__guidingRect__).to.equal(parent.blockRect)
     })
 
-    it('throws if the parent does not give the guiding rect', () => {
+    it('gives window size rect if the parent does not give the guiding rect', () => {
       const block = div().cc.init('block-test')
 
-      expect(() => block.needsGuidingRect()).to.throw()
+      block.needsGuidingRect()
+
+      expect(block.__guidingRect__).to.exist;
+      expect(block.__guidingRect__.width()).to.equal($(window).width());
+      expect(block.__guidingRect__.height()).to.equal($(window).height());
     })
   })
 })
