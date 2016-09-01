@@ -20,6 +20,9 @@
     {% for js in file.frontMatter.js %}
     <script src="{{ file.frontMatter.basepath }}/js/{{ js }}"></script>
     {% endfor %}
+    {% if IS_DEV %}
+    <script src="{{ file.frontMatter.basepath }}/js/debug/debug.js"></script>
+    {% endif %}
     <script>
       $(function () {
         setTimeout(function () {
@@ -28,7 +31,7 @@
       });
     </script>
   </head>
-  <body class="{{ file.frontMatter.body }}">
+  <body{% if file.frontMatter.body %} class="{{ file.frontMatter.body }}"{% endif %}>
     {{ contents }}
   </body>
 </html>

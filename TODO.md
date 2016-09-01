@@ -1,7 +1,6 @@
 # TODO
 
 ## test/dev improvement
-- enable debug build of html
 - write test of @block
 - reset storage state widget
 - create test bed of spn module / block module
@@ -96,6 +95,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- enable debug build of html
 - create level-signboard class
 - show level-signboard when entering the level
 - show level-signboard again when leaving the level

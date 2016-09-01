@@ -11,6 +11,8 @@ const basepath = process.env.BASEPATH || ''
 const SITE = 'site'
 const SRC = 'src'
 
+const IS_DEV = process.env.NODE_ENV !== 'production'
+
 // js
 asset(`${SITE}/**/*.js`)
   .assetOptions({read: false})
@@ -28,7 +30,7 @@ asset(`${SITE}/*.html`, `${SITE}/bed/*.html`)
   .base(SITE)
   .watch(`${SITE}/*.html`, `${SITE}/bed/*.html`, `${SITE}/layout/*.nunjucks`)
   .pipe(frontMatter())
-  .pipe(wrapper.nunjucks({layout: `${SITE}/layouts`, data: {configJSON, basepath}}))
+  .pipe(wrapper.nunjucks({layout: `${SITE}/layouts`, data: {configJSON, basepath, IS_DEV}}))
 
 // data
 asset(`${SITE}/data/**/*.*`).base(SITE)
