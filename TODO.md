@@ -1,7 +1,7 @@
 # TODO
 
 ## test/dev improvement
-- write test of @block
+- include debug-panel in htmls in debug mode
 - reset storage state widget
 - create test bed of spn module / block module
 - rect visualizer - spn-debug
@@ -10,7 +10,6 @@
 - class-component method invoke panel
 
 ## block refactoring
-- make block more simple
 - make rect have more usable methods like. scaleCenter, scaleMiddle etc
 - remove XXXLayout classes and create local rects locally
 - make @scene decorator
@@ -95,6 +94,8 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- make block more simple
+- write test of @block
 - enable debug build of html
 - create level-signboard class
 - show level-signboard when entering the level
