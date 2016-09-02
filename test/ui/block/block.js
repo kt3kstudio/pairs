@@ -1,16 +1,15 @@
-
 const block = require('../../../src/ui/block')
 const {on, component} = $.cc
 const {div} = require('dom-gen')
+const {Rect} = require('spn')
 
 describe('Block', () => {
 
   @component
   @block
   class BlockTest {
-    @on('block-need-guiding-rect')
-    onBlockNeedGuidingRect (e, block) {
-      this.onChildNeedGuidingRect(e, block)
+    block (rect) {
+      return rect
     }
   }
 
@@ -50,9 +49,19 @@ describe('Block', () => {
 
       block.needsGuidingRect()
 
-      expect(block.__guidingRect__).to.exist;
-      expect(block.__guidingRect__.width()).to.equal($(window).width());
-      expect(block.__guidingRect__.height()).to.equal($(window).height());
+      expect(block.__guidingRect__).to.exist
+      expect(block.__guidingRect__.width()).to.equal($(window).width())
+      expect(block.__guidingRect__.height()).to.equal($(window).height())
+    })
+  })
+
+  describe('initBlock', () => {
+    it('returns a rect and sets the blockRect property', () => {
+      const block = div().cc.init('block-test')
+
+      expect(block.initBlock()).to.be.instanceof(Rect)
+
+      expect(block.blockRect).to.be.instanceof(Rect)
     })
   })
 })
