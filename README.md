@@ -42,6 +42,8 @@ This project has produced a lot of subprojects. Here list of them:
   - dom generating shorthand library create for class-component.
 - [scenarioscript](https://github.com/kt3k/scenarioscript)
   - The scenario description DSL created for storing the scenario in this project.
+- [get-property-names](https://github.com/kt3k/get-property-names)
+  - The property iteration utility
 - Other ui plugins: [puncher](https://github.com/kt3k/puncher) [multiflip](https://github.com/kt3k/multiflip) [multiflip-bubble](https://github.com/kt3k/multiflip-bubble) [swipe-event](https://github.com/kt3k/swipe-event) [arrowkeys](https://github.com/kt3k/arrowkeys)
 
 -
