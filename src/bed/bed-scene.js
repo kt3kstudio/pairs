@@ -1,6 +1,7 @@
 require('../level/component')
 require('../level/service')
 require('./debug-panel')
+require('./cc-fixture-control')
 require('./rect')
 const SceneContext = require('../ui/scene-context')
 const block = require('../ui/block')
