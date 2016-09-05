@@ -7,6 +7,8 @@ const methodMask = ['constructor']
 @component
 class DebugPanel {
   constructor (elem) {
+    elem.append(div({addClass: 'toggle'}, 'DEBUG'))
+
     if (elem.attr('auto-open') === 'true') {
       setTimeout(() => elem.find('.toggle').trigger('click'))
     }

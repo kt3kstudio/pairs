@@ -8,7 +8,6 @@ const methodMask = ['constructor']
 class CcFixtureControl {
   constructor (elem) {
     elem.append(
-      div({addClass: 'toggle'}, 'DEBUG'),
       button({addClass: 'reset'}, 'RESET'),
       div({addClass: 'container'})
     )
