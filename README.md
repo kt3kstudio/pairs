@@ -21,3 +21,27 @@ The above creates the middleman build result at `app/src/main/assets` using js f
 The name of `infrastructure` came from the terminology of DDD.
 
 # [API doc](http://kt3kstudio.github.io/long-dream-core/doc/v0.4.0/)
+
+# The subprojects
+
+This project has produced a lot of subprojects. Here list of them:
+
+- [class-component](https://github.com/kt3k/class-component)
+  - MVP architecture tool.
+- [bulbo](https://github.com/kt3k/bulbo)
+  - A static site generator created for this project.
+  - [minirocket](https://github.com/kt3k/minirocket)
+    - A cli utility created for bulbo.
+- [layout-wrapper](https://github.com/kt3k/layout-wrapper)
+  - A gulp transform created for this project.
+- [bundle-through](https://github.com/kt3k/bundle-through)
+  - A gulp transform created for this project.
+- [spn](https://github.com/kt3k/spn)
+  - The positioning engine created for and used in this project.
+- [dom-gen](https://github.com/kt3k/dom-gen)
+  - dom generating shorthand library create for class-component.
+- [scenarioscript](https://github.com/kt3k/scenarioscript)
+  - The scenario description DSL created for storing the scenario in this project.
+- Other ui plugins: [puncher](https://github.com/kt3k/puncher) [multiflip](https://github.com/kt3k/multiflip) [multiflip-bubble](https://github.com/kt3k/multiflip-bubble) [swipe-event](https://github.com/kt3k/swipe-event) [arrowkeys](https://github.com/kt3k/arrowkeys)
+
+-
