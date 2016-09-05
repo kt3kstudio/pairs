@@ -10,12 +10,14 @@ class DebugPanel {
     elem.append(div({addClass: 'toggle'}, 'DEBUG'))
 
     if (elem.attr('auto-open') === 'true') {
-      setTimeout(() => elem.find('.toggle').trigger('click'))
+      setTimeout(() => this.click())
     }
 
-    if (elem.attr('auto-reset') === 'true') {
-      setTimeout(() => elem.find('.reset').trigger('click'))
-    }
+    $(document).on('keydown', (e) => {
+      if (e.which === 27) {
+        this.click()
+      }
+    })
   }
 
   /**
