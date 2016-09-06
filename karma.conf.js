@@ -1,7 +1,7 @@
 'use strict'
 
 const IS_COV = process.env.COV === 'true'
-const IS_WATCH = process.env.WATCH == 'true'
+const IS_WATCH = process.env.WATCH === 'true'
 
 const babelConfig = require('./package').babel
 const reporters = ['spec']
@@ -44,7 +44,9 @@ module.exports = config => config.set({
     ],
     transform: [['babelify', babelConfig]]
   },
-  reporters, autoWatch, singleRun,
+  reporters,
+  autoWatch,
+  singleRun,
   coverageReporters: {type: 'lcov'},
   browsers: ['Chrome']
 })

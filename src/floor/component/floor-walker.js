@@ -1,6 +1,5 @@
 const sprite = require('../../ui/sprite')
 const CharacterRepository = require('../../domain/character-repository')
-const {traits} = require('traits-decorator')
 const {Body, DIRS, ratio} = require('spn')
 
 const {component, on, emit} = $.cc

@@ -1,6 +1,5 @@
 const sprite = require('../../ui/sprite')
 
-const {traits} = require('traits-decorator')
 const {ratio, width, height, Body, animation} = require('spn')
 
 const {component} = $.cc

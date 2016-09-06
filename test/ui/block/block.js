@@ -1,11 +1,10 @@
 const block = require('../../../src/ui/block')
-const {on, component} = $.cc
+const {component} = $.cc
 const {div} = require('dom-gen')
 const {Rect} = require('spn')
 
 describe('Block', () => {
-
-  @component
+  void @component
   @block
   class BlockTest {
     block (rect) {

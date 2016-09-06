@@ -20,7 +20,7 @@ class BedScene extends SceneContext {
   block (rect) {
     return rect.scaleLeft(0.5)
   }
-  setUp() {
+  setUp () {
     this.elem.append(div({cc: 'rect'}))
     this.rect.setRect(this.initBlock())
     this.rect.show()

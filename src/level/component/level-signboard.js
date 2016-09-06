@@ -1,4 +1,4 @@
-const {ratio, Body, animation} = require('spn')
+const {Body, animation} = require('spn')
 const block = require('../../ui/block')
 const {small, br, span} = require('dom-gen')
 
@@ -43,7 +43,7 @@ class LevelSignboard extends Body {
    * @return {Rect}
    */
   block (guidingRect) {
-    return guidingRect.scaleLeft(8/9).scaleRight(7/8).scaleTop(2/3).scaleBottom(1/2)
+    return guidingRect.scaleLeft(8 / 9).scaleRight(7 / 8).scaleTop(2 / 3).scaleBottom(1 / 2)
   }
 
   willShow () {

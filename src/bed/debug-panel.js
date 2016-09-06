@@ -1,8 +1,5 @@
-const getPropertyNames = require('get-property-names')
-const {hr, div, button} = require('dom-gen')
+const {div} = require('dom-gen')
 const {component, on} = $.cc
-
-const methodMask = ['constructor']
 
 @component
 class DebugPanel {

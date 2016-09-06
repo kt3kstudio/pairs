@@ -183,7 +183,7 @@ class FloorScene extends SceneContext {
 
       key.setAt(asset.getPoint())
 
-      const keyGivingDur = 800;
+      const keyGivingDur = 800
 
       this.elem.trigger('camera-move', [key.getPoint().x, keyGivingDur])
 

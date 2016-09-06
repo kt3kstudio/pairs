@@ -122,7 +122,6 @@ class IntroScene extends Context {
    */
   @emit('intro-scene.finished').last
   start () {
-
     return this.bg.turnWhite()
 
     .then(() => this.levelSignboard.show())
