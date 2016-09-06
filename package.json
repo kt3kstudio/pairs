@@ -11,9 +11,9 @@
     "build": "bulbo build",
     "start": "bulbo serve",
     "lint": "standard",
-    "test": "karma start karma.conf.js",
-    "watch": "karma start karma.watch.conf.js",
-    "cov": "COV=true karma start karma.conf.js",
+    "test": "karma start",
+    "watch": "WATCH=true npm test",
+    "cov": "COV=true npm test",
     "codecov": "npm run cov && codecov",
     "esdoc": "esdoc -c esdoc.json",
     "lines": "find src/ spec/ -name '*.js' | xargs wc"
