@@ -1,9 +1,7 @@
 # TODO
 
 ## test/dev improvement
-- include debug-panel in htmls in debug mode
 - reset storage state widget
-- create test bed of spn module / block module
 - rect visualizer - spn-debug
 - grid visualizer - spn-debug
 - debug panel - another project
@@ -94,6 +92,8 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- create test bed of spn module / block module
+- include debug-panel in htmls in debug mode
 - make block more simple
 - write test of @block
 - enable debug build of html
