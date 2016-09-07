@@ -3,10 +3,6 @@
 ## meta(roadmap):
 - create more concrete roadmap
 
-## test/dev improvement
-- rect visualizer - spn-debug
-- grid visualizer - spn-debug
-
 ## block refactoring
 - make rect have more usable methods like. scaleCenter, scaleMiddle etc
 - remove XXXLayout classes and create local rects locally
