@@ -166,9 +166,6 @@ class FloorScene extends SceneContext {
    * @return {Promise}
    */
   sequenceUnlocking (levelKey) {
-    console.log('reducing')
-    console.log(levelKey)
-
     let asset
     const key = this.spawnLevelKey(levelKey)
 

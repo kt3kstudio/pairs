@@ -29,8 +29,6 @@ class Camera {
    */
   @on('camera-focus')
   focusToX (e, x) {
-    console.log('camera-focus')
-    console.log(x)
     if (!this.visible(x)) {
       this.scrollSet(x)
     }
