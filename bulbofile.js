@@ -6,12 +6,14 @@ const wrapper = require('layout-wrapper')
 const frontMatter = require('gulp-front-matter')
 
 const config = {lang: 'en'}
-const configJSON = JSON.stringify(config)
+const presets = require('./src/bed/ls-switch/presets')
 const basepath = process.env.BASEPATH || ''
 const SITE = 'site'
 const SRC = 'src'
 
 const IS_DEV = process.env.NODE_ENV !== 'production'
+
+const templateData = {config, basepath, IS_DEV, presets}
 
 // js
 asset(`${SITE}/**/*.js`)
@@ -30,7 +32,7 @@ asset(`${SITE}/*.html`, `${SITE}/bed/*.html`)
   .base(SITE)
   .watch(`${SITE}/*.html`, `${SITE}/bed/*.html`, `${SITE}/layout/*.nunjucks`)
   .pipe(frontMatter())
-  .pipe(wrapper.nunjucks({layout: `${SITE}/layouts`, data: {configJSON, basepath, IS_DEV}}))
+  .pipe(wrapper.nunjucks({layout: `${SITE}/layouts`, data: templateData}))
 
 // data
 asset(`${SITE}/data/**/*.*`).base(SITE)

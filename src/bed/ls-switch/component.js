@@ -3,12 +3,6 @@ const {button} = require('dom-gen')
 
 const ls = window.localStorage
 
-const presets = {}
-
-const list = ['level-702-has-2-keys']
-
-presets['level-702-has-2-keys'] = require(`./level-702-has-2-keys.json`)
-
 @component
 class LsSwitch {
   static getData () {
@@ -38,8 +32,10 @@ class LsSwitch {
   }
 
   constructor (elem) {
-    list.forEach(name => {
-      elem.append(button(name).addClass('apply').data('data', presets[name]))
+    const source = window.presets
+
+    Object.keys(source).forEach(name => {
+      elem.append(button(name).addClass('apply').data('data', source[name]))
     })
   }
 

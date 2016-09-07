@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/asset/emoji/css/emoji.css" />
     <link rel="icon" href="{{ file.frontMatter.basepath }}/img/favicon.png" />
 
-    <script>window.config = {{ configJSON | safe }}</script>
+    <script>window.config = {{ config | dump | safe }}</script>
     <script>window.BASEPATH = '{{ file.frontMatter.basepath }}'</script>
     <script src="{{ file.frontMatter.basepath }}/js/common.js"></script>
     <script src="{{ file.frontMatter.basepath }}/infrastructure.js"></script>
@@ -34,4 +34,7 @@
   <body{% if file.frontMatter.body %} class="{{ file.frontMatter.body }}"{% endif %}>
     {{ contents }}
   </body>
+  {% if IS_DEV %}
+  <script>window.presets = {{ presets | dump | safe }}</script>
+  {% endif %}
 </html>
