@@ -1,5 +1,8 @@
 # TODO
 
+## meta(roadmap):
+- create more concrete roadmap
+
 ## test/dev improvement
 - rect visualizer - spn-debug
 - grid visualizer - spn-debug
@@ -21,6 +24,9 @@
 
 ## chore(app)
 - rename app name to Couple
+
+## maintanance(deps)
+- replace nunjucks by twig.js or atpl (or any other jinja inspired templates)
 
 ## story(hero)
 
