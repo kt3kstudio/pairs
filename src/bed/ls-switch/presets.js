@@ -10,7 +10,7 @@ const presets = {}
 const PRESETS_DIR = 'presets'
 
 fs.readdirSync(join(__dirname, PRESETS_DIR)).forEach(filename => {
-  const name = filename.replace(/\.json$/)
+  const name = filename.replace(/\.json$/, '')
 
   presets[name] = JSON.parse(fs.readFileSync(join(__dirname, PRESETS_DIR, filename)))
 })
