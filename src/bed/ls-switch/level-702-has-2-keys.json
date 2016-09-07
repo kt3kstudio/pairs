@@ -1,0 +1,37 @@
+{
+  "character-ma": {
+    "id": "ma",
+    "name": "Ma",
+    "keys": [
+      {
+        "levelId": "703"
+      },
+      {
+        "levelId": "704"
+      }
+    ],
+    "position": {
+      "floorId": "7",
+      "floorObjectId": "702"
+    }
+  },
+  "level-lock-ma-7": [
+    {
+      "levelId": 702,
+      "locked": false
+    },
+    {
+      "levelId": 701,
+      "locked": false
+    },
+    {
+      "levelId": "701",
+      "locked": false
+    },
+    {
+      "levelId": "702",
+      "locked": false
+    }
+  ],
+  "playing-state-ma": null
+}

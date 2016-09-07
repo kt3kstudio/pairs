@@ -1,11 +1,8 @@
 # TODO
 
 ## test/dev improvement
-- reset storage state widget
 - rect visualizer - spn-debug
 - grid visualizer - spn-debug
-- debug panel - another project
-- class-component method invoke panel
 
 ## block refactoring
 - make rect have more usable methods like. scaleCenter, scaleMiddle etc
@@ -23,7 +20,7 @@
 - add levelHistory when unlocked
 
 ## chore(app)
-- rename app name to Tic Tac Coupling
+- rename app name to Couple
 
 ## story(hero)
 
@@ -92,6 +89,9 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- class-component method invoke panel
+- debug panel - another project
+- reset storage state widget
 - create test bed of spn module / block module
 - include debug-panel in htmls in debug mode
 - make block more simple
