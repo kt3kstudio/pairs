@@ -1,6 +1,6 @@
 ---
 version: 0.4.0
-commit: 'chore(version): :arrow_heading_up: bump to v%.%.%'
+commit: ':bookmark: chore(version): bump to v%.%.%'
 files:
   README.md:
   - long-dream-core v%.%.%
