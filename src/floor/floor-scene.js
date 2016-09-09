@@ -237,29 +237,6 @@ class FloorScene extends SceneContext {
   }
 
   /**
-   * Unlocks the asset specified at the event object.
-   *
-   * @param {Event} e The event
-   * @return {Promise}
-   */
-  @on('assetUnlock')
-  assetUnlock (e) {
-    const asset = e.floorAsset
-
-    return this.camera.scrollTo(asset.centerX(), 500)
-
-    .then(() => {
-      asset.removeFrog()
-      asset.locked = false
-      asset.enableDoorKnock()
-
-      return wait(500)
-    })
-
-    .then(() => this.camera.scrollTo(this.walker.x, 500))
-  }
-
-  /**
    * Spawns level-keys
    * @param {LevelKey} levelKey
    */
