@@ -1,7 +1,11 @@
 # TODO
 
-## meta(roadmap):
-- create more concrete roadmap
+## feat(unlock):
+- add levelHistory when unlocked
+- remove keys when used
+- restore staircase (where does it go?)
+- unlock the staircase when the hero has the keys
+- block UI while unlocking
 
 ## block refactoring
 - make rect have more usable methods like. scaleCenter, scaleMiddle etc
@@ -10,13 +14,6 @@
 
 ## feat(message-panel):
 - create message-panel component
-
-## feat(unlock):
-- block UI while unlocking
-- unlock the staircase when the hero has the keys
-- restore staircase (where does it go?)
-- remove keys when used
-- add levelHistory when unlocked
 
 ## chore(app)
 - rename app name to Couple
@@ -91,6 +88,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- create more concrete roadmap
 - class-component method invoke panel
 - debug panel - another project
 - reset storage state widget
