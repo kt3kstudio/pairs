@@ -8,6 +8,9 @@
     {% for css in file.frontMatter.css %}
     <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/{{ css }}" />
     {% endfor %}
+    {% if IS_DEV %}
+    <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/debug.css" />
+    {% endif %}
     <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/tether.css" />
     <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/drop-theme-arrows-bounce.css" />
     <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/asset/emoji/css/emoji.css" />
