@@ -47,6 +47,13 @@ class LevelKey extends Body {
   willHide () {
     this.elem.css('opacity', 0)
   }
+
+  /**
+   * Jumps with the given duration.
+   */
+  jump (duration = 300) {
+    return this.elem.anim('jump', duration)
+  }
 }
 
 module.exports = LevelKey

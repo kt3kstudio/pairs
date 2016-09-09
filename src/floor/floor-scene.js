@@ -188,9 +188,7 @@ class FloorScene extends SceneContext {
       return key.engage(keyGivingDur)
     })
 
-    .then(() => {
-      return key.elem.anim('jump', 300)
-    })
+    .then(() => key.jump())
 
     .then(() => {
       asset.unlock()
