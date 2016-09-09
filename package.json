@@ -34,6 +34,7 @@
     "bundle-through": "^1.0.3",
     "chai": "^3.5.0",
     "class-component": "^10.6.0",
+    "clipboard-js": "^0.2.0",
     "codecov": "^1.0.1",
     "dom-gen": "^2.3.0",
     "es6-object-assign": "^1.0.2",
