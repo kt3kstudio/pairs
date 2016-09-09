@@ -2,6 +2,18 @@
 
 > TODO list of only the major features
 
+## Level S
+
+Special stage ideas
+
+- sp. effects
+- sp. rules
+- sp. cells
+- sp. fusion rules
+- sp. ball appearance
+- sp. cell skins
+- additional moves after each ball move
+
 ## Level A
 
 Page level feature
