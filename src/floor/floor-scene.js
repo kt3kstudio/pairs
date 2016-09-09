@@ -2,7 +2,6 @@ const SceneContext = require('../ui/scene-context')
 const UserRepository = require('../domain/user-repository')
 const CharacterRepository = require('../domain/character-repository')
 
-const {wait} = require('spn')
 const {img} = require('dom-gen')
 
 require('./component')
@@ -94,7 +93,7 @@ class FloorScene extends SceneContext {
    * Sets up the components
    */
   setUp () {
-    this.spawnFloorWalker(this.character)
+    this.append(this.floorWalker(this.character))
 
     this.initFloorAssets(this.character)
 
@@ -104,13 +103,14 @@ class FloorScene extends SceneContext {
   /**
    * Initializes the floor walker.
    * @param {Character} character
+   * @return {jQuery} dom selection
    */
-  spawnFloorWalker (character) {
-    this.floorAssets.elem.append(img({
+  floorWalker (character) {
+    return img({
       addClass: 'sub-door-knock sub-character-goto',
       data: {character: character},
       cc: 'floor-walker'
-    }))
+    })
   }
 
   /**
@@ -167,7 +167,8 @@ class FloorScene extends SceneContext {
    */
   sequenceUnlocking (levelKey) {
     let asset
-    const key = this.spawnLevelKey(levelKey)
+    const key = this.levelKey(levelKey)
+    this.append(key.elem)
 
     key.setAt(this.walker.getPoint())
 
@@ -240,8 +241,12 @@ class FloorScene extends SceneContext {
    * Spawns level-keys
    * @param {LevelKey} levelKey
    */
-  spawnLevelKey (levelKey) {
-    return img({cc: 'level-key'}).appendTo(this.floorAssets.elem).cc.get('level-key')
+  levelKey (levelKey) {
+    return img().cc.init('level-key')
+  }
+
+  append (...args) {
+    this.floorAssets.elem.append(...args)
   }
 }
 
