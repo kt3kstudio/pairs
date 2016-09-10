@@ -1,4 +1,4 @@
-const SceneContext = require('../ui/scene-context')
+const scene = require('../ui/scene')
 const {loadImage} = require('../util/util')
 
 const {wait} = require('spn')
@@ -9,12 +9,12 @@ const {component, on} = $.cc
 /**
  * TitleScene class handles the motions sequences of the title scene.
  */
+@scene.primary
 @component
-class TitleScene extends SceneContext {
+class TitleScene {
   /**
    * Entry point of the title scene.
    */
-  @on('scene-start')
   start () {
     loadImage('img/title-logo.svg', 'title-logo elem', this.elem)
 

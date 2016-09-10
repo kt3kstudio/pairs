@@ -1,4 +1,5 @@
 const Context = require('./context')
+const scene = require('../ui/scene')
 const PlaySceneLayout = require('./layout/play-scene-layout')
 const {wait} = require('spn')
 const {toPromise} = require('../util/rx')
@@ -12,6 +13,7 @@ const {component, on, emit} = $.cc
  * PlayScene controlls the main playing scene of the level page.
  */
 @component
+@scene
 class PlayScene extends Context {
   /**
    * The entry point

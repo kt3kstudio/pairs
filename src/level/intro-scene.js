@@ -1,4 +1,5 @@
 const Context = require('./context')
+const scene = require('../ui/scene')
 const IntroSceneLayout = require('./layout/intro-scene-layout')
 const PlaySceneLayout = require('./layout/play-scene-layout')
 const UserRepository = require('../domain/user-repository')
@@ -18,15 +19,8 @@ const {component, on, emit} = $.cc
  */
 @component
 @block
+@scene.primary
 class IntroScene extends Context {
-  /**
-   * The entry point of the level scene.
-   * @protected
-   * @return {Promise}
-   */
-  @on('scene-start')
-  main () { super.main() }
-
   /**
    * Loads the data.
    * @protected

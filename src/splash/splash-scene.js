@@ -1,15 +1,15 @@
 require('./logo')
+const scene = require('../ui/scene')
 
 const {component, on} = $.cc
 
 /**
  * SplashScene controls the splash screen.
  */
+@scene.primary
 @component
 class SplashScene {
-
-  @on('scene-start')
-  main () {
+  start () {
     return this.performSplash('studio')
 
     .then(() => this.performSplash('straw'))

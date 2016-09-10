@@ -1,4 +1,3 @@
-const SceneContext = require('../ui/scene-context')
 require('./component')
 require('./service')
 
@@ -8,7 +7,7 @@ const {wire} = $.cc
 /**
  * The common context for level scenes.
  */
-class Context extends SceneContext {
+class Context {
 
   /** @return {LevelSignboard} */
   @wire get levelSignboard () {}

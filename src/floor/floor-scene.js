@@ -1,4 +1,4 @@
-const SceneContext = require('../ui/scene-context')
+const scene = require('../ui/scene')
 const UserRepository = require('../domain/user-repository')
 const CharacterRepository = require('../domain/character-repository')
 
@@ -16,17 +16,9 @@ const {component, on, wire} = $.cc
  * - interaction between view and model
  * - sequence of multi agents perfomance
  */
+@scene.primary
 @component
-class FloorScene extends SceneContext {
-  /**
-   * The entry point of the map scene.
-   *
-   * Loads things, initializes things in order, controls everything.
-   */
-  @on('scene-start') main () {
-    super.main()
-  }
-
+class FloorScene {
   /**
    * Gets the floor asset collection.
    * @return {FloorAssetCollection}

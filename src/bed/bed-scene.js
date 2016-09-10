@@ -3,15 +3,15 @@ require('../level/service')
 require('./debug-panel')
 require('./cc-fixture-control')
 require('./rect')
-const SceneContext = require('../ui/scene-context')
+const scene = require('../ui/scene')
 const block = require('../ui/block')
 const {component, event, wire} = $.cc
 const {div} = require('dom-gen')
 
 @component
 @block
-@event('scene-start', 'main')
-class BedScene extends SceneContext {
+@scene.primary
+class BedScene {
   /**
    * @return {Rect}
    */

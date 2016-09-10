@@ -1,4 +1,5 @@
 const Context = require('./context')
+const scene = require('../ui/scene')
 const IntroSceneLayout = require('./layout/intro-scene-layout')
 const PlaySceneLayout = require('./layout/play-scene-layout')
 const Cell = require('./component/cell')
@@ -13,6 +14,7 @@ const {component, on} = $.cc
  * OutroScene handles the scene after finishing main play.
  */
 @component
+@scene
 class OutroScene extends Context {
   @on('play-scene.finished') main () { super.main() }
 
