@@ -43,10 +43,10 @@ describe('Door', () => {
       $dom.find('.door-body').trigger('click')
     })
 
-    it('binds goToLevel to click events of `.door-info-content button`', (done) => {
+    it('binds go-to-level to click events of `.door-info-content button`', (done) => {
       door.willShow()
 
-      $dom.on('goToLevel', () => done())
+      $dom.on('go-to-level', () => done())
 
       $dom.find('.door-info-content button').trigger('click')
     })
