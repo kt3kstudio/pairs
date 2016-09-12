@@ -1,7 +1,6 @@
 # TODO
 
 ## feat(unlock):
-- unlock the staircase when the hero has the keys
 - block UI while unlocking
 
 ## chore(app)
