@@ -1,5 +1,8 @@
 # TODO
 
+## feat(domain):
+- CharacterInitService create the initial state of the character
+
 ## feat(hisotry):
 - record the history
 
@@ -17,7 +20,6 @@
 ## block refactoring
 - make rect have more usable methods like. scaleCenter, scaleMiddle etc
 - remove XXXLayout classes and create local rects locally
-- make @scene decorator
 
 ## feat(emoji):
 - add w emoji
@@ -76,9 +78,10 @@
   - puncher `unit-dur` configurable depending on the character to be punched
 
 ## sprite
-- refactor char-sprite not to use word Ma, character detail should be in the dom
+- refactor char-sprite not to use word Ma, character detail should be in the dom (markup)
 
 # DONE
+- make @scene decorator
 - restore staircase (where does it go?)
 - add levelHistory when unlocked
 - remove keys when used
