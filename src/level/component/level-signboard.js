@@ -10,8 +10,11 @@ const {component} = $.cc
   .show('bom-appear', 400)
   .hide('bom-disappear', 400)
 class LevelSignboard extends Body {
-  get level () {
-    return this.elem.attr('level')
+  constructor (elem) {
+    super()
+
+    this.level = elem.text()
+    elem.empty()
   }
 
   /**
