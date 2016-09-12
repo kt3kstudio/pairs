@@ -1,5 +1,8 @@
 # TODO
 
+## feat(hisotry):
+- record the history
+
 ## feat(unlock):
 - block UI while unlocking
 
