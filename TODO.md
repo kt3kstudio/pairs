@@ -1,29 +1,22 @@
 # TODO
 
 ## feat(unlock):
-- add levelHistory when unlocked
-- remove keys when used
 - restore staircase (where does it go?)
 - unlock the staircase when the hero has the keys
 - block UI while unlocking
+
+## chore(app)
+- rename app name to Couple
+
+## story(hero)
+
+## feat(level):
+- create 100 levels
 
 ## block refactoring
 - make rect have more usable methods like. scaleCenter, scaleMiddle etc
 - remove XXXLayout classes and create local rects locally
 - make @scene decorator
-
-## feat(message-panel):
-- create message-panel component
-
-## chore(app)
-- rename app name to Couple
-
-## maintanance(deps)
-- replace nunjucks by twig.js or atpl (or any other jinja inspired templates)
-
-## story(hero)
-
-## feat(level-signboard):
 
 ## feat(emoji):
 - add w emoji
@@ -50,9 +43,6 @@
 - create settings page
 - create "reset progress" button
 - add link to settings page from the title page
-
-## feat(level):
-- create 100 levels
 
 ## style:
 - remove import export and use require exports instead
@@ -88,6 +78,8 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- add levelHistory when unlocked
+- remove keys when used
 - create more concrete roadmap
 - class-component method invoke panel
 - debug panel - another project

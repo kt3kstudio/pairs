@@ -65,6 +65,17 @@ class Character {
   }
 
   /**
+   * Saves itself.
+   * @return {Promise}
+   */
+  save () {
+    const CharacterRepository = require('./character-repository')
+    const repository = new CharacterRepository()
+
+    return repository.save(this)
+  }
+
+  /**
    * Reloads the levelHistories according to the current position.
    *
    * @return {Promise} resolves with updated character
@@ -152,7 +163,7 @@ class Character {
   }
 
   /**
-   * Add the level key of the given id.
+   * Adds the level key of the given id.
    * @param {string} levelId The level id
    */
   addKeyOf (levelId) {
@@ -160,10 +171,27 @@ class Character {
   }
 
   /**
+   * Removes the key of the given id.
+   * @param {string} levelId The level id
+   */
+  removeKeyOf (levelId) {
+    this.keys.deleteByLevelId(levelId)
+  }
+
+
+  /**
    * @return {boolean}
    */
   hasAnyKey () {
     return this.keys.hasAny()
+  }
+
+  /**
+   * Unlocks the asset of the id.
+   * @param {string} id The asset id
+   */
+  unlockById (id) {
+    this.locks.unlock(id)
   }
 }
 

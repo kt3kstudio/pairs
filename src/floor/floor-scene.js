@@ -135,6 +135,8 @@ class FloorScene {
     return this.sequenceInitial()
 
     .then(() => this.sequenceUnlockingAll())
+
+    .then(() => this.walker.focusMe())
   }
 
   /**
@@ -161,7 +163,7 @@ class FloorScene {
    */
   sequenceUnlockingAll () {
     if (this.character.hasAnyKey()) {
-      return this.character.keys.reduce((promise, key) => promise.then(() => this.sequenceUnlocking(key)), Promise.resolve()).then(() => this.walker.focusMe())
+      return this.character.keys.reduce((promise, key) => promise.then(() => this.sequenceUnlocking(key)), Promise.resolve())
     }
   }
 
@@ -172,6 +174,7 @@ class FloorScene {
    */
   sequenceUnlocking (levelKey) {
     let asset
+    const id = levelKey.levelId
     const key = this.levelKey(levelKey)
     this.append(key.elem)
 
@@ -182,7 +185,7 @@ class FloorScene {
     return key.show()
 
     .then(() => {
-      asset = this.assetAt(levelKey.levelId)
+      asset = this.assetAt(id)
 
       key.setAt(asset.getPoint())
 
@@ -197,6 +200,11 @@ class FloorScene {
 
     .then(() => {
       asset.unlock()
+      this.walker.character.unlockById(id)
+      this.walker.character.removeKeyOf(id)
+
+      this.walker.character.saveLocks()
+      this.walker.character.save()
 
       return key.disappear()
     })
@@ -241,7 +249,7 @@ class FloorScene {
   }
 
   /**
-   * Spawns level-keys
+   * Creates a level key.
    * @param {LevelKey} levelKey
    */
   levelKey (levelKey) {
