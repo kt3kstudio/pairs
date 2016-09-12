@@ -65,7 +65,7 @@ class Door extends FloorAsset {
           hr(),
           button`▶`.click(function (event) {
             event.preventDefault()
-            $(this).trigger('goToLevel')
+            $(this).trigger('go-to-level')
           })
         )
       ).cc()

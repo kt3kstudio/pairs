@@ -64,7 +64,7 @@ class FloorWalker extends Body {
     this.character.position.floorId = e.goto.floorId
     this.character.position.floorObjectId = e.goto.floorObjectId
 
-    this.saveCharacter().then(() => this.elem.trigger('sceneReload'))
+    this.saveCharacter().then(() => this.elem.trigger('scene-reload'))
   }
 
   /**

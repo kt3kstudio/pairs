@@ -229,7 +229,7 @@ class FloorScene {
    *
    * @param {String} level The level
    */
-  @on('goToLevel')
+  @on('go-to-level')
   goToLevel () {
     return this.walkerFadeIntoDoor().then(() => {
       location.href = 'level.html'
@@ -243,7 +243,7 @@ class FloorScene {
    *
    * @return {Promise}
    */
-  @on('sceneReload')
+  @on('scene-reload')
   sceneReload () {
     return this.walkerFadeIntoDoor().then(() => location.reload())
   }
