@@ -44,6 +44,15 @@ class FloorScene {
   @wire get floorboard () {}
 
   /**
+   * Gets the asset of the given id.
+   * @param {string} id The id of the asset
+   * @return {FloorAsset}
+   */
+  assetAt (id) {
+    return this.floorAssets.findById(id)
+  }
+
+  /**
    * Loads the data for the scene.
    */
   load () {
@@ -114,7 +123,7 @@ class FloorScene {
 
     this.floorAssets.updateAssetsByLocksAndHistories(character.locks, character.histories)
 
-    const currentFloorAsset = this.floorAssets.findById(character.position.floorObjectId)
+    const currentFloorAsset = this.assetAt(character.position.floorObjectId)
 
     if (currentFloorAsset) {
       currentFloorAsset.locked = false
@@ -146,7 +155,7 @@ class FloorScene {
     .then(() => this.floorAssets.show())
 
     .then(() => {
-      let floorAsset = this.floorAssets.findById(this.walker.getPosition().floorObjectId)
+      let floorAsset = this.assetAt(this.walker.getPosition().floorObjectId)
 
       return this.walker.appearAt(floorAsset)
     })
@@ -169,7 +178,7 @@ class FloorScene {
     return key.show()
 
     .then(() => {
-      asset = this.floorAssets.findById(levelKey.levelId)
+      asset = this.assetAt(levelKey.levelId)
 
       key.setAt(asset.getPoint())
 
