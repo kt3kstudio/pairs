@@ -62,7 +62,8 @@ class FloorScene {
   }
 
   /**
-   * Loads the user data and character data
+   * Loads the user data and character data.
+   * @return {Promise}
    */
   loadUserAndCharacter () {
     return new UserRepository().get()
@@ -74,7 +75,7 @@ class FloorScene {
 
   /**
    * Loads the floor data.
-   * @return {Promise<string>}
+   * @return {Promise}
    */
   loadFloorData () {
     return Promise.resolve($.get(this.getFloorDataURL()))
@@ -91,7 +92,7 @@ class FloorScene {
   }
 
   /**
-   * Sets up the components
+   * Sets up the components.
    */
   setUp () {
     this.append(this.floorWalker(this.character))
@@ -133,13 +134,7 @@ class FloorScene {
   start () {
     return this.sequenceInitial()
 
-    .then(() => {
-      if (this.character.hasAnyKey()) {
-        return this.character.keys.reduce((promise, key) => promise.then(() => this.sequenceUnlocking(key)), Promise.resolve())
-      }
-    })
-
-    .then(() => this.walker.focusMe())
+    .then(() => this.sequenceUnlockingAll())
   }
 
   /**
@@ -159,6 +154,15 @@ class FloorScene {
 
       return this.walker.appearAt(floorAsset)
     })
+  }
+
+  /**
+   * The sequence of unlocking all assets which the character has the keys of.
+   */
+  sequenceUnlockingAll () {
+    if (this.character.hasAnyKey()) {
+      return this.character.keys.reduce((promise, key) => promise.then(() => this.sequenceUnlocking(key)), Promise.resolve()).then(() => this.walker.focusMe())
+    }
   }
 
   /**
