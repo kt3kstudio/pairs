@@ -1,7 +1,6 @@
 # TODO
 
 ## feat(unlock):
-- restore staircase (where does it go?)
 - unlock the staircase when the hero has the keys
 - block UI while unlocking
 
@@ -78,6 +77,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom
 
 # DONE
+- restore staircase (where does it go?)
 - add levelHistory when unlocked
 - remove keys when used
 - create more concrete roadmap

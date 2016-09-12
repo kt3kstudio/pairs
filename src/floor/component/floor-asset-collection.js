@@ -14,7 +14,6 @@ const {component} = $.cc
 class FloorAssetCollection extends Being {
   /**
    * Loads assets from the given string html data.
-   *
    * @param {String} data The data
    */
   loadAssetsFromData (data) {
@@ -28,7 +27,7 @@ class FloorAssetCollection extends Being {
     $.cc.init('door staircase', this.elem)
 
     // collect staircases
-    this.staircases = this.elem.find('.staircase .door').map(function () {
+    this.staircases = this.elem.find('.staircase').map(function () {
       return $(this).cc.get('staircase')
     }).toArray()
 
