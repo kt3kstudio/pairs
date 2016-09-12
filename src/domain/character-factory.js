@@ -27,23 +27,11 @@ class CharacterFactory {
    */
   createInitialById (id) {
     if (id === 'ma') {
-      return new Character(
-        id,
-        'Ma',
-        new CharacterPositionFactory().createFromObject()
-      )
+      return this.createFromObject({id, name: 'Ma'})
     } else if (id === 'ellen') {
-      return new Character(
-        id,
-        'Ellen',
-        new CharacterPositionFactory().createFromObject()
-      )
+      return this.createFromObject({id, name: 'Ellen'})
     } else if (id === 'emma') {
-      return new Character(
-        id,
-        'Emma',
-        new CharacterPositionFactory().createFromObject()
-      )
+      return this.createFromObject({id, name: 'Emma'})
     }
 
     throw new Error('unknown character: ' + id)

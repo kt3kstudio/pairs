@@ -37,6 +37,9 @@ class Character {
      */
     this.position = position
 
+    /**
+     * @property {LevelKeyCollection} keys The asset keys
+     */
     this.keys = keys
 
     /**
