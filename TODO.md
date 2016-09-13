@@ -1,5 +1,18 @@
 # TODO
 
+## feat(level):
+- create 100 levels
+  - 705 - 709 710(sp)
+  - 805 - 809 810(sp)
+  - 901 - 909 910(sp)
+  - 1001 - 1009 1010(sp)
+  - 1101 - 1109 1110(sp)
+  - 1201 - 1209 1210(sp)
+  - 1301 - 1309 1310(sp)
+  - 1401 - 1409 1410(sp)
+  - 1501 - 1509 1510(sp)
+  - 1601 - 1609 1610(sp)
+
 ## feat(domain):
 - CharacterInitService create the initial state of the character
 
@@ -7,15 +20,12 @@
 - record the history
 
 ## feat(unlock):
-- block UI while unlocking
+- block UI while unlocking (?)
 
 ## chore(app)
 - rename app name to Couple
 
 ## story(hero)
-
-## feat(level):
-- create 100 levels
 
 ## block refactoring
 - make rect have more usable methods like. scaleCenter, scaleMiddle etc
