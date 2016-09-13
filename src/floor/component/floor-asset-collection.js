@@ -18,6 +18,11 @@ class FloorAssetCollection extends Being {
   @wire('floor-walker') get walker () {}
 
   /**
+   * @return {Floorboard}
+   */
+  @wire get floorboard () {}
+
+  /**
    * Loads assets from the given string html data.
    * @param {String} data The data
    */

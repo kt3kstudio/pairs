@@ -32,18 +32,6 @@ class FloorScene {
   @wire get camera () {}
 
   /**
-   * Gets the floor walker.
-   * @return {FloorWalker}
-   */
-  @wire('floor-walker') get walker () {}
-
-  /**
-   * Gets the floorboard.
-   * @return {Floorboard}
-   */
-  @wire get floorboard () {}
-
-  /**
    * Gets the asset of the given id.
    * @param {string} id The id of the asset
    * @return {FloorAsset}
@@ -136,7 +124,7 @@ class FloorScene {
 
     .then(() => this.sequenceUnlockingAll())
 
-    .then(() => this.walker.focusMe())
+    .then(() => this.floorAssets.walker.focusMe())
   }
 
   /**
@@ -147,14 +135,14 @@ class FloorScene {
 
     this.bg.turnWhite()
 
-    return this.floorboard.show()
+    return this.floorAssets.floorboard.show()
 
     .then(() => this.floorAssets.show())
 
     .then(() => {
-      let floorAsset = this.assetAt(this.walker.getPosition().floorObjectId)
+      let floorAsset = this.assetAt(this.floorAssets.walker.getPosition().floorObjectId)
 
-      return this.walker.appearAt(floorAsset)
+      return this.floorAssets.walker.appearAt(floorAsset)
     })
   }
 
@@ -178,7 +166,7 @@ class FloorScene {
     const key = this.levelKey(levelKey)
     this.append(key.elem)
 
-    key.setAt(this.walker.getPoint())
+    key.setAt(this.floorAssets.walker.getPoint())
 
     this.elem.trigger('camera-focus', [key.getPoint().x])
 
@@ -200,11 +188,11 @@ class FloorScene {
 
     .then(() => {
       asset.unlock()
-      this.walker.character.unlockById(id)
-      this.walker.character.removeKeyOf(id)
+      this.floorAssets.walker.character.unlockById(id)
+      this.floorAssets.walker.character.removeKeyOf(id)
 
-      this.walker.character.saveLocks()
-      this.walker.character.save()
+      this.floorAssets.walker.character.saveLocks()
+      this.floorAssets.walker.character.save()
 
       return key.disappear()
     })
@@ -214,14 +202,14 @@ class FloorScene {
     this.menuButton.hide()
 
     return this.floorAssets.hide().then(() => {
-      this.floorboard.hide()
+      this.floorAssets.floorboard.hide()
 
       return this.bg.turnBlack()
     })
   }
 
   walkerFadeIntoDoor () {
-    return this.walker.getIntoDoor().then(() => this.fadeOut())
+    return this.floorAssets.walker.getIntoDoor().then(() => this.fadeOut())
   }
 
   /**
