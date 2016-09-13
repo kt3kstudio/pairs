@@ -7,7 +7,7 @@ const {component, on, emit, wire} = $.cc
 /**
  * FloorWalker is the role of CharSprite which handles the behaviours of the character on the floor.
  *
- * Service Component
+ * This works as the facade of Character model.
  */
 @sprite.character
 @ratio.x(0.5).y(1)
@@ -165,6 +165,25 @@ class FloorWalker extends Body {
     this.turn(DIRS.UP)
 
     return this.disappear().then(() => this.current.close())
+  }
+
+  /**
+   * @param {string} levelId
+   */
+  unlockById(id) {
+    this.character.unlock(id)
+  }
+
+  /**
+   * Saves everything in character model. (Character itself, LevelHistories, LevelKeys)
+   * @return {Promise}
+   */
+  saveAll () {
+    return Promise.all([
+      this.character.save(),
+      this.character.saveLocks(),
+      this.character.saveHistories()
+    ])
   }
 }
 

@@ -188,11 +188,11 @@ class FloorScene {
 
     .then(() => {
       asset.unlock()
-      this.floorAssets.walker.character.unlockById(id)
-      this.floorAssets.walker.character.removeKeyOf(id)
 
-      this.floorAssets.walker.character.saveLocks()
-      this.floorAssets.walker.character.save()
+      this.floorAssets.walker.unlockById(id)
+      this.floorAssets.walker.removeKeyOf(id)
+
+      this.floorAssets.walker.saveAll()
 
       return key.disappear()
     })
