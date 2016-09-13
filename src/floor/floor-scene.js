@@ -110,7 +110,7 @@ class FloorScene {
   floorWalker (character) {
     return img({
       addClass: 'sub-door-knock sub-character-goto',
-      data: {character: character},
+      data: {character},
       cc: 'floor-walker'
     })
   }
