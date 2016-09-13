@@ -22,11 +22,23 @@ class FloorAssetCollection extends Being {
    */
   @wire get floorboard () {}
 
+  load (character) {
+    return Promise.resolve($.get(this.getFloorDataURL(character)))
+  }
+
+  /**
+   * Gets the floor data url.
+   * @return {string}
+   */
+  getFloorDataURL (character) {
+    return `${global.BASEPATH}/data/floor/${character.position.floorId}.html`
+  }
+
   /**
    * Loads assets from the given string html data.
    * @param {String} data The data
    */
-  loadAssetsFromData (data) {
+  setUp (data) {
     // prepend loaded (string) data to the elem
     $(data).prependTo(this.elem)
 
@@ -50,6 +62,16 @@ class FloorAssetCollection extends Being {
 
     // set floor width
     this.elem.width(this.elem.find('.floor-data').data('floor-width'))
+
+    const character = this.walker.character
+
+    this.updateAssetsByLocksAndHistories(character.locks, character.histories)
+
+    const currentFloorAsset = this.findById(this.walker.assetId)
+
+    if (currentFloorAsset) {
+      currentFloorAsset.locked = false
+    }
   }
 
   /**

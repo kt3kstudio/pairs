@@ -44,16 +44,6 @@ class FloorScene {
    * Loads the data for the scene.
    */
   load () {
-    return this.loadUserAndCharacter()
-
-    .then(() => this.loadFloorData())
-  }
-
-  /**
-   * Loads the user data and character data.
-   * @return {Promise}
-   */
-  loadUserAndCharacter () {
     return new UserRepository().get()
 
     .then(user => new CharacterRepository().getById(user.charId))
@@ -62,32 +52,14 @@ class FloorScene {
   }
 
   /**
-   * Loads the floor data.
-   * @return {Promise}
-   */
-  loadFloorData () {
-    return Promise.resolve($.get(this.getFloorDataURL()))
-
-    .then(data => { this.floorData = data })
-  }
-
-  /**
-   * Gets the floor data url.
-   * @return {string}
-   */
-  getFloorDataURL () {
-    return `${global.BASEPATH}/data/floor/${this.character.position.floorId}.html`
-  }
-
-  /**
    * Sets up the components.
    */
   setUp () {
     this.append(this.floorWalker(this.character))
 
-    this.initFloorAssets(this.character)
-
-    this.camera.setUp()
+    return this.floorAssets.load(this.character).then(data => {
+      this.floorAssets.setUp(data)
+    }).then(() => this.camera.setUp())
   }
 
   /**
@@ -101,22 +73,6 @@ class FloorScene {
       data: {character},
       cc: 'floor-walker'
     })
-  }
-
-  /**
-   * Initializes the floor assets.
-   * @param {Character} character
-   */
-  initFloorAssets (character) {
-    this.floorAssets.loadAssetsFromData(this.floorData)
-
-    this.floorAssets.updateAssetsByLocksAndHistories(character.locks, character.histories)
-
-    const currentFloorAsset = this.assetAt(character.position.floorObjectId)
-
-    if (currentFloorAsset) {
-      currentFloorAsset.locked = false
-    }
   }
 
   start () {
