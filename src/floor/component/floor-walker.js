@@ -2,7 +2,7 @@ const sprite = require('../../ui/sprite')
 const CharacterRepository = require('../../domain/character-repository')
 const {Body, DIRS, ratio} = require('spn')
 
-const {component, on, emit} = $.cc
+const {component, on, emit, wire} = $.cc
 
 /**
  * FloorWalker is the role of CharSprite which handles the behaviours of the character on the floor.
@@ -13,6 +13,13 @@ const {component, on, emit} = $.cc
 @ratio.x(0.5).y(1)
 @component
 class FloorWalker extends Body {
+
+  /**
+   * @return {string}
+   */
+  get assetId () {
+    return this.getPosition().floorObjectId
+  }
 
   constructor (elem) {
     super()

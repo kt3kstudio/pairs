@@ -1,7 +1,7 @@
 const {wait, Being} = require('spn')
 const Floorboard = require('./floorboard')
 
-const {component} = $.cc
+const {component, wire} = $.cc
 
 /**
  * FloorAssetCollection class handles the position of wall and objects on wall.
@@ -12,6 +12,11 @@ const {component} = $.cc
  */
 @component
 class FloorAssetCollection extends Being {
+  /**
+   * @return {FloorWalker}
+   */
+  @wire('floor-walker') get walker () {}
+
   /**
    * Loads assets from the given string html data.
    * @param {String} data The data

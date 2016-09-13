@@ -1,6 +1,6 @@
 const {wait} = require('spn')
 
-const {component, on} = $.cc
+const {component, on, wire} = $.cc
 
 /**
  * Camera handles the screen position.
@@ -16,10 +16,15 @@ class Camera {
   }
 
   /**
+   * @return {FloorAssetCollection}
+   */
+  @wire('floor-asset-collection') get floorAssets () {}
+
+  /**
    * Sets up the initial position.
    */
   setUp () {
-    this.scrollSet($('.floor-asset-collection').cc.get('floor-asset-collection').findById($('.floor-walker').cc.get('floor-walker').getPosition().floorObjectId).centerX())
+    this.scrollSet(this.floorAssets.findById(this.floorAssets.walker.assetId).centerX())
   }
 
   /**
