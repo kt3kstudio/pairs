@@ -74,10 +74,10 @@ class FloorScene {
 
     this.bg.turnWhite()
 
-    this.floorAssets.show()
+    return this.floorAssets.show()
 
     .then(() => {
-      let floorAsset = this.assetAt(this.floorAssets.walker.getPosition().floorObjectId)
+      let floorAsset = this.assetAt(this.floorAssets.walker.assetId)
 
       return this.floorAssets.walker.appearAt(floorAsset)
     })
@@ -101,7 +101,7 @@ class FloorScene {
     let asset
     const id = levelKey.levelId
     const key = this.levelKey(levelKey)
-    this.append(key.elem)
+    this.floorAssets.elem.append(key.elem)
 
     key.setAt(this.floorAssets.walker.getPoint())
 
@@ -138,11 +138,7 @@ class FloorScene {
   fadeOut () {
     this.menuButton.hide()
 
-    return this.floorAssets.hide().then(() => {
-      this.floorAssets.floorboard.hide()
-
-      return this.bg.turnBlack()
-    })
+    return this.floorAssets.hide().then(() => this.bg.turnBlack())
   }
 
   walkerFadeIntoDoor () {
@@ -179,10 +175,6 @@ class FloorScene {
    */
   levelKey (levelKey) {
     return img().cc.init('level-key')
-  }
-
-  append (...args) {
-    this.floorAssets.elem.append(...args)
   }
 }
 

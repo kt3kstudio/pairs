@@ -123,7 +123,7 @@ class FloorAssetCollection extends Being {
       item.disappear()
 
       return wait(100)
-    })
+    }).then(() => this.floorboard.hide())
   }
 
   /**

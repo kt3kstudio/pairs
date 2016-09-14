@@ -168,10 +168,17 @@ class FloorWalker extends Body {
   }
 
   /**
-   * @param {string} levelId
+   * @param {string} assetId
    */
-  unlockById (id) {
-    this.character.unlock(id)
+  unlockById (assetId) {
+    this.character.unlockById(assetId)
+  }
+
+  /**
+   * @param {string} assetId
+   */
+  removeKeyOf (assetId) {
+    this.character.removeKeyOf(assetId)
   }
 
   /**
