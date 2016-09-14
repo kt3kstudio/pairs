@@ -55,24 +55,7 @@ class FloorScene {
    * Sets up the components.
    */
   setUp () {
-    this.append(this.floorWalker(this.character))
-
-    return this.floorAssets.load(this.character).then(data => {
-      this.floorAssets.setUp(data)
-    }).then(() => this.camera.setUp())
-  }
-
-  /**
-   * Initializes the floor walker.
-   * @param {Character} character
-   * @return {jQuery} dom selection
-   */
-  floorWalker (character) {
-    return img({
-      addClass: 'sub-door-knock sub-character-goto',
-      data: {character},
-      cc: 'floor-walker'
-    })
+    return this.floorAssets.init(this.character).then(() => this.camera.setUp())
   }
 
   start () {
@@ -91,9 +74,7 @@ class FloorScene {
 
     this.bg.turnWhite()
 
-    return this.floorAssets.floorboard.show()
-
-    .then(() => this.floorAssets.show())
+    this.floorAssets.show()
 
     .then(() => {
       let floorAsset = this.assetAt(this.floorAssets.walker.getPosition().floorObjectId)

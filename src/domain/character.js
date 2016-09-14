@@ -181,7 +181,6 @@ class Character {
     this.keys.deleteByLevelId(levelId)
   }
 
-
   /**
    * @return {boolean}
    */

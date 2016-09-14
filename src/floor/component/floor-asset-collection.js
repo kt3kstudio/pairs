@@ -1,6 +1,7 @@
 const {wait, Being} = require('spn')
 const Floorboard = require('./floorboard')
 
+const {img} = require('dom-gen')
 const {component, wire} = $.cc
 
 /**
@@ -21,6 +22,12 @@ class FloorAssetCollection extends Being {
    * @return {Floorboard}
    */
   @wire get floorboard () {}
+
+  init (character) {
+    this.elem.append(this.floorWalker(character))
+
+    return this.load(character).then(data => this.setUp(data))
+  }
 
   load (character) {
     return Promise.resolve($.get(this.getFloorDataURL(character)))
@@ -97,6 +104,8 @@ class FloorAssetCollection extends Being {
    * @override
    */
   willShow () {
+    this.floorboard.show()
+
     return this.foldByFunc(item => {
       item.show()
 
@@ -135,6 +144,19 @@ class FloorAssetCollection extends Being {
    */
   findById (id) {
     return this.items.filter(item => item.id === id)[0]
+  }
+
+  /**
+   * Initializes the floor walker.
+   * @param {Character} character
+   * @return {jQuery} dom selection
+   */
+  floorWalker (character) {
+    return img({
+      addClass: 'sub-door-knock sub-character-goto',
+      data: {character},
+      cc: 'floor-walker'
+    })
   }
 }
 

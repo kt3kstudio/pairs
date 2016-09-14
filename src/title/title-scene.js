@@ -4,7 +4,7 @@ const {loadImage} = require('../util/util')
 const {wait} = require('spn')
 const {p} = require('dom-gen')
 
-const {component, on} = $.cc
+const {component} = $.cc
 
 /**
  * TitleScene class handles the motions sequences of the title scene.
