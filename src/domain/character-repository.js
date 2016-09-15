@@ -1,4 +1,5 @@
 const CharacterFactory = require('./character-factory')
+const CharacterInitService = require('./character-init-service')
 
 const STORAGE_KEY = 'character-'
 
@@ -29,20 +30,15 @@ class CharacterRepository {
     return infrastructure.storage.get(STORAGE_KEY + id, null).then(obj => {
       let character
 
-      const factory = new CharacterFactory()
-
       if (obj == null) {
-        character = factory.createInitialById(id)
+        const service = new CharacterInitService()
+        character = service.initById(id)
       } else {
+        const factory = new CharacterFactory()
         character = factory.createFromObject(obj)
       }
 
-      return Promise.all([
-        character.reloadHistories(),
-        character.reloadPlayingState(),
-        character.reloadLocks()
-      ])
-      .then(() => character)
+      return character.reloadAll().then(() => character)
     })
   }
 

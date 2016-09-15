@@ -1,14 +1,14 @@
-const CharacterFactory = require('../../src/domain/character-factory')
+const CharacterInitService = require('../../src/domain/character-init-service')
 const Character = require('../../src/domain/character')
 
-const factory = new CharacterFactory()
+const service = new CharacterInitService()
 
-describe('CharacterFactory', () => {
-  describe('createInitialById', () => {
+describe('CharacterInitService', () => {
+  describe('initById', () => {
     it('creates the initial state of the characters of the given ids', () => {
-      const ma = factory.createInitialById('ma')
-      const emma = factory.createInitialById('emma')
-      const ellen = factory.createInitialById('ellen')
+      const ma = service.initById('ma')
+      const emma = service.initById('emma')
+      const ellen = service.initById('ellen')
 
       expect(ma).to.be.instanceof(Character)
       expect(ma.name).to.equal('Ma')
@@ -20,7 +20,7 @@ describe('CharacterFactory', () => {
 
     it('throws when the id is unknown', () => {
       expect(() => {
-        factory.createInitialById('anderson')
+        service.initById('anderson')
       }).to.throw()
     })
   })

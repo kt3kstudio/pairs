@@ -13,9 +13,6 @@
   - 1501 - 1509 1510(sp)
   - 1601 - 1609 1610(sp)
 
-## feat(domain):
-- CharacterInitService create the initial state of the character
-
 ## feat(hisotry):
 - record the history
 
@@ -91,6 +88,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom (markup)
 
 # DONE
+- CharacterInitService create the initial state of the character
 - make @scene decorator
 - restore staircase (where does it go?)
 - add levelHistory when unlocked

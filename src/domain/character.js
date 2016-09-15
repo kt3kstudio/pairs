@@ -79,6 +79,14 @@ class Character {
   }
 
   /**
+   * Reloads all the submodels it has. (for now histories, locks and playing-state)
+   * @return {Promise}
+   */
+  reloadAll () {
+    return Promise.all([this.reloadHistories(), this.reloadLocks(), this.reloadPlayingState()])
+  }
+
+  /**
    * Reloads the levelHistories according to the current position.
    *
    * @return {Promise} resolves with updated character

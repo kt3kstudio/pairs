@@ -15,6 +15,7 @@ const {component, on, wire} = $.cc
  * - interaction between services
  * - interaction between view and model
  * - sequence of multi agents perfomance
+ * - take care of menuButton, bg, floorAssets and camera
  */
 @scene.primary
 @component

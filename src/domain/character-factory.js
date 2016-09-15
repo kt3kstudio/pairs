@@ -1,6 +1,8 @@
 const Character = require('./character')
 const CharacterPositionFactory = require('./character-position-factory')
 const LevelKeyFactory = require('./level-key-factory')
+const LevelHistoryFactory = require('./level-history-factory')
+const LevelLockFactory = require('./level-lock-factory')
 
 /**
  * The factory of Character.
@@ -16,25 +18,11 @@ class CharacterFactory {
       obj.id,
       obj.name,
       new CharacterPositionFactory().createFromObject(obj.position),
-      new LevelKeyFactory().createFromArray(obj.keys)
+      new LevelKeyFactory().createFromArray(obj.keys),
+      new LevelHistoryFactory().createCollectionFromArray([]),
+      null,
+      new LevelLockFactory().createCollectionFromObjectList([])
     )
-  }
-
-  /**
-   * Creates the character of the initial state.
-   * @param {string} id The character id
-   * @return {Character}
-   */
-  createInitialById (id) {
-    if (id === 'ma') {
-      return this.createFromObject({id, name: 'Ma'})
-    } else if (id === 'ellen') {
-      return this.createFromObject({id, name: 'Ellen'})
-    } else if (id === 'emma') {
-      return this.createFromObject({id, name: 'Emma'})
-    }
-
-    throw new Error('unknown character: ' + id)
   }
 }
 
