@@ -30,6 +30,24 @@ class CharacterInitService {
 
     return character
   }
+
+  /**
+   * Gets the character data if exist, otherwise create it by the id.
+   * @param {string} id The id
+   * @return {Promise<Character>}
+   */
+  getOrCreateById (id) {
+    const CharacterRepository = require('./character-repository')
+    const repository = new CharacterRepository()
+
+    return repository.getById(id).then(character => {
+      if (character) {
+        return character
+      }
+
+      return this.initById(id).saveAll()
+    })
+  }
 }
 
 module.exports = CharacterInitService

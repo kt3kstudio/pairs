@@ -24,19 +24,16 @@ class CharacterRepository {
    * Gets a character by the id.
    *
    * @param {String} id The id
-   * @return {Promise} A promise of a character
+   * @return {Promise<Character>} A promise of a character
    */
   getById (id) {
     return infrastructure.storage.get(STORAGE_KEY + id, null).then(obj => {
-      let character
-
       if (obj == null) {
-        const service = new CharacterInitService()
-        character = service.initById(id)
-      } else {
-        const factory = new CharacterFactory()
-        character = factory.createFromObject(obj)
+        return null
       }
+
+      const factory = new CharacterFactory()
+      const character = factory.createFromObject(obj)
 
       return character.reloadAll().then(() => character)
     })

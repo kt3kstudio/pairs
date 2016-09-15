@@ -32,6 +32,10 @@ class PlayingStateRepository {
    * @return {Promise}
    */
   save (playingState) {
+    if (playingState == null) {
+      return Promise.resolve(null)
+    }
+
     return infrastructure.storage.set(PLAYING_DATA_KEY + playingState.charId, this.toObject(playingState)).then(function () {
       return playingState
     })

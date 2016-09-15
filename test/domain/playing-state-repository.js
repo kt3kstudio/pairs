@@ -27,6 +27,12 @@ describe('PlayingStateRepository', () => {
         expect(playingState).to.be.instanceof(PlayingState)
       })
     })
+
+    it('does nothing and returns a promise of null if null is given', () => {
+      return repo.save(null).then(playingState => {
+        expect(playingState).to.be.null
+      })
+    })
   })
 
   describe('getByCharIdLevelId', () => {

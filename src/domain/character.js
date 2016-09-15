@@ -68,7 +68,7 @@ class Character {
   }
 
   /**
-   * Saves itself.
+   * Saves itself. This does not saves the histories, locks and keys because they belong to the different storages.
    * @return {Promise}
    */
   save () {
@@ -76,6 +76,19 @@ class Character {
     const repository = new CharacterRepository()
 
     return repository.save(this)
+  }
+
+  /**
+   * Saves itself and child models.
+   * @return {Promise}
+   */
+  saveAll () {
+    return Promise.all([
+      this.save(),
+      this.saveHistories(),
+      this.savePlayingState(),
+      this.saveLocks()
+    ]).then(([character]) => character)
   }
 
   /**
@@ -131,6 +144,7 @@ class Character {
    * Saves the current level locks.
    */
   saveLocks () {
+    console.log('save locks')
     return new LevelLockRepository(this.id).saveByFloorId(this.position.floorId, this.locks).then(() => this)
   }
 

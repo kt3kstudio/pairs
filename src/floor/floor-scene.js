@@ -1,6 +1,6 @@
 const scene = require('../ui/scene')
 const UserRepository = require('../domain/user-repository')
-const CharacterRepository = require('../domain/character-repository')
+const CharacterInitService = require('../domain/character-init-service')
 
 const {img} = require('dom-gen')
 
@@ -47,7 +47,7 @@ class FloorScene {
   load () {
     return new UserRepository().get()
 
-    .then(user => new CharacterRepository().getById(user.charId))
+    .then(user => new CharacterInitService().getOrCreateById(user.charId))
 
     .then(character => { this.character = character })
   }
