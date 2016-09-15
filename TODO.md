@@ -13,9 +13,11 @@
   - 1501 - 1509 1510(sp)
   - 1601 - 1609 1610(sp)
 
+## feat(unlock)
+- unlock staircase
+
 ## feat(debug):
 - clear level button in level scene
-- unlock level button in floor scene
 
 ## feat(hisotry):
 - record the history
@@ -92,6 +94,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom (markup)
 
 # DONE
+- unlock level button in floor scene
 - CharacterInitService create the initial state of the character
 - make @scene decorator
 - restore staircase (where does it go?)

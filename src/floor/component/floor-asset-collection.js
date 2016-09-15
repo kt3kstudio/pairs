@@ -158,6 +158,27 @@ class FloorAssetCollection extends Being {
       cc: 'floor-walker'
     })
   }
+
+  /**
+   * Unlocks the asset by the given id.
+   * @param {string} id The asset id
+   * @return {Promise}
+   * @throws {Error} when the asset is not found
+   */
+  unlockById (id) {
+    const asset = this.findById(id)
+
+    if (!asset) {
+      throw new Error(`The asset not found: assetId=${id}`)
+    }
+
+    asset.unlock()
+
+    this.walker.unlockById(id)
+    this.walker.removeKeyOf(id)
+
+    return this.walker.saveAll()
+  }
 }
 
 module.exports = FloorAssetCollection

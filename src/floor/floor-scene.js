@@ -124,16 +124,9 @@ class FloorScene {
 
     .then(() => key.jump())
 
-    .then(() => {
-      asset.unlock()
+    .then(() => this.floorAssets.unlockById(id))
 
-      this.floorAssets.walker.unlockById(id)
-      this.floorAssets.walker.removeKeyOf(id)
-
-      this.floorAssets.walker.saveAll()
-
-      return key.disappear()
-    })
+    .then(() => key.disappear())
   }
 
   fadeOut () {
