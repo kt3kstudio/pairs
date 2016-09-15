@@ -186,11 +186,7 @@ class FloorWalker extends Body {
    * @return {Promise}
    */
   saveAll () {
-    return Promise.all([
-      this.character.save(),
-      this.character.saveLocks(),
-      this.character.saveHistories()
-    ])
+    return this.character.saveAll()
   }
 }
 
