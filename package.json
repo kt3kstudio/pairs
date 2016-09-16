@@ -61,7 +61,7 @@
     "nunjucks": "^2.3.0",
     "rx-lite": "^4.0.7",
     "scenarioscript": "^1.0.1",
-    "spn": "^3.8.0",
+    "spn": "^3.10.0",
     "standard": "^8.0.0",
     "swipe-event": "^0.4.1",
     "tether": "^1.3.2",
