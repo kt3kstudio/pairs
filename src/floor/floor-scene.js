@@ -33,15 +33,6 @@ class FloorScene {
   @wire get camera () {}
 
   /**
-   * Gets the asset of the given id.
-   * @param {string} id The id of the asset
-   * @return {FloorAsset}
-   */
-  assetAt (id) {
-    return this.floorAssets.findById(id)
-  }
-
-  /**
    * Loads the data for the scene.
    */
   load () {
@@ -78,7 +69,7 @@ class FloorScene {
     return this.floorAssets.show()
 
     .then(() => {
-      let floorAsset = this.assetAt(this.floorAssets.walker.assetId)
+      let floorAsset = this.floorAssets.findById(this.floorAssets.walker.assetId)
 
       return this.floorAssets.walker.appearAt(floorAsset)
     })
@@ -111,7 +102,7 @@ class FloorScene {
     return key.show()
 
     .then(() => {
-      asset = this.assetAt(id)
+      asset = this.floorAssets.findById(id)
 
       key.setAt(asset.getPoint())
 
