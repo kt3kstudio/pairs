@@ -1,6 +1,7 @@
 # TODO
 
-## feat(level):
+## feat(data):
+- create floor 7 to floor 16.
 - create 100 levels
   - 705 - 709 710(sp)
   - 805 - 809 810(sp)
@@ -14,7 +15,7 @@
   - 1601 - 1609 1610(sp)
 
 ## feat(unlock)
-- unlock staircase
+- review unlocking algorithm especially the initial assets in the floors.
 
 ## feat(debug):
 - clear level button in level scene
@@ -94,6 +95,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom (markup)
 
 # DONE
+- unlock staircase
 - unlock level button in floor scene
 - CharacterInitService create the initial state of the character
 - make @scene decorator

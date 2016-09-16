@@ -1,4 +1,4 @@
-const {wait, Animation} = require('spn')
+const {wait, animation: {show, hide}} = require('spn')
 const domGen = require('dom-gen')
 const {div, hr, br, p, small} = domGen
 const FloorAsset = require('./floor-asset')
@@ -15,10 +15,9 @@ const DOOR_APPEAR_DUR = 400
  * @extends domain.map.FloorAsset
  */
 @component
+@show('door-appear', DOOR_APPEAR_DUR)
+@hide('door-disappear', DOOR_APPEAR_DUR)
 class Door extends FloorAsset {
-  showAnim () { return new Animation('door-appear', DOOR_APPEAR_DUR) }
-  hideAnim () { return new Animation('door-disappear', DOOR_APPEAR_DUR) }
-
   /**
    * @constructor
    */
@@ -107,17 +106,6 @@ class Door extends FloorAsset {
     this.enableDoorKnock()
 
     return wait(this.doorActionDur)
-  }
-
-  /**
-   * Unlocks the door.
-   */
-  unlock () {
-    this.locked = false
-
-    this.enableDoorKnock()
-
-    this.removeFrog()
   }
 
   /**

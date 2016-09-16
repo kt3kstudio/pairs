@@ -1,4 +1,4 @@
-const {Animation} = require('spn')
+const {animation: {show, hide}} = require('spn')
 const FloorAsset = require('./floor-asset')
 
 const {component} = $.cc
@@ -9,11 +9,9 @@ const STAIRCASE_ANIMATION_DUR = 400
  * Staircase class represents the staircases in the map view.
  */
 @component
+@show('door-appear', STAIRCASE_ANIMATION_DUR)
+@hide('door-disappear', STAIRCASE_ANIMATION_DUR)
 class Staircase extends FloorAsset {
-
-  showAnim () { return new Animation('door-appear', STAIRCASE_ANIMATION_DUR) }
-
-  hideAnim () { return new Animation('door-disappear', STAIRCASE_ANIMATION_DUR) }
 
   constructor (elem) {
     super(elem)

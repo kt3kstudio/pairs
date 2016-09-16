@@ -1,14 +1,10 @@
-const {Grid, Body} = require('spn')
+const {Grid, Body, width, height, ratio} = require('spn')
 
 /**
  * FloorAsset is an abstract class which represents the something on the wall in the map view.
  */
+@width(80) @height(100) @ratio.x(0.5) @ratio.y(1)
 class FloorAsset extends Body {
-  width () { return 80 }
-  height () { return 100 }
-  ratioX () { return 0.5 }
-  ratioY () { return 1 }
-
   constructor (elem) {
     super()
 
@@ -76,6 +72,17 @@ class FloorAsset extends Body {
     }
 
     frog.runAwayRight()
+  }
+
+  /**
+   * Unlocks the door.
+   */
+  unlock () {
+    this.locked = false
+
+    this.enableDoorKnock()
+
+    this.removeFrog()
   }
 }
 
