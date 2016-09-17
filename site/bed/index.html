@@ -1,21 +1,21 @@
 ---
 title: The Test Bed
 js:
-- bed/index.js
+- debug/index.js
 css:
 - level.css
 - debug.css
 ---
 <style>
-
-.bed-scene .rect {
+.debug-scene .rect {
   position: absolute;
-  background-color: hsla(340, 80%, 50%, 0.2);
-  box-shadow: 0px 0px 4px hsla(340, 80%, 50%, 0.7) inset, 1px 1px 1px blue;
+  background-color: hsla(200, 80%, 50%, 0.2);
+  box-shadow: 0px 0px 4px hsla(200, 80%, 50%, 0.7) inset;
 }
-
 </style>
-<div id="main" class="bed-scene"></div>
+
+<div id="main" class="debug-scene"></div>
+
 <div class="debug-panel" auto-open="true">
   <div class="cc-fixture-control" target="#main" auto-reset="true">
     <script type="text/x">

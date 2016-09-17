@@ -11,14 +11,18 @@ const {div} = require('dom-gen')
 @component
 @block
 @scene.primary
-class BedScene {
+class DebugScene {
   /**
    * @return {Rect}
    */
   @wire get rect () {}
 
   block (rect) {
-    return rect.scaleLeft(0.5)
+    return rect
+      .scaleLeft(9 / 10)
+      .scaleRight(8 / 9)
+      .scaleTop(9 / 10)
+      .scaleBottom(8 / 9)
   }
   setUp () {
     this.elem.append(div({cc: 'rect'}))
@@ -29,4 +33,4 @@ class BedScene {
   }
 }
 
-module.exports = BedScene
+module.exports = DebugScene

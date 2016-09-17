@@ -6,7 +6,7 @@ const wrapper = require('layout-wrapper')
 const frontMatter = require('gulp-front-matter')
 
 const config = {lang: 'en'}
-const presets = require('./src/bed/ls-switch/presets')
+const presets = require('./src/debug/ls-switch/presets')
 const basepath = process.env.BASEPATH || ''
 const SITE = 'site'
 const SRC = 'src'
