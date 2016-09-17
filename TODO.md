@@ -15,16 +15,15 @@
   - 1601 - 1609 1610(sp)
 
 ## feat(unlock)
-- unlock all the assets in the floor button
+- button to unlock all the assets in the floor
+- block UI while unlocking (?)
 
 ## feat(debug):
 - clear level button in level scene
 
 ## feat(hisotry):
-- record the history
-
-## feat(unlock):
-- block UI while unlocking (?)
+- create the history when the level finished
+- apply the histories to the corresponding floor assets
 
 ## chore(app)
 - rename app name to Couple
@@ -32,7 +31,7 @@
 ## story(hero)
 
 ## block refactoring
-- make rect have more usable methods like. scaleCenter, scaleMiddle etc
+- make rect have more usable methods like scaleCenter, scaleMiddle etc
 - remove XXXLayout classes and create local rects locally
 
 ## feat(emoji):
@@ -47,14 +46,17 @@
 - create special stage per floor
 - which use what user created at each level as goals
 
-## feat(opening):
-- create opening sequence of the game
+## feat(dialogs):
+- create the prototypes of the dialog sequences
+- create the opening sequence of the game (dialog0.html)
+- create the 1st ending sequence of the game (dialog1.html)
+- create the 2nd ending sequence of the game (dialog2.html)
 
-## feat(ending):
-- create ending sequence of the game
+## feat(level)
+- give up button with confirmation dialog
 
-## feat(tutorial)
-- create tutorial (guidance) - guiding finger (or blinking poing) swipes the screen
+## feat(swipe-guide)
+- create swipe guide (blinking point moves along the possible swipable area)
 
 ## feat(settings):
 - create settings page
