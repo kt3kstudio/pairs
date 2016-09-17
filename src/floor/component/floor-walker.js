@@ -1,5 +1,4 @@
 const sprite = require('../../ui/sprite')
-const CharacterRepository = require('../../domain/character-repository')
 const {Body, DIRS, ratio} = require('spn')
 
 const {component, on, emit} = $.cc
@@ -10,7 +9,7 @@ const {component, on, emit} = $.cc
  * This works as the facade of Character model.
  */
 @sprite.character
-@ratio.x(0.5).y(1)
+@ratio.x(0.5) @ratio.y(1)
 @component
 class FloorWalker extends Body {
 
@@ -25,8 +24,6 @@ class FloorWalker extends Body {
     super()
 
     this.initSprite(elem)
-
-    this.characterRepository = new CharacterRepository()
   }
 
   willShow () {
@@ -71,7 +68,10 @@ class FloorWalker extends Body {
     this.character.position.floorId = e.goto.floorId
     this.character.position.floorObjectId = e.goto.floorObjectId
 
-    this.saveCharacter().then(() => this.elem.trigger('scene-reload'))
+    // Reloads the submodels here because the floor could change
+    this.character.reloadAll()
+    .then(() => this.saveAll())
+    .then(() => this.elem.trigger('scene-reload'))
   }
 
   /**
@@ -91,14 +91,14 @@ class FloorWalker extends Body {
   setFloorObjectId (floorObjectId) {
     this.character.position.floorObjectId = floorObjectId
 
-    this.saveCharacter()
+    return this.saveAll()
   }
 
   /**
    * Saves the character data.
    */
   saveCharacter () {
-    return this.characterRepository.save(this.character)
+    return this.saveAll()
   }
 
   /**
@@ -160,6 +160,7 @@ class FloorWalker extends Body {
 
   /**
    * Gets the character into the door.
+   * @return {Promise}
    */
   getIntoDoor () {
     this.turn(DIRS.UP)

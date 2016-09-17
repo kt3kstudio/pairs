@@ -26,10 +26,19 @@ class FloorAssetCollection extends Being {
   init (character) {
     this.elem.append(this.floorWalker(character))
 
-    return this.load(character).then(data => this.setUp(data))
+    return this.loadFloorData(character)
+
+    .then(data => this.setUpComponents(data))
+
+    .then(() => this.walker.character.reloadLocks())
+
+    .then(() => this.checkLock())
   }
 
-  load (character) {
+  /**
+   * Loads the floor data.
+   */
+  loadFloorData (character) {
     return Promise.resolve($.get(this.getFloorDataURL(character)))
   }
 
@@ -45,7 +54,7 @@ class FloorAssetCollection extends Being {
    * Loads assets from the given string html data.
    * @param {String} data The data
    */
-  setUp (data) {
+  setUpComponents (data) {
     // prepend loaded (string) data to the elem
     $(data).prependTo(this.elem)
 
@@ -73,12 +82,6 @@ class FloorAssetCollection extends Being {
     const character = this.walker.character
 
     this.updateAssetsByLocksAndHistories(character.locks, character.histories)
-
-    const currentFloorAsset = this.findById(this.walker.assetId)
-
-    if (currentFloorAsset) {
-      currentFloorAsset.locked = false
-    }
   }
 
   /**
@@ -96,6 +99,21 @@ class FloorAssetCollection extends Being {
         asset.score = history.score
       }
     })
+  }
+
+  /**
+   * Checks if the current asset is unlocked and if not, then unlock it.
+   * The purpose of this method is to unlock automatically the first asset where the character appear in the floor.
+   * @param {string} assetId The id of the asset
+   * @return {Promise}
+   */
+  checkLock () {
+    const assetId = this.walker.assetId
+    if (this.findById(assetId).locked) {
+      return this.unlockById(assetId)
+    }
+
+    return Promise.resolve()
   }
 
   /**

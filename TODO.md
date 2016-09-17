@@ -15,7 +15,7 @@
   - 1601 - 1609 1610(sp)
 
 ## feat(unlock)
-- review unlocking algorithm especially the initial assets in the floors.
+- unlock all the assets in the floor button
 
 ## feat(debug):
 - clear level button in level scene
@@ -95,6 +95,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom (markup)
 
 # DONE
+- review unlocking algorithm especially the initial assets in the floors.
 - unlock staircase
 - unlock level button in floor scene
 - CharacterInitService create the initial state of the character
