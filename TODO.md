@@ -14,6 +14,16 @@
   - 1501 - 1509 1510(sp)
   - 1601 - 1609 1610(sp)
 
+## scenes
+- the room scene (room.html)*
+- the road scene (road.html)*
+- the entrance (entrance.html)*
+- the 7th to 16th floors (floor.html)
+- the levels 701 to 1610 (level.html)
+- the ending (ending.html)*
+- the settings (settings.html)*
+- the credits (credits.html)*
+
 ## feat(unlock)
 - block UI while unlocking (?)
 
