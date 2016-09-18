@@ -1,7 +1,7 @@
 # TODO
 
 ## feat(data):
-- create floor 7 to floor 16.
+- create floor 7 to floor 16, 10 levels for each.
 - create 100 levels
   - 705 - 709 710(sp)
   - 805 - 809 810(sp)
@@ -15,7 +15,6 @@
   - 1601 - 1609 1610(sp)
 
 ## feat(unlock)
-- button to unlock all the assets in the floor
 - block UI while unlocking (?)
 
 ## feat(debug):
@@ -29,6 +28,9 @@
 - rename app name to Couple
 
 ## story(hero)
+- is 701 the room of Ma?
+- Why does Ma start visiting from 701?
+- do we need the first floor for starting the game?
 
 ## block refactoring
 - make rect have more usable methods like scaleCenter, scaleMiddle etc
@@ -97,6 +99,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom (markup)
 
 # DONE
+- button to unlock all the assets in the floor
 - review unlocking algorithm especially the initial assets in the floors.
 - unlock staircase
 - unlock level button in floor scene

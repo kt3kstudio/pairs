@@ -22,7 +22,13 @@ Page level feature
 - special stage
   - sp-level.html
 - opening (do we need this? maybe yes, we need to describe the story)
-  - Ma, is dreaming. An old man appears. He tells Ma that his friend Ellen is detained in the tower called YGGS - Yoginis Gigantic Gray Skyscraper and Ma is the only person who can help her.
+  - Ma, is sleeping in his room. An old man appears. He tells Ma that his friend Ellen is detained in the tower called YGGS - Yogini Gigantic Gray Skyscraper and Ma is the only person who can help her.
+  - Old man, Mubi (無火), says, "Ma, here is the card key to go to the 7th floor. Ellen is at the room 1610. You need to get help of the residents of the tower. They are trying looking for something. Try help finding them for the people."
+  - Ma takes a taxi to go to YGGS. Pays a half shilling.
+  - Ma enters YGGS.
+  - "Excuse me, how can i get to the 7th floor?"
+  - "Use the escalator there."
+  - "Thank you!"
 - ending, interlude
   - dialog.html
   - Ma gets Ellen. She is very scared. She tests Ma to check if he really the man who solved the tower residents problems.
