@@ -54,7 +54,7 @@
     "karma-mocha": "^1.0.1",
     "karma-spec-reporter": "0.0.26",
     "layout-wrapper": "^1.1.0",
-    "mocha": "^2.1.0",
+    "mocha": "^3.0.2",
     "multiflip": "^3.0.0",
     "multiflip-bubble": "^4.0.0",
     "nunjucks": "^2.3.0",
