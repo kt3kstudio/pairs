@@ -38,7 +38,7 @@
     "codecov": "^1.0.1",
     "dom-gen": "^2.3.0",
     "es6-object-assign": "^1.0.2",
-    "es6-promise": "^3.0.2",
+    "es6-promise": "^4.0.3",
     "es6-symbol": "^3.0.2",
     "esdoc": "^0.4.3",
     "event-hub": "^5.0.1",
