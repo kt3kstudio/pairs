@@ -33,7 +33,7 @@
     "bulbo": "^6.2.3",
     "bundle-through": "^1.0.3",
     "chai": "^3.5.0",
-    "class-component": "^10.7.0",
+    "class-component": "^11.0.1",
     "clipboard-js": "^0.3.1",
     "codecov": "^1.0.1",
     "dom-gen": "^2.3.0",
