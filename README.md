@@ -6,6 +6,15 @@
 
 > A puzzle game on straw platform
 
+# node.js version
+
+- use .node-version enabled node version manager (nodenv, n (+avn), nvm (+avn), nodebrew (+avn))
+
+# Build & Run
+
+    npm install
+    npm start
+
 # Use in ios or android projects
 
 ```sh
@@ -45,5 +54,3 @@ This project has produced a lot of subprojects. Here list of them:
 - [get-property-names](https://github.com/kt3k/get-property-names)
   - The property iteration utility
 - Other ui plugins: [puncher](https://github.com/kt3k/puncher) [multiflip](https://github.com/kt3k/multiflip) [multiflip-bubble](https://github.com/kt3k/multiflip-bubble) [swipe-event](https://github.com/kt3k/swipe-event) [arrowkeys](https://github.com/kt3k/arrowkeys)
-
--
