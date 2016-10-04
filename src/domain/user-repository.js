@@ -1,5 +1,6 @@
 const UserFactory = require('./user-factory')
 
+const {storage} = infrastructure
 const KEY = 'LD-user-key'
 
 /**
@@ -10,14 +11,14 @@ class UserRepository {
    * Saves the user.
    */
   save (user) {
-    return infrastructure.storage.set(KEY, user).then(() => user)
+    return storage.set(KEY, user).then(() => user)
   }
 
   /**
    * Gets the user.
    */
   get () {
-    return infrastructure.storage.get(KEY, {}).then(data => new UserFactory().createFromObject(data))
+    return storage.get(KEY, {}).then(data => new UserFactory().createFromObject(data))
   }
 }
 
