@@ -1,5 +1,8 @@
 # TODO
 
+## feat(mode)
+- add mode selector properperty to user
+
 ## feat(data):
 - create floor 7 to floor 16, 10 levels for each.
 - create 100 levels
