@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "bulbo build",
-    "build:gh-pages": "BASEPATH=http://kt3kstudio.github.io/long-dream-core/build bulbo build",
+    "build:gh-pages": "BASEPATH=https://kt3kstudio.github.io/long-dream-core/build bulbo build",
     "start": "bulbo serve",
     "lint": "standard",
     "test": "karma start",

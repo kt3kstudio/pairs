@@ -4,27 +4,27 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/all.css" />
+    <link rel="stylesheet" href="{{ basepath }}/css/all.css" />
     {% for css in file.frontMatter.css %}
-    <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/{{ css }}" />
+    <link rel="stylesheet" href="{{ basepath }}/css/{{ css }}" />
     {% endfor %}
     {% if IS_DEV %}
-    <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/debug.css" />
+    <link rel="stylesheet" href="{{ basepath }}/css/debug.css" />
     {% endif %}
-    <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/tether.css" />
-    <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/css/drop-theme-arrows-bounce.css" />
-    <link rel="stylesheet" href="{{ file.frontMatter.basepath }}/asset/emoji/css/emoji.css" />
-    <link rel="icon" href="{{ file.frontMatter.basepath }}/img/favicon.png" />
+    <link rel="stylesheet" href="{{ basepath }}/css/tether.css" />
+    <link rel="stylesheet" href="{{ basepath }}/css/drop-theme-arrows-bounce.css" />
+    <link rel="stylesheet" href="{{ basepath }}/asset/emoji/css/emoji.css" />
+    <link rel="icon" href="{{ basepath }}/img/favicon.png" />
 
     <script>window.config = {{ config | dump | safe }}</script>
     <script>window.BASEPATH = '{{ basepath }}'</script>
-    <script src="{{ file.frontMatter.basepath }}/js/common.js"></script>
-    <script src="{{ file.frontMatter.basepath }}/infrastructure.js"></script>
+    <script src="{{ basepath }}/js/common.js"></script>
+    <script src="{{ basepath }}/infrastructure.js"></script>
     {% for js in file.frontMatter.js %}
-    <script src="{{ file.frontMatter.basepath }}/js/{{ js }}"></script>
+    <script src="{{ basepath }}/js/{{ js }}"></script>
     {% endfor %}
     {% if IS_DEV %}
-    <script src="{{ file.frontMatter.basepath }}/js/debug/debug.js"></script>
+    <script src="{{ basepath }}/js/debug/debug.js"></script>
     {% endif %}
     <script>
       $(function () {
