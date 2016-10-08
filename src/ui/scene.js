@@ -1,6 +1,8 @@
 const BackgroundService = require('./common/background-service')
 const isFunction = f => typeof f === 'function'
 
+const {component} = $.cc
+
 const scene = Cls => {
   Object.defineProperty(Cls.prototype, 'main', {
     value () {
@@ -20,13 +22,12 @@ const scene = Cls => {
     get: () => $('.menu-button-root').cc.get('menu-button')
   })
 
-  return Cls
+  return component(Cls)
 }
 
 scene.primary = Cls => {
-  scene(Cls)
   $.cc.on('scene-start')(Cls.prototype, 'main')
-  return Cls
+  return scene(Cls)
 }
 
 module.exports = scene
