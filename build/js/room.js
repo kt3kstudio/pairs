@@ -1,170 +1,4 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-(function (global){
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.domGen = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-'use strict';
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-module.exports = domGen;
-
-/**
- * Returns a generator of the doms of the given tag name.
- * @param {string} tagName The tag name of the dom to create
- * @return {Function}
- */
-function domGen(tagName) {
-
-  /**
-   * Generates a dom with the given params.
-   * @param {object} [opts] The options to pass as the second arg of $('<tag/>', arg)
-   * @param {object[]} args The objects to append to the element
-   * @return {jQuery}
-   */
-  return function (opts) {
-    var _$, _ref;
-
-    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-
-    if (!seemLikePlainObject(opts)) {
-      args.unshift(opts);
-      opts = undefined;
-    }
-
-    return (_$ = $('<' + tagName + '/>', opts)).append.apply(_$, _toConsumableArray((_ref = []).concat.apply(_ref, args)));
-  };
-}
-
-/**
- * Checkes if the object is plain.
- * @param {object} o The object
- * @return {boolean}
- */
-function seemLikePlainObject(o) {
-  return o instanceof Object && Object.getPrototypeOf(o).hasOwnProperty('isPrototypeOf');
-}
-domGen.a = domGen('a');
-domGen.abbr = domGen('abbr');
-domGen.address = domGen('address');
-domGen.area = domGen('area');
-domGen.article = domGen('article');
-domGen.aside = domGen('aside');
-domGen.audio = domGen('audio');
-domGen.b = domGen('b');
-domGen.base = domGen('base');
-domGen.bdi = domGen('bdi');
-domGen.bdo = domGen('bdo');
-domGen.blockquote = domGen('blockquote');
-domGen.body = domGen('body');
-domGen.br = domGen('br');
-domGen.button = domGen('button');
-domGen.canvas = domGen('canvas');
-domGen.caption = domGen('caption');
-domGen.cite = domGen('cite');
-domGen.code = domGen('code');
-domGen.col = domGen('col');
-domGen.colgroup = domGen('colgroup');
-domGen.data = domGen('data');
-domGen.datalist = domGen('datalist');
-domGen.dd = domGen('dd');
-domGen.del = domGen('del');
-domGen.details = domGen('details');
-domGen.dfn = domGen('dfn');
-domGen.dialog = domGen('dialog');
-domGen.div = domGen('div');
-domGen.dl = domGen('dl');
-domGen.dt = domGen('dt');
-domGen.em = domGen('em');
-domGen.embed = domGen('embed');
-domGen.fieldset = domGen('fieldset');
-domGen.figcaption = domGen('figcaption');
-domGen.figure = domGen('figure');
-domGen.footer = domGen('footer');
-domGen.form = domGen('form');
-domGen.h1 = domGen('h1');
-domGen.h2 = domGen('h2');
-domGen.h3 = domGen('h3');
-domGen.h4 = domGen('h4');
-domGen.h5 = domGen('h5');
-domGen.h6 = domGen('h6');
-domGen.head = domGen('head');
-domGen.header = domGen('header');
-domGen.hr = domGen('hr');
-domGen.html = domGen('html');
-domGen.i = domGen('i');
-domGen.iframe = domGen('iframe');
-domGen.img = domGen('img');
-domGen.input = domGen('input');
-domGen.ins = domGen('ins');
-domGen.kbd = domGen('kbd');
-domGen.keygen = domGen('keygen');
-domGen.label = domGen('label');
-domGen.legend = domGen('legend');
-domGen.li = domGen('li');
-domGen.link = domGen('link');
-domGen.main = domGen('main');
-domGen.map = domGen('map');
-domGen.mark = domGen('mark');
-domGen.math = domGen('math');
-domGen.menu = domGen('menu');
-domGen.menuitem = domGen('menuitem');
-domGen.meta = domGen('meta');
-domGen.meter = domGen('meter');
-domGen.nav = domGen('nav');
-domGen.noscript = domGen('noscript');
-domGen.object = domGen('object');
-domGen.ol = domGen('ol');
-domGen.optgroup = domGen('optgroup');
-domGen.option = domGen('option');
-domGen.output = domGen('output');
-domGen.p = domGen('p');
-domGen.param = domGen('param');
-domGen.picture = domGen('picture');
-domGen.pre = domGen('pre');
-domGen.progress = domGen('progress');
-domGen.q = domGen('q');
-domGen.rb = domGen('rb');
-domGen.rp = domGen('rp');
-domGen.rt = domGen('rt');
-domGen.rtc = domGen('rtc');
-domGen.ruby = domGen('ruby');
-domGen.s = domGen('s');
-domGen.samp = domGen('samp');
-domGen.script = domGen('script');
-domGen.section = domGen('section');
-domGen.select = domGen('select');
-domGen.small = domGen('small');
-domGen.source = domGen('source');
-domGen.span = domGen('span');
-domGen.strong = domGen('strong');
-domGen.style = domGen('style');
-domGen.sub = domGen('sub');
-domGen.summary = domGen('summary');
-domGen.sup = domGen('sup');
-domGen.svg = domGen('svg');
-domGen.table = domGen('table');
-domGen.tbody = domGen('tbody');
-domGen.td = domGen('td');
-domGen.template = domGen('template');
-domGen.textarea = domGen('textarea');
-domGen.tfoot = domGen('tfoot');
-domGen.th = domGen('th');
-domGen.thead = domGen('thead');
-domGen.time = domGen('time');
-domGen.title = domGen('title');
-domGen.tr = domGen('tr');
-domGen.track = domGen('track');
-domGen.u = domGen('u');
-domGen.ul = domGen('ul');
-domGen.var = domGen('var');
-domGen.video = domGen('video');
-domGen.wbr = domGen('wbr');
-
-},{}]},{},[1])(1)
-});
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],2:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -218,7 +52,7 @@ var Animation = function () {
 }();
 
 module.exports = Animation;
-},{"./if-num-else":17,"./reflow":25,"./wait":26}],3:[function(require,module,exports){
+},{"./if-num-else":16,"./reflow":24,"./wait":25}],2:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -275,7 +109,7 @@ var Area = function () {
 }();
 
 module.exports = Area;
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -421,7 +255,7 @@ var Being = function () {
 }();
 
 module.exports = Being;
-},{}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -827,7 +661,7 @@ var Body = function (_Being) {
 }(Being);
 
 module.exports = Body;
-},{"./area":3,"./being":4,"./if-num-else":17,"./point":22,"./posture":23,"./reflow":25,"./wait":26}],6:[function(require,module,exports){
+},{"./area":2,"./being":3,"./if-num-else":16,"./point":21,"./posture":22,"./reflow":24,"./wait":25}],5:[function(require,module,exports){
 'use strict';
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
@@ -903,7 +737,7 @@ module.exports.show = function (name) {
 
   return d;
 };
-},{"../animation":2}],7:[function(require,module,exports){
+},{"../animation":1}],6:[function(require,module,exports){
 "use strict";
 
 /**
@@ -918,7 +752,7 @@ module.exports = function (height) {
     };
   };
 };
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 exports.animation = require('./animation');
@@ -927,7 +761,7 @@ exports.transition = require('./transition');
 exports.width = require('./width');
 exports.height = require('./height');
 exports.margin = require('./margin');
-},{"./animation":6,"./height":7,"./margin":9,"./ratio":10,"./transition":11,"./width":12}],9:[function(require,module,exports){
+},{"./animation":5,"./height":6,"./margin":8,"./ratio":9,"./transition":10,"./width":11}],8:[function(require,module,exports){
 "use strict";
 
 /**
@@ -977,7 +811,7 @@ module.exports = function (_ref) {
     return Cls;
   };
 };
-},{}],10:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 "use strict";
 
 /**
@@ -1034,7 +868,7 @@ module.exports.y = function (y) {
     return Cls;
   };
 };
-},{}],11:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 "use strict";
 
 /**
@@ -1049,7 +883,7 @@ exports.duration = function (duration) {
     };
   };
 };
-},{}],12:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 "use strict";
 
 /**
@@ -1064,7 +898,7 @@ module.exports = function (width) {
     };
   };
 };
-},{}],13:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1135,7 +969,7 @@ var DirStateImageMap = function () {
 }();
 
 module.exports = DirStateImageMap;
-},{}],14:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
 
 exports.UP = 0;
@@ -1144,7 +978,7 @@ exports.LEFT = 1;
 exports.RIGHT = 2;
 exports.BOTTOM = 3;
 exports.DOWN = 3;
-},{}],15:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1425,7 +1259,7 @@ var GridWalker = function (_Body) {
 }(Body);
 
 module.exports = GridWalker;
-},{"./body":5}],16:[function(require,module,exports){
+},{"./body":4}],15:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1642,7 +1476,7 @@ var Grid = function () {
 }();
 
 module.exports = Grid;
-},{"./if-num-else":17,"./rect":24}],17:[function(require,module,exports){
+},{"./if-num-else":16,"./rect":23}],16:[function(require,module,exports){
 'use strict';
 
 /**
@@ -1654,7 +1488,7 @@ module.exports = Grid;
 module.exports = function (num, defaultValue) {
   return typeof num === 'number' ? num : defaultValue;
 };
-},{}],18:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1717,7 +1551,7 @@ var Image = function () {
 }();
 
 module.exports = Image;
-},{}],19:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 exports.wait = require('./wait');
@@ -1740,7 +1574,7 @@ Object.keys(exports.decorators).forEach(function (key) {
 });
 exports.Area = require('./area');
 exports.Point = require('./point');
-},{"./animation":2,"./area":3,"./being":4,"./body":5,"./decorators":8,"./dir-state-image-map":13,"./dirs":14,"./grid":16,"./grid-walker":15,"./if-num-else":17,"./image":18,"./layout-factory":21,"./point":22,"./posture":23,"./rect":24,"./reflow":25,"./wait":26}],20:[function(require,module,exports){
+},{"./animation":1,"./area":2,"./being":3,"./body":4,"./decorators":7,"./dir-state-image-map":12,"./dirs":13,"./grid":15,"./grid-walker":14,"./if-num-else":16,"./image":17,"./layout-factory":20,"./point":21,"./posture":22,"./rect":23,"./reflow":24,"./wait":25}],19:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1877,7 +1711,7 @@ var Interval = function () {
 }();
 
 module.exports = Interval;
-},{"./rect":24}],21:[function(require,module,exports){
+},{"./rect":23}],20:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1929,7 +1763,7 @@ var LayoutFactory = function () {
 }();
 
 module.exports = LayoutFactory;
-},{"./grid":16,"./rect":24}],22:[function(require,module,exports){
+},{"./grid":15,"./rect":23}],21:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -2041,7 +1875,7 @@ var Point = function () {
 }();
 
 module.exports = Point;
-},{"./dirs":14}],23:[function(require,module,exports){
+},{"./dirs":13}],22:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -2342,7 +2176,7 @@ var Posture = function () {
 }();
 
 module.exports = Posture;
-},{"./if-num-else":17,"./rect":24}],24:[function(require,module,exports){
+},{"./if-num-else":16,"./rect":23}],23:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -2830,7 +2664,7 @@ var Rect = function () {
 }();
 
 module.exports = Rect;
-},{"./area":3,"./grid":16,"./if-num-else":17,"./interval":20}],25:[function(require,module,exports){
+},{"./area":2,"./grid":15,"./if-num-else":16,"./interval":19}],24:[function(require,module,exports){
 "use strict";
 
 /**
@@ -2845,7 +2679,7 @@ module.exports = function (elem) {
 
   return elem;
 };
-},{}],26:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 "use strict";
 
 /**
@@ -2862,12 +2696,12 @@ module.exports = function (n, result) {
     }, n);
   });
 };
-},{}],27:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
-require('../../src/title/title-scene');
+require('../../src/room/room-scene');
 
-},{"../../src/title/title-scene":28}],28:[function(require,module,exports){
+},{"../../src/room/room-scene":27}],27:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -2878,91 +2712,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var scene = require('../ui/scene');
 
-var _require = require('../util/util');
-
-var loadImage = _require.loadImage;
-
-var _require2 = require('spn');
-
-var wait = _require2.wait;
-
-var _require3 = require('dom-gen');
-
-var p = _require3.p;
-var component = $.cc.component;
-
-/**
- * TitleScene class handles the motions sequences of the title scene.
- */
-
-var TitleScene = (_dec = scene.primary, _dec(_class = component(_class = function () {
-  function TitleScene() {
-    _classCallCheck(this, TitleScene);
+var RoomScene = (_dec = scene.primary, _dec(_class = function () {
+  function RoomScene() {
+    _classCallCheck(this, RoomScene);
   }
 
-  _createClass(TitleScene, [{
+  _createClass(RoomScene, [{
     key: 'start',
-
-    /**
-     * Entry point of the title scene.
-     */
-    value: function start() {
-      var _this = this;
-
-      loadImage('img/title-logo.svg', 'title-logo elem', this.elem).then(function (elem) {
-        return elem.anim('title-appear', 2000);
-      }).then(function (elem) {
-        return elem.animation('float 6000ms infinite');
-      });
-
-      wait(500).then(function () {
-        _this.menuButton.show();
-
-        p('GET UP').addClass('touch-here elem').appendTo(_this.elem).click(function () {
-          return _this.goToMap();
-        }).anim('title-appear', 1000).then(function (p) {
-          return p.animation('float 1000ms infinite');
-        });
-      });
-    }
-
-    /**
-     * Fades out the scene.
-     */
-
-  }, {
-    key: 'fadeOut',
-    value: function fadeOut() {
-      return Promise.all([this.menuButton.hide(), $('.elem').css('opacity', 0).anim('disappear', 500).then(function () {
-        $('.elem').remove();
-
-        return wait(100);
-      })]);
-    }
-
-    /**
-     * Transions to the map scene.
-     */
-
-  }, {
-    key: 'goToMap',
-    value: function goToMap() {
-      var _this2 = this;
-
-      this.fadeOut().then(function () {
-        return _this2.bg.turnBlack();
-      }).then(function () {
-        location.href = 'floor.html';
-      });
+    value: function start(elem) {
+      console.log('room');
     }
   }]);
 
-  return TitleScene;
-}()) || _class) || _class);
+  return RoomScene;
+}()) || _class);
 
-module.exports = TitleScene;
+module.exports = RoomScene;
 
-},{"../ui/scene":30,"../util/util":31,"dom-gen":1,"spn":19}],29:[function(require,module,exports){
+},{"../ui/scene":29}],28:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -3036,7 +2803,7 @@ var BackgroundService = function () {
 
 module.exports = BackgroundService;
 
-},{"spn":19}],30:[function(require,module,exports){
+},{"spn":18}],29:[function(require,module,exports){
 'use strict';
 
 var BackgroundService = require('./common/background-service');
@@ -3081,47 +2848,4 @@ scene.primary = function (Cls) {
 
 module.exports = scene;
 
-},{"./common/background-service":29}],31:[function(require,module,exports){
-'use strict';
-
-var _require = require('dom-gen');
-
-var img = _require.img;
-
-/**
- * Load image and returns promise which resolves when the image loaded.
- */
-
-exports.loadImage = function (path, cls, dom) {
-  return new Promise(function (resolve) {
-    var $img = img().attr('src', path).addClass(cls).appendTo(dom).on('load', function () {
-      return resolve($img);
-    });
-  });
-};
-
-/**
- * Add a comma to separate each group of three digits in a text.
- *
- * @param {Number} number The number
- * @return {String}
- */
-exports.commaNumber = function (number) {
-  return number.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,');
-};
-
-/**
- * Chains elements of the array as promise chain using the promise generating function.
- *
- * @param {Array} array The array
- * @param {Function} createPromise The function for creating promise
- */
-exports.chainPromise = function (array, createPromise) {
-  return array.reduce(function (promise, item) {
-    return promise.then(function () {
-      return createPromise(item);
-    });
-  }, Promise.resolve());
-};
-
-},{"dom-gen":1}]},{},[27]);
+},{"./common/background-service":28}]},{},[26]);

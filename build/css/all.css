@@ -56,6 +56,11 @@ body {
   transition-property: opacity;
 }
 
+.emoji-round-yellow {
+  background-color: yellow;
+  border-radius: 12px;
+}
+
 @-webkit-keyframes char-appear {
     0% { opacity: 0 }
     100% { opacity: 1 }
@@ -64,4 +69,10 @@ body {
 @-webkit-keyframes char-disappear {
     0% { opacity: 1 }
     100% { opacity: 0 }
+}
+
+@-webkit-keyframes jump {
+  0% { transform: translate(0, 0px); }
+  50% { transform: translate(0, -30px); }
+  100% { transform: translate(0, 0px); }
 }

@@ -4,169 +4,51 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="./css/all.css" />
-    <link rel="stylesheet" href="./css/tether.css" />
-    <link rel="stylesheet" href="./css/drop-theme-arrows-bounce.css" />
-    <link rel="stylesheet" href="./asset/emoji/css/emoji.css" />
-    <link rel="icon" href="./img/favicon.png" />
+    <link rel="stylesheet" href="/css/all.css" />
+    
+    <link rel="stylesheet" href="/css/level.css" />
+    
+    
+    <link rel="stylesheet" href="/css/debug.css" />
+    
+    <link rel="stylesheet" href="/css/tether.css" />
+    <link rel="stylesheet" href="/css/drop-theme-arrows-bounce.css" />
+    <link rel="stylesheet" href="/asset/emoji/css/emoji.css" />
+    <link rel="icon" href="/img/favicon.png" />
 
     <script>window.config = {"lang":"en"}</script>
-    <script src="./js/common.js"></script>
-    <script src="./infrastructure.js"></script>
-    <script src="./js/level.js"></script>
+    <script>window.BASEPATH = ''</script>
+    <script src="/js/common.js"></script>
+    <script src="/infrastructure.js"></script>
+    
+    <script src="/js/level.js"></script>
+    
+    
+    <script src="/js/debug/debug.js"></script>
+    
     <script>
       $(function () {
         setTimeout(function () {
-          $('.intro-scene').trigger('scene-start');
+          $('#main').trigger('scene-start');
         }, 50);
       });
     </script>
-
   </head>
   <body class="dark-bg">
     
-<style>
-
-.wrapper {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    left: 0;
-    top: 0;
-    z-index: 1;
-}
-
-#main {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
-.circle {
-    position: absolute;
-    transition-duration: 300ms;
-}
-
-.field-grid {
-    position: absolute;
-    left: -1000px;
-    top: -1000px;
-    z-index: -1;
-}
-
-.piece-of-paper {
-    z-index: -1;
-}
-
-.ma-speech {
-    line-height: 50px;
-    text-align: center;
-    color: #191B1D;
-
-}
-.ma-speech p {
-    width: 100%;
-}
-
-.scoreboard {
-    position: absolute;
-    text-align: center;
-    color: #C1C6CB;
-    background-color: #393F44;
-    border-radius: 7px;
-}
-
-.result-pane .result-content {
-    position: absolute;
-    text-align: center;
-    color: #C1C6CB;
-    background-color: #393F44;
-}
-
-
-@-webkit-keyframes ball-appear {
-    0% { opacity: 0; transform: scale(0); }
-}
-
-@-webkit-keyframes ball-disappear {
-    100% { opacity: 0; transform: scale(0); }
-}
-
-@-webkit-keyframes ball-refuse-x {
-    50% { transform: scale(2, 0.5); opacity: 0.2; }
-}
-
-@-webkit-keyframes ball-refuse-y {
-    50% { transform: scale(0.5, 2); opacity: 0.2; }
-}
-
-@-webkit-keyframes field-appear {
-    0% { opacity: 0; transform: scale(2); }
-}
-
-@-webkit-keyframes field-disappear {
-    100% { opacity: 0; transform: scale(0); }
-}
-
-@-webkit-keyframes bom-appear {
-    0% { opacity: 0; transform: translate(0, 10px); }
-    100% { opacity: 1; transform: translate(0, 0); }
-}
-
-@-webkit-keyframes bom-disappear {
-    0% { opacity: 1; transform: translate(0, 0); }
-    100% { opacity: 0; transform: translate(0, 10px); }
-}
-
-@-webkit-keyframes bom-born {
-    0% { opacity: 0; transform: translate(0, 10px) scale(0); }
-    50% { opacity: 1; transform: translate(0, 0px) scale(1.2); }
-    100% { opacity: 1; transform: translate(0, 0px) scale(1); }
-}
-
-@-webkit-keyframes go-to-trash {
-    100% { opacity: 0; transform: translate(0, 10px) scale(0); }
-}
-
-@-webkit-keyframes get-to-reactor-left {
-    0% { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
-    50% { opacity: 1; transform: translate(20px, 0) rotate(0) scale(1); }
-    100% { opacity: 0; transform: translate(40px, 0) rotate(360deg) scale(0); }
-}
-
-@-webkit-keyframes get-to-reactor-right {
-    0% { opacity: 1; transform: translate(0, 0) rotate(0) scale(1); }
-    50% { opacity: 1; transform: translate(-20px, 0) rotate(0) scale(1); }
-    100% { opacity: 0; transform: translate(-40px, 0) rotate(-360deg) scale(0); }
-}
-
-@-webkit-keyframes paper-appear {
-    0% { opacity: 0 }
-    100% { opacity: 1 }
-}
-
-@-webkit-keyframes paper-disappear {
-    0% { opacity: 1 }
-    100% { opacity: 0 }
-}
-
-
-
-</style>
-
-
-<div id="main" class="intro-scene play-scene outro-scene fusion-service cell-collection">
-
+<div id="main" class="intro-scene play-scene outro-scene fusion-service cell-collection event-hub" channel="cell-fusion">
   <img class="field-grid" src="img/field.svg" />
 
   <div class="scoreboard"></div>
 
+  <div class="goal-panel sub-cell-fusion"></div>
+
   <div class="result-pane"></div>
 
   <div class="wrapper swipe-field"></div>
-
 </div>
+
+<div class="debug-panel">debug</div>
 
 <img class="menu-button menu-button-root hidden" menu="level-menu" src="img/menu-button.svg" />
 
@@ -175,7 +57,6 @@
 <menu src="img/back-button.svg" onclick="$('.play-scene').cc.get('play-scene').end();"></menu>
 <menu src="img/reset-button.svg" onclick="$('.play-scene').cc.get('play-scene').end();"></menu>
 </menus>
-
 
 <!-- templates, a bit old-fashioned templating -->
 <script type="text/template" id="tpl-ball">
@@ -198,4 +79,7 @@
 </script>
 
   </body>
+  
+  <script>window.presets = {"0-empty":{},"level-702-has-2-keys":{"character-ma":{"id":"ma","name":"Ma","keys":[{"levelId":"703"},{"levelId":"704"}],"position":{"floorId":"7","floorObjectId":"702"}},"level-lock-ma-7":[{"levelId":702,"locked":false},{"levelId":701,"locked":false},{"levelId":"701","locked":false},{"levelId":"702","locked":false}],"playing-state-ma":null}}</script>
+  
 </html>

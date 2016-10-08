@@ -9,7 +9,7 @@ exports.Puncher = undefined;
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _dec, _dec2, _class, _desc, _value, _class2; /**
-                                                  * puncher v4.0.0
+                                                  * puncher v5.1.0
                                                   * author: Yoshiya Hinosawa ( https://github.com/kt3k )
                                                   * license: MIT
                                                   */
@@ -22,10 +22,6 @@ var _split2 = _interopRequireDefault(_split);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
     var desc = {};
@@ -57,9 +53,8 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 }
 
 var _$$cc = $.cc;
-var event = _$$cc.event;
+var on = _$$cc.on;
 var component = _$$cc.component;
-var Coelement = _$$cc.Coelement;
 
 
 var MODULE_NAME = 'puncher';
@@ -69,25 +64,23 @@ var ENDED_EVENT_NAME = 'puncher.ended';
 var APPENDED_EVENT_NAME = 'puncher.appended';
 var DEFAULT_UNIT_DUR = 100;
 
-var Puncher = exports.Puncher = (_dec = component(MODULE_NAME), _dec2 = event(START_EVENT_NAME), _dec(_class = (_class2 = function (_Coelement) {
-    _inherits(Puncher, _Coelement);
+var Puncher = exports.Puncher = (_dec = component(MODULE_NAME), _dec2 = on(START_EVENT_NAME), _dec(_class = (_class2 = function () {
+    /**
+     * @param {jQuery} elem The dom selection of jQuery object
+     */
 
     function Puncher(elem) {
         _classCallCheck(this, Puncher);
 
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Puncher).call(this, elem));
+        this.array = (0, _split2.default)(elem[0].childNodes);
 
-        _this.array = (0, _split2.default)(_this.elem[0].childNodes);
+        elem.empty();
 
-        _this.elem.empty();
-
-        _this.unitDur = +_this.elem.attr('unit-dur') || DEFAULT_UNIT_DUR;
-        return _this;
+        this.unitDur = +elem.attr('unit-dur') || DEFAULT_UNIT_DUR;
     }
 
     /**
      * Starts punching the characters and elements. Returns promise which resolves when all the punching finished.
-     *
      * @return {Promise}
      */
 
@@ -95,20 +88,19 @@ var Puncher = exports.Puncher = (_dec = component(MODULE_NAME), _dec2 = event(ST
     _createClass(Puncher, [{
         key: 'start',
         value: function start() {
-            var _this2 = this;
+            var _this = this;
 
             this.elem.trigger(STARTED_EVENT_NAME);
 
             // finish immediately if the array is empty
             if (this.array.length === 0) {
-
                 return Promise.resolve();
             }
 
             return new Promise(function (resolve) {
-                return _this2.loop(resolve);
+                return _this.loop(resolve);
             }).then(function () {
-                _this2.elem.trigger(ENDED_EVENT_NAME);
+                _this.elem.trigger(ENDED_EVENT_NAME);
             });
         }
 
@@ -120,7 +112,7 @@ var Puncher = exports.Puncher = (_dec = component(MODULE_NAME), _dec2 = event(ST
     }, {
         key: 'loop',
         value: function loop(cb) {
-            var _this3 = this;
+            var _this2 = this;
 
             this.append(this.array.shift());
 
@@ -130,7 +122,7 @@ var Puncher = exports.Puncher = (_dec = component(MODULE_NAME), _dec2 = event(ST
             }
 
             setTimeout(function () {
-                return _this3.loop(cb);
+                return _this2.loop(cb);
             }, this.unitDur);
         }
 
@@ -156,7 +148,7 @@ var Puncher = exports.Puncher = (_dec = component(MODULE_NAME), _dec2 = event(ST
     }]);
 
     return Puncher;
-}(Coelement), (_applyDecoratedDescriptor(_class2.prototype, 'start', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'start'), _class2.prototype)), _class2)) || _class);
+}(), (_applyDecoratedDescriptor(_class2.prototype, 'start', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'start'), _class2.prototype)), _class2)) || _class);
 },{"./split":2}],2:[function(require,module,exports){
 'use strict';
 
@@ -236,686 +228,344 @@ var splitText = function splitText(textNode) {
 },{}],3:[function(require,module,exports){
 'use strict';
 
-var ListenerInfo = require('./listener-info');
+(function () {
+  'use strict';
 
-/**
- * The decorator for registering event listener info to the method.
- * @param {string} event The event name
- * @param {string} selector The selector for listening. When null is passed, the listener listens on the root element of the component.
- * @param {object} prototype The prototype of the coelement class
- * @param {string} name The name of the method
- */
-var event = function event(_event, selector) {
-  return function (prototype, name) {
-    var method = prototype[name];
+  var COELEMENT_DATA_KEY_PREFIX = '__coelement:';
+  var KEY_EVENT_LISTENERS = '__cc_listeners__';
 
-    method.__events__ = method.__events__ || [];
-
-    method.__events__.push(new ListenerInfo(_event, selector, method));
-  };
-};
-
-/**
- * The decorator to prepend and append event trigger.
- * @param {string} start The event name when the method started
- * @param {string} end The event name when the method finished
- * @param {string} error the event name when the method errored
- */
-var trigger = function trigger(start, end, error) {
-  return function (prototype, name) {
-    var method = prototype[name];
-
-    prototype[name] = function () {
-      var _this = this;
-
-      if (start != null) {
-        this.elem.trigger(start);
-      }
-
-      var result = method.apply(this, arguments);
-
-      var promise = Promise.resolve(result);
-
-      if (end != null) {
-        promise.then(function () {
-          return _this.elem.trigger(end);
-        });
-      }
-
-      if (error != null) {
-        promise.catch(function () {
-          return _this.elem.trigger(error);
-        });
-      }
-
-      return result;
-    };
-  };
-};
-
-exports.event = event;
-exports.trigger = trigger;
-},{"./listener-info":10}],4:[function(require,module,exports){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/**
- * ClassComponentConfiguration is the utility class for class component initialization.
- */
-
-var ClassComponentConfiguration = function () {
   /**
+   * Registers the event listener to the class constructor.
+   * @param {object} constructor The constructor
+   * @param {string} key The key of handler method
+   * @param {string} event The event name
+   * @param {string} selector The selector
+   */
+  var registerListenerInfo = function registerListenerInfo(constructor$$1, key, event, selector) {
+    // assert(constructor, 'prototype.constructor must be set to register the event listeners.')
+    // Does not assert the above because if the user uses decorators throw decorators syntax,
+    // Then the above assertion always passes and never fails.
+
+    /**
+     * @type <T> The coelement type
+     * @param {jQuery} $el The jquery selection of the element
+     * @param {T} coelem The coelement
+     */
+    constructor$$1[KEY_EVENT_LISTENERS] = (constructor$$1[KEY_EVENT_LISTENERS] || []).concat(function ($el, coelem) {
+      $el.on(event, selector, function () {
+        coelem[key].apply(coelem, arguments);
+      });
+    });
+  };
+
+  var camelToKebab = function camelToKebab(camelString) {
+    return camelString.replace(/[A-Z]/g, function (c) {
+      return '-' + c.toLowerCase();
+    }).replace(/^-/, '');
+  };
+
+  var $$1 = jQuery;
+  var isFunction = $$1.isFunction;
+
+  /**
+   * ClassComponentConfiguration is the utility class for class component initialization.
    * @param {String} className The class name
    * @param {Function} Constructor The constructor of the coelement of the class component
    */
-
-  function ClassComponentConfiguration(className, Constructor) {
-    _classCallCheck(this, ClassComponentConfiguration);
-
-    this.className = className;
-    this.Constructor = Constructor;
-
-    this.ProxyConstructor = function () {};
-    this.ProxyConstructor.prototype = Constructor.prototype;
-  }
-
-  /**
-   * Gets the initialized class name.
-   * @private
-   * @return {String}
-   */
-
-
-  _createClass(ClassComponentConfiguration, [{
-    key: 'initializedClass',
-    value: function initializedClass() {
-      return this.className + '-initialized';
-    }
+  function createComponentInitializer(className, Constructor) {
+    var initClass = className + '-initialized';
 
     /**
-     * Returns the selector for uninitialized class component.
+     * Initialize the html element by the configuration.
      * @public
-     * @return {String}
+     * @param {HTMLElement} el The html element
+     * @param {object} coelem The dummy parameter, don't use
      */
+    var initializer = function initializer(el, coelem) {
+      var $el = $(el);
 
-  }, {
-    key: 'selector',
-    value: function selector() {
-      return '.' + this.className + ':not(.' + this.initializedClass() + ')';
-    }
+      if (!$el.hasClass(initClass)) {
+        el[COELEMENT_DATA_KEY_PREFIX + className] = coelem = new Constructor($el.addClass(initClass));
 
-    /**
-     * Marks the given element as initialized as this class component.
-     * @private
-     * @param {jQuery} elem
-     */
+        if (isFunction(coelem.__cc_init__)) {
+          coelem.__cc_init__($el);
+        } else {
+          coelem.elem = coelem.$el = $el;
+          coelem.el = el;
+        }
 
-  }, {
-    key: 'markInitialized',
-    value: function markInitialized(elem) {
-      elem.addClass(this.initializedClass());
-    }
-
-    /**
-     * Applies the defining function to the element.
-     * @private
-     * @param {jQuery} elem
-     */
-
-  }, {
-    key: 'applyCustomDefinition',
-    value: function applyCustomDefinition(elem) {
-      var coelem = new this.ProxyConstructor();
-
-      coelem.elem = elem; // Injects elem at this.elem
-
-      this.getAllListenerInfo().forEach(function (listenerInfo) {
-        return listenerInfo.bindTo(elem, coelem);
-      });
-
-      this.Constructor.call(coelem, elem); // Simulates the constructor call
-
-      elem.data('__coelement:' + this.className, coelem);
-    }
-
-    /**
-     * Gets the list of the event-decorated handlers.
-     * @private
-     * @return {Function[]}
-     */
-
-  }, {
-    key: 'getHandlers',
-    value: function getHandlers() {
-      var prototype = this.Constructor.prototype;
-
-      return Object.getOwnPropertyNames(prototype).map(function (key) {
-        return prototype[key];
-      }).filter(ClassComponentConfiguration.isHandler);
-    }
-
-    /**
-     * Gets all the listener info of the coelement.
-     * @return {ListenerInfo[]}
-     */
-
-  }, {
-    key: 'getAllListenerInfo',
-    value: function getAllListenerInfo() {
-      return [].concat.apply([], this.getHandlers().map(function (handler) {
-        return handler.__events__;
-      }));
-    }
-
-    /**
-     * Returns true when the given property is an event handler.
-     * @param {object} property The property
-     * @return {boolean}
-     */
-
-  }, {
-    key: 'initElem',
-
-
-    /**
-     * Initialize the element by the configuration.
-     * @public
-     * @param {jQuery} elem The element
-     */
-    value: function initElem(elem) {
-      this.markInitialized(elem);
-      this.applyCustomDefinition(elem);
-    }
-  }], [{
-    key: 'isHandler',
-    value: function isHandler(property) {
-      return typeof property === 'function' && property.__events__ != null;
-    }
-  }]);
-
-  return ClassComponentConfiguration;
-}();
-
-module.exports = ClassComponentConfiguration;
-},{}],5:[function(require,module,exports){
-(function (global){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var $ = global.jQuery;
-
-/**
- * This is class component contenxt manager. This help to initialize or get colements.
- */
-
-var ClassComponentContext = function () {
-  function ClassComponentContext(jqObj) {
-    _classCallCheck(this, ClassComponentContext);
-
-    this.jqObj = jqObj;
-  }
-
-  /**
-   * Inserts the class name, initializes as the class component and returns the coelement if exists.
-   *
-   * @param {String} className The class name
-   * @return {Object}
-   */
-
-
-  _createClass(ClassComponentContext, [{
-    key: 'init',
-    value: function init(className) {
-
-      this.jqObj.addClass(className);
-
-      $.cc.__manager__.initAt(className, this.jqObj);
-
-      return this.jqObj.data('__coelement:' + className);
-    }
-
-    /**
-     * Initializes the element if it has registered class component names. Returns the jquery object itself.
-     *
-     * @param {string} [classNames] The class name.
-     * @return {jQuery}
-     */
-
-  }, {
-    key: 'up',
-    value: function up(classNames) {
-      var _this = this;
-
-      if (classNames != null) {
-
-        classNames.split(/\s+/).forEach(function (className) {
-
-          $.cc.__manager__.initAt(className, _this.jqObj);
+        (Constructor[KEY_EVENT_LISTENERS] || []).forEach(function (listenerBinder) {
+          listenerBinder($el, coelem);
         });
-      } else {
-
-        // Initializes anything it already has.
-        $.cc.__manager__.initAllAtElem(this.jqObj);
       }
+    };
 
-      return this.jqObj;
-    }
+    initializer.selector = '.' + className + ':not(.' + initClass + ')';
 
-    /**
-     * Gets the coelement of the given name.
-     *
-     * @param {String} coelementName The name of the coelement
-     * @return {Object}
-     */
-
-  }, {
-    key: 'get',
-    value: function get(coelementName) {
-
-      var coelement = this.jqObj.data('__coelement:' + coelementName);
-
-      if (coelement) {
-
-        return coelement;
-      }
-
-      if (this.jqObj.length === 0) {
-
-        throw new Error('coelement "' + coelementName + '" unavailable at empty dom selection');
-      }
-
-      throw new Error('no coelement named: ' + coelementName + ', on the dom: ' + this.jqObj.get(0).tagName);
-    }
-  }]);
-
-  return ClassComponentContext;
-}();
-
-module.exports = ClassComponentContext;
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],6:[function(require,module,exports){
-(function (global){
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var $ = global.jQuery;
-
-var ClassComponentConfiguration = require('./class-component-configuration');
-
-/**
- * ClassComponentManger handles the registration and initialization of the class compoents.
- */
-
-var ClassComponentManager = function () {
-  function ClassComponentManager() {
-    _classCallCheck(this, ClassComponentManager);
-
-    /**
-     * @property {Object<ClassComponentConfiguration>} ccc
-     */
-    this.ccc = {};
+    return initializer;
   }
+
+  /**
+   * Asserts the given condition holds, otherwise throws.
+   * @param {boolean} assertion The assertion expression
+   * @param {string} message The assertion message
+   */
+  function assert(assertion, message) {
+    if (!assertion) {
+      throw new Error(message);
+    }
+  }
+
+  /**
+   * @param {any} classNames The class names
+   */
+  function assertClassNamesAreStringOrNull(classNames) {
+    assert(typeof classNames === 'string' || classNames == null, 'classNames must be a string or undefined/null.');
+  }
+
+  /**
+   * @property {Object<ClassComponentConfiguration>} ccc
+   */
+  var ccc = {};
 
   /**
    * Registers the class component configuration for the given name.
-   *
    * @param {String} name The name
    * @param {Function} Constructor The constructor of the class component
    */
+  function register(name, Constructor) {
+    assert(typeof name === 'string', '`name` of a class component has to be a string.');
+    assert(isFunction(Constructor), '`Constructor` of a class component has to be a function');
 
+    ccc[name] = createComponentInitializer(name, Constructor);
 
-  _createClass(ClassComponentManager, [{
-    key: 'register',
-    value: function register(name, Constructor) {
-
-      Constructor.coelementName = name;
-
-      this.ccc[name] = new ClassComponentConfiguration(name, Constructor);
-    }
-
-    /**
-     * Initializes the class components of the given name in the given element.
-     *
-     * @param {String} className The class name
-     * @param {jQuery|HTMLElement|String} elem The dom where class componets are initialized
-     * @return {Array<HTMLElement>} The elements which are initialized in this initialization
-     * @throw {Error}
-     */
-
-  }, {
-    key: 'init',
-    value: function init(className, elem) {
-
-      var ccc = this.getConfiguration(className);
-
-      return $(ccc.selector(), elem).each(function () {
-
-        ccc.initElem($(this));
-      }).toArray();
-    }
-
-    /**
-     * Initializes the class component of the give name at the given element.
-     *
-     * @param {String} className The class name
-     * @param {jQuery|HTMLElement|String} elem The element
-     */
-
-  }, {
-    key: 'initAt',
-    value: function initAt(className, elem) {
-
-      var ccc = this.getConfiguration(className);
-
-      ccc.initElem($(elem));
-    }
-
-    /**
-     * Initializes all the class component at the element.
-     *
-     * @param {HTMLElement}
-     */
-
-  }, {
-    key: 'initAllAtElem',
-    value: function initAllAtElem(elem) {
-      var _this = this;
-
-      var classes = $(elem).attr('class');
-
-      if (!classes) {
-        return;
-      }
-
-      classes.split(/\s+/).map(function (className) {
-        return _this.ccc[className];
-      }).filter(function (ccc) {
-        return ccc;
-      }).forEach(function (ccc) {
-        return ccc.initElem(elem);
-      });
-    }
-
-    /**
-     * @param {jQuery|HTMLElement|String} elem The element
-     */
-
-  }, {
-    key: 'initAll',
-    value: function initAll(elem) {
-      var _this2 = this;
-
-      Object.keys(this.ccc).forEach(function (className) {
-
-        _this2.init(className, elem);
-      });
-    }
-
-    /**
-     * Gets the configuration of the given class name.
-     *
-     * @param {String} className The class name
-     * @return {ClassComponentConfiguration}
-     * @throw {Error}
-     */
-
-  }, {
-    key: 'getConfiguration',
-    value: function getConfiguration(className) {
-
-      var ccc = this.ccc[className];
-
-      if (ccc == null) {
-
-        throw new Error('Class componet "' + className + '" is not defined.');
-      }
-
-      return ccc;
-    }
-  }]);
-
-  return ClassComponentManager;
-}();
-
-module.exports = ClassComponentManager;
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./class-component-configuration":4}],7:[function(require,module,exports){
-'use strict';
-
-/**
- * class-component.js v7.0.0
- * author: Yoshiya Hinosawa ( http://github.com/kt3k )
- * license: MIT
- */
-var $ = jQuery;
-
-var reSpaces = / +/;
-
-var Coelement = require('./coelement');
-var ClassComponentManager = require('./class-component-manager');
-var event = require('./cc-event').event;
-var trigger = require('./cc-event').trigger;
-
-/**
- * Initializes the module object.
- *
- * @return {Object}
- */
-function initializeModule() {
-
-  require('./fn.cc');
-
-  var __manager__ = new ClassComponentManager();
-
-  /**
-   * The main namespace for class component module.
-   * Registers a class component of the given name using the given defining function.
-   * @param {String} name The class name
-   * @param {Function} Constructor The class definition
-   */
-  var cc = function cc(name, Constructor) {
-    if (typeof name !== 'string') {
-
-      throw new Error('`name` of a class component has to be a string');
-    }
-
-    if (typeof Constructor !== 'function') {
-
-      throw new Error('`Constructor` of a class component has to be a function');
-    }
-
-    __manager__.register(name, Constructor);
-
-    $(document).ready(function () {
-
-      __manager__.init(name);
+    $$1(function () {
+      init(name);
     });
-  };
-
-  /**
-   * Initialized the all class components of the given names and returns of the promise of all initialization.
-   *
-   * @param {String[]|String} arguments
-   * @return {Object<HTMLElement[]>}
-   */
-  cc.init = function (classNames, elem) {
-
-    if (classNames == null) {
-
-      __manager__.initAll(elem);
-
-      return;
-    }
-
-    if (typeof classNames === 'string') {
-
-      classNames = classNames.split(reSpaces);
-    }
-
-    return classNames.map(function (className) {
-      return __manager__.init(className, elem);
-    });
-  };
-
-  /**
-   * The decorator for class assignment.
-   *
-   * @example
-   *   @$.cc.component('foo')
-   *   class Foo extends Bar {
-   *     ...
-   *   }
-   *
-   * The above is the same as `$.cc.assign('foo', Foo)`
-   *
-   * @param {String} className The class name
-   * @return {Function}
-   */
-  cc.component = function (className) {
-    return function (Cls) {
-      return cc(className, Cls);
-    };
-  };
-
-  // Exports __manager__
-  cc.__manager__ = __manager__;
-
-  // Exports Actor.
-  cc.Coelement = Coelement;
-
-  // Exports event decorator
-  cc.event = event;
-
-  // Exports trigger decorator
-  cc.trigger = trigger;
-
-  return cc;
-}
-
-// If the cc is not set, then create one.
-if ($.cc == null) {
-
-  $.cc = initializeModule();
-}
-
-module.exports = $.cc;
-},{"./cc-event":3,"./class-component-manager":6,"./coelement":8,"./fn.cc":9}],8:[function(require,module,exports){
-"use strict";
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/**
- * Coelement is the dual of element (usual dom). Its instance accompanies an element and forms a Dom Component together with it.
- */
-
-var Coelement =
-/**
- * @param {jQuery} elem The jquery element
- */
-function Coelement(elem) {
-  _classCallCheck(this, Coelement);
-
-  this.elem = elem;
-};
-
-module.exports = Coelement;
-},{}],9:[function(require,module,exports){
-'use strict';
-
-var ClassComponentContext = require('./class-component-context');
-
-var CLASS_COMPONENT_DATA_KEY = '__class_component_data__';
-
-// Defines the special property cc on a jquery property.
-Object.defineProperty(jQuery.fn, 'cc', {
-  get: function get() {
-    var cc = this.data(CLASS_COMPONENT_DATA_KEY);
-
-    if (cc) {
-      return cc;
-    }
-
-    var ctx = new ClassComponentContext(this);
-
-    cc = function cc(classNames) {
-      return ctx.up(classNames);
-    };
-
-    cc.get = function (className) {
-      return ctx.get(className);
-    };
-    cc.init = function (className) {
-      return ctx.init(className);
-    };
-
-    this.data(CLASS_COMPONENT_DATA_KEY, cc);
-
-    return cc;
-  },
-
-
-  enumerable: false,
-  configurable: false
-
-});
-},{"./class-component-context":5}],10:[function(require,module,exports){
-"use strict";
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/**
- * The event listener's information.
- */
-
-var ListenerInfo = function () {
-  /**
-   * @param {string} event The event name to bind
-   * @param {string} selector The selector to bind the listener
-   * @param {Function} handler The handler for the event
-   */
-
-  function ListenerInfo(event, selector, handler) {
-    _classCallCheck(this, ListenerInfo);
-
-    this.event = event;
-    this.selector = selector;
-    this.handler = handler;
   }
 
   /**
-   * Binds the listener to the given element with the given coelement.
-   * @param {jQuery} elem The jquery element
-   * @param {object} coelem The coelement which is bound to the element
+   * Initializes the class components of the given name in the given element.
+   * @param {String} classNames The class names
+   * @param {?HTMLElement} el The dom where class componets are initialized
+   * @return {Array<HTMLElement>} The elements which are initialized in this initialization
+   * @throw {Error}
    */
-
-
-  _createClass(ListenerInfo, [{
-    key: "bindTo",
-    value: function bindTo(elem, coelem) {
-      var handler = this.handler;
-
-      elem.on(this.event, this.selector, function () {
-        handler.apply(coelem, arguments);
+  function init(classNames, el) {
+    assertClassNamesAreStringOrNull(classNames);(classNames && classNames.split(/\s+/) || Object.keys(ccc)).forEach(function (className) {
+      var initializer = ccc[className];
+      assert(initializer, 'Class componet "' + className + '" is not defined.');[].forEach.call((el || document).querySelectorAll(initializer.selector), function (el) {
+        initializer(el);
       });
+    });
+  }
+
+  /**
+   * The decorator for registering event listener info to the method.
+   * @param {string} event The event name
+   * @param {string} at The selector
+   */
+  register.on = function (event) {
+    var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    var at = _ref.at;
+
+    /**
+     * The decorator for registering event listener info to the method.
+     * @param {string} event The event name
+     * @param {string} selector The selector for listening.
+     */
+    var atDecorator = function atDecorator(selector) {
+      return function (target, key) {
+        registerListenerInfo(target.constructor, key, event, selector);
+      };
+    };
+
+    var onDecorator = atDecorator(at);
+    onDecorator.at = atDecorator;
+
+    return onDecorator;
+  };
+
+  /**
+   * `@emit(event)` decorator.
+   * This decorator adds the event emission at the beginning of the method.
+   * @param {string} event The event name
+   */
+  register.emit = function (event) {
+    var emitDecorator = function emitDecorator(target, key, descriptor) {
+      var method = descriptor.value;
+
+      descriptor.value = function () {
+        this.elem.trigger(event, arguments);
+
+        return method.apply(this, arguments);
+      };
+    };
+
+    /**
+     * `@emit(event).first` decorator. This is the same as emit()
+     * @param {string} event The event name
+     */
+    emitDecorator.first = emitDecorator;
+
+    /**
+     * `@emit(event).last` decorator.
+     * This adds the emission of the event at the end of the method.
+     * @param {string} event The event name
+     */
+    emitDecorator.last = function (target, key, descriptor) {
+      register.emit.last(event)(target, key, descriptor);
+    };
+
+    return emitDecorator;
+  };
+
+  register.emit.first = register.emit;
+  register.emit.last = function (event) {
+    return function (target, key, descriptor) {
+      var method = descriptor.value;
+
+      descriptor.value = function () {
+        var _this = this;
+
+        var result = method.apply(this, arguments);
+
+        if (result && result.then) {
+          result.then(function (x) {
+            return _this.elem.trigger(event, x);
+          });
+        } else {
+          this.elem.trigger(event, result);
+        }
+
+        return result;
+      };
+    };
+  };
+
+  /**
+   * Replaces the getter with the function which accesses the class-component of the given name.
+   * @param {string} name The class component name
+   * @param {string} [selector] The selector to access class component dom. Optional. Default is '.[name]'.
+   * @param {object} target The prototype of the target class
+   * @param {string} key The name of the property
+   * @param {object} descriptor The property descriptor
+   */
+  var wireByNameAndSelector = function wireByNameAndSelector(name, selector) {
+    return function (target, key, descriptor) {
+      selector = selector || '.' + name;
+
+      descriptor.get = function () {
+        var matched = this.elem.filter(selector).add(selector, this.elem);
+
+        if (matched[1]) {
+          // meaning matched.length > 1
+          console.warn('There are ' + matched.length + ' matches for the given wired getter selector: ' + selector);
+        }
+
+        return matched.cc.get(name);
+      };
+    };
+  };
+
+  /**
+   * Wires the class component of the name of the key to the property of the same name.
+   */
+  register.wire = function (target, key, descriptor) {
+    if (!descriptor) {
+      // If the descriptor is not given, then suppose this is called as @wire(componentName, selector) and therefore
+      // we need to return the following expression (it works as another decorator).
+      return wireByNameAndSelector(target, key);
     }
-  }]);
 
-  return ListenerInfo;
-}();
+    wireByNameAndSelector(camelToKebab(key))(target, key, descriptor);
+  };
 
-module.exports = ListenerInfo;
-},{}],11:[function(require,module,exports){
+  /**
+   * The decorator for class component registration.
+   * @param {String|Function} name The class name or the implementation class itself
+   * @return {Function|undefined} The decorator if the class name is given, undefined if the implementation class is given
+   */
+  register.component = function (name) {
+    if (!isFunction(name)) {
+      return function (Cls) {
+        register(name, Cls);
+        return Cls;
+      };
+    }
+
+    // if `name` is function, then use it as class itself and the component name is kebabized version of its name.
+    register(camelToKebab(name.name), name);
+    return name;
+  };
+
+  /**
+   * class-component.js v11.0.2
+   * author: Yoshiya Hinosawa ( http://github.com/kt3k )
+   * license: MIT
+   */
+  // Initializes the module object.
+  if (!$$1.cc) {
+    $$1.cc = register;
+
+    register.init = init;
+
+    // Expose __ccc__
+    register.__ccc__ = ccc;
+
+    // Defines the special property cc on the jquery prototype.
+    Object.defineProperty($$1.fn, 'cc', {
+      get: function get() {
+        var $el = this;
+        var dom = $el[0];
+
+        assert(dom, 'cc (class-component context) is unavailable at empty dom selection');
+
+        var cc = dom.cc;
+
+        if (!cc) {
+          /**
+           * Initializes the element as class-component of the given names. If the names not given, then initializes it by the class-component of the class names it already has.
+           * @param {?string} classNames The class component names
+           * @return {jQuery}
+           */
+          cc = dom.cc = function (classNames) {
+            assertClassNamesAreStringOrNull(classNames);(classNames || dom.className).split(/\s+/).forEach(function (className) {
+              if (ccc[className]) {
+                ccc[className]($el.addClass(className)[0]);
+              }
+            });
+
+            return $el;
+          };
+
+          /**
+           * Gets the coelement of the given name.
+           * @param {String} coelementName The name of the coelement
+           * @return {Object}
+           */
+          cc.get = function (coelementName) {
+            var coelement = dom[COELEMENT_DATA_KEY_PREFIX + coelementName];
+
+            assert(coelement, 'no coelement named: ' + coelementName + ', on the dom: ' + dom.tagName);
+
+            return coelement;
+          };
+
+          cc.init = function (className) {
+            return cc(className).cc.get(className);
+          };
+        }
+
+        return cc;
+      }
+    });
+  }
+})();
+
+
+},{}],4:[function(require,module,exports){
 'use strict';
 
 var assign        = require('es5-ext/object/assign')
@@ -980,19 +630,185 @@ d.gs = function (dscr, get, set/*, options*/) {
 	return !options ? desc : assign(normalizeOpts(options), desc);
 };
 
-},{"es5-ext/object/assign":13,"es5-ext/object/is-callable":16,"es5-ext/object/normalize-options":20,"es5-ext/string/#/contains":22}],12:[function(require,module,exports){
+},{"es5-ext/object/assign":7,"es5-ext/object/is-callable":10,"es5-ext/object/normalize-options":14,"es5-ext/string/#/contains":16}],5:[function(require,module,exports){
+(function (global){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.domGen = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+module.exports = domGen;
+
+/**
+ * Returns a generator of the doms of the given tag name.
+ * @param {string} tagName The tag name of the dom to create
+ * @return {Function}
+ */
+function domGen(tagName) {
+
+  /**
+   * Generates a dom with the given params.
+   * @param {object} [opts] The options to pass as the second arg of $('<tag/>', arg)
+   * @param {object[]} args The objects to append to the element
+   * @return {jQuery}
+   */
+  return function (opts) {
+    var _$, _ref;
+
+    for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+
+    if (!seemLikePlainObject(opts)) {
+      args.unshift(opts);
+      opts = undefined;
+    }
+
+    return (_$ = $('<' + tagName + '/>', opts)).append.apply(_$, _toConsumableArray((_ref = []).concat.apply(_ref, args)));
+  };
+}
+
+/**
+ * Checkes if the object is plain.
+ * @param {object} o The object
+ * @return {boolean}
+ */
+function seemLikePlainObject(o) {
+  return o instanceof Object && Object.getPrototypeOf(o).hasOwnProperty('isPrototypeOf');
+}
+domGen.a = domGen('a');
+domGen.abbr = domGen('abbr');
+domGen.address = domGen('address');
+domGen.area = domGen('area');
+domGen.article = domGen('article');
+domGen.aside = domGen('aside');
+domGen.audio = domGen('audio');
+domGen.b = domGen('b');
+domGen.base = domGen('base');
+domGen.bdi = domGen('bdi');
+domGen.bdo = domGen('bdo');
+domGen.blockquote = domGen('blockquote');
+domGen.body = domGen('body');
+domGen.br = domGen('br');
+domGen.button = domGen('button');
+domGen.canvas = domGen('canvas');
+domGen.caption = domGen('caption');
+domGen.cite = domGen('cite');
+domGen.code = domGen('code');
+domGen.col = domGen('col');
+domGen.colgroup = domGen('colgroup');
+domGen.data = domGen('data');
+domGen.datalist = domGen('datalist');
+domGen.dd = domGen('dd');
+domGen.del = domGen('del');
+domGen.details = domGen('details');
+domGen.dfn = domGen('dfn');
+domGen.dialog = domGen('dialog');
+domGen.div = domGen('div');
+domGen.dl = domGen('dl');
+domGen.dt = domGen('dt');
+domGen.em = domGen('em');
+domGen.embed = domGen('embed');
+domGen.fieldset = domGen('fieldset');
+domGen.figcaption = domGen('figcaption');
+domGen.figure = domGen('figure');
+domGen.footer = domGen('footer');
+domGen.form = domGen('form');
+domGen.h1 = domGen('h1');
+domGen.h2 = domGen('h2');
+domGen.h3 = domGen('h3');
+domGen.h4 = domGen('h4');
+domGen.h5 = domGen('h5');
+domGen.h6 = domGen('h6');
+domGen.head = domGen('head');
+domGen.header = domGen('header');
+domGen.hr = domGen('hr');
+domGen.html = domGen('html');
+domGen.i = domGen('i');
+domGen.iframe = domGen('iframe');
+domGen.img = domGen('img');
+domGen.input = domGen('input');
+domGen.ins = domGen('ins');
+domGen.kbd = domGen('kbd');
+domGen.keygen = domGen('keygen');
+domGen.label = domGen('label');
+domGen.legend = domGen('legend');
+domGen.li = domGen('li');
+domGen.link = domGen('link');
+domGen.main = domGen('main');
+domGen.map = domGen('map');
+domGen.mark = domGen('mark');
+domGen.math = domGen('math');
+domGen.menu = domGen('menu');
+domGen.menuitem = domGen('menuitem');
+domGen.meta = domGen('meta');
+domGen.meter = domGen('meter');
+domGen.nav = domGen('nav');
+domGen.noscript = domGen('noscript');
+domGen.object = domGen('object');
+domGen.ol = domGen('ol');
+domGen.optgroup = domGen('optgroup');
+domGen.option = domGen('option');
+domGen.output = domGen('output');
+domGen.p = domGen('p');
+domGen.param = domGen('param');
+domGen.picture = domGen('picture');
+domGen.pre = domGen('pre');
+domGen.progress = domGen('progress');
+domGen.q = domGen('q');
+domGen.rb = domGen('rb');
+domGen.rp = domGen('rp');
+domGen.rt = domGen('rt');
+domGen.rtc = domGen('rtc');
+domGen.ruby = domGen('ruby');
+domGen.s = domGen('s');
+domGen.samp = domGen('samp');
+domGen.script = domGen('script');
+domGen.section = domGen('section');
+domGen.select = domGen('select');
+domGen.small = domGen('small');
+domGen.source = domGen('source');
+domGen.span = domGen('span');
+domGen.strong = domGen('strong');
+domGen.style = domGen('style');
+domGen.sub = domGen('sub');
+domGen.summary = domGen('summary');
+domGen.sup = domGen('sup');
+domGen.svg = domGen('svg');
+domGen.table = domGen('table');
+domGen.tbody = domGen('tbody');
+domGen.td = domGen('td');
+domGen.template = domGen('template');
+domGen.textarea = domGen('textarea');
+domGen.tfoot = domGen('tfoot');
+domGen.th = domGen('th');
+domGen.thead = domGen('thead');
+domGen.time = domGen('time');
+domGen.title = domGen('title');
+domGen.tr = domGen('tr');
+domGen.track = domGen('track');
+domGen.u = domGen('u');
+domGen.ul = domGen('ul');
+domGen.var = domGen('var');
+domGen.video = domGen('video');
+domGen.wbr = domGen('wbr');
+
+},{}]},{},[1])(1)
+});
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],6:[function(require,module,exports){
 'use strict';
 
 module.exports = new Function("return this")();
 
-},{}],13:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./is-implemented')()
 	? Object.assign
 	: require('./shim');
 
-},{"./is-implemented":14,"./shim":15}],14:[function(require,module,exports){
+},{"./is-implemented":8,"./shim":9}],8:[function(require,module,exports){
 'use strict';
 
 module.exports = function () {
@@ -1003,7 +819,7 @@ module.exports = function () {
 	return (obj.foo + obj.bar + obj.trzy) === 'razdwatrzy';
 };
 
-},{}],15:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 var keys  = require('../keys')
@@ -1027,21 +843,21 @@ module.exports = function (dest, src/*, …srcn*/) {
 	return dest;
 };
 
-},{"../keys":17,"../valid-value":21}],16:[function(require,module,exports){
+},{"../keys":11,"../valid-value":15}],10:[function(require,module,exports){
 // Deprecated
 
 'use strict';
 
 module.exports = function (obj) { return typeof obj === 'function'; };
 
-},{}],17:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./is-implemented')()
 	? Object.keys
 	: require('./shim');
 
-},{"./is-implemented":18,"./shim":19}],18:[function(require,module,exports){
+},{"./is-implemented":12,"./shim":13}],12:[function(require,module,exports){
 'use strict';
 
 module.exports = function () {
@@ -1051,7 +867,7 @@ module.exports = function () {
 	} catch (e) { return false; }
 };
 
-},{}],19:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';
 
 var keys = Object.keys;
@@ -1060,7 +876,7 @@ module.exports = function (object) {
 	return keys(object == null ? object : Object(object));
 };
 
-},{}],20:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 var forEach = Array.prototype.forEach, create = Object.create;
@@ -1079,7 +895,7 @@ module.exports = function (options/*, …options*/) {
 	return result;
 };
 
-},{}],21:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 module.exports = function (value) {
@@ -1087,14 +903,14 @@ module.exports = function (value) {
 	return value;
 };
 
-},{}],22:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./is-implemented')()
 	? String.prototype.contains
 	: require('./shim');
 
-},{"./is-implemented":23,"./shim":24}],23:[function(require,module,exports){
+},{"./is-implemented":17,"./shim":18}],17:[function(require,module,exports){
 'use strict';
 
 var str = 'razdwatrzy';
@@ -1104,7 +920,7 @@ module.exports = function () {
 	return ((str.contains('dwa') === true) && (str.contains('foo') === false));
 };
 
-},{}],24:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 var indexOf = String.prototype.indexOf;
@@ -1113,7 +929,55 @@ module.exports = function (searchString/*, position*/) {
 	return indexOf.call(this, searchString, arguments[1]) > -1;
 };
 
-},{}],25:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
+/**
+ * Code refactored from Mozilla Developer Network:
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+ */
+
+'use strict';
+
+function assign(target, firstSource) {
+  if (target === undefined || target === null) {
+    throw new TypeError('Cannot convert first argument to object');
+  }
+
+  var to = Object(target);
+  for (var i = 1; i < arguments.length; i++) {
+    var nextSource = arguments[i];
+    if (nextSource === undefined || nextSource === null) {
+      continue;
+    }
+
+    var keysArray = Object.keys(Object(nextSource));
+    for (var nextIndex = 0, len = keysArray.length; nextIndex < len; nextIndex++) {
+      var nextKey = keysArray[nextIndex];
+      var desc = Object.getOwnPropertyDescriptor(nextSource, nextKey);
+      if (desc !== undefined && desc.enumerable) {
+        to[nextKey] = nextSource[nextKey];
+      }
+    }
+  }
+  return to;
+}
+
+function polyfill() {
+  if (!Object.assign) {
+    Object.defineProperty(Object, 'assign', {
+      enumerable: false,
+      configurable: true,
+      writable: true,
+      value: assign
+    });
+  }
+}
+
+module.exports = {
+  assign: assign,
+  polyfill: polyfill
+};
+
+},{}],20:[function(require,module,exports){
 (function (process,global){
 /*!
  * @overview es6-promise - a tiny implementation of Promises/A+.
@@ -2084,7 +1948,7 @@ module.exports = function (searchString/*, position*/) {
 
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":35}],26:[function(require,module,exports){
+},{"_process":30}],21:[function(require,module,exports){
 'use strict';
 
 if (!require('./is-implemented')()) {
@@ -2093,7 +1957,7 @@ if (!require('./is-implemented')()) {
 			writable: true });
 }
 
-},{"./is-implemented":27,"./polyfill":29,"es5-ext/global":12}],27:[function(require,module,exports){
+},{"./is-implemented":22,"./polyfill":24,"es5-ext/global":6}],22:[function(require,module,exports){
 'use strict';
 
 module.exports = function () {
@@ -2113,14 +1977,14 @@ module.exports = function () {
 	return true;
 };
 
-},{}],28:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 'use strict';
 
 module.exports = function (x) {
 	return (x && ((typeof x === 'symbol') || (x['@@toStringTag'] === 'Symbol'))) || false;
 };
 
-},{}],29:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 // ES2015 Symbol polyfill for environments that do not support it (or partially support it_
 
 'use strict';
@@ -2229,7 +2093,7 @@ defineProperty(HiddenSymbol.prototype, SymbolPolyfill.toStringTag,
 defineProperty(HiddenSymbol.prototype, SymbolPolyfill.toPrimitive,
 	d('c', SymbolPolyfill.prototype[SymbolPolyfill.toPrimitive]));
 
-},{"./validate-symbol":30,"d":11}],30:[function(require,module,exports){
+},{"./validate-symbol":25,"d":4}],25:[function(require,module,exports){
 'use strict';
 
 var isSymbol = require('./is-symbol');
@@ -2239,7 +2103,7 @@ module.exports = function (value) {
 	return value;
 };
 
-},{"./is-symbol":28}],31:[function(require,module,exports){
+},{"./is-symbol":23}],26:[function(require,module,exports){
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
@@ -2332,24 +2196,26 @@ $.cc('event-hub', EventHub);
 
 },{}]},{},[1]);
 
-},{}],32:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 /*!
- * jQuery JavaScript Library v2.2.0
- * http://jquery.com/
+ * jQuery JavaScript Library v3.0.0
+ * https://jquery.com/
  *
  * Includes Sizzle.js
- * http://sizzlejs.com/
+ * https://sizzlejs.com/
  *
  * Copyright jQuery Foundation and other contributors
  * Released under the MIT license
- * http://jquery.org/license
+ * https://jquery.org/license
  *
- * Date: 2016-01-08T20:02Z
+ * Date: 2016-06-09T18:02Z
  */
+( function( global, factory ) {
 
-(function( global, factory ) {
+	"use strict";
 
 	if ( typeof module === "object" && typeof module.exports === "object" ) {
+
 		// For CommonJS and CommonJS-like environments where a proper `window`
 		// is present, execute the factory and get jQuery.
 		// For environments that do not have a `window` with a `document`
@@ -2370,16 +2236,19 @@ $.cc('event-hub', EventHub);
 	}
 
 // Pass this if window is not defined yet
-}(typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
+}( typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
 
-// Support: Firefox 18+
-// Can't be in strict mode, several libs including ASP.NET trace
-// the stack via arguments.caller.callee and Firefox dies if
-// you try to trace through "use strict" call chains. (#13335)
-//"use strict";
+// Edge <= 12 - 13+, Firefox <=18 - 45+, IE 10 - 11, Safari 5.1 - 9+, iOS 6 - 9.1
+// throw exceptions when non-strict code (e.g., ASP.NET 4.5) accesses strict mode
+// arguments.callee.caller (trac-13335). But as of jQuery 3.0 (2016), strict mode should be common
+// enough that all such attempts are guarded in a try block.
+"use strict";
+
 var arr = [];
 
 var document = window.document;
+
+var getProto = Object.getPrototypeOf;
 
 var slice = arr.slice;
 
@@ -2395,12 +2264,26 @@ var toString = class2type.toString;
 
 var hasOwn = class2type.hasOwnProperty;
 
+var fnToString = hasOwn.toString;
+
+var ObjectFunctionString = fnToString.call( Object );
+
 var support = {};
 
 
 
+	function DOMEval( code, doc ) {
+		doc = doc || document;
+
+		var script = doc.createElement( "script" );
+
+		script.text = code;
+		doc.head.appendChild( script ).parentNode.removeChild( script );
+	}
+
+
 var
-	version = "2.2.0",
+	version = "3.0.0",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -2410,13 +2293,13 @@ var
 		return new jQuery.fn.init( selector, context );
 	},
 
-	// Support: Android<4.1
+	// Support: Android <=4.0 only
 	// Make sure we trim BOM and NBSP
 	rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,
 
 	// Matches dashed string for camelizing
 	rmsPrefix = /^-ms-/,
-	rdashAlpha = /-([\da-z])/gi,
+	rdashAlpha = /-([a-z])/g,
 
 	// Used by jQuery.camelCase as callback to replace()
 	fcamelCase = function( all, letter ) {
@@ -2429,9 +2312,6 @@ jQuery.fn = jQuery.prototype = {
 	jquery: version,
 
 	constructor: jQuery,
-
-	// Start with an empty selector
-	selector: "",
 
 	// The default length of a jQuery object is 0
 	length: 0,
@@ -2461,7 +2341,6 @@ jQuery.fn = jQuery.prototype = {
 
 		// Add the old object onto the stack (as a reference)
 		ret.prevObject = this;
-		ret.context = this.context;
 
 		// Return the newly-formed element set
 		return ret;
@@ -2602,32 +2481,37 @@ jQuery.extend( {
 
 	isNumeric: function( obj ) {
 
-		// parseFloat NaNs numeric-cast false positives (null|true|false|"")
-		// ...but misinterprets leading-number strings, particularly hex literals ("0x...")
-		// subtraction forces infinities to NaN
-		// adding 1 corrects loss of precision from parseFloat (#15100)
-		var realStringObj = obj && obj.toString();
-		return !jQuery.isArray( obj ) && ( realStringObj - parseFloat( realStringObj ) + 1 ) >= 0;
+		// As of jQuery 3.0, isNumeric is limited to
+		// strings and numbers (primitives or objects)
+		// that can be coerced to finite numbers (gh-2662)
+		var type = jQuery.type( obj );
+		return ( type === "number" || type === "string" ) &&
+
+			// parseFloat NaNs numeric-cast false positives ("")
+			// ...but misinterprets leading-number strings, particularly hex literals ("0x...")
+			// subtraction forces infinities to NaN
+			!isNaN( obj - parseFloat( obj ) );
 	},
 
 	isPlainObject: function( obj ) {
+		var proto, Ctor;
 
-		// Not plain objects:
-		// - Any object or value whose internal [[Class]] property is not "[object Object]"
-		// - DOM nodes
-		// - window
-		if ( jQuery.type( obj ) !== "object" || obj.nodeType || jQuery.isWindow( obj ) ) {
+		// Detect obvious negatives
+		// Use toString instead of jQuery.type to catch host objects
+		if ( !obj || toString.call( obj ) !== "[object Object]" ) {
 			return false;
 		}
 
-		if ( obj.constructor &&
-				!hasOwn.call( obj.constructor.prototype, "isPrototypeOf" ) ) {
-			return false;
+		proto = getProto( obj );
+
+		// Objects with no prototype (e.g., `Object.create( null )`) are plain
+		if ( !proto ) {
+			return true;
 		}
 
-		// If the function hasn't returned already, we're confident that
-		// |obj| is a plain object, created by {} or constructed with new Object
-		return true;
+		// Objects with prototype are plain iff they were constructed by a global Object function
+		Ctor = hasOwn.call( proto, "constructor" ) && proto.constructor;
+		return typeof Ctor === "function" && fnToString.call( Ctor ) === ObjectFunctionString;
 	},
 
 	isEmptyObject: function( obj ) {
@@ -2643,7 +2527,7 @@ jQuery.extend( {
 			return obj + "";
 		}
 
-		// Support: Android<4.0, iOS<6 (functionish RegExp)
+		// Support: Android <=2.3 only (functionish RegExp)
 		return typeof obj === "object" || typeof obj === "function" ?
 			class2type[ toString.call( obj ) ] || "object" :
 			typeof obj;
@@ -2651,32 +2535,11 @@ jQuery.extend( {
 
 	// Evaluates a script in a global context
 	globalEval: function( code ) {
-		var script,
-			indirect = eval;
-
-		code = jQuery.trim( code );
-
-		if ( code ) {
-
-			// If the code includes a valid, prologue position
-			// strict mode pragma, execute code by injecting a
-			// script tag into the document.
-			if ( code.indexOf( "use strict" ) === 1 ) {
-				script = document.createElement( "script" );
-				script.text = code;
-				document.head.appendChild( script ).parentNode.removeChild( script );
-			} else {
-
-				// Otherwise, avoid the DOM node creation, insertion
-				// and removal by using an indirect global eval
-
-				indirect( code );
-			}
-		}
+		DOMEval( code );
 	},
 
 	// Convert dashed to camelCase; used by the css and data modules
-	// Support: IE9-11+
+	// Support: IE <=9 - 11, Edge 12 - 13
 	// Microsoft forgot to hump their vendor prefix (#9572)
 	camelCase: function( string ) {
 		return string.replace( rmsPrefix, "ms-" ).replace( rdashAlpha, fcamelCase );
@@ -2707,7 +2570,7 @@ jQuery.extend( {
 		return obj;
 	},
 
-	// Support: Android<4.1
+	// Support: Android <=4.0 only
 	trim: function( text ) {
 		return text == null ?
 			"" :
@@ -2736,6 +2599,8 @@ jQuery.extend( {
 		return arr == null ? -1 : indexOf.call( arr, elem, i );
 	},
 
+	// Support: Android <=4.0 only, PhantomJS 1 only
+	// push.apply(_, arraylike) throws on ancient WebKit
 	merge: function( first, second ) {
 		var len = +second.length,
 			j = 0,
@@ -2858,7 +2723,7 @@ function( i, name ) {
 
 function isArrayLike( obj ) {
 
-	// Support: iOS 8.2 (not reproducible in simulator)
+	// Support: real iOS 8.2 only (not reproducible in simulator)
 	// `in` check used to prevent JIT error (gh-2145)
 	// hasOwn isn't used here due to false negatives
 	// regarding Nodelist length in IE
@@ -2874,14 +2739,14 @@ function isArrayLike( obj ) {
 }
 var Sizzle =
 /*!
- * Sizzle CSS Selector Engine v2.2.1
- * http://sizzlejs.com/
+ * Sizzle CSS Selector Engine v2.3.0
+ * https://sizzlejs.com/
  *
  * Copyright jQuery Foundation and other contributors
  * Released under the MIT license
  * http://jquery.org/license
  *
- * Date: 2015-10-17
+ * Date: 2016-01-04
  */
 (function( window ) {
 
@@ -2922,9 +2787,6 @@ var i,
 		return 0;
 	},
 
-	// General-purpose constants
-	MAX_NEGATIVE = 1 << 31,
-
 	// Instance methods
 	hasOwn = ({}).hasOwnProperty,
 	arr = [],
@@ -2933,7 +2795,7 @@ var i,
 	push = arr.push,
 	slice = arr.slice,
 	// Use a stripped-down indexOf as it's faster than native
-	// http://jsperf.com/thor-indexof-vs-for/5
+	// https://jsperf.com/thor-indexof-vs-for/5
 	indexOf = function( list, elem ) {
 		var i = 0,
 			len = list.length;
@@ -2953,7 +2815,7 @@ var i,
 	whitespace = "[\\x20\\t\\r\\n\\f]",
 
 	// http://www.w3.org/TR/CSS21/syndata.html#value-def-identifier
-	identifier = "(?:\\\\.|[\\w-]|[^\\x00-\\xa0])+",
+	identifier = "(?:\\\\.|[\\w-]|[^\0-\\xa0])+",
 
 	// Attribute selectors: http://www.w3.org/TR/selectors/#attribute-selectors
 	attributes = "\\[" + whitespace + "*(" + identifier + ")(?:" + whitespace +
@@ -3010,9 +2872,9 @@ var i,
 	rquickExpr = /^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/,
 
 	rsibling = /[+~]/,
-	rescape = /'|\\/g,
 
-	// CSS escapes http://www.w3.org/TR/CSS21/syndata.html#escaped-characters
+	// CSS escapes
+	// http://www.w3.org/TR/CSS21/syndata.html#escaped-characters
 	runescape = new RegExp( "\\\\([\\da-f]{1,6}" + whitespace + "?|(" + whitespace + ")|.)", "ig" ),
 	funescape = function( _, escaped, escapedWhitespace ) {
 		var high = "0x" + escaped - 0x10000;
@@ -3028,13 +2890,39 @@ var i,
 				String.fromCharCode( high >> 10 | 0xD800, high & 0x3FF | 0xDC00 );
 	},
 
+	// CSS string/identifier serialization
+	// https://drafts.csswg.org/cssom/#common-serializing-idioms
+	rcssescape = /([\0-\x1f\x7f]|^-?\d)|^-$|[^\x80-\uFFFF\w-]/g,
+	fcssescape = function( ch, asCodePoint ) {
+		if ( asCodePoint ) {
+
+			// U+0000 NULL becomes U+FFFD REPLACEMENT CHARACTER
+			if ( ch === "\0" ) {
+				return "\uFFFD";
+			}
+
+			// Control characters and (dependent upon position) numbers get escaped as code points
+			return ch.slice( 0, -1 ) + "\\" + ch.charCodeAt( ch.length - 1 ).toString( 16 ) + " ";
+		}
+
+		// Other potentially-special ASCII characters get backslash-escaped
+		return "\\" + ch;
+	},
+
 	// Used for iframes
 	// See setDocument()
 	// Removing the function wrapper causes a "Permission Denied"
 	// error in IE
 	unloadHandler = function() {
 		setDocument();
-	};
+	},
+
+	disabledAncestor = addCombinator(
+		function( elem ) {
+			return elem.disabled === true;
+		},
+		{ dir: "parentNode", next: "legend" }
+	);
 
 // Optimize for push.apply( _, NodeList )
 try {
@@ -3066,7 +2954,7 @@ try {
 }
 
 function Sizzle( selector, context, results, seed ) {
-	var m, i, elem, nid, nidselect, match, groups, newSelector,
+	var m, i, elem, nid, match, groups, newSelector,
 		newContext = context && context.ownerDocument,
 
 		// nodeType defaults to 9, since context defaults to document
@@ -3159,7 +3047,7 @@ function Sizzle( selector, context, results, seed ) {
 
 					// Capture the context ID, setting it first if necessary
 					if ( (nid = context.getAttribute( "id" )) ) {
-						nid = nid.replace( rescape, "\\$&" );
+						nid = nid.replace( rcssescape, fcssescape );
 					} else {
 						context.setAttribute( "id", (nid = expando) );
 					}
@@ -3167,9 +3055,8 @@ function Sizzle( selector, context, results, seed ) {
 					// Prefix every selector in the list
 					groups = tokenize( selector );
 					i = groups.length;
-					nidselect = ridentifier.test( nid ) ? "#" + nid : "[id='" + nid + "']";
 					while ( i-- ) {
-						groups[i] = nidselect + " " + toSelector( groups[i] );
+						groups[i] = "#" + nid + " " + toSelector( groups[i] );
 					}
 					newSelector = groups.join( "," );
 
@@ -3230,22 +3117,22 @@ function markFunction( fn ) {
 
 /**
  * Support testing using an element
- * @param {Function} fn Passed the created div and expects a boolean result
+ * @param {Function} fn Passed the created element and returns a boolean result
  */
 function assert( fn ) {
-	var div = document.createElement("div");
+	var el = document.createElement("fieldset");
 
 	try {
-		return !!fn( div );
+		return !!fn( el );
 	} catch (e) {
 		return false;
 	} finally {
 		// Remove from its parent by default
-		if ( div.parentNode ) {
-			div.parentNode.removeChild( div );
+		if ( el.parentNode ) {
+			el.parentNode.removeChild( el );
 		}
 		// release memory in IE
-		div = null;
+		el = null;
 	}
 }
 
@@ -3272,8 +3159,7 @@ function addHandle( attrs, handler ) {
 function siblingCheck( a, b ) {
 	var cur = b && a,
 		diff = cur && a.nodeType === 1 && b.nodeType === 1 &&
-			( ~b.sourceIndex || MAX_NEGATIVE ) -
-			( ~a.sourceIndex || MAX_NEGATIVE );
+			a.sourceIndex - b.sourceIndex;
 
 	// Use IE sourceIndex if available on both nodes
 	if ( diff ) {
@@ -3311,6 +3197,34 @@ function createButtonPseudo( type ) {
 	return function( elem ) {
 		var name = elem.nodeName.toLowerCase();
 		return (name === "input" || name === "button") && elem.type === type;
+	};
+}
+
+/**
+ * Returns a function to use in pseudos for :enabled/:disabled
+ * @param {Boolean} disabled true for :disabled; false for :enabled
+ */
+function createDisabledPseudo( disabled ) {
+	// Known :disabled false positives:
+	// IE: *[disabled]:not(button, input, select, textarea, optgroup, option, menuitem, fieldset)
+	// not IE: fieldset[disabled] > legend:nth-of-type(n+2) :can-disable
+	return function( elem ) {
+
+		// Check form elements and option elements for explicit disabling
+		return "label" in elem && elem.disabled === disabled ||
+			"form" in elem && elem.disabled === disabled ||
+
+			// Check non-disabled form elements for fieldset[disabled] ancestors
+			"form" in elem && elem.disabled === false && (
+				// Support: IE6-11+
+				// Ancestry is covered for us
+				elem.isDisabled === disabled ||
+
+				// Otherwise, assume any non-<option> under fieldset[disabled] is disabled
+				/* jshint -W018 */
+				elem.isDisabled !== !disabled &&
+					("label" in elem || !disabledAncestor( elem )) !== disabled
+			);
 	};
 }
 
@@ -3366,7 +3280,7 @@ isXML = Sizzle.isXML = function( elem ) {
  * @returns {Object} Returns the current document
  */
 setDocument = Sizzle.setDocument = function( node ) {
-	var hasCompare, parent,
+	var hasCompare, subWindow,
 		doc = node ? node.ownerDocument || node : preferredDoc;
 
 	// Return early if doc is invalid or already selected
@@ -3381,14 +3295,16 @@ setDocument = Sizzle.setDocument = function( node ) {
 
 	// Support: IE 9-11, Edge
 	// Accessing iframe documents after unload throws "permission denied" errors (jQuery #13936)
-	if ( (parent = document.defaultView) && parent.top !== parent ) {
-		// Support: IE 11
-		if ( parent.addEventListener ) {
-			parent.addEventListener( "unload", unloadHandler, false );
+	if ( preferredDoc !== document &&
+		(subWindow = document.defaultView) && subWindow.top !== subWindow ) {
+
+		// Support: IE 11, Edge
+		if ( subWindow.addEventListener ) {
+			subWindow.addEventListener( "unload", unloadHandler, false );
 
 		// Support: IE 9 - 10 only
-		} else if ( parent.attachEvent ) {
-			parent.attachEvent( "onunload", unloadHandler );
+		} else if ( subWindow.attachEvent ) {
+			subWindow.attachEvent( "onunload", unloadHandler );
 		}
 	}
 
@@ -3398,18 +3314,18 @@ setDocument = Sizzle.setDocument = function( node ) {
 	// Support: IE<8
 	// Verify that getAttribute really returns attributes and not properties
 	// (excepting IE8 booleans)
-	support.attributes = assert(function( div ) {
-		div.className = "i";
-		return !div.getAttribute("className");
+	support.attributes = assert(function( el ) {
+		el.className = "i";
+		return !el.getAttribute("className");
 	});
 
 	/* getElement(s)By*
 	---------------------------------------------------------------------- */
 
 	// Check if getElementsByTagName("*") returns only elements
-	support.getElementsByTagName = assert(function( div ) {
-		div.appendChild( document.createComment("") );
-		return !div.getElementsByTagName("*").length;
+	support.getElementsByTagName = assert(function( el ) {
+		el.appendChild( document.createComment("") );
+		return !el.getElementsByTagName("*").length;
 	});
 
 	// Support: IE<9
@@ -3417,10 +3333,10 @@ setDocument = Sizzle.setDocument = function( node ) {
 
 	// Support: IE<10
 	// Check if getElementById returns elements by name
-	// The broken getElementById methods don't pick up programatically-set names,
+	// The broken getElementById methods don't pick up programmatically-set names,
 	// so use a roundabout getElementsByName test
-	support.getById = assert(function( div ) {
-		docElem.appendChild( div ).id = expando;
+	support.getById = assert(function( el ) {
+		docElem.appendChild( el ).id = expando;
 		return !document.getElementsByName || !document.getElementsByName( expando ).length;
 	});
 
@@ -3504,77 +3420,87 @@ setDocument = Sizzle.setDocument = function( node ) {
 	// We allow this because of a bug in IE8/9 that throws an error
 	// whenever `document.activeElement` is accessed on an iframe
 	// So, we allow :focus to pass through QSA all the time to avoid the IE error
-	// See http://bugs.jquery.com/ticket/13378
+	// See https://bugs.jquery.com/ticket/13378
 	rbuggyQSA = [];
 
 	if ( (support.qsa = rnative.test( document.querySelectorAll )) ) {
 		// Build QSA regex
 		// Regex strategy adopted from Diego Perini
-		assert(function( div ) {
+		assert(function( el ) {
 			// Select is set to empty string on purpose
 			// This is to test IE's treatment of not explicitly
 			// setting a boolean content attribute,
 			// since its presence should be enough
-			// http://bugs.jquery.com/ticket/12359
-			docElem.appendChild( div ).innerHTML = "<a id='" + expando + "'></a>" +
+			// https://bugs.jquery.com/ticket/12359
+			docElem.appendChild( el ).innerHTML = "<a id='" + expando + "'></a>" +
 				"<select id='" + expando + "-\r\\' msallowcapture=''>" +
 				"<option selected=''></option></select>";
 
 			// Support: IE8, Opera 11-12.16
 			// Nothing should be selected when empty strings follow ^= or $= or *=
 			// The test attribute must be unknown in Opera but "safe" for WinRT
-			// http://msdn.microsoft.com/en-us/library/ie/hh465388.aspx#attribute_section
-			if ( div.querySelectorAll("[msallowcapture^='']").length ) {
+			// https://msdn.microsoft.com/en-us/library/ie/hh465388.aspx#attribute_section
+			if ( el.querySelectorAll("[msallowcapture^='']").length ) {
 				rbuggyQSA.push( "[*^$]=" + whitespace + "*(?:''|\"\")" );
 			}
 
 			// Support: IE8
 			// Boolean attributes and "value" are not treated correctly
-			if ( !div.querySelectorAll("[selected]").length ) {
+			if ( !el.querySelectorAll("[selected]").length ) {
 				rbuggyQSA.push( "\\[" + whitespace + "*(?:value|" + booleans + ")" );
 			}
 
 			// Support: Chrome<29, Android<4.4, Safari<7.0+, iOS<7.0+, PhantomJS<1.9.8+
-			if ( !div.querySelectorAll( "[id~=" + expando + "-]" ).length ) {
+			if ( !el.querySelectorAll( "[id~=" + expando + "-]" ).length ) {
 				rbuggyQSA.push("~=");
 			}
 
 			// Webkit/Opera - :checked should return selected option elements
 			// http://www.w3.org/TR/2011/REC-css3-selectors-20110929/#checked
 			// IE8 throws error here and will not see later tests
-			if ( !div.querySelectorAll(":checked").length ) {
+			if ( !el.querySelectorAll(":checked").length ) {
 				rbuggyQSA.push(":checked");
 			}
 
 			// Support: Safari 8+, iOS 8+
 			// https://bugs.webkit.org/show_bug.cgi?id=136851
-			// In-page `selector#id sibing-combinator selector` fails
-			if ( !div.querySelectorAll( "a#" + expando + "+*" ).length ) {
+			// In-page `selector#id sibling-combinator selector` fails
+			if ( !el.querySelectorAll( "a#" + expando + "+*" ).length ) {
 				rbuggyQSA.push(".#.+[+~]");
 			}
 		});
 
-		assert(function( div ) {
+		assert(function( el ) {
+			el.innerHTML = "<a href='' disabled='disabled'></a>" +
+				"<select disabled='disabled'><option/></select>";
+
 			// Support: Windows 8 Native Apps
 			// The type and name attributes are restricted during .innerHTML assignment
 			var input = document.createElement("input");
 			input.setAttribute( "type", "hidden" );
-			div.appendChild( input ).setAttribute( "name", "D" );
+			el.appendChild( input ).setAttribute( "name", "D" );
 
 			// Support: IE8
 			// Enforce case-sensitivity of name attribute
-			if ( div.querySelectorAll("[name=d]").length ) {
+			if ( el.querySelectorAll("[name=d]").length ) {
 				rbuggyQSA.push( "name" + whitespace + "*[*^$|!~]?=" );
 			}
 
 			// FF 3.5 - :enabled/:disabled and hidden elements (hidden elements are still enabled)
 			// IE8 throws error here and will not see later tests
-			if ( !div.querySelectorAll(":enabled").length ) {
+			if ( el.querySelectorAll(":enabled").length !== 2 ) {
+				rbuggyQSA.push( ":enabled", ":disabled" );
+			}
+
+			// Support: IE9-11+
+			// IE's :disabled selector does not pick up the children of disabled fieldsets
+			docElem.appendChild( el ).disabled = true;
+			if ( el.querySelectorAll(":disabled").length !== 2 ) {
 				rbuggyQSA.push( ":enabled", ":disabled" );
 			}
 
 			// Opera 10-11 does not throw on post-comma invalid pseudos
-			div.querySelectorAll("*,:x");
+			el.querySelectorAll("*,:x");
 			rbuggyQSA.push(",.*:");
 		});
 	}
@@ -3585,14 +3511,14 @@ setDocument = Sizzle.setDocument = function( node ) {
 		docElem.oMatchesSelector ||
 		docElem.msMatchesSelector) )) ) {
 
-		assert(function( div ) {
+		assert(function( el ) {
 			// Check to see if it's possible to do matchesSelector
 			// on a disconnected node (IE 9)
-			support.disconnectedMatch = matches.call( div, "div" );
+			support.disconnectedMatch = matches.call( el, "*" );
 
 			// This should fail with an exception
 			// Gecko does not error, returns false instead
-			matches.call( div, "[s!='']:x" );
+			matches.call( el, "[s!='']:x" );
 			rbuggyMatches.push( "!=", pseudos );
 		});
 	}
@@ -3792,6 +3718,10 @@ Sizzle.attr = function( elem, name ) {
 			(val = elem.getAttributeNode(name)) && val.specified ?
 				val.value :
 				null;
+};
+
+Sizzle.escape = function( sel ) {
+	return (sel + "").replace( rcssescape, fcssescape );
 };
 
 Sizzle.error = function( msg ) {
@@ -4261,13 +4191,8 @@ Expr = Sizzle.selectors = {
 		},
 
 		// Boolean properties
-		"enabled": function( elem ) {
-			return elem.disabled === false;
-		},
-
-		"disabled": function( elem ) {
-			return elem.disabled === true;
-		},
+		"enabled": createDisabledPseudo( false ),
+		"disabled": createDisabledPseudo( true ),
 
 		"checked": function( elem ) {
 			// In CSS3, :checked should return both checked and selected elements
@@ -4469,7 +4394,9 @@ function toSelector( tokens ) {
 
 function addCombinator( matcher, combinator, base ) {
 	var dir = combinator.dir,
-		checkNonElements = base && dir === "parentNode",
+		skip = combinator.next,
+		key = skip || dir,
+		checkNonElements = base && key === "parentNode",
 		doneName = done++;
 
 	return combinator.first ?
@@ -4505,14 +4432,16 @@ function addCombinator( matcher, combinator, base ) {
 						// Defend against cloned attroperties (jQuery gh-1709)
 						uniqueCache = outerCache[ elem.uniqueID ] || (outerCache[ elem.uniqueID ] = {});
 
-						if ( (oldCache = uniqueCache[ dir ]) &&
+						if ( skip && skip === elem.nodeName.toLowerCase() ) {
+							elem = elem[ dir ] || elem;
+						} else if ( (oldCache = uniqueCache[ key ]) &&
 							oldCache[ 0 ] === dirruns && oldCache[ 1 ] === doneName ) {
 
 							// Assign to newCache so results back-propagate to previous elements
 							return (newCache[ 2 ] = oldCache[ 2 ]);
 						} else {
 							// Reuse newcache so results back-propagate to previous elements
-							uniqueCache[ dir ] = newCache;
+							uniqueCache[ key ] = newCache;
 
 							// A match means we're done; a fail means we have to keep checking
 							if ( (newCache[ 2 ] = matcher( elem, context, xml )) ) {
@@ -4955,17 +4884,17 @@ setDocument();
 
 // Support: Webkit<537.32 - Safari 6.0.3/Chrome 25 (fixed in Chrome 27)
 // Detached nodes confoundingly follow *each other*
-support.sortDetached = assert(function( div1 ) {
+support.sortDetached = assert(function( el ) {
 	// Should return 1, but returns 4 (following)
-	return div1.compareDocumentPosition( document.createElement("div") ) & 1;
+	return el.compareDocumentPosition( document.createElement("fieldset") ) & 1;
 });
 
 // Support: IE<8
 // Prevent attribute/property "interpolation"
-// http://msdn.microsoft.com/en-us/library/ms536429%28VS.85%29.aspx
-if ( !assert(function( div ) {
-	div.innerHTML = "<a href='#'></a>";
-	return div.firstChild.getAttribute("href") === "#" ;
+// https://msdn.microsoft.com/en-us/library/ms536429%28VS.85%29.aspx
+if ( !assert(function( el ) {
+	el.innerHTML = "<a href='#'></a>";
+	return el.firstChild.getAttribute("href") === "#" ;
 }) ) {
 	addHandle( "type|href|height|width", function( elem, name, isXML ) {
 		if ( !isXML ) {
@@ -4976,10 +4905,10 @@ if ( !assert(function( div ) {
 
 // Support: IE<9
 // Use defaultValue in place of getAttribute("value")
-if ( !support.attributes || !assert(function( div ) {
-	div.innerHTML = "<input/>";
-	div.firstChild.setAttribute( "value", "" );
-	return div.firstChild.getAttribute( "value" ) === "";
+if ( !support.attributes || !assert(function( el ) {
+	el.innerHTML = "<input/>";
+	el.firstChild.setAttribute( "value", "" );
+	return el.firstChild.getAttribute( "value" ) === "";
 }) ) {
 	addHandle( "value", function( elem, name, isXML ) {
 		if ( !isXML && elem.nodeName.toLowerCase() === "input" ) {
@@ -4990,8 +4919,8 @@ if ( !support.attributes || !assert(function( div ) {
 
 // Support: IE<9
 // Use getAttributeNode to fetch booleans when getAttribute lies
-if ( !assert(function( div ) {
-	return div.getAttribute("disabled") == null;
+if ( !assert(function( el ) {
+	return el.getAttribute("disabled") == null;
 }) ) {
 	addHandle( booleans, function( elem, name, isXML ) {
 		var val;
@@ -5012,11 +4941,14 @@ return Sizzle;
 
 jQuery.find = Sizzle;
 jQuery.expr = Sizzle.selectors;
+
+// Deprecated
 jQuery.expr[ ":" ] = jQuery.expr.pseudos;
 jQuery.uniqueSort = jQuery.unique = Sizzle.uniqueSort;
 jQuery.text = Sizzle.getText;
 jQuery.isXMLDoc = Sizzle.isXML;
 jQuery.contains = Sizzle.contains;
+jQuery.escapeSelector = Sizzle.escape;
 
 
 
@@ -5051,7 +4983,7 @@ var siblings = function( n, elem ) {
 
 var rneedsContext = jQuery.expr.match.needsContext;
 
-var rsingleTag = ( /^<([\w-]+)\s*\/?>(?:<\/\1>|)$/ );
+var rsingleTag = ( /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i );
 
 
 
@@ -5083,7 +5015,7 @@ function winnow( elements, qualifier, not ) {
 	}
 
 	return jQuery.grep( elements, function( elem ) {
-		return ( indexOf.call( qualifier, elem ) > -1 ) !== not;
+		return ( indexOf.call( qualifier, elem ) > -1 ) !== not && elem.nodeType === 1;
 	} );
 }
 
@@ -5103,9 +5035,8 @@ jQuery.filter = function( expr, elems, not ) {
 
 jQuery.fn.extend( {
 	find: function( selector ) {
-		var i,
+		var i, ret,
 			len = this.length,
-			ret = [],
 			self = this;
 
 		if ( typeof selector !== "string" ) {
@@ -5118,14 +5049,13 @@ jQuery.fn.extend( {
 			} ) );
 		}
 
+		ret = this.pushStack( [] );
+
 		for ( i = 0; i < len; i++ ) {
 			jQuery.find( selector, self[ i ], ret );
 		}
 
-		// Needed because $( selector, context ) becomes $( context ).find( selector )
-		ret = this.pushStack( len > 1 ? jQuery.unique( ret ) : ret );
-		ret.selector = this.selector ? this.selector + " " + selector : selector;
-		return ret;
+		return len > 1 ? jQuery.uniqueSort( ret ) : ret;
 	},
 	filter: function( selector ) {
 		return this.pushStack( winnow( this, selector || [], false ) );
@@ -5157,7 +5087,8 @@ var rootjQuery,
 	// A simple way to check for HTML strings
 	// Prioritize #id over <tag> to avoid XSS via location.hash (#9521)
 	// Strict HTML recognition (#11290: must start with <)
-	rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]*))$/,
+	// Shortcut simple #id case for speed
+	rquickExpr = /^(?:\s*(<[\w\W]+>)[^>]*|#([\w-]+))$/,
 
 	init = jQuery.fn.init = function( selector, context, root ) {
 		var match, elem;
@@ -5220,17 +5151,12 @@ var rootjQuery,
 				} else {
 					elem = document.getElementById( match[ 2 ] );
 
-					// Support: Blackberry 4.6
-					// gEBID returns nodes no longer in the document (#6963)
-					if ( elem && elem.parentNode ) {
+					if ( elem ) {
 
 						// Inject the element directly into the jQuery object
-						this.length = 1;
 						this[ 0 ] = elem;
+						this.length = 1;
 					}
-
-					this.context = document;
-					this.selector = selector;
 					return this;
 				}
 
@@ -5246,7 +5172,7 @@ var rootjQuery,
 
 		// HANDLE: $(DOMElement)
 		} else if ( selector.nodeType ) {
-			this.context = this[ 0 ] = selector;
+			this[ 0 ] = selector;
 			this.length = 1;
 			return this;
 
@@ -5258,11 +5184,6 @@ var rootjQuery,
 
 				// Execute immediately if ready is not present
 				selector( jQuery );
-		}
-
-		if ( selector.selector !== undefined ) {
-			this.selector = selector.selector;
-			this.context = selector.context;
 		}
 
 		return jQuery.makeArray( selector, this );
@@ -5305,23 +5226,24 @@ jQuery.fn.extend( {
 			i = 0,
 			l = this.length,
 			matched = [],
-			pos = rneedsContext.test( selectors ) || typeof selectors !== "string" ?
-				jQuery( selectors, context || this.context ) :
-				0;
+			targets = typeof selectors !== "string" && jQuery( selectors );
 
-		for ( ; i < l; i++ ) {
-			for ( cur = this[ i ]; cur && cur !== context; cur = cur.parentNode ) {
+		// Positional selectors never match, since there's no _selection_ context
+		if ( !rneedsContext.test( selectors ) ) {
+			for ( ; i < l; i++ ) {
+				for ( cur = this[ i ]; cur && cur !== context; cur = cur.parentNode ) {
 
-				// Always skip document fragments
-				if ( cur.nodeType < 11 && ( pos ?
-					pos.index( cur ) > -1 :
+					// Always skip document fragments
+					if ( cur.nodeType < 11 && ( targets ?
+						targets.index( cur ) > -1 :
 
-					// Don't pass non-elements to Sizzle
-					cur.nodeType === 1 &&
-						jQuery.find.matchesSelector( cur, selectors ) ) ) {
+						// Don't pass non-elements to Sizzle
+						cur.nodeType === 1 &&
+							jQuery.find.matchesSelector( cur, selectors ) ) ) {
 
-					matched.push( cur );
-					break;
+						matched.push( cur );
+						break;
+					}
 				}
 			}
 		}
@@ -5628,7 +5550,7 @@ jQuery.Callbacks = function( options ) {
 			// Abort any pending executions
 			lock: function() {
 				locked = queue = [];
-				if ( !memory ) {
+				if ( !memory && !firing ) {
 					list = memory = "";
 				}
 				return this;
@@ -5666,15 +5588,58 @@ jQuery.Callbacks = function( options ) {
 };
 
 
+function Identity( v ) {
+	return v;
+}
+function Thrower( ex ) {
+	throw ex;
+}
+
+function adoptValue( value, resolve, reject ) {
+	var method;
+
+	try {
+
+		// Check for promise aspect first to privilege synchronous behavior
+		if ( value && jQuery.isFunction( ( method = value.promise ) ) ) {
+			method.call( value ).done( resolve ).fail( reject );
+
+		// Other thenables
+		} else if ( value && jQuery.isFunction( ( method = value.then ) ) ) {
+			method.call( value, resolve, reject );
+
+		// Other non-thenables
+		} else {
+
+			// Support: Android 4.0 only
+			// Strict mode functions invoked without .call/.apply get global-object context
+			resolve.call( undefined, value );
+		}
+
+	// For Promises/A+, convert exceptions into rejections
+	// Since jQuery.when doesn't unwrap thenables, we can skip the extra checks appearing in
+	// Deferred#then to conditionally suppress rejection.
+	} catch ( /*jshint -W002 */ value ) {
+
+		// Support: Android 4.0 only
+		// Strict mode functions invoked without .call/.apply get global-object context
+		reject.call( undefined, value );
+	}
+}
+
 jQuery.extend( {
 
 	Deferred: function( func ) {
 		var tuples = [
 
-				// action, add listener, listener list, final state
-				[ "resolve", "done", jQuery.Callbacks( "once memory" ), "resolved" ],
-				[ "reject", "fail", jQuery.Callbacks( "once memory" ), "rejected" ],
-				[ "notify", "progress", jQuery.Callbacks( "memory" ) ]
+				// action, add listener, callbacks,
+				// ... .then handlers, argument index, [final state]
+				[ "notify", "progress", jQuery.Callbacks( "memory" ),
+					jQuery.Callbacks( "memory" ), 2 ],
+				[ "resolve", "done", jQuery.Callbacks( "once memory" ),
+					jQuery.Callbacks( "once memory" ), 0, "resolved" ],
+				[ "reject", "fail", jQuery.Callbacks( "once memory" ),
+					jQuery.Callbacks( "once memory" ), 1, "rejected" ]
 			],
 			state = "pending",
 			promise = {
@@ -5685,13 +5650,23 @@ jQuery.extend( {
 					deferred.done( arguments ).fail( arguments );
 					return this;
 				},
-				then: function( /* fnDone, fnFail, fnProgress */ ) {
+				"catch": function( fn ) {
+					return promise.then( null, fn );
+				},
+
+				// Keep pipe for back-compat
+				pipe: function( /* fnDone, fnFail, fnProgress */ ) {
 					var fns = arguments;
+
 					return jQuery.Deferred( function( newDefer ) {
 						jQuery.each( tuples, function( i, tuple ) {
-							var fn = jQuery.isFunction( fns[ i ] ) && fns[ i ];
 
-							// deferred[ done | fail | progress ] for forwarding actions to newDefer
+							// Map tuples (progress, done, fail) to arguments (done, fail, progress)
+							var fn = jQuery.isFunction( fns[ tuple[ 4 ] ] ) && fns[ tuple[ 4 ] ];
+
+							// deferred.progress(function() { bind to newDefer or newDefer.notify })
+							// deferred.done(function() { bind to newDefer or newDefer.resolve })
+							// deferred.fail(function() { bind to newDefer or newDefer.reject })
 							deferred[ tuple[ 1 ] ]( function() {
 								var returned = fn && fn.apply( this, arguments );
 								if ( returned && jQuery.isFunction( returned.promise ) ) {
@@ -5701,13 +5676,177 @@ jQuery.extend( {
 										.fail( newDefer.reject );
 								} else {
 									newDefer[ tuple[ 0 ] + "With" ](
-										this === promise ? newDefer.promise() : this,
+										this,
 										fn ? [ returned ] : arguments
 									);
 								}
 							} );
 						} );
 						fns = null;
+					} ).promise();
+				},
+				then: function( onFulfilled, onRejected, onProgress ) {
+					var maxDepth = 0;
+					function resolve( depth, deferred, handler, special ) {
+						return function() {
+							var that = this,
+								args = arguments,
+								mightThrow = function() {
+									var returned, then;
+
+									// Support: Promises/A+ section 2.3.3.3.3
+									// https://promisesaplus.com/#point-59
+									// Ignore double-resolution attempts
+									if ( depth < maxDepth ) {
+										return;
+									}
+
+									returned = handler.apply( that, args );
+
+									// Support: Promises/A+ section 2.3.1
+									// https://promisesaplus.com/#point-48
+									if ( returned === deferred.promise() ) {
+										throw new TypeError( "Thenable self-resolution" );
+									}
+
+									// Support: Promises/A+ sections 2.3.3.1, 3.5
+									// https://promisesaplus.com/#point-54
+									// https://promisesaplus.com/#point-75
+									// Retrieve `then` only once
+									then = returned &&
+
+										// Support: Promises/A+ section 2.3.4
+										// https://promisesaplus.com/#point-64
+										// Only check objects and functions for thenability
+										( typeof returned === "object" ||
+											typeof returned === "function" ) &&
+										returned.then;
+
+									// Handle a returned thenable
+									if ( jQuery.isFunction( then ) ) {
+
+										// Special processors (notify) just wait for resolution
+										if ( special ) {
+											then.call(
+												returned,
+												resolve( maxDepth, deferred, Identity, special ),
+												resolve( maxDepth, deferred, Thrower, special )
+											);
+
+										// Normal processors (resolve) also hook into progress
+										} else {
+
+											// ...and disregard older resolution values
+											maxDepth++;
+
+											then.call(
+												returned,
+												resolve( maxDepth, deferred, Identity, special ),
+												resolve( maxDepth, deferred, Thrower, special ),
+												resolve( maxDepth, deferred, Identity,
+													deferred.notifyWith )
+											);
+										}
+
+									// Handle all other returned values
+									} else {
+
+										// Only substitute handlers pass on context
+										// and multiple values (non-spec behavior)
+										if ( handler !== Identity ) {
+											that = undefined;
+											args = [ returned ];
+										}
+
+										// Process the value(s)
+										// Default process is resolve
+										( special || deferred.resolveWith )( that, args );
+									}
+								},
+
+								// Only normal processors (resolve) catch and reject exceptions
+								process = special ?
+									mightThrow :
+									function() {
+										try {
+											mightThrow();
+										} catch ( e ) {
+
+											if ( jQuery.Deferred.exceptionHook ) {
+												jQuery.Deferred.exceptionHook( e,
+													process.stackTrace );
+											}
+
+											// Support: Promises/A+ section 2.3.3.3.4.1
+											// https://promisesaplus.com/#point-61
+											// Ignore post-resolution exceptions
+											if ( depth + 1 >= maxDepth ) {
+
+												// Only substitute handlers pass on context
+												// and multiple values (non-spec behavior)
+												if ( handler !== Thrower ) {
+													that = undefined;
+													args = [ e ];
+												}
+
+												deferred.rejectWith( that, args );
+											}
+										}
+									};
+
+							// Support: Promises/A+ section 2.3.3.3.1
+							// https://promisesaplus.com/#point-57
+							// Re-resolve promises immediately to dodge false rejection from
+							// subsequent errors
+							if ( depth ) {
+								process();
+							} else {
+
+								// Call an optional hook to record the stack, in case of exception
+								// since it's otherwise lost when execution goes async
+								if ( jQuery.Deferred.getStackHook ) {
+									process.stackTrace = jQuery.Deferred.getStackHook();
+								}
+								window.setTimeout( process );
+							}
+						};
+					}
+
+					return jQuery.Deferred( function( newDefer ) {
+
+						// progress_handlers.add( ... )
+						tuples[ 0 ][ 3 ].add(
+							resolve(
+								0,
+								newDefer,
+								jQuery.isFunction( onProgress ) ?
+									onProgress :
+									Identity,
+								newDefer.notifyWith
+							)
+						);
+
+						// fulfilled_handlers.add( ... )
+						tuples[ 1 ][ 3 ].add(
+							resolve(
+								0,
+								newDefer,
+								jQuery.isFunction( onFulfilled ) ?
+									onFulfilled :
+									Identity
+							)
+						);
+
+						// rejected_handlers.add( ... )
+						tuples[ 2 ][ 3 ].add(
+							resolve(
+								0,
+								newDefer,
+								jQuery.isFunction( onRejected ) ?
+									onRejected :
+									Thrower
+							)
+						);
 					} ).promise();
 				},
 
@@ -5719,33 +5858,51 @@ jQuery.extend( {
 			},
 			deferred = {};
 
-		// Keep pipe for back-compat
-		promise.pipe = promise.then;
-
 		// Add list-specific methods
 		jQuery.each( tuples, function( i, tuple ) {
 			var list = tuple[ 2 ],
-				stateString = tuple[ 3 ];
+				stateString = tuple[ 5 ];
 
-			// promise[ done | fail | progress ] = list.add
+			// promise.progress = list.add
+			// promise.done = list.add
+			// promise.fail = list.add
 			promise[ tuple[ 1 ] ] = list.add;
 
 			// Handle state
 			if ( stateString ) {
-				list.add( function() {
+				list.add(
+					function() {
 
-					// state = [ resolved | rejected ]
-					state = stateString;
+						// state = "resolved" (i.e., fulfilled)
+						// state = "rejected"
+						state = stateString;
+					},
 
-				// [ reject_list | resolve_list ].disable; progress_list.lock
-				}, tuples[ i ^ 1 ][ 2 ].disable, tuples[ 2 ][ 2 ].lock );
+					// rejected_callbacks.disable
+					// fulfilled_callbacks.disable
+					tuples[ 3 - i ][ 2 ].disable,
+
+					// progress_callbacks.lock
+					tuples[ 0 ][ 2 ].lock
+				);
 			}
 
-			// deferred[ resolve | reject | notify ]
+			// progress_handlers.fire
+			// fulfilled_handlers.fire
+			// rejected_handlers.fire
+			list.add( tuple[ 3 ].fire );
+
+			// deferred.notify = function() { deferred.notifyWith(...) }
+			// deferred.resolve = function() { deferred.resolveWith(...) }
+			// deferred.reject = function() { deferred.rejectWith(...) }
 			deferred[ tuple[ 0 ] ] = function() {
-				deferred[ tuple[ 0 ] + "With" ]( this === deferred ? promise : this, arguments );
+				deferred[ tuple[ 0 ] + "With" ]( this === deferred ? undefined : this, arguments );
 				return this;
 			};
+
+			// deferred.notifyWith = list.fireWith
+			// deferred.resolveWith = list.fireWith
+			// deferred.rejectWith = list.fireWith
 			deferred[ tuple[ 0 ] + "With" ] = list.fireWith;
 		} );
 
@@ -5762,68 +5919,77 @@ jQuery.extend( {
 	},
 
 	// Deferred helper
-	when: function( subordinate /* , ..., subordinateN */ ) {
-		var i = 0,
+	when: function( singleValue ) {
+		var
+
+			// count of uncompleted subordinates
+			remaining = arguments.length,
+
+			// count of unprocessed arguments
+			i = remaining,
+
+			// subordinate fulfillment data
+			resolveContexts = Array( i ),
 			resolveValues = slice.call( arguments ),
-			length = resolveValues.length,
 
-			// the count of uncompleted subordinates
-			remaining = length !== 1 ||
-				( subordinate && jQuery.isFunction( subordinate.promise ) ) ? length : 0,
+			// the master Deferred
+			master = jQuery.Deferred(),
 
-			// the master Deferred.
-			// If resolveValues consist of only a single Deferred, just use that.
-			deferred = remaining === 1 ? subordinate : jQuery.Deferred(),
-
-			// Update function for both resolve and progress values
-			updateFunc = function( i, contexts, values ) {
+			// subordinate callback factory
+			updateFunc = function( i ) {
 				return function( value ) {
-					contexts[ i ] = this;
-					values[ i ] = arguments.length > 1 ? slice.call( arguments ) : value;
-					if ( values === progressValues ) {
-						deferred.notifyWith( contexts, values );
-					} else if ( !( --remaining ) ) {
-						deferred.resolveWith( contexts, values );
+					resolveContexts[ i ] = this;
+					resolveValues[ i ] = arguments.length > 1 ? slice.call( arguments ) : value;
+					if ( !( --remaining ) ) {
+						master.resolveWith( resolveContexts, resolveValues );
 					}
 				};
-			},
+			};
 
-			progressValues, progressContexts, resolveContexts;
+		// Single- and empty arguments are adopted like Promise.resolve
+		if ( remaining <= 1 ) {
+			adoptValue( singleValue, master.done( updateFunc( i ) ).resolve, master.reject );
 
-		// Add listeners to Deferred subordinates; treat others as resolved
-		if ( length > 1 ) {
-			progressValues = new Array( length );
-			progressContexts = new Array( length );
-			resolveContexts = new Array( length );
-			for ( ; i < length; i++ ) {
-				if ( resolveValues[ i ] && jQuery.isFunction( resolveValues[ i ].promise ) ) {
-					resolveValues[ i ].promise()
-						.progress( updateFunc( i, progressContexts, progressValues ) )
-						.done( updateFunc( i, resolveContexts, resolveValues ) )
-						.fail( deferred.reject );
-				} else {
-					--remaining;
-				}
+			// Use .then() to unwrap secondary thenables (cf. gh-3000)
+			if ( master.state() === "pending" ||
+				jQuery.isFunction( resolveValues[ i ] && resolveValues[ i ].then ) ) {
+
+				return master.then();
 			}
 		}
 
-		// If we're not waiting on anything, resolve the master
-		if ( !remaining ) {
-			deferred.resolveWith( resolveContexts, resolveValues );
+		// Multiple arguments are aggregated like Promise.all array elements
+		while ( i-- ) {
+			adoptValue( resolveValues[ i ], updateFunc( i ), master.reject );
 		}
 
-		return deferred.promise();
+		return master.promise();
 	}
 } );
 
 
+// These usually indicate a programmer mistake during development,
+// warn about them ASAP rather than swallowing them by default.
+var rerrorNames = /^(Eval|Internal|Range|Reference|Syntax|Type|URI)Error$/;
+
+jQuery.Deferred.exceptionHook = function( error, stack ) {
+
+	// Support: IE 8 - 9 only
+	// Console exists when dev tools are open, which can happen at any time
+	if ( window.console && window.console.warn && error && rerrorNames.test( error.name ) ) {
+		window.console.warn( "jQuery.Deferred exception: " + error.message, error.stack, stack );
+	}
+};
+
+
+
+
 // The deferred used on DOM ready
-var readyList;
+var readyList = jQuery.Deferred();
 
 jQuery.fn.ready = function( fn ) {
 
-	// Add the callback
-	jQuery.ready.promise().done( fn );
+	readyList.then( fn );
 
 	return this;
 };
@@ -5864,53 +6030,36 @@ jQuery.extend( {
 
 		// If there are functions bound, to execute
 		readyList.resolveWith( document, [ jQuery ] );
-
-		// Trigger any bound ready events
-		if ( jQuery.fn.triggerHandler ) {
-			jQuery( document ).triggerHandler( "ready" );
-			jQuery( document ).off( "ready" );
-		}
 	}
 } );
 
-/**
- * The ready event handler and self cleanup method
- */
+jQuery.ready.then = readyList.then;
+
+// The ready event handler and self cleanup method
 function completed() {
 	document.removeEventListener( "DOMContentLoaded", completed );
 	window.removeEventListener( "load", completed );
 	jQuery.ready();
 }
 
-jQuery.ready.promise = function( obj ) {
-	if ( !readyList ) {
+// Catch cases where $(document).ready() is called
+// after the browser event has already occurred.
+// Support: IE <=9 - 10 only
+// Older IE sometimes signals "interactive" too soon
+if ( document.readyState === "complete" ||
+	( document.readyState !== "loading" && !document.documentElement.doScroll ) ) {
 
-		readyList = jQuery.Deferred();
+	// Handle it asynchronously to allow scripts the opportunity to delay ready
+	window.setTimeout( jQuery.ready );
 
-		// Catch cases where $(document).ready() is called
-		// after the browser event has already occurred.
-		// Support: IE9-10 only
-		// Older IE sometimes signals "interactive" too soon
-		if ( document.readyState === "complete" ||
-			( document.readyState !== "loading" && !document.documentElement.doScroll ) ) {
+} else {
 
-			// Handle it asynchronously to allow scripts the opportunity to delay ready
-			window.setTimeout( jQuery.ready );
+	// Use the handy event callback
+	document.addEventListener( "DOMContentLoaded", completed );
 
-		} else {
-
-			// Use the handy event callback
-			document.addEventListener( "DOMContentLoaded", completed );
-
-			// A fallback to window.onload, that will always work
-			window.addEventListener( "load", completed );
-		}
-	}
-	return readyList.promise( obj );
-};
-
-// Kick off the DOM ready check even if the user does not
-jQuery.ready.promise();
+	// A fallback to window.onload, that will always work
+	window.addEventListener( "load", completed );
+}
 
 
 
@@ -5995,34 +6144,7 @@ Data.uid = 1;
 
 Data.prototype = {
 
-	register: function( owner, initial ) {
-		var value = initial || {};
-
-		// If it is a node unlikely to be stringify-ed or looped over
-		// use plain assignment
-		if ( owner.nodeType ) {
-			owner[ this.expando ] = value;
-
-		// Otherwise secure it in a non-enumerable, non-writable property
-		// configurability must be true to allow the property to be
-		// deleted with the delete operator
-		} else {
-			Object.defineProperty( owner, this.expando, {
-				value: value,
-				writable: true,
-				configurable: true
-			} );
-		}
-		return owner[ this.expando ];
-	},
 	cache: function( owner ) {
-
-		// We can accept data for non-element nodes in modern browsers,
-		// but we should not, see #8335.
-		// Always return an empty object.
-		if ( !acceptData( owner ) ) {
-			return {};
-		}
 
 		// Check if the owner object already has a cache
 		var value = owner[ this.expando ];
@@ -6060,15 +6182,16 @@ Data.prototype = {
 			cache = this.cache( owner );
 
 		// Handle: [ owner, key, value ] args
+		// Always use camelCase key (gh-2257)
 		if ( typeof data === "string" ) {
-			cache[ data ] = value;
+			cache[ jQuery.camelCase( data ) ] = value;
 
 		// Handle: [ owner, { properties } ] args
 		} else {
 
 			// Copy the properties one-by-one to the cache object
 			for ( prop in data ) {
-				cache[ prop ] = data[ prop ];
+				cache[ jQuery.camelCase( prop ) ] = data[ prop ];
 			}
 		}
 		return cache;
@@ -6076,10 +6199,11 @@ Data.prototype = {
 	get: function( owner, key ) {
 		return key === undefined ?
 			this.cache( owner ) :
-			owner[ this.expando ] && owner[ this.expando ][ key ];
+
+			// Always use camelCase key (gh-2257)
+			owner[ this.expando ] && owner[ this.expando ][ jQuery.camelCase( key ) ];
 	},
 	access: function( owner, key, value ) {
-		var stored;
 
 		// In cases where either:
 		//
@@ -6095,10 +6219,7 @@ Data.prototype = {
 		if ( key === undefined ||
 				( ( key && typeof key === "string" ) && value === undefined ) ) {
 
-			stored = this.get( owner, key );
-
-			return stored !== undefined ?
-				stored : this.get( owner, jQuery.camelCase( key ) );
+			return this.get( owner, key );
 		}
 
 		// When the key is not a string, or both a key and value
@@ -6114,58 +6235,45 @@ Data.prototype = {
 		return value !== undefined ? value : key;
 	},
 	remove: function( owner, key ) {
-		var i, name, camel,
+		var i,
 			cache = owner[ this.expando ];
 
 		if ( cache === undefined ) {
 			return;
 		}
 
-		if ( key === undefined ) {
-			this.register( owner );
-
-		} else {
+		if ( key !== undefined ) {
 
 			// Support array or space separated string of keys
 			if ( jQuery.isArray( key ) ) {
 
-				// If "name" is an array of keys...
-				// When data is initially created, via ("key", "val") signature,
-				// keys will be converted to camelCase.
-				// Since there is no way to tell _how_ a key was added, remove
-				// both plain key and camelCase key. #12786
-				// This will only penalize the array argument path.
-				name = key.concat( key.map( jQuery.camelCase ) );
+				// If key is an array of keys...
+				// We always set camelCase keys, so remove that.
+				key = key.map( jQuery.camelCase );
 			} else {
-				camel = jQuery.camelCase( key );
+				key = jQuery.camelCase( key );
 
-				// Try the string as a key before any manipulation
-				if ( key in cache ) {
-					name = [ key, camel ];
-				} else {
-
-					// If a key with the spaces exists, use it.
-					// Otherwise, create an array by matching non-whitespace
-					name = camel;
-					name = name in cache ?
-						[ name ] : ( name.match( rnotwhite ) || [] );
-				}
+				// If a key with the spaces exists, use it.
+				// Otherwise, create an array by matching non-whitespace
+				key = key in cache ?
+					[ key ] :
+					( key.match( rnotwhite ) || [] );
 			}
 
-			i = name.length;
+			i = key.length;
 
 			while ( i-- ) {
-				delete cache[ name[ i ] ];
+				delete cache[ key[ i ] ];
 			}
 		}
 
 		// Remove the expando if there's no more data
 		if ( key === undefined || jQuery.isEmptyObject( cache ) ) {
 
-			// Support: Chrome <= 35-45+
+			// Support: Chrome <=35 - 45
 			// Webkit & Blink performance suffers when deleting properties
 			// from DOM nodes, so set to undefined instead
-			// https://code.google.com/p/chromium/issues/detail?id=378607
+			// https://bugs.chromium.org/p/chromium/issues/detail?id=378607 (bug restricted)
 			if ( owner.nodeType ) {
 				owner[ this.expando ] = undefined;
 			} else {
@@ -6214,7 +6322,7 @@ function dataAttr( elem, key, data ) {
 
 					// Only convert to a number if it doesn't change the string
 					+data + "" === data ? +data :
-					rbrace.test( data ) ? jQuery.parseJSON( data ) :
+					rbrace.test( data ) ? JSON.parse( data ) :
 					data;
 			} catch ( e ) {}
 
@@ -6266,7 +6374,7 @@ jQuery.fn.extend( {
 					i = attrs.length;
 					while ( i-- ) {
 
-						// Support: IE11+
+						// Support: IE 11 only
 						// The attrs elements can be null (#14894)
 						if ( attrs[ i ] ) {
 							name = attrs[ i ].name;
@@ -6291,7 +6399,7 @@ jQuery.fn.extend( {
 		}
 
 		return access( this, function( value ) {
-			var data, camelKey;
+			var data;
 
 			// The calling jQuery object (element matches) is not empty
 			// (and therefore has an element appears at this[ 0 ]) and the
@@ -6301,29 +6409,15 @@ jQuery.fn.extend( {
 			if ( elem && value === undefined ) {
 
 				// Attempt to get data from the cache
-				// with the key as-is
-				data = dataUser.get( elem, key ) ||
-
-					// Try to find dashed key if it exists (gh-2779)
-					// This is for 2.2.x only
-					dataUser.get( elem, key.replace( rmultiDash, "-$&" ).toLowerCase() );
-
-				if ( data !== undefined ) {
-					return data;
-				}
-
-				camelKey = jQuery.camelCase( key );
-
-				// Attempt to get data from the cache
-				// with the key camelized
-				data = dataUser.get( elem, camelKey );
+				// The key will always be camelCased in Data
+				data = dataUser.get( elem, key );
 				if ( data !== undefined ) {
 					return data;
 				}
 
 				// Attempt to "discover" the data in
 				// HTML5 custom data-* attrs
-				data = dataAttr( elem, camelKey, undefined );
+				data = dataAttr( elem, key );
 				if ( data !== undefined ) {
 					return data;
 				}
@@ -6333,24 +6427,10 @@ jQuery.fn.extend( {
 			}
 
 			// Set the data...
-			camelKey = jQuery.camelCase( key );
 			this.each( function() {
 
-				// First, attempt to store a copy or reference of any
-				// data that might've been store with a camelCased key.
-				var data = dataUser.get( this, camelKey );
-
-				// For HTML5 data-* attribute interop, we have to
-				// store property names with dashes in a camelCase form.
-				// This might not apply to all properties...*
-				dataUser.set( this, camelKey, value );
-
-				// *... In the case of properties that might _actually_
-				// have dashes, we need to also store a copy of that
-				// unchanged property.
-				if ( key.indexOf( "-" ) > -1 && data !== undefined ) {
-					dataUser.set( this, key, value );
-				}
+				// We always store the camelCased key
+				dataUser.set( this, key, value );
 			} );
 		}, null, value, arguments.length > 1, null, true );
 	},
@@ -6503,14 +6583,45 @@ var rcssNum = new RegExp( "^(?:([+-])=|)(" + pnum + ")([a-z%]*)$", "i" );
 
 var cssExpand = [ "Top", "Right", "Bottom", "Left" ];
 
-var isHidden = function( elem, el ) {
+var isHiddenWithinTree = function( elem, el ) {
 
-		// isHidden might be called from jQuery#filter function;
+		// isHiddenWithinTree might be called from jQuery#filter function;
 		// in that case, element will be second argument
 		elem = el || elem;
-		return jQuery.css( elem, "display" ) === "none" ||
-			!jQuery.contains( elem.ownerDocument, elem );
+
+		// Inline style trumps all
+		return elem.style.display === "none" ||
+			elem.style.display === "" &&
+
+			// Otherwise, check computed style
+			// Support: Firefox <=43 - 45
+			// Disconnected elements can have computed display: none, so first confirm that elem is
+			// in the document.
+			jQuery.contains( elem.ownerDocument, elem ) &&
+
+			jQuery.css( elem, "display" ) === "none";
 	};
+
+var swap = function( elem, options, callback, args ) {
+	var ret, name,
+		old = {};
+
+	// Remember the old values, and insert the new ones
+	for ( name in options ) {
+		old[ name ] = elem.style[ name ];
+		elem.style[ name ] = options[ name ];
+	}
+
+	ret = callback.apply( elem, args || [] );
+
+	// Revert the old values
+	for ( name in options ) {
+		elem.style[ name ] = old[ name ];
+	}
+
+	return ret;
+};
+
 
 
 
@@ -6571,9 +6682,105 @@ function adjustCSS( elem, prop, valueParts, tween ) {
 	}
 	return adjusted;
 }
+
+
+var defaultDisplayMap = {};
+
+function getDefaultDisplay( elem ) {
+	var temp,
+		doc = elem.ownerDocument,
+		nodeName = elem.nodeName,
+		display = defaultDisplayMap[ nodeName ];
+
+	if ( display ) {
+		return display;
+	}
+
+	temp = doc.body.appendChild( doc.createElement( nodeName ) ),
+	display = jQuery.css( temp, "display" );
+
+	temp.parentNode.removeChild( temp );
+
+	if ( display === "none" ) {
+		display = "block";
+	}
+	defaultDisplayMap[ nodeName ] = display;
+
+	return display;
+}
+
+function showHide( elements, show ) {
+	var display, elem,
+		values = [],
+		index = 0,
+		length = elements.length;
+
+	// Determine new display value for elements that need to change
+	for ( ; index < length; index++ ) {
+		elem = elements[ index ];
+		if ( !elem.style ) {
+			continue;
+		}
+
+		display = elem.style.display;
+		if ( show ) {
+
+			// Since we force visibility upon cascade-hidden elements, an immediate (and slow)
+			// check is required in this first loop unless we have a nonempty display value (either
+			// inline or about-to-be-restored)
+			if ( display === "none" ) {
+				values[ index ] = dataPriv.get( elem, "display" ) || null;
+				if ( !values[ index ] ) {
+					elem.style.display = "";
+				}
+			}
+			if ( elem.style.display === "" && isHiddenWithinTree( elem ) ) {
+				values[ index ] = getDefaultDisplay( elem );
+			}
+		} else {
+			if ( display !== "none" ) {
+				values[ index ] = "none";
+
+				// Remember what we're overwriting
+				dataPriv.set( elem, "display", display );
+			}
+		}
+	}
+
+	// Set the display of the elements in a second loop to avoid constant reflow
+	for ( index = 0; index < length; index++ ) {
+		if ( values[ index ] != null ) {
+			elements[ index ].style.display = values[ index ];
+		}
+	}
+
+	return elements;
+}
+
+jQuery.fn.extend( {
+	show: function() {
+		return showHide( this, true );
+	},
+	hide: function() {
+		return showHide( this );
+	},
+	toggle: function( state ) {
+		if ( typeof state === "boolean" ) {
+			return state ? this.show() : this.hide();
+		}
+
+		return this.each( function() {
+			if ( isHiddenWithinTree( this ) ) {
+				jQuery( this ).show();
+			} else {
+				jQuery( this ).hide();
+			}
+		} );
+	}
+} );
 var rcheckableType = ( /^(?:checkbox|radio)$/i );
 
-var rtagName = ( /<([\w:-]+)/ );
+var rtagName = ( /<([a-z][^\/\0>\x20\t\r\n\f]+)/i );
 
 var rscriptType = ( /^$|\/(?:java|ecma)script/i );
 
@@ -6582,7 +6789,7 @@ var rscriptType = ( /^$|\/(?:java|ecma)script/i );
 // We have to close these tags to support XHTML (#13200)
 var wrapMap = {
 
-	// Support: IE9
+	// Support: IE <=9 only
 	option: [ 1, "<select multiple='multiple'>", "</select>" ],
 
 	// XHTML parsers do not magically insert elements in the
@@ -6596,7 +6803,7 @@ var wrapMap = {
 	_default: [ 0, "", "" ]
 };
 
-// Support: IE9
+// Support: IE <=9 only
 wrapMap.optgroup = wrapMap.option;
 
 wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;
@@ -6605,7 +6812,7 @@ wrapMap.th = wrapMap.td;
 
 function getAll( context, tag ) {
 
-	// Support: IE9-11+
+	// Support: IE <=9 - 11 only
 	// Use typeof to avoid zero-argument method invocation on host objects (#15151)
 	var ret = typeof context.getElementsByTagName !== "undefined" ?
 			context.getElementsByTagName( tag || "*" ) :
@@ -6651,7 +6858,7 @@ function buildFragment( elems, context, scripts, selection, ignored ) {
 			// Add nodes directly
 			if ( jQuery.type( elem ) === "object" ) {
 
-				// Support: Android<4.1, PhantomJS<2
+				// Support: Android <=4.0 only, PhantomJS 1 only
 				// push.apply(_, arraylike) throws on ancient WebKit
 				jQuery.merge( nodes, elem.nodeType ? [ elem ] : elem );
 
@@ -6674,7 +6881,7 @@ function buildFragment( elems, context, scripts, selection, ignored ) {
 					tmp = tmp.lastChild;
 				}
 
-				// Support: Android<4.1, PhantomJS<2
+				// Support: Android <=4.0 only, PhantomJS 1 only
 				// push.apply(_, arraylike) throws on ancient WebKit
 				jQuery.merge( nodes, tmp.childNodes );
 
@@ -6731,7 +6938,7 @@ function buildFragment( elems, context, scripts, selection, ignored ) {
 		div = fragment.appendChild( document.createElement( "div" ) ),
 		input = document.createElement( "input" );
 
-	// Support: Android 4.0-4.3, Safari<=5.1
+	// Support: Android 4.0 - 4.3 only
 	// Check state lost if the name is set (#11217)
 	// Support: Windows Web Apps (WWA)
 	// `name` and `type` must use .setAttribute for WWA (#14901)
@@ -6741,15 +6948,17 @@ function buildFragment( elems, context, scripts, selection, ignored ) {
 
 	div.appendChild( input );
 
-	// Support: Safari<=5.1, Android<4.2
+	// Support: Android <=4.1 only
 	// Older WebKit doesn't clone checked state correctly in fragments
 	support.checkClone = div.cloneNode( true ).cloneNode( true ).lastChild.checked;
 
-	// Support: IE<=11+
+	// Support: IE <=11 only
 	// Make sure textarea (and checkbox) defaultValue is properly cloned
 	div.innerHTML = "<textarea>x</textarea>";
 	support.noCloneChecked = !!div.cloneNode( true ).lastChild.defaultValue;
 } )();
+var documentElement = document.documentElement;
+
 
 
 var
@@ -6765,7 +6974,7 @@ function returnFalse() {
 	return false;
 }
 
-// Support: IE9
+// Support: IE <=9 only
 // See #13393 for more info
 function safeActiveElement() {
 	try {
@@ -6814,7 +7023,7 @@ function on( elem, types, selector, data, fn, one ) {
 	if ( fn === false ) {
 		fn = returnFalse;
 	} else if ( !fn ) {
-		return this;
+		return elem;
 	}
 
 	if ( one === 1 ) {
@@ -6859,6 +7068,12 @@ jQuery.event = {
 			handleObjIn = handler;
 			handler = handleObjIn.handler;
 			selector = handleObjIn.selector;
+		}
+
+		// Ensure that invalid selectors throw exceptions at attach time
+		// Evaluate against documentElement in case elem is a non-element node (e.g., document)
+		if ( selector ) {
+			jQuery.find.matchesSelector( documentElement, selector );
 		}
 
 		// Make sure that the handler has a unique ID, used to find/remove it later
@@ -7024,19 +7239,23 @@ jQuery.event = {
 		}
 	},
 
-	dispatch: function( event ) {
+	dispatch: function( nativeEvent ) {
 
 		// Make a writable jQuery.Event from the native event object
-		event = jQuery.event.fix( event );
+		var event = jQuery.event.fix( nativeEvent );
 
-		var i, j, ret, matched, handleObj,
-			handlerQueue = [],
-			args = slice.call( arguments ),
+		var i, j, ret, matched, handleObj, handlerQueue,
+			args = new Array( arguments.length ),
 			handlers = ( dataPriv.get( this, "events" ) || {} )[ event.type ] || [],
 			special = jQuery.event.special[ event.type ] || {};
 
 		// Use the fix-ed jQuery.Event rather than the (read-only) native event
 		args[ 0 ] = event;
+
+		for ( i = 1; i < arguments.length; i++ ) {
+			args[ i ] = arguments[ i ];
+		}
+
 		event.delegateTarget = this;
 
 		// Call the preDispatch hook for the mapped type, and let it bail if desired
@@ -7090,11 +7309,11 @@ jQuery.event = {
 			delegateCount = handlers.delegateCount,
 			cur = event.target;
 
-		// Support (at least): Chrome, IE9
+		// Support: IE <=9
 		// Find delegate handlers
 		// Black-hole SVG <use> instance trees (#13180)
 		//
-		// Support: Firefox<=42+
+		// Support: Firefox <=42
 		// Avoid non-left-click in FF but don't block IE radio events (#3861, gh-2343)
 		if ( delegateCount && cur.nodeType &&
 			( event.type !== "click" || isNaN( event.button ) || event.button < 1 ) ) {
@@ -7135,96 +7354,38 @@ jQuery.event = {
 		return handlerQueue;
 	},
 
-	// Includes some event props shared by KeyEvent and MouseEvent
-	props: ( "altKey bubbles cancelable ctrlKey currentTarget detail eventPhase " +
-		"metaKey relatedTarget shiftKey target timeStamp view which" ).split( " " ),
+	addProp: function( name, hook ) {
+		Object.defineProperty( jQuery.Event.prototype, name, {
+			enumerable: true,
+			configurable: true,
 
-	fixHooks: {},
+			get: jQuery.isFunction( hook ) ?
+				function() {
+					if ( this.originalEvent ) {
+							return hook( this.originalEvent );
+					}
+				} :
+				function() {
+					if ( this.originalEvent ) {
+							return this.originalEvent[ name ];
+					}
+				},
 
-	keyHooks: {
-		props: "char charCode key keyCode".split( " " ),
-		filter: function( event, original ) {
-
-			// Add which for key events
-			if ( event.which == null ) {
-				event.which = original.charCode != null ? original.charCode : original.keyCode;
+			set: function( value ) {
+				Object.defineProperty( this, name, {
+					enumerable: true,
+					configurable: true,
+					writable: true,
+					value: value
+				} );
 			}
-
-			return event;
-		}
+		} );
 	},
 
-	mouseHooks: {
-		props: ( "button buttons clientX clientY offsetX offsetY pageX pageY " +
-			"screenX screenY toElement" ).split( " " ),
-		filter: function( event, original ) {
-			var eventDoc, doc, body,
-				button = original.button;
-
-			// Calculate pageX/Y if missing and clientX/Y available
-			if ( event.pageX == null && original.clientX != null ) {
-				eventDoc = event.target.ownerDocument || document;
-				doc = eventDoc.documentElement;
-				body = eventDoc.body;
-
-				event.pageX = original.clientX +
-					( doc && doc.scrollLeft || body && body.scrollLeft || 0 ) -
-					( doc && doc.clientLeft || body && body.clientLeft || 0 );
-				event.pageY = original.clientY +
-					( doc && doc.scrollTop  || body && body.scrollTop  || 0 ) -
-					( doc && doc.clientTop  || body && body.clientTop  || 0 );
-			}
-
-			// Add which for click: 1 === left; 2 === middle; 3 === right
-			// Note: button is not normalized, so don't use it
-			if ( !event.which && button !== undefined ) {
-				event.which = ( button & 1 ? 1 : ( button & 2 ? 3 : ( button & 4 ? 2 : 0 ) ) );
-			}
-
-			return event;
-		}
-	},
-
-	fix: function( event ) {
-		if ( event[ jQuery.expando ] ) {
-			return event;
-		}
-
-		// Create a writable copy of the event object and normalize some properties
-		var i, prop, copy,
-			type = event.type,
-			originalEvent = event,
-			fixHook = this.fixHooks[ type ];
-
-		if ( !fixHook ) {
-			this.fixHooks[ type ] = fixHook =
-				rmouseEvent.test( type ) ? this.mouseHooks :
-				rkeyEvent.test( type ) ? this.keyHooks :
-				{};
-		}
-		copy = fixHook.props ? this.props.concat( fixHook.props ) : this.props;
-
-		event = new jQuery.Event( originalEvent );
-
-		i = copy.length;
-		while ( i-- ) {
-			prop = copy[ i ];
-			event[ prop ] = originalEvent[ prop ];
-		}
-
-		// Support: Cordova 2.5 (WebKit) (#13255)
-		// All events should have a target; Cordova deviceready doesn't
-		if ( !event.target ) {
-			event.target = document;
-		}
-
-		// Support: Safari 6.0+, Chrome<28
-		// Target should not be a text node (#504, #13143)
-		if ( event.target.nodeType === 3 ) {
-			event.target = event.target.parentNode;
-		}
-
-		return fixHook.filter ? fixHook.filter( event, originalEvent ) : event;
+	fix: function( originalEvent ) {
+		return originalEvent[ jQuery.expando ] ?
+			originalEvent :
+			new jQuery.Event( originalEvent );
 	},
 
 	special: {
@@ -7307,10 +7468,20 @@ jQuery.Event = function( src, props ) {
 		this.isDefaultPrevented = src.defaultPrevented ||
 				src.defaultPrevented === undefined &&
 
-				// Support: Android<4.0
+				// Support: Android <=2.3 only
 				src.returnValue === false ?
 			returnTrue :
 			returnFalse;
+
+		// Create target properties
+		// Support: Safari <=6 - 7 only
+		// Target should not be a text node (#504, #13143)
+		this.target = ( src.target && src.target.nodeType === 3 ) ?
+			src.target.parentNode :
+			src.target;
+
+		this.currentTarget = src.currentTarget;
+		this.relatedTarget = src.relatedTarget;
 
 	// Event type
 	} else {
@@ -7330,19 +7501,20 @@ jQuery.Event = function( src, props ) {
 };
 
 // jQuery.Event is based on DOM3 Events as specified by the ECMAScript Language Binding
-// http://www.w3.org/TR/2003/WD-DOM-Level-3-Events-20030331/ecma-script-binding.html
+// https://www.w3.org/TR/2003/WD-DOM-Level-3-Events-20030331/ecma-script-binding.html
 jQuery.Event.prototype = {
 	constructor: jQuery.Event,
 	isDefaultPrevented: returnFalse,
 	isPropagationStopped: returnFalse,
 	isImmediatePropagationStopped: returnFalse,
+	isSimulated: false,
 
 	preventDefault: function() {
 		var e = this.originalEvent;
 
 		this.isDefaultPrevented = returnTrue;
 
-		if ( e ) {
+		if ( e && !this.isSimulated ) {
 			e.preventDefault();
 		}
 	},
@@ -7351,7 +7523,7 @@ jQuery.Event.prototype = {
 
 		this.isPropagationStopped = returnTrue;
 
-		if ( e ) {
+		if ( e && !this.isSimulated ) {
 			e.stopPropagation();
 		}
 	},
@@ -7360,7 +7532,7 @@ jQuery.Event.prototype = {
 
 		this.isImmediatePropagationStopped = returnTrue;
 
-		if ( e ) {
+		if ( e && !this.isSimulated ) {
 			e.stopImmediatePropagation();
 		}
 
@@ -7368,13 +7540,62 @@ jQuery.Event.prototype = {
 	}
 };
 
+// Includes all common event props including KeyEvent and MouseEvent specific props
+jQuery.each( {
+	altKey: true,
+	bubbles: true,
+	cancelable: true,
+	changedTouches: true,
+	ctrlKey: true,
+	detail: true,
+	eventPhase: true,
+	metaKey: true,
+	pageX: true,
+	pageY: true,
+	shiftKey: true,
+	view: true,
+	"char": true,
+	charCode: true,
+	key: true,
+	keyCode: true,
+	button: true,
+	buttons: true,
+	clientX: true,
+	clientY: true,
+	offsetX: true,
+	offsetY: true,
+	pointerId: true,
+	pointerType: true,
+	screenX: true,
+	screenY: true,
+	targetTouches: true,
+	toElement: true,
+	touches: true,
+
+	which: function( event ) {
+		var button = event.button;
+
+		// Add which for key events
+		if ( event.which == null && rkeyEvent.test( event.type ) ) {
+			return event.charCode != null ? event.charCode : event.keyCode;
+		}
+
+		// Add which for click: 1 === left; 2 === middle; 3 === right
+		if ( !event.which && button !== undefined && rmouseEvent.test( event.type ) ) {
+			return ( button & 1 ? 1 : ( button & 2 ? 3 : ( button & 4 ? 2 : 0 ) ) );
+		}
+
+		return event.which;
+	}
+}, jQuery.event.addProp );
+
 // Create mouseenter/leave events using mouseover/out and event-time checks
 // so that event delegation works in jQuery.
 // Do the same for pointerenter/pointerleave and pointerover/pointerout
 //
 // Support: Safari 7 only
 // Safari sends mouseenter too often; see:
-// https://code.google.com/p/chromium/issues/detail?id=470258
+// https://bugs.chromium.org/p/chromium/issues/detail?id=470258
 // for the description of the bug (it existed in older Chrome versions as well).
 jQuery.each( {
 	mouseenter: "mouseover",
@@ -7405,6 +7626,7 @@ jQuery.each( {
 } );
 
 jQuery.fn.extend( {
+
 	on: function( types, selector, data, fn ) {
 		return on( this, types, selector, data, fn );
 	},
@@ -7451,9 +7673,9 @@ jQuery.fn.extend( {
 
 
 var
-	rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([\w:-]+)[^>]*)\/>/gi,
+	rxhtmlTag = /<(?!area|br|col|embed|hr|img|input|link|meta|param)(([a-z][^\/\0>\x20\t\r\n\f]*)[^>]*)\/>/gi,
 
-	// Support: IE 10-11, Edge 10240+
+	// Support: IE <=10 - 11, Edge 12 - 13
 	// In IE/Edge using regex groups here causes severe slowdowns.
 	// See https://connect.microsoft.com/IE/feedback/details/1736512/
 	rnoInnerhtml = /<script|<style|<link/i,
@@ -7588,7 +7810,7 @@ function domManip( collection, args, callback, ignored ) {
 					// Keep references to cloned scripts for later restoration
 					if ( hasScripts ) {
 
-						// Support: Android<4.1, PhantomJS<2
+						// Support: Android <=4.0 only, PhantomJS 1 only
 						// push.apply(_, arraylike) throws on ancient WebKit
 						jQuery.merge( scripts, getAll( node, "script" ) );
 					}
@@ -7617,7 +7839,7 @@ function domManip( collection, args, callback, ignored ) {
 								jQuery._evalUrl( node.src );
 							}
 						} else {
-							jQuery.globalEval( node.textContent.replace( rcleanScript, "" ) );
+							DOMEval( node.textContent.replace( rcleanScript, "" ), doc );
 						}
 					}
 				}
@@ -7663,7 +7885,7 @@ jQuery.extend( {
 		if ( !support.noCloneChecked && ( elem.nodeType === 1 || elem.nodeType === 11 ) &&
 				!jQuery.isXMLDoc( elem ) ) {
 
-			// We eschew Sizzle here for performance reasons: http://jsperf.com/getall-vs-sizzle/2
+			// We eschew Sizzle here for performance reasons: https://jsperf.com/getall-vs-sizzle/2
 			destElements = getAll( clone );
 			srcElements = getAll( elem );
 
@@ -7716,13 +7938,13 @@ jQuery.extend( {
 						}
 					}
 
-					// Support: Chrome <= 35-45+
+					// Support: Chrome <=35 - 45+
 					// Assign undefined instead of using delete, see Data#remove
 					elem[ dataPriv.expando ] = undefined;
 				}
 				if ( elem[ dataUser.expando ] ) {
 
-					// Support: Chrome <= 35-45+
+					// Support: Chrome <=35 - 45+
 					// Assign undefined instead of using delete, see Data#remove
 					elem[ dataUser.expando ] = undefined;
 				}
@@ -7732,10 +7954,6 @@ jQuery.extend( {
 } );
 
 jQuery.fn.extend( {
-
-	// Keep domManip exposed until 3.0 (gh-2225)
-	domManip: domManip,
-
 	detach: function( selector ) {
 		return remove( this, selector, true );
 	},
@@ -7893,150 +8111,47 @@ jQuery.each( {
 			elems = i === last ? this : this.clone( true );
 			jQuery( insert[ i ] )[ original ]( elems );
 
-			// Support: QtWebKit
-			// .get() because push.apply(_, arraylike) throws
+			// Support: Android <=4.0 only, PhantomJS 1 only
+			// .get() because push.apply(_, arraylike) throws on ancient WebKit
 			push.apply( ret, elems.get() );
 		}
 
 		return this.pushStack( ret );
 	};
 } );
-
-
-var iframe,
-	elemdisplay = {
-
-		// Support: Firefox
-		// We have to pre-define these values for FF (#10227)
-		HTML: "block",
-		BODY: "block"
-	};
-
-/**
- * Retrieve the actual display of a element
- * @param {String} name nodeName of the element
- * @param {Object} doc Document object
- */
-
-// Called only from within defaultDisplay
-function actualDisplay( name, doc ) {
-	var elem = jQuery( doc.createElement( name ) ).appendTo( doc.body ),
-
-		display = jQuery.css( elem[ 0 ], "display" );
-
-	// We don't have any data stored on the element,
-	// so use "detach" method as fast way to get rid of the element
-	elem.detach();
-
-	return display;
-}
-
-/**
- * Try to determine the default display value of an element
- * @param {String} nodeName
- */
-function defaultDisplay( nodeName ) {
-	var doc = document,
-		display = elemdisplay[ nodeName ];
-
-	if ( !display ) {
-		display = actualDisplay( nodeName, doc );
-
-		// If the simple way fails, read from inside an iframe
-		if ( display === "none" || !display ) {
-
-			// Use the already-created iframe if possible
-			iframe = ( iframe || jQuery( "<iframe frameborder='0' width='0' height='0'/>" ) )
-				.appendTo( doc.documentElement );
-
-			// Always write a new HTML skeleton so Webkit and Firefox don't choke on reuse
-			doc = iframe[ 0 ].contentDocument;
-
-			// Support: IE
-			doc.write();
-			doc.close();
-
-			display = actualDisplay( nodeName, doc );
-			iframe.detach();
-		}
-
-		// Store the correct default display
-		elemdisplay[ nodeName ] = display;
-	}
-
-	return display;
-}
 var rmargin = ( /^margin/ );
 
 var rnumnonpx = new RegExp( "^(" + pnum + ")(?!px)[a-z%]+$", "i" );
 
 var getStyles = function( elem ) {
 
-		// Support: IE<=11+, Firefox<=30+ (#15098, #14150)
+		// Support: IE <=11 only, Firefox <=30 (#15098, #14150)
 		// IE throws on elements created in popups
 		// FF meanwhile throws on frame elements through "defaultView.getComputedStyle"
 		var view = elem.ownerDocument.defaultView;
 
-		if ( !view.opener ) {
+		if ( !view || !view.opener ) {
 			view = window;
 		}
 
 		return view.getComputedStyle( elem );
 	};
 
-var swap = function( elem, options, callback, args ) {
-	var ret, name,
-		old = {};
-
-	// Remember the old values, and insert the new ones
-	for ( name in options ) {
-		old[ name ] = elem.style[ name ];
-		elem.style[ name ] = options[ name ];
-	}
-
-	ret = callback.apply( elem, args || [] );
-
-	// Revert the old values
-	for ( name in options ) {
-		elem.style[ name ] = old[ name ];
-	}
-
-	return ret;
-};
-
-
-var documentElement = document.documentElement;
-
 
 
 ( function() {
-	var pixelPositionVal, boxSizingReliableVal, pixelMarginRightVal, reliableMarginLeftVal,
-		container = document.createElement( "div" ),
-		div = document.createElement( "div" );
-
-	// Finish early in limited (non-browser) environments
-	if ( !div.style ) {
-		return;
-	}
-
-	// Support: IE9-11+
-	// Style of cloned element affects source element cloned (#8908)
-	div.style.backgroundClip = "content-box";
-	div.cloneNode( true ).style.backgroundClip = "";
-	support.clearCloneStyle = div.style.backgroundClip === "content-box";
-
-	container.style.cssText = "border:0;width:8px;height:0;top:0;left:-9999px;" +
-		"padding:0;margin-top:1px;position:absolute";
-	container.appendChild( div );
 
 	// Executing both pixelPosition & boxSizingReliable tests require only one layout
 	// so they're executed at the same time to save the second computation.
 	function computeStyleTests() {
-		div.style.cssText =
 
-			// Support: Firefox<29, Android 2.3
-			// Vendor-prefix box-sizing
-			"-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;" +
+		// This is a singleton, we need to execute it only once
+		if ( !div ) {
+			return;
+		}
+
+		div.style.cssText =
+			"box-sizing:border-box;" +
 			"position:relative;display:block;" +
 			"margin:auto;border:1px;padding:1px;" +
 			"top:1%;width:50%";
@@ -8045,6 +8160,8 @@ var documentElement = document.documentElement;
 
 		var divStyle = window.getComputedStyle( div );
 		pixelPositionVal = divStyle.top !== "1%";
+
+		// Support: Android 4.0 - 4.3 only, Firefox <=3 - 44
 		reliableMarginLeftVal = divStyle.marginLeft === "2px";
 		boxSizingReliableVal = divStyle.width === "4px";
 
@@ -8054,68 +8171,47 @@ var documentElement = document.documentElement;
 		pixelMarginRightVal = divStyle.marginRight === "4px";
 
 		documentElement.removeChild( container );
+
+		// Nullify the div so it wouldn't be stored in the memory and
+		// it will also be a sign that checks already performed
+		div = null;
 	}
+
+	var pixelPositionVal, boxSizingReliableVal, pixelMarginRightVal, reliableMarginLeftVal,
+		container = document.createElement( "div" ),
+		div = document.createElement( "div" );
+
+	// Finish early in limited (non-browser) environments
+	if ( !div.style ) {
+		return;
+	}
+
+	// Support: IE <=9 - 11 only
+	// Style of cloned element affects source element cloned (#8908)
+	div.style.backgroundClip = "content-box";
+	div.cloneNode( true ).style.backgroundClip = "";
+	support.clearCloneStyle = div.style.backgroundClip === "content-box";
+
+	container.style.cssText = "border:0;width:8px;height:0;top:0;left:-9999px;" +
+		"padding:0;margin-top:1px;position:absolute";
+	container.appendChild( div );
 
 	jQuery.extend( support, {
 		pixelPosition: function() {
-
-			// This test is executed only once but we still do memoizing
-			// since we can use the boxSizingReliable pre-computing.
-			// No need to check if the test was already performed, though.
 			computeStyleTests();
 			return pixelPositionVal;
 		},
 		boxSizingReliable: function() {
-			if ( boxSizingReliableVal == null ) {
-				computeStyleTests();
-			}
+			computeStyleTests();
 			return boxSizingReliableVal;
 		},
 		pixelMarginRight: function() {
-
-			// Support: Android 4.0-4.3
-			// We're checking for boxSizingReliableVal here instead of pixelMarginRightVal
-			// since that compresses better and they're computed together anyway.
-			if ( boxSizingReliableVal == null ) {
-				computeStyleTests();
-			}
+			computeStyleTests();
 			return pixelMarginRightVal;
 		},
 		reliableMarginLeft: function() {
-
-			// Support: IE <=8 only, Android 4.0 - 4.3 only, Firefox <=3 - 37
-			if ( boxSizingReliableVal == null ) {
-				computeStyleTests();
-			}
+			computeStyleTests();
 			return reliableMarginLeftVal;
-		},
-		reliableMarginRight: function() {
-
-			// Support: Android 2.3
-			// Check if div with explicit width and no margin-right incorrectly
-			// gets computed margin-right based on width of container. (#3333)
-			// WebKit Bug 13343 - getComputedStyle returns wrong value for margin-right
-			// This support function is only executed once so no memoizing is needed.
-			var ret,
-				marginDiv = div.appendChild( document.createElement( "div" ) );
-
-			// Reset CSS: box-sizing; display; margin; border; padding
-			marginDiv.style.cssText = div.style.cssText =
-
-				// Support: Android 2.3
-				// Vendor-prefix box-sizing
-				"-webkit-box-sizing:content-box;box-sizing:content-box;" +
-				"display:block;margin:0;border:0;padding:0";
-			marginDiv.style.marginRight = marginDiv.style.width = "0";
-			div.style.width = "1px";
-			documentElement.appendChild( container );
-
-			ret = !parseFloat( window.getComputedStyle( marginDiv ).marginRight );
-
-			documentElement.removeChild( container );
-			div.removeChild( marginDiv );
-
-			return ret;
 		}
 	} );
 } )();
@@ -8127,7 +8223,7 @@ function curCSS( elem, name, computed ) {
 
 	computed = computed || getStyles( elem );
 
-	// Support: IE9
+	// Support: IE <=9 only
 	// getPropertyValue is only needed for .css('filter') (#12537)
 	if ( computed ) {
 		ret = computed.getPropertyValue( name ) || computed[ name ];
@@ -8140,7 +8236,7 @@ function curCSS( elem, name, computed ) {
 		// Android Browser returns percentage for some values,
 		// but width seems to be reliably pixels.
 		// This is against the CSSOM draft spec:
-		// http://dev.w3.org/csswg/cssom/#resolved-values
+		// https://drafts.csswg.org/cssom/#resolved-values
 		if ( !support.pixelMarginRight() && rnumnonpx.test( ret ) && rmargin.test( name ) ) {
 
 			// Remember the original values
@@ -8161,7 +8257,7 @@ function curCSS( elem, name, computed ) {
 
 	return ret !== undefined ?
 
-		// Support: IE9-11+
+		// Support: IE <=9 - 11 only
 		// IE returns zIndex value as an integer.
 		ret + "" :
 		ret;
@@ -8194,14 +8290,13 @@ var
 	// except "table", "table-cell", or "table-caption"
 	// See here for display values: https://developer.mozilla.org/en-US/docs/CSS/display
 	rdisplayswap = /^(none|table(?!-c[ea]).+)/,
-
 	cssShow = { position: "absolute", visibility: "hidden", display: "block" },
 	cssNormalTransform = {
 		letterSpacing: "0",
 		fontWeight: "400"
 	},
 
-	cssPrefixes = [ "Webkit", "O", "Moz", "ms" ],
+	cssPrefixes = [ "Webkit", "Moz", "ms" ],
 	emptyStyle = document.createElement( "div" ).style;
 
 // Return a css property mapped to a potentially vendor prefixed property
@@ -8283,22 +8378,16 @@ function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
 function getWidthOrHeight( elem, name, extra ) {
 
 	// Start with offset property, which is equivalent to the border-box value
-	var valueIsBorderBox = true,
-		val = name === "width" ? elem.offsetWidth : elem.offsetHeight,
+	var val,
+		valueIsBorderBox = true,
 		styles = getStyles( elem ),
 		isBorderBox = jQuery.css( elem, "boxSizing", false, styles ) === "border-box";
 
-	// Support: IE11 only
-	// In IE 11 fullscreen elements inside of an iframe have
-	// 100x too small dimensions (gh-1764).
-	if ( document.msFullscreenElement && window.top !== window ) {
-
-		// Support: IE11 only
-		// Running getBoundingClientRect on a disconnected node
-		// in IE throws an error.
-		if ( elem.getClientRects().length ) {
-			val = Math.round( elem.getBoundingClientRect()[ name ] * 100 );
-		}
+	// Support: IE <=11 only
+	// Running getBoundingClientRect on a disconnected node
+	// in IE throws an error.
+	if ( elem.getClientRects().length ) {
+		val = elem.getBoundingClientRect()[ name ];
 	}
 
 	// Some non-html elements return undefined for offsetWidth, so check for null/undefined
@@ -8336,66 +8425,6 @@ function getWidthOrHeight( elem, name, extra ) {
 			styles
 		)
 	) + "px";
-}
-
-function showHide( elements, show ) {
-	var display, elem, hidden,
-		values = [],
-		index = 0,
-		length = elements.length;
-
-	for ( ; index < length; index++ ) {
-		elem = elements[ index ];
-		if ( !elem.style ) {
-			continue;
-		}
-
-		values[ index ] = dataPriv.get( elem, "olddisplay" );
-		display = elem.style.display;
-		if ( show ) {
-
-			// Reset the inline display of this element to learn if it is
-			// being hidden by cascaded rules or not
-			if ( !values[ index ] && display === "none" ) {
-				elem.style.display = "";
-			}
-
-			// Set elements which have been overridden with display: none
-			// in a stylesheet to whatever the default browser style is
-			// for such an element
-			if ( elem.style.display === "" && isHidden( elem ) ) {
-				values[ index ] = dataPriv.access(
-					elem,
-					"olddisplay",
-					defaultDisplay( elem.nodeName )
-				);
-			}
-		} else {
-			hidden = isHidden( elem );
-
-			if ( display !== "none" || !hidden ) {
-				dataPriv.set(
-					elem,
-					"olddisplay",
-					hidden ? display : jQuery.css( elem, "display" )
-				);
-			}
-		}
-	}
-
-	// Set the display of most of the elements in a second loop
-	// to avoid the constant reflow
-	for ( index = 0; index < length; index++ ) {
-		elem = elements[ index ];
-		if ( !elem.style ) {
-			continue;
-		}
-		if ( !show || elem.style.display === "none" || elem.style.display === "" ) {
-			elem.style.display = show ? values[ index ] || "" : "none";
-		}
-	}
-
-	return elements;
 }
 
 jQuery.extend( {
@@ -8479,7 +8508,6 @@ jQuery.extend( {
 				value += ret && ret[ 3 ] || ( jQuery.cssNumber[ origName ] ? "" : "px" );
 			}
 
-			// Support: IE9-11+
 			// background-* props affect original clone's values
 			if ( !support.clearCloneStyle && value === "" && name.indexOf( "background" ) === 0 ) {
 				style[ name ] = "inherit";
@@ -8549,7 +8577,14 @@ jQuery.each( [ "height", "width" ], function( i, name ) {
 				// Certain elements can have dimension info if we invisibly show them
 				// but it must have a current display style that would benefit
 				return rdisplayswap.test( jQuery.css( elem, "display" ) ) &&
-					elem.offsetWidth === 0 ?
+
+					// Support: Safari 8+
+					// Table columns in Safari have non-zero offsetWidth & zero
+					// getBoundingClientRect().width unless display is changed.
+					// Support: IE <=11 only
+					// Running getBoundingClientRect on a disconnected node
+					// in IE throws an error.
+					( !elem.getClientRects().length || !elem.getBoundingClientRect().width ) ?
 						swap( elem, cssShow, function() {
 							return getWidthOrHeight( elem, name, extra );
 						} ) :
@@ -8590,16 +8625,6 @@ jQuery.cssHooks.marginLeft = addGetHookIf( support.reliableMarginLeft,
 						return elem.getBoundingClientRect().left;
 					} )
 				) + "px";
-		}
-	}
-);
-
-// Support: Android 2.3
-jQuery.cssHooks.marginRight = addGetHookIf( support.reliableMarginRight,
-	function( elem, computed ) {
-		if ( computed ) {
-			return swap( elem, { "display": "inline-block" },
-				curCSS, [ elem, "marginRight" ] );
 		}
 	}
 );
@@ -8654,25 +8679,6 @@ jQuery.fn.extend( {
 				jQuery.style( elem, name, value ) :
 				jQuery.css( elem, name );
 		}, name, value, arguments.length > 1 );
-	},
-	show: function() {
-		return showHide( this, true );
-	},
-	hide: function() {
-		return showHide( this );
-	},
-	toggle: function( state ) {
-		if ( typeof state === "boolean" ) {
-			return state ? this.show() : this.hide();
-		}
-
-		return this.each( function() {
-			if ( isHidden( this ) ) {
-				jQuery( this ).show();
-			} else {
-				jQuery( this ).hide();
-			}
-		} );
 	}
 } );
 
@@ -8767,7 +8773,7 @@ Tween.propHooks = {
 	}
 };
 
-// Support: IE9
+// Support: IE <=9 only
 // Panic based approach to setting things on disconnected nodes
 Tween.propHooks.scrollTop = Tween.propHooks.scrollLeft = {
 	set: function( tween ) {
@@ -8789,7 +8795,7 @@ jQuery.easing = {
 
 jQuery.fx = Tween.prototype.init;
 
-// Back Compat <1.8 extension point
+// Back compat <1.8 extension point
 jQuery.fx.step = {};
 
 
@@ -8799,6 +8805,13 @@ var
 	fxNow, timerId,
 	rfxtypes = /^(?:toggle|show|hide)$/,
 	rrun = /queueHooks$/;
+
+function raf() {
+	if ( timerId ) {
+		window.requestAnimationFrame( raf );
+		jQuery.fx.tick();
+	}
+}
 
 // Animations created synchronously will run synchronously
 function createFxNow() {
@@ -8845,14 +8858,15 @@ function createTween( value, prop, animation ) {
 
 function defaultPrefilter( elem, props, opts ) {
 	/* jshint validthis: true */
-	var prop, value, toggle, tween, hooks, oldfire, display, checkDisplay,
+	var prop, value, toggle, hooks, oldfire, propTween, restoreDisplay, display,
+		isBox = "width" in props || "height" in props,
 		anim = this,
 		orig = {},
 		style = elem.style,
-		hidden = elem.nodeType && isHidden( elem ),
+		hidden = elem.nodeType && isHiddenWithinTree( elem ),
 		dataShow = dataPriv.get( elem, "fxshow" );
 
-	// Handle queue: false promises
+	// Queue-skipping animations hijack the fx hooks
 	if ( !opts.queue ) {
 		hooks = jQuery._queueHooks( elem, "fx" );
 		if ( hooks.unqueued == null ) {
@@ -8878,25 +8892,77 @@ function defaultPrefilter( elem, props, opts ) {
 		} );
 	}
 
-	// Height/width overflow pass
-	if ( elem.nodeType === 1 && ( "height" in props || "width" in props ) ) {
+	// Detect show/hide animations
+	for ( prop in props ) {
+		value = props[ prop ];
+		if ( rfxtypes.test( value ) ) {
+			delete props[ prop ];
+			toggle = toggle || value === "toggle";
+			if ( value === ( hidden ? "hide" : "show" ) ) {
 
-		// Make sure that nothing sneaks out
-		// Record all 3 overflow attributes because IE9-10 do not
-		// change the overflow attribute when overflowX and
-		// overflowY are set to the same value
+				// Pretend to be hidden if this is a "show" and
+				// there is still data from a stopped show/hide
+				if ( value === "show" && dataShow && dataShow[ prop ] !== undefined ) {
+					hidden = true;
+
+				// Ignore all other no-op show/hide data
+				} else {
+					continue;
+				}
+			}
+			orig[ prop ] = dataShow && dataShow[ prop ] || jQuery.style( elem, prop );
+		}
+	}
+
+	// Bail out if this is a no-op like .hide().hide()
+	propTween = !jQuery.isEmptyObject( props );
+	if ( !propTween && jQuery.isEmptyObject( orig ) ) {
+		return;
+	}
+
+	// Restrict "overflow" and "display" styles during box animations
+	if ( isBox && elem.nodeType === 1 ) {
+
+		// Support: IE <=9 - 11, Edge 12 - 13
+		// Record all 3 overflow attributes because IE does not infer the shorthand
+		// from identically-valued overflowX and overflowY
 		opts.overflow = [ style.overflow, style.overflowX, style.overflowY ];
 
-		// Set display property to inline-block for height/width
-		// animations on inline elements that are having width/height animated
+		// Identify a display type, preferring old show/hide data over the CSS cascade
+		restoreDisplay = dataShow && dataShow.display;
+		if ( restoreDisplay == null ) {
+			restoreDisplay = dataPriv.get( elem, "display" );
+		}
 		display = jQuery.css( elem, "display" );
+		if ( display === "none" ) {
+			if ( restoreDisplay ) {
+				display = restoreDisplay;
+			} else {
 
-		// Test default display if display is currently "none"
-		checkDisplay = display === "none" ?
-			dataPriv.get( elem, "olddisplay" ) || defaultDisplay( elem.nodeName ) : display;
+				// Get nonempty value(s) by temporarily forcing visibility
+				showHide( [ elem ], true );
+				restoreDisplay = elem.style.display || restoreDisplay;
+				display = jQuery.css( elem, "display" );
+				showHide( [ elem ] );
+			}
+		}
 
-		if ( checkDisplay === "inline" && jQuery.css( elem, "float" ) === "none" ) {
-			style.display = "inline-block";
+		// Animate inline elements as inline-block
+		if ( display === "inline" || display === "inline-block" && restoreDisplay != null ) {
+			if ( jQuery.css( elem, "float" ) === "none" ) {
+
+				// Restore the original display value at the end of pure show/hide animations
+				if ( !propTween ) {
+					anim.done( function() {
+						style.display = restoreDisplay;
+					} );
+					if ( restoreDisplay == null ) {
+						display = style.display;
+						restoreDisplay = display === "none" ? "" : display;
+					}
+				}
+				style.display = "inline-block";
+			}
 		}
 	}
 
@@ -8909,73 +8975,53 @@ function defaultPrefilter( elem, props, opts ) {
 		} );
 	}
 
-	// show/hide pass
-	for ( prop in props ) {
-		value = props[ prop ];
-		if ( rfxtypes.exec( value ) ) {
-			delete props[ prop ];
-			toggle = toggle || value === "toggle";
-			if ( value === ( hidden ? "hide" : "show" ) ) {
+	// Implement show/hide animations
+	propTween = false;
+	for ( prop in orig ) {
 
-				// If there is dataShow left over from a stopped hide or show
-				// and we are going to proceed with show, we should pretend to be hidden
-				if ( value === "show" && dataShow && dataShow[ prop ] !== undefined ) {
-					hidden = true;
-				} else {
-					continue;
+		// General show/hide setup for this element animation
+		if ( !propTween ) {
+			if ( dataShow ) {
+				if ( "hidden" in dataShow ) {
+					hidden = dataShow.hidden;
 				}
+			} else {
+				dataShow = dataPriv.access( elem, "fxshow", { display: restoreDisplay } );
 			}
-			orig[ prop ] = dataShow && dataShow[ prop ] || jQuery.style( elem, prop );
 
-		// Any non-fx value stops us from restoring the original display value
-		} else {
-			display = undefined;
-		}
-	}
-
-	if ( !jQuery.isEmptyObject( orig ) ) {
-		if ( dataShow ) {
-			if ( "hidden" in dataShow ) {
-				hidden = dataShow.hidden;
+			// Store hidden/visible for toggle so `.stop().toggle()` "reverses"
+			if ( toggle ) {
+				dataShow.hidden = !hidden;
 			}
-		} else {
-			dataShow = dataPriv.access( elem, "fxshow", {} );
-		}
 
-		// Store state if its toggle - enables .stop().toggle() to "reverse"
-		if ( toggle ) {
-			dataShow.hidden = !hidden;
-		}
-		if ( hidden ) {
-			jQuery( elem ).show();
-		} else {
+			// Show elements before animating them
+			if ( hidden ) {
+				showHide( [ elem ], true );
+			}
+
+			/* jshint -W083 */
 			anim.done( function() {
-				jQuery( elem ).hide();
+
+				// The final step of a "hide" animation is actually hiding the element
+				if ( !hidden ) {
+					showHide( [ elem ] );
+				}
+				dataPriv.remove( elem, "fxshow" );
+				for ( prop in orig ) {
+					jQuery.style( elem, prop, orig[ prop ] );
+				}
 			} );
 		}
-		anim.done( function() {
-			var prop;
 
-			dataPriv.remove( elem, "fxshow" );
-			for ( prop in orig ) {
-				jQuery.style( elem, prop, orig[ prop ] );
-			}
-		} );
-		for ( prop in orig ) {
-			tween = createTween( hidden ? dataShow[ prop ] : 0, prop, anim );
-
-			if ( !( prop in dataShow ) ) {
-				dataShow[ prop ] = tween.start;
-				if ( hidden ) {
-					tween.end = tween.start;
-					tween.start = prop === "width" || prop === "height" ? 1 : 0;
-				}
+		// Per-property setup
+		propTween = createTween( hidden ? dataShow[ prop ] : 0, prop, anim );
+		if ( !( prop in dataShow ) ) {
+			dataShow[ prop ] = propTween.start;
+			if ( hidden ) {
+				propTween.end = propTween.start;
+				propTween.start = 0;
 			}
 		}
-
-	// If this is a noop like .hide().hide(), restore an overwritten display value
-	} else if ( ( display === "none" ? defaultDisplay( elem.nodeName ) : display ) === "inline" ) {
-		style.display = display;
 	}
 }
 
@@ -9033,7 +9079,7 @@ function Animation( elem, properties, options ) {
 			var currentTime = fxNow || createFxNow(),
 				remaining = Math.max( 0, animation.startTime + animation.duration - currentTime ),
 
-				// Support: Android 2.3
+				// Support: Android 2.3 only
 				// Archaic crash bug won't allow us to use `1 - ( 0.5 || 0 )` (#12497)
 				temp = remaining / animation.duration || 0,
 				percent = 1 - temp,
@@ -9132,6 +9178,7 @@ function Animation( elem, properties, options ) {
 }
 
 jQuery.Animation = jQuery.extend( Animation, {
+
 	tweeners: {
 		"*": [ function( prop, value ) {
 			var tween = this.createTween( prop, value );
@@ -9178,9 +9225,15 @@ jQuery.speed = function( speed, easing, fn ) {
 		easing: fn && easing || easing && !jQuery.isFunction( easing ) && easing
 	};
 
-	opt.duration = jQuery.fx.off ? 0 : typeof opt.duration === "number" ?
-		opt.duration : opt.duration in jQuery.fx.speeds ?
-			jQuery.fx.speeds[ opt.duration ] : jQuery.fx.speeds._default;
+	// Go to the end state if fx are off or if document is hidden
+	if ( jQuery.fx.off || document.hidden ) {
+		opt.duration = 0;
+
+	} else {
+		opt.duration = typeof opt.duration === "number" ?
+			opt.duration : opt.duration in jQuery.fx.speeds ?
+				jQuery.fx.speeds[ opt.duration ] : jQuery.fx.speeds._default;
+	}
 
 	// Normalize opt.queue - true/undefined/null -> "fx"
 	if ( opt.queue == null || opt.queue === true ) {
@@ -9207,7 +9260,7 @@ jQuery.fn.extend( {
 	fadeTo: function( speed, to, easing, callback ) {
 
 		// Show any hidden elements after setting opacity to 0
-		return this.filter( isHidden ).css( "opacity", 0 ).show()
+		return this.filter( isHiddenWithinTree ).css( "opacity", 0 ).show()
 
 			// Animate to the value specified
 			.end().animate( { opacity: to }, speed, easing, callback );
@@ -9384,12 +9437,18 @@ jQuery.fx.timer = function( timer ) {
 jQuery.fx.interval = 13;
 jQuery.fx.start = function() {
 	if ( !timerId ) {
-		timerId = window.setInterval( jQuery.fx.tick, jQuery.fx.interval );
+		timerId = window.requestAnimationFrame ?
+			window.requestAnimationFrame( raf ) :
+			window.setInterval( jQuery.fx.tick, jQuery.fx.interval );
 	}
 };
 
 jQuery.fx.stop = function() {
-	window.clearInterval( timerId );
+	if ( window.cancelAnimationFrame ) {
+		window.cancelAnimationFrame( timerId );
+	} else {
+		window.clearInterval( timerId );
+	}
 
 	timerId = null;
 };
@@ -9404,7 +9463,7 @@ jQuery.fx.speeds = {
 
 
 // Based off of the plugin by Clint Helfers, with permission.
-// http://web.archive.org/web/20100324014747/http://blindsignals.com/index.php/2009/07/jquery-delay/
+// https://web.archive.org/web/20100324014747/http://blindsignals.com/index.php/2009/07/jquery-delay/
 jQuery.fn.delay = function( time, type ) {
 	time = jQuery.fx ? jQuery.fx.speeds[ time ] || time : time;
 	type = type || "fx";
@@ -9425,20 +9484,15 @@ jQuery.fn.delay = function( time, type ) {
 
 	input.type = "checkbox";
 
-	// Support: iOS<=5.1, Android<=4.2+
+	// Support: Android <=4.3 only
 	// Default value for a checkbox should be "on"
 	support.checkOn = input.value !== "";
 
-	// Support: IE<=11+
+	// Support: IE <=11 only
 	// Must access selectedIndex to make default options select
 	support.optSelected = opt.selected;
 
-	// Support: Android<=2.3
-	// Options inside disabled selects are incorrectly marked as disabled
-	select.disabled = true;
-	support.optDisabled = !opt.disabled;
-
-	// Support: IE<=11+
+	// Support: IE <=11 only
 	// An input loses its value after becoming a radio
 	input = document.createElement( "input" );
 	input.value = "t";
@@ -9477,11 +9531,10 @@ jQuery.extend( {
 			return jQuery.prop( elem, name, value );
 		}
 
-		// All attributes are lowercase
+		// Attribute hooks are determined by the lowercase version
 		// Grab necessary hook if one is defined
 		if ( nType !== 1 || !jQuery.isXMLDoc( elem ) ) {
-			name = name.toLowerCase();
-			hooks = jQuery.attrHooks[ name ] ||
+			hooks = jQuery.attrHooks[ name.toLowerCase() ] ||
 				( jQuery.expr.match.bool.test( name ) ? boolHook : undefined );
 		}
 
@@ -9527,21 +9580,12 @@ jQuery.extend( {
 	},
 
 	removeAttr: function( elem, value ) {
-		var name, propName,
+		var name,
 			i = 0,
 			attrNames = value && value.match( rnotwhite );
 
 		if ( attrNames && elem.nodeType === 1 ) {
 			while ( ( name = attrNames[ i++ ] ) ) {
-				propName = jQuery.propFix[ name ] || name;
-
-				// Boolean attributes get special treatment (#10870)
-				if ( jQuery.expr.match.bool.test( name ) ) {
-
-					// Set corresponding property to false
-					elem[ propName ] = false;
-				}
-
 				elem.removeAttribute( name );
 			}
 		}
@@ -9561,20 +9605,23 @@ boolHook = {
 		return name;
 	}
 };
+
 jQuery.each( jQuery.expr.match.bool.source.match( /\w+/g ), function( i, name ) {
 	var getter = attrHandle[ name ] || jQuery.find.attr;
 
 	attrHandle[ name ] = function( elem, name, isXML ) {
-		var ret, handle;
+		var ret, handle,
+			lowercaseName = name.toLowerCase();
+
 		if ( !isXML ) {
 
 			// Avoid an infinite loop by temporarily removing this function from the getter
-			handle = attrHandle[ name ];
-			attrHandle[ name ] = ret;
+			handle = attrHandle[ lowercaseName ];
+			attrHandle[ lowercaseName ] = ret;
 			ret = getter( elem, name, isXML ) != null ?
-				name.toLowerCase() :
+				lowercaseName :
 				null;
-			attrHandle[ name ] = handle;
+			attrHandle[ lowercaseName ] = handle;
 		}
 		return ret;
 	};
@@ -9635,9 +9682,10 @@ jQuery.extend( {
 		tabIndex: {
 			get: function( elem ) {
 
+				// Support: IE <=9 - 11 only
 				// elem.tabIndex doesn't always return the
 				// correct value when it hasn't been explicitly set
-				// http://fluidproject.org/blog/2008/01/09/getting-setting-and-removing-tabindex-values-with-javascript/
+				// https://web.archive.org/web/20141116233347/http://fluidproject.org/blog/2008/01/09/getting-setting-and-removing-tabindex-values-with-javascript/
 				// Use proper attribute retrieval(#12072)
 				var tabindex = jQuery.find.attr( elem, "tabindex" );
 
@@ -9657,6 +9705,12 @@ jQuery.extend( {
 	}
 } );
 
+// Support: IE <=11 only
+// Accessing the selectedIndex property
+// forces the browser to respect setting selected
+// on the option
+// The getter ensures a default option is selected
+// when in an optgroup
 if ( !support.optSelected ) {
 	jQuery.propHooks.selected = {
 		get: function( elem ) {
@@ -9665,6 +9719,16 @@ if ( !support.optSelected ) {
 				parent.parentNode.selectedIndex;
 			}
 			return null;
+		},
+		set: function( elem ) {
+			var parent = elem.parentNode;
+			if ( parent ) {
+				parent.selectedIndex;
+
+				if ( parent.parentNode ) {
+					parent.parentNode.selectedIndex;
+				}
+			}
 		}
 	};
 }
@@ -9859,7 +9923,8 @@ jQuery.fn.extend( {
 
 
 
-var rreturn = /\r/g;
+var rreturn = /\r/g,
+	rspaces = /[\x20\t\r\n\f]+/g;
 
 jQuery.fn.extend( {
 	val: function( value ) {
@@ -9935,9 +10000,15 @@ jQuery.extend( {
 		option: {
 			get: function( elem ) {
 
-				// Support: IE<11
-				// option.value not trimmed (#14858)
-				return jQuery.trim( elem.value );
+				var val = jQuery.find.attr( elem, "value" );
+				return val != null ?
+					val :
+
+					// Support: IE <=10 - 11 only
+					// option.text throws exceptions (#14686, #14858)
+					// Strip and collapse whitespace
+					// https://html.spec.whatwg.org/#strip-and-collapse-whitespace
+					jQuery.trim( jQuery.text( elem ) ).replace( rspaces, " " );
 			}
 		},
 		select: {
@@ -9945,7 +10016,7 @@ jQuery.extend( {
 				var value, option,
 					options = elem.options,
 					index = elem.selectedIndex,
-					one = elem.type === "select-one" || index < 0,
+					one = elem.type === "select-one",
 					values = one ? null : [],
 					max = one ? index + 1 : options.length,
 					i = index < 0 ?
@@ -9956,12 +10027,12 @@ jQuery.extend( {
 				for ( ; i < max; i++ ) {
 					option = options[ i ];
 
+					// Support: IE <=9 only
 					// IE8-9 doesn't update selected after form reset (#2551)
 					if ( ( option.selected || i === index ) &&
 
 							// Don't return options that are disabled or in a disabled optgroup
-							( support.optDisabled ?
-								!option.disabled : option.getAttribute( "disabled" ) === null ) &&
+							!option.disabled &&
 							( !option.parentNode.disabled ||
 								!jQuery.nodeName( option.parentNode, "optgroup" ) ) ) {
 
@@ -9990,7 +10061,7 @@ jQuery.extend( {
 				while ( i-- ) {
 					option = options[ i ];
 					if ( option.selected =
-							jQuery.inArray( jQuery.valHooks.option.get( option ), values ) > -1
+						jQuery.inArray( jQuery.valHooks.option.get( option ), values ) > -1
 					) {
 						optionSet = true;
 					}
@@ -10141,7 +10212,7 @@ jQuery.extend( jQuery.event, {
 				special._default.apply( eventPath.pop(), data ) === false ) &&
 				acceptData( elem ) ) {
 
-				// Call a native DOM method on the target with the same name name as the event.
+				// Call a native DOM method on the target with the same name as the event.
 				// Don't do default actions on window, that's where global variables be (#6170)
 				if ( ontype && jQuery.isFunction( elem[ type ] ) && !jQuery.isWindow( elem ) ) {
 
@@ -10168,6 +10239,7 @@ jQuery.extend( jQuery.event, {
 	},
 
 	// Piggyback on a donor event to simulate a different one
+	// Used only for `focus(in | out)` events
 	simulate: function( type, elem, event ) {
 		var e = jQuery.extend(
 			new jQuery.Event(),
@@ -10175,27 +10247,10 @@ jQuery.extend( jQuery.event, {
 			{
 				type: type,
 				isSimulated: true
-
-				// Previously, `originalEvent: {}` was set here, so stopPropagation call
-				// would not be triggered on donor event, since in our own
-				// jQuery.event.stopPropagation function we had a check for existence of
-				// originalEvent.stopPropagation method, so, consequently it would be a noop.
-				//
-				// But now, this "simulate" function is used only for events
-				// for which stopPropagation() is noop, so there is no need for that anymore.
-				//
-				// For the compat branch though, guard for "click" and "submit"
-				// events is still used, but was moved to jQuery.event.stopPropagation function
-				// because `originalEvent` should point to the original event for the constancy
-				// with other events and for more focused logic
 			}
 		);
 
 		jQuery.event.trigger( e, null, elem );
-
-		if ( e.isDefaultPrevented() ) {
-			event.preventDefault();
-		}
 	}
 
 } );
@@ -10216,9 +10271,9 @@ jQuery.fn.extend( {
 } );
 
 
-jQuery.each( ( "blur focus focusin focusout load resize scroll unload click dblclick " +
+jQuery.each( ( "blur focus focusin focusout resize scroll click dblclick " +
 	"mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave " +
-	"change select submit keydown keypress keyup error contextmenu" ).split( " " ),
+	"change select submit keydown keypress keyup contextmenu" ).split( " " ),
 	function( i, name ) {
 
 	// Handle event binding
@@ -10241,14 +10296,14 @@ jQuery.fn.extend( {
 support.focusin = "onfocusin" in window;
 
 
-// Support: Firefox
+// Support: Firefox <=44
 // Firefox doesn't have focus(in | out) events
 // Related ticket - https://bugzilla.mozilla.org/show_bug.cgi?id=687787
 //
-// Support: Chrome, Safari
+// Support: Chrome <=48 - 49, Safari <=9.0 - 9.1
 // focus(in | out) events fire after focus & blur events,
 // which is spec violation - http://www.w3.org/TR/DOM-Level-3-Events/#events-focusevent-event-order
-// Related ticket - https://code.google.com/p/chromium/issues/detail?id=449857
+// Related ticket - https://bugs.chromium.org/p/chromium/issues/detail?id=449857
 if ( !support.focusin ) {
 	jQuery.each( { focus: "focusin", blur: "focusout" }, function( orig, fix ) {
 
@@ -10290,13 +10345,6 @@ var rquery = ( /\?/ );
 
 
 
-// Support: Android 2.3
-// Workaround failure to string-cast null input
-jQuery.parseJSON = function( data ) {
-	return JSON.parse( data + "" );
-};
-
-
 // Cross-browser xml parsing
 jQuery.parseXML = function( data ) {
 	var xml;
@@ -10304,7 +10352,8 @@ jQuery.parseXML = function( data ) {
 		return null;
 	}
 
-	// Support: IE9
+	// Support: IE 9 - 11 only
+	// IE throws on parseFromString with invalid input.
 	try {
 		xml = ( new window.DOMParser() ).parseFromString( data, "text/xml" );
 	} catch ( e ) {
@@ -10319,6 +10368,122 @@ jQuery.parseXML = function( data ) {
 
 
 var
+	rbracket = /\[\]$/,
+	rCRLF = /\r?\n/g,
+	rsubmitterTypes = /^(?:submit|button|image|reset|file)$/i,
+	rsubmittable = /^(?:input|select|textarea|keygen)/i;
+
+function buildParams( prefix, obj, traditional, add ) {
+	var name;
+
+	if ( jQuery.isArray( obj ) ) {
+
+		// Serialize array item.
+		jQuery.each( obj, function( i, v ) {
+			if ( traditional || rbracket.test( prefix ) ) {
+
+				// Treat each array item as a scalar.
+				add( prefix, v );
+
+			} else {
+
+				// Item is non-scalar (array or object), encode its numeric index.
+				buildParams(
+					prefix + "[" + ( typeof v === "object" && v != null ? i : "" ) + "]",
+					v,
+					traditional,
+					add
+				);
+			}
+		} );
+
+	} else if ( !traditional && jQuery.type( obj ) === "object" ) {
+
+		// Serialize object item.
+		for ( name in obj ) {
+			buildParams( prefix + "[" + name + "]", obj[ name ], traditional, add );
+		}
+
+	} else {
+
+		// Serialize scalar item.
+		add( prefix, obj );
+	}
+}
+
+// Serialize an array of form elements or a set of
+// key/values into a query string
+jQuery.param = function( a, traditional ) {
+	var prefix,
+		s = [],
+		add = function( key, valueOrFunction ) {
+
+			// If value is a function, invoke it and use its return value
+			var value = jQuery.isFunction( valueOrFunction ) ?
+				valueOrFunction() :
+				valueOrFunction;
+
+			s[ s.length ] = encodeURIComponent( key ) + "=" +
+				encodeURIComponent( value == null ? "" : value );
+		};
+
+	// If an array was passed in, assume that it is an array of form elements.
+	if ( jQuery.isArray( a ) || ( a.jquery && !jQuery.isPlainObject( a ) ) ) {
+
+		// Serialize the form elements
+		jQuery.each( a, function() {
+			add( this.name, this.value );
+		} );
+
+	} else {
+
+		// If traditional, encode the "old" way (the way 1.3.2 or older
+		// did it), otherwise encode params recursively.
+		for ( prefix in a ) {
+			buildParams( prefix, a[ prefix ], traditional, add );
+		}
+	}
+
+	// Return the resulting serialization
+	return s.join( "&" );
+};
+
+jQuery.fn.extend( {
+	serialize: function() {
+		return jQuery.param( this.serializeArray() );
+	},
+	serializeArray: function() {
+		return this.map( function() {
+
+			// Can add propHook for "elements" to filter or add form elements
+			var elements = jQuery.prop( this, "elements" );
+			return elements ? jQuery.makeArray( elements ) : this;
+		} )
+		.filter( function() {
+			var type = this.type;
+
+			// Use .is( ":disabled" ) so that fieldset[disabled] works
+			return this.name && !jQuery( this ).is( ":disabled" ) &&
+				rsubmittable.test( this.nodeName ) && !rsubmitterTypes.test( type ) &&
+				( this.checked || !rcheckableType.test( type ) );
+		} )
+		.map( function( i, elem ) {
+			var val = jQuery( this ).val();
+
+			return val == null ?
+				null :
+				jQuery.isArray( val ) ?
+					jQuery.map( val, function( val ) {
+						return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
+					} ) :
+					{ name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
+		} ).get();
+	}
+} );
+
+
+var
+	r20 = /%20/g,
 	rhash = /#.*$/,
 	rts = /([?&])_=[^&]*/,
 	rheaders = /^(.*?):[ \t]*([^\r\n]*)$/mg,
@@ -10528,7 +10693,7 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 
 		if ( current ) {
 
-		// There's only work to do if current dataType is non-auto
+			// There's only work to do if current dataType is non-auto
 			if ( current === "*" ) {
 
 				current = prev;
@@ -10651,7 +10816,7 @@ jQuery.extend( {
 			"text html": true,
 
 			// Evaluate text as a json expression
-			"text json": jQuery.parseJSON,
+			"text json": JSON.parse,
 
 			// Parse text as xml
 			"text xml": jQuery.parseXML
@@ -10710,11 +10875,17 @@ jQuery.extend( {
 			// Url cleanup var
 			urlAnchor,
 
+			// Request state (becomes false upon send and true upon completion)
+			completed,
+
 			// To know if global events are to be dispatched
 			fireGlobals,
 
 			// Loop variable
 			i,
+
+			// uncached part of the url
+			uncached,
 
 			// Create the final options object
 			s = jQuery.ajaxSetup( {}, options ),
@@ -10739,9 +10910,6 @@ jQuery.extend( {
 			requestHeaders = {},
 			requestHeadersNames = {},
 
-			// The jqXHR state
-			state = 0,
-
 			// Default abort message
 			strAbort = "canceled",
 
@@ -10752,7 +10920,7 @@ jQuery.extend( {
 				// Builds headers hashtable if needed
 				getResponseHeader: function( key ) {
 					var match;
-					if ( state === 2 ) {
+					if ( completed ) {
 						if ( !responseHeaders ) {
 							responseHeaders = {};
 							while ( ( match = rheaders.exec( responseHeadersString ) ) ) {
@@ -10766,14 +10934,14 @@ jQuery.extend( {
 
 				// Raw string
 				getAllResponseHeaders: function() {
-					return state === 2 ? responseHeadersString : null;
+					return completed ? responseHeadersString : null;
 				},
 
 				// Caches the header
 				setRequestHeader: function( name, value ) {
-					var lname = name.toLowerCase();
-					if ( !state ) {
-						name = requestHeadersNames[ lname ] = requestHeadersNames[ lname ] || name;
+					if ( completed == null ) {
+						name = requestHeadersNames[ name.toLowerCase() ] =
+							requestHeadersNames[ name.toLowerCase() ] || name;
 						requestHeaders[ name ] = value;
 					}
 					return this;
@@ -10781,7 +10949,7 @@ jQuery.extend( {
 
 				// Overrides response content-type header
 				overrideMimeType: function( type ) {
-					if ( !state ) {
+					if ( completed == null ) {
 						s.mimeType = type;
 					}
 					return this;
@@ -10791,16 +10959,16 @@ jQuery.extend( {
 				statusCode: function( map ) {
 					var code;
 					if ( map ) {
-						if ( state < 2 ) {
-							for ( code in map ) {
-
-								// Lazy-add the new callback in a way that preserves old ones
-								statusCode[ code ] = [ statusCode[ code ], map[ code ] ];
-							}
-						} else {
+						if ( completed ) {
 
 							// Execute the appropriate callbacks
 							jqXHR.always( map[ jqXHR.status ] );
+						} else {
+
+							// Lazy-add the new callbacks in a way that preserves old ones
+							for ( code in map ) {
+								statusCode[ code ] = [ statusCode[ code ], map[ code ] ];
+							}
 						}
 					}
 					return this;
@@ -10818,33 +10986,31 @@ jQuery.extend( {
 			};
 
 		// Attach deferreds
-		deferred.promise( jqXHR ).complete = completeDeferred.add;
-		jqXHR.success = jqXHR.done;
-		jqXHR.error = jqXHR.fail;
+		deferred.promise( jqXHR );
 
-		// Remove hash character (#7531: and string promotion)
 		// Add protocol if not provided (prefilters might expect it)
 		// Handle falsy url in the settings object (#10093: consistency with old signature)
 		// We also use the url parameter if available
-		s.url = ( ( url || s.url || location.href ) + "" ).replace( rhash, "" )
+		s.url = ( ( url || s.url || location.href ) + "" )
 			.replace( rprotocol, location.protocol + "//" );
 
 		// Alias method option to type as per ticket #12004
 		s.type = options.method || options.type || s.method || s.type;
 
 		// Extract dataTypes list
-		s.dataTypes = jQuery.trim( s.dataType || "*" ).toLowerCase().match( rnotwhite ) || [ "" ];
+		s.dataTypes = ( s.dataType || "*" ).toLowerCase().match( rnotwhite ) || [ "" ];
 
 		// A cross-domain request is in order when the origin doesn't match the current origin.
 		if ( s.crossDomain == null ) {
 			urlAnchor = document.createElement( "a" );
 
-			// Support: IE8-11+
-			// IE throws exception if url is malformed, e.g. http://example.com:80x/
+			// Support: IE <=8 - 11, Edge 12 - 13
+			// IE throws exception on accessing the href property if url is malformed,
+			// e.g. http://example.com:80x/
 			try {
 				urlAnchor.href = s.url;
 
-				// Support: IE8-11+
+				// Support: IE <=8 - 11 only
 				// Anchor's host property isn't correctly set when s.url is relative
 				urlAnchor.href = urlAnchor.href;
 				s.crossDomain = originAnchor.protocol + "//" + originAnchor.host !==
@@ -10866,7 +11032,7 @@ jQuery.extend( {
 		inspectPrefiltersOrTransports( prefilters, s, options, jqXHR );
 
 		// If request was aborted inside a prefilter, stop there
-		if ( state === 2 ) {
+		if ( completed ) {
 			return jqXHR;
 		}
 
@@ -10887,29 +11053,36 @@ jQuery.extend( {
 
 		// Save the URL in case we're toying with the If-Modified-Since
 		// and/or If-None-Match header later on
-		cacheURL = s.url;
+		// Remove hash to simplify url manipulation
+		cacheURL = s.url.replace( rhash, "" );
 
 		// More options handling for requests with no content
 		if ( !s.hasContent ) {
 
+			// Remember the hash so we can put it back
+			uncached = s.url.slice( cacheURL.length );
+
 			// If data is available, append data to url
 			if ( s.data ) {
-				cacheURL = ( s.url += ( rquery.test( cacheURL ) ? "&" : "?" ) + s.data );
+				cacheURL += ( rquery.test( cacheURL ) ? "&" : "?" ) + s.data;
 
 				// #9682: remove data so that it's not used in an eventual retry
 				delete s.data;
 			}
 
-			// Add anti-cache in url if needed
+			// Add anti-cache in uncached url if needed
 			if ( s.cache === false ) {
-				s.url = rts.test( cacheURL ) ?
-
-					// If there is already a '_' parameter, set its value
-					cacheURL.replace( rts, "$1_=" + nonce++ ) :
-
-					// Otherwise add one to the end
-					cacheURL + ( rquery.test( cacheURL ) ? "&" : "?" ) + "_=" + nonce++;
+				cacheURL = cacheURL.replace( rts, "" );
+				uncached = ( rquery.test( cacheURL ) ? "&" : "?" ) + "_=" + ( nonce++ ) + uncached;
 			}
+
+			// Put hash and anti-cache on the URL that will be requested (gh-1732)
+			s.url = cacheURL + uncached;
+
+		// Change '%20' to '+' if this is encoded form body content (gh-2658)
+		} else if ( s.data && s.processData &&
+			( s.contentType || "" ).indexOf( "application/x-www-form-urlencoded" ) === 0 ) {
+			s.data = s.data.replace( r20, "+" );
 		}
 
 		// Set the If-Modified-Since and/or If-None-Match header, if in ifModified mode.
@@ -10943,7 +11116,7 @@ jQuery.extend( {
 
 		// Allow custom headers/mimetypes and early abort
 		if ( s.beforeSend &&
-			( s.beforeSend.call( callbackContext, jqXHR, s ) === false || state === 2 ) ) {
+			( s.beforeSend.call( callbackContext, jqXHR, s ) === false || completed ) ) {
 
 			// Abort if not done already and return
 			return jqXHR.abort();
@@ -10953,9 +11126,9 @@ jQuery.extend( {
 		strAbort = "abort";
 
 		// Install callbacks on deferreds
-		for ( i in { success: 1, error: 1, complete: 1 } ) {
-			jqXHR[ i ]( s[ i ] );
-		}
+		completeDeferred.add( s.complete );
+		jqXHR.done( s.success );
+		jqXHR.fail( s.error );
 
 		// Get transport
 		transport = inspectPrefiltersOrTransports( transports, s, options, jqXHR );
@@ -10972,7 +11145,7 @@ jQuery.extend( {
 			}
 
 			// If request was aborted inside ajaxSend, stop there
-			if ( state === 2 ) {
+			if ( completed ) {
 				return jqXHR;
 			}
 
@@ -10984,18 +11157,17 @@ jQuery.extend( {
 			}
 
 			try {
-				state = 1;
+				completed = false;
 				transport.send( requestHeaders, done );
 			} catch ( e ) {
 
-				// Propagate exception as error if not done
-				if ( state < 2 ) {
-					done( -1, e );
-
-				// Simply rethrow otherwise
-				} else {
+				// Rethrow post-completion exceptions
+				if ( completed ) {
 					throw e;
 				}
+
+				// Propagate others as results
+				done( -1, e );
 			}
 		}
 
@@ -11004,13 +11176,12 @@ jQuery.extend( {
 			var isSuccess, success, error, response, modified,
 				statusText = nativeStatusText;
 
-			// Called once
-			if ( state === 2 ) {
+			// Ignore repeat invocations
+			if ( completed ) {
 				return;
 			}
 
-			// State is "done" now
-			state = 2;
+			completed = true;
 
 			// Clear timeout if it exists
 			if ( timeoutTimer ) {
@@ -11154,6 +11325,7 @@ jQuery._evalUrl = function( url ) {
 		// Make this explicit, since user can override this through ajaxSetup (#11264)
 		type: "GET",
 		dataType: "script",
+		cache: true,
 		async: false,
 		global: false,
 		"throws": true
@@ -11165,13 +11337,10 @@ jQuery.fn.extend( {
 	wrapAll: function( html ) {
 		var wrap;
 
-		if ( jQuery.isFunction( html ) ) {
-			return this.each( function( i ) {
-				jQuery( this ).wrapAll( html.call( this, i ) );
-			} );
-		}
-
 		if ( this[ 0 ] ) {
+			if ( jQuery.isFunction( html ) ) {
+				html = html.call( this[ 0 ] );
+			}
 
 			// The elements to wrap the target around
 			wrap = jQuery( html, this[ 0 ].ownerDocument ).eq( 0 ).clone( true );
@@ -11222,145 +11391,23 @@ jQuery.fn.extend( {
 		} );
 	},
 
-	unwrap: function() {
-		return this.parent().each( function() {
-			if ( !jQuery.nodeName( this, "body" ) ) {
-				jQuery( this ).replaceWith( this.childNodes );
-			}
-		} ).end();
+	unwrap: function( selector ) {
+		this.parent( selector ).not( "body" ).each( function() {
+			jQuery( this ).replaceWith( this.childNodes );
+		} );
+		return this;
 	}
 } );
 
 
-jQuery.expr.filters.hidden = function( elem ) {
-	return !jQuery.expr.filters.visible( elem );
+jQuery.expr.pseudos.hidden = function( elem ) {
+	return !jQuery.expr.pseudos.visible( elem );
 };
-jQuery.expr.filters.visible = function( elem ) {
-
-	// Support: Opera <= 12.12
-	// Opera reports offsetWidths and offsetHeights less than zero on some elements
-	// Use OR instead of AND as the element is not visible if either is true
-	// See tickets #10406 and #13132
-	return elem.offsetWidth > 0 || elem.offsetHeight > 0 || elem.getClientRects().length > 0;
+jQuery.expr.pseudos.visible = function( elem ) {
+	return !!( elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length );
 };
 
 
-
-
-var r20 = /%20/g,
-	rbracket = /\[\]$/,
-	rCRLF = /\r?\n/g,
-	rsubmitterTypes = /^(?:submit|button|image|reset|file)$/i,
-	rsubmittable = /^(?:input|select|textarea|keygen)/i;
-
-function buildParams( prefix, obj, traditional, add ) {
-	var name;
-
-	if ( jQuery.isArray( obj ) ) {
-
-		// Serialize array item.
-		jQuery.each( obj, function( i, v ) {
-			if ( traditional || rbracket.test( prefix ) ) {
-
-				// Treat each array item as a scalar.
-				add( prefix, v );
-
-			} else {
-
-				// Item is non-scalar (array or object), encode its numeric index.
-				buildParams(
-					prefix + "[" + ( typeof v === "object" && v != null ? i : "" ) + "]",
-					v,
-					traditional,
-					add
-				);
-			}
-		} );
-
-	} else if ( !traditional && jQuery.type( obj ) === "object" ) {
-
-		// Serialize object item.
-		for ( name in obj ) {
-			buildParams( prefix + "[" + name + "]", obj[ name ], traditional, add );
-		}
-
-	} else {
-
-		// Serialize scalar item.
-		add( prefix, obj );
-	}
-}
-
-// Serialize an array of form elements or a set of
-// key/values into a query string
-jQuery.param = function( a, traditional ) {
-	var prefix,
-		s = [],
-		add = function( key, value ) {
-
-			// If value is a function, invoke it and return its value
-			value = jQuery.isFunction( value ) ? value() : ( value == null ? "" : value );
-			s[ s.length ] = encodeURIComponent( key ) + "=" + encodeURIComponent( value );
-		};
-
-	// Set traditional to true for jQuery <= 1.3.2 behavior.
-	if ( traditional === undefined ) {
-		traditional = jQuery.ajaxSettings && jQuery.ajaxSettings.traditional;
-	}
-
-	// If an array was passed in, assume that it is an array of form elements.
-	if ( jQuery.isArray( a ) || ( a.jquery && !jQuery.isPlainObject( a ) ) ) {
-
-		// Serialize the form elements
-		jQuery.each( a, function() {
-			add( this.name, this.value );
-		} );
-
-	} else {
-
-		// If traditional, encode the "old" way (the way 1.3.2 or older
-		// did it), otherwise encode params recursively.
-		for ( prefix in a ) {
-			buildParams( prefix, a[ prefix ], traditional, add );
-		}
-	}
-
-	// Return the resulting serialization
-	return s.join( "&" ).replace( r20, "+" );
-};
-
-jQuery.fn.extend( {
-	serialize: function() {
-		return jQuery.param( this.serializeArray() );
-	},
-	serializeArray: function() {
-		return this.map( function() {
-
-			// Can add propHook for "elements" to filter or add form elements
-			var elements = jQuery.prop( this, "elements" );
-			return elements ? jQuery.makeArray( elements ) : this;
-		} )
-		.filter( function() {
-			var type = this.type;
-
-			// Use .is( ":disabled" ) so that fieldset[disabled] works
-			return this.name && !jQuery( this ).is( ":disabled" ) &&
-				rsubmittable.test( this.nodeName ) && !rsubmitterTypes.test( type ) &&
-				( this.checked || !rcheckableType.test( type ) );
-		} )
-		.map( function( i, elem ) {
-			var val = jQuery( this ).val();
-
-			return val == null ?
-				null :
-				jQuery.isArray( val ) ?
-					jQuery.map( val, function( val ) {
-						return { name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
-					} ) :
-					{ name: elem.name, value: val.replace( rCRLF, "\r\n" ) };
-		} ).get();
-	}
-} );
 
 
 jQuery.ajaxSettings.xhr = function() {
@@ -11374,7 +11421,7 @@ var xhrSuccessStatus = {
 		// File protocol always yields status code 0, assume 200
 		0: 200,
 
-		// Support: IE9
+		// Support: IE <=9 only
 		// #1450: sometimes IE returns 1223 when it should be 204
 		1223: 204
 	},
@@ -11438,7 +11485,7 @@ jQuery.ajaxTransport( function( options ) {
 								xhr.abort();
 							} else if ( type === "error" ) {
 
-								// Support: IE9
+								// Support: IE <=9 only
 								// On a manual native abort, IE9 throws
 								// errors on any property access that is not readyState
 								if ( typeof xhr.status !== "number" ) {
@@ -11456,7 +11503,7 @@ jQuery.ajaxTransport( function( options ) {
 									xhrSuccessStatus[ xhr.status ] || xhr.status,
 									xhr.statusText,
 
-									// Support: IE9 only
+									// Support: IE <=9 only
 									// IE9 has no XHR2 but throws on binary (trac-11426)
 									// For XHR2 non-text, let the caller handle it (gh-2498)
 									( xhr.responseType || "text" ) !== "text"  ||
@@ -11474,7 +11521,7 @@ jQuery.ajaxTransport( function( options ) {
 				xhr.onload = callback();
 				errorCallback = xhr.onerror = callback( "error" );
 
-				// Support: IE9
+				// Support: IE 9 only
 				// Use onreadystatechange to replace onabort
 				// to handle uncaught aborts
 				if ( xhr.onabort !== undefined ) {
@@ -11525,6 +11572,13 @@ jQuery.ajaxTransport( function( options ) {
 
 
 
+
+// Prevent auto-execution of scripts when no explicit dataType was provided (See gh-2432)
+jQuery.ajaxPrefilter( function( s ) {
+	if ( s.crossDomain ) {
+		s.contents.script = false;
+	}
+} );
 
 // Install script dataType
 jQuery.ajaxSetup( {
@@ -11685,7 +11739,7 @@ jQuery.ajaxPrefilter( "json jsonp", function( s, originalSettings, jqXHR ) {
 
 
 
-// Support: Safari 8+
+// Support: Safari 8 only
 // In Safari 8 documents created via document.implementation.createHTMLDocument
 // collapse sibling forms: the second one becomes a child of the first one.
 // Because of that, this security measure has to be disabled in Safari 8.
@@ -11702,22 +11756,36 @@ support.createHTMLDocument = ( function() {
 // defaults to document
 // keepScripts (optional): If true, will include scripts passed in the html string
 jQuery.parseHTML = function( data, context, keepScripts ) {
-	if ( !data || typeof data !== "string" ) {
-		return null;
+	if ( typeof data !== "string" ) {
+		return [];
 	}
 	if ( typeof context === "boolean" ) {
 		keepScripts = context;
 		context = false;
 	}
 
-	// Stop scripts or inline event handlers from being executed immediately
-	// by using document.implementation
-	context = context || ( support.createHTMLDocument ?
-		document.implementation.createHTMLDocument( "" ) :
-		document );
+	var base, parsed, scripts;
 
-	var parsed = rsingleTag.exec( data ),
-		scripts = !keepScripts && [];
+	if ( !context ) {
+
+		// Stop scripts or inline event handlers from being executed immediately
+		// by using document.implementation
+		if ( support.createHTMLDocument ) {
+			context = document.implementation.createHTMLDocument( "" );
+
+			// Set the base href for the created document
+			// so any parsed elements with URLs
+			// are based on the document's URL (gh-2965)
+			base = context.createElement( "base" );
+			base.href = document.location.href;
+			context.head.appendChild( base );
+		} else {
+			context = document;
+		}
+	}
+
+	parsed = rsingleTag.exec( data );
+	scripts = !keepScripts && [];
 
 	// Single tag
 	if ( parsed ) {
@@ -11734,17 +11802,10 @@ jQuery.parseHTML = function( data, context, keepScripts ) {
 };
 
 
-// Keep a copy of the old load method
-var _load = jQuery.fn.load;
-
 /**
  * Load a url into a page
  */
 jQuery.fn.load = function( url, params, callback ) {
-	if ( typeof url !== "string" && _load ) {
-		return _load.apply( this, arguments );
-	}
-
 	var selector, type, response,
 		self = this,
 		off = url.indexOf( " " );
@@ -11796,7 +11857,7 @@ jQuery.fn.load = function( url, params, callback ) {
 		// If it fails, this function gets "jqXHR", "status", "error"
 		} ).always( callback && function( jqXHR, status ) {
 			self.each( function() {
-				callback.apply( self, response || [ jqXHR.responseText, status, jqXHR ] );
+				callback.apply( this, response || [ jqXHR.responseText, status, jqXHR ] );
 			} );
 		} );
 	}
@@ -11824,7 +11885,7 @@ jQuery.each( [
 
 
 
-jQuery.expr.filters.animated = function( elem ) {
+jQuery.expr.pseudos.animated = function( elem ) {
 	return jQuery.grep( jQuery.timers, function( fn ) {
 		return elem === fn.elem;
 	} ).length;
@@ -11894,6 +11955,8 @@ jQuery.offset = {
 
 jQuery.fn.extend( {
 	offset: function( options ) {
+
+		// Preserve chaining for setter
 		if ( arguments.length ) {
 			return options === undefined ?
 				this :
@@ -11902,28 +11965,36 @@ jQuery.fn.extend( {
 				} );
 		}
 
-		var docElem, win,
-			elem = this[ 0 ],
-			box = { top: 0, left: 0 },
-			doc = elem && elem.ownerDocument;
+		var docElem, win, rect, doc,
+			elem = this[ 0 ];
 
-		if ( !doc ) {
+		if ( !elem ) {
 			return;
 		}
 
-		docElem = doc.documentElement;
-
-		// Make sure it's not a disconnected DOM node
-		if ( !jQuery.contains( docElem, elem ) ) {
-			return box;
+		// Support: IE <=11 only
+		// Running getBoundingClientRect on a
+		// disconnected node in IE throws an error
+		if ( !elem.getClientRects().length ) {
+			return { top: 0, left: 0 };
 		}
 
-		box = elem.getBoundingClientRect();
-		win = getWindow( doc );
-		return {
-			top: box.top + win.pageYOffset - docElem.clientTop,
-			left: box.left + win.pageXOffset - docElem.clientLeft
-		};
+		rect = elem.getBoundingClientRect();
+
+		// Make sure element is not hidden (display: none)
+		if ( rect.width || rect.height ) {
+			doc = elem.ownerDocument;
+			win = getWindow( doc );
+			docElem = doc.documentElement;
+
+			return {
+				top: rect.top + win.pageYOffset - docElem.clientTop,
+				left: rect.left + win.pageXOffset - docElem.clientLeft
+			};
+		}
+
+		// Return zeros for disconnected and hidden elements (gh-2310)
+		return rect;
 	},
 
 	position: function() {
@@ -11954,11 +12025,10 @@ jQuery.fn.extend( {
 			}
 
 			// Add offsetParent borders
-			// Subtract offsetParent scroll positions
-			parentOffset.top += jQuery.css( offsetParent[ 0 ], "borderTopWidth", true ) -
-				offsetParent.scrollTop();
-			parentOffset.left += jQuery.css( offsetParent[ 0 ], "borderLeftWidth", true ) -
-				offsetParent.scrollLeft();
+			parentOffset = {
+				top: parentOffset.top + jQuery.css( offsetParent[ 0 ], "borderTopWidth", true ),
+				left: parentOffset.left + jQuery.css( offsetParent[ 0 ], "borderLeftWidth", true )
+			};
 		}
 
 		// Subtract parent offsets and element margins
@@ -12016,10 +12086,10 @@ jQuery.each( { scrollLeft: "pageXOffset", scrollTop: "pageYOffset" }, function( 
 	};
 } );
 
-// Support: Safari<7-8+, Chrome<37-44+
+// Support: Safari <=7 - 9.1, Chrome <=37 - 49
 // Add the top/left cssHooks using jQuery.fn.position
 // Webkit bug: https://bugs.webkit.org/show_bug.cgi?id=29084
-// Blink bug: https://code.google.com/p/chromium/issues/detail?id=229280
+// Blink bug: https://bugs.chromium.org/p/chromium/issues/detail?id=589347
 // getComputedStyle returns percent when specified for top/left/bottom/right;
 // rather than make the css module depend on the offset module, just check for it here
 jQuery.each( [ "top", "left" ], function( i, prop ) {
@@ -12053,10 +12123,10 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
 
 				if ( jQuery.isWindow( elem ) ) {
 
-					// As of 5/8/2012 this will yield incorrect results for Mobile Safari, but there
-					// isn't a whole lot we can do. See pull request at this URL for discussion:
-					// https://github.com/jquery/jquery/pull/764
-					return elem.document.documentElement[ "client" + name ];
+					// $( window ).outerWidth/Height return w/h including scrollbars (gh-1729)
+					return funcName.indexOf( "outer" ) === 0 ?
+						elem[ "inner" + name ] :
+						elem.document.documentElement[ "client" + name ];
 				}
 
 				// Get document width or height
@@ -12079,7 +12149,7 @@ jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
 
 					// Set width or height on the element
 					jQuery.style( elem, type, value, extra );
-			}, type, chainable ? margin : undefined, chainable, null );
+			}, type, chainable ? margin : undefined, chainable );
 		};
 	} );
 } );
@@ -12103,13 +12173,10 @@ jQuery.fn.extend( {
 		return arguments.length === 1 ?
 			this.off( selector, "**" ) :
 			this.off( types, selector || "**", fn );
-	},
-	size: function() {
-		return this.length;
 	}
 } );
 
-jQuery.fn.andSelf = jQuery.fn.addBack;
+jQuery.parseJSON = JSON.parse;
 
 
 
@@ -12132,6 +12199,8 @@ if ( typeof define === "function" && define.amd ) {
 		return jQuery;
 	} );
 }
+
+
 
 
 
@@ -12162,19 +12231,16 @@ if ( !noGlobal ) {
 	window.jQuery = window.$ = jQuery;
 }
 
-return jQuery;
-}));
 
-},{}],33:[function(require,module,exports){
+return jQuery;
+} ) );
+
+},{}],28:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 (function ($) {
     'use strict';
@@ -12201,32 +12267,26 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
      * - attr {number} chip-height The height of the chip under the bubble
      */
 
-    var MultiflipBubble = function (_$$cc$Coelement) {
-        _inherits(MultiflipBubble, _$$cc$Coelement);
-
+    var MultiflipBubble = function () {
         function MultiflipBubble(elem) {
             _classCallCheck(this, MultiflipBubble);
 
-            var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MultiflipBubble).call(this, elem));
+            var target = this.target = elem.data('target');
 
-            var target = _this.target = _this.elem.data('target');
+            this.$parent = elem.parent();
 
-            _this.$parent = _this.elem.parent();
+            this.x = target.position().left + target.width() / 2;
+            this.y = target.position().top;
 
-            _this.x = target.position().left + target.width() / 2;
-            _this.y = target.position().top;
+            this.w = +elem.attr('width') || DEFAULT_WIDTH; // component parameter
+            this.h = +elem.attr('height') || DEFAULT_HEIGHT; // component parameter
 
-            _this.w = +_this.elem.attr('width') || DEFAULT_WIDTH; // component parameter
-            _this.h = +_this.elem.attr('height') || DEFAULT_HEIGHT; // component parameter
+            this.color = elem.attr('color') || DEFAULT_COLOR; // component parameter
 
-            _this.color = _this.elem.attr('color') || DEFAULT_COLOR; // component parameter
+            this.chipHeight = elem.attr('chip-height') || DEFAULT_CHIP_HEIGHT; // component paramter
+            this.distance = elem.attr('chip-distance') || DEFAULT_CHIP_DISTANCE; // component parameter
 
-            _this.chipHeight = _this.elem.attr('chip-height') || DEFAULT_CHIP_HEIGHT; // component paramter
-            _this.distance = _this.elem.attr('chip-distance') || DEFAULT_CHIP_DISTANCE; // component parameter
-
-            _this.init();
-
-            return _this;
+            this.init(elem);
         }
 
         _createClass(MultiflipBubble, [{
@@ -12252,15 +12312,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             }
         }, {
             key: 'init',
-            value: function init() {
+            value: function init(elem) {
 
-                this.elem.css({
+                elem.css({
                     position: 'absolute',
                     left: this.x - this.w / 2 + 'px',
                     top: this.y - this.h - this.chipHeight - this.distance + 'px'
                 }).attr({
                     bgcolor: this.color
-                }).width(this.w).height(this.h).append(this.createChip()).cc.init('multiflip');
+                }).width(this.w).height(this.h).append(this.createChip()).cc('multiflip');
             }
         }, {
             key: 'show',
@@ -12277,9 +12337,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }]);
 
         return MultiflipBubble;
-    }($.cc.Coelement);
+    }();
 
-    $.cc.component('multiflip-bubble')(MultiflipBubble);
+    $.cc('multiflip-bubble', MultiflipBubble);
 
     /**
      * @param {jQuery} content The content
@@ -12315,115 +12375,115 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 })(jQuery);
 
 
-},{}],34:[function(require,module,exports){
-(function ($) {
-    'use strict'
+},{}],29:[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
 
-    var DEFAULT_UNIT_DIR = 400
-    var DEFAULT_CONTENT_SHOW_DUR = 400
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-    var DEFAULT_M = 4
-    var DEFAULT_N = 4
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-    var DEFAULT_BGCOLOR = '#393F44'
-    var CHIP_CLASS = 'multiflip-chip'
+var $ = jQuery;
 
-    var FLIP_TRANSFORM = 'rotate3d(1, -1, 0, -180deg)' // Transformation for the flipping a chip
+var DEFAULT_UNIT_DIR = 400;
+var DEFAULT_CONTENT_SHOW_DUR = 400;
 
-    var wait = function (n) {
+var DEFAULT_M = 4;
+var DEFAULT_N = 4;
 
-        return new Promise(function (resolve) {
+var DEFAULT_BGCOLOR = '#393F44';
+var CHIP_CLASS = 'multiflip-chip';
 
-            setTimeout(resolve, n)
+var FLIP_TRANSFORM = 'rotate3d(1, -1, 0, -180deg)'; // Transformation for the flipping a chip
 
-        })
+var wait = function wait(n) {
+    return new Promise(function (resolve) {
+        return setTimeout(resolve, n);
+    });
+};
 
+/**
+ * Multiflip class handles the behaviours of multi-flipping.
+ *
+ * <div class="multiflip" m="6" n="4" unit-dur="400" bgcolor="#4588aa"></div>
+ *
+ * - attr {number} m The horizontal partition number
+ * - attr {number} n The vertical partition number
+ * - attr {number} unit-dur The unit duration of multiflipping
+ * - attr {number} content-show-dur The duration of showing and hiding the content
+ * - attr {string} bgcolor The background color of the flipping chips
+ */
+
+var Multiflip = function () {
+    /**
+     * @param {jQuery} elem The jquery dom
+     */
+
+    function Multiflip(elem) {
+        _classCallCheck(this, Multiflip);
+
+        this.content = $('*', elem);
+        this.w = elem.width();
+        this.h = elem.height();
+
+        this.m = +elem.attr('m') || DEFAULT_M;
+        this.n = +elem.attr('n') || DEFAULT_N;
+        this.uw = this.w / this.m;
+        this.uh = this.h / this.n;
+
+        this.unitDur = +elem.attr('unit-dur') || DEFAULT_UNIT_DIR;
+        this.diffDur = this.unitDur / (this.m + this.n);
+
+        this.contentShowDur = +elem.attr('content-show-dur') || DEFAULT_CONTENT_SHOW_DUR;
+
+        this.bgcolor = elem.attr('bgcolor') || DEFAULT_BGCOLOR;
+
+        this.init(elem);
     }
 
     /**
-     * Multiflip class handles the behaviours of multi-flipping.
-     *
-     * <div class="multiflip" m="6" n="4" unit-dur="400" bgcolor="#4588aa"></div>
-     *
-     * - param {number} m The horizontal partition number
-     * - param {number} n The vertical partition number
-     * - param {number} unit-dur The unit duration of multiflipping
-     * - param {number} content-show-dur The duration of showing and hiding the content
-     * - param {string} bgcolor The background color of the flipping chips
+     * Initializes the multiflip.
+     * @param {jQuery} elem The jquery dom
+     * @private
      */
-    var Multiflip = $.cc.subclass($.cc.Coelement, function (pt, parent) {
 
-        pt.constructor = function (elem) {
 
-            parent.constructor.call(this, elem)
-
-            this.content = $('*', elem)
-            this.w = elem.width()
-            this.h = elem.height()
-
-            this.m = +elem.attr('m') || DEFAULT_M
-            this.n = +elem.attr('n') || DEFAULT_N
-            this.uw = this.w / this.m
-            this.uh = this.h / this.n
-
-            this.unitDur = +elem.attr('unit-dur') || DEFAULT_UNIT_DIR
-            this.diffDur = this.unitDur / (this.m + this.n)
-
-            this.contentShowDur = +elem.attr('content-show-dur') || DEFAULT_CONTENT_SHOW_DUR
-
-            this.bgcolor = elem.attr('bgcolor') || DEFAULT_BGCOLOR
-
-            this.init()
-
-        }
-
-        /**
-         * Initializes the multiflip.
-         *
-         * @method init
-         * @private
-         */
-        pt.init = function () {
-
+    _createClass(Multiflip, [{
+        key: 'init',
+        value: function init(elem) {
             this.content.css({
                 opacity: 0, // sets the content invisible at first
                 transitionDuration: this.contentShowDur + 'ms' // sets the content's transition duration
-            })
+            });
 
-            this.chipGroups = []
+            this.chipGroups = [];
 
             for (var i = 0; i < this.m; i++) {
-
                 for (var j = 0; j < this.n; j++) {
+                    var chip = this.createChip(i * this.uw, j * this.uh, this.uw, this.uh).prependTo(elem).addClass(CHIP_CLASS);
 
-                    var chip = this.createChip(i * this.uw, j * this.uh, this.uw, this.uh)
-                        .prependTo(this.elem).addClass(CHIP_CLASS)
+                    var group = i + j;
 
-                    var group = i + j
-
-                    this.chipGroups[group] = this.chipGroups[group] || []
-                    this.chipGroups[group].push(chip)
-
+                    this.chipGroups[group] = this.chipGroups[group] || [];
+                    this.chipGroups[group].push(chip);
                 }
-
             }
 
-            return this
-
+            return this;
         }
 
         /**
          * Creates the pane's chip
-         *
-         * @method createChip
+         * @private
          * @param {Number} left The left offset
          * @param {Number} top The top offset
          * @param {Number} w The width
          * @param {Number} h The height
-         * @private
          */
-        pt.createChip = function (left, top, w, h) {
 
+    }, {
+        key: 'createChip',
+        value: function createChip(left, top, w, h) {
             return $('<div />').css({
                 position: 'absolute',
                 left: left + 'px',
@@ -12433,91 +12493,112 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                 backgroundColor: this.bgcolor,
                 transitionDuration: this.unitDur + 'ms',
                 transform: FLIP_TRANSFORM,
-                backfaceVisibility: 'hidden'
-            })
-
+                backfaceVisibility: 'hidden',
+                transformStyle: 'preserve-3d'
+            });
         }
 
         /**
          * Performs multiflipping and shows the content.
-         *
-         * @method show
          * @return {Promise}
          */
-        pt.show = function () {
 
-            var that = this
-            var p = wait()
+    }, {
+        key: 'show',
+        value: function show() {
+            var _this = this;
 
             return this.chipGroups.map(function (group, i) {
-
-                return p.then(function () {
-
-                    return wait(that.diffDur * i)
-
-                }).then(function () {
-
+                return wait(_this.diffDur * i).then(function () {
                     group.forEach(function (chip) {
+                        return chip.css('transform', '');
+                    });
 
-                        chip.css('transform', '')
-
-                    })
-
-                    return wait(that.unitDur * 3 / 4) // Ignore the last 25% of the flipping for the moment and starts showing the content.
-
-                })
-
+                    return wait(_this.unitDur * 3 / 4);
+                    // Ignore the last 25% of the flipping for the moment and
+                    // starts showing the content.
+                });
             }).pop().then(function () {
+                return _this.showContents();
+            });
+        }
 
-                that.content.css('opacity', 1) // shows the content
-                return wait(that.contentShowDur) // waits for the content showing
+        /**
+         * Shows the contents.
+         * @private
+         * @return {Promise}
+         */
 
-            })
+    }, {
+        key: 'showContents',
+        value: function showContents() {
+            this.content.css('opacity', 1); // shows the content
 
+            return wait(this.contentShowDur); // waits for the content showing
         }
 
         /**
          * Perfoms multiflipping and hides the content.
-         *
-         * @method hide
          * @return {Promise}
          */
-        pt.hide = function () {
 
-            var that = this
+    }, {
+        key: 'hide',
+        value: function hide() {
+            var _this2 = this;
 
-            this.content.css('opacity', 0) // hides the content
-            var p = wait(that.contentShowDur) // waits the content hiding
-
-            return this.chipGroups.map(function (group, i) {
-
-                return p.then(function () {
-
-                    return wait(that.diffDur * i)
-
-                }).then(function () {
-
-                    group.forEach(function (chip) {
-
-                        chip.css('transform', FLIP_TRANSFORM)
-
-                    })
-
-                    return wait(that.unitDur / 2) // waits only the half of the unit dur because when the chip is half flipped, then it's already invisible.
-
-                })
-
-            }).pop()
-
+            return this.hideContents().then(function () {
+                return _this2.chipGroups.map(function (group, i) {
+                    return _this2.hideChipGroupWithDelay(group, _this2.diffDur * i);
+                }).pop();
+            });
         }
 
-    })
+        /**
+         * Hides the group of the chip with the given delay
+         * @param {jQuery[]} group
+         * @param {number} delay
+         */
 
-    $.cc.component('multiflip')(Multiflip)
+    }, {
+        key: 'hideChipGroupWithDelay',
+        value: function hideChipGroupWithDelay(group, delay) {
+            var _this3 = this;
 
-}(jQuery))
+            return wait(delay).then(function () {
+                group.forEach(function (chip) {
+                    return chip.css('transform', FLIP_TRANSFORM);
+                });
 
-},{}],35:[function(require,module,exports){
+                return wait(_this3.unitDur / 2);
+                // waits only the half of the unit dur
+                // because when the chip is half flipped, then it's already invisible.
+            });
+        }
+
+        /**
+         * Hides the contents.
+         * @private
+         * @return {Promise}
+         */
+
+    }, {
+        key: 'hideContents',
+        value: function hideContents() {
+            this.content.css('opacity', 0); // hides the content
+
+            return wait(this.contentShowDur);
+        }
+    }]);
+
+    return Multiflip;
+}();
+
+$.cc('multiflip', Multiflip);
+
+},{}]},{},[1]);
+
+},{}],30:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -12610,7 +12691,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],36:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 (function (process,global){
 // Copyright (c) Microsoft, All rights reserved. See License.txt in the project root for license information.
 
@@ -19518,30 +19599,16 @@ Observable.fromNodeCallback = function (fn, ctx, selector) {
 }.call(this));
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"_process":35}],37:[function(require,module,exports){
+},{"_process":30}],32:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _wait = require('./wait');
-
-var _wait2 = _interopRequireDefault(_wait);
-
-var _reflow = require('./reflow');
-
-var _reflow2 = _interopRequireDefault(_reflow);
-
-var _ifNumElse = require('./if-num-else');
-
-var _ifNumElse2 = _interopRequireDefault(_ifNumElse);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var wait = require('./wait');
+var reflow = require('./reflow');
+var ifNumElse = require('./if-num-else');
 
 var ANIMATION_PROP_NAME = '-webkit-animation';
 
@@ -19550,7 +19617,6 @@ var ANIMATION_PROP_NAME = '-webkit-animation';
  */
 
 var Animation = function () {
-
   /**
    * @param {String} name The name of the css animation (keyframes)
    * @param {Number} duration The duration of the animation
@@ -19573,52 +19639,95 @@ var Animation = function () {
   _createClass(Animation, [{
     key: 'apply',
     value: function apply(elem, dur) {
-
       elem.css(ANIMATION_PROP_NAME, '');
 
-      (0, _reflow2.default)(elem);
+      reflow(elem);
 
-      elem.css(ANIMATION_PROP_NAME, this.name + ' ' + (0, _ifNumElse2.default)(dur, this.duration) + 'ms');
+      elem.css(ANIMATION_PROP_NAME, this.name + ' ' + ifNumElse(dur, this.duration) + 'ms');
 
-      return (0, _wait2.default)(this.duration);
+      return wait(this.duration);
     }
   }]);
 
   return Animation;
 }();
 
-exports.default = Animation;
-},{"./if-num-else":45,"./reflow":52,"./wait":55}],38:[function(require,module,exports){
+module.exports = Animation;
+},{"./if-num-else":47,"./reflow":55,"./wait":56}],33:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+/**
+ * The model of the size of 2-dimensional rectangles.
+ */
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+var Area = function () {
+  /**
+   * @param {number} width The width
+   * @param {number} height The height
+   */
+
+  function Area(width, height) {
+    _classCallCheck(this, Area);
+
+    this.width = width;
+    this.height = height;
+  }
+
+  /**
+   * Returns a scaled area with the given scales.
+   * @param {number} scaleX The x scale
+   * @param {number} [scaleY] The y scale
+   */
+
+
+  _createClass(Area, [{
+    key: "scale",
+    value: function scale(scaleX, scaleY) {
+      if (scaleY == null) {
+        scaleY = scaleX;
+      }
+
+      return new Area(this.width * scaleX, this.height * scaleY);
+    }
+
+    /**
+     * Returns a area of the square of the given side size.
+     * @param {number} size The size of a side
+     */
+
+  }], [{
+    key: "square",
+    value: function square(size) {
+      return new Area(size, size);
+    }
+  }]);
+
+  return Area;
+}();
+
+module.exports = Area;
+},{}],34:[function(require,module,exports){
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
  * Being represents a dom with visual representation which has the phases, such as show, hide and disappear.
  */
 
-var Being = function (_$$cc$Coelement) {
-  _inherits(Being, _$$cc$Coelement);
-
+var Being = function () {
   function Being() {
     _classCallCheck(this, Being);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Being).apply(this, arguments));
   }
 
   _createClass(Being, [{
     key: "showAnim",
-
 
     /**
      * Returns the animation of showing
@@ -19671,15 +19780,14 @@ var Being = function (_$$cc$Coelement) {
   }, {
     key: "show",
     value: function show(dur) {
-      var _this2 = this;
+      var _this = this;
 
       return Promise.resolve(this.willShow()).then(function () {
+        var anim = _this.showAnim();
 
-        var anim = _this2.showAnim();
-
-        return anim != null && anim.apply(_this2.elem, dur);
+        return anim != null && anim.apply(_this.elem, dur);
       }).then(function () {
-        return _this2.didShow();
+        return _this.didShow();
       });
     }
 
@@ -19715,15 +19823,14 @@ var Being = function (_$$cc$Coelement) {
   }, {
     key: "hide",
     value: function hide(dur) {
-      var _this3 = this;
+      var _this2 = this;
 
       return Promise.resolve(this.willHide()).then(function () {
+        var anim = _this2.hideAnim();
 
-        var anim = _this3.hideAnim();
-
-        return anim != null && anim.apply(_this3.elem, dur);
+        return anim != null && anim.apply(_this2.elem, dur);
       }).then(function () {
-        return _this3.didHide();
+        return _this2.didHide();
       });
     }
 
@@ -19737,50 +19844,36 @@ var Being = function (_$$cc$Coelement) {
   }, {
     key: "disappear",
     value: function disappear(dur) {
-      var _this4 = this;
+      var _this3 = this;
 
       return this.hide(dur).then(function () {
-        return _this4.elem.remove();
+        return _this3.elem.remove();
       });
     }
   }]);
 
   return Being;
-}($.cc.Coelement);
+}();
 
-exports.default = Being;
-},{}],39:[function(require,module,exports){
+module.exports = Being;
+},{}],35:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _wait = require('./wait');
-
-var _wait2 = _interopRequireDefault(_wait);
-
-var _being = require('./being');
-
-var _being2 = _interopRequireDefault(_being);
-
-var _posture = require('./posture');
-
-var _posture2 = _interopRequireDefault(_posture);
-
-var _reflow = require('./reflow');
-
-var _reflow2 = _interopRequireDefault(_reflow);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var wait = require('./wait');
+var Being = require('./being');
+var Posture = require('./posture');
+var reflow = require('./reflow');
+var Point = require('./point');
+var Area = require('./area');
+var ifNumElse = require('./if-num-else');
 
 /**
  * Body has width, height, position and information about how it put at the postion.
@@ -19790,19 +19883,20 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Body = function (_Being) {
   _inherits(Body, _Being);
 
-  /**
-   * @param {jQuery} elem The element
-   */
-
-  function Body(elem) {
+  function Body() {
     _classCallCheck(this, Body);
+
+    /**
+     * @deprecated
+     */
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Body).call(this));
+
+    _this.transitionDuration = _this.defaultTransitionDuration();
 
     /**
      * @property {Number} x sprite's x coordinate value
      */
-
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Body).call(this, elem));
-
     _this.x = 0;
 
     /**
@@ -19813,7 +19907,7 @@ var Body = function (_Being) {
     /**
      * @property {Posture} posture The posture of the rectangle
      */
-    _this.posture = new _posture2.default({
+    _this.posture = new Posture({
       width: _this.width(),
       height: _this.height(),
       ratioX: _this.ratioX(),
@@ -19821,9 +19915,6 @@ var Body = function (_Being) {
       marginX: _this.marginX(),
       marginY: _this.marginY()
     });
-
-    _this.elem.css('position', 'absolute'); // Set `position: absolute`, this class doesn't work without this.
-
     return _this;
   }
 
@@ -19862,6 +19953,11 @@ var Body = function (_Being) {
     value: function marginY() {
       return 0;
     }
+  }, {
+    key: 'defaultTransitionDuration',
+    value: function defaultTransitionDuration() {
+      return 500;
+    }
 
     /**
      * Returns the actual width of the elem.
@@ -19870,7 +19966,6 @@ var Body = function (_Being) {
   }, {
     key: 'actualWidth',
     value: function actualWidth() {
-
       return this.posture.actualWidth();
     }
 
@@ -19881,7 +19976,6 @@ var Body = function (_Being) {
   }, {
     key: 'actualHeight',
     value: function actualHeight() {
-
       return this.posture.actualHeight();
     }
 
@@ -19893,8 +19987,10 @@ var Body = function (_Being) {
   }, {
     key: 'willShow',
     value: function willShow() {
+      this.updateOffset();
+      this.updateRect();
 
-      this.updateElem();
+      reflow(this.elem);
     }
 
     /**
@@ -19905,7 +20001,6 @@ var Body = function (_Being) {
   }, {
     key: 'rightLimit',
     value: function rightLimit() {
-
       return this.posture.rightLimit(this.x);
     }
 
@@ -19917,7 +20012,6 @@ var Body = function (_Being) {
   }, {
     key: 'leftLimit',
     value: function leftLimit() {
-
       return this.posture.leftLimit(this.x);
     }
 
@@ -19928,7 +20022,6 @@ var Body = function (_Being) {
   }, {
     key: 'topLimit',
     value: function topLimit() {
-
       return this.posture.topLimit(this.y);
     }
 
@@ -19939,7 +20032,6 @@ var Body = function (_Being) {
   }, {
     key: 'bottomLimit',
     value: function bottomLimit() {
-
       return this.posture.bottomLimit(this.y);
     }
 
@@ -19951,7 +20043,6 @@ var Body = function (_Being) {
   }, {
     key: 'centerX',
     value: function centerX() {
-
       return this.posture.centerX(this.x);
     }
 
@@ -19963,7 +20054,6 @@ var Body = function (_Being) {
   }, {
     key: 'centerY',
     value: function centerY() {
-
       return this.posture.centerY(this.y);
     }
 
@@ -19975,9 +20065,8 @@ var Body = function (_Being) {
   }, {
     key: 'updateOffset',
     value: function updateOffset() {
-
-      this.elem.css('top', this.posture.topLimit(this.y));
-      this.elem.css('left', this.posture.leftLimit(this.x));
+      this.elem.css('top', this.topLimit());
+      this.elem.css('left', this.leftLimit());
     }
 
     /**
@@ -19988,14 +20077,62 @@ var Body = function (_Being) {
   }, {
     key: 'updateRect',
     value: function updateRect() {
+      this.elem.width(this.actualWidth());
+      this.elem.height(this.actualHeight());
+    }
 
-      this.elem.width(this.posture.actualWidth());
-      this.elem.height(this.posture.actualHeight());
+    /**
+     * Stops the dom transition and update current state by the dom state.
+     * @private
+     */
+
+  }, {
+    key: 'stop',
+    value: function stop() {
+      this.elem.width(this.elem.width());
+      this.elem.height(this.elem.height());
+      this.elem.css('top', this.elem.css('top'));
+      this.elem.css('left', this.elem.css('left'));
+
+      this.posture.setActualWidth(this.elem.width());
+      this.posture.setActualHeight(this.elem.height());
+
+      this.x = Body.pxToNum(this.elem.css('left')) + this.posture.width * this.posture.ratioX;
+      this.y = Body.pxToNum(this.elem.css('top')) + this.posture.height * this.posture.ratioY;
+    }
+
+    /**
+     * Converts the pixel to the number.
+     * @param {string} px The pixel
+     * @return {number}
+     */
+
+  }, {
+    key: 'engage',
+
+
+    /**
+     * Updates the dom with current state and returns a promise which resolves when the updates finished.
+     * @param {number} [duration] The transition duration
+     * @return {Promise}
+     */
+    value: function engage(duration) {
+      duration = ifNumElse(duration, this.defaultTransitionDuration());
+
+      this.elem.css('transition-duration', duration + 'ms');
+
+      reflow(this.elem);
+
+      this.updateRect();
+      this.updateOffset();
+
+      return wait(duration);
     }
 
     /**
      * Updates the actual elem dom according to the current posture.
      * Returns a promise which resolves with the transitionDuration milliseconds.
+     * @deprecated
      * @param {Number} [dur] The
      * @return {Promise}
      */
@@ -20003,27 +20140,25 @@ var Body = function (_Being) {
   }, {
     key: 'updateElem',
     value: function updateElem(dur) {
-
       if (dur) {
-
         this.setTransitionDuration(dur);
       }
 
       this.updateRect();
       this.updateOffset();
 
-      return (0, _wait2.default)(this.transitionDuration);
+      return wait(this.transitionDuration);
     }
 
     /**
      * Moves the elem to the given y position.
+     * @deprecated
      * @param {Number} to The y position
      */
 
   }, {
     key: 'moveToY',
     value: function moveToY(to) {
-
       this.y = to;
 
       return this.updateElem();
@@ -20031,13 +20166,13 @@ var Body = function (_Being) {
 
     /**
      * Moves the elem to the given x position.
+     * @deprecated
      * @param {Number} to The x position
      */
 
   }, {
     key: 'moveToX',
     value: function moveToX(to) {
-
       this.x = to;
 
       return this.updateElem();
@@ -20045,18 +20180,18 @@ var Body = function (_Being) {
 
     /**
      * Sets the transition duration.
-     * @param {Number} dur The transition duration
+     * @deprecated
+     * @param {number} dur The transition duration
      */
 
   }, {
     key: 'setTransitionDuration',
     value: function setTransitionDuration(dur) {
-
       this.transitionDuration = dur;
 
       this.elem.css('transition-duration', dur + 'ms');
 
-      (0, _reflow2.default)(this.elem);
+      reflow(this.elem);
     }
 
     /**
@@ -20067,58 +20202,307 @@ var Body = function (_Being) {
   }, {
     key: 'setRect',
     value: function setRect(rect) {
-
       this.x = this.posture.getXInRect(rect);
       this.y = this.posture.getYInRect(rect);
 
       this.posture.fitToRect(rect);
     }
+
+    /**
+     * Sets the body at the given point.
+     * @param {Point} point The point
+     */
+
+  }, {
+    key: 'setAt',
+    value: function setAt(point) {
+      this.x = point.x;
+      this.y = point.y;
+    }
+
+    /**
+     * Returns the point where this body is at.
+     * @return {Point}
+     */
+
+  }, {
+    key: 'getPoint',
+    value: function getPoint() {
+      return new Point(this.x, this.y);
+    }
+
+    /**
+     * @param {Area} area The area to fit
+     */
+
+  }, {
+    key: 'setArea',
+    value: function setArea(area) {
+      this.posture.fitToArea(area);
+    }
+
+    /**
+     * Gets the area which the body occupies.
+     * @return {Area}
+     */
+
+  }, {
+    key: 'getArea',
+    value: function getArea() {
+      return new Area(this.posture.width, this.posture.height);
+    }
+  }], [{
+    key: 'pxToNum',
+    value: function pxToNum(px) {
+      return +px.slice(0, -2);
+    }
   }]);
 
   return Body;
-}(_being2.default);
+}(Being);
 
-exports.default = Body;
-},{"./being":38,"./posture":50,"./reflow":52,"./wait":55}],40:[function(require,module,exports){
+module.exports = Body;
+},{"./area":33,"./being":34,"./if-num-else":47,"./point":52,"./posture":53,"./reflow":55,"./wait":56}],36:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-var _sprite = require('./sprite');
+var Animation = require('../animation');
 
-var _sprite2 = _interopRequireDefault(_sprite);
+/**
+ * Adds `hideAnim` and `showAnim` methods to the decorated class with the given params.
+ * @param {Array} show The show animation params
+ * @param {Array} hide The hide animation params
+ */
+module.exports = function (_ref) {
+  var show = _ref.show;
+  var hide = _ref.hide;
+  return function (Cls) {
+    if (show) {
+      var _show = _slicedToArray(show, 2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+      var name = _show[0];
+      var dur = _show[1];
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+      module.exports.show(name, dur)(Cls);
+    }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+    if (hide) {
+      var _hide = _slicedToArray(hide, 2);
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+      var name = _hide[0];
+      var dur = _hide[1];
 
-var CharSprite = function (_Sprite) {
-  _inherits(CharSprite, _Sprite);
+      module.exports.hide(name, dur)(Cls);
+    }
 
-  function CharSprite() {
-    _classCallCheck(this, CharSprite);
+    return Cls;
+  };
+};
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(CharSprite).apply(this, arguments));
-  }
+/**
+ * Adds `hideAnim` method with the given params to the decorated class.
+ * @param {string} name The animation name (of css animation which is available in the page context)
+ * @param {number} [dur=500] The duration of the animation
+ */
+module.exports.hide = function (name) {
+  var dur = arguments.length <= 1 || arguments[1] === undefined ? 500 : arguments[1];
+  return function (Cls) {
+    Cls.prototype.hideAnim = function () {
+      return new Animation(name, dur);
+    };
+    return Cls;
+  };
+};
 
-  return CharSprite;
-}(_sprite2.default);
+/**
+ * Adds `showAnim` method with the given params to the decorated class.
+ * @param {string} name The animation name (of css animation which is available in the page context)
+ * @param {number} [dur=500] The duration of the animation
+ */
+module.exports.show = function (name) {
+  var dur = arguments.length <= 1 || arguments[1] === undefined ? 500 : arguments[1];
 
-exports.default = CharSprite;
-},{"./sprite":53}],41:[function(require,module,exports){
+  var d = function d(Cls) {
+    Cls.prototype.showAnim = function () {
+      return new Animation(name, dur);
+    };
+    return Cls;
+  };
+
+  d.hide = function (name, dur) {
+    return function (Cls) {
+      return module.exports.hide(name, dur)(d(Cls));
+    };
+  };
+
+  return d;
+};
+},{"../animation":32}],37:[function(require,module,exports){
+"use strict";
+
+/**
+ * Adds the height method to the class.
+ * @param {number} height The height
+ * @param {Function} Cls The class to decorate
+ */
+module.exports = function (height) {
+  return function (Cls) {
+    Cls.prototype.height = function () {
+      return height;
+    };
+  };
+};
+},{}],38:[function(require,module,exports){
+'use strict';
+
+exports.animation = require('./animation');
+exports.ratio = require('./ratio');
+exports.transition = require('./transition');
+exports.width = require('./width');
+exports.height = require('./height');
+exports.margin = require('./margin');
+},{"./animation":36,"./height":37,"./margin":39,"./ratio":40,"./transition":41,"./width":42}],39:[function(require,module,exports){
+"use strict";
+
+/**
+ * The decorator for adding `margin%` methods.
+ */
+module.exports = function (_ref) {
+  var x = _ref.x;
+  var y = _ref.y;
+  var left = _ref.left;
+  var right = _ref.right;
+  var top = _ref.top;
+  var bottom = _ref.bottom;
+  return function (Cls) {
+    var prototype = Cls.prototype;
+
+    if (x) {
+      prototype.marginX = function () {
+        return x;
+      };
+    }
+    if (y) {
+      prototype.marginY = function () {
+        return y;
+      };
+    }
+    if (left) {
+      prototype.marginLeft = function () {
+        return left;
+      };
+    }
+    if (right) {
+      prototype.marginRight = function () {
+        return right;
+      };
+    }
+    if (top) {
+      prototype.marginTop = function () {
+        return top;
+      };
+    }
+    if (bottom) {
+      prototype.marginBottom = function () {
+        return bottom;
+      };
+    }
+
+    return Cls;
+  };
+};
+},{}],40:[function(require,module,exports){
+"use strict";
+
+/**
+ * Adds `ratioX` and `ratioY` methods.
+ * @param {number} x The ratioX value
+ * @param {number} y The ratioY value
+ */
+module.exports = function (_ref) {
+  var x = _ref.x;
+  var y = _ref.y;
+  return function (Cls) {
+    if (x) {
+      module.exports.x(x)(Cls);
+    }
+
+    if (y) {
+      module.exports.y(y)(Cls);
+    }
+
+    return Cls;
+  };
+};
+
+/**
+ * Adds ratioX method to the class.
+ * @param {number} x The ratioX value
+ */
+module.exports.x = function (x) {
+  var d = function d(Cls) {
+    Cls.prototype.ratioX = function () {
+      return x;
+    };
+    return Cls;
+  };
+
+  d.y = function (y) {
+    return function (Cls) {
+      return module.exports.y(y)(d(Cls));
+    };
+  };
+
+  return d;
+};
+
+/**
+ * Adds ratioY method to the class.
+ * @param {number} y The ratioY value
+ */
+module.exports.y = function (y) {
+  return function (Cls) {
+    Cls.prototype.ratioY = function () {
+      return y;
+    };
+    return Cls;
+  };
+};
+},{}],41:[function(require,module,exports){
+"use strict";
+
+/**
+ * Sets defaultTransitionDuration method to the class.
+ * @param {number} duration The transition duration
+ * @param {Function} Cls The class to decorate
+ */
+exports.duration = function (duration) {
+  return function (Cls) {
+    Cls.prototype.defaultTransitionDuration = function () {
+      return duration;
+    };
+  };
+};
+},{}],42:[function(require,module,exports){
+"use strict";
+
+/**
+ * Adds the height method to the class.
+ * @param {number} width The width
+ * @param {Function} Cls The class to decorate
+ */
+module.exports = function (width) {
+  return function (Cls) {
+    Cls.prototype.width = function () {
+      return width;
+    };
+  };
+};
+},{}],43:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -20127,95 +20511,78 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 
 var DirStateImageMap = function () {
-    function DirStateImageMap() {
-        _classCallCheck(this, DirStateImageMap);
+  function DirStateImageMap() {
+    _classCallCheck(this, DirStateImageMap);
 
-        this.imageMap = {};
+    this.imageMap = {};
+  }
+
+  /**
+  * @param {string} dir The direction
+  * @param {string} state The state
+  * @param {Image} image The image
+   */
+
+
+  _createClass(DirStateImageMap, [{
+    key: 'addImageByDirState',
+    value: function addImageByDirState(image, dir, state) {
+      this.imageMap[this.getMapKey(dir, state)] = image;
     }
 
     /**
-    * @param {string} dir The direction
-    * @param {string} state The state
-    * @param {Image} image The image
+     * Gets the image by the dir and state.
+     *
+     * @param {string} dir The direction
+     * @param {string} state The state
+     * @return {Image}
      */
 
+  }, {
+    key: 'get',
+    value: function get(dir, state) {
+      var image = this.imageMap[this.getMapKey(dir, state)];
 
-    _createClass(DirStateImageMap, [{
-        key: 'addImageByDirState',
-        value: function addImageByDirState(image, dir, state) {
+      if (!image) {
+        throw new Error('illegal (dir, state): (' + this.dir + ', ' + this.state + ')');
+      }
 
-            this.imageMap[this.getMapKey(dir, state)] = image;
-        }
+      return image;
+    }
 
-        /**
-         * Gets the image by the dir and state.
-         *
-         * @param {string} dir The direction
-         * @param {string} state The state
-         * @return {Image}
-         */
+    /**
+     * Returns the key string for the dir and state.
+     *
+     * @private
+     * @param {string} dir The direction
+     * @param {string} state The state
+     * @return {string}
+     */
 
-    }, {
-        key: 'get',
-        value: function get(dir, state) {
+  }, {
+    key: 'getMapKey',
+    value: function getMapKey(dir, state) {
+      return dir + '/' + state;
+    }
+  }]);
 
-            var image = this.imageMap[this.getMapKey(dir, state)];
-
-            if (!image) {
-
-                throw new Error('illegal (dir, state): (' + this.dir + ', ' + this.state + ')');
-            }
-
-            return image;
-        }
-
-        /**
-         * Returns the key string for the dir and state.
-         *
-         * @private
-         * @param {string} dir The direction
-         * @param {string} state The state
-         * @return {string}
-         */
-
-    }, {
-        key: 'getMapKey',
-        value: function getMapKey(dir, state) {
-
-            return dir + '/' + state;
-        }
-    }]);
-
-    return DirStateImageMap;
+  return DirStateImageMap;
 }();
 
-exports.default = DirStateImageMap;
-},{}],42:[function(require,module,exports){
+module.exports = DirStateImageMap;
+},{}],44:[function(require,module,exports){
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var UP = exports.UP = 0;
-var TOP = exports.TOP = 0;
-var LEFT = exports.LEFT = 1;
-var RIGHT = exports.RIGHT = 2;
-var BOTTOM = exports.BOTTOM = 3;
-var DOWN = exports.DOWN = 3;
-},{}],43:[function(require,module,exports){
+exports.UP = 0;
+exports.TOP = 0;
+exports.LEFT = 1;
+exports.RIGHT = 2;
+exports.BOTTOM = 3;
+exports.DOWN = 3;
+},{}],45:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _body = require('./body');
-
-var _body2 = _interopRequireDefault(_body);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -20223,311 +20590,285 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var Body = require('./body');
+
 /**
  * A GridWalker is a Body which walks along the given Grid.
  */
 
 var GridWalker = function (_Body) {
-    _inherits(GridWalker, _Body);
+  _inherits(GridWalker, _Body);
 
-    _createClass(GridWalker, [{
-        key: 'ratioX',
+  _createClass(GridWalker, [{
+    key: 'ratioX',
 
-
-        /**
-         * @override
-         */
-        value: function ratioX() {
-            return 0.5;
-        }
-
-        /**
-         * @override
-         */
-
-    }, {
-        key: 'ratioY',
-        value: function ratioY() {
-            return 0.5;
-        }
-
-        /**
-         * The ratio of how much the grid walker occupies the given cell width.
-         *
-         * @return {number}
-         */
-
-    }, {
-        key: 'cellRatioX',
-        value: function cellRatioX() {
-            return 1;
-        }
-
-        /**
-         *  The ratio of how much the grid walker occupies the given cell height.
-         *
-         * @return {number}
-         */
-
-    }, {
-        key: 'cellRatioY',
-        value: function cellRatioY() {
-            return 1;
-        }
-    }]);
-
-    function GridWalker(elem) {
-        _classCallCheck(this, GridWalker);
-
-        /**
-         * @property {number} m The horizontal grid position
-         */
-
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(GridWalker).call(this, elem));
-
-        _this.m = 0;
-
-        /**
-         * @property {number} n The vertical grid position
-         */
-        _this.n = 0;
-
-        return _this;
+    /**
+     * @override
+     */
+    value: function ratioX() {
+      return 0.5;
     }
 
     /**
      * @override
      */
 
+  }, {
+    key: 'ratioY',
+    value: function ratioY() {
+      return 0.5;
+    }
 
-    _createClass(GridWalker, [{
-        key: 'willShow',
-        value: function willShow() {
+    /**
+     * The ratio of how much the grid walker occupies the given cell width.
+     *
+     * @return {number}
+     */
 
-            return this.fitToGrid();
-        }
+  }, {
+    key: 'cellRatioX',
+    value: function cellRatioX() {
+      return 1;
+    }
 
-        /**
-         * Sets the grid and the position in it.
-         *
-         * @param {Grid} grid The grid layout info
-         * @param {Number} [m] The horizontal grid position
-         * @param {Number} [n] The vertical grid position
-         */
+    /**
+     *  The ratio of how much the grid walker occupies the given cell height.
+     *
+     * @return {number}
+     */
 
-    }, {
-        key: 'setGrid',
-        value: function setGrid(grid, m, n) {
+  }, {
+    key: 'cellRatioY',
+    value: function cellRatioY() {
+      return 1;
+    }
+  }]);
 
-            this.grid = grid;
+  function GridWalker() {
+    _classCallCheck(this, GridWalker);
 
-            this.setGridPosition(m, n);
-        }
+    /**
+     * @property {number} m The horizontal grid position
+     */
 
-        /**
-         * Sets the grid position.
-         *
-         * @param {Number} [m] The horizontal grid position
-         * @param {Number} [n] The vertical grid position
-         */
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(GridWalker).call(this));
 
-    }, {
-        key: 'setGridPosition',
-        value: function setGridPosition(m, n) {
+    _this.m = 0;
 
-            if (typeof m === 'number') {
+    /**
+     * @property {number} n The vertical grid position
+     */
+    _this.n = 0;
+    return _this;
+  }
 
-                this.m = m;
-            }
+  /**
+   * @override
+   */
 
-            if (typeof n === 'number') {
 
-                this.n = n;
-            }
-        }
+  _createClass(GridWalker, [{
+    key: 'willShow',
+    value: function willShow() {
+      return this.fitToGrid();
+    }
 
-        /**
-         * Updates the element's dom state using the current grid state info.
-         *
-         * @param {Number} [dur] The duration to change
-         * @return {Promise}
-         */
+    /**
+     * Sets the grid and the position in it.
+     *
+     * @param {Grid} grid The grid layout info
+     * @param {Number} [m] The horizontal grid position
+     * @param {Number} [n] The vertical grid position
+     */
 
-    }, {
-        key: 'updateElemOnGrid',
-        value: function updateElemOnGrid(dur) {
+  }, {
+    key: 'setGrid',
+    value: function setGrid(grid, m, n) {
+      this.grid = grid;
 
-            this.x = this.grid.getX(this.m);
-            this.y = this.grid.getY(this.n);
+      this.setGridPosition(m, n);
+    }
 
-            return this.updateElem(dur);
-        }
+    /**
+     * Sets the grid position.
+     *
+     * @param {Number} [m] The horizontal grid position
+     * @param {Number} [n] The vertical grid position
+     */
 
-        /**
-         * Fits the posture into the (grid.cellWidth, grid.cellHeight) and moves to the current grid position.
-         *
-         * @param {Number} [dur] The duration to change
-         * @return {Promise}
-         */
+  }, {
+    key: 'setGridPosition',
+    value: function setGridPosition(m, n) {
+      if (typeof m === 'number') {
+        this.m = m;
+      }
 
-    }, {
-        key: 'fitToGrid',
-        value: function fitToGrid(dur) {
+      if (typeof n === 'number') {
+        this.n = n;
+      }
+    }
 
-            this.posture.fitInto(this.grid.cellWidth * this.cellRatioX(), this.grid.cellHeight * this.cellRatioY());
+    /**
+     * Updates the element's dom state using the current grid state info.
+     *
+     * @param {Number} [dur] The duration to change
+     * @return {Promise}
+     */
 
-            return this.updateElemOnGrid(dur);
-        }
+  }, {
+    key: 'updateElemOnGrid',
+    value: function updateElemOnGrid(dur) {
+      this.x = this.grid.getX(this.m);
+      this.y = this.grid.getY(this.n);
 
-        /**
-         * Moves to the horizontal grid positon m.
-         *
-         * @param {Number} m The horizontal grid position
-         * @param {Number} [dur] The duration to change
-         * @return {Promise}
-         */
+      return this.updateElem(dur);
+    }
 
-    }, {
-        key: 'moveToM',
-        value: function moveToM(m, dur) {
+    /**
+     * Fits the posture into the (grid.cellWidth, grid.cellHeight) and moves to the current grid position.
+     *
+     * @param {Number} [dur] The duration to change
+     * @return {Promise}
+     */
 
-            this.x = this.grid.getX(this.m = m);
+  }, {
+    key: 'fitToGrid',
+    value: function fitToGrid(dur) {
+      this.posture.fitInto(this.grid.cellWidth * this.cellRatioX(), this.grid.cellHeight * this.cellRatioY());
 
-            return this.updateElem(dur);
-        }
+      return this.updateElemOnGrid(dur);
+    }
 
-        /**
-         * Moves to the vertical grid position n.
-         *
-         * @param {Number} n The vertical grid position
-         * @param {Number} [dur] The duration to change
-         * @return {Promise}
-         */
+    /**
+     * Moves to the horizontal grid positon m.
+     *
+     * @param {Number} m The horizontal grid position
+     * @param {Number} [dur] The duration to change
+     * @return {Promise}
+     */
 
-    }, {
-        key: 'moveToN',
-        value: function moveToN(n, dur) {
+  }, {
+    key: 'moveToM',
+    value: function moveToM(m, dur) {
+      this.x = this.grid.getX(this.m = m);
 
-            this.y = this.grid.getY(this.n = n);
+      return this.updateElem(dur);
+    }
 
-            return this.updateElem(dur);
-        }
+    /**
+     * Moves to the vertical grid position n.
+     *
+     * @param {Number} n The vertical grid position
+     * @param {Number} [dur] The duration to change
+     * @return {Promise}
+     */
 
-        /**
-         * Moves to the given grid position.
-         *
-         * @param {Number} m The horizontal grid position
-         * @param {Number} n The vertical grid position
-         * @param {Number} [dur] The duration to change
-         * @return {Promise}
-         */
+  }, {
+    key: 'moveToN',
+    value: function moveToN(n, dur) {
+      this.y = this.grid.getY(this.n = n);
 
-    }, {
-        key: 'moveToGridPosition',
-        value: function moveToGridPosition(m, n, dur) {
+      return this.updateElem(dur);
+    }
 
-            this.setGridPosition(m, n);
+    /**
+     * Moves to the given grid position.
+     *
+     * @param {Number} m The horizontal grid position
+     * @param {Number} n The vertical grid position
+     * @param {Number} [dur] The duration to change
+     * @return {Promise}
+     */
 
-            return this.updateElemOnGrid(dur);
-        }
+  }, {
+    key: 'moveToGridPosition',
+    value: function moveToGridPosition(m, n, dur) {
+      this.setGridPosition(m, n);
 
-        /**
-         * Moves along the grid.
-         *
-         * @param {Number} diffM The move distance along the horizontal line
-         * @param {Number} diffN The move distance along the vertical line
-         * @param {Number} [dur] The duration to change
-         * @return {Promise}
-         */
+      return this.updateElemOnGrid(dur);
+    }
 
-    }, {
-        key: 'moveOnGrid',
-        value: function moveOnGrid(distM, distN, dur) {
+    /**
+     * Moves along the grid.
+     *
+     * @param {Number} diffM The move distance along the horizontal line
+     * @param {Number} diffN The move distance along the vertical line
+     * @param {Number} [dur] The duration to change
+     * @return {Promise}
+     */
 
-            return this.moveToGridPosition(this.m + distM, this.n + distN, dur);
-        }
+  }, {
+    key: 'moveOnGrid',
+    value: function moveOnGrid(distM, distN, dur) {
+      return this.moveToGridPosition(this.m + distM, this.n + distN, dur);
+    }
 
-        /**
-         * Moves a unit upward along the grid.
-         *
-         * @param {Number} [dur] The duration to change
-         * @return {Promise}
-         */
+    /**
+     * Moves a unit upward along the grid.
+     *
+     * @param {Number} [dur] The duration to change
+     * @return {Promise}
+     */
 
-    }, {
-        key: 'moveUpOnGrid',
-        value: function moveUpOnGrid(dur) {
+  }, {
+    key: 'moveUpOnGrid',
+    value: function moveUpOnGrid(dur) {
+      return this.moveOnGrid(0, -1, dur);
+    }
 
-            return this.moveOnGrid(0, -1, dur);
-        }
+    /**
+     * Moves a unit upward along the grid.
+     *
+     * @param {Number} [dur] The duration to change
+     * @return {Promise}
+     */
 
-        /**
-         * Moves a unit upward along the grid.
-         *
-         * @param {Number} [dur] The duration to change
-         * @return {Promise}
-         */
+  }, {
+    key: 'moveRightOnGrid',
+    value: function moveRightOnGrid(dur) {
+      return this.moveOnGrid(1, 0, dur);
+    }
 
-    }, {
-        key: 'moveRightOnGrid',
-        value: function moveRightOnGrid(dur) {
+    /**
+     * Moves a unit upward along the grid.
+     *
+     * @param {Number} [dur] The duration to change
+     * @return {Promise}
+     */
 
-            return this.moveOnGrid(1, 0, dur);
-        }
+  }, {
+    key: 'moveDownOnGrid',
+    value: function moveDownOnGrid(dur) {
+      return this.moveOnGrid(0, 1, dur);
+    }
 
-        /**
-         * Moves a unit upward along the grid.
-         *
-         * @param {Number} [dur] The duration to change
-         * @return {Promise}
-         */
+    /**
+     * Moves a unit upward along the grid.
+     *
+     * @param {Number} [dur] The duration to change
+     * @return {Promise}
+     */
 
-    }, {
-        key: 'moveDownOnGrid',
-        value: function moveDownOnGrid(dur) {
+  }, {
+    key: 'moveLeftOnGrid',
+    value: function moveLeftOnGrid(dur) {
+      return this.moveOnGrid(-1, 0, dur);
+    }
+  }]);
 
-            return this.moveOnGrid(0, 1, dur);
-        }
+  return GridWalker;
+}(Body);
 
-        /**
-         * Moves a unit upward along the grid.
-         *
-         * @param {Number} [dur] The duration to change
-         * @return {Promise}
-         */
-
-    }, {
-        key: 'moveLeftOnGrid',
-        value: function moveLeftOnGrid(dur) {
-
-            return this.moveOnGrid(-1, 0, dur);
-        }
-    }]);
-
-    return GridWalker;
-}(_body2.default);
-
-exports.default = GridWalker;
-},{"./body":39}],44:[function(require,module,exports){
+module.exports = GridWalker;
+},{"./body":35}],46:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _rect = require('./rect');
-
-var _rect2 = _interopRequireDefault(_rect);
-
-var _ifNumElse = require('./if-num-else');
-
-var _ifNumElse2 = _interopRequireDefault(_ifNumElse);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Rect = require('./rect');
+var ifNumElse = require('./if-num-else');
 
 /**
  * Grid model represents the grid layout.
@@ -20540,240 +20881,218 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 
 var Grid = function () {
+  /**
+   * @param {Number} x The x coordinate
+   * @param {Number} y The y coordinate
+   * @param {Number} [unitWidth] The width of the unit
+   * @param {Number} [unitHeight] The height of the unit
+   * @param {Number} [cellWidth] The width of the cell
+   * @param {Number} [cellHeight] The height of the cell
+   */
 
-    /**
-     * @param {Number} x The x coordinate
-     * @param {Number} y The y coordinate
-     * @param {Number} [unitWidth] The width of the unit
-     * @param {Number} [unitHeight] The height of the unit
-     * @param {Number} [cellWidth] The width of the cell
-     * @param {Number} [cellHeight] The height of the cell
-     */
+  function Grid(_ref) {
+    var x = _ref.x;
+    var y = _ref.y;
+    var unitWidth = _ref.unitWidth;
+    var unitHeight = _ref.unitHeight;
+    var cellWidth = _ref.cellWidth;
+    var cellHeight = _ref.cellHeight;
 
-    function Grid(_ref) {
-        var x = _ref.x;
-        var y = _ref.y;
-        var unitWidth = _ref.unitWidth;
-        var unitHeight = _ref.unitHeight;
-        var cellWidth = _ref.cellWidth;
-        var cellHeight = _ref.cellHeight;
+    _classCallCheck(this, Grid);
 
-        _classCallCheck(this, Grid);
+    this.x = x;
+    this.y = y;
+    this.unitWidth = ifNumElse(unitWidth, 0);
+    this.unitHeight = ifNumElse(unitHeight, 0);
+    this.cellWidth = ifNumElse(cellWidth, this.unitWidth);
+    this.cellHeight = ifNumElse(cellHeight, this.unitHeight);
+  }
 
-        this.x = x;
-        this.y = y;
-        this.unitWidth = (0, _ifNumElse2.default)(unitWidth, 0);
-        this.unitHeight = (0, _ifNumElse2.default)(unitHeight, 0);
-        this.cellWidth = (0, _ifNumElse2.default)(cellWidth, this.unitWidth);
-        this.cellHeight = (0, _ifNumElse2.default)(cellHeight, this.unitHeight);
+  /**
+   * Gets the x of the given grid m position.
+   *
+   * @param {Number} m The m position (Integer)
+   * @return {Number}
+   */
+
+
+  _createClass(Grid, [{
+    key: 'getX',
+    value: function getX(m) {
+      return this.x + this.unitWidth * m;
     }
 
     /**
-     * Gets the x of the given grid m position.
+     * Gets the y of the given grid n position.
      *
-     * @param {Number} m The m position (Integer)
+     * @param {Number} n The n position (Integer)
      * @return {Number}
      */
 
+  }, {
+    key: 'getY',
+    value: function getY(n) {
+      return this.y + this.unitHeight * n;
+    }
 
-    _createClass(Grid, [{
-        key: 'getX',
-        value: function getX(m) {
+    /**
+     * Returns the translated grid by the given distances.
+     *
+     * @param {Number} x The horizontal translate distance
+     * @param {Number} y The vertical translate distance
+     * @return {Grid}
+     */
 
-            return this.x + this.unitWidth * m;
-        }
+  }, {
+    key: 'translate',
+    value: function translate(x, y) {
+      return this.override({
+        x: this.x + x,
+        y: this.y + y
+      });
+    }
 
-        /**
-         * Gets the y of the given grid n position.
-         *
-         * @param {Number} n The n position (Integer)
-         * @return {Number}
-         */
+    /**
+     * Returns the shifted grid by the given grid numbers
+     *
+     * @param {Number} m The horizontal shift number
+     * @param {Number} n The vertical shift number
+     * @return {Grid}
+     */
 
-    }, {
-        key: 'getY',
-        value: function getY(n) {
+  }, {
+    key: 'shift',
+    value: function shift(m, n) {
+      return this.translate(this.unitWidth * m, this.unitHeight * n);
+    }
 
-            return this.y + this.unitHeight * n;
-        }
+    /**
+     * Scales the grid by the x axis.
+     *
+     * @param {Number} scale The scale
+     * @return {Grid}
+     */
 
-        /**
-         * Returns the translated grid by the given distances.
-         *
-         * @param {Number} x The horizontal translate distance
-         * @param {Number} y The vertical translate distance
-         * @return {Grid}
-         */
+  }, {
+    key: 'scaleX',
+    value: function scaleX(scale) {
+      return this.override({
+        unitWidth: this.unitWidth * scale,
+        cellWidth: this.cellWidth * scale
+      });
+    }
 
-    }, {
-        key: 'translate',
-        value: function translate(x, y) {
+    /**
+     * Scales the grid by the y axis.
+     *
+     * @param {Number} scale The scale
+     * @return {Grid}
+     */
 
-            return this.override({
-                x: this.x + x,
-                y: this.y + y
-            });
-        }
+  }, {
+    key: 'scaleY',
+    value: function scaleY(scale) {
+      return this.override({
+        unitHeight: this.unitHeight * scale,
+        cellHeight: this.cellHeight * scale
+      });
+    }
+  }, {
+    key: 'scaleCellX',
+    value: function scaleCellX(scale) {
+      return this.override({ cellWidth: this.cellWidth * scale });
+    }
+  }, {
+    key: 'scaleCellY',
+    value: function scaleCellY(scale) {
+      return this.override({ cellHeight: this.cellHeight * scale });
+    }
 
-        /**
-         * Returns the shifted grid by the given grid numbers
-         *
-         * @param {Number} m The horizontal shift number
-         * @param {Number} n The vertical shift number
-         * @return {Grid}
-         */
+    /**
+     * Overrides the given paramter by the given value and returns a new grid.
+     *
+     * @param {number} x The x
+     * @param {number} y The y
+     * @param {number} unitWidth The unitWidth
+     * @param {number} unitHeight The unitHeight
+     * @param {number} cellWidth The cellWidth
+     * @param {number} cellHeight The cellHeight
+     */
 
-    }, {
-        key: 'shift',
-        value: function shift(m, n) {
+  }, {
+    key: 'override',
+    value: function override(_ref2) {
+      var x = _ref2.x;
+      var y = _ref2.y;
+      var unitWidth = _ref2.unitWidth;
+      var unitHeight = _ref2.unitHeight;
+      var cellWidth = _ref2.cellWidth;
+      var cellHeight = _ref2.cellHeight;
 
-            return this.translate(this.unitWidth * m, this.unitHeight * n);
-        }
+      return new Grid({
+        x: ifNumElse(x, this.x),
+        y: ifNumElse(y, this.y),
+        unitWidth: ifNumElse(unitWidth, this.unitWidth),
+        unitHeight: ifNumElse(unitHeight, this.unitHeight),
+        cellWidth: ifNumElse(cellWidth, this.cellWidth),
+        cellHeight: ifNumElse(cellHeight, this.cellHeight)
+      });
+    }
 
-        /**
-         * Scales the grid by the x axis.
-         *
-         * @param {Number} scale The scale
-         * @return {Grid}
-         */
+    /**
+     * Returns a dual rect.
+     *
+     * @return {Rect}
+     */
 
-    }, {
-        key: 'scaleX',
-        value: function scaleX(scale) {
+  }, {
+    key: 'toRect',
+    value: function toRect() {
+      var halfWidth = this.unitWidth / 2;
+      var halfHeight = this.unitHeight / 2;
 
-            return this.override({
-                unitWidth: this.unitWidth * scale,
-                cellWidth: this.cellWidth * scale
-            });
-        }
+      return new Rect({
+        top: this.y - halfHeight,
+        left: this.x - halfWidth,
+        right: this.x + halfWidth,
+        bottom: this.y + halfHeight
 
-        /**
-         * Scales the grid by the y axis.
-         *
-         * @param {Number} scale The scale
-         * @return {Grid}
-         */
+      });
+    }
 
-    }, {
-        key: 'scaleY',
-        value: function scaleY(scale) {
+    /**
+     * Returns a dual rect.
+     *
+     * @return {Rect}
+     */
 
-            return this.override({
-                unitHeight: this.unitHeight * scale,
-                cellHeight: this.cellHeight * scale
-            });
-        }
-    }, {
-        key: 'scaleCellX',
-        value: function scaleCellX(scale) {
+  }, {
+    key: 'dual',
+    value: function dual() {
+      return this.toRect();
+    }
+  }]);
 
-            return this.override({ cellWidth: this.cellWidth * scale });
-        }
-    }, {
-        key: 'scaleCellY',
-        value: function scaleCellY(scale) {
-
-            return this.override({ cellHeight: this.cellHeight * scale });
-        }
-
-        /**
-         * Overrides the given paramter by the given value and returns a new grid.
-         *
-         * @param {number} x The x
-         * @param {number} y The y
-         * @param {number} unitWidth The unitWidth
-         * @param {number} unitHeight The unitHeight
-         * @param {number} cellWidth The cellWidth
-         * @param {number} cellHeight The cellHeight
-         */
-
-    }, {
-        key: 'override',
-        value: function override(_ref2) {
-            var x = _ref2.x;
-            var y = _ref2.y;
-            var unitWidth = _ref2.unitWidth;
-            var unitHeight = _ref2.unitHeight;
-            var cellWidth = _ref2.cellWidth;
-            var cellHeight = _ref2.cellHeight;
-
-
-            return new Grid({
-                x: (0, _ifNumElse2.default)(x, this.x),
-                y: (0, _ifNumElse2.default)(y, this.y),
-                unitWidth: (0, _ifNumElse2.default)(unitWidth, this.unitWidth),
-                unitHeight: (0, _ifNumElse2.default)(unitHeight, this.unitHeight),
-                cellWidth: (0, _ifNumElse2.default)(cellWidth, this.cellWidth),
-                cellHeight: (0, _ifNumElse2.default)(cellHeight, this.cellHeight)
-            });
-        }
-
-        /**
-         * Returns a dual rect.
-         *
-         * @return {Rect}
-         */
-
-    }, {
-        key: 'toRect',
-        value: function toRect() {
-
-            var halfWidth = this.unitWidth / 2;
-            var halfHeight = this.unitHeight / 2;
-
-            return new _rect2.default({
-
-                top: this.y - halfHeight,
-                left: this.x - halfWidth,
-                right: this.x + halfWidth,
-                bottom: this.y + halfHeight
-
-            });
-        }
-
-        /**
-         * Returns a dual rect.
-         *
-         * @return {Rect}
-         */
-
-    }, {
-        key: 'dual',
-        value: function dual() {
-
-            return this.toRect();
-        }
-    }]);
-
-    return Grid;
+  return Grid;
 }();
 
-exports.default = Grid;
-},{"./if-num-else":45,"./rect":51}],45:[function(require,module,exports){
+module.exports = Grid;
+},{"./if-num-else":47,"./rect":54}],47:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 /**
  * Shorthand for `typeof num === 'number' ? num : defaultValue`.
- *
  * @param {object} num The number or anthing
  * @param {number} defaultValue The default value
  * @return {number}
  */
-
-exports.default = function (num, defaultValue) {
+module.exports = function (num, defaultValue) {
   return typeof num === 'number' ? num : defaultValue;
 };
-},{}],46:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -20782,7 +21101,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 
 var Image = function () {
-
   /**
    * @constructor
    * @param {string} src The url of the image
@@ -20811,7 +21129,6 @@ var Image = function () {
   _createClass(Image, [{
     key: 'apply',
     value: function apply(elem) {
-
       elem.css('transform', this.makeTransform());
 
       elem.attr('src', this.src);
@@ -20827,7 +21144,6 @@ var Image = function () {
   }, {
     key: 'makeTransform',
     value: function makeTransform() {
-
       return 'scale(' + this.scaleX + ', ' + this.scaleY + ')';
     }
   }]);
@@ -20835,118 +21151,34 @@ var Image = function () {
   return Image;
 }();
 
-exports.default = Image;
-},{}],47:[function(require,module,exports){
+module.exports = Image;
+},{}],49:[function(require,module,exports){
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
+exports.wait = require('./wait');
+exports.reflow = require('./reflow');
+exports.ifNumElse = require('./if-num-else');
+exports.Being = require('./being');
+exports.Body = require('./body');
+exports.Posture = require('./posture');
+exports.LayoutFactory = require('./layout-factory');
+exports.Rect = require('./rect');
+exports.Grid = require('./grid');
+exports.GridWalker = require('./grid-walker');
+exports.Animation = require('./animation');
+exports.Image = require('./image');
+exports.DirStateImageMap = require('./dir-state-image-map');
+exports.DIRS = require('./dirs');
+exports.decorators = require('./decorators');
+Object.keys(exports.decorators).forEach(function (key) {
+  exports[key] = exports.decorators[key];
 });
-exports.DIRS = exports.StaticSprite = exports.CharSprite = exports.Sprite = exports.DirStateImageMap = exports.Image = exports.Animation = exports.GridWalker = exports.Grid = exports.Rect = exports.LayoutFactory = exports.Posture = exports.Body = exports.Being = exports.ifNumElse = exports.reflow = exports.wait = undefined;
-
-var _wait = require('./wait');
-
-var _wait2 = _interopRequireDefault(_wait);
-
-var _reflow = require('./reflow');
-
-var _reflow2 = _interopRequireDefault(_reflow);
-
-var _ifNumElse = require('./if-num-else');
-
-var _ifNumElse2 = _interopRequireDefault(_ifNumElse);
-
-var _being = require('./being');
-
-var _being2 = _interopRequireDefault(_being);
-
-var _body = require('./body');
-
-var _body2 = _interopRequireDefault(_body);
-
-var _posture = require('./posture');
-
-var _posture2 = _interopRequireDefault(_posture);
-
-var _layoutFactory = require('./layout-factory');
-
-var _layoutFactory2 = _interopRequireDefault(_layoutFactory);
-
-var _rect = require('./rect');
-
-var _rect2 = _interopRequireDefault(_rect);
-
-var _grid = require('./grid');
-
-var _grid2 = _interopRequireDefault(_grid);
-
-var _gridWalker = require('./grid-walker');
-
-var _gridWalker2 = _interopRequireDefault(_gridWalker);
-
-var _animation = require('./animation');
-
-var _animation2 = _interopRequireDefault(_animation);
-
-var _image = require('./image');
-
-var _image2 = _interopRequireDefault(_image);
-
-var _dirStateImageMap = require('./dir-state-image-map');
-
-var _dirStateImageMap2 = _interopRequireDefault(_dirStateImageMap);
-
-var _sprite = require('./sprite');
-
-var _sprite2 = _interopRequireDefault(_sprite);
-
-var _charSprite = require('./char-sprite');
-
-var _charSprite2 = _interopRequireDefault(_charSprite);
-
-var _staticSprite = require('./static-sprite');
-
-var _staticSprite2 = _interopRequireDefault(_staticSprite);
-
-var _dirs = require('./dirs');
-
-var DIRS = _interopRequireWildcard(_dirs);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.wait = _wait2.default;
-exports.reflow = _reflow2.default;
-exports.ifNumElse = _ifNumElse2.default;
-exports.Being = _being2.default;
-exports.Body = _body2.default;
-exports.Posture = _posture2.default;
-exports.LayoutFactory = _layoutFactory2.default;
-exports.Rect = _rect2.default;
-exports.Grid = _grid2.default;
-exports.GridWalker = _gridWalker2.default;
-exports.Animation = _animation2.default;
-exports.Image = _image2.default;
-exports.DirStateImageMap = _dirStateImageMap2.default;
-exports.Sprite = _sprite2.default;
-exports.CharSprite = _charSprite2.default;
-exports.StaticSprite = _staticSprite2.default;
-exports.DIRS = DIRS;
-},{"./animation":37,"./being":38,"./body":39,"./char-sprite":40,"./dir-state-image-map":41,"./dirs":42,"./grid":44,"./grid-walker":43,"./if-num-else":45,"./image":46,"./layout-factory":49,"./posture":50,"./rect":51,"./reflow":52,"./sprite":53,"./static-sprite":54,"./wait":55}],48:[function(require,module,exports){
+exports.Area = require('./area');
+exports.Point = require('./point');
+},{"./animation":32,"./area":33,"./being":34,"./body":35,"./decorators":38,"./dir-state-image-map":43,"./dirs":44,"./grid":46,"./grid-walker":45,"./if-num-else":47,"./image":48,"./layout-factory":51,"./point":52,"./posture":53,"./rect":54,"./reflow":55,"./wait":56}],50:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _rect = require('./rect');
-
-var _rect2 = _interopRequireDefault(_rect);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -20957,156 +21189,138 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 
 var Interval = function () {
+  /**
+   * @param {number} high The high of the interval
+   * @param {number} low The low of the interval
+   */
 
-    /**
-     * @param {number} high The high of the interval
-     * @param {number} low The low of the interval
-     */
+  function Interval(high, low) {
+    _classCallCheck(this, Interval);
 
-    function Interval(high, low) {
-        _classCallCheck(this, Interval);
+    if (high < low) {
+      var _ref = [low, high];
+      high = _ref[0];
+      low = _ref[1];
+    }
 
-        if (high < low) {
-            var _ref = [low, high];
-            high = _ref[0];
-            low = _ref[1];
-        }
+    this.high = high;
+    this.low = low;
+  }
 
-        this.high = high;
-        this.low = low;
+  /**
+   * Returns the width of the interval.
+   *
+   * @return {number}
+   */
+
+
+  _createClass(Interval, [{
+    key: 'width',
+    value: function width() {
+      return this.high - this.low;
     }
 
     /**
-     * Returns the width of the interval.
+     * Returns the middle of the interval.
      *
      * @return {number}
      */
 
+  }, {
+    key: 'middle',
+    value: function middle() {
+      return (this.high + this.low) / 2;
+    }
 
-    _createClass(Interval, [{
-        key: 'width',
-        value: function width() {
+    /**
+     * Returns a product (a rect) of the intervals.
+     *
+     * @param {Interval} interval
+     * @param {Rect}
+     */
 
-            return this.high - this.low;
-        }
+  }, {
+    key: 'by',
+    value: function by(interval) {
+      var Rect = require('./rect');
 
-        /**
-         * Returns the middle of the interval.
-         *
-         * @return {number}
-         */
+      return Rect.ofIntervals(this, interval);
+    }
 
-    }, {
-        key: 'middle',
-        value: function middle() {
+    /**
+     * @param {number} width
+     * @return {Interval}
+     */
 
-            return (this.high + this.low) / 2;
-        }
+  }, {
+    key: 'cutHigh',
+    value: function cutHigh(width) {
+      return new Interval(this.high, this.high - width);
+    }
 
-        /**
-         * Returns a product (a rect) of the intervals.
-         *
-         * @param {Interval} interval
-         * @param {Rect}
-         */
+    /**
+     * @param {number} width
+     * @return {Interval}
+     */
 
-    }, {
-        key: 'by',
-        value: function by(interval) {
+  }, {
+    key: 'cutLow',
+    value: function cutLow(width) {
+      return new Interval(this.low + width, this.low);
+    }
 
-            return _rect2.default.ofIntervals(this, interval);
-        }
+    /**
+     * Returns an interval which is shifted the given amount.
+     *
+     * @param {number} shift The amount of shift, n means shift higher position by its size * n
+     * @return {Interval}
+     */
 
-        /**
-         * @param {number} width
-         * @return {Interval}
-         */
+  }, {
+    key: 'shift',
+    value: function shift(n) {
+      var shiftWidth = this.width() * n;
 
-    }, {
-        key: 'cutHigh',
-        value: function cutHigh(width) {
+      return new Interval(this.high + shiftWidth, this.low + shiftWidth);
+    }
 
-            return new Interval(this.high, this.high - width);
-        }
+    /**
+     * @param {number} highMargin
+     * @param {number} lowMargin
+     * @return {Interval}
+     */
 
-        /**
-         * @param {number} width
-         * @return {Interval}
-         */
+  }, {
+    key: 'margin',
+    value: function margin(highMargin, lowMargin) {
+      return new Interval(this.high - highMargin, this.low + lowMargin);
+    }
 
-    }, {
-        key: 'cutLow',
-        value: function cutLow(width) {
+    /**
+     * @param {number} size The size of the interval
+     * @return {Interval}
+     */
 
-            return new Interval(this.low + width, this.low);
-        }
+  }], [{
+    key: 'ofSize',
+    value: function ofSize(size) {
+      return new Interval(size, 0);
+    }
+  }]);
 
-        /**
-         * Returns an interval which is shifted the given amount.
-         *
-         * @param {number} shift The amount of shift, n means shift higher position by its size * n
-         * @return {Interval}
-         */
-
-    }, {
-        key: 'shift',
-        value: function shift(n) {
-
-            var shiftWidth = this.width() * n;
-
-            return new Interval(this.high + shiftWidth, this.low + shiftWidth);
-        }
-
-        /**
-         * @param {number} highMargin
-         * @param {number} lowMargin
-         * @return {Interval}
-         */
-
-    }, {
-        key: 'margin',
-        value: function margin(highMargin, lowMargin) {
-
-            return new Interval(this.high - highMargin, this.low + lowMargin);
-        }
-
-        /**
-         * @param {number} size The size of the interval
-         * @return {Interval}
-         */
-
-    }], [{
-        key: 'ofSize',
-        value: function ofSize(size) {
-
-            return new Interval(size, 0);
-        }
-    }]);
-
-    return Interval;
+  return Interval;
 }();
 
-exports.default = Interval;
-},{"./rect":51}],49:[function(require,module,exports){
+module.exports = Interval;
+},{"./rect":54}],51:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _rect = require('./rect');
-
-var _rect2 = _interopRequireDefault(_rect);
-
-var _grid = require('./grid');
-
-var _grid2 = _interopRequireDefault(_grid);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Rect = require('./rect');
+var Grid = require('./grid');
 
 /**
  * The abstact class for dimension factories of various objects in scenes.
@@ -21122,7 +21336,6 @@ var LayoutFactory = function () {
   _createClass(LayoutFactory, [{
     key: 'grid',
 
-
     /**
      * Creates a grid with the given options.
      *
@@ -21130,8 +21343,7 @@ var LayoutFactory = function () {
      * @return {Grid}
      */
     value: function grid(options) {
-
-      return new _grid2.default(options);
+      return new Grid(options);
     }
 
     /**
@@ -21144,35 +21356,135 @@ var LayoutFactory = function () {
   }, {
     key: 'rect',
     value: function rect(options) {
-
-      return new _rect2.default(options);
+      return new Rect(options);
     }
   }]);
 
   return LayoutFactory;
 }();
 
-exports.default = LayoutFactory;
-},{"./grid":44,"./rect":51}],50:[function(require,module,exports){
+module.exports = LayoutFactory;
+},{"./grid":46,"./rect":54}],52:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var _ifNumElse = require('./if-num-else');
+var _require = require('./dirs');
 
-var _ifNumElse2 = _interopRequireDefault(_ifNumElse);
+var UP = _require.UP;
+var LEFT = _require.LEFT;
+var RIGHT = _require.RIGHT;
+var DOWN = _require.DOWN;
 
-var _rect = require('./rect');
+/**
+ * The model of the positions of points in 2-dimensional space.
+ */
 
-var _rect2 = _interopRequireDefault(_rect);
+var Point = function () {
+  /**
+   * @param {number} x The x
+   * @param {number} y The y
+   */
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+  function Point(x, y) {
+    _classCallCheck(this, Point);
+
+    this.x = x;
+    this.y = y;
+  }
+
+  /**
+   * Returns the point above the given distance.
+   * @param {number} distance The distance
+   */
+
+
+  _createClass(Point, [{
+    key: 'up',
+    value: function up(distance) {
+      return new Point(this.x, this.y - distance);
+    }
+
+    /**
+     * Returns the point left of the given distance.
+     * @param {number} distance The distance
+     */
+
+  }, {
+    key: 'left',
+    value: function left(distance) {
+      return new Point(this.x - distance, this.y);
+    }
+
+    /**
+    * Returns the point right of the given distance.
+    * @param {number} distance The distance
+     */
+
+  }, {
+    key: 'right',
+    value: function right(distance) {
+      return new Point(this.x + distance, this.y);
+    }
+
+    /**
+    * Returns the point below the given distance.
+    * @param {number} distance The distance
+     */
+
+  }, {
+    key: 'down',
+    value: function down(distance) {
+      return new Point(this.x, this.y + distance);
+    }
+
+    /**
+     * Gets the direction to the given point (one of '')
+     * @param {Point}
+     * @return {Point}
+     */
+
+  }, {
+    key: 'minus',
+    value: function minus(point) {
+      return new Point(this.x - point.x, this.y - point.y);
+    }
+
+    /**
+     */
+
+  }, {
+    key: 'getDir',
+    value: function getDir() {
+      if (Math.abs(this.x) >= Math.abs(this.y)) {
+        if (this.x >= 0) {
+          return RIGHT;
+        }
+        return LEFT;
+      }
+
+      if (this.y > 0) {
+        return DOWN;
+      }
+      return UP;
+    }
+  }]);
+
+  return Point;
+}();
+
+module.exports = Point;
+},{"./dirs":44}],53:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ifNumElse = require('./if-num-else');
+var Rect = require('./rect');
 
 /**
  * Posture is the model of the information about how the Body is placed and arranged to its position.
@@ -21181,312 +21493,300 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 
 var Posture = function () {
+  /**
+   * @param {Number} [width=100] The width
+   * @param {Number} [height=100] The height
+   * @param {Number} [ratioX=0] The ratio of horizontal position of the rectangle. ratioX == 0 means the left limit of the rectangle is x. ratioX == 1 means the right limit of the rectangle is x.
+   * @param {Number} [ratioY=0] The ratio of vertical position of the rectangle. ratioY == 0 means the top limit of the rectangle is x. ratioY == 1 means the bottom limit of the rectangle is x.
+   * @param {Number} [marginX=0] The horizontal margin
+   * @param {Number} [marginY=0] The vertical margin
+   * @param {Number} [marginLeft] The left margin
+   * @param {Number} [marginTop] The top margin
+   * @param {Number} [marginRight] The right margin
+   * @param {Number} [marginBottom] The bottom margin
+   */
 
-    /**
-     * @param {Number} [width=100] The width
-     * @param {Number} [height=100] The height
-     * @param {Number} [ratioX=0] The ratio of horizontal position of the rectangle. ratioX == 0 means the left limit of the rectangle is x. ratioX == 1 means the right limit of the rectangle is x.
-     * @param {Number} [ratioY=0] The ratio of vertical position of the rectangle. ratioY == 0 means the top limit of the rectangle is x. ratioY == 1 means the bottom limit of the rectangle is x.
-     * @param {Number} [marginX=0] The horizontal margin
-     * @param {Number} [marginY=0] The vertical margin
-     * @param {Number} [marginLeft] The left margin
-     * @param {Number} [marginTop] The top margin
-     * @param {Number} [marginRight] The right margin
-     * @param {Number} [marginBottom] The bottom margin
-     */
+  function Posture() {
+    var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-    function Posture() {
-        var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    var width = _ref.width;
+    var height = _ref.height;
+    var ratioX = _ref.ratioX;
+    var ratioY = _ref.ratioY;
+    var marginX = _ref.marginX;
+    var marginY = _ref.marginY;
+    var marginLeft = _ref.marginLeft;
+    var marginTop = _ref.marginTop;
+    var marginRight = _ref.marginRight;
+    var marginBottom = _ref.marginBottom;
 
-        var width = _ref.width;
-        var height = _ref.height;
-        var ratioX = _ref.ratioX;
-        var ratioY = _ref.ratioY;
-        var marginX = _ref.marginX;
-        var marginY = _ref.marginY;
-        var marginLeft = _ref.marginLeft;
-        var marginTop = _ref.marginTop;
-        var marginRight = _ref.marginRight;
-        var marginBottom = _ref.marginBottom;
+    _classCallCheck(this, Posture);
 
-        _classCallCheck(this, Posture);
+    this.width = ifNumElse(width, 100);
+    this.height = ifNumElse(height, 100);
 
-        this.width = (0, _ifNumElse2.default)(width, 100);
-        this.height = (0, _ifNumElse2.default)(height, 100);
+    this.ratioX = ifNumElse(ratioX, 0);
+    this.ratioY = ifNumElse(ratioY, 0);
 
-        this.ratioX = (0, _ifNumElse2.default)(ratioX, 0);
-        this.ratioY = (0, _ifNumElse2.default)(ratioY, 0);
+    this.marginX = ifNumElse(marginX, 0);
+    this.marginY = ifNumElse(marginY, 0);
 
-        this.marginX = (0, _ifNumElse2.default)(marginX, 0);
-        this.marginY = (0, _ifNumElse2.default)(marginY, 0);
+    this.marginTop = marginTop;
+    this.marginRight = marginRight;
+    this.marginBottom = marginBottom;
+    this.marginLeft = marginLeft;
+  }
 
-        this.marginTop = marginTop;
-        this.marginRight = marginRight;
-        this.marginBottom = marginBottom;
-        this.marginLeft = marginLeft;
+  /**
+   * The actual height of the rect.
+   * @return {number}
+   */
+
+
+  _createClass(Posture, [{
+    key: 'actualHeight',
+    value: function actualHeight() {
+      return this.height - this.getMarginTop() - this.getMarginBottom();
     }
 
     /**
-     * The actual height of the rect.
-     *
-     * @return {Number}
+     * @param {number} height The actual height
      */
 
+  }, {
+    key: 'setActualHeight',
+    value: function setActualHeight(height) {
+      this.height = this.getMarginTop() + this.getMarginBottom() + height;
+    }
 
-    _createClass(Posture, [{
-        key: 'actualHeight',
-        value: function actualHeight() {
+    /**
+     * @param {number} width The actual width
+     */
 
-            return this.height - this.getMarginTop() - this.getMarginBottom();
-        }
+  }, {
+    key: 'setActualWidth',
+    value: function setActualWidth(width) {
+      this.width = this.getMarginLeft() + this.getMarginRight() + width;
+    }
 
-        /**
-         * The actual width of the rect.
-         *
-         * @return {Number}
-         */
+    /**
+     * The actual width of the rect.
+     * @return {number}
+     */
 
-    }, {
-        key: 'actualWidth',
-        value: function actualWidth() {
+  }, {
+    key: 'actualWidth',
+    value: function actualWidth() {
+      return this.width - this.getMarginLeft() - this.getMarginRight();
+    }
 
-            return this.width - this.getMarginLeft() - this.getMarginRight();
-        }
+    /**
+     * Returns the top margin.
+     * @return {number}
+     */
 
-        /**
-         * Returns the top margin.
-         *
-         * @return {Number}
-         */
+  }, {
+    key: 'getMarginTop',
+    value: function getMarginTop() {
+      return ifNumElse(this.marginTop, this.marginY);
+    }
 
-    }, {
-        key: 'getMarginTop',
-        value: function getMarginTop() {
+    /**
+     * Returns the right margin.
+     *
+     * @return {number}
+     */
 
-            return (0, _ifNumElse2.default)(this.marginTop, this.marginY);
-        }
+  }, {
+    key: 'getMarginRight',
+    value: function getMarginRight() {
+      return ifNumElse(this.marginRight, this.marginX);
+    }
 
-        /**
-         * Returns the right margin.
-         *
-         * @return {Number}
-         */
+    /**
+     * Returns the bottom margin.
+     *
+     * @return {number}
+     */
 
-    }, {
-        key: 'getMarginRight',
-        value: function getMarginRight() {
+  }, {
+    key: 'getMarginBottom',
+    value: function getMarginBottom() {
+      return ifNumElse(this.marginBottom, this.marginY);
+    }
 
-            return (0, _ifNumElse2.default)(this.marginRight, this.marginX);
-        }
+    /**
+     * Returns the left margin.
+     *
+     * @return {number}
+     */
 
-        /**
-         * Returns the bottom margin.
-         *
-         * @return {Number}
-         */
+  }, {
+    key: 'getMarginLeft',
+    value: function getMarginLeft() {
+      return ifNumElse(this.marginLeft, this.marginX);
+    }
 
-    }, {
-        key: 'getMarginBottom',
-        value: function getMarginBottom() {
+    /**
+     * The top limit of the rect.
+     *
+     * @param {number} y The primary vertical position
+     * @return {number}
+     */
 
-            return (0, _ifNumElse2.default)(this.marginBottom, this.marginY);
-        }
+  }, {
+    key: 'topLimit',
+    value: function topLimit(y) {
+      return y - this.height * this.ratioY + this.getMarginTop();
+    }
 
-        /**
-         * Returns the left margin.
-         *
-         * @return {Number}
-         */
+    /**
+     * The bottom limit of the rect.
+     * @param {number} y The primary vertical position
+     * @return {number}
+     */
 
-    }, {
-        key: 'getMarginLeft',
-        value: function getMarginLeft() {
+  }, {
+    key: 'bottomLimit',
+    value: function bottomLimit(y) {
+      return this.topLimit(y) + this.actualHeight();
+    }
 
-            return (0, _ifNumElse2.default)(this.marginLeft, this.marginX);
-        }
+    /**
+     * The left limit of the rect.
+     * @param {number} x The primary horizontal position
+     * @return {number}
+     */
 
-        /**
-         * The top limit of the rect.
-         *
-         * @param {Number} y The primary vertical position
-         * @return {Number}
-         */
+  }, {
+    key: 'leftLimit',
+    value: function leftLimit(x) {
+      return x - this.width * this.ratioX + this.getMarginLeft();
+    }
 
-    }, {
-        key: 'topLimit',
-        value: function topLimit(y) {
+    /**
+     * The right limit of the rect.
+     * @param {number} x The primary horizontal position
+     * @return {number}
+     */
 
-            return y - this.height * this.ratioY + this.getMarginTop();
-        }
+  }, {
+    key: 'rightLimit',
+    value: function rightLimit(x) {
+      return this.leftLimit(x) + this.actualWidth();
+    }
 
-        /**
-         * The bottom limit of the rect.
-         *
-         * @param {Number} y The primary vertical position
-         * @return {Number}
-         */
+    /**
+     * The horizontal center of the rect.
+     * @param {number} x The primary horizontal position
+     * @return {number}
+     */
 
-    }, {
-        key: 'bottomLimit',
-        value: function bottomLimit(y) {
+  }, {
+    key: 'centerX',
+    value: function centerX(x) {
+      return (this.leftLimit(x) + this.rightLimit(x)) / 2;
+    }
 
-            return this.topLimit(y) + this.actualHeight();
-        }
+    /**
+     * The vertical center of the rect.
+     * @param {number} y The primary vertical position
+     * @return {number}
+     */
 
-        /**
-         * The left limit of the rect.
-         *
-         * @param {Number} x The primary horizontal position
-         * @return {Number}
-         */
+  }, {
+    key: 'centerY',
+    value: function centerY(y) {
+      return (this.topLimit(y) + this.bottomLimit(y)) / 2;
+    }
 
-    }, {
-        key: 'leftLimit',
-        value: function leftLimit(x) {
+    /**
+     * Gets the horizontal position when it is placed in the given rect.
+     * @param {Rect} rect
+     * @return {number}
+     */
 
-            return x - this.width * this.ratioX + this.getMarginLeft();
-        }
+  }, {
+    key: 'getXInRect',
+    value: function getXInRect(rect) {
+      return rect.left + rect.width() * this.ratioX;
+    }
 
-        /**
-         * The right limit of the rect.
-         *
-         * @param {Number} x The primary horizontal position
-         * @return {Number}
-         */
+    /**
+     * Gets the vertical position when it is placed in the given rect.
+     * @param {Rect} rect
+     * @return {number}
+     */
 
-    }, {
-        key: 'rightLimit',
-        value: function rightLimit(x) {
+  }, {
+    key: 'getYInRect',
+    value: function getYInRect(rect) {
+      return rect.top + rect.height() * this.ratioY;
+    }
 
-            return this.leftLimit(x) + this.actualWidth();
-        }
+    /**
+     * Fits the size to the size of the given rect.
+     * @param {Rect} rect
+     */
 
-        /**
-         * The horizontal center of the rect.
-         *
-         * @param {Number} x The primary horizontal position
-         * @return {Number}
-         */
+  }, {
+    key: 'fitToRect',
+    value: function fitToRect(rect) {
+      this.fitToArea(rect.area());
+    }
 
-    }, {
-        key: 'centerX',
-        value: function centerX(x) {
+    /**
+     * Fits the size to the given area.
+     * @param {Area} area The area
+     */
 
-            return (this.leftLimit(x) + this.rightLimit(x)) / 2;
-        }
+  }, {
+    key: 'fitToArea',
+    value: function fitToArea(area) {
+      this.width = area.width;
+      this.height = area.height;
+    }
 
-        /**
-         * The vertical center of the rect.
-         *
-         * @param {Number} y The primary vertical position
-         * @return {Number}
-         */
+    /**
+     * Scales the rectangle to fit as an inner tangent of the rectangle of the given width and height.
+     * @param {number} width The width of the target outer rectangle
+     * @param {number} height The height of the target outer rectangle
+     */
 
-    }, {
-        key: 'centerY',
-        value: function centerY(y) {
+  }, {
+    key: 'fitInto',
+    value: function fitInto(width, height) {
+      var tangent = new Rect({
+        top: 0,
+        left: 0,
+        right: this.width,
+        bottom: this.height
+      }).similarInnerTangent(new Rect({
+        top: 0,
+        left: 0,
+        right: width,
+        bottom: height
+      }));
 
-            return (this.topLimit(y) + this.bottomLimit(y)) / 2;
-        }
+      this.width = tangent.width();
+      this.height = tangent.height();
+    }
+  }]);
 
-        /**
-         * Gets the horizontal position when it is placed in the given rect.
-         *
-         * @param {Rect} rect
-         * @return {number}
-         */
-
-    }, {
-        key: 'getXInRect',
-        value: function getXInRect(rect) {
-
-            return rect.left + rect.width() * this.ratioX;
-        }
-
-        /**
-         * Gets the vertical position when it is placed in the given rect.
-         *
-         * @param {Rect} rect
-         * @return {number}
-         */
-
-    }, {
-        key: 'getYInRect',
-        value: function getYInRect(rect) {
-
-            return rect.top + rect.height() * this.ratioY;
-        }
-
-        /**
-         * Fits the size to the size of the given rect.
-         *
-         * @param {Rect} rect
-         */
-
-    }, {
-        key: 'fitToRect',
-        value: function fitToRect(rect) {
-
-            this.width = rect.width();
-            this.height = rect.height();
-        }
-
-        /**
-         * Scales the rectangle to fit as an inner tangent of the rectangle of the given width and height.
-         *
-         * @param {Number} width The width of the target outer rectangle
-         * @param {Number} height The height of the target outer rectangle
-         */
-
-    }, {
-        key: 'fitInto',
-        value: function fitInto(width, height) {
-
-            var tangent = new _rect2.default({
-                top: 0,
-                left: 0,
-                right: this.width,
-                bottom: this.height
-            }).similarInnerTangent(new _rect2.default({
-                top: 0,
-                left: 0,
-                right: width,
-                bottom: height
-            }));
-
-            this.width = tangent.width();
-            this.height = tangent.height();
-        }
-    }]);
-
-    return Posture;
+  return Posture;
 }();
 
-exports.default = Posture;
-},{"./if-num-else":45,"./rect":51}],51:[function(require,module,exports){
+module.exports = Posture;
+},{"./if-num-else":47,"./rect":54}],54:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _grid = require('./grid');
-
-var _grid2 = _interopRequireDefault(_grid);
-
-var _ifNumElse = require('./if-num-else');
-
-var _ifNumElse2 = _interopRequireDefault(_ifNumElse);
-
-var _interval = require('./interval');
-
-var _interval2 = _interopRequireDefault(_interval);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ifNumElse = require('./if-num-else');
+var Interval = require('./interval');
+var Area = require('./area');
 
 /**
  * Rect model represents the static rectangle in a screen.
@@ -21495,586 +21795,494 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 
 var Rect = function () {
+  /**
+   * @param {number} top The top position
+   * @param {number} right The right position
+   * @param {number} bottom The bottom position
+   * @param {number} left The left position
+   */
+
+  function Rect(_ref) {
+    var top = _ref.top;
+    var right = _ref.right;
+    var bottom = _ref.bottom;
+    var left = _ref.left;
+
+    _classCallCheck(this, Rect);
+
+    this.horizontal = new Interval(right, left);
+    this.vertical = new Interval(bottom, top);
+  }
+
+  /**
+   * Gets the top position.
+   * @return {number}
+   */
+
+
+  _createClass(Rect, [{
+    key: 'width',
+
 
     /**
-     * @param {number} top The top position
-     * @param {number} right The right position
-     * @param {number} bottom The bottom position
-     * @param {number} left The left position
+     * Gets the width.
+     *
+     * @return {number}
      */
-
-    function Rect(_ref) {
-        var top = _ref.top;
-        var right = _ref.right;
-        var bottom = _ref.bottom;
-        var left = _ref.left;
-
-        _classCallCheck(this, Rect);
-
-        this.horizontal = new _interval2.default(right, left);
-        this.vertical = new _interval2.default(bottom, top);
+    value: function width() {
+      return this.horizontal.width();
     }
 
     /**
-     * Gets the top position.
+     * Gets the height.
+     *
      * @return {number}
      */
 
-
-    _createClass(Rect, [{
-        key: 'width',
-
-
-        /**
-         * Gets the width.
-         *
-         * @return {number}
-         */
-        value: function width() {
-
-            return this.horizontal.width();
-        }
-
-        /**
-         * Gets the height.
-         *
-         * @return {number}
-         */
-
-    }, {
-        key: 'height',
-        value: function height() {
-
-            return this.vertical.width();
-        }
-
-        /**
-         * Gets the horizontal center.
-         *
-         * @return {number}
-         */
-
-    }, {
-        key: 'centerX',
-        value: function centerX() {
-
-            return this.horizontal.middle();
-        }
-
-        /**
-         * Gets the vertical center.
-         *
-         * @return {number}
-         */
-
-    }, {
-        key: 'centerY',
-        value: function centerY() {
-
-            return this.vertical.middle();
-        }
-
-        /**
-         * Returns a new rect which scales the top side
-         *
-         * @param {number} scale The scale rate
-         * @return {Rect}
-         */
-
-    }, {
-        key: 'scaleTop',
-        value: function scaleTop(scale) {
-
-            return this.cutBottom(this.height() * scale);
-        }
-
-        /**
-         * Returns a new rect which scales the left side
-         *
-         * @param {number} scale The scale rate
-         * @return {Rect}
-         */
-
-    }, {
-        key: 'scaleLeft',
-        value: function scaleLeft(scale) {
-
-            return this.cutRight(this.width() * scale);
-        }
-
-        /**
-         * Returns a new rect which scales the right side
-         *
-         * @param {number} scale The scale rate
-         * @return {Rect}
-         */
-
-    }, {
-        key: 'scaleRight',
-        value: function scaleRight(scale) {
-
-            return this.cutLeft(this.width() * scale);
-        }
-
-        /**
-         * Returns a new rect which scales the bottom side
-         *
-         * @param {number} scale The scale rate
-         * @return {Rect}
-         */
-
-    }, {
-        key: 'scaleBottom',
-        value: function scaleBottom(scale) {
-
-            return this.cutTop(this.height() * scale);
-        }
-
-        /**
-         * Shifts up by the given number of units.
-         *
-         * @param {number} n The number to shift
-         * @return {Rect}
-         */
-
-    }, {
-        key: 'shiftUp',
-        value: function shiftUp() {
-            var n = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
-
-
-            return this.horizontal.by(this.vertical.shift(-n));
-        }
-
-        /**
-         * Shifts left by the given number of units.
-         *
-         * @param {number} n The number to shift
-         * @return {Rect}
-         */
-
-    }, {
-        key: 'shiftLeft',
-        value: function shiftLeft() {
-            var n = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
-
-
-            return this.horizontal.shift(-n).by(this.vertical);
-        }
-
-        /**
-         * Shifts right by the given number of units.
-         *
-         * @param {number} n The number to shift
-         * @return {Rect}
-         */
-
-    }, {
-        key: 'shiftRight',
-        value: function shiftRight() {
-            var n = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
-
-
-            return this.horizontal.shift(n).by(this.vertical);
-        }
-
-        /**
-         * Shifts down by the given number of units.
-         *
-         * @param {number} n The number to shift
-         * @return {Rect}
-         */
-
-    }, {
-        key: 'shiftDown',
-        value: function shiftDown() {
-            var n = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
-
-
-            return this.horizontal.by(this.vertical.shift(n));
-        }
-
-        /**
-         * Cuts out the given height from the top.
-         *
-         * @param {number} [height=0] The height
-         * @return {Rect}
-         */
-
-    }, {
-        key: 'cutTop',
-        value: function cutTop(height) {
-
-            return this.horizontal.by(this.vertical.cutLow(height));
-        }
-
-        /**
-         * Cuts out the given height from the left.
-         *
-         * @param {number} [width=0] The width
-         * @return {Rect}
-         */
-
-    }, {
-        key: 'cutLeft',
-        value: function cutLeft(width) {
-
-            return this.horizontal.cutLow(width).by(this.vertical);
-        }
-
-        /**
-         * Cuts out the given height from the right.
-         *
-         * @param {number} [width=0] The width
-         * @return {Rect}
-         */
-
-    }, {
-        key: 'cutRight',
-        value: function cutRight(width) {
-
-            return this.horizontal.cutHigh(width).by(this.vertical);
-        }
-
-        /**
-         * Cuts out the given height from the bottom.
-         *
-         * @param {number} [height=0] The height
-         * @return {Rect}
-         */
-
-    }, {
-        key: 'cutBottom',
-        value: function cutBottom(height) {
-
-            return this.horizontal.by(this.vertical.cutHigh(height));
-        }
-
-        /**
-         * Return the next rect which shares the top side of the given height
-         *
-         * @param {number} height The height
-         * @return {Rect}
-         */
-
-    }, {
-        key: 'extCutTop',
-        value: function extCutTop(height) {
-
-            return this.shiftUp().cutBottom(height);
-        }
-
-        /**
-         * Return the next rect which shares the left side of the given width
-         *
-         * @param {number} width The width
-         * @return {Rect}
-         */
-
-    }, {
-        key: 'extCutLeft',
-        value: function extCutLeft(width) {
-
-            return this.shiftLeft().cutRight(width);
-        }
-
-        /**
-         * Return the next rect which shares the right side of the given width
-         *
-         * @param {number} width The width
-         * @return {Rect}
-         */
-
-    }, {
-        key: 'extCutRight',
-        value: function extCutRight(width) {
-
-            return this.shiftRight().cutLeft(width);
-        }
-
-        /**
-         * Return the next rect which shares the bottom side of the given height
-         *
-         * @param {number} height The height
-         * @return {Rect}
-         */
-
-    }, {
-        key: 'extCutBottom',
-        value: function extCutBottom(height) {
-
-            return this.shiftDown().cutTop(height);
-        }
-
-        /**
-         * Returns a dual grid
-         *
-         * @return {Grid}
-         */
-
-    }, {
-        key: 'toGrid',
-        value: function toGrid() {
-
-            return new _grid2.default({
-                x: this.centerX(),
-                y: this.centerY(),
-                unitWidth: this.width(),
-                unitHeight: this.height()
-            });
-        }
-
-        /**
-         * Returns the similar rect which is an inner tangent of (and at the center of) the given rect.
-         *
-         * @param {Rect} rect The target rect
-         * @return {Rect}
-         */
-
-    }, {
-        key: 'similarInnerTangent',
-        value: function similarInnerTangent(rect) {
-
-            var horizontal = rect.horizontal;
-            var vertical = rect.vertical;
-
-            if (rect.width() / rect.height() > this.width() / this.height()) {
-
-                var horizontalMargin = (rect.width() - this.width() * rect.height() / this.height()) / 2;
-                horizontal = horizontal.margin(horizontalMargin, horizontalMargin);
-            } else {
-
-                var verticalMargin = (rect.height() - this.height() * rect.width() / this.width()) / 2;
-                vertical = vertical.margin(verticalMargin, verticalMargin);
-            }
-
-            return horizontal.by(vertical);
-        }
-
-        /**
-         * Excludes the margin of the given sides.
-         *
-         * @param {number} top The top margin
-         * @param {number} left The left margin
-         * @param {number} right The right margin
-         * @param {number} bottom The bottom margin
-         */
-
-    }, {
-        key: 'margin',
-        value: function margin(_ref2) {
-            var top = _ref2.top;
-            var left = _ref2.left;
-            var right = _ref2.right;
-            var bottom = _ref2.bottom;
-
-
-            return this.horizontal.margin((0, _ifNumElse2.default)(right, 0), (0, _ifNumElse2.default)(left, 0)).by(this.vertical.margin((0, _ifNumElse2.default)(bottom, 0), (0, _ifNumElse2.default)(top, 0)));
-        }
-
-        /**
-         * Retruns the rect of the size of the current window.
-         *
-         * @return {Rect}
-         */
-
-    }, {
-        key: 'getBestRect',
-
-
-        /**
-         * Gets the best (biggest) available rect inside this rect of the given horizontal and vertical ratio.
-         *
-         * @param {number} horizontal The horizontal ratio
-         * @param {number} vertical The vertical ratio
-         * @return {Rect}
-         */
-        value: function getBestRect(_ref3) {
-            var horizontal = _ref3.horizontal;
-            var vertical = _ref3.vertical;
-
-
-            return Rect.ofSize(horizontal, vertical).similarInnerTangent(this);
-        }
-
-        /**
-         * Creates the rect of the give size.
-         *
-         * @param {number} width The width
-         * @param {number} height The height
-         */
-
-    }, {
-        key: 'dual',
-
-
-        /**
-         * Returns a dual grid
-         *
-         * @return {Grid}
-         */
-        value: function dual() {
-
-            return this.toGrid();
-        }
-    }, {
-        key: 'top',
-        get: function get() {
-            return this.vertical.low;
-        }
-
-        /**
-         * Gets the bottom position.
-         * @return {number}
-         */
-
-    }, {
-        key: 'bottom',
-        get: function get() {
-            return this.vertical.high;
-        }
-
-        /**
-         * Gets the left position.
-         * @return {number}
-         */
-
-    }, {
-        key: 'left',
-        get: function get() {
-            return this.horizontal.low;
-        }
-
-        /**
-         * Gets the right position.
-         * @return {number}
-         */
-
-    }, {
-        key: 'right',
-        get: function get() {
-            return this.horizontal.high;
-        }
-    }], [{
-        key: 'ofIntervals',
-        value: function ofIntervals(horizontal, vertical) {
-
-            return new Rect({
-                top: vertical.low,
-                bottom: vertical.high,
-                left: horizontal.low,
-                right: horizontal.high
-            });
-        }
-    }, {
-        key: 'windowAsRect',
-        value: function windowAsRect() {
-
-            return Rect.ofSize($(window).width(), $(window).height());
-        }
-    }, {
-        key: 'ofSize',
-        value: function ofSize(width, height) {
-
-            return _interval2.default.ofSize(width).by(_interval2.default.ofSize(height));
-        }
-    }]);
-
-    return Rect;
+  }, {
+    key: 'height',
+    value: function height() {
+      return this.vertical.width();
+    }
+
+    /**
+     * Gets the horizontal center.
+     *
+     * @return {number}
+     */
+
+  }, {
+    key: 'centerX',
+    value: function centerX() {
+      return this.horizontal.middle();
+    }
+
+    /**
+     * Gets the vertical center.
+     *
+     * @return {number}
+     */
+
+  }, {
+    key: 'centerY',
+    value: function centerY() {
+      return this.vertical.middle();
+    }
+
+    /**
+     * Returns a new rect which scales the top side
+     *
+     * @param {number} scale The scale rate
+     * @return {Rect}
+     */
+
+  }, {
+    key: 'scaleTop',
+    value: function scaleTop(scale) {
+      return this.cutBottom(this.height() * scale);
+    }
+
+    /**
+     * Returns a new rect which scales the left side
+     *
+     * @param {number} scale The scale rate
+     * @return {Rect}
+     */
+
+  }, {
+    key: 'scaleLeft',
+    value: function scaleLeft(scale) {
+      return this.cutRight(this.width() * scale);
+    }
+
+    /**
+     * Returns a new rect which scales the right side
+     *
+     * @param {number} scale The scale rate
+     * @return {Rect}
+     */
+
+  }, {
+    key: 'scaleRight',
+    value: function scaleRight(scale) {
+      return this.cutLeft(this.width() * scale);
+    }
+
+    /**
+     * Returns a new rect which scales the bottom side
+     *
+     * @param {number} scale The scale rate
+     * @return {Rect}
+     */
+
+  }, {
+    key: 'scaleBottom',
+    value: function scaleBottom(scale) {
+      return this.cutTop(this.height() * scale);
+    }
+
+    /**
+     * Shifts up by the given number of units.
+     *
+     * @param {number} n The number to shift
+     * @return {Rect}
+     */
+
+  }, {
+    key: 'shiftUp',
+    value: function shiftUp() {
+      var n = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
+
+      return this.horizontal.by(this.vertical.shift(-n));
+    }
+
+    /**
+     * Shifts left by the given number of units.
+     *
+     * @param {number} n The number to shift
+     * @return {Rect}
+     */
+
+  }, {
+    key: 'shiftLeft',
+    value: function shiftLeft() {
+      var n = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
+
+      return this.horizontal.shift(-n).by(this.vertical);
+    }
+
+    /**
+     * Shifts right by the given number of units.
+     *
+     * @param {number} n The number to shift
+     * @return {Rect}
+     */
+
+  }, {
+    key: 'shiftRight',
+    value: function shiftRight() {
+      var n = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
+
+      return this.horizontal.shift(n).by(this.vertical);
+    }
+
+    /**
+     * Shifts down by the given number of units.
+     *
+     * @param {number} n The number to shift
+     * @return {Rect}
+     */
+
+  }, {
+    key: 'shiftDown',
+    value: function shiftDown() {
+      var n = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
+
+      return this.horizontal.by(this.vertical.shift(n));
+    }
+
+    /**
+     * Cuts out the given height from the top.
+     *
+     * @param {number} [height=0] The height
+     * @return {Rect}
+     */
+
+  }, {
+    key: 'cutTop',
+    value: function cutTop(height) {
+      return this.horizontal.by(this.vertical.cutLow(height));
+    }
+
+    /**
+     * Cuts out the given height from the left.
+     *
+     * @param {number} [width=0] The width
+     * @return {Rect}
+     */
+
+  }, {
+    key: 'cutLeft',
+    value: function cutLeft(width) {
+      return this.horizontal.cutLow(width).by(this.vertical);
+    }
+
+    /**
+     * Cuts out the given height from the right.
+     *
+     * @param {number} [width=0] The width
+     * @return {Rect}
+     */
+
+  }, {
+    key: 'cutRight',
+    value: function cutRight(width) {
+      return this.horizontal.cutHigh(width).by(this.vertical);
+    }
+
+    /**
+     * Cuts out the given height from the bottom.
+     *
+     * @param {number} [height=0] The height
+     * @return {Rect}
+     */
+
+  }, {
+    key: 'cutBottom',
+    value: function cutBottom(height) {
+      return this.horizontal.by(this.vertical.cutHigh(height));
+    }
+
+    /**
+     * Return the next rect which shares the top side of the given height
+     *
+     * @param {number} height The height
+     * @return {Rect}
+     */
+
+  }, {
+    key: 'extCutTop',
+    value: function extCutTop(height) {
+      return this.shiftUp().cutBottom(height);
+    }
+
+    /**
+     * Return the next rect which shares the left side of the given width
+     *
+     * @param {number} width The width
+     * @return {Rect}
+     */
+
+  }, {
+    key: 'extCutLeft',
+    value: function extCutLeft(width) {
+      return this.shiftLeft().cutRight(width);
+    }
+
+    /**
+     * Return the next rect which shares the right side of the given width
+     *
+     * @param {number} width The width
+     * @return {Rect}
+     */
+
+  }, {
+    key: 'extCutRight',
+    value: function extCutRight(width) {
+      return this.shiftRight().cutLeft(width);
+    }
+
+    /**
+     * Return the next rect which shares the bottom side of the given height
+     *
+     * @param {number} height The height
+     * @return {Rect}
+     */
+
+  }, {
+    key: 'extCutBottom',
+    value: function extCutBottom(height) {
+      return this.shiftDown().cutTop(height);
+    }
+
+    /**
+     * Returns a dual grid
+     *
+     * @return {Grid}
+     */
+
+  }, {
+    key: 'toGrid',
+    value: function toGrid() {
+      var Grid = require('./grid');
+
+      return new Grid({
+        x: this.centerX(),
+        y: this.centerY(),
+        unitWidth: this.width(),
+        unitHeight: this.height()
+      });
+    }
+
+    /**
+     * Returns the similar rect which is an inner tangent of (and at the center of) the given rect.
+     *
+     * @param {Rect} rect The target rect
+     * @return {Rect}
+     */
+
+  }, {
+    key: 'similarInnerTangent',
+    value: function similarInnerTangent(rect) {
+      var horizontal = rect.horizontal;
+      var vertical = rect.vertical;
+
+      if (rect.width() / rect.height() > this.width() / this.height()) {
+        var horizontalMargin = (rect.width() - this.width() * rect.height() / this.height()) / 2;
+        horizontal = horizontal.margin(horizontalMargin, horizontalMargin);
+      } else {
+        var verticalMargin = (rect.height() - this.height() * rect.width() / this.width()) / 2;
+        vertical = vertical.margin(verticalMargin, verticalMargin);
+      }
+
+      return horizontal.by(vertical);
+    }
+
+    /**
+     * Excludes the margin of the given sides.
+     *
+     * @param {number} top The top margin
+     * @param {number} left The left margin
+     * @param {number} right The right margin
+     * @param {number} bottom The bottom margin
+     */
+
+  }, {
+    key: 'margin',
+    value: function margin(_ref2) {
+      var top = _ref2.top;
+      var left = _ref2.left;
+      var right = _ref2.right;
+      var bottom = _ref2.bottom;
+
+      return this.horizontal.margin(ifNumElse(right, 0), ifNumElse(left, 0)).by(this.vertical.margin(ifNumElse(bottom, 0), ifNumElse(top, 0)));
+    }
+
+    /**
+     * Retruns the rect of the size of the current window.
+     *
+     * @return {Rect}
+     */
+
+  }, {
+    key: 'getBestRect',
+
+
+    /**
+     * Gets the best (biggest) available rect inside this rect of the given horizontal and vertical ratio.
+     *
+     * @param {number} horizontal The horizontal ratio
+     * @param {number} vertical The vertical ratio
+     * @return {Rect}
+     */
+    value: function getBestRect(_ref3) {
+      var horizontal = _ref3.horizontal;
+      var vertical = _ref3.vertical;
+
+      return Rect.ofSize(horizontal, vertical).similarInnerTangent(this);
+    }
+
+    /**
+     * Creates the rect of the give size.
+     *
+     * @param {number} width The width
+     * @param {number} height The height
+     */
+
+  }, {
+    key: 'dual',
+
+
+    /**
+     * Returns a dual grid.
+     * @return {Grid}
+     */
+    value: function dual() {
+      return this.toGrid();
+    }
+
+    /**
+     * Returns the area which this rect occupies.
+     * @return {Area}
+     */
+
+  }, {
+    key: 'area',
+    value: function area() {
+      return new Area(this.width(), this.height());
+    }
+  }, {
+    key: 'top',
+    get: function get() {
+      return this.vertical.low;
+    }
+
+    /**
+     * Gets the bottom position.
+     * @return {number}
+     */
+
+  }, {
+    key: 'bottom',
+    get: function get() {
+      return this.vertical.high;
+    }
+
+    /**
+     * Gets the left position.
+     * @return {number}
+     */
+
+  }, {
+    key: 'left',
+    get: function get() {
+      return this.horizontal.low;
+    }
+
+    /**
+     * Gets the right position.
+     * @return {number}
+     */
+
+  }, {
+    key: 'right',
+    get: function get() {
+      return this.horizontal.high;
+    }
+  }], [{
+    key: 'ofIntervals',
+    value: function ofIntervals(horizontal, vertical) {
+      return new Rect({
+        top: vertical.low,
+        bottom: vertical.high,
+        left: horizontal.low,
+        right: horizontal.high
+      });
+    }
+  }, {
+    key: 'windowAsRect',
+    value: function windowAsRect() {
+      return Rect.ofSize($(window).width(), $(window).height());
+    }
+  }, {
+    key: 'ofSize',
+    value: function ofSize(width, height) {
+      return Interval.ofSize(width).by(Interval.ofSize(height));
+    }
+  }]);
+
+  return Rect;
 }();
 
-exports.default = Rect;
-},{"./grid":44,"./if-num-else":45,"./interval":48}],52:[function(require,module,exports){
+module.exports = Rect;
+},{"./area":33,"./grid":46,"./if-num-else":47,"./interval":50}],55:[function(require,module,exports){
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = reflow;
 /**
  * Reflows the given element
  *
  * @param {jQuery|HTMLElement} elem The element
  */
-function reflow(elem) {
-
+module.exports = function (elem) {
   var offsetHeight = $(elem).get(0).offsetHeight;
 
   offsetHeight = offsetHeight + 1;
 
   return elem;
-}
-},{}],53:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _gridWalker = require('./grid-walker');
-
-var _gridWalker2 = _interopRequireDefault(_gridWalker);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Sprite = function (_GridWalker) {
-  _inherits(Sprite, _GridWalker);
-
-  function Sprite() {
-    _classCallCheck(this, Sprite);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Sprite).apply(this, arguments));
-  }
-
-  return Sprite;
-}(_gridWalker2.default);
-
-exports.default = Sprite;
-},{"./grid-walker":43}],54:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _sprite = require('./sprite');
-
-var _sprite2 = _interopRequireDefault(_sprite);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var StaticSprite = function (_Sprite) {
-  _inherits(StaticSprite, _Sprite);
-
-  function StaticSprite() {
-    _classCallCheck(this, StaticSprite);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(StaticSprite).apply(this, arguments));
-  }
-
-  return StaticSprite;
-}(_sprite2.default);
-
-exports.default = StaticSprite;
-},{"./sprite":53}],55:[function(require,module,exports){
+};
+},{}],56:[function(require,module,exports){
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = wait;
 /**
  * Returns a promise which resolves in the given milliseconds.
  *
@@ -22082,105 +22290,13 @@ exports.default = wait;
  * @param {object} result The value to resolve
  * @return {Promise}
  */
-function wait(n, result) {
-
+module.exports = function (n, result) {
   return new Promise(function (resolve) {
     return setTimeout(function () {
       return resolve(result);
     }, n);
   });
-}
-},{}],56:[function(require,module,exports){
-/**
- * subclassjs v1.3.0
- */
-
-
-(function () {
-    'use strict';
-
-    /**
-     * Generates a subclass with given parent class and additional class definition.
-     *
-     * @param {Function} parent The parent class constructor
-     * @param {Function<(pt: Object, super: Object) => void>} classDefinition
-     * @returns {Function}
-     */
-    var subclass = function (parent, classDefinition) {
-
-        if (classDefinition == null) {
-
-            // if there's no second argument
-            // then use the first argument as class definition
-            // and suppose parent is Object
-
-            classDefinition = parent;
-            parent = Object;
-
-        }
-
-        if (parent == null) {
-
-            throw new Error('parent cannot be null: definingFunction=' + classDefinition.toString());
-
-        }
-
-        // create proxy constructor for inheritance
-        var proxy = function () {};
-
-        proxy.prototype = parent.prototype;
-
-        var prototype = new proxy();
-
-
-        // creates child's default constructor
-        // this can be overwritten in classDefinition
-        prototype.constructor = function () {
-
-            proxy.prototype.constructor.apply(this, arguments);
-
-        };
-
-
-        if (typeof classDefinition === 'function') {
-
-            // apply the given class definition
-            classDefinition(prototype, parent.prototype);
-
-        } else if (classDefinition == null) {
-
-            // do nothing
-
-        } else {
-
-            throw new Error('the type of classDefinition is wrong: ' + typeof classDefinition);
-
-        }
-
-
-
-        // set prototype to constructor
-        prototype.constructor.prototype = prototype;
-
-
-        return prototype.constructor;
-
-    };
-
-
-    if (typeof module !== 'undefined' && module.exports) {
-
-        // CommonJS
-        module.exports = subclass;
-
-    } else {
-
-        // window export
-        window.subclass = subclass;
-    }
-
-}());
-
+};
 },{}],57:[function(require,module,exports){
 /*! tether-drop 1.4.1 */
 
@@ -24505,1465 +24621,84 @@ return Tether;
 'use strict';
 
 require('./global');
-
 require('event-hub');
-
-require('../../src/namespaces');
-
 require('../../src/util/jquery');
-
 require('../../src/util/rx');
-
 require('multiflip');
-
 require('multiflip-bubble');
-
 require('@kt3k/puncher');
-
 require('../../src/ui/common/menu-button');
 
-require('../../src/datadomain/');
-
-},{"../../src/datadomain/":85,"../../src/namespaces":88,"../../src/ui/common/menu-button":89,"../../src/util/jquery":91,"../../src/util/rx":92,"./global":60,"@kt3k/puncher":1,"event-hub":31,"multiflip":34,"multiflip-bubble":33}],60:[function(require,module,exports){
+},{"../../src/ui/common/menu-button":61,"../../src/util/jquery":63,"../../src/util/rx":64,"./global":60,"@kt3k/puncher":1,"event-hub":26,"multiflip":29,"multiflip-bubble":28}],60:[function(require,module,exports){
 (function (global){
 'use strict';
 
-var _jquery = require('jquery');
+global.jQuery = global.$ = require('jquery');
 
-var _jquery2 = _interopRequireDefault(_jquery);
+global.Rx = require('rx-lite');
 
-var _rxLite = require('rx-lite');
-
-var _rxLite2 = _interopRequireDefault(_rxLite);
-
-var _es6Promise = require('es6-promise');
-
-require('es6-symbol/implement');
-
-var _tether = require('tether');
-
-var _tether2 = _interopRequireDefault(_tether);
-
-var _tetherDrop = require('tether-drop');
-
-var _tetherDrop2 = _interopRequireDefault(_tetherDrop);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-global.$ = _jquery2.default;
-global.jQuery = _jquery2.default;
-global.Rx = _rxLite2.default;
-global.Tether = _tether2.default;
-global.Drop = _tetherDrop2.default;
-global.BASEPATH = '';
+global.Tether = require('tether');
+global.Drop = require('tether-drop');
 
 require('class-component');
 
-_jquery2.default.cc.subclass = require('subclassjs');
+require('es6-promise').polyfill();
+require('es6-object-assign').polyfill();
+require('es6-symbol/implement');
 
-(0, _es6Promise.polyfill)();
+global.BASEPATH = global.BASEPATH || '';
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"class-component":7,"es6-promise":25,"es6-symbol/implement":26,"jquery":32,"rx-lite":36,"subclassjs":56,"tether":58,"tether-drop":57}],61:[function(require,module,exports){
+},{"class-component":3,"es6-object-assign":19,"es6-promise":20,"es6-symbol/implement":21,"jquery":27,"rx-lite":31,"tether":58,"tether-drop":57}],61:[function(require,module,exports){
 'use strict';
-
-var subclass = $.cc.subclass;
-
-/**
- * The cell.
- *
- * [ValueObject]
- *
- * @class
- */
-
-datadomain.Cell = subclass(function (pt) {
-  'use strict';
-
-  pt.constructor = function (gene) {
-    /**
-     * @property {String} gene The gene
-     */
-    this.gene = gene;
-  };
-});
-
-},{}],62:[function(require,module,exports){
-'use strict';
-
-var subclass = $.cc.subclass;
-
-/**
- * The collection class of Cell.
- */
-
-datadomain.CellCollection = subclass(function (pt) {
-  'use strict';
-
-  /**
-   * @constructor
-   * @param {Array} cells The array of cells
-   */
-
-  pt.constructor = function (cells) {
-    /**
-     * @property {Array} cells The array of the cells
-     */
-    this.cells = cells;
-  };
-});
-
-},{}],63:[function(require,module,exports){
-'use strict';
-
-var subclass = $.cc.subclass;
-
-/**
- * The factory for Cell.
- *
- * @class
- */
-
-datadomain.CellFactory = subclass(function (pt) {
-    'use strict';
-
-    /**
-     * Creates a cell from the object.
-     *
-     * @param {Object} obj The object
-     * @return {datadomain.Cell}
-     */
-
-    pt.createFromObject = function (obj) {
-
-        return new datadomain.Cell(obj.gene);
-    };
-
-    /**
-     * Creates a collection of the cells from the array.
-     *
-     * @param {Array} array The array
-     * @return {datadomain.CellCollection}
-     */
-    pt.createCollectionFromArray = function (array) {
-
-        var that = this;
-
-        return new datadomain.CellCollection(array.map(function (obj) {
-
-            return that.createFromObject(obj);
-        }));
-    };
-});
-
-},{}],64:[function(require,module,exports){
-'use strict';
-
-var subclass = $.cc.subclass;
-
-/**
- * The position of the character.
- */
-
-datadomain.CharPosition = subclass(function (pt) {
-  'use strict';
-
-  /**
-   * @constructor
-   * @param {String} floorId The id of the floor
-   * @param {String} floorObjectId The id of the floor object
-   */
-
-  pt.constructor = function (floorId, floorObjectId) {
-    /**
-     * @property {String} floorId The id of the floor
-     */
-    this.floorId = floorId;
-
-    /**
-     * @property {String} floorObjectId The id of the floor object
-     */
-    this.floorObjectId = floorObjectId;
-  };
-
-  /**
-   * Returns the object representation of the character's position
-   *
-   * @return {Object}
-   */
-  pt.toObject = function () {
-    return {
-      floorId: this.floorId,
-      floorObjectId: this.floorObjectId
-    };
-  };
-});
-
-},{}],65:[function(require,module,exports){
-'use strict';
-
-var subclass = $.cc.subclass;
-
-/**
- * @class
- * CharPositionFactory handles the creation of CharPositions.
- */
-
-datadomain.CharPositionFactory = subclass(function (pt) {
-    'use strict';
-
-    var START_FLOOR_ID = '7';
-    var START_FLOOR_OBJECT_ID = '701';
-
-    /**
-     * Creates the start position.
-     *
-     * @return {datadomain.CharPosition}
-     */
-    pt.createStartPosition = function () {
-        return new datadomain.CharPosition(START_FLOOR_ID, START_FLOOR_OBJECT_ID);
-    };
-
-    /**
-     * Creates char position object from the object.
-     *
-     * @param {Object} obj The object
-     * @return {datadomain.CharPosition}
-     */
-    pt.createFromObject = function (obj) {
-        if (obj == null) {
-            return this.createStartPosition();
-        }
-
-        return new datadomain.CharPosition(obj.floorId, obj.floorObjectId);
-    };
-});
-
-},{}],66:[function(require,module,exports){
-'use strict';
-
-var _character = require('../domain/character');
-
-var _character2 = _interopRequireDefault(_character);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var subclass = $.cc.subclass;
-
-/**
- * The factory of Character.
- */
-
-datadomain.CharacterFactory = subclass(function (pt) {
-    'use strict';
-
-    /**
-     * Creates a character from the object
-     *
-     * @param {Object} obj The object
-     * @return {Character}
-     */
-
-    pt.createFromObject = function (obj) {
-        return new _character2.default(obj.id, obj.name, new datadomain.CharPositionFactory().createFromObject(obj.position));
-    };
-
-    /**
-     * Creates the character of the initial state.
-     *
-     * @param {String} id The character id
-     * @return {Character}
-     */
-    pt.createInitialById = function (id) {
-        if (id === 'ma') {
-            return new _character2.default(id, 'Ma', new datadomain.CharPositionFactory().createFromObject());
-        } else if (id === 'ellen') {
-            return new _character2.default(id, 'Ellen', new datadomain.CharPositionFactory().createFromObject());
-        } else if (id === 'emma') {
-            return new _character2.default(id, 'Emma', new datadomain.CharPositionFactory().createFromObject());
-        }
-
-        throw new Error('unknown character: ' + id);
-    };
-});
-
-},{"../domain/character":86}],67:[function(require,module,exports){
-'use strict';
-
-var subclass = $.cc.subclass;
-
-/**
- * Gene model
- *
- * ValueObject
- *
- * @class
- */
-
-datadomain.Gene = subclass(function (pt) {
-  'use strict';
-
-  /**
-   * @constructor
-   * @param {String} gene The gene
-   */
-
-  pt.constructor = function (gene) {
-    this.gene = gene;
-  };
-
-  /**
-   * Returns true if the given gene is the same.
-   *
-   * @param {datadomain.Gene} gene The gene to compare
-   * @return {Boolean}
-   */
-  pt.equals = function (gene) {
-    return gene instanceof datadomain.Gene && this.gene === gene.gene;
-  };
-});
-
-},{}],68:[function(require,module,exports){
-'use strict';
-
-var subclass = $.cc.subclass;
-
-/**
- * The level model.
- *
- * [AggregateRoot]
- *
- * @class
- */
-
-datadomain.Level = subclass(function (pt) {
-  'use strict';
-
-  /**
-   * @constructor
-   * @param {String} id The id
-   * @param {datadomain.goal.Goal} goal The goal
-   * @param {datadomain.CellCollection} cells The collection of the cells
-   */
-
-  pt.constructor = function (id, goal, cells) {
-    /**
-     * @property {String} id The id
-     */
-    this.id = id;
-
-    /**
-     * @property {datadomain.goal.Goal} goal The goal
-     */
-    this.goal = goal;
-
-    /**
-     * @property {datadomain.CellCollection} cells The collection of the cells
-     */
-    this.cells = cells;
-  };
-});
-
-},{}],69:[function(require,module,exports){
-'use strict';
-
-var subclass = $.cc.subclass;
-
-/**
- * The factory class for Level.
- */
-
-datadomain.LevelFactory = subclass(function (pt) {
-    'use strict';
-
-    pt.createFromObject = function (obj) {
-        return new datadomain.Level(obj.name, new datadomain.goal.GoalFactory().createFromObject(obj.goal), new datadomain.CellFactory().createCollectionFromArray(obj.cells));
-    };
-});
-
-},{}],70:[function(require,module,exports){
-'use strict';
-
-var subclass = $.cc.subclass;
-
-/**
- * LevelHistory is model class which represents the history of the level clearance.
- *
- * @class
- */
-
-datadomain.LevelHistory = subclass(function (pt) {
-  'use strict';
-
-  /**
-   * @constructor
-   * @param {String} levelId The id of the level
-   * @param {Number} score The score
-   * @param {datadomain.Gene[]} goalGenes The goal genes
-   * @param {Boolean} cleared If cleared or not
-   * @param {Date} clearedAt The datetime of the clear
-   */
-
-  pt.constructor = function (levelId, score, goalGenes, cleared, clearedAt) {
-    /**
-     * @property {String} levelId The id of the level
-     */
-    this.levelId = levelId;
-
-    /**
-     * @property {Number} score The score
-     */
-    this.score = score;
-
-    /**
-     * @property {datadomain.Gene[]} goalGenes The goal genes
-     */
-    this.goalGenes = goalGenes;
-
-    /**
-     * @property {Boolean} cleared If cleared or not
-     */
-    this.cleared = cleared;
-
-    /**
-     * @property {Date} clearedAt The datetime of the clear
-     */
-    this.clearedAt = clearedAt;
-  };
-});
-
-},{}],71:[function(require,module,exports){
-'use strict';
-
-var subclass = $.cc.subclass;
-
-/**
- * The collection class of LevelHistory.
- *
- * @class
- */
-
-datadomain.LevelHistoryCollection = subclass(Array, function (pt) {
-    'use strict';
-
-    /**
-     * @constructor
-     *
-     * @param {Array} list The array of the LevelHistories
-     */
-
-    pt.constructor = function (list) {
-        list = list || [];
-
-        this.dict = {};
-
-        list.forEach(function (history, i) {
-            this[i] = history;
-            this.dict[history.levelId] = history;
-        }, this);
-    };
-
-    /**
-     * Gets a LevelHistory by the id
-     *
-     * @param {String} levelId The level id
-     * @return {datadomain.LevelHistory}
-     */
-    pt.getById = function (levelId) {
-        return this.dict[levelId];
-    };
-});
-
-},{}],72:[function(require,module,exports){
-'use strict';
-
-var subclass = $.cc.subclass;
-
-/**
- * The factory class for LevelHistory.
- */
-
-datadomain.LevelHistoryFactory = subclass(function (pt) {
-    'use strict';
-
-    /**
-     * Creates a LevelHistoryCollection from the array.
-     *
-     * @param {Array} array The array of the LevelHistories
-     * @return {datadomain.LevelHistoryCollection}
-     */
-
-    pt.createCollectionFromArray = function (array) {
-        var that = this;
-
-        if (!(array instanceof Array)) {
-            array = [];
-        }
-
-        return new datadomain.LevelHistoryCollection(array.map(function (obj) {
-            return that.createFromObject(obj);
-        }));
-    };
-
-    /**
-     * Creates a LevelHistory from the object.
-     *
-     * @param {Object} obj The object
-     * @return {datadomain.LevelHistory}
-     */
-    pt.createFromObject = function (obj) {
-        return new datadomain.LevelHistory(obj.levelName, obj.score, obj.highestGene, obj.cleared, obj.clearedAt);
-    };
-});
-
-},{}],73:[function(require,module,exports){
-'use strict';
-
-var subclass = $.cc.subclass;
-
-/**
- * LevelHistoryRepository is the repository class of LevelHistory.
- *
- * This repository saves and restores the LevelHistorys using infrastructure.storage persistence interface.
- *
- * The key of the storage is as follows:
- *
- * level-history-[charId]-[floorId]
- *
- * e.g. level-history-ma-7
- */
-
-datadomain.LevelHistoryRepository = subclass(function (pt) {
-    'use strict';
-
-    /**
-     * @constructor
-     * @param {String} charId The character id
-     */
-
-    pt.constructor = function (charId) {
-        this.charId = charId;
-        this.factory = new datadomain.LevelHistoryFactory();
-    };
-
-    /**
-     * Gets the level histories (LevelHistoryCollection) by the floor.
-     *
-     * @param {String} floorId The floor id
-     * @return {Promise}
-     */
-    pt.getByFloorId = function (floorId) {
-        var that = this;
-
-        return infrastructure.storage.get(this.createStorageKey(floorId), []).then(function (array) {
-            return that.factory.createCollectionFromArray(array);
-        });
-    };
-
-    /**
-     * Creates storage key name for the floor.
-     *
-     * @private
-     * @param {String} floorId The floor id
-     * @return {Promise}
-     */
-    pt.createStorageKey = function (floorId) {
-        return 'level-history-' + this.charId + '-' + floorId;
-    };
-});
-
-},{}],74:[function(require,module,exports){
-'use strict';
-
-var subclass = $.cc.subclass;
-
-/**
- * The level lock model
- *
- * @class
- */
-
-datadomain.LevelLock = subclass(function (pt) {
-    'use strict';
-
-    pt.constructor = function (levelId, locked) {
-        this.levelId = levelId;
-        this.locked = locked;
-    };
-
-    /**
-     * Returns if the level is locked.
-     *
-     * @return {Boolean}
-     */
-    pt.isLocked = function () {
-        return this.locked;
-    };
-
-    /**
-     * Unlocks the level
-     */
-    pt.unlock = function () {
-        this.locked = false;
-    };
-});
-
-},{}],75:[function(require,module,exports){
-'use strict';
-
-var subclass = $.cc.subclass;
-
-/**
- * The collection class of LevelLocks.
- */
-
-datadomain.LevelLockCollection = subclass(function (pt) {
-    'use strict';
-
-    /**
-     * @param {Array} locks
-     */
-
-    pt.constructor = function (locks) {
-        this.locks = locks || [];
-    };
-
-    /**
-     * Finds the level of the given level id, or returns null when the level not found.
-     *
-     * @private
-     * @param {String} levelId The id of the level
-     * @return {datadomain.LevelLock}
-     */
-    pt.find = function (levelId) {
-        var locks = this.locks.filter(function (lock) {
-            return lock.levelId === levelId;
-        });
-
-        if (locks.length === 0) {
-            return null;
-        }
-
-        return locks[0];
-    };
-
-    /**
-     * Unlocks the level of the given id.
-     *
-     * @param {String} levelId The id of the level
-     */
-    pt.unlock = function (levelId) {
-        var lock = this.find(levelId);
-
-        if (lock != null) {
-            lock.unlock();
-
-            return;
-        }
-
-        // Create a new lock object if it doesn't exist
-        lock = new datadomain.LevelLockFactory().createFromObject({
-            levelId: levelId,
-            locked: false
-        });
-
-        this.locks.push(lock);
-    };
-
-    /**
-     * Checks if the lock of the given level id is locked.
-     *
-     * @param {String} levelId The id of the level
-     * @return {Boolean}
-     */
-    pt.isLocked = function (levelId) {
-        var lock = this.find(levelId);
-
-        if (!lock) {
-            // If lock object doesn't exist, then it means the level is locked.
-            return true;
-        }
-
-        return lock.isLocked();
-    };
-});
-
-},{}],76:[function(require,module,exports){
-'use strict';
-
-var subclass = $.cc.subclass;
-
-/**
- * The factory class of LevelLocks.
- */
-
-datadomain.LevelLockFactory = subclass(function (pt) {
-    'use strict';
-
-    /**
-     * Creates a LevelLock from the object.
-     *
-     * @param {Object} obj The object
-     * @return {datadomain.LevelLock}
-     */
-
-    pt.createFromObject = function (obj) {
-        if (obj == null) {
-            return null;
-        }
-
-        return new datadomain.LevelLock(obj.levelId, obj.locked);
-    };
-
-    /**
-     * Creates a LevelLockCollection from the list of the object.
-     *
-     * @param {Array} objList The list of objects
-     * @return {Array}
-     */
-    pt.createCollectionFromObjectList = function (objList) {
-        objList = objList || [];
-
-        return new datadomain.LevelLockCollection(objList.map(function (obj) {
-            return this.createFromObject(obj);
-        }, this));
-    };
-});
-
-},{}],77:[function(require,module,exports){
-'use strict';
-
-var subclass = $.cc.subclass;
-
-/**
- * The repository class of the LevelLock.
- *
- * This repository saves and restores the LevelLocks in JSON format using the infrastructure.storage persistent interface.
- *
- * The storage key of the collection of the level locks is as follows:
- *
- * level-lock-[charId]-[floorId]
- *
- * e.g. if charId is 'ma' and floorId is '7', then the storage key is 'level-lock-ma-7'
- */
-
-datadomain.LevelLockRepository = subclass(function (pt) {
-    'use strict';
-
-    /**
-     * @param {String} charId The character id
-     */
-
-    pt.constructor = function (charId) {
-        this.charId = charId;
-    };
-
-    /**
-     * Gets the collection of the level locks by the floor id and char id.
-     *
-     * @param {String} floorId The floor id
-     * @param {String} charId The floor id
-     * @return {Promise} which resolves with the collection of the locks of the given floor id
-     */
-    pt.getByFloorId = function (floorId) {
-        return infrastructure.storage.get(this.createStorageKey(floorId), []).then(function (objList) {
-            return new datadomain.LevelLockFactory().createCollectionFromObjectList(objList);
-        });
-    };
-
-    /**
-     * Saves the collection of the locks by the floor id and char id.
-     *
-     * @param {String} floorId The floor id
-     * @param {datadomain.LevelLockCollection} collection The level lock collection
-     */
-    pt.saveByFloorId = function (floorId, collection) {
-        return infrastructure.storage.set(this.createStorageKey(floorId), this.toObjectList(collection));
-    };
-
-    /**
-     * Converts the collection of the locks to an object list.
-     *
-     * @private
-     * @param {datadomain.LevelLockCollection} collection The level lock collection
-     * @return {Array} the array of the objects
-     */
-    pt.toObjectList = function (collection) {
-        return collection.locks.map(function (lock) {
-            return this.toObject(lock);
-        }, this);
-    };
-
-    /**
-     * Converts the lock to an object.
-     *
-     * @private
-     * @param {datadomain.LevelLock} lock The lock
-     * @return {Object}
-     */
-    pt.toObject = function (lock) {
-        return {
-            levelId: lock.levelId,
-            locked: lock.locked
-        };
-    };
-
-    /**
-     * Creates the storage key of the given floor id and char id.
-     *
-     * @private
-     * @param {String} floorId The floor id
-     * @param {String} charId The char id
-     * @return {String}
-     */
-    pt.createStorageKey = function (floorId) {
-        return 'level-lock-' + this.charId + '-' + floorId;
-    };
-});
-
-},{}],78:[function(require,module,exports){
-'use strict';
-
-var subclass = $.cc.subclass;
-
-/**
- * The repository of Level.
- */
-
-datadomain.LevelRepository = subclass(function (pt) {
-    'use strict';
-
-    /**
-     * Gets the level by the id.
-     *
-     * @param {String} id The id
-     * @return {Promise}
-     */
-
-    pt.getById = function (id) {
-        var that = this;
-
-        return new Promise(function (resolve) {
-            $.getJSON(that.levelUrl(id)).then(function (data) {
-                resolve(new datadomain.LevelFactory().createFromObject(data));
-            });
-        });
-    };
-
-    /**
-     * Gets the url of the level
-     *
-     * @private
-     * @param {String} id The id of the level
-     * @return {String} The url of the level
-     */
-    pt.levelUrl = function (id) {
-        return 'data/level/' + id + '.json';
-    };
-});
-
-},{}],79:[function(require,module,exports){
-'use strict';
-
-var subclass = $.cc.subclass;
-
-/**
- * PlayingState model represents the current playing state of the level.
- *
- * [ValueObject]
- */
-
-datadomain.PlayingState = subclass(function (pt) {
-  'use strict';
-
-  /**
-   * @constructor
-   * @param {String} charId The character id
-   * @param {String} levelId The level id
-   * @param {Array} [rounds] The directions
-   */
-
-  pt.constructor = function (charId, levelId, rounds) {
-
-    this.charId = charId;
-    this.levelId = levelId;
-    this.rounds = rounds || [[]];
-  };
-
-  /**
-   * Moves to the next round.
-   */
-  pt.bump = function () {
-
-    this.rounds.unshift([]);
-  };
-
-  /**
-   * Releases the round data and init the obj state.
-   *
-   * @return {Array} The array of round data
-   */
-  pt.release = function () {
-
-    var rounds = this.rounds.splice(0).reverse();
-
-    this.bump();
-
-    return rounds;
-  };
-
-  /**
-   * Adds a direction
-   *
-   * @param {String} dir The direction
-   */
-  pt.add = function (dir) {
-
-    this.rounds[0].push(dir);
-  };
-});
-
-},{}],80:[function(require,module,exports){
-'use strict';
-
-var subclass = $.cc.subclass;
-
-/**
- * PlayingStateRepository is the repository class for PlayingState model.
- */
-
-datadomain.PlayingStateRepository = subclass(function (pt) {
-    'use strict';
-
-    var PLAYING_DATA_KEY = 'playing-state-';
-
-    /**
-     * Gets a playing state by the character id.
-     *
-     * @param {String} chadId The character id
-     * @param {String} levelId The level id
-     * @return {Promise}
-     */
-    pt.getByCharIdLevelId = function (charId, levelId) {
-        return infrastructure.storage.get(PLAYING_DATA_KEY + charId, null).then(function (data) {
-            if (data == null) {
-                return new datadomain.PlayingState(charId, levelId, [[]]);
-            }
-
-            if (data.levelId !== levelId) {
-                return new datadomain.PlayingState(charId, levelId, [[]]);
-            }
-
-            return new datadomain.PlayingState(data.charId, data.levelId, data.rounds);
-        });
-    };
-
-    /**
-     * Saves the playingState
-     *
-     * @return {Promise}
-     */
-    pt.save = function (playingState) {
-        return infrastructure.storage.set(PLAYING_DATA_KEY + playingState.charId, this.toObject(playingState)).then(function () {
-            return playingState;
-        });
-    };
-
-    /**
-     * Clears the data by the character id
-     *
-     * @param {String} id The character id
-     * @return {Promise}
-     */
-    pt.clearByCharId = function (id) {
-        return infrastructure.storage.set(PLAYING_DATA_KEY + id, null);
-    };
-
-    /**
-     * @private
-     * Converts to the object
-     *
-     * @param {datadomain.PlayingState} playingState The playing state
-     * @return {Object}
-     */
-    pt.toObject = function (playingState) {
-        return {
-            charId: playingState.charId,
-            levelId: playingState.levelId,
-            rounds: playingState.rounds
-        };
-    };
-});
-
-},{}],81:[function(require,module,exports){
-'use strict';
-
-var _bomTable = require('../../domain/genetics/bom-table');
-
-var _bomTable2 = _interopRequireDefault(_bomTable);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-datadomain.goal.CollectGoal = function () {
-    'use strict';
-
-    var exports = function exports(type, opts) {
-        this.type = type;
-        this.opts = opts;
-    };
-
-    var cgPt = exports.prototype;
-
-    cgPt.toString = function () {
-        var number = this.opts.number;
-        var target = _bomTable2.default[this.opts.target];
-
-        return 'This room needs ' + number + ' ' + this.numberize(target, number) + '.';
-    };
-
-    cgPt.numberize = function (noun, number) {
-        if (number <= 1) {
-            return noun;
-        } else {
-            return noun + 's';
-        }
-    };
-
-    return exports;
-}();
-
-},{"../../domain/genetics/bom-table":87}],82:[function(require,module,exports){
-'use strict';
-
-/**
- * @class
- * @abstract
- *
- * Goal class is the model class of the goal of the level.
- */
-datadomain.goal.Goal = function () {
-  'use strict';
-
-  /**
-   * @constructor
-   * @param {String} type The type of the goal
-   * @param {Object} [options] The options
-   */
-
-  var exports = function exports(type, options) {
-    this.type = type;
-    this.options = options;
-  };
-
-  var gPt = exports.prototype;
-
-  /**
-   * Gets string representation.
-   *
-   * @abstract
-   */
-  gPt.toString = function () {};
-
-  return exports;
-}();
-
-},{}],83:[function(require,module,exports){
-'use strict';
-
-var subclass = $.cc.subclass;
-
-/**
- * GoalFactory is the factory class of goal models
- */
-
-datadomain.goal.GoalFactory = subclass(function (pt) {
-    'use strict';
-
-    /**
-     * Creates goals from object list.
-     *
-     * @param {Array} list The lisf of goal objects.
-     * @return {Array}
-     */
-
-    pt.createFromObjectList = function (list) {
-        return this.createFromObject(list[0]);
-    };
-
-    /**
-     * Creates a goal from the given object.
-     *
-     * @param {Object} obj The goal object
-     * @return {datadomain.goal.Goal} The goal
-     */
-    pt.createFromObject = function (obj) {
-        var type = obj.type;
-
-        switch (type) {
-            case 'C':
-                return new datadomain.goal.CollectGoal(obj.type, obj.opts);
-            case 'L':
-                return new datadomain.goal.ClearGoal(obj.type, obj.opts);
-            case 'F':
-                return new datadomain.goal.FusionGoal(obj.type, obj.opts);
-            case 'S':
-                return new datadomain.goal.ScoreGoal(obj.type, obj.opts);
-        }
-    };
-});
-
-},{}],84:[function(require,module,exports){
-'use strict';
-
-require('./Goal');
-
-require('./CollectGoal');
-
-require('./GoalFactory');
-
-},{"./CollectGoal":81,"./Goal":82,"./GoalFactory":83}],85:[function(require,module,exports){
-'use strict';
-
-require('./Cell');
-
-require('./CellCollection');
-
-require('./CellFactory');
-
-require('./CharPosition');
-
-require('./CharPositionFactory');
-
-require('./CharacterFactory');
-
-require('./Gene');
-
-require('./Level');
-
-require('./LevelFactory');
-
-require('./LevelHistory');
-
-require('./LevelHistoryCollection');
-
-require('./LevelHistoryFactory');
-
-require('./LevelHistoryRepository');
-
-require('./LevelLock');
-
-require('./LevelLockCollection');
-
-require('./LevelLockFactory');
-
-require('./LevelLockRepository');
-
-require('./LevelRepository');
-
-require('./PlayingState');
-
-require('./PlayingStateRepository');
-
-require('./goal');
-
-},{"./Cell":61,"./CellCollection":62,"./CellFactory":63,"./CharPosition":64,"./CharPositionFactory":65,"./CharacterFactory":66,"./Gene":67,"./Level":68,"./LevelFactory":69,"./LevelHistory":70,"./LevelHistoryCollection":71,"./LevelHistoryFactory":72,"./LevelHistoryRepository":73,"./LevelLock":74,"./LevelLockCollection":75,"./LevelLockFactory":76,"./LevelLockRepository":77,"./LevelRepository":78,"./PlayingState":79,"./PlayingStateRepository":80,"./goal":84}],86:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/**
- * Character is the domain model and the aggregate root of character aggregate.
- * It has CharPosition and LevelHistoryCollection as its components.
- *
- * [Entity]
- * [AggregateRoot]
- */
-
-var Character = function () {
-
-  /**
-   * @constructor
-   * @param {String} id The id of the character
-   * @param {String} name The name of the character
-   * @param {datadomain.CharPosition} position The position of the character
-   * @param {datadomain.LevelHistoryCollection} histories The histories of the current floor
-   * @param {datadomain.PlayingState} playingState The state of playing at the current level
-   * @param {datadomain.LevelLockCollection} locks The collection of the level locks
-   */
-
-  function Character(id, name, position, histories, playingState, locks) {
-    _classCallCheck(this, Character);
-
-    /**
-     * @property {String} id The id of the character
-     */
-    this.id = id;
-
-    /**
-     * @property {String} name The name of the character
-     */
-    this.name = name;
-
-    /**
-     * @property {datadomain.CharPosition} position The position of the character
-     */
-    this.position = position;
-
-    /**
-     * @property {datadomain.LevelHistoryCollection} histories The histories of the current floor
-     */
-    this.histories = histories;
-
-    /**
-     * @property {datadomain.PlayingState} playingState The state of playing at the current level
-     */
-    this.playingState = playingState;
-
-    /**
-     * @property {datadomain.LevelLockCollection} collection The collection of the locks
-     */
-    this.locks = locks;
-  }
-
-  /**
-   * Sets the position of character.
-   *
-   * @param {datadomain.CharPosition} position The position of the character
-   */
-
-  _createClass(Character, [{
-    key: "setPosition",
-    value: function setPosition(position) {
-
-      this.position = position;
-    }
-
-    /**
-     * Reloads the levelHistories according to the current position.
-     *
-     * @return {Promise} resolves with updated character
-     */
-
-  }, {
-    key: "reloadHistories",
-    value: function reloadHistories() {
-      var _this = this;
-
-      if (this.position == null) {
-        return Promise.resolve(this);
-      }
-
-      return new datadomain.LevelHistoryRepository(this.id).getByFloorId(this.position.floorId).then(function (histories) {
-
-        _this.histories = histories;
-
-        return _this;
-      });
-    }
-
-    /**
-     * Saves the LevelHistories.
-     *
-     * @return {Promise}
-     */
-
-  }, {
-    key: "saveHistories",
-    value: function saveHistories() {
-      var _this2 = this;
-
-      return new datadomain.LevelHistoryRepository(this.id).saveByFloorId(this.position.floorId, this.histories).then(function () {
-        return _this2;
-      });
-    }
-
-    /**
-     * Reloads the level locks.
-     */
-
-  }, {
-    key: "reloadLocks",
-    value: function reloadLocks() {
-      var _this3 = this;
-
-      if (this.position == null) {
-        return Promise.resolve(this);
-      }
-
-      return new datadomain.LevelLockRepository(this.id).getByFloorId(this.position.floorId).then(function (locks) {
-        _this3.locks = locks;
-
-        return _this3;
-      });
-    }
-
-    /**
-     * Saves the current level locks.
-     */
-
-  }, {
-    key: "saveLocks",
-    value: function saveLocks() {
-      var _this4 = this;
-
-      return new datadomain.LevelLockRepository(this.id).saveByFloorId(this.position.floorId, this.locks).then(function () {
-        return _this4;
-      });
-    }
-
-    /**
-     * Reloads the playingState
-     *
-     * @return {Promise}
-     */
-
-  }, {
-    key: "reloadPlayingState",
-    value: function reloadPlayingState() {
-      var _this5 = this;
-
-      return new datadomain.PlayingStateRepository().getByCharIdLevelId(this.id, this.position.floorObjectId).then(function (playingState) {
-
-        _this5.playingState = playingState;
-
-        return _this5;
-      });
-    }
-
-    /**
-     * Saves the playing state.
-     *
-     * @return {Promise}
-     */
-
-  }, {
-    key: "savePlayingState",
-    value: function savePlayingState() {
-      var _this6 = this;
-
-      return new datadomain.PlayingStateRepository().save(this.playingState).then(function () {
-        return _this6;
-      });
-    }
-
-    /**
-     * Clears the playing state.
-     *
-     * @return {Promise}
-     */
-
-  }, {
-    key: "clearPlayingState",
-    value: function clearPlayingState() {
-
-      return new datadomain.PlayingStateRepository().clearByCharId(this.id);
-    }
-
-    /**
-     */
-
-  }, {
-    key: "getFloorObjectId",
-    value: function getFloorObjectId() {
-
-      return this.position.floorObjectId;
-    }
-  }]);
-
-  return Character;
-}();
-
-exports.default = Character;
-
-},{}],87:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-/**
- * BomTable is the master table of the cell name for each number.
- */
-exports.default = {
-
-    1: 'monon',
-    2: 'deutron',
-    3: 'triton',
-    4: 'quatron',
-    5: 'penton',
-    6: 'hexton',
-    7: 'septon'
-
-};
-
-},{}],88:[function(require,module,exports){
-"use strict";
-
-// game data domain
-window.datadomain = {};
-window.datadomain.goal = {};
-
-},{}],89:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _dec, _dec2, _class, _desc, _value, _class2;
 
-require('./menu-item');
-
-var _spn = require('spn');
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-    var desc = {};
-    Object['ke' + 'ys'](descriptor).forEach(function (key) {
-        desc[key] = descriptor[key];
-    });
-    desc.enumerable = !!desc.enumerable;
-    desc.configurable = !!desc.configurable;
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
 
-    if ('value' in desc || desc.initializer) {
-        desc.writable = true;
-    }
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
 
-    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-        return decorator(target, property, desc) || desc;
-    }, desc);
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
 
-    if (context && desc.initializer !== void 0) {
-        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-        desc.initializer = undefined;
-    }
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
 
-    if (desc.initializer === void 0) {
-        Object['define' + 'Property'](target, property, desc);
-        desc = null;
-    }
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
 
-    return desc;
+  return desc;
 }
 
+require('./menu-item');
+
+var _require = require('spn');
+
+var wait = _require.wait;
+
+var _require2 = require('dom-gen');
+
+var img = _require2.img;
 var _$$cc = $.cc;
-var event = _$$cc.event;
+var on = _$$cc.on;
 var component = _$$cc.component;
-var Coelement = _$$cc.Coelement;
 
 var TRANS_DUR = 800;
 var R = 60; // radius of menu item arrangment
@@ -25976,395 +24711,365 @@ var R = 60; // radius of menu item arrangment
  * @return {Object[]}
  */
 function itemOffsets(offset, num) {
+  var result = [];
+  var gutter = Math.PI / 4 / num / num;
+  var urad = num > 1 ? (Math.PI / 2 - gutter * 2) / (num - 1) : 0;
 
-    var result = [];
-    var gutter = Math.PI / 4 / num / num;
-    var urad = num > 1 ? (Math.PI / 2 - gutter * 2) / (num - 1) : 0;
+  var r = R * Math.sqrt(num);
 
-    var r = R * Math.sqrt(num);
+  for (var i = 0; i < num; i++) {
+    var rad = urad * i;
+    var cos = r * Math.cos(rad + gutter);
+    var sin = r * Math.sin(rad + gutter);
 
-    for (var i = 0; i < num; i++) {
+    var res = { left: offset.left + cos, top: offset.top - sin };
 
-        var rad = urad * i;
-        var cos = r * Math.cos(rad + gutter);
-        var sin = r * Math.sin(rad + gutter);
+    result.push(res);
+  }
 
-        var res = { left: offset.left + cos, top: offset.top - sin };
-
-        result.push(res);
-    }
-
-    return result;
+  return result;
 }
 
 /**
  * MenuButton handles the behaviour of the menu button.
  */
-var MenuButton = (_dec = component('menu-button'), _dec2 = event('click'), _dec(_class = (_class2 = function (_Coelement) {
-    _inherits(MenuButton, _Coelement);
+var MenuButton = (_dec = component('menu-button'), _dec2 = on('click'), _dec(_class = (_class2 = function () {
+  function MenuButton(elem) {
+    var _this = this;
 
-    function MenuButton(elem) {
-        _classCallCheck(this, MenuButton);
+    _classCallCheck(this, MenuButton);
 
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MenuButton).call(this, elem));
+    this.elem = elem;
 
-        _this.closed = true;
+    this.closed = true;
 
-        _this.menus = _this.getMenuItemSource().map(function (menu) {
-            return _this.createMenuItem(menu);
-        });
+    this.menus = this.getMenuItemSource().map(function (menu) {
+      return _this.createMenuItem(menu);
+    });
+  }
 
-        return _this;
+  /**
+   * Gets item source doms.
+   *
+   * @return {jQuery[]}
+   */
+
+  _createClass(MenuButton, [{
+    key: 'getMenuItemSource',
+    value: function getMenuItemSource() {
+      if (this.elem.data('menu')) {
+        return this.elem.data('menu');
+      }
+
+      if (this.elem.attr('menu')) {
+        return $('#' + this.elem.attr('menu')).children().toArray();
+      }
+
+      throw new Error('no menu');
     }
 
     /**
-     * Gets item source doms.
+     * Sets the offset.
      *
-     * @return {jQuery[]}
+     * @param {Number} offset.left The left offset
+     * @param {Number} offset.top The top offset
      */
 
-    _createClass(MenuButton, [{
-        key: 'getMenuItemSource',
-        value: function getMenuItemSource() {
+  }, {
+    key: 'setOffset',
+    value: function setOffset(offset) {
+      this.menus.forEach(function (menu) {
+        return menu.setOffset(offset);
+      });
+    }
 
-            if (this.elem.data('menu')) {
+    /**
+     * Shows the menu button.
+     *
+     * @return {Promise}
+     */
 
-                return this.elem.data('menu');
-            }
+  }, {
+    key: 'show',
+    value: function show() {
+      var _this2 = this;
 
-            if (this.elem.attr('menu')) {
+      this.elem.removeClass('hidden');
 
-                return $('#' + this.elem.attr('menu')).children().toArray();
-            }
+      return wait(TRANS_DUR).then(function () {
+        return _this2.setOffset(_this2.elem.offset());
+      });
+    }
 
-            throw new Error('no menu');
+    /**
+     * Hides the menu button.
+     *
+     * @return {Promise}
+     */
+
+  }, {
+    key: 'hide',
+    value: function hide() {
+      var _this3 = this;
+
+      return this.closeMenu().then(function () {
+        return wait(300);
+      }).then(function () {
+        _this3.elem.addClass('hidden');
+
+        return wait(TRANS_DUR);
+      });
+    }
+
+    /**
+     * Opens the menu.
+     *
+     * @return {Promise}
+     */
+
+  }, {
+    key: 'openMenu',
+    value: function openMenu() {
+      this.closed = false;
+
+      var toOffsets = itemOffsets(this.elem.offset(), this.menus.length);
+
+      return Promise.all(this.menus.map(function (menu, i) {
+        return wait(50 * i).then(function () {
+          return menu.show(toOffsets[i]);
+        });
+      }));
+    }
+
+    /**
+     * Closes the menu.
+     *
+     * @return {Promise}
+     */
+
+  }, {
+    key: 'closeMenu',
+    value: function closeMenu(offset) {
+      if (this.closed) {
+        return Promise.resolve();
+      }
+
+      this.closed = true;
+
+      offset = offset || this.elem.offset();
+
+      return Promise.all(this.menus.map(function (menu) {
+        return menu.hide(offset);
+      }));
+    }
+
+    /**
+     * Toggles the menu's open/close state.
+     */
+
+  }, {
+    key: 'toggleMenu',
+    value: function toggleMenu() {
+      return this.closed ? this.openMenu() : this.closeMenu();
+    }
+
+    /**
+     * Creates a menu item from menu source item.
+     *
+     * @private
+     * @param {jQuery} menu
+     */
+
+  }, {
+    key: 'createMenuItem',
+    value: function createMenuItem(menu) {
+      menu = $(menu);
+
+      return img({
+        attr: {
+          src: menu.attr('src')
+        },
+        addClass: 'hidden',
+        insertBefore: this.elem,
+        data: {
+          menu: menu.children().toArray(),
+          onclick: menu.attr('onclick')
         }
+      }).cc.init('menu-item');
+    }
+  }]);
 
-        /**
-         * Sets the offset.
-         *
-         * @param {Number} offset.left The left offset
-         * @param {Number} offset.top The top offset
-         */
+  return MenuButton;
+}(), (_applyDecoratedDescriptor(_class2.prototype, 'toggleMenu', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'toggleMenu'), _class2.prototype)), _class2)) || _class);
 
-    }, {
-        key: 'setOffset',
-        value: function setOffset(offset) {
+module.exports = MenuButton;
 
-            this.menus.forEach(function (menu) {
-                return menu.setOffset(offset);
-            });
-        }
-
-        /**
-         * Shows the menu button.
-         *
-         * @return {Promise}
-         */
-
-    }, {
-        key: 'show',
-        value: function show() {
-            var _this2 = this;
-
-            this.elem.removeClass('hidden');
-
-            return (0, _spn.wait)(TRANS_DUR).then(function () {
-                return _this2.setOffset(_this2.elem.offset());
-            });
-        }
-
-        /**
-         * Hides the menu button.
-         *
-         * @return {Promise}
-         */
-
-    }, {
-        key: 'hide',
-        value: function hide() {
-            var _this3 = this;
-
-            return this.closeMenu().then(function () {
-                return (0, _spn.wait)(300);
-            }).then(function () {
-
-                _this3.elem.addClass('hidden');
-
-                return (0, _spn.wait)(TRANS_DUR);
-            });
-        }
-
-        /**
-         * Opens the menu.
-         *
-         * @return {Promise}
-         */
-
-    }, {
-        key: 'openMenu',
-        value: function openMenu() {
-
-            this.closed = false;
-
-            var toOffsets = itemOffsets(this.elem.offset(), this.menus.length);
-
-            return Promise.all(this.menus.map(function (menu, i) {
-                return (0, _spn.wait)(50 * i).then(function () {
-                    return menu.show(toOffsets[i]);
-                });
-            }));
-        }
-
-        /**
-         * Closes the menu.
-         *
-         * @return {Promise}
-         */
-
-    }, {
-        key: 'closeMenu',
-        value: function closeMenu(offset) {
-
-            if (this.closed) {
-
-                return Promise.resolve();
-            }
-
-            this.closed = true;
-
-            offset = offset || this.elem.offset();
-
-            return Promise.all(this.menus.map(function (menu) {
-                return menu.hide(offset);
-            }));
-        }
-
-        /**
-         * Toggles the menu's open/close state.
-         */
-
-    }, {
-        key: 'toggleMenu',
-        value: function toggleMenu() {
-
-            return this.closed ? this.openMenu() : this.closeMenu();
-        }
-
-        /**
-         * Creates a menu item from menu source item.
-         *
-         * @private
-         * @param {jQuery} menu
-         */
-
-    }, {
-        key: 'createMenuItem',
-        value: function createMenuItem(menu) {
-
-            menu = $(menu);
-
-            return $('<img />', {
-
-                attr: {
-                    src: menu.attr('src')
-                },
-                addClass: 'hidden',
-                insertBefore: this.elem,
-                data: {
-                    menu: menu.children().toArray(),
-                    onclick: menu.attr('onclick')
-                }
-
-            }).cc.init('menu-item');
-        }
-    }]);
-
-    return MenuButton;
-}(Coelement), (_applyDecoratedDescriptor(_class2.prototype, 'toggleMenu', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'toggleMenu'), _class2.prototype)), _class2)) || _class);
-exports.default = MenuButton;
-
-},{"./menu-item":90,"spn":47}],90:[function(require,module,exports){
+},{"./menu-item":62,"dom-gen":5,"spn":49}],62:[function(require,module,exports){
 'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _dec, _dec2, _class, _desc, _value, _class2;
 
-var _spn = require('spn');
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-    var desc = {};
-    Object['ke' + 'ys'](descriptor).forEach(function (key) {
-        desc[key] = descriptor[key];
-    });
-    desc.enumerable = !!desc.enumerable;
-    desc.configurable = !!desc.configurable;
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
 
-    if ('value' in desc || desc.initializer) {
-        desc.writable = true;
-    }
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
 
-    desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-        return decorator(target, property, desc) || desc;
-    }, desc);
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
 
-    if (context && desc.initializer !== void 0) {
-        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-        desc.initializer = undefined;
-    }
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
 
-    if (desc.initializer === void 0) {
-        Object['define' + 'Property'](target, property, desc);
-        desc = null;
-    }
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
 
-    return desc;
+  return desc;
 }
 
+var _require = require('spn');
+
+var wait = _require.wait;
 var _$$cc = $.cc;
-var event = _$$cc.event;
+var on = _$$cc.on;
 var component = _$$cc.component;
-var Coelement = _$$cc.Coelement;
 
 /**
  * MenuItem handles the behaviour of items of the menu.
  */
 
-var MenuItem = (_dec = component('menu-item'), _dec2 = event('click'), _dec(_class = (_class2 = function (_Coelement) {
-    _inherits(MenuItem, _Coelement);
+var MenuItem = (_dec = component('menu-item'), _dec2 = on('click'), _dec(_class = (_class2 = function () {
+  function MenuItem(elem) {
+    _classCallCheck(this, MenuItem);
 
-    function MenuItem(elem) {
-        _classCallCheck(this, MenuItem);
+    this.elem = elem;
 
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MenuItem).call(this, elem));
+    var menu = this.elem.data('menu');
 
-        var menu = _this.elem.data('menu');
+    if (menu && menu.length) {
+      this.elem.cc.init('menu-button');
+    }
+  }
 
-        if (menu && menu.length) {
+  /**
+   * Invokes custom onclick handler.
+   */
 
-            _this.elem.cc.init('menu-button');
-        }
+  _createClass(MenuItem, [{
+    key: 'handleOnClick',
+    value: function handleOnClick() {
+      var onclick = this.elem.data('onclick');
 
-        return _this;
+      if (typeof onclick !== 'string' || onclick === '') {
+        return;
+      }
+
+      window.eval(onclick); // eslint-disable-line
     }
 
     /**
-     * Invokes custom onclick handler.
+     * Shows the element moving towards the given offset
+     *
+     * @param {Object} to The offset to goes to.
+     * @return {Promise}
      */
 
-    _createClass(MenuItem, [{
-        key: 'handleOnClick',
-        value: function handleOnClick() {
+  }, {
+    key: 'show',
+    value: function show(to) {
+      this.elem.removeClass('hidden');
 
-            var onclick = this.elem.data('onclick');
+      this.setOffset(to);
 
-            if (typeof onclick !== 'string' || onclick === '') {
-                return;
-            }
+      return Promise.resolve();
+    }
 
-            window.eval(onclick);
-        }
+    /**
+     * Sets the offset of the element
+     *
+     * @private
+     * @param {Object} offset
+     */
 
-        /**
-         * Shows the element moving towards the given offset
-         *
-         * @param {Object} to The offset to goes to.
-         * @return {Promise}
-         */
+  }, {
+    key: 'setOffset',
+    value: function setOffset(offset) {
+      this.elem.offset(offset);
 
-    }, {
-        key: 'show',
-        value: function show(to) {
+      if (this.elem.hasClass('menu-button')) {
+        this.elem.cc.get('menu-button').setOffset(offset);
+      }
+    }
 
-            this.elem.removeClass('hidden');
+    /**
+     * Hides the menu item.
+     *
+     * @param {Object} offset The offset to hides
+     * @return {Promise}
+     */
 
-            this.setOffset(to);
+  }, {
+    key: 'hide',
+    value: function hide(offset) {
+      var _this = this;
 
-            return Promise.resolve();
-        }
+      this.elem.addClass('hidden');
 
-        /**
-         * Sets the offset of the element
-         *
-         * @private
-         * @param {Object} offset
-         */
+      this.setOffset(offset);
 
-    }, {
-        key: 'setOffset',
-        value: function setOffset(offset) {
+      var p = wait(50);
 
-            this.elem.offset(offset);
+      // Hides child menus if exist
+      if (this.elem.hasClass('menu-button')) {
+        p = p.then(function () {
+          return _this.elem.cc.get('menu-button').closeMenu(offset);
+        });
+      }
 
-            if (this.elem.hasClass('menu-button')) {
+      return p;
+    }
+  }]);
 
-                this.elem.cc.get('menu-button').setOffset(offset);
-            }
-        }
+  return MenuItem;
+}(), (_applyDecoratedDescriptor(_class2.prototype, 'handleOnClick', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'handleOnClick'), _class2.prototype)), _class2)) || _class);
 
-        /**
-         * Hides the menu item.
-         *
-         * @param {Object} offset The offset to hides
-         * @return {Promise}
-         */
+module.exports = MenuItem;
 
-    }, {
-        key: 'hide',
-        value: function hide(offset) {
-            var _this2 = this;
-
-            this.elem.addClass('hidden');
-
-            this.setOffset(offset);
-
-            var p = (0, _spn.wait)(50);
-
-            // Hides child menus if exist
-            if (this.elem.hasClass('menu-button')) {
-
-                p = p.then(function () {
-                    return _this2.elem.cc.get('menu-button').closeMenu(offset);
-                });
-            }
-
-            return p;
-        }
-    }]);
-
-    return MenuItem;
-}(Coelement), (_applyDecoratedDescriptor(_class2.prototype, 'handleOnClick', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'handleOnClick'), _class2.prototype)), _class2)) || _class);
-exports.default = MenuItem;
-
-},{"spn":47}],91:[function(require,module,exports){
+},{"spn":49}],63:[function(require,module,exports){
 'use strict';
 
-var _spn = require('spn');
+var _require = require('spn');
+
+var wait = _require.wait;
+var reflow = _require.reflow;
 
 /**
  * Performs the animation.
  *
  * @param {String} animation The css animation
  */
+
 $.fn.animation = function (animation) {
+  this.css('-webkit-animation', '');
+  reflow(this);
+  this.css('-webkit-animation', animation);
 
-    this.css('-webkit-animation', '');
-    (0, _spn.reflow)(this);
-    this.css('-webkit-animation', animation);
-
-    return this;
+  return this;
 };
 
 /**
@@ -26375,10 +25080,9 @@ $.fn.animation = function (animation) {
  * @return {Promise}
  */
 $.fn.anim = function (animation, dur) {
+  this.animation(animation + ' ' + dur + 'ms');
 
-    this.animation(animation + ' ' + dur + 'ms');
-
-    return (0, _spn.wait)(dur, this);
+  return wait(dur, this);
 };
 
 /**
@@ -26388,11 +25092,11 @@ $.fn.anim = function (animation, dur) {
  * @return {Promise}
  */
 $.fn.once = function (events) {
-    var _this = this;
+  var _this = this;
 
-    return new Promise(function (resolve) {
-        return _this.one(events, resolve);
-    });
+  return new Promise(function (resolve) {
+    return _this.one(events, resolve);
+  });
 };
 
 /**
@@ -26402,8 +25106,7 @@ $.fn.once = function (events) {
  * @return {Rx.Observable}
  */
 $.fn.streamOf = function (events) {
-
-    return Rx.Observable.fromEvent(this, events);
+  return Rx.Observable.fromEvent(this, events);
 };
 
 /**
@@ -26412,18 +25115,18 @@ $.fn.streamOf = function (events) {
  * @return {Promise}
  */
 $.fn.imageLoaded = function () {
-    var _this2 = this;
+  var _this2 = this;
 
-    return new Promise(function (resolve, reject) {
-        return _this2.on('error', function () {
-            return reject(new Error('image can not be loaded: ' + _this2.attr('src')));
-        }).on('load', function () {
-            return resolve();
-        }).attr('src', _this2.attr('src'));
-    });
+  return new Promise(function (resolve, reject) {
+    return _this2.on('error', function () {
+      return reject(new Error('image can not be loaded: ' + _this2.attr('src')));
+    }).on('load', function () {
+      return resolve();
+    }).attr('src', _this2.attr('src'));
+  });
 };
 
-},{"spn":47}],92:[function(require,module,exports){
+},{"spn":49}],64:[function(require,module,exports){
 "use strict";
 
 var Rx = window.Rx;
@@ -26431,13 +25134,18 @@ var Rx = window.Rx;
 /**
  * Checks if it's flatMappable or not.
  *
- * @param {Object} x Testing object
- * @return {Boolean}
+ * @param {object} x The param
+ * @return {boolean}
  */
 Rx.helpers.isObservableLike = function (x) {
   return x instanceof Rx.Observable || Rx.helpers.isPromise(x);
 };
 
+/**
+ * Wraps the object if it doesn't seem an observable.
+ * @param {object} x The thing
+ * @return {object}
+ */
 var wrapUnobservable = function wrapUnobservable(x) {
   return Rx.helpers.isObservableLike(x) ? x : [x];
 };
@@ -26449,18 +25157,16 @@ var wrapUnobservable = function wrapUnobservable(x) {
  * @return {Rx.Observable}
  */
 Rx.Observable.prototype.pipe = function (f) {
-
-  return this.map(f).flattenObservable();
+  return exports.flatten(this.map(f));
 };
 
 /**
- * Flattens it.
- *
+ * Flattens the asynchronous types in the observable.
+ * @param {Rx.Observable} source The source
  * @return {Rx.Observable}
  */
-Rx.Observable.prototype.flattenObservable = function () {
-
-  return this.map(wrapUnobservable).flatMap(function (x) {
+exports.flatten = function (source) {
+  return source.map(wrapUnobservable).flatMap(function (x) {
     return x;
   });
 };
@@ -26471,7 +25177,6 @@ Rx.Observable.prototype.flattenObservable = function () {
  * @return {Rx.Observable}
  */
 Rx.Observable.prototype.filterNull = function () {
-
   return this.filter(function (x) {
     return x != null;
   });
@@ -26479,17 +25184,15 @@ Rx.Observable.prototype.filterNull = function () {
 
 /**
  * Returns promise which resolves the last value of the stream when the stream completed.
- *
+ * @param {Rx.Observable} source The source observable
  * @return {Promise}
  */
-Rx.Observable.prototype.getPromise = function () {
-  var _this = this;
-
+exports.toPromise = function (source) {
   return new Promise(function (resolve, reject) {
-    return _this.takeLast(1).subscribe(function (x) {
+    return source.takeLast(1).subscribe(function (x) {
       return resolve(x);
-    }, function (error) {
-      return reject(error);
+    }, function (err) {
+      return reject(err);
     }, function () {
       return resolve();
     });
@@ -26503,22 +25206,8 @@ Rx.Observable.prototype.getPromise = function () {
  * @return {Object}
  */
 Rx.Observable.prototype.emitInto = function (dom) {
-
   return this.forEach(function (event) {
     return $(dom).trigger(event);
-  });
-};
-
-/**
- * Hooks the function to the stream
- *
- * @param {Function} f The hooking function
- * @return {Rx.Observable}
- */
-Rx.Observable.prototype.hook = function (f) {
-
-  return this.filter(function (item) {
-    return f(item) || true;
   });
 };
 
@@ -26528,8 +25217,7 @@ Rx.Observable.prototype.hook = function (f) {
  * @return {Rx.Observable}
  */
 window.Array.prototype.toFlatStream = function () {
-
-  return Rx.Observable.of.apply(null, this).flattenObservable();
+  return exports.flatten(Rx.Observable.of.apply(null, this));
 };
 
 },{}]},{},[59]);

@@ -2,45 +2,36 @@
 (function (global){
 'use strict';
 
-var _storage = require('./storage');
-
-var storage = _interopRequireWildcard(_storage);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+var storage = require('./storage');
 
 global.infrastructure = { storage: storage };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./storage":2}],2:[function(require,module,exports){
-(function (global){
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.get = get;
-exports.set = set;
 /**
  * Gets the value of the key.
  * @param {string} key The key
  * @param {object} defaultValue The default value
+ * @return {Promise<object>}
  */
-function get(key, defaultValue) {
+exports.get = function (key, defaultValue) {
   var value = window.localStorage.getItem(key);
 
   return Promise.resolve(value != null ? JSON.parse(value) : defaultValue);
-}
+};
 
 /**
  * Sets the value to the key.
  * @param {string} ket The key
  * @param {object} value The value to set
+ * @return {Promise}
  */
-function set(key, value) {
-  global.localStorage.setItem(key, JSON.stringify(value));
+exports.set = function (key, value) {
+  window.localStorage.setItem(key, JSON.stringify(value));
 
-  return Promise.resolve(true);
-}
+  return Promise.resolve();
+};
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}]},{},[1]);

@@ -1,12 +1,14 @@
 <html>
   <head>
-    <title>LD-splash</title>
+    <title>The Test Bed</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="/css/all.css" />
     
-    <link rel="stylesheet" href="/css/splash.css" />
+    <link rel="stylesheet" href="/css/level.css" />
+    
+    <link rel="stylesheet" href="/css/debug.css" />
     
     
     <link rel="stylesheet" href="/css/debug.css" />
@@ -21,7 +23,7 @@
     <script src="/js/common.js"></script>
     <script src="/infrastructure.js"></script>
     
-    <script src="/js/splash.js"></script>
+    <script src="/js/debug/index.js"></script>
     
     
     <script src="/js/debug/debug.js"></script>
@@ -35,10 +37,22 @@
     </script>
   </head>
   <body>
-    
-<div id="main" class="splash-scene">
-  <img class="splash-logo studio" src="img/kt3k-studio.svg" />
-  <img class="splash-logo straw" src="img/straw-logo.svg" />
+    <style>
+.debug-scene .rect {
+  position: absolute;
+  background-color: hsla(200, 80%, 50%, 0.2);
+  box-shadow: 0px 0px 4px hsla(200, 80%, 50%, 0.7) inset;
+}
+</style>
+
+<div id="main" class="debug-scene"></div>
+
+<div class="debug-panel" auto-open="true">
+  <div class="cc-fixture-control" target="#main" auto-reset="true">
+    <script type="text/x">
+      <h1 class="level-signboard" unlocks="701">404</h1>
+    </script>
+  </div>
 </div>
 
   </body>

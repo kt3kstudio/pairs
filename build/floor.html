@@ -1,12 +1,12 @@
 <html>
   <head>
-    <title>LD-splash</title>
+    <title>LD-map</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="/css/all.css" />
     
-    <link rel="stylesheet" href="/css/splash.css" />
+    <link rel="stylesheet" href="/css/floor.css" />
     
     
     <link rel="stylesheet" href="/css/debug.css" />
@@ -21,7 +21,7 @@
     <script src="/js/common.js"></script>
     <script src="/infrastructure.js"></script>
     
-    <script src="/js/splash.js"></script>
+    <script src="/js/floor.js"></script>
     
     
     <script src="/js/debug/debug.js"></script>
@@ -34,12 +34,30 @@
       });
     </script>
   </head>
-  <body>
-    
-<div id="main" class="splash-scene">
-  <img class="splash-logo studio" src="img/kt3k-studio.svg" />
-  <img class="splash-logo straw" src="img/straw-logo.svg" />
+  <body class="dark-bg">
+    <div id="main" class="floor-scene camera event-hub" channel="door-knock character-goto">
+  <div class="floor-asset-collection">
+    <div class="floorboard"></div>
+  </div>
 </div>
+
+<div class="debug-panel">
+  <p>floor debug</p>
+  <hr/>
+  <div class="ls-switch"></div>
+  <hr/>
+  <button class="level-unlock">Unlock</button>
+  <button class="asset-unlock-all">Unlock All</button>
+</div>
+
+<img class="menu-button-root menu-button hidden" menu="map-menu" src="img/menu-button.svg" />
+
+<menus id="map-menu">
+  <menu src="img/back-button.svg"
+    onclick="$('.floor-scene').getActor().walkerFadeIntoDoor().then(function () { history.back(); });"></menu>
+  <menu src="img/reset-button.svg"
+    onclick="$('.floor-scene').getActor().walkerFadeIntoDoor().then(function () { localStorage.clear(); location.reload(); });"></menu>
+</menus>
 
   </body>
   

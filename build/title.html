@@ -4,62 +4,38 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="./css/all.css" />
-    <link rel="stylesheet" href="./css/tether.css" />
-    <link rel="stylesheet" href="./css/drop-theme-arrows-bounce.css" />
-    <link rel="stylesheet" href="./asset/emoji/css/emoji.css" />
-    <link rel="icon" href="./img/favicon.png" />
+    <link rel="stylesheet" href="/css/all.css" />
+    
+    <link rel="stylesheet" href="/css/title.css" />
+    
+    
+    <link rel="stylesheet" href="/css/debug.css" />
+    
+    <link rel="stylesheet" href="/css/tether.css" />
+    <link rel="stylesheet" href="/css/drop-theme-arrows-bounce.css" />
+    <link rel="stylesheet" href="/asset/emoji/css/emoji.css" />
+    <link rel="icon" href="/img/favicon.png" />
 
     <script>window.config = {"lang":"en"}</script>
-    <script src="./js/common.js"></script>
-    <script src="./infrastructure.js"></script>
-    <script src="./js/title.js"></script>
+    <script>window.BASEPATH = ''</script>
+    <script src="/js/common.js"></script>
+    <script src="/infrastructure.js"></script>
+    
+    <script src="/js/title.js"></script>
+    
+    
+    <script src="/js/debug/debug.js"></script>
+    
     <script>
       $(function () {
         setTimeout(function () {
-          $('.title-scene').trigger('scene-start');
+          $('#main').trigger('scene-start');
         }, 50);
       });
     </script>
-
   </head>
-  <body class="">
-    <style>
-
-@-webkit-keyframes title-appear {
-    0% { opacity: 0; transform: translate(0, 10px); }
-}
-
-@-webkit-keyframes float {
-    50% { transform: scale(0.97, 1.03); }
-}
-
-@-webkit-keyframes disappear {
-    0% { opacity: 1; transform: translate(0,  0px); }
-    100% { opacity: 0; transform: translate(0, 10px); }
-}
-
-.title-logo {
-    position: absolute;
-    left: 7.5%;
-    width: 85%;
-    max-height: 300px;
-    top: 50px;
-}
-
-.touch-here {
-    position: absolute;
-    top: 400px;
-    width: 100%;
-    text-align: center;
-    text-weight: bold;
-    font-size: 1.5em;
-    font-family: 'sans-serif';
-}
-
-</style>
-
-<div class="title-scene"></div>
+  <body>
+    <div id="main" class="title-scene"></div>
 
 <img class="menu-button-root menu-button hidden" menu="title-menu" src="img/menu-button.svg" />
 
@@ -79,4 +55,7 @@
 </menus>
 
   </body>
+  
+  <script>window.presets = {"0-empty":{},"level-702-has-2-keys":{"character-ma":{"id":"ma","name":"Ma","keys":[{"levelId":"703"},{"levelId":"704"}],"position":{"floorId":"7","floorObjectId":"702"}},"level-lock-ma-7":[{"levelId":702,"locked":false},{"levelId":701,"locked":false},{"levelId":"701","locked":false},{"levelId":"702","locked":false}],"playing-state-ma":null}}</script>
+  
 </html>

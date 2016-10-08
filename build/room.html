@@ -1,12 +1,12 @@
 <html>
   <head>
-    <title>LD-splash</title>
+    <title>The room</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="/css/all.css" />
     
-    <link rel="stylesheet" href="/css/splash.css" />
+    <link rel="stylesheet" href="/css/room.css" />
     
     
     <link rel="stylesheet" href="/css/debug.css" />
@@ -21,7 +21,7 @@
     <script src="/js/common.js"></script>
     <script src="/infrastructure.js"></script>
     
-    <script src="/js/splash.js"></script>
+    <script src="/js/room.js"></script>
     
     
     <script src="/js/debug/debug.js"></script>
@@ -34,11 +34,16 @@
       });
     </script>
   </head>
-  <body>
-    
-<div id="main" class="splash-scene">
-  <img class="splash-logo studio" src="img/kt3k-studio.svg" />
-  <img class="splash-logo straw" src="img/straw-logo.svg" />
+  <body class="dark-bg">
+    <div id="main" class="room-scene"></div>
+
+<div class="debug-panel">
+  <p>floor debug</p>
+  <hr/>
+  <div class="ls-switch"></div>
+  <hr/>
+  <button class="level-unlock">Unlock One</button>
+  <button class="asset-unlock-all">Unlock All</button>
 </div>
 
   </body>
