@@ -17,7 +17,7 @@
     <link rel="icon" href="{{ file.frontMatter.basepath }}/img/favicon.png" />
 
     <script>window.config = {{ config | dump | safe }}</script>
-    <script>window.BASEPATH = '{{ file.frontMatter.basepath }}'</script>
+    <script>window.BASEPATH = '{{ basepath }}'</script>
     <script src="{{ file.frontMatter.basepath }}/js/common.js"></script>
     <script src="{{ file.frontMatter.basepath }}/infrastructure.js"></script>
     {% for js in file.frontMatter.js %}

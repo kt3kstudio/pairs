@@ -32,7 +32,11 @@ asset(`${SITE}/*.html`, `${SITE}/bed/*.html`)
   .base(SITE)
   .watch(`${SITE}/*.html`, `${SITE}/bed/*.html`, `${SITE}/layout/*.nunjucks`)
   .pipe(frontMatter())
-  .pipe(wrapper.nunjucks({layout: `${SITE}/layouts`, data: templateData}))
+  .pipe(wrapper.nunjucks({
+    basepath,
+    layout: `${SITE}/layouts`,
+    data: templateData
+  }))
 
 // data
 asset(`${SITE}/data/**/*.*`).base(SITE)
