@@ -7,12 +7,11 @@ const FusionPreparationService = require('./component/fusion-preparation-service
 const BallMoveMobLeaveService = require('./component/ball-move-mob-leave-service')
 const ExitQueue = require('./component/exit-queue')
 
-const {component, on, emit} = $.cc
+const {on, emit} = $.cc
 
 /**
  * PlayScene controlls the main playing scene of the level page.
  */
-@component
 @scene
 class PlayScene extends Context {
   /**

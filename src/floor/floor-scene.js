@@ -6,7 +6,7 @@ const {img} = require('dom-gen')
 
 require('./component')
 
-const {component, on, wire} = $.cc
+const {on, wire} = $.cc
 
 /**
  * MapScene handles the scene of map
@@ -18,7 +18,6 @@ const {component, on, wire} = $.cc
  * - take care of menuButton, bg, floorAssets and camera
  */
 @scene.primary
-@component
 class FloorScene {
   /**
    * Gets the floor asset collection.

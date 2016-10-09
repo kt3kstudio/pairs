@@ -8,12 +8,11 @@ const CharacterRepository = require('../domain/character-repository')
 const {Area, DIRS, wait} = require('spn')
 const {img} = require('dom-gen')
 
-const {component, on} = $.cc
+const {on} = $.cc
 
 /**
  * OutroScene handles the scene after finishing main play.
  */
-@component
 @scene
 class OutroScene extends Context {
   @on('play-scene.finished') main () { super.main() }

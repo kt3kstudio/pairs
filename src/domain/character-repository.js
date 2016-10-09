@@ -1,5 +1,4 @@
 const CharacterFactory = require('./character-factory')
-const CharacterInitService = require('./character-init-service')
 
 const STORAGE_KEY = 'character-'
 

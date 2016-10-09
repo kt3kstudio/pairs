@@ -12,12 +12,11 @@ const {wait} = require('spn')
 
 const {img} = require('dom-gen')
 
-const {component, on, emit} = $.cc
+const {on, emit} = $.cc
 
 /**
  * IntroScene class handles the introduction scene of the level page.
  */
-@component
 @block
 @scene.primary
 class IntroScene extends Context {
