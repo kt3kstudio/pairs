@@ -4,17 +4,18 @@ const User = require('../../src/domain/user')
 const UserStatistics = require('../../src/domain/user-statistics')
 
 describe('UserRepository', () => {
-  let repo
+  const repo = new UserRepository()
+  const origGet = infrastructure.storage.get
+  const origSet = infrastructure.storage.set
 
   beforeEach(() => {
-    window.infrastructure = {}
+    infrastructure.storage.get = spy(() => {})
+    infrastructure.storage.set = spy(() => {})
+  })
 
-    window.infrastructure.storage = {
-      get: spy(() => {}),
-      set: spy(() => {})
-    }
-
-    repo = new UserRepository()
+  afterEach(() => {
+    infrastructure.storage.get = origGet
+    infrastructure.storage.set = origSet
   })
 
   describe('save', () => {

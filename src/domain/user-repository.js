@@ -20,6 +20,16 @@ class UserRepository {
   get () {
     return storage.get(KEY, {}).then(data => new UserFactory().createFromObject(data))
   }
+
+  /**
+   * Coverts the user to an object.
+   * @private
+   * @param {User}
+   * @return {Object}
+   */
+  toObject (user) {
+    return user // TODO: create an object.
+  }
 }
 
 module.exports = UserRepository

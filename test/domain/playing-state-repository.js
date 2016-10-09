@@ -5,14 +5,17 @@ describe('PlayingStateRepository', () => {
   'use strict'
 
   const repo = new PlayingStateRepository()
+  const origGet = infrastructure.storage.get
+  const origSet = infrastructure.storage.set
 
   beforeEach(() => {
-    window.infrastructure = {}
+    infrastructure.storage.get = spy(() => {})
+    infrastructure.storage.set = spy(() => {})
+  })
 
-    window.infrastructure.storage = {
-      get: spy(() => {}),
-      set: spy(() => {})
-    }
+  afterEach(() => {
+    infrastructure.storage.get = origGet
+    infrastructure.storage.set = origSet
   })
 
   describe('save', () => {

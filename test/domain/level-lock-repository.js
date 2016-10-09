@@ -5,17 +5,18 @@ const LevelLockRepository = require('../../src/domain/level-lock-repository')
 describe('LevelLockRepository', () => {
   'use strict'
 
-  let repo = null
+  const repo = new LevelLockRepository('ma')
+  const origGet = infrastructure.storage.get
+  const origSet = infrastructure.storage.set
 
   beforeEach(() => {
-    repo = new LevelLockRepository('ma')
+    infrastructure.storage.get = spy(() => {})
+    infrastructure.storage.set = spy(() => {})
+  })
 
-    window.infrastructure = {}
-
-    window.infrastructure.storage = {
-      set: spy(() => {}),
-      get: spy(() => {})
-    }
+  afterEach(() => {
+    infrastructure.storage.get = origGet
+    infrastructure.storage.set = origSet
   })
 
   describe('getByFloorId', () => {

@@ -2,15 +2,9 @@ const LevelHistoryRepository = require('../../src/domain/level-history-repositor
 const LevelHistoryCollection = require('../../src/domain/level-history-collection')
 const LevelHistory = require('../../src/domain/level-history')
 
-const storage = require('../../src/infrastructure/storage')
-
 const repository = new LevelHistoryRepository('ma')
 
 describe('LevelHistoryRepository', () => {
-  beforeEach(() => {
-    window.infrastructure = {storage}
-  })
-
   describe('saveForFloorId', () => {
     it('saves the histories for the given floor id', () => {
       const histories = new LevelHistoryCollection([{levelId: '701', score: 7000}])
