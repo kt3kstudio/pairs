@@ -1,7 +1,8 @@
 # TODO
 
-## feat(mode)
-- add mode selector properperty to user
+- feat(domain): update character-repository for handling location correctly
+- feat(debug): character debugger
+- feat(scene): switch scenes depending the character.location
 
 ## feat(data):
 - create floor 7 to floor 16, 10 levels for each.
@@ -112,6 +113,8 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom (markup)
 
 # DONE
+- feat(domain): add location model
+- feat(domain): add location-detail model
 - button to unlock all the assets in the floor
 - review unlocking algorithm especially the initial assets in the floors.
 - unlock staircase
