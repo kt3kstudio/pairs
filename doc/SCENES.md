@@ -25,7 +25,7 @@ The room scene.
 
 The road scene.
 
-## Entrance
+## Entrance (floor.html)
 
 The entrace floor scene.
 
@@ -43,7 +43,7 @@ The level scene.
 
 ## Level 1610
 
-The leve 1610 scene.
+The level 1610 scene.
 
 ## Settings
 
