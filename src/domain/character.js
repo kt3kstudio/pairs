@@ -20,8 +20,9 @@ class Character {
    * @param {LevelHistoryCollection} histories The histories of the current floor
    * @param {PlayingState} playingState The state of playing at the current level
    * @param {LevelLockCollection} locks The collection of the level locks
+   * @param {Location} location The location of the character
    */
-  constructor (id, name, position, keys, histories, playingState, locks) {
+  constructor (id, name, position, keys, histories, playingState, locks, location) {
     /**
      * @property {String} id The id of the character
      */
@@ -33,6 +34,7 @@ class Character {
     this.name = name
 
     /**
+     * @deprecated
      * @property {CharacterPosition} position The position of the character
      */
     this.position = position
@@ -56,6 +58,11 @@ class Character {
      * @property {LevelLockCollection} collection The collection of the locks
      */
     this.locks = locks
+
+    /**
+     * @property {Location} location The locatioin
+     */
+    this.location = location
   }
 
   /**
