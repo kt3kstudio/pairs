@@ -35,6 +35,8 @@ class TowerLocationDetail extends LocationDetail {
    * @param {string} assetId The asset id
    */
   constructor ({floorId, assetId}) {
+    super()
+
     this.floorId = floorId
     this.assetId = assetId
   }
@@ -45,6 +47,8 @@ class RoadLocationDetail extends LocationDetail {
    * @param {string} place The place in the road scene
    */
   constructor ({place}) {
+    super()
+
     this.place = place
   }
 }
@@ -57,3 +61,6 @@ const PLACE = {
 
 module.exports = Location
 module.exports.PLACE = PLACE
+module.exports.LocationDetail = LocationDetail
+module.exports.RoadLocationDetail = RoadLocationDetail
+module.exports.TowerLocationDetail = TowerLocationDetail
