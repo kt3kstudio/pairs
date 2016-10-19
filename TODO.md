@@ -39,7 +39,7 @@
 - apply the histories to the corresponding floor assets
 
 ## chore(app)
-- rename app name to Couple
+- rename app name to Pairs
 
 ## story(hero)
 - is 701 the room of Ma?
