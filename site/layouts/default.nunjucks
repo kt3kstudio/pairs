@@ -35,7 +35,7 @@
     </script>
   </head>
   <body{% if file.frontMatter.body %} class="{{ file.frontMatter.body }}"{% endif %}>
-    {{ contents }}
+    {{ contents | safe }}
   </body>
   {% if IS_DEV %}
   <script>window.presets = {{ presets | dump | safe }}</script>
