@@ -2,6 +2,10 @@
  * The location model. VO.
  */
 class Location {
+  static get Factory () {
+    return require('./location-factory')
+  }
+
   /**
    * @param {string} place The place
    * @param {LocationDetail} detail The detail of the location

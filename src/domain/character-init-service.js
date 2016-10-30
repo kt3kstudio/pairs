@@ -1,4 +1,4 @@
-const THE_FIRST_LEVEL = '701'
+const THE_FIRST_ASSET = '701'
 
 /**
  * Responsibility: The initialization of the character.
@@ -25,8 +25,8 @@ class CharacterInitService {
       throw new Error('unknown character: ' + id)
     }
 
-    // The first level is always unlocked.
-    character.unlockById(THE_FIRST_LEVEL)
+    // The first asset is always unlocked.
+    character.unlockById(THE_FIRST_ASSET)
 
     return character
   }

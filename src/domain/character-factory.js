@@ -3,6 +3,7 @@ const CharacterPositionFactory = require('./character-position-factory')
 const LevelKeyFactory = require('./level-key-factory')
 const LevelHistoryFactory = require('./level-history-factory')
 const LevelLockFactory = require('./level-lock-factory')
+const LocationFactory = require('./location-factory')
 
 /**
  * The factory of Character.
@@ -21,7 +22,8 @@ class CharacterFactory {
       new LevelKeyFactory().createFromArray(obj.keys),
       new LevelHistoryFactory().createCollectionFromArray([]),
       null,
-      new LevelLockFactory().createCollectionFromObjectList([])
+      new LevelLockFactory().createCollectionFromObjectList([]),
+      new LocationFactory().createFromObject(obj.location)
     )
   }
 }
