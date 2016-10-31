@@ -5,8 +5,6 @@ const LevelKeyCollection = require('../../src/domain/level-key-collection')
 const CharacterRepository = require('../../src/domain/character-repository')
 
 describe('CharacterRepository', () => {
-  'use strict'
-
   const repo = new CharacterRepository()
   const origGet = infrastructure.storage.get
   const origSet = infrastructure.storage.set
