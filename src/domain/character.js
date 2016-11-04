@@ -12,6 +12,20 @@ const LevelKey = require('./level-key')
  */
 class Character {
   /**
+   * @return {Class<CharacterRepository>}
+   */
+  static get Repository() {
+    return require('./character-repository')
+  }
+
+  /**
+   * @return {Class<CharacterFactory>}
+   */
+  static get Factory() {
+    return require('./character-factory')
+  }
+
+  /**
    * @constructor
    * @param {string} id The id of the character
    * @param {string} name The name of the character

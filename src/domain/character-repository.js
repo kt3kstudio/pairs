@@ -1,4 +1,5 @@
 const CharacterFactory = require('./character-factory')
+const Location = require('./location')
 
 const STORAGE_KEY = 'character-'
 
@@ -50,7 +51,8 @@ class CharacterRepository {
       id: character.id,
       name: character.name,
       keys: this.keysToArray(character.keys),
-      position: this.positionToObject(character.position)
+      position: this.positionToObject(character.position),
+      location: this.locationToObject(character.location)
     }
   }
 
@@ -96,6 +98,44 @@ class CharacterRepository {
     return {
       floorId: position.floorId,
       floorObjectId: position.floorObjectId
+    }
+  }
+
+  /**
+   * Converts the location object to plain object.
+   * @param {Location} location
+   * @return {Object}
+   */
+  locationToObject (location) {
+    if (location == null) {
+      return null
+    }
+
+    return {
+      place: location.place,
+      detail: this.locationDetailToObject(location.detail)
+    }
+  }
+
+  /**
+   * Converts the location detail to plain object.
+   * @param {LocationDetail} detail The detail
+   * @return {Object}
+   */
+  locationDetailToObject (detail) {
+    if (detail == null) {
+      return null
+    }
+
+    if (detail instanceof Location.RoadLocationDetail) {
+      return {
+        place: detail.place
+      }
+    } else {
+      return {
+        floorId: detail.floorId,
+        assetId: detail.assetId
+      }
     }
   }
 }
