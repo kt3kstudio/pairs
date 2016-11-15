@@ -45,3 +45,5 @@ asset(`${SITE}/**/*.{svg,png}`).base(SITE)
 
 // css
 asset(`${SITE}/**/*.css`).base(SITE)
+
+bulbo.debugPagePath('__pairs__')
