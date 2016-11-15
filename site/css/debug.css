@@ -8,6 +8,15 @@
   transition-duration: 500ms;
 }
 
+.debug-panel h2 {
+  color: hsla(200, 100%, 45%, 1.0);
+  padding: 12px;
+  margin: 0px;
+  font-weight: bold;
+  font-size: 1em;
+  background-color: white;
+}
+
 .debug-panel .toggle {
   position: absolute;
   bottom: -35px;
@@ -30,4 +39,11 @@
   font-size: 0.8em;
   font-weight: normal;
   padding: 10px;
+}
+
+.debug-bold {
+  font-size: 5em;
+  font-weight: bold;
+  text-align: center;
+  margin: 30px;
 }
