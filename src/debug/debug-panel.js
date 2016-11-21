@@ -20,7 +20,9 @@ class DebugPanel {
   /**
    * The handler of toggle click.
    */
-  @on('click').at('.toggle') click () {
+  @on('click').at('.toggle')
+  @on('click').at('h2')
+  onToggle () {
     if (this.flag) {
       this.flag = false
       this.elem.css('top', -$(window).height() * 0.85 + 'px')
