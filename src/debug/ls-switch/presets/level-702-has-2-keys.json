@@ -13,6 +13,13 @@
     "position": {
       "floorId": "7",
       "floorObjectId": "702"
+    },
+    "location": {
+      "place": "TOWER",
+      "detail": {
+        "floorId": "7",
+        "assetId": "702"
+      }
     }
   },
   "level-lock-ma-7": [
