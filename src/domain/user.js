@@ -2,6 +2,11 @@
  * The model of user.
  */
 class User {
+
+  static get Repository () {
+    return require('./user-repository')
+  }
+
   /**
    * @param {string} charId The id of the character currently chosen
    * @param {UserStatistics} stat The statisctics of the user activity

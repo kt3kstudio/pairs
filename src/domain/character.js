@@ -14,15 +14,19 @@ class Character {
   /**
    * @return {Class<CharacterRepository>}
    */
-  static get Repository() {
+  static get Repository () {
     return require('./character-repository')
   }
 
   /**
    * @return {Class<CharacterFactory>}
    */
-  static get Factory() {
+  static get Factory () {
     return require('./character-factory')
+  }
+
+  static get InitService () {
+    return require('./character-init-service')
   }
 
   /**
