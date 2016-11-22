@@ -1,9 +1,10 @@
 # TODO
 
+- refactor(test): update to mocha@3
 - feat(debug): character debugger
-- feat(scene): switch scenes depending the character.location
 
 ## feat(data):
+- feat(scene): switch scenes depending the character.location
 - feat(domain): update character-repository for handling location correctly
 - create floor 7 to floor 16, 10 levels for each.
 - create 100 levels

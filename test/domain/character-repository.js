@@ -9,8 +9,6 @@ const LevelKeyCollection = require('../../src/domain/level-key-collection')
 describe('CharacterRepository', () => {
   const repo = new Character.Repository()
   const factory = new Character.Factory()
-  const origGet = infrastructure.storage.get
-  const origSet = infrastructure.storage.set
 
   beforeEach(() => {
     td.replace(infrastructure.storage, 'get')
@@ -43,10 +41,13 @@ describe('CharacterRepository', () => {
     })
 
     it('saves the character\'s tower location', () => {
-      const location = new Location({place: Location.PLACE.TOWER, detail: new Location.TowerLocationDetail({
-        floorId: '1',
-        assetId: 'entrance'
-      })})
+      const location = new Location({
+        place: Location.PLACE.TOWER,
+        detail: new Location.TowerLocationDetail({
+          floorId: '1',
+          assetId: 'entrance'
+        })
+      })
 
       const character = factory.createFromObject({id: 'ma', location})
 
@@ -58,9 +59,12 @@ describe('CharacterRepository', () => {
     })
 
     it('saves the character\'s road location', () => {
-      const location = new Location({place: Location.PLACE.ROAD, detail: new Location.RoadLocationDetail({
-        place: Location.PLACE.TOWER
-      })})
+      const location = new Location({
+        place: Location.PLACE.ROAD,
+        detail: new Location.RoadLocationDetail({
+          place: Location.PLACE.TOWER
+        })
+      })
 
       const character = factory.createFromObject({id: 'ma', location})
 

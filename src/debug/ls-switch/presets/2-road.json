@@ -1,0 +1,12 @@
+{
+  "character-ma": {
+    "id": "ma",
+    "name": "Ma",
+    "location": {
+      "place": "ROAD",
+      "detail": {
+        "place": "ROOM"
+      }
+    }
+  }
+}

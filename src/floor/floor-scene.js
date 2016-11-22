@@ -1,6 +1,6 @@
 const scene = require('../ui/scene')
-const UserRepository = require('../domain/user-repository')
-const CharacterInitService = require('../domain/character-init-service')
+const { checkLocation } = require('../util/location')
+const { User, Character } = require('../domain')
 
 const {img} = require('dom-gen')
 
@@ -35,9 +35,9 @@ class FloorScene {
    * Loads the data for the scene.
    */
   load () {
-    return new UserRepository().get()
+    return new User.Repository().get()
 
-    .then(user => new CharacterInitService().getOrCreateById(user.charId))
+    .then(user => new Character.InitService().getOrCreateById(user.charId))
 
     .then(character => { this.character = character })
   }
@@ -46,7 +46,9 @@ class FloorScene {
    * Sets up the components.
    */
   setUp () {
-    return this.floorAssets.init(this.character).then(() => this.camera.setUp())
+    return checkLocation(this.character.location, window.location)
+
+    .then(() => this.floorAssets.init(this.character).then(() => this.camera.setUp()))
   }
 
   start () {
