@@ -4,7 +4,7 @@ const { checkLocation } = require('../../src/util/location')
 
 describe('checkLocation', () => {
   it('resolves when the given location is the same as the current window.location', done => {
-    const windowLocation = td.object(window.location)
+    const windowLocation = td.object({replace() {}})
     windowLocation.pathname = '/floor.html'
 
     checkLocation(new Location({place: Location.PLACE.TOWER}), windowLocation).then(() => {
@@ -13,7 +13,7 @@ describe('checkLocation', () => {
   })
 
   it('does not resolve when the given location is not the same as the current window.location', done => {
-    const windowLocation = td.object(window.location)
+    const windowLocation = td.object({replace() {}})
     windowLocation.pathname = '/road.html'
 
     checkLocation(new Location({place: Location.PLACE.TOWER}), windowLocation).then(() => {
@@ -24,7 +24,7 @@ describe('checkLocation', () => {
   })
 
   it('calls window.location.replace() when the given location is not the same as the current window.location', () => {
-    const windowLocation = td.object(window.location)
+    const windowLocation = td.object({replace() {}})
     windowLocation.pathname = '/road.html'
 
     checkLocation(new Location({place: Location.PLACE.TOWER}), windowLocation)
