@@ -61,12 +61,12 @@ describe('Door', () => {
         .then(() => expect($dom.find('.door-body').hasClass('open')).to.be.true)
     })
 
-    it('unbinds the click event on the .door-body', (done) => {
+    it('unbinds the click event on the .door-body', done => {
       door.willShow()
 
       $dom.on('door-knock', () => assert(false))
 
-      return door.open().then(() => {
+      door.open().then(() => {
         $dom.find('.door-body').trigger('click')
 
         setTimeout(done, 300)
@@ -90,7 +90,7 @@ describe('Door', () => {
 
       $dom.on('door-knock', () => done())
 
-      return door.open()
+      door.open()
 
         .then(() => door.close())
 

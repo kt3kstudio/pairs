@@ -24,7 +24,7 @@ describe('message-balloon', () => {
   })
 
   it('starts showing by the event `message-balloon.start` and fires `message-balloon.ended` when finished', done => {
-    return elem.trigger('message-balloon.start').once('message-balloon.ended').then(() => {
+    elem.trigger('message-balloon.start').once('message-balloon.ended').then(() => {
       done()
     })
   })
