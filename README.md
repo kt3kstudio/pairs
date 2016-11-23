@@ -1,7 +1,7 @@
 # long-dream-core v0.6.0
 
-[![Circle CI](https://circleci.com/gh/kt3kstudio/long-dream-core.svg?style=svg)](https://circleci.com/gh/kt3kstudio/long-dream-core)
-[![codecov](https://codecov.io/gh/kt3kstudio/long-dream-core/branch/master/graph/badge.svg)](https://codecov.io/gh/kt3kstudio/long-dream-core)
+[![Circle CI](https://circleci.com/gh/kt3kstudio/pairs.svg?style=svg)](https://circleci.com/gh/kt3kstudio/pairs)
+[![codecov](https://codecov.io/gh/kt3kstudio/pairs/branch/master/graph/badge.svg)](https://codecov.io/gh/kt3kstudio/pairs)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 > A puzzle game on straw platform
@@ -28,8 +28,6 @@ app/bower_components/long-dream-core $ BASE_DIR=../../ BUILD_DIR=src/main/assets
 The above creates the middleman build result at `app/src/main/assets` using js files under `app/infrastructure`.
 
 The name of `infrastructure` came from the terminology of DDD.
-
-# [API doc](http://kt3kstudio.github.io/long-dream-core/doc/v0.6.0/)
 
 # The subprojects
 
