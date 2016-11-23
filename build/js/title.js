@@ -2889,13 +2889,12 @@ var wait = _require2.wait;
 var _require3 = require('dom-gen');
 
 var p = _require3.p;
-var component = $.cc.component;
 
 /**
  * TitleScene class handles the motions sequences of the title scene.
  */
 
-var TitleScene = (_dec = scene.primary, _dec(_class = component(_class = function () {
+var TitleScene = (_dec = scene.primary, _dec(_class = function () {
   function TitleScene() {
     _classCallCheck(this, TitleScene);
   }
@@ -2958,7 +2957,8 @@ var TitleScene = (_dec = scene.primary, _dec(_class = component(_class = functio
   }]);
 
   return TitleScene;
-}()) || _class) || _class);
+}()) || _class);
+
 
 module.exports = TitleScene;
 
@@ -2986,6 +2986,7 @@ var BackgroundService = function () {
 
   _createClass(BackgroundService, null, [{
     key: 'turnWhite',
+
 
     /**
      * Turns the bg color white.
@@ -3045,6 +3046,7 @@ var isFunction = function isFunction(f) {
 };
 
 var component = $.cc.component;
+
 
 var scene = function scene(Cls) {
   Object.defineProperty(Cls.prototype, 'main', {

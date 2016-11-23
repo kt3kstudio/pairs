@@ -3361,6 +3361,7 @@ var _$$cc = $.cc;
 var component = _$$cc.component;
 var on = _$$cc.on;
 
+
 var methodMask = ['constructor'];
 
 var CcFixtureControl = (_dec = on('click').at('.reset'), _dec2 = on('click').at('.component-btn'), _dec3 = on('click').at('.method-btn'), component(_class = (_class2 = function () {
@@ -3383,6 +3384,7 @@ var CcFixtureControl = (_dec = on('click').at('.reset'), _dec2 = on('click').at(
   /**
    * Stores the fixtures.
    */
+
 
   _createClass(CcFixtureControl, [{
     key: 'storeFixtures',
@@ -3470,6 +3472,7 @@ var CcFixtureControl = (_dec = on('click').at('.reset'), _dec2 = on('click').at(
   return CcFixtureControl;
 }(), (_applyDecoratedDescriptor(_class2.prototype, 'reset', [_dec], Object.getOwnPropertyDescriptor(_class2.prototype, 'reset'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'componentClick', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'componentClick'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'methodClick', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'methodClick'), _class2.prototype)), _class2)) || _class);
 
+
 module.exports = CcFixtureControl;
 
 },{"dom-gen":1,"get-property-names":2}],32:[function(require,module,exports){
@@ -3477,7 +3480,7 @@ module.exports = CcFixtureControl;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _class, _desc, _value, _class2;
+var _dec, _dec2, _class, _desc, _value, _class2;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -3516,7 +3519,7 @@ var div = _require.div;
 var _$$cc = $.cc;
 var component = _$$cc.component;
 var on = _$$cc.on;
-var DebugPanel = (_dec = on('click').at('.toggle'), component(_class = (_class2 = function () {
+var DebugPanel = (_dec = on('click').at('.toggle'), _dec2 = on('click').at('h2'), component(_class = (_class2 = function () {
   function DebugPanel(elem) {
     var _this = this;
 
@@ -3541,9 +3544,10 @@ var DebugPanel = (_dec = on('click').at('.toggle'), component(_class = (_class2 
    * The handler of toggle click.
    */
 
+
   _createClass(DebugPanel, [{
-    key: 'click',
-    value: function click() {
+    key: 'onToggle',
+    value: function onToggle() {
       if (this.flag) {
         this.flag = false;
         this.elem.css('top', -$(window).height() * 0.85 + 'px');
@@ -3555,7 +3559,8 @@ var DebugPanel = (_dec = on('click').at('.toggle'), component(_class = (_class2 
   }]);
 
   return DebugPanel;
-}(), (_applyDecoratedDescriptor(_class2.prototype, 'click', [_dec], Object.getOwnPropertyDescriptor(_class2.prototype, 'click'), _class2.prototype)), _class2)) || _class);
+}(), (_applyDecoratedDescriptor(_class2.prototype, 'onToggle', [_dec, _dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'onToggle'), _class2.prototype)), _class2)) || _class);
+
 
 module.exports = DebugPanel;
 
@@ -3604,14 +3609,12 @@ require('./cc-fixture-control');
 require('./rect');
 var scene = require('../ui/scene');
 var block = require('../ui/block');
-var _$$cc = $.cc;
-var component = _$$cc.component;
-var wire = _$$cc.wire;
+var wire = $.cc.wire;
 
 var _require = require('dom-gen');
 
 var div = _require.div;
-var DebugScene = (_dec = scene.primary, component(_class = block(_class = _dec(_class = (_class2 = function () {
+var DebugScene = (_dec = scene.primary, block(_class = _dec(_class = (_class2 = function () {
   function DebugScene() {
     _classCallCheck(this, DebugScene);
   }
@@ -3637,7 +3640,8 @@ var DebugScene = (_dec = scene.primary, component(_class = block(_class = _dec(_
   }]);
 
   return DebugScene;
-}(), (_applyDecoratedDescriptor(_class2.prototype, 'rect', [wire], Object.getOwnPropertyDescriptor(_class2.prototype, 'rect'), _class2.prototype)), _class2)) || _class) || _class) || _class);
+}(), (_applyDecoratedDescriptor(_class2.prototype, 'rect', [wire], Object.getOwnPropertyDescriptor(_class2.prototype, 'rect'), _class2.prototype)), _class2)) || _class) || _class);
+
 
 module.exports = DebugScene;
 
@@ -3667,7 +3671,7 @@ var Rect = component(_class = function (_Body) {
   function Rect() {
     _classCallCheck(this, Rect);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Rect).apply(this, arguments));
+    return _possibleConstructorReturn(this, (Rect.__proto__ || Object.getPrototypeOf(Rect)).apply(this, arguments));
   }
 
   return Rect;
@@ -3696,6 +3700,7 @@ var Animation = _require.Animation;
 var GridWalker = _require.GridWalker;
 var component = $.cc.component;
 
+
 var TRANS_DUR = 150;
 var MAX = 3;
 var CENTER_M = 1;
@@ -3711,7 +3716,7 @@ var Ball = component(_class = function (_GridWalker) {
   function Ball(elem) {
     _classCallCheck(this, Ball);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Ball).call(this));
+    var _this = _possibleConstructorReturn(this, (Ball.__proto__ || Object.getPrototypeOf(Ball)).call(this));
 
     _this.maxX = MAX;
     _this.maxY = MAX;
@@ -3738,7 +3743,7 @@ var Ball = component(_class = function (_GridWalker) {
     value: function willShow() {
       var _this2 = this;
 
-      return _get(Object.getPrototypeOf(Ball.prototype), 'willShow', this).call(this).then(function () {
+      return _get(Ball.prototype.__proto__ || Object.getPrototypeOf(Ball.prototype), 'willShow', this).call(this).then(function () {
         return _this2.elem.css('display', 'inline');
       });
     }
@@ -3865,6 +3870,7 @@ var CellCollection = component(_class = function () {
   /**
    * @param {Grid} grid
    */
+
 
   _createClass(CellCollection, [{
     key: 'setGrid',
@@ -4095,7 +4101,7 @@ var Character = (_dec = sprite.character, _dec2 = component('hero'), _dec3 = rat
   function Character(elem) {
     _classCallCheck(this, Character);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Character).call(this));
+    var _this = _possibleConstructorReturn(this, (Character.__proto__ || Object.getPrototypeOf(Character)).call(this));
 
     _this.initSprite(elem);
     _this.setSpeaker(elem);
@@ -4106,12 +4112,13 @@ var Character = (_dec = sprite.character, _dec2 = component('hero'), _dec3 = rat
    * @override
    */
 
+
   _createClass(Character, [{
     key: 'willShow',
     value: function willShow() {
       this.updateSprite();
 
-      return _get(Object.getPrototypeOf(Character.prototype), 'willShow', this).call(this);
+      return _get(Character.prototype.__proto__ || Object.getPrototypeOf(Character.prototype), 'willShow', this).call(this);
     }
   }, {
     key: 'didShow',
@@ -4140,7 +4147,7 @@ var Character = (_dec = sprite.character, _dec2 = component('hero'), _dec3 = rat
     value: function moveUpOnGrid() {
       this.turn(DIRS.UP);
 
-      return _get(Object.getPrototypeOf(Character.prototype), 'moveUpOnGrid', this).call(this);
+      return _get(Character.prototype.__proto__ || Object.getPrototypeOf(Character.prototype), 'moveUpOnGrid', this).call(this);
     }
 
     /**
@@ -4154,7 +4161,7 @@ var Character = (_dec = sprite.character, _dec2 = component('hero'), _dec3 = rat
     value: function moveRightOnGrid() {
       this.turn(DIRS.RIGHT);
 
-      return _get(Object.getPrototypeOf(Character.prototype), 'moveRightOnGrid', this).call(this);
+      return _get(Character.prototype.__proto__ || Object.getPrototypeOf(Character.prototype), 'moveRightOnGrid', this).call(this);
     }
 
     /**
@@ -4168,7 +4175,7 @@ var Character = (_dec = sprite.character, _dec2 = component('hero'), _dec3 = rat
     value: function moveDownOnGrid() {
       this.turn(DIRS.DOWN);
 
-      return _get(Object.getPrototypeOf(Character.prototype), 'moveDownOnGrid', this).call(this);
+      return _get(Character.prototype.__proto__ || Object.getPrototypeOf(Character.prototype), 'moveDownOnGrid', this).call(this);
     }
 
     /**
@@ -4182,12 +4189,13 @@ var Character = (_dec = sprite.character, _dec2 = component('hero'), _dec3 = rat
     value: function moveLeftOnGrid() {
       this.turn(DIRS.LEFT);
 
-      return _get(Object.getPrototypeOf(Character.prototype), 'moveLeftOnGrid', this).call(this);
+      return _get(Character.prototype.__proto__ || Object.getPrototypeOf(Character.prototype), 'moveLeftOnGrid', this).call(this);
     }
   }]);
 
   return Character;
 }(GridWalker)) || _class) || _class) || _class) || _class);
+
 
 module.exports = Character;
 
@@ -4224,7 +4232,7 @@ var Field = (_dec = component('field-grid'), _dec(_class = function (_Body) {
   function Field() {
     _classCallCheck(this, Field);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Field).apply(this, arguments));
+    return _possibleConstructorReturn(this, (Field.__proto__ || Object.getPrototypeOf(Field)).apply(this, arguments));
   }
 
   _createClass(Field, [{
@@ -4245,7 +4253,7 @@ var Field = (_dec = component('field-grid'), _dec(_class = function (_Body) {
   }, {
     key: 'setRect',
     value: function setRect(rect) {
-      _get(Object.getPrototypeOf(Field.prototype), 'setRect', this).call(this, rect);
+      _get(Field.prototype.__proto__ || Object.getPrototypeOf(Field.prototype), 'setRect', this).call(this, rect);
 
       this.posture.marginX = -5;
       this.posture.marginY = -5;
@@ -4254,6 +4262,7 @@ var Field = (_dec = component('field-grid'), _dec(_class = function (_Body) {
 
   return Field;
 }(Body)) || _class);
+
 
 module.exports = Field;
 
@@ -4417,6 +4426,7 @@ var FusionService = (_dec = component('fusion-service'), _dec2 = emit('cell-fusi
   return FusionService;
 }(), (_applyDecoratedDescriptor(_class2.prototype, 'fusion', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'fusion'), _class2.prototype)), _class2)) || _class);
 
+
 module.exports = FusionService;
 
 },{"dom-gen":1}],40:[function(require,module,exports){
@@ -4476,6 +4486,7 @@ var _$$cc = $.cc;
 var on = _$$cc.on;
 var component = _$$cc.component;
 
+
 var CSS_CLASS_GOAL_EMOJI = 'emoji-round-yellow';
 
 /**
@@ -4488,7 +4499,7 @@ var GoalPanel = (_dec = animation.show('bom-appear', 400).hide('bom-disapper', 4
   function GoalPanel() {
     _classCallCheck(this, GoalPanel);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(GoalPanel).apply(this, arguments));
+    return _possibleConstructorReturn(this, (GoalPanel.__proto__ || Object.getPrototypeOf(GoalPanel)).apply(this, arguments));
   }
 
   _createClass(GoalPanel, [{
@@ -4566,6 +4577,7 @@ var GoalPanel = (_dec = animation.show('bom-appear', 400).hide('bom-disapper', 4
   return GoalPanel;
 }(Body), (_applyDecoratedDescriptor(_class2.prototype, 'onGoalDetection', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'onGoalDetection'), _class2.prototype)), _class2)) || _class) || _class) || _class);
 
+
 module.exports = GoalPanel;
 
 },{"../../util/emoji":70,"../service/goal-detection":51,"spn":21}],41:[function(require,module,exports){
@@ -4615,11 +4627,10 @@ var LevelKey = (_dec = sprite.static, _dec2 = ratio.x(0.5).y(1), _dec3 = animati
   /**
    * @param {jQuery} elem The element
    */
-
   function LevelKey(elem) {
     _classCallCheck(this, LevelKey);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LevelKey).call(this));
+    var _this = _possibleConstructorReturn(this, (LevelKey.__proto__ || Object.getPrototypeOf(LevelKey)).call(this));
 
     _this.initSprite();
     return _this;
@@ -4640,7 +4651,7 @@ var LevelKey = (_dec = sprite.static, _dec2 = ratio.x(0.5).y(1), _dec3 = animati
     value: function willShow() {
       this.updateSprite();
 
-      return _get(Object.getPrototypeOf(LevelKey.prototype), 'willShow', this).call(this);
+      return _get(LevelKey.prototype.__proto__ || Object.getPrototypeOf(LevelKey.prototype), 'willShow', this).call(this);
     }
 
     /**
@@ -4666,6 +4677,7 @@ var LevelKey = (_dec = sprite.static, _dec2 = ratio.x(0.5).y(1), _dec3 = animati
 
   return LevelKey;
 }(Body)) || _class) || _class) || _class) || _class);
+
 
 module.exports = LevelKey;
 
@@ -4704,7 +4716,7 @@ var LevelSignboard = (_dec = animation.show('bom-appear', 400).hide('bom-disappe
   function LevelSignboard(elem) {
     _classCallCheck(this, LevelSignboard);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LevelSignboard).call(this));
+    var _this = _possibleConstructorReturn(this, (LevelSignboard.__proto__ || Object.getPrototypeOf(LevelSignboard)).call(this));
 
     _this.level = elem.text();
     elem.empty();
@@ -4715,6 +4727,7 @@ var LevelSignboard = (_dec = animation.show('bom-appear', 400).hide('bom-disappe
    * Sets the contents.
    * @param {object[]} args The contents
    */
+
 
   _createClass(LevelSignboard, [{
     key: 'setLabel',
@@ -4761,7 +4774,7 @@ var LevelSignboard = (_dec = animation.show('bom-appear', 400).hide('bom-disappe
     value: function willShow() {
       this.setRect(this.initBlock());
 
-      _get(Object.getPrototypeOf(LevelSignboard.prototype), 'willShow', this).call(this);
+      _get(LevelSignboard.prototype.__proto__ || Object.getPrototypeOf(LevelSignboard.prototype), 'willShow', this).call(this);
     }
   }, {
     key: 'didShow',
@@ -4777,6 +4790,7 @@ var LevelSignboard = (_dec = animation.show('bom-appear', 400).hide('bom-disappe
 
   return LevelSignboard;
 }(Body)) || _class) || _class) || _class);
+
 
 module.exports = LevelSignboard;
 
@@ -4806,7 +4820,7 @@ var Moo = (_dec = animation.show('bom-appear', 400).hide('bom-disappear', 400), 
   function Moo() {
     _classCallCheck(this, Moo);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Moo).apply(this, arguments));
+    return _possibleConstructorReturn(this, (Moo.__proto__ || Object.getPrototypeOf(Moo)).apply(this, arguments));
   }
 
   _createClass(Moo, [{
@@ -4818,6 +4832,7 @@ var Moo = (_dec = animation.show('bom-appear', 400).hide('bom-disappear', 400), 
 
   return Moo;
 }(Resident)) || _class) || _class);
+
 
 module.exports = Moo;
 
@@ -4855,7 +4870,7 @@ var Resident = (_dec = sprite.static, _dec2 = sprite.relativeBody, _dec3 = ratio
   function Resident(elem) {
     _classCallCheck(this, Resident);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Resident).call(this));
+    var _this = _possibleConstructorReturn(this, (Resident.__proto__ || Object.getPrototypeOf(Resident)).call(this));
 
     _this.initSprite();
     _this.setSpeaker(elem);
@@ -4866,6 +4881,7 @@ var Resident = (_dec = sprite.static, _dec2 = sprite.relativeBody, _dec3 = ratio
 
     var x = _elem$attr$split2[0];
     var y = _elem$attr$split2[1];
+
 
     _this.relX = x / 100;
     _this.relY = y / 100;
@@ -4879,7 +4895,7 @@ var Resident = (_dec = sprite.static, _dec2 = sprite.relativeBody, _dec3 = ratio
     value: function willShow() {
       this.updateSprite();
 
-      return _get(Object.getPrototypeOf(Resident.prototype), 'willShow', this).call(this);
+      return _get(Resident.prototype.__proto__ || Object.getPrototypeOf(Resident.prototype), 'willShow', this).call(this);
     }
   }, {
     key: 'didShow',
@@ -4895,6 +4911,7 @@ var Resident = (_dec = sprite.static, _dec2 = sprite.relativeBody, _dec3 = ratio
 
   return Resident;
 }(Body)) || _class) || _class) || _class) || _class);
+
 
 module.exports = Resident;
 
@@ -4935,7 +4952,7 @@ var ResultPane = component(_class = function (_Body) {
   function ResultPane() {
     _classCallCheck(this, ResultPane);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(ResultPane).apply(this, arguments));
+    return _possibleConstructorReturn(this, (ResultPane.__proto__ || Object.getPrototypeOf(ResultPane)).apply(this, arguments));
   }
 
   _createClass(ResultPane, [{
@@ -4979,7 +4996,7 @@ var ResultPane = component(_class = function (_Body) {
     value: function willShow() {
       this.elem.append(div({ addClass: 'result-content', css: { opacity: 0, position: 'relative' } }, ul(li('score: ' + this.score), li('success: ' + this.isSuccess))));
 
-      return _get(Object.getPrototypeOf(ResultPane.prototype), 'willShow', this).call(this);
+      return _get(ResultPane.prototype.__proto__ || Object.getPrototypeOf(ResultPane.prototype), 'willShow', this).call(this);
     }
 
     /**
@@ -4994,7 +5011,7 @@ var ResultPane = component(_class = function (_Body) {
     value: function show(timeout) {
       var _this2 = this;
 
-      return _get(Object.getPrototypeOf(ResultPane.prototype), 'show', this).call(this).then(function () {
+      return _get(ResultPane.prototype.__proto__ || Object.getPrototypeOf(ResultPane.prototype), 'show', this).call(this).then(function () {
         return _this2.showInfoPane(timeout);
       });
     }
@@ -5076,7 +5093,7 @@ var Scoreboard = (_dec = animation.show('bom-appear', 400).hide('bom-disappear',
   function Scoreboard() {
     _classCallCheck(this, Scoreboard);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Scoreboard).call(this));
+    var _this = _possibleConstructorReturn(this, (Scoreboard.__proto__ || Object.getPrototypeOf(Scoreboard)).call(this));
 
     _this.score = 0;
     return _this;
@@ -5088,6 +5105,7 @@ var Scoreboard = (_dec = animation.show('bom-appear', 400).hide('bom-disappear',
    * @param {Rx.Observable<FusionPair>} fusionPairStream
    * @return {Rx.Observable<FusionPair>}
    */
+
 
   _createClass(Scoreboard, [{
     key: 'hookToFusionPairStream',
@@ -5108,7 +5126,7 @@ var Scoreboard = (_dec = animation.show('bom-appear', 400).hide('bom-disappear',
   }, {
     key: 'willShow',
     value: function willShow() {
-      _get(Object.getPrototypeOf(Scoreboard.prototype), 'willShow', this).call(this);
+      _get(Scoreboard.prototype.__proto__ || Object.getPrototypeOf(Scoreboard.prototype), 'willShow', this).call(this);
 
       this.update();
     }
@@ -5150,6 +5168,7 @@ var Scoreboard = (_dec = animation.show('bom-appear', 400).hide('bom-disappear',
 
   return Scoreboard;
 }(Body)) || _class) || _class) || _class);
+
 
 module.exports = Scoreboard;
 
@@ -5263,6 +5282,7 @@ void (_dec = component('gene-source'), _dec(_class = function () {
    * @return {string[]}
    */
 
+
   _createClass(_class, [{
     key: 'parseGenes',
     value: function parseGenes(text) {
@@ -5328,7 +5348,6 @@ void (_dec = component('goal-detection'), _dec2 = on('cell-fusion'), _dec3 = emi
    * Sets the goals.
    * @param {string} goals The goals in text
    */
-
   function GoalDetectionService(elem) {
     _classCallCheck(this, GoalDetectionService);
 
@@ -5339,6 +5358,7 @@ void (_dec = component('goal-detection'), _dec2 = on('cell-fusion'), _dec3 = emi
    * @param {object} e The event object
    * @param {Cell} cell The new born cell
    */
+
 
   _createClass(GoalDetectionService, [{
     key: 'onCellFusion',
@@ -5479,6 +5499,7 @@ var _require = require('traits-decorator');
 
 var traits = _require.traits;
 
+
 module.exports = function (Cls) {
   on('block-need-guiding-rect')(Cls.prototype, 'onChildNeedGuidingRect');
 
@@ -5509,6 +5530,7 @@ var BackgroundService = function () {
 
   _createClass(BackgroundService, null, [{
     key: 'turnWhite',
+
 
     /**
      * Turns the bg color white.
@@ -5568,6 +5590,7 @@ var isFunction = function isFunction(f) {
 };
 
 var component = $.cc.component;
+
 
 var scene = function scene(Cls) {
   Object.defineProperty(Cls.prototype, 'main', {
@@ -5658,6 +5681,7 @@ var _$$cc = $.cc;
 var component = _$$cc.component;
 var on = _$$cc.on;
 
+
 var DEFAULT_SPEECH_TIMEOUT = 500;
 
 /**
@@ -5681,6 +5705,7 @@ var MessageBalloon = (_dec = component('message-balloon'), _dec2 = on('message-b
    * Starts showing the balloon and returns a promise.
    * @return {Promise}
    */
+
 
   _createClass(MessageBalloon, [{
     key: 'start',
@@ -5714,6 +5739,7 @@ var MessageBalloon = (_dec = component('message-balloon'), _dec2 = on('message-b
 
   return MessageBalloon;
 }(), (_applyDecoratedDescriptor(_class2.prototype, 'start', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'start'), _class2.prototype)), _class2)) || _class);
+
 
 module.exports = MessageBalloon;
 
@@ -5771,7 +5797,6 @@ var PunchEmoji = (_dec = component('punch-emoji'), _dec2 = on('puncher.appended'
   /**
    * @param {jQuery} elem The jquery object
    */
-
   function PunchEmoji(elem) {
     _classCallCheck(this, PunchEmoji);
 
@@ -5792,6 +5817,7 @@ var PunchEmoji = (_dec = component('punch-emoji'), _dec2 = on('puncher.appended'
   return PunchEmoji;
 }(), (_applyDecoratedDescriptor(_class2.prototype, 'onAppended', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'onAppended'), _class2.prototype)), _class2)) || _class);
 
+
 module.exports = PunchEmoji;
 
 },{"spn":21}],59:[function(require,module,exports){
@@ -5804,7 +5830,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /**
  * Screenplay line represents a line of a screenplay.
  */
-
 var ScreenplayLine = function () {
 
   /**
@@ -5813,9 +5838,8 @@ var ScreenplayLine = function () {
    * @param {jQuery} context The context (range) of screenplay. Every role should be inside this range. If null is given, then this class looking for the role in the entire document.
    * @param {object} options The option parameters
    */
-
   function ScreenplayLine(selector, line, context) {
-    var options = arguments.length <= 3 || arguments[3] === undefined ? {} : arguments[3];
+    var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
     _classCallCheck(this, ScreenplayLine);
 
@@ -5828,6 +5852,7 @@ var ScreenplayLine = function () {
   /**
    * Gets the actor of this line.
    */
+
 
   _createClass(ScreenplayLine, [{
     key: 'getActor',
@@ -5931,6 +5956,7 @@ var _$$cc = $.cc;
 var on = _$$cc.on;
 var component = _$$cc.component;
 
+
 var variables = {};
 
 /**
@@ -5957,8 +5983,10 @@ var Screenplay = (_dec = component('screenplay'), _dec2 = on('screenplay-start')
    * @param {object} vars The variables
    */
 
+
   _createClass(Screenplay, [{
     key: 'actorsReady',
+
 
     /**
      * Returns true iff all the actors are ready.
@@ -5979,7 +6007,7 @@ var Screenplay = (_dec = component('screenplay'), _dec2 = on('screenplay-start')
   }, {
     key: 'play',
     value: function play() {
-      var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+      var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       var vars = _ref.vars;
 
@@ -6022,6 +6050,7 @@ var Screenplay = (_dec = component('screenplay'), _dec2 = on('screenplay-start')
   return Screenplay;
 }(), (_applyDecoratedDescriptor(_class2.prototype, 'play', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'play'), _class2.prototype)), _class2)) || _class);
 
+
 module.exports = Screenplay;
 
 },{"./screenplay-line":59,"scenarioscript":3}],61:[function(require,module,exports){
@@ -6043,6 +6072,7 @@ var _require2 = require('dom-gen');
 
 var div = _require2.div;
 
+
 var DEFAULT_SPEECH_TIMEOUT = 5000;
 
 /**
@@ -6058,6 +6088,7 @@ var Speaker = function () {
 
   _createClass(Speaker, [{
     key: 'setSpeaker',
+
 
     /**
      * Sets the speaker data.
@@ -6126,6 +6157,7 @@ var _require2 = require('traits-decorator');
 
 var traits = _require2.traits;
 
+
 var CHR_TABLE = {
   ma: Ma
 };
@@ -6142,6 +6174,7 @@ var CharSprite = (_dec = traits(Sprite), _dec(_class = function () {
 
   _createClass(CharSprite, [{
     key: 'defaultDir',
+
 
     /**
      * Returns the default direction.
@@ -6208,6 +6241,7 @@ var CharSprite = (_dec = traits(Sprite), _dec(_class = function () {
   return CharSprite;
 }()) || _class);
 
+
 module.exports = CharSprite;
 
 },{"./ma":64,"./sprite":66,"spn":21,"traits-decorator":29}],63:[function(require,module,exports){
@@ -6216,6 +6250,7 @@ module.exports = CharSprite;
 var _require = require('traits-decorator');
 
 var traits = _require.traits;
+
 
 module.exports = traits(require('./sprite'));
 module.exports.static = traits(require('./static-sprite'));
@@ -6275,7 +6310,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /**
  * RelativeBody is a trait class which works in relative scale with its parent rect.
  */
-
 var RelativeBody = function () {
   function RelativeBody() {
     _classCallCheck(this, RelativeBody);
@@ -6316,7 +6350,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  *
  * This is a trait class. Use with traits syntax like `traits-decorator`.
  */
-
 var Sprite = function () {
   function Sprite() {
     _classCallCheck(this, Sprite);
@@ -6324,6 +6357,7 @@ var Sprite = function () {
 
   _createClass(Sprite, [{
     key: "setDirState",
+
 
     /**
      * Changes the direction and state.
@@ -6419,6 +6453,7 @@ var StaticSprite = (_dec = traits(Sprite), _dec(_class = function () {
   _createClass(StaticSprite, [{
     key: 'defaultDir',
 
+
     /**
      * Returns the default direction.
      */
@@ -6460,6 +6495,7 @@ var StaticSprite = (_dec = traits(Sprite), _dec(_class = function () {
 
   return StaticSprite;
 }()) || _class);
+
 
 module.exports = StaticSprite;
 
@@ -6564,6 +6600,7 @@ var StayRunSprite = (_dec = traits(Sprite), _dec(_class = function () {
   return StayRunSprite;
 }()) || _class);
 
+
 module.exports = StayRunSprite;
 
 },{"./sprite":66,"spn":21,"traits-decorator":29}],69:[function(require,module,exports){
@@ -6578,14 +6615,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  *
  * The list is like a snake on the wall, inspired by the charactor arrangment of the mayan scripture.
  */
-
 var FieldIndexGenerator = function () {
 
   /**
    * @constructor
    * @param {Number} [max] The max number of colums on each row
    */
-
   function FieldIndexGenerator(max) {
     _classCallCheck(this, FieldIndexGenerator);
 
@@ -6599,6 +6634,7 @@ var FieldIndexGenerator = function () {
    * @param {Array} used The used (unavailable) indices
    * @return {Array}
    */
+
 
   _createClass(FieldIndexGenerator, [{
     key: "generate",
@@ -6630,13 +6666,13 @@ var FieldIndexGenerator = function () {
  * IndexPointer represents the current position of generating sequence of indices.
  */
 
+
 var IndexPointer = function () {
 
   /**
    * @constructor
    * @param {Number} max The max of number of columns
    */
-
   function IndexPointer(max) {
     _classCallCheck(this, IndexPointer);
 
@@ -6651,6 +6687,7 @@ var IndexPointer = function () {
    *
    * @return {Array}
    */
+
 
   _createClass(IndexPointer, [{
     key: "get",

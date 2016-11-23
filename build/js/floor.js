@@ -3083,7 +3083,7 @@ function as(options) {
 
 require('../../src/floor/floor-scene');
 
-},{"../../src/floor/floor-scene":62}],29:[function(require,module,exports){
+},{"../../src/floor/floor-scene":65}],29:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -3095,6 +3095,7 @@ var CharacterPositionFactory = require('./character-position-factory');
 var LevelKeyFactory = require('./level-key-factory');
 var LevelHistoryFactory = require('./level-history-factory');
 var LevelLockFactory = require('./level-lock-factory');
+var LocationFactory = require('./location-factory');
 
 /**
  * The factory of Character.
@@ -3114,7 +3115,7 @@ var CharacterFactory = function () {
      * @return {Character}
      */
     value: function createFromObject(obj) {
-      return new Character(obj.id, obj.name, new CharacterPositionFactory().createFromObject(obj.position), new LevelKeyFactory().createFromArray(obj.keys), new LevelHistoryFactory().createCollectionFromArray([]), null, new LevelLockFactory().createCollectionFromObjectList([]));
+      return new Character(obj.id, obj.name, new CharacterPositionFactory().createFromObject(obj.position), new LevelKeyFactory().createFromArray(obj.keys), new LevelHistoryFactory().createCollectionFromArray([]), null, new LevelLockFactory().createCollectionFromObjectList([]), new LocationFactory().createFromObject(obj.location));
     }
   }]);
 
@@ -3123,14 +3124,15 @@ var CharacterFactory = function () {
 
 module.exports = CharacterFactory;
 
-},{"./character":34,"./character-position-factory":31,"./level-history-factory":36,"./level-key-factory":40,"./level-lock-factory":43}],30:[function(require,module,exports){
+},{"./character":34,"./character-position-factory":31,"./level-history-factory":37,"./level-key-factory":41,"./level-lock-factory":44,"./location-factory":47}],30:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var THE_FIRST_LEVEL = '701';
+var THE_FIRST_ASSET = '701';
+var Location = require('./location');
 
 /**
  * Responsibility: The initialization of the character.
@@ -3151,24 +3153,45 @@ var CharacterInitService = function () {
      * @return {Character}
      */
     value: function initById(id) {
-      var character = undefined;
+      var character = void 0;
       var CharacterFactory = require('./character-factory');
       var factory = new CharacterFactory();
 
+      // Gets the first location
+      var location = this.initialLocationById(id);
+
       if (id === 'ma') {
-        character = factory.createFromObject({ id: id, name: 'Ma' });
+        character = factory.createFromObject({ id: id, name: 'Ma', location: location });
       } else if (id === 'ellen') {
-        character = factory.createFromObject({ id: id, name: 'Ellen' });
+        character = factory.createFromObject({ id: id, name: 'Ellen', location: location });
       } else if (id === 'emma') {
-        character = factory.createFromObject({ id: id, name: 'Emma' });
+        character = factory.createFromObject({ id: id, name: 'Emma', location: location });
       } else {
         throw new Error('unknown character: ' + id);
       }
 
-      // The first level is always unlocked.
-      character.unlockById(THE_FIRST_LEVEL);
+      // The first asset is always unlocked.
+      character.unlockById(THE_FIRST_ASSET);
 
       return character;
+    }
+
+    /**
+     * Returns the initial location for the character.
+     * @param {string} id The character id
+     * @return {Location}
+     */
+
+  }, {
+    key: 'initialLocationById',
+    value: function initialLocationById(id) {
+      if (id === 'ma') {
+        return new Location({ place: Location.PLACE.ROOM });
+      } else if (id === 'ellen') {
+        return new Location({ place: Location.PLACE.ROOM });
+      }
+
+      return new Location({ place: Location.PLACE.ROOM });
     }
 
     /**
@@ -3200,7 +3223,7 @@ var CharacterInitService = function () {
 
 module.exports = CharacterInitService;
 
-},{"./character-factory":29,"./character-repository":33}],31:[function(require,module,exports){
+},{"./character-factory":29,"./character-repository":33,"./location":48}],31:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -3263,7 +3286,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /**
  * The position of the character.
  */
-
 var CharacterPosition =
 /**
  * @constructor
@@ -3294,7 +3316,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var CharacterFactory = require('./character-factory');
-var CharacterInitService = require('./character-init-service');
+var Location = require('./location');
 
 var STORAGE_KEY = 'character-';
 
@@ -3364,7 +3386,8 @@ var CharacterRepository = function () {
         id: character.id,
         name: character.name,
         keys: this.keysToArray(character.keys),
-        position: this.positionToObject(character.position)
+        position: this.positionToObject(character.position),
+        location: this.locationToObject(character.location)
       };
     }
 
@@ -3425,6 +3448,50 @@ var CharacterRepository = function () {
         floorObjectId: position.floorObjectId
       };
     }
+
+    /**
+     * Converts the location object to plain object.
+     * @param {Location} location
+     * @return {Object}
+     */
+
+  }, {
+    key: 'locationToObject',
+    value: function locationToObject(location) {
+      if (location == null) {
+        return null;
+      }
+
+      return {
+        place: location.place,
+        detail: this.locationDetailToObject(location.detail)
+      };
+    }
+
+    /**
+     * Converts the location detail to plain object.
+     * @param {LocationDetail} detail The detail
+     * @return {Object}
+     */
+
+  }, {
+    key: 'locationDetailToObject',
+    value: function locationDetailToObject(detail) {
+      if (detail == null) {
+        return null;
+      }
+
+      if (detail instanceof Location.RoadLocationDetail) {
+        return {
+          place: detail.place
+        };
+      } else {
+        return {
+          floorId: detail.floorId,
+          assetId: detail.assetId
+        };
+      }
+    }
   }]);
 
   return CharacterRepository;
@@ -3432,7 +3499,7 @@ var CharacterRepository = function () {
 
 module.exports = CharacterRepository;
 
-},{"./character-factory":29,"./character-init-service":30}],34:[function(require,module,exports){
+},{"./character-factory":29,"./location":48}],34:[function(require,module,exports){
 'use strict';
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
@@ -3455,18 +3522,46 @@ var LevelKey = require('./level-key');
  */
 
 var Character = function () {
-  /**
-   * @constructor
-   * @param {string} id The id of the character
-   * @param {string} name The name of the character
-   * @param {CharacterPosition} position The position of the character
-   * @param {LevelKeyCollection} keys The keys of the levels
-   * @param {LevelHistoryCollection} histories The histories of the current floor
-   * @param {PlayingState} playingState The state of playing at the current level
-   * @param {LevelLockCollection} locks The collection of the level locks
-   */
+  _createClass(Character, null, [{
+    key: 'Repository',
 
-  function Character(id, name, position, keys, histories, playingState, locks) {
+    /**
+     * @return {Class<CharacterRepository>}
+     */
+    get: function get() {
+      return require('./character-repository');
+    }
+
+    /**
+     * @return {Class<CharacterFactory>}
+     */
+
+  }, {
+    key: 'Factory',
+    get: function get() {
+      return require('./character-factory');
+    }
+  }, {
+    key: 'InitService',
+    get: function get() {
+      return require('./character-init-service');
+    }
+
+    /**
+     * @constructor
+     * @param {string} id The id of the character
+     * @param {string} name The name of the character
+     * @param {CharacterPosition} position The position of the character
+     * @param {LevelKeyCollection} keys The keys of the levels
+     * @param {LevelHistoryCollection} histories The histories of the current floor
+     * @param {PlayingState} playingState The state of playing at the current level
+     * @param {LevelLockCollection} locks The collection of the level locks
+     * @param {Location} location The location of the character
+     */
+
+  }]);
+
+  function Character(id, name, position, keys, histories, playingState, locks, location) {
     _classCallCheck(this, Character);
 
     /**
@@ -3480,6 +3575,7 @@ var Character = function () {
     this.name = name;
 
     /**
+     * @deprecated
      * @property {CharacterPosition} position The position of the character
      */
     this.position = position;
@@ -3503,6 +3599,11 @@ var Character = function () {
      * @property {LevelLockCollection} collection The collection of the locks
      */
     this.locks = locks;
+
+    /**
+     * @property {Location} location The locatioin
+     */
+    this.location = location;
   }
 
   /**
@@ -3510,6 +3611,7 @@ var Character = function () {
    *
    * @param {CharacterPosition} position The position of the character
    */
+
 
   _createClass(Character, [{
     key: 'setPosition',
@@ -3737,7 +3839,14 @@ var Character = function () {
 
 module.exports = Character;
 
-},{"./character-repository":33,"./level-history-repository":37,"./level-key":41,"./level-lock-repository":44,"./playing-state-repository":46}],35:[function(require,module,exports){
+},{"./character-factory":29,"./character-init-service":30,"./character-repository":33,"./level-history-repository":38,"./level-key":42,"./level-lock-repository":45,"./playing-state-repository":49}],35:[function(require,module,exports){
+'use strict';
+
+exports.Location = require('./location');
+exports.User = require('./user');
+exports.Character = require('./character');
+
+},{"./character":34,"./location":48,"./user":54}],36:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -3747,12 +3856,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /**
  * The collection class of LevelHistory.
  */
-
 var LevelHistoryCollection = function () {
   /**
    * @param {Array} list The array of the LevelHistories
    */
-
   function LevelHistoryCollection(list) {
     var _this = this;
 
@@ -3772,6 +3879,7 @@ var LevelHistoryCollection = function () {
    * @param {string} levelId The level id
    * @return {LevelHistory}
    */
+
 
   _createClass(LevelHistoryCollection, [{
     key: "getById",
@@ -3795,7 +3903,7 @@ var LevelHistoryCollection = function () {
 
 module.exports = LevelHistoryCollection;
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -3852,7 +3960,7 @@ var LevelHistoryFactory = function () {
 
 module.exports = LevelHistoryFactory;
 
-},{"./level-history":38,"./level-history-collection":35}],37:[function(require,module,exports){
+},{"./level-history":39,"./level-history-collection":36}],38:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -3877,7 +3985,6 @@ var LevelHistoryRepository = function () {
   /**
    * @param {string} charId The character id
    */
-
   function LevelHistoryRepository(charId) {
     _classCallCheck(this, LevelHistoryRepository);
 
@@ -3890,6 +3997,7 @@ var LevelHistoryRepository = function () {
    * @param {string} floorId The floor id
    * @return {Promise}
    */
+
 
   _createClass(LevelHistoryRepository, [{
     key: 'getByFloorId',
@@ -3966,7 +4074,7 @@ var LevelHistoryRepository = function () {
 
 module.exports = LevelHistoryRepository;
 
-},{"./level-history-factory":36}],38:[function(require,module,exports){
+},{"./level-history-factory":37}],39:[function(require,module,exports){
 "use strict";
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3974,7 +4082,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /**
  * LevelHistory is model class which represents the history of the level clearance.
  */
-
 var LevelHistory =
 /**
  * @constructor
@@ -4009,7 +4116,7 @@ function LevelHistory(levelId, score, cleared, clearedAt) {
 
 module.exports = LevelHistory;
 
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -4019,16 +4126,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /**
  * The collection class of the level key.
  */
-
 var LevelKeyCollection = function () {
   /**
    * @param {LevelKey[]} keys The keys
    */
-
   function LevelKeyCollection() {
     var _this = this;
 
-    var keys = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+    var keys = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
     _classCallCheck(this, LevelKeyCollection);
 
@@ -4044,6 +4149,7 @@ var LevelKeyCollection = function () {
    * Adds the key. If the key of the same levelId already exists, does nothing.
    * @param {LevelKey} key The key
    */
+
 
   _createClass(LevelKeyCollection, [{
     key: "add",
@@ -4114,7 +4220,7 @@ var LevelKeyCollection = function () {
 
 module.exports = LevelKeyCollection;
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -4173,7 +4279,7 @@ var LevelKeyFactory = function () {
 
 module.exports = LevelKeyFactory;
 
-},{"./level-key":41,"./level-key-collection":39}],41:[function(require,module,exports){
+},{"./level-key":42,"./level-key-collection":40}],42:[function(require,module,exports){
 "use strict";
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4181,7 +4287,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /**
  * LevelKey is domain model which unlocks the corresponding level.
  */
-
 var LevelKey =
 /**
  * @param {string} levelId The id of the level
@@ -4194,7 +4299,7 @@ function LevelKey(levelId) {
 
 module.exports = LevelKey;
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -4204,12 +4309,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /**
  * The collection class of LevelLocks.
  */
-
 var LevelLockCollection = function () {
   /**
    * @param {Array} locks
    */
-
   function LevelLockCollection(locks) {
     _classCallCheck(this, LevelLockCollection);
 
@@ -4225,6 +4328,7 @@ var LevelLockCollection = function () {
    * @param {String} levelId The id of the level
    * @return {LevelLock}
    */
+
 
   _createClass(LevelLockCollection, [{
     key: 'find',
@@ -4290,7 +4394,7 @@ var LevelLockCollection = function () {
 
 module.exports = LevelLockCollection;
 
-},{"./level-lock-factory":43}],43:[function(require,module,exports){
+},{"./level-lock-factory":44}],44:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -4350,7 +4454,7 @@ var LevelLockFactory = function () {
 
 module.exports = LevelLockFactory;
 
-},{"./level-lock":45,"./level-lock-collection":42}],44:[function(require,module,exports){
+},{"./level-lock":46,"./level-lock-collection":43}],45:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -4375,7 +4479,6 @@ var LevelLockRepository = function () {
   /**
    * @param {string} charId The character id
    */
-
   function LevelLockRepository(charId) {
     _classCallCheck(this, LevelLockRepository);
 
@@ -4388,6 +4491,7 @@ var LevelLockRepository = function () {
    * @param {string} charId The floor id
    * @return {Promise} which resolves with the collection of the locks of the given floor id
    */
+
 
   _createClass(LevelLockRepository, [{
     key: 'getByFloorId',
@@ -4464,7 +4568,7 @@ var LevelLockRepository = function () {
 
 module.exports = LevelLockRepository;
 
-},{"./level-lock-factory":43}],45:[function(require,module,exports){
+},{"./level-lock-factory":44}],46:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -4474,13 +4578,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /**
  * The level lock model
  */
-
 var LevelLock = function () {
   /**
    * @param {string} levelId The level id
    * @param {boolean} locked True iff the level is locked
    */
-
   function LevelLock(levelId, locked) {
     _classCallCheck(this, LevelLock);
 
@@ -4492,6 +4594,7 @@ var LevelLock = function () {
    * Returns if the level is locked.
    * @return {boolean}
    */
+
 
   _createClass(LevelLock, [{
     key: "isLocked",
@@ -4515,7 +4618,186 @@ var LevelLock = function () {
 
 module.exports = LevelLock;
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Location = require('./location');
+var PLACE = Location.PLACE;
+var RoadLocationDetail = Location.RoadLocationDetail;
+var TowerLocationDetail = Location.TowerLocationDetail;
+
+/**
+ * The factory class of the location
+ */
+
+var LocationFactory = function () {
+  function LocationFactory() {
+    _classCallCheck(this, LocationFactory);
+  }
+
+  _createClass(LocationFactory, [{
+    key: 'createFromObject',
+
+    /**
+     * Creates the location object from the given plain object.
+     */
+    value: function createFromObject(obj) {
+      if (!obj) {
+        return null;
+      }
+
+      var detail = obj.detail;
+
+      switch (obj.place) {
+        case PLACE.ROOM:
+          return new Location({ place: PLACE.ROOM });
+        case PLACE.ROAD:
+          if (!detail || !detail.place) break;
+
+          return new Location({ place: PLACE.ROAD, detail: new RoadLocationDetail(detail) });
+        case PLACE.TOWER:
+          if (!detail || !detail.floorId || !detail.assetId) break;
+
+          return new Location({ place: PLACE.TOWER, detail: new TowerLocationDetail(detail) });
+        default:
+          break;
+      }
+
+      console.warn('invalid PLACE: ' + obj.place + ', detail: ' + obj.detail);
+      return null;
+    }
+  }]);
+
+  return LocationFactory;
+}();
+
+module.exports = LocationFactory;
+
+},{"./location":48}],48:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * The location model. VO.
+ */
+var Location = function () {
+  _createClass(Location, null, [{
+    key: 'Factory',
+    get: function get() {
+      return require('./location-factory');
+    }
+
+    /**
+     * @param {string} place The place
+     * @param {LocationDetail} detail The detail of the location
+     */
+
+  }]);
+
+  function Location(_ref) {
+    var place = _ref.place;
+    var detail = _ref.detail;
+
+    _classCallCheck(this, Location);
+
+    this.place = place;
+    this.detail = detail;
+  }
+
+  _createClass(Location, [{
+    key: 'goToRoom',
+    value: function goToRoom() {
+      this.detail = null;
+      this.place = PLACE.ROOM;
+    }
+  }, {
+    key: 'goToRoad',
+    value: function goToRoad() {
+      this.detail = new RoadLocationDetail({ place: this.place });
+      this.place = PLACE.ROAD;
+    }
+  }, {
+    key: 'goToTower',
+    value: function goToTower() {
+      this.place = PLACE.TOWER;
+      this.detail = new TowerLocationDetail({ assetId: 'entrance', floorId: '1' });
+    }
+  }]);
+
+  return Location;
+}();
+
+var LocationDetail = function LocationDetail() {
+  _classCallCheck(this, LocationDetail);
+};
+
+var TowerLocationDetail = function (_LocationDetail) {
+  _inherits(TowerLocationDetail, _LocationDetail);
+
+  /**
+   * @param {string} floorId The floor id
+   * @param {string} assetId The asset id
+   */
+  function TowerLocationDetail(_ref2) {
+    var floorId = _ref2.floorId;
+    var assetId = _ref2.assetId;
+
+    _classCallCheck(this, TowerLocationDetail);
+
+    var _this = _possibleConstructorReturn(this, (TowerLocationDetail.__proto__ || Object.getPrototypeOf(TowerLocationDetail)).call(this));
+
+    _this.floorId = floorId;
+    _this.assetId = assetId;
+    return _this;
+  }
+
+  return TowerLocationDetail;
+}(LocationDetail);
+
+var RoadLocationDetail = function (_LocationDetail2) {
+  _inherits(RoadLocationDetail, _LocationDetail2);
+
+  /**
+   * @param {string} place The place in the road scene
+   */
+  function RoadLocationDetail(_ref3) {
+    var place = _ref3.place;
+
+    _classCallCheck(this, RoadLocationDetail);
+
+    var _this2 = _possibleConstructorReturn(this, (RoadLocationDetail.__proto__ || Object.getPrototypeOf(RoadLocationDetail)).call(this));
+
+    _this2.place = place;
+    return _this2;
+  }
+
+  return RoadLocationDetail;
+}(LocationDetail);
+
+var PLACE = {
+  ROOM: 'ROOM',
+  ROAD: 'ROAD',
+  TOWER: 'TOWER'
+};
+
+module.exports = Location;
+module.exports.PLACE = PLACE;
+module.exports.LocationDetail = LocationDetail;
+module.exports.RoadLocationDetail = RoadLocationDetail;
+module.exports.TowerLocationDetail = TowerLocationDetail;
+
+},{"./location-factory":47}],49:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -4611,7 +4893,7 @@ var PlayingStateRepository = function () {
 
 module.exports = PlayingStateRepository;
 
-},{"./playing-state":47}],47:[function(require,module,exports){
+},{"./playing-state":50}],50:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -4623,7 +4905,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  *
  * [Entity]
  */
-
 var PlayingState = function () {
   /**
    * @constructor
@@ -4631,7 +4912,6 @@ var PlayingState = function () {
    * @param {String} levelId The level id
    * @param {Array} [rounds] The directions
    */
-
   function PlayingState(charId, levelId, rounds) {
     _classCallCheck(this, PlayingState);
 
@@ -4643,6 +4923,7 @@ var PlayingState = function () {
   /**
    * Moves to the next round.
    */
+
 
   _createClass(PlayingState, [{
     key: "bump",
@@ -4682,7 +4963,7 @@ var PlayingState = function () {
 
 module.exports = PlayingState;
 
-},{}],48:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -4706,7 +4987,7 @@ var UserFactory = function () {
   _createClass(UserFactory, [{
     key: 'createFromObject',
     value: function createFromObject() {
-      var obj = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+      var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       if (obj.charId == null) {
         obj.charId = DEFAULT_CHAR_ID;
@@ -4723,7 +5004,7 @@ var UserFactory = function () {
 
 module.exports = UserFactory;
 
-},{"./user":51,"./user-statistics":50}],49:[function(require,module,exports){
+},{"./user":54,"./user-statistics":53}],52:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -4769,6 +5050,19 @@ var UserRepository = function () {
         return new UserFactory().createFromObject(data);
       });
     }
+
+    /**
+     * Coverts the user to an object.
+     * @private
+     * @param {User}
+     * @return {Object}
+     */
+
+  }, {
+    key: 'toObject',
+    value: function toObject(user) {
+      return user; // TODO: create an object.
+    }
   }]);
 
   return UserRepository;
@@ -4776,7 +5070,7 @@ var UserRepository = function () {
 
 module.exports = UserRepository;
 
-},{"./user-factory":48}],50:[function(require,module,exports){
+},{"./user-factory":51}],53:[function(require,module,exports){
 "use strict";
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4784,7 +5078,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /**
  * UserStatistics is the collection class of user statistics info.
  */
-
 var UserStatistics =
 /**
  * @param {object} opts The options
@@ -4801,37 +5094,50 @@ function UserStatistics(opts) {
 
 module.exports = UserStatistics;
 
-},{}],51:[function(require,module,exports){
-"use strict";
+},{}],54:[function(require,module,exports){
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
  * The model of user.
  */
+var User = function () {
+  _createClass(User, null, [{
+    key: 'Repository',
+    get: function get() {
+      return require('./user-repository');
+    }
 
-var User =
-/**
- * @param {string} charId The id of the character currently chosen
- * @param {UserStatistics} stat The statisctics of the user activity
- */
-function User(charId, stat) {
-  _classCallCheck(this, User);
+    /**
+     * @param {string} charId The id of the character currently chosen
+     * @param {UserStatistics} stat The statisctics of the user activity
+     */
 
-  /**
-   * @property {String} charId The id of the character currently chosen
-   */
-  this.charId = charId;
+  }]);
 
-  /**
-   * @property {UserStatistics} stat The statisctics of the user activity
-   */
-  this.stat = stat;
-};
+  function User(charId, stat) {
+    _classCallCheck(this, User);
+
+    /**
+     * @property {String} charId The id of the character currently chosen
+     */
+    this.charId = charId;
+
+    /**
+     * @property {UserStatistics} stat The statisctics of the user activity
+     */
+    this.stat = stat;
+  }
+
+  return User;
+}();
 
 module.exports = User;
 
-},{}],52:[function(require,module,exports){
+},{"./user-repository":52}],55:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -4904,6 +5210,7 @@ var Camera = (_dec = wire('floor-asset-collection'), _dec2 = on('camera-focus'),
   }, {
     key: 'setUp',
 
+
     /**
      * Sets up the initial position.
      */
@@ -4970,9 +5277,10 @@ var Camera = (_dec = wire('floor-asset-collection'), _dec2 = on('camera-focus'),
   return Camera;
 }(), (_applyDecoratedDescriptor(_class2.prototype, 'floorAssets', [_dec], Object.getOwnPropertyDescriptor(_class2.prototype, 'floorAssets'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'focusToX', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'focusToX'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'scrollTo', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'scrollTo'), _class2.prototype)), _class2)) || _class);
 
+
 module.exports = Camera;
 
-},{"spn":19}],53:[function(require,module,exports){
+},{"spn":19}],56:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -4981,8 +5289,8 @@ var _get = function get(object, property, receiver) { if (object === null) objec
 
 var _dec, _dec2, _class;
 
-var _templateObject = _taggedTemplateLiteral(['♛ Best ♛'], ['♛ Best ♛']),
-    _templateObject2 = _taggedTemplateLiteral(['▶'], ['▶']);
+var _templateObject = _taggedTemplateLiteral(['\u265B Best \u265B'], ['\u265B Best \u265B']),
+    _templateObject2 = _taggedTemplateLiteral(['\u25B6'], ['\u25B6']);
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
@@ -5026,11 +5334,10 @@ var Door = (_dec = show('door-appear', DOOR_APPEAR_DUR), _dec2 = hide('door-disa
   /**
    * @constructor
    */
-
   function Door(elem) {
     _classCallCheck(this, Door);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Door).call(this, elem));
+    var _this = _possibleConstructorReturn(this, (Door.__proto__ || Object.getPrototypeOf(Door)).call(this, elem));
 
     _this.level = elem.attr('level');
     _this.star = 0;
@@ -5048,10 +5355,11 @@ var Door = (_dec = show('door-appear', DOOR_APPEAR_DUR), _dec2 = hide('door-disa
    * @override
    */
 
+
   _createClass(Door, [{
     key: 'willShow',
     value: function willShow() {
-      _get(Object.getPrototypeOf(Door.prototype), 'willShow', this).call(this);
+      _get(Door.prototype.__proto__ || Object.getPrototypeOf(Door.prototype), 'willShow', this).call(this);
 
       this.elem.css('opcaity', 0).append(div({ addClass: 'door-body' }, div({ addClass: 'door-front' }, this.id), div({ addClass: 'doorknob' }, '●')), div({
         addClass: 'door-info multiflip',
@@ -5139,9 +5447,10 @@ var Door = (_dec = show('door-appear', DOOR_APPEAR_DUR), _dec2 = hide('door-disa
   return Door;
 }(FloorAsset)) || _class) || _class) || _class);
 
+
 module.exports = Door;
 
-},{"./floor-asset":55,"dom-gen":1,"spn":19}],54:[function(require,module,exports){
+},{"./floor-asset":58,"dom-gen":1,"spn":19}],57:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -5212,7 +5521,7 @@ var FloorAssetCollection = (_dec = wire('floor-walker'), component(_class = (_cl
   function FloorAssetCollection() {
     _classCallCheck(this, FloorAssetCollection);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(FloorAssetCollection).apply(this, arguments));
+    return _possibleConstructorReturn(this, (FloorAssetCollection.__proto__ || Object.getPrototypeOf(FloorAssetCollection)).apply(this, arguments));
   }
 
   _createClass(FloorAssetCollection, [{
@@ -5452,10 +5761,11 @@ var FloorAssetCollection = (_dec = wire('floor-walker'), component(_class = (_cl
   return FloorAssetCollection;
 }(Being), (_applyDecoratedDescriptor(_class2.prototype, 'walker', [_dec], Object.getOwnPropertyDescriptor(_class2.prototype, 'walker'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'floorboard', [wire], Object.getOwnPropertyDescriptor(_class2.prototype, 'floorboard'), _class2.prototype)), _class2)) || _class);
 
+
 module.exports = FloorAssetCollection;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./floorboard":57,"dom-gen":1,"spn":19}],55:[function(require,module,exports){
+},{"./floorboard":60,"dom-gen":1,"spn":19}],58:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -5486,7 +5796,7 @@ var FloorAsset = (_dec = width(80), _dec2 = height(100), _dec3 = ratio.x(0.5), _
   function FloorAsset(elem) {
     _classCallCheck(this, FloorAsset);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(FloorAsset).call(this));
+    var _this = _possibleConstructorReturn(this, (FloorAsset.__proto__ || Object.getPrototypeOf(FloorAsset)).call(this));
 
     _this.x = +elem.attr('x');
     _this.y = +elem.attr('y');
@@ -5498,6 +5808,7 @@ var FloorAsset = (_dec = width(80), _dec2 = height(100), _dec3 = ratio.x(0.5), _
   /**
    * Knocks the door (figuratively).
    */
+
 
   _createClass(FloorAsset, [{
     key: 'doorKnock',
@@ -5591,9 +5902,10 @@ var FloorAsset = (_dec = width(80), _dec2 = height(100), _dec3 = ratio.x(0.5), _
   return FloorAsset;
 }(Body)) || _class) || _class) || _class) || _class);
 
+
 module.exports = FloorAsset;
 
-},{"spn":19}],56:[function(require,module,exports){
+},{"spn":19}],59:[function(require,module,exports){
 'use strict';
 
 var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
@@ -5661,6 +5973,7 @@ var FloorWalker = (_dec = sprite.character, _dec2 = ratio.x(0.5), _dec3 = ratio.
   _createClass(FloorWalker, [{
     key: 'assetId',
 
+
     /**
      * @return {string}
      */
@@ -5672,7 +5985,7 @@ var FloorWalker = (_dec = sprite.character, _dec2 = ratio.x(0.5), _dec3 = ratio.
   function FloorWalker(elem) {
     _classCallCheck(this, FloorWalker);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(FloorWalker).call(this));
+    var _this = _possibleConstructorReturn(this, (FloorWalker.__proto__ || Object.getPrototypeOf(FloorWalker)).call(this));
 
     _this.initSprite(elem);
     return _this;
@@ -5683,7 +5996,7 @@ var FloorWalker = (_dec = sprite.character, _dec2 = ratio.x(0.5), _dec3 = ratio.
     value: function willShow() {
       this.updateSprite();
 
-      return _get(Object.getPrototypeOf(FloorWalker.prototype), 'willShow', this).call(this);
+      return _get(FloorWalker.prototype.__proto__ || Object.getPrototypeOf(FloorWalker.prototype), 'willShow', this).call(this);
     }
 
     /**
@@ -5887,9 +6200,10 @@ var FloorWalker = (_dec = sprite.character, _dec2 = ratio.x(0.5), _dec3 = ratio.
   return FloorWalker;
 }(Body), (_applyDecoratedDescriptor(_class2.prototype, 'doorKnock', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'doorKnock'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'characterGoto', [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, 'characterGoto'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'focusMe', [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, 'focusMe'), _class2.prototype)), _class2)) || _class) || _class) || _class) || _class);
 
+
 module.exports = FloorWalker;
 
-},{"../../ui/sprite":66,"spn":19}],57:[function(require,module,exports){
+},{"../../ui/sprite":69,"spn":19}],60:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -5921,7 +6235,7 @@ var Floorboard = component(_class = function (_Being) {
   function Floorboard() {
     _classCallCheck(this, Floorboard);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Floorboard).apply(this, arguments));
+    return _possibleConstructorReturn(this, (Floorboard.__proto__ || Object.getPrototypeOf(Floorboard)).apply(this, arguments));
   }
 
   _createClass(Floorboard, [{
@@ -5942,6 +6256,7 @@ var Floorboard = component(_class = function (_Being) {
     }
   }], [{
     key: 'groundLevel',
+
 
     /**
      * Returns the y coordinate of the ground line.
@@ -5975,7 +6290,7 @@ var Floorboard = component(_class = function (_Being) {
 
 module.exports = Floorboard;
 
-},{"spn":19}],58:[function(require,module,exports){
+},{"spn":19}],61:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -6045,7 +6360,7 @@ var FrogSprite = (_dec = sprite.stayRun, _dec2 = width(100), _dec3 = height(50),
   function FrogSprite(elem) {
     _classCallCheck(this, FrogSprite);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(FrogSprite).call(this, elem));
+    var _this = _possibleConstructorReturn(this, (FrogSprite.__proto__ || Object.getPrototypeOf(FrogSprite)).call(this, elem));
 
     _this.initSprite();
     return _this;
@@ -6056,7 +6371,7 @@ var FrogSprite = (_dec = sprite.stayRun, _dec2 = width(100), _dec3 = height(50),
     value: function willShow() {
       this.updateSprite();
 
-      return _get(Object.getPrototypeOf(FrogSprite.prototype), 'willShow', this).call(this);
+      return _get(FrogSprite.prototype.__proto__ || Object.getPrototypeOf(FrogSprite.prototype), 'willShow', this).call(this);
     }
   }, {
     key: 'leftStayImage',
@@ -6088,9 +6403,10 @@ var FrogSprite = (_dec = sprite.stayRun, _dec2 = width(100), _dec3 = height(50),
   return FrogSprite;
 }(GridWalker), (_applyDecoratedDescriptor(_class2.prototype, 'jump', [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, 'jump'), _class2.prototype)), _class2)) || _class) || _class) || _class) || _class) || _class);
 
+
 module.exports = FrogSprite;
 
-},{"../../ui/sprite":66,"spn":19}],59:[function(require,module,exports){
+},{"../../ui/sprite":69,"spn":19}],62:[function(require,module,exports){
 'use strict';
 
 require('./camera');
@@ -6102,7 +6418,7 @@ require('./frog-sprite');
 require('./level-key');
 require('./staircase');
 
-},{"./camera":52,"./door":53,"./floor-asset-collection":54,"./floor-walker":56,"./floorboard":57,"./frog-sprite":58,"./level-key":60,"./staircase":61}],60:[function(require,module,exports){
+},{"./camera":55,"./door":56,"./floor-asset-collection":57,"./floor-walker":59,"./floorboard":60,"./frog-sprite":61,"./level-key":63,"./staircase":64}],63:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -6134,11 +6450,10 @@ var LevelKey = (_dec = sprite.static, _dec2 = ratio.x(0.5).y(1), _dec3 = width(5
   /**
    * @param {jQuery} elem The element
    */
-
   function LevelKey(elem) {
     _classCallCheck(this, LevelKey);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LevelKey).call(this));
+    var _this = _possibleConstructorReturn(this, (LevelKey.__proto__ || Object.getPrototypeOf(LevelKey)).call(this));
 
     _this.initSprite();
     return _this;
@@ -6159,7 +6474,7 @@ var LevelKey = (_dec = sprite.static, _dec2 = ratio.x(0.5).y(1), _dec3 = width(5
     value: function willShow() {
       this.updateSprite();
 
-      return _get(Object.getPrototypeOf(LevelKey.prototype), 'willShow', this).call(this);
+      return _get(LevelKey.prototype.__proto__ || Object.getPrototypeOf(LevelKey.prototype), 'willShow', this).call(this);
     }
 
     /**
@@ -6189,7 +6504,7 @@ var LevelKey = (_dec = sprite.static, _dec2 = ratio.x(0.5).y(1), _dec3 = width(5
   }, {
     key: 'jump',
     value: function jump() {
-      var duration = arguments.length <= 0 || arguments[0] === undefined ? 300 : arguments[0];
+      var duration = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 300;
 
       return this.elem.anim('jump', duration);
     }
@@ -6198,10 +6513,11 @@ var LevelKey = (_dec = sprite.static, _dec2 = ratio.x(0.5).y(1), _dec3 = width(5
   return LevelKey;
 }(Body)) || _class) || _class) || _class) || _class) || _class) || _class);
 
+
 module.exports = LevelKey;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../ui/sprite":66,"spn":19}],61:[function(require,module,exports){
+},{"../../ui/sprite":69,"spn":19}],64:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -6226,6 +6542,7 @@ var FloorAsset = require('./floor-asset');
 
 var component = $.cc.component;
 
+
 var STAIRCASE_ANIMATION_DUR = 400;
 
 /**
@@ -6237,7 +6554,7 @@ var Staircase = (_dec = show('door-appear', STAIRCASE_ANIMATION_DUR), _dec2 = hi
   function Staircase(elem) {
     _classCallCheck(this, Staircase);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Staircase).call(this, elem));
+    var _this = _possibleConstructorReturn(this, (Staircase.__proto__ || Object.getPrototypeOf(Staircase)).call(this, elem));
 
     _this.goto = elem.data('goto'); // must be parsed position object, not string
 
@@ -6249,10 +6566,11 @@ var Staircase = (_dec = show('door-appear', STAIRCASE_ANIMATION_DUR), _dec2 = hi
    * Sets up the dom.
    */
 
+
   _createClass(Staircase, [{
     key: 'willShow',
     value: function willShow() {
-      _get(Object.getPrototypeOf(Staircase.prototype), 'willShow', this).call(this);
+      _get(Staircase.prototype.__proto__ || Object.getPrototypeOf(Staircase.prototype), 'willShow', this).call(this);
 
       if (this.locked) {
         this.spawnFrog();
@@ -6299,9 +6617,10 @@ var Staircase = (_dec = show('door-appear', STAIRCASE_ANIMATION_DUR), _dec2 = hi
   return Staircase;
 }(FloorAsset)) || _class) || _class) || _class);
 
+
 module.exports = Staircase;
 
-},{"./floor-asset":55,"spn":19}],62:[function(require,module,exports){
+},{"./floor-asset":58,"spn":19}],65:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -6340,17 +6659,24 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 }
 
 var scene = require('../ui/scene');
-var UserRepository = require('../domain/user-repository');
-var CharacterInitService = require('../domain/character-init-service');
 
-var _require = require('dom-gen');
+var _require = require('../util/location');
 
-var img = _require.img;
+var checkLocation = _require.checkLocation;
+
+var _require2 = require('../domain');
+
+var User = _require2.User;
+var Character = _require2.Character;
+
+var _require3 = require('dom-gen');
+
+var img = _require3.img;
+
 
 require('./component');
 
 var _$$cc = $.cc;
-var component = _$$cc.component;
 var on = _$$cc.on;
 var wire = _$$cc.wire;
 
@@ -6364,7 +6690,7 @@ var wire = _$$cc.wire;
  * - take care of menuButton, bg, floorAssets and camera
  */
 
-var FloorScene = (_dec = scene.primary, _dec2 = wire('floor-asset-collection'), _dec3 = on('go-to-level'), _dec4 = on('scene-reload'), _dec(_class = component(_class = (_class2 = function () {
+var FloorScene = (_dec = scene.primary, _dec2 = wire('floor-asset-collection'), _dec3 = on('go-to-level'), _dec4 = on('scene-reload'), _dec(_class = (_class2 = function () {
   function FloorScene() {
     _classCallCheck(this, FloorScene);
   }
@@ -6372,14 +6698,15 @@ var FloorScene = (_dec = scene.primary, _dec2 = wire('floor-asset-collection'), 
   _createClass(FloorScene, [{
     key: 'load',
 
+
     /**
      * Loads the data for the scene.
      */
     value: function load() {
       var _this = this;
 
-      return new UserRepository().get().then(function (user) {
-        return new CharacterInitService().getOrCreateById(user.charId);
+      return new User.Repository().get().then(function (user) {
+        return new Character.InitService().getOrCreateById(user.charId);
       }).then(function (character) {
         _this.character = character;
       });
@@ -6394,8 +6721,10 @@ var FloorScene = (_dec = scene.primary, _dec2 = wire('floor-asset-collection'), 
     value: function setUp() {
       var _this2 = this;
 
-      return this.floorAssets.init(this.character).then(function () {
-        return _this2.camera.setUp();
+      return checkLocation(this.character.location, window.location).then(function () {
+        return _this2.floorAssets.init(_this2.character).then(function () {
+          return _this2.camera.setUp();
+        });
       });
     }
   }, {
@@ -6459,7 +6788,7 @@ var FloorScene = (_dec = scene.primary, _dec2 = wire('floor-asset-collection'), 
     value: function sequenceUnlocking(levelKey) {
       var _this6 = this;
 
-      var asset = undefined;
+      var asset = void 0;
       var id = levelKey.levelId;
       var key = this.levelKey(levelKey);
       this.floorAssets.elem.append(key.elem);
@@ -6562,11 +6891,12 @@ var FloorScene = (_dec = scene.primary, _dec2 = wire('floor-asset-collection'), 
   }]);
 
   return FloorScene;
-}(), (_applyDecoratedDescriptor(_class2.prototype, 'floorAssets', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'floorAssets'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'camera', [wire], Object.getOwnPropertyDescriptor(_class2.prototype, 'camera'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'goToLevel', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'goToLevel'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'sceneReload', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'sceneReload'), _class2.prototype)), _class2)) || _class) || _class);
+}(), (_applyDecoratedDescriptor(_class2.prototype, 'floorAssets', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'floorAssets'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'camera', [wire], Object.getOwnPropertyDescriptor(_class2.prototype, 'camera'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'goToLevel', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'goToLevel'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'sceneReload', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'sceneReload'), _class2.prototype)), _class2)) || _class);
+
 
 module.exports = FloorScene;
 
-},{"../domain/character-init-service":30,"../domain/user-repository":49,"../ui/scene":64,"./component":59,"dom-gen":1}],63:[function(require,module,exports){
+},{"../domain":35,"../ui/scene":67,"../util/location":75,"./component":62,"dom-gen":1}],66:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -6590,6 +6920,7 @@ var BackgroundService = function () {
 
   _createClass(BackgroundService, null, [{
     key: 'turnWhite',
+
 
     /**
      * Turns the bg color white.
@@ -6640,7 +6971,7 @@ var BackgroundService = function () {
 
 module.exports = BackgroundService;
 
-},{"spn":19}],64:[function(require,module,exports){
+},{"spn":19}],67:[function(require,module,exports){
 'use strict';
 
 var BackgroundService = require('./common/background-service');
@@ -6649,6 +6980,7 @@ var isFunction = function isFunction(f) {
 };
 
 var component = $.cc.component;
+
 
 var scene = function scene(Cls) {
   Object.defineProperty(Cls.prototype, 'main', {
@@ -6685,7 +7017,7 @@ scene.primary = function (Cls) {
 
 module.exports = scene;
 
-},{"./common/background-service":63}],65:[function(require,module,exports){
+},{"./common/background-service":66}],68:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -6707,6 +7039,7 @@ var _require2 = require('traits-decorator');
 
 var traits = _require2.traits;
 
+
 var CHR_TABLE = {
   ma: Ma
 };
@@ -6723,6 +7056,7 @@ var CharSprite = (_dec = traits(Sprite), _dec(_class = function () {
 
   _createClass(CharSprite, [{
     key: 'defaultDir',
+
 
     /**
      * Returns the default direction.
@@ -6789,14 +7123,16 @@ var CharSprite = (_dec = traits(Sprite), _dec(_class = function () {
   return CharSprite;
 }()) || _class);
 
+
 module.exports = CharSprite;
 
-},{"./ma":67,"./sprite":69,"spn":19,"traits-decorator":27}],66:[function(require,module,exports){
+},{"./ma":70,"./sprite":72,"spn":19,"traits-decorator":27}],69:[function(require,module,exports){
 'use strict';
 
 var _require = require('traits-decorator');
 
 var traits = _require.traits;
+
 
 module.exports = traits(require('./sprite'));
 module.exports.static = traits(require('./static-sprite'));
@@ -6804,7 +7140,7 @@ module.exports.stayRun = traits(require('./stay-run-sprite'));
 module.exports.character = traits(require('./char-sprite'));
 module.exports.relativeBody = traits(require('./relative-body'));
 
-},{"./char-sprite":65,"./relative-body":68,"./sprite":69,"./static-sprite":70,"./stay-run-sprite":71,"traits-decorator":27}],67:[function(require,module,exports){
+},{"./char-sprite":68,"./relative-body":71,"./sprite":72,"./static-sprite":73,"./stay-run-sprite":74,"traits-decorator":27}],70:[function(require,module,exports){
 'use strict';
 
 var _require = require('spn');
@@ -6846,7 +7182,7 @@ module.exports = function () {
   };
 };
 
-},{"spn":19}],68:[function(require,module,exports){
+},{"spn":19}],71:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -6856,7 +7192,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /**
  * RelativeBody is a trait class which works in relative scale with its parent rect.
  */
-
 var RelativeBody = function () {
   function RelativeBody() {
     _classCallCheck(this, RelativeBody);
@@ -6885,7 +7220,7 @@ var RelativeBody = function () {
 
 module.exports = RelativeBody;
 
-},{}],69:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -6897,7 +7232,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  *
  * This is a trait class. Use with traits syntax like `traits-decorator`.
  */
-
 var Sprite = function () {
   function Sprite() {
     _classCallCheck(this, Sprite);
@@ -6905,6 +7239,7 @@ var Sprite = function () {
 
   _createClass(Sprite, [{
     key: "setDirState",
+
 
     /**
      * Changes the direction and state.
@@ -6967,7 +7302,7 @@ var Sprite = function () {
 
 module.exports = Sprite;
 
-},{}],70:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -6999,6 +7334,7 @@ var StaticSprite = (_dec = traits(Sprite), _dec(_class = function () {
 
   _createClass(StaticSprite, [{
     key: 'defaultDir',
+
 
     /**
      * Returns the default direction.
@@ -7042,9 +7378,10 @@ var StaticSprite = (_dec = traits(Sprite), _dec(_class = function () {
   return StaticSprite;
 }()) || _class);
 
+
 module.exports = StaticSprite;
 
-},{"./sprite":69,"spn":19,"traits-decorator":27}],71:[function(require,module,exports){
+},{"./sprite":72,"spn":19,"traits-decorator":27}],74:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -7145,6 +7482,50 @@ var StayRunSprite = (_dec = traits(Sprite), _dec(_class = function () {
   return StayRunSprite;
 }()) || _class);
 
+
 module.exports = StayRunSprite;
 
-},{"./sprite":69,"spn":19,"traits-decorator":27}]},{},[28]);
+},{"./sprite":72,"spn":19,"traits-decorator":27}],75:[function(require,module,exports){
+(function (global){
+'use strict';
+
+var _PATHS;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var _require = require('../domain');
+
+var Location = _require.Location;
+var _Location$PLACE = Location.PLACE;
+var ROAD = _Location$PLACE.ROAD;
+var ROOM = _Location$PLACE.ROOM;
+var TOWER = _Location$PLACE.TOWER;
+
+
+var PATHS = (_PATHS = {}, _defineProperty(_PATHS, ROAD, ['/road.html']), _defineProperty(_PATHS, ROOM, ['/room.html']), _defineProperty(_PATHS, TOWER, ['/floor.html', '/level.html']), _PATHS);
+/**
+ * Checks the current location and move to the different place if necessary.
+ * @param {Location} location domain model location
+ * @param {Object} windowLocation window.location
+ * @return {Promise}
+ */
+exports.checkLocation = function (location, windowLocation) {
+  var place = location.place;
+  var pathname = windowLocation.pathname;
+
+  return new Promise(function (resolve) {
+    var paths = PATHS[place];
+
+    if (paths.some(function (path) {
+      return pathname.includes(path);
+    })) {
+      resolve();
+      return;
+    }
+
+    windowLocation.replace(global.BASEPATH + paths[0]);
+  });
+};
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../domain":35}]},{},[28]);

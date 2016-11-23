@@ -1,26 +1,64 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 //  Import support https://stackoverflow.com/questions/13673346/supporting-both-commonjs-and-amd
 (function(name, definition) {
-    if (typeof module != "undefined") module.exports = definition();
-    else if (typeof define == "function" && typeof define.amd == "object") define(definition);
-    else this[name] = definition();
+    if (typeof module !== "undefined") { module.exports = definition(); }
+    else if (typeof define === "function" && typeof define.amd === "object") { define(definition); }
+    else { this[name] = definition(); }
 }("clipboard", function() {
+  if (!document.addEventListener) {
+    return null;
+  }
 
   var clipboard = {};
 
   clipboard.copy = (function() {
     var _intercept = false;
-    var _data; // Map from data type (e.g. "text/html") to value.
+    var _data = null; // Map from data type (e.g. "text/html") to value.
+    var _bogusSelection = false;
 
-    document.addEventListener("copy", function(e){
+    function cleanup() {
+      _intercept = false;
+      _data = null;
+      if (_bogusSelection) {
+        window.getSelection().removeAllRanges();
+      }
+      _bogusSelection = false;
+    }
+
+    document.addEventListener("copy", function(e) {
       if (_intercept) {
-        _intercept = false;
         for (var key in _data) {
           e.clipboardData.setData(key, _data[key]);
         }
         e.preventDefault();
       }
     });
+
+    // Workaround for Safari: https://bugs.webkit.org/show_bug.cgi?id=156529
+    function bogusSelect() {
+      var sel = document.getSelection();
+      // If "nothing" is selected...
+      if (!document.queryCommandEnabled("copy") && sel.isCollapsed) {
+        // ... temporarily select the entire body.
+        //
+        // We select the entire body because:
+        // - it's guaranteed to exist,
+        // - it works (unlike, say, document.head, or phantom element that is
+        //   not inserted into the DOM),
+        // - it doesn't seem to flicker (due to the synchronous copy event), and
+        // - it avoids modifying the DOM (can trigger mutation observers).
+        //
+        // Because we can't do proper feature detection (we already checked
+        // document.queryCommandEnabled("copy") , which actually gives a false
+        // negative for Blink when nothing is selected) and UA sniffing is not
+        // reliable (a lot of UA strings contain "Safari"), this will also
+        // happen for some browsers other than Safari. :-()
+        var range = document.createRange();
+        range.selectNodeContents(document.body);
+        sel.addRange(range);
+        _bogusSelection = true;
+      }
+    };
 
     return function(data) {
       return new Promise(function(resolve, reject) {
@@ -33,23 +71,23 @@
           _data = data;
         }
         try {
+          bogusSelect();
           if (document.execCommand("copy")) {
             // document.execCommand is synchronous: http://www.w3.org/TR/2015/WD-clipboard-apis-20150421/#integration-with-rich-text-editing-apis
             // So we can call resolve() back here.
+            cleanup();
             resolve();
           }
           else {
-            _intercept = false;
-            reject(new Error("Unable to copy. Perhaps it's not available in your browser?"));
+            throw new Error("Unable to copy. Perhaps it's not available in your browser?");
           }
-        }
-        catch (e) {
-          _intercept = false;
+        } catch (e) {
+          cleanup();
           reject(e);
         }
       });
     };
-  }());
+  })();
 
   clipboard.paste = (function() {
     var _intercept = false;
@@ -60,7 +98,9 @@
       if (_intercept) {
         _intercept = false;
         e.preventDefault();
-        _resolve(e.clipboardData.getData(_dataType));
+        var resolve = _resolve;
+        _resolve = null;
+        resolve(e.clipboardData.getData(_dataType));
       }
     });
 
@@ -80,7 +120,7 @@
         }
       });
     };
-  }());
+  })();
 
   // Handle IE behaviour.
   if (typeof ClipboardEvent === "undefined" &&
@@ -95,16 +135,20 @@
         // IE supports string and URL types: https://msdn.microsoft.com/en-us/library/ms536744(v=vs.85).aspx
         // We only support the string type for now.
         if (typeof data !== "string" && !("text/plain" in data)) {
-          throw new Error("You must provide a text/plain type.")
+          throw new Error("You must provide a text/plain type.");
         }
 
         var strData = (typeof data === "string" ? data : data["text/plain"]);
         var copySucceeded = window.clipboardData.setData("Text", strData);
-        copySucceeded ? resolve() : reject(new Error("Copying was rejected."));
+        if (copySucceeded) {
+          resolve();
+        } else {
+          reject(new Error("Copying was rejected."));
+        }
       });
     };
 
-    clipboard.paste = function(data) {
+    clipboard.paste = function() {
       return new Promise(function(resolve, reject) {
         var strData = window.clipboardData.getData("Text");
         if (strData) {
@@ -119,6 +163,7 @@
 
   return clipboard;
 }));
+
 },{}],2:[function(require,module,exports){
 (function (global){
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.domGen = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
@@ -370,6 +415,7 @@ var AssetUnlockAll = (_dec = on('click'), component(_class = (_class2 = function
   return AssetUnlockAll;
 }(), (_applyDecoratedDescriptor(_class2.prototype, 'unlockAll', [_dec], Object.getOwnPropertyDescriptor(_class2.prototype, 'unlockAll'), _class2.prototype)), _class2)) || _class);
 
+
 module.exports = AssetUnlockAll;
 
 },{}],5:[function(require,module,exports){
@@ -377,7 +423,7 @@ module.exports = AssetUnlockAll;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _dec, _class, _desc, _value, _class2;
+var _dec, _dec2, _class, _desc, _value, _class2;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -416,7 +462,7 @@ var div = _require.div;
 var _$$cc = $.cc;
 var component = _$$cc.component;
 var on = _$$cc.on;
-var DebugPanel = (_dec = on('click').at('.toggle'), component(_class = (_class2 = function () {
+var DebugPanel = (_dec = on('click').at('.toggle'), _dec2 = on('click').at('h2'), component(_class = (_class2 = function () {
   function DebugPanel(elem) {
     var _this = this;
 
@@ -441,9 +487,10 @@ var DebugPanel = (_dec = on('click').at('.toggle'), component(_class = (_class2 
    * The handler of toggle click.
    */
 
+
   _createClass(DebugPanel, [{
-    key: 'click',
-    value: function click() {
+    key: 'onToggle',
+    value: function onToggle() {
       if (this.flag) {
         this.flag = false;
         this.elem.css('top', -$(window).height() * 0.85 + 'px');
@@ -455,7 +502,8 @@ var DebugPanel = (_dec = on('click').at('.toggle'), component(_class = (_class2 
   }]);
 
   return DebugPanel;
-}(), (_applyDecoratedDescriptor(_class2.prototype, 'click', [_dec], Object.getOwnPropertyDescriptor(_class2.prototype, 'click'), _class2.prototype)), _class2)) || _class);
+}(), (_applyDecoratedDescriptor(_class2.prototype, 'onToggle', [_dec, _dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'onToggle'), _class2.prototype)), _class2)) || _class);
+
 
 module.exports = DebugPanel;
 
@@ -550,6 +598,7 @@ var LevelUnlock = (_dec = on('click'), component(_class = (_class2 = function ()
   return LevelUnlock;
 }(), (_applyDecoratedDescriptor(_class2.prototype, 'onClick', [_dec], Object.getOwnPropertyDescriptor(_class2.prototype, 'onClick'), _class2.prototype)), _class2)) || _class);
 
+
 module.exports = LevelUnlock;
 
 },{}],7:[function(require,module,exports){
@@ -597,6 +646,7 @@ var component = _$$cc.component;
 var _require = require('dom-gen');
 
 var button = _require.button;
+
 
 var ls = window.localStorage;
 var copy = require('clipboard-js').copy;
@@ -667,6 +717,7 @@ var LsSwitch = (_dec = on('click').at('.apply'), _dec2 = on('click').at('.copy')
 
   return LsSwitch;
 }(), (_applyDecoratedDescriptor(_class2.prototype, 'apply', [_dec], Object.getOwnPropertyDescriptor(_class2.prototype, 'apply'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'copy', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'copy'), _class2.prototype)), _class2)) || _class);
+
 
 window.LsSwitch = LsSwitch;
 

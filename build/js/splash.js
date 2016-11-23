@@ -2731,7 +2731,7 @@ var Logo = (_dec = component('splash-logo'), _dec(_class = function (_Being) {
   function Logo() {
     _classCallCheck(this, Logo);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Logo).apply(this, arguments));
+    return _possibleConstructorReturn(this, (Logo.__proto__ || Object.getPrototypeOf(Logo)).apply(this, arguments));
   }
 
   _createClass(Logo, [{
@@ -2781,6 +2781,7 @@ var Logo = (_dec = component('splash-logo'), _dec(_class = function (_Being) {
   return Logo;
 }(Being)) || _class);
 
+
 module.exports = Logo;
 
 },{"spn":18}],28:[function(require,module,exports){
@@ -2824,15 +2825,13 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 require('./logo');
 var scene = require('../ui/scene');
 
-var _$$cc = $.cc;
-var component = _$$cc.component;
-var on = _$$cc.on;
+var on = $.cc.on;
 
 /**
  * SplashScene controls the splash screen.
  */
 
-var SplashScene = (_dec = scene.primary, _dec2 = on('click').at('.splash-logo'), _dec(_class = component(_class = (_class2 = function () {
+var SplashScene = (_dec = scene.primary, _dec2 = on('click').at('.splash-logo'), _dec(_class = (_class2 = function () {
   function SplashScene() {
     _classCallCheck(this, SplashScene);
   }
@@ -2874,7 +2873,8 @@ var SplashScene = (_dec = scene.primary, _dec2 = on('click').at('.splash-logo'),
   }]);
 
   return SplashScene;
-}(), (_applyDecoratedDescriptor(_class2.prototype, 'goToTitle', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'goToTitle'), _class2.prototype)), _class2)) || _class) || _class);
+}(), (_applyDecoratedDescriptor(_class2.prototype, 'goToTitle', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'goToTitle'), _class2.prototype)), _class2)) || _class);
+
 
 module.exports = SplashScene;
 
@@ -2902,6 +2902,7 @@ var BackgroundService = function () {
 
   _createClass(BackgroundService, null, [{
     key: 'turnWhite',
+
 
     /**
      * Turns the bg color white.
@@ -2961,6 +2962,7 @@ var isFunction = function isFunction(f) {
 };
 
 var component = $.cc.component;
+
 
 var scene = function scene(Cls) {
   Object.defineProperty(Cls.prototype, 'main', {
