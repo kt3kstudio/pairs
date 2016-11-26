@@ -1,0 +1,10 @@
+
+.room {
+  position: relative;
+}
+.window {
+  position: absolute;
+  min-width: 100px;
+  min-height: 100px;
+  background-color: #9316FF;
+}
