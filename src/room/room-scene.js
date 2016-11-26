@@ -1,6 +1,7 @@
 const scene = require('../ui/scene')
 const { User, Character } = require('../domain')
 const { checkLocation } = require('../util/location')
+const { on, wire } = $.cc
 
 @scene.primary
 class RoomScene {
@@ -16,9 +17,20 @@ class RoomScene {
     return checkLocation(this.character.location, window.location)
   }
 
-  start (elem) {
-    console.log('room')
+  start () {
+    return this.bg.turnWhite()
   }
+
+  @on('exit-room') exit () {
+    this.character.location.goToRoad()
+    this.character.save()
+
+    return this.bg.turnBlack().then(() => {
+      window.location.reload()
+    })
+  }
+
+  @wire get room () {}
 }
 
 module.exports = RoomScene

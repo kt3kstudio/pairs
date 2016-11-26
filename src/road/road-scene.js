@@ -18,10 +18,11 @@ class RoadScene {
     .then(character => { this.character = character })
   }
 
-  start () {
-    console.log('road')
-
+  setUp () {
     return checkLocation(this.character.location, window.location)
+  }
+
+  start () {
   }
 }
 
