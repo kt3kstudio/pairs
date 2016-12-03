@@ -25,7 +25,7 @@ class DebugScene {
   }
   setUp () {
     this.elem.append(div({cc: 'rect'}))
-    this.rect.setRect(this.initBlock())
+    this.rect.setRect(this.getRect())
     this.rect.show()
   }
   start () {

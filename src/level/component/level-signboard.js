@@ -50,7 +50,7 @@ class LevelSignboard extends Body {
   }
 
   willShow () {
-    this.setRect(this.initBlock())
+    this.setRect(this.getRect())
 
     super.willShow()
   }

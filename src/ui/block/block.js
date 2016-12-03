@@ -20,17 +20,22 @@ class Block {
    */
   initBlock () {
     this.blockRect = this.block(this.getGuidingRect())
-    return this.blockRect
   }
 
   getGuidingRect () {
-    if (this.__guidingRect__) {
-      return this.__guidingRect__
+    if (!this.__guidingRect__) {
+      this.needsGuidingRect()
     }
 
-    this.needsGuidingRect()
-
     return this.__guidingRect__
+  }
+
+  getRect () {
+    if (!this.blockRect) {
+      this.initBlock()
+    }
+
+    return this.blockRect
   }
 
   /**
@@ -40,13 +45,7 @@ class Block {
   onChildNeedGuidingRect (e, child) {
     e.stopPropagation()
 
-    if (this.blockRect) {
-      child.__guidingRect__ = this.blockRect
-
-      return
-    }
-
-    child.__guidingRect__ = this.getGuidingRect()
+    child.__guidingRect__ = this.getRect()
   }
 }
 

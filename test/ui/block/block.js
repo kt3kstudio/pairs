@@ -55,10 +55,10 @@ describe('Block', () => {
   })
 
   describe('initBlock', () => {
-    it('returns a rect and sets the blockRect property', () => {
+    it('sets the blockRect property', () => {
       const block = div().cc.init('block-test')
 
-      expect(block.initBlock()).to.be.instanceof(Rect)
+      block.initBlock()
 
       expect(block.blockRect).to.be.instanceof(Rect)
     })
