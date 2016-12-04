@@ -5,7 +5,11 @@
 
 .window {
   position: absolute;
-  background-color: #9316FF;
+  background-color: #1155FF;
+}
+
+.hero {
+  position: absolute;
 }
 
 @-webkit-keyframes fade-in {

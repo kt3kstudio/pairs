@@ -93,7 +93,7 @@ class FloorScene {
   sequenceUnlocking (levelKey) {
     let asset
     const id = levelKey.levelId
-    const key = this.levelKey(levelKey)
+    const key = this.levelKey()
     this.floorAssets.elem.append(key.elem)
 
     key.setAt(this.floorAssets.walker.getPoint())
@@ -157,9 +157,8 @@ class FloorScene {
 
   /**
    * Creates a level key.
-   * @param {LevelKey} levelKey
    */
-  levelKey (levelKey) {
+  levelKey () {
     return img().cc.init('level-key')
   }
 }

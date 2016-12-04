@@ -1,7 +1,7 @@
-const sprite = require('../../ui/sprite')
-const {Body, DIRS, ratio} = require('spn')
+const { sprite } = require('../../ui')
+const { Body, DIRS, ratio } = require('spn')
 
-const {component, on, emit} = $.cc
+const { component, on, emit } = $.cc
 
 /**
  * FloorWalker is the role of CharSprite which handles the behaviours of the character on the floor.
@@ -9,7 +9,8 @@ const {component, on, emit} = $.cc
  * This works as the facade of Character model.
  */
 @sprite.character
-@ratio.x(0.5) @ratio.y(1)
+@ratio.x(0.5)
+@ratio.y(1)
 @component
 class FloorWalker extends Body {
 

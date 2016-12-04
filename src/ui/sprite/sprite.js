@@ -19,6 +19,8 @@ class Sprite {
 
   /**
    * Updates the element by the dir and state.
+   * @param {string} dir The direction
+   * @param {string} state The state
    */
   updateElemByDirState (dir, state) {
     this.dirStateImage.get(dir == null ? this.defaultDir() : dir, state == null ? this.defaultState() : state).apply(this.elem)

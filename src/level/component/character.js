@@ -10,7 +10,8 @@ const {component} = $.cc
 @speaker
 @sprite.character
 @component('hero')
-@ratio.x(0.5).y(1)
+@ratio.x(0.5)
+@ratio.y(1)
 class Character extends GridWalker {
   constructor (elem) {
     super()
