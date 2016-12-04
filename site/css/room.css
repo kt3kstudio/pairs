@@ -12,6 +12,14 @@
   position: absolute;
 }
 
+.exit {
+  position: absolute;
+  background-color: #2b4a96;
+  border-radius: 30px;
+  text-align: center;
+  padding: 15px;
+}
+
 @-webkit-keyframes fade-in {
   0% { opacity: 0 }
   100% { opacity: 1 }

@@ -21,6 +21,14 @@ class Window extends Body {
 
     super.willShow()
   }
+
+  didShow () {
+    this.$el.css('opacity', 1)
+  }
+
+  didHide () {
+    this.$el.css('opacity', 0)
+  }
 }
 
 module.exports = Window

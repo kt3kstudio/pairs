@@ -1,7 +1,7 @@
 const { scene } = require('../ui')
 const { User, Character } = require('../domain')
 const { checkLocation } = require('../util/location')
-const { img } = require('dom-gen')
+const { div, img } = require('dom-gen')
 const { Point } = require('spn')
 
 require('./component')
@@ -19,8 +19,10 @@ class RoomScene {
   }
 
   setUp () {
-    this.createHero(this.character).appendTo(this.el)
     return checkLocation(this.character.location, window.location)
+
+      .then(() => this.createHero(this.character).appendTo(this.el))
+      .then(() => this.createExit().appendTo(this.el))
   }
 
   start () {
@@ -30,30 +32,52 @@ class RoomScene {
 
     .then(() => {
       const r = this.window.blockRect
-      console.log('set at point', new Point(r.centerX(), r.bottom))
       this.hero.setAt(new Point(r.centerX(), r.bottom))
-      this.hero.show()
+      return this.hero.show()
     })
-  }
 
-  @on('exit-room') exit () {
-    this.character.location.goToRoad()
-    this.character.save()
-
-    return this.bg.turnBlack().then(() => {
-      window.location.reload()
+    .then(() => {
+      return this.exit.show()
     })
   }
 
   @wire get room () {}
   @wire get window () {}
   @wire get hero () {}
+  @wire get exit () {}
+
+  @on('exit-room') exitRoom () {
+    this.character.location.goToRoad()
+    this.character.save()
+
+    this.hero.setTo(new Point(this.hero.x, $(window).height() + 100))
+
+    return this.hero.engage()
+
+    .then(() => {
+      this.window.hide()
+      this.exit.hide()
+    })
+
+    .then(() => this.bg.turnBlack())
+
+    .then(() => window.location.reload())
+  }
 
   /**
-   * creates the hero
+   * creates the hero (dom).
+   * @return {jQuery}
    */
   createHero (character) {
     return img({ data: { character } }).cc('hero')
+  }
+
+  /**
+   * Creates the exit (dom).
+   * @return {jQuery}
+   */
+  createExit () {
+    return div().cc('exit')
   }
 }
 
