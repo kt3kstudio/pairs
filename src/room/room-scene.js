@@ -1,6 +1,9 @@
-const scene = require('../ui/scene')
+const { scene } = require('../ui')
 const { User, Character } = require('../domain')
 const { checkLocation } = require('../util/location')
+
+require('./component')
+
 const { on, wire } = $.cc
 
 @scene.primary
@@ -19,6 +22,8 @@ class RoomScene {
 
   start () {
     return this.bg.turnWhite()
+
+    .then(() => this.window.show())
   }
 
   @on('exit-room') exit () {
@@ -31,6 +36,8 @@ class RoomScene {
   }
 
   @wire get room () {}
+
+  @wire get window () {}
 }
 
 module.exports = RoomScene

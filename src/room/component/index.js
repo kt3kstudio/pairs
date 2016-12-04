@@ -1,0 +1,2 @@
+require('./bed')
+require('./window')

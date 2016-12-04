@@ -2,9 +2,18 @@
 .room {
   position: relative;
 }
+
 .window {
   position: absolute;
-  min-width: 100px;
-  min-height: 100px;
   background-color: #9316FF;
+}
+
+@-webkit-keyframes fade-in {
+  0% { opacity: 0 }
+  100% { opacity: 1 }
+}
+
+@-webkit-keyframes fade-out {
+  0% { opacity: 1 }
+  100% { opacity: 0 }
 }
