@@ -32,7 +32,7 @@ class RoomScene {
 
     .then(() => {
       const r = this.window.blockRect
-      this.hero.setAt(new Point(r.centerX(), r.bottom))
+      this.hero.setAt(new Point(r.centerX(), r.bottom + this.hero.actualHeight() + 15))
       return this.hero.show()
     })
 
