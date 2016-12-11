@@ -1,6 +1,12 @@
 # TODO
 
 - feat(debug): character debugger
+- feat(road.html): implement
+- feat(room.html): implement
+- design(ma):
+- design(ellen):
+- design(emma):
+- design(ochanoba):
 
 ## feat(data):
 - refactor(test): update to mocha@3
