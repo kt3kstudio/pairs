@@ -7,6 +7,8 @@
 - design(ellen):
 - design(emma):
 - design(ochanoba):
+- design(road): draw house
+- design(road): draw tree
 
 ## feat(data):
 - refactor(test): update to mocha@3
