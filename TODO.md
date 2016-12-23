@@ -11,9 +11,6 @@
 - design(road): draw tree
 
 ## feat(data):
-- refactor(test): update to mocha@3
-- feat(scene): switch scenes depending the character.location
-- feat(domain): update character-repository for handling location correctly
 - create floor 7 to floor 16, 10 levels for each.
 - create 100 levels
   - 705 - 709 710(sp)
@@ -27,15 +24,6 @@
   - 1501 - 1509 1510(sp)
   - 1601 - 1609 1610(sp)
 
-## scenes
-- the room scene (room.html)*
-- the road scene (road.html)*
-- the entrance (entrance.html)*
-- the 7th to 16th floors (floor.html)
-- the levels 701 to 1610 (level.html)
-- the ending (ending.html)*
-- the settings (settings.html)*
-- the credits (credits.html)*
 
 ## feat(unlock)
 - block UI while unlocking (?)
@@ -47,17 +35,9 @@
 - create the history when the level finished
 - apply the histories to the corresponding floor assets
 
-## chore(app)
-- rename app name to Pairs
-
-## story(hero)
-- is 701 the room of Ma?
-- Why does Ma start visiting from 701?
-- do we need the first floor for starting the game?
-
 ## block refactoring
 - make rect have more usable methods like scaleCenter, scaleMiddle etc
-- remove XXXLayout classes and create local rects locally
+- remove XXXLayout classes and create local rects
 
 ## feat(emoji):
 - add w emoji
@@ -88,9 +68,6 @@
 - create "reset progress" button
 - add link to settings page from the title page
 
-## style:
-- remove import export and use require exports instead
-
 ## feat(residents)
 - give a meaning to the sequence of the residents
 
@@ -114,14 +91,23 @@
 ## feat(speech)
 - Cancel (skip) target in the DSL.
 
-## feat(emoji):
-- make emoji appear more slowly
-  - puncher `unit-dur` configurable depending on the character to be punched
-
 ## sprite
 - refactor char-sprite not to use word Ma, character detail should be in the dom (markup)
 
 # DONE
+- feat(domain): update character-repository for handling location correctly
+- feat(scene): switch scenes depending the character.location
+- rename app name to Pairs
+- the room scene (room.html)
+- the road scene (road.html)
+- the entrance (entrance.html)
+- the 7th to 16th floors (floor.html)
+- the levels 701 to 1610 (level.html)
+- the ending (ending.html)
+- the settings (settings.html)
+- the credits (credits.html)
+- remove import export and use require exports instead
+- refactor(test): update to mocha@3
 - feat(domain): add location model
 - feat(domain): add location-detail model
 - button to unlock all the assets in the floor
