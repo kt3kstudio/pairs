@@ -32,7 +32,7 @@ class Exit extends Body {
   }
 
   @emit('exit-room')
-  @on('click') exit() {}
+  @on('click') exit () {}
 }
 
 module.exports = Exit
