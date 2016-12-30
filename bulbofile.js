@@ -2,8 +2,8 @@ const bulbo = require('bulbo')
 const asset = bulbo.asset
 
 const bundler = require('bundle-through')
-const wrapper = require('layout-wrapper')
 const frontMatter = require('gulp-front-matter')
+const layout1 = require('layout1')
 
 const config = {lang: 'en'}
 const presets = require('./src/debug/ls-switch/presets')
@@ -32,10 +32,11 @@ asset(`${SITE}/*.html`, `${SITE}/bed/*.html`)
   .base(SITE)
   .watch(`${SITE}/*.html`, `${SITE}/bed/*.html`, `${SITE}/layout/*.nunjucks`)
   .pipe(frontMatter())
-  .pipe(wrapper.nunjucks({
-    layout: `${SITE}/layouts`,
-    data: templateData
-  }))
+  .pipe(layout1.nunjucks(`${SITE}/layouts/default.nunjucks`, { data: templateData }))
+
+asset(`${SRC}/*/index.html`)
+  .pipe(frontMatter())
+  .pipe(layout1.nunjucks(`${SITE}/layouts/default.nunjucks`, { data: templateData }))
 
 // data
 asset(`${SITE}/data/**/*.*`).base(SITE)
