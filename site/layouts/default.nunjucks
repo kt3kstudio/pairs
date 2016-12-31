@@ -29,8 +29,8 @@
     <script>
       $(function () {
         setTimeout(function () {
-          $('#main').trigger('scene-start');
-        }, 50);
+          $('#main')[0].dispatchEvent(new CustomEvent('scene-start'))
+        }, 200);
       });
     </script>
   </head>
