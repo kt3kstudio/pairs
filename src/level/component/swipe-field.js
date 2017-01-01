@@ -1,4 +1,5 @@
 const {component} = $.cc
+const { trigger } = require('../../util')
 
 /**
  * SwipeEvent class provides the stream of the swipe events.
@@ -10,10 +11,10 @@ class SwipeField {
 
     $(document).arrowkeys()
 
-    $(document).on('upkey', () => elem.trigger('swipeup'))
-    $(document).on('downkey', () => elem.trigger('swipedown'))
-    $(document).on('leftkey', () => elem.trigger('swipeleft'))
-    $(document).on('rightkey', () => elem.trigger('swiperight'))
+    $(document).on('upkey', () => trigger(elem, 'swipeup'))
+    $(document).on('downkey', () => trigger(elem, 'swipedown'))
+    $(document).on('leftkey', () => trigger(elem, 'swipeleft'))
+    $(document).on('rightkey', () => trigger(elem, 'swiperight'))
   }
 }
 

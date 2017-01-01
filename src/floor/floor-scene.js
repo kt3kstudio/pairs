@@ -1,8 +1,9 @@
 const scene = require('../ui/scene')
 const { checkLocation } = require('../util/location')
+const { trigger } = require('../util')
 const { User, Character } = require('../domain')
 
-const {img} = require('dom-gen')
+const { img } = require('dom-gen')
 
 require('./component')
 
@@ -98,7 +99,7 @@ class FloorScene {
 
     key.setAt(this.floorAssets.walker.getPoint())
 
-    this.elem.trigger('camera-focus', [key.getPoint().x])
+    trigger(this.el, 'camera-focus', {x: key.getPoint().x})
 
     return key.show()
 
@@ -109,7 +110,7 @@ class FloorScene {
 
       const keyGivingDur = 800
 
-      this.elem.trigger('camera-move', [key.getPoint().x, keyGivingDur])
+      trigger(this.el, 'camera-move', { x: key.getPoint().x, dur: keyGivingDur })
 
       return key.engage(keyGivingDur)
     })

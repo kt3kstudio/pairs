@@ -1,5 +1,7 @@
-const { sprite } = require('../../ui')
 const { Body, DIRS, ratio } = require('spn')
+
+const { sprite } = require('../../ui')
+const { trigger } = require('../../util')
 
 const { component, on, emit } = $.cc
 
@@ -56,8 +58,8 @@ class FloorWalker extends Body {
    * @param {FloorAsset} floorAsset The floor asset
    */
   @on('door-knock')
-  doorKnock (e, floorAsset) {
-    this.moveToFloorAsset(floorAsset)
+  doorKnock (e) {
+    this.moveToFloorAsset(e.detail.door)
   }
 
   /**
@@ -66,13 +68,13 @@ class FloorWalker extends Body {
    */
   @on('character-goto')
   characterGoto (e) {
-    this.character.position.floorId = e.goto.floorId
-    this.character.position.floorObjectId = e.goto.floorObjectId
+    this.character.position.floorId = e.detail.goto.floorId
+    this.character.position.floorObjectId = e.detail.goto.floorObjectId
 
     // Reloads the submodels here because the floor could change
     this.character.reloadAll()
     .then(() => this.saveAll())
-    .then(() => this.elem.trigger('scene-reload'))
+    .then(() => trigger(this.elem, 'scene-reload'))
   }
 
   /**
@@ -105,9 +107,8 @@ class FloorWalker extends Body {
   /**
    * Makes the camera focus at me.
    */
-  @emit('camera-focus').last
   focusMe () {
-    return this.getPoint().x
+    trigger(this.el, 'camera-focus', { x: this.getPoint().x })
   }
 
   /**
@@ -133,7 +134,7 @@ class FloorWalker extends Body {
     .then(() => {
       // Notifies the character starts moving to the floorAsset.x.
       // The camera take this info and move following the hero.
-      this.elem.trigger('camera-move', [floorAsset.x, moveOnCorridor])
+      trigger(this.el, 'camera-move', { x: floorAsset.x, dur: moveOnCorridor })
 
       floorAsset.open()
 

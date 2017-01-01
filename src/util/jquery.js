@@ -59,6 +59,5 @@ $.fn.imageLoaded = function () {
     .on('load', () => resolve())
 
     .attr('src', this.attr('src'))
-
   )
 }

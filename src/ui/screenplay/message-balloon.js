@@ -3,6 +3,8 @@ const {renderEmoji} = require('../../util/emoji')
 const {wait} = require('spn')
 const {p} = require('dom-gen')
 
+const { trigger } = require('../../util')
+
 const {component, on} = $.cc
 
 const DEFAULT_SPEECH_TIMEOUT = 500
@@ -30,12 +32,15 @@ class MessageBalloon {
    */
   @on('message-balloon.start')
   start () {
-    this.elem.trigger('message-balloon.started')
+    trigger(this.elem, 'message-balloon.started')
 
-    this.elem.append(
-      p({css: {height: 0, overflow: 'hidden'}}, renderEmoji(this.message)), // This is dummy for occupying the space.
-      p(renderEmoji(this.message, 'punch-emoji')).cc('puncher').trigger('puncher.start') // This is actual message for showing
-    )
+    const msgPlaceholder = p({css: {height: 0, overflow: 'hidden'}}, renderEmoji(this.message)) // This is dummy for occupying the space.
+    const msg = p(renderEmoji(this.message, 'punch-emoji')).cc('puncher') // This is actual message for showing
+
+    this.elem.append(msgPlaceholder, msg)
+
+    trigger(msg, 'puncher.start')
+
     const drop = new global.Drop({
       target: this.target,
       content: this.elem[0],

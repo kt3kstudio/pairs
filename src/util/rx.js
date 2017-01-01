@@ -1,4 +1,5 @@
 const Rx = window.Rx
+const trigger = require('./trigger')
 
 /**
  * Checks if it's flatMappable or not.
@@ -55,7 +56,7 @@ exports.toPromise = source => new Promise((resolve, reject) => source.takeLast(1
  * @return {Object}
  */
 Rx.Observable.prototype.emitInto = function (dom) {
-  return this.forEach(event => $(dom).trigger(event))
+  return this.forEach(event => trigger(dom, event))
 }
 
 /**

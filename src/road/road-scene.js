@@ -1,6 +1,10 @@
+require('./component')
+
 const scene = require('../ui/scene')
 const { checkLocation } = require('../util/location')
 const { Character, User } = require('../domain')
+
+const { wire } = $.cc
 
 /**
  * Road scene is the scene in which Ma move from his house to YGGS by taxi.
@@ -23,7 +27,12 @@ class RoadScene {
   }
 
   start () {
+    return this.bg.turnWhite()
+
+    .then(() => this.ground.show())
   }
+
+  @wire get ground () {}
 }
 
 module.exports = RoadScene

@@ -1,4 +1,5 @@
-const {Rect} = require('spn')
+const { Rect } = require('spn')
+const { trigger } = require('../../util')
 
 /**
  * Block is a trait which has its own dimension which is relative to its parent's guiding rect.
@@ -8,7 +9,7 @@ class Block {
    * Requires the guiding rect.
    */
   needsGuidingRect () {
-    this.elem.parent().trigger('block-need-guiding-rect', this)
+    trigger(this.elem.parent(), 'block-need-guiding-rect', { child: this })
 
     if (!this.__guidingRect__) {
       this.__guidingRect__ = Rect.windowAsRect()
@@ -42,10 +43,10 @@ class Block {
    * @param {object} e The event object
    * @param {Block} child The child block
    */
-  onChildNeedGuidingRect (e, child) {
+  onChildNeedGuidingRect (e) {
     e.stopPropagation()
 
-    child.__guidingRect__ = this.getRect()
+    e.detail.child.__guidingRect__ = this.getRect()
   }
 }
 

@@ -1,4 +1,6 @@
-const {Grid, Body, width, height, ratio} = require('spn')
+const { Grid, Body, width, height, ratio } = require('spn')
+
+const { trigger } = require('../../util')
 
 /**
  * FloorAsset is an abstract class which represents the something on the wall in the map view.
@@ -18,7 +20,7 @@ class FloorAsset extends Body {
    * Knocks the door (figuratively).
    */
   doorKnock () {
-    this.elem.trigger('door-knock', [this])
+    trigger(this.el, 'door-knock', { door: this })
   }
 
   /**

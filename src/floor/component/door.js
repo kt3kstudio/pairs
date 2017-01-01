@@ -1,7 +1,9 @@
 const {wait, animation: {show, hide}} = require('spn')
 const domGen = require('dom-gen')
-const {div, hr, br, p, small} = domGen
+const { div, hr, br, p, small } = domGen
+
 const FloorAsset = require('./floor-asset')
+const { trigger } = require('../../util')
 
 const button = domGen('button')
 
@@ -64,7 +66,7 @@ class Door extends FloorAsset {
           hr(),
           button`▶`.click(function (event) {
             event.preventDefault()
-            $(this).trigger('go-to-level')
+            trigger($(this), 'go-to-level')
           })
         )
       ).cc()

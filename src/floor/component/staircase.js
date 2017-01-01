@@ -1,7 +1,9 @@
-const {animation: {show, hide}} = require('spn')
+const { animation } = require('spn')
+
+const { trigger } = require('../../util')
 const FloorAsset = require('./floor-asset')
 
-const {component} = $.cc
+const { component } = $.cc
 
 const STAIRCASE_ANIMATION_DUR = 400
 
@@ -9,8 +11,8 @@ const STAIRCASE_ANIMATION_DUR = 400
  * Staircase class represents the staircases in the map view.
  */
 @component
-@show('door-appear', STAIRCASE_ANIMATION_DUR)
-@hide('door-disappear', STAIRCASE_ANIMATION_DUR)
+@animation.show('door-appear', STAIRCASE_ANIMATION_DUR)
+@animation.hide('door-disappear', STAIRCASE_ANIMATION_DUR)
 class Staircase extends FloorAsset {
 
   constructor (elem) {
@@ -52,7 +54,7 @@ class Staircase extends FloorAsset {
    * Triggers the reload event.
    */
   onGetWalker () {
-    this.elem.trigger($.Event('character-goto', {goto: this.goto}))
+    trigger(this.elem, 'character-goto', { goto: this.goto })
   }
 }
 

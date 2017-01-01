@@ -1,4 +1,5 @@
-const {extractCells} = require('../../util/emoji')
+const { extractCells } = require('../../util/emoji')
+const { trigger } = require('../../util')
 
 const {on, emit, component} = $.cc
 
@@ -38,7 +39,7 @@ class GoalDetectionService {
     delete this.goals[index]
 
     if (this.remaining() === 0) {
-      this.elem.trigger('goal-detection.finish')
+      trigger(this.elem, 'goal-detection.finish')
     }
   }
 

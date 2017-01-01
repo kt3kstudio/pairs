@@ -1,3 +1,5 @@
+const { trigger } = require('../../util')
+
 /**
  * Screenplay line represents a line of a screenplay.
  */
@@ -38,7 +40,7 @@ class ScreenplayLine {
   play (opts) {
     return Promise.resolve(this.getActor().speak(this.line, opts)).then(() => {
       if (typeof this.options.goals === 'string') {
-        this.getElement().trigger('screenplay.goals', this.options.goals)
+        trigger(this.getElement(), 'screenplay.goals', this.options.goals)
       }
     })
   }

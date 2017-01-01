@@ -1,0 +1,1 @@
+exports.trigger = require('./trigger')
