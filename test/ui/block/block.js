@@ -22,8 +22,8 @@ describe('Block', () => {
 
       parent.rect = {}
 
-      parent.elem.on('block-need-guiding-rect', (e, child) => {
-        expect(child).to.equal(block)
+      parent.elem.on('block-need-guiding-rect', (e) => {
+        expect(e.detail.child).to.equal(block)
         done()
       })
 

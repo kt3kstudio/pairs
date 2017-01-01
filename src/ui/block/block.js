@@ -9,7 +9,11 @@ class Block {
    * Requires the guiding rect.
    */
   needsGuidingRect () {
-    trigger(this.elem.parent(), 'block-need-guiding-rect', { child: this })
+    const parent = this.elem.parent()[0]
+
+    if (parent) {
+      trigger(parent, 'block-need-guiding-rect', { child: this })
+    }
 
     if (!this.__guidingRect__) {
       this.__guidingRect__ = Rect.windowAsRect()

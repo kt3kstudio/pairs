@@ -59,7 +59,7 @@ class FloorWalker extends Body {
    */
   @on('door-knock')
   doorKnock (e) {
-    this.moveToFloorAsset(e.detail.door)
+    this.moveToFloorAsset(e.detail.knocked)
   }
 
   /**

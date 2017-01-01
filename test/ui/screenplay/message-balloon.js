@@ -1,6 +1,7 @@
 require('../../../src/ui/screenplay/message-balloon')
+const { trigger } = require('../../../src/util')
 
-const {div} = require('dom-gen')
+const { div } = require('dom-gen')
 
 describe('message-balloon', () => {
   let elem, balloon
@@ -24,8 +25,10 @@ describe('message-balloon', () => {
   })
 
   it('starts showing by the event `message-balloon.start` and fires `message-balloon.ended` when finished', done => {
-    elem.trigger('message-balloon.start').once('message-balloon.ended').then(() => {
+    elem.once('message-balloon.ended').then(() => {
       done()
     })
+
+    trigger(elem[0], 'message-balloon.start')
   })
 })

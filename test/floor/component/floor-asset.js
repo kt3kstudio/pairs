@@ -29,8 +29,8 @@ describe('FloorAsset', () => {
 
   describe('doorKnock', () => {
     it('triggers `door-knock` event with the first argument itself', (done) => {
-      floorAsset.elem.one('door-knock', (e, knocked) => {
-        expect(knocked).to.equal(floorAsset)
+      floorAsset.elem.one('door-knock', (e) => {
+        expect(e.detail.knocked).to.equal(floorAsset)
 
         done()
       })

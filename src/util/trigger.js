@@ -5,7 +5,9 @@
  * @param {Object} params The detail option
  */
 const trigger = (dom, type, params, bubbles = true) => {
-  $(dom)[0].dispatchEvent(new CustomEvent(type, {
+  const el = $(dom)[0]
+
+  el.dispatchEvent(new CustomEvent(type, {
     detail: params || {},
     bubbles
   }))

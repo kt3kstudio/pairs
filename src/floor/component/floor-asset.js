@@ -20,7 +20,7 @@ class FloorAsset extends Body {
    * Knocks the door (figuratively).
    */
   doorKnock () {
-    trigger(this.el, 'door-knock', { door: this })
+    trigger(this.el, 'door-knock', { knocked: this })
   }
 
   /**
