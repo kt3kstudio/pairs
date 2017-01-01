@@ -36,7 +36,7 @@
     "bulbo": "^6.5.0",
     "bundle-through": "^1.0.3",
     "chai": "^3.5.0",
-    "class-component": "^12.1.0",
+    "class-component": "^12.2.0",
     "clipboard-js": "^0.3.1",
     "codecov": "^1.0.1",
     "dom-gen": "^2.3.0",
@@ -45,7 +45,7 @@
     "es6-promise": "^4.0.4",
     "es6-symbol": "^3.0.2",
     "esdoc": "^0.5.0",
-    "event-hub": "^5.0.1",
+    "event-hub": "^5.1.0",
     "get-property-names": "^1.0.0",
     "gulp-front-matter": "^1.3.0",
     "jquery": "^3.0.0",
@@ -81,25 +81,20 @@
     ]
   },
   "standard": {
+    "env": [
+      "browser",
+      "mocha"
+    ],
     "parser": "babel-eslint",
     "globals": [
-      "ui",
-      "datadomain",
       "infrastructure",
-      "location",
-      "history",
       "$",
       "Rx",
-      "describe",
-      "before",
-      "beforeEach",
-      "afterEach",
-      "it",
-      "expect",
-      "assert",
-      "when",
+      "spy",
       "verify",
-      "spy"
+      "when",
+      "assert",
+      "expect"
     ],
     "ignore": [
       "/build",
