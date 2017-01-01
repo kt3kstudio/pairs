@@ -4,8 +4,11 @@
  * @param {string} type The type of event
  * @param {Object} params The detail option
  */
-const trigger = (dom, type, params) => {
-  $(dom)[0].dispatchEvent(new CustomEvent(type, { detail: params || {} }))
+const trigger = (dom, type, params, bubbles = true) => {
+  $(dom)[0].dispatchEvent(new CustomEvent(type, {
+    detail: params || {},
+    bubbles
+  }))
 }
 
 module.exports = trigger
