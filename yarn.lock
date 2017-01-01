@@ -1112,9 +1112,9 @@ circular-json@^0.3.0:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.3.1.tgz#be8b36aefccde8b3ca7aa2d6afc07a37242c0d2d"
 
-class-component@^12.0.1:
-  version "12.0.1"
-  resolved "https://registry.yarnpkg.com/class-component/-/class-component-12.0.1.tgz#e6acf52edfcaae206a8eb7c4d4554ff28e7b1646"
+class-component@^12.1.0:
+  version "12.1.0"
+  resolved "https://registry.yarnpkg.com/class-component/-/class-component-12.1.0.tgz#e1b95b279c3d814d0e1da5463beb9eed57b97c2a"
 
 cli-cursor@^1.0.1:
   version "1.0.2"
