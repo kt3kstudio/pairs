@@ -20,8 +20,8 @@ class DebugPanel {
   /**
    * The handler of toggle click.
    */
-  @on('click').at('.toggle')
-  @on('click').at('h2')
+  @on('click', { at: '.toggle' })
+  @on('click', { at: 'h2' })
   onToggle () {
     if (this.flag) {
       this.flag = false

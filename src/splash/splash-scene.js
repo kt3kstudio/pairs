@@ -29,7 +29,7 @@ class SplashScene {
   /**
    * The scene goes to the title.
    */
-  @on('click').at('.splash-logo')
+  @on('click', { at: '.splash-logo' })
   goToTitle () {
     location.replace('title.html')
   }

@@ -59,7 +59,7 @@ class FusionService {
    * @param {FusionPair} pair The fusion pair
    * @return {Promise} The new cell {Promise<Cell>}
    */
-  @emit('cell-fusion').last
+  @emit.last('cell-fusion')
   fusion (pair) {
     const dur = 600
 

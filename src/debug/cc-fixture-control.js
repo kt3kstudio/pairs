@@ -46,7 +46,7 @@ class CcFixtureControl {
   /**
    * Resets the contents.
    */
-  @on('click').at('.reset') reset () {
+  @on('click', { at: '.reset' }) reset () {
     this.container().empty()
     this.target.empty()
     this.target.trigger('scene-start')
@@ -63,7 +63,7 @@ class CcFixtureControl {
     })
   }
 
-  @on('click').at('.component-btn') componentClick (e) {
+  @on('click', { at: '.component-btn' }) componentClick (e) {
     this.container(hr())
 
     const html = $(e.target).attr('html')
@@ -79,7 +79,7 @@ class CcFixtureControl {
     })
   }
 
-  @on('click').at('.method-btn') methodClick (e) {
+  @on('click', { at: '.method-btn' }) methodClick (e) {
     const coelement = $(e.target).data('coelement')
     const key = $(e.target).data('key')
 

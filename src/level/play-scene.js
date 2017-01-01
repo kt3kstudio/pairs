@@ -129,7 +129,7 @@ class PlayScene extends Context {
    * Starts the scene.
    * @return {Promise}
    */
-  @emit('play-scene.finished').last
+  @emit.last('play-scene.finished')
   start () {
     return this.showComponents()
 

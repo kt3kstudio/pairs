@@ -33,6 +33,7 @@ class Exit extends Body {
 
   @emit('exit-room')
   @on('click') exit () {
+    console.log('exit clicked')
   }
 }
 

@@ -42,7 +42,7 @@ class LsSwitch {
     })
   }
 
-  @on('click').at('.apply') apply (e) {
+  @on('click', { at: '.apply' }) apply (e) {
     const data = $(e.target).data('data')
 
     console.log('LsSwitch: Applying the preset data to localStorage.')
@@ -51,7 +51,7 @@ class LsSwitch {
     LsSwitch.apply(data)
   }
 
-  @on('click').at('.copy') copy () {
+  @on('click', { at: '.copy' }) copy () {
     console.log('LsSwitch: Copying the localStorage to the clipboard.')
 
     LsSwitch.copyJSON()
