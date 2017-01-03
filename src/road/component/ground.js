@@ -1,21 +1,8 @@
-const { Being, wait } = require('spn')
+const { being } = require('../../ui')
 const { component } = $.cc
 
-const DUR = 500
-
-@component
-class Ground extends Being {
-  willShow () {
-    this.elem.css('transform', 'scale(1, 1)')
-
-    return wait(DUR)
-  }
-
-  willHide () {
-    this.elem.css('transform', 'scale(1, 0)')
-
-    return wait(DUR)
-  }
+@being.dur(500)
+class Ground {
 }
 
 module.exports = Ground

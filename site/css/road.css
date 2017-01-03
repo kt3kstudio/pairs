@@ -1,8 +1,8 @@
 .ground {
   position: absolute;
   width: 100%;
-  height: 25%;
-  top: 75%;
+  height: 20%;
+  top: 80%;
   background-color: #4E5760;
   transition-property: transform;
   transition-duration: 500ms;
@@ -11,7 +11,4 @@
 
 .ground.showing {
   transform: scale(1, 1);
-}
-
-.ground.shown {
 }
