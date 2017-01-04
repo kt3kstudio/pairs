@@ -30,7 +30,6 @@ class RoadScene {
     return this.bg.turnWhite()
 
     .then(() => this.ground.show())
-    .then(() => this.ground.hide())
   }
 
   @wire get ground () {}
