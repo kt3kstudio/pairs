@@ -11,10 +11,10 @@ const CSS_CLASS_GOAL_EMOJI = 'emoji-round-yellow'
  * The goal panel on the top right corner.
  */
  // @margin(6, 6, 6, 6)
-@animation
-  .show('bom-appear', 400)
-  .hide('bom-disapper', 400)
-@ratio.x(0).y(0)
+@animation.show('bom-appear', 400)
+@animation.hide('bom-disapper', 400)
+@ratio.x(0)
+@ratio.y(0)
 @component
 class GoalPanel extends Body {
   marginX () { return 6 }

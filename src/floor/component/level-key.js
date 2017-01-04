@@ -5,11 +5,11 @@ const {ratio, width, height, Body, animation} = require('spn')
 const {component} = $.cc
 
 @sprite.static
-@ratio.x(0.5).y(1)
+@ratio.x(0.5)
+@ratio.y(1)
 @width(50) @height(50)
-@animation
-  .show('char-appear', 1000)
-  .hide('char-disappear', 1000)
+@animation.show('char-appear', 1000)
+@animation.hide('char-disappear', 1000)
 @component
 class LevelKey extends Body {
   /**

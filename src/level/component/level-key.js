@@ -5,10 +5,10 @@ const {animation, ratio} = decorators
 const {component} = $.cc
 
 @sprite.static
-@ratio.x(0.5).y(1)
-@animation
-  .show('level-key-show', 3000)
-  .hide('level-key-hide', 1500)
+@ratio.x(0.5)
+@ratio.y(1)
+@animation.show('level-key-show', 3000)
+@animation.hide('level-key-hide', 1500)
 @component
 class LevelKey extends Body {
   /**

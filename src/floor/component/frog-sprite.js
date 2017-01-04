@@ -10,7 +10,7 @@ const {component, on} = $.cc
  * @extends domain.common.StayRunSprite
  */
 @sprite.stayRun
-@width(100) @height(50) @ratio.x(0.5).y(1)
+@width(100) @height(50) @ratio.x(0.5) @ratio.y(1)
 @component('frog')
 class FrogSprite extends GridWalker {
 

@@ -7,10 +7,10 @@ const {component} = $.cc
  * Scoreboard handles the behaviour of the score board of the level view.
  */
 @component
-@animation
-  .show('bom-appear', 400)
-  .hide('bom-disappear', 400)
-@ratio.x(0).y(0)
+@animation.show('bom-appear', 400)
+@animation.hide('bom-disappear', 400)
+@ratio.x(0)
+@ratio.y(0)
 class Scoreboard extends Body {
   marginX () { return 6 }
   marginY () { return 6 }

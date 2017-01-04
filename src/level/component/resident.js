@@ -5,7 +5,8 @@ const {Body, ratio} = require('spn')
 @sprite.static
 @sprite.relativeBody
 @speaker
-@ratio.x(0.5).y(1)
+@ratio.x(0.5)
+@ratio.y(1)
 class Resident extends Body {
 
   constructor (elem) {
