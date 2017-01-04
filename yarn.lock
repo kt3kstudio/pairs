@@ -4710,9 +4710,9 @@ spdx-license-ids@^1.0.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-1.2.2.tgz#c9df7a3424594ade6bd11900d596696dc06bac57"
 
-spn@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/spn/-/spn-4.0.1.tgz#76b156b9cbce5148701c3d3e17bf97ee03fa203b"
+spn@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/spn/-/spn-4.1.0.tgz#a4fe6cd4d07d92eb54dd32b3772b541c153ab940"
 
 sprintf-js@~1.0.2:
   version "1.0.3"
