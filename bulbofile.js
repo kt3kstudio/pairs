@@ -30,7 +30,7 @@ asset(`${SRC}/infrastructure/infrastructure.js`)
 // html
 asset(`${SITE}/*.html`, `${SITE}/bed/*.html`)
   .base(SITE)
-  .watch(`${SITE}/*.html`, `${SITE}/bed/*.html`, `${SITE}/layout/*.nunjucks`)
+  .watch(`${SITE}/*.html`, `${SITE}/bed/*.html`, `${SITE}/layouts/*.nunjucks`)
   .pipe(frontMatter())
   .pipe(layout1.nunjucks(`${SITE}/layouts/default.nunjucks`, { data: templateData }))
 
