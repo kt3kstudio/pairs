@@ -13,15 +13,12 @@ const CENTER_N = 1
 @component
 class Ball extends GridWalker {
 
-  constructor (elem) {
-    super()
-
+  __init__ () {
     this.maxX = MAX
     this.maxY = MAX
 
-    this.setGrid(elem.data('grid'), CENTER_M, CENTER_N)
+    this.setGrid(this.$el.data('grid'), CENTER_M, CENTER_N)
 
-    this.elem = elem
     this.setTransitionDuration(TRANS_DUR)
   }
 
