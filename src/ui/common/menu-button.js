@@ -160,8 +160,9 @@ class MenuButton {
       data: {
         menu: menu.children().toArray(),
         onclick: menu.attr('onclick')
-      }
-    }).cc.init('menu-item')
+      },
+      cc: 'menu-item'
+    }).cc.get('menu-item')
   }
 }
 

@@ -154,7 +154,7 @@ class IntroScene extends Context {
       grid: playSceneLayout.playGrid(),
       pos: {m: 1, n: 1}
 
-    }).appendTo(this.elem).cc.init('ball')
+    }).appendTo(this.elem).cc('ball').cc.get('ball')
   }
 
   /**

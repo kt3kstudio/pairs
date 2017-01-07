@@ -65,8 +65,9 @@ class FusionService {
 
     const cell = object({
       data: {gene: pair.newGene()},
-      prependTo: this.elem
-    }).cc.init('cell')
+      prependTo: this.elem,
+      cc: 'cell'
+    }).cc.get('cell')
 
     cell.setGrid(this.grid, 0, 0)
 

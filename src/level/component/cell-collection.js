@@ -42,7 +42,7 @@ class CellCollection {
     return object({
       data: {gene: gene},
       prependTo: this.elem
-    }).cc.init('cell')
+    }).cc('cell').cc.get('cell')
   }
 
   /**

@@ -63,7 +63,7 @@ class ResultPane extends Body {
    * @return {Promise}
    */
   showInfoPane (timeout) {
-    return this.elem.attr({m: 9, n: 7}).cc.init('multiflip').show()
+    return this.elem.attr({m: 9, n: 7}).cc('multiflip').cc.get('multiflip').show()
 
     .then(() => Promise.race([wait(timeout), this.elem.once('click touchstart')]))
 

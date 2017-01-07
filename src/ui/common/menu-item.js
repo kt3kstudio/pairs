@@ -13,7 +13,7 @@ class MenuItem {
     const menu = this.elem.data('menu')
 
     if (menu && menu.length) {
-      this.elem.cc.init('menu-button')
+      this.elem.cc('menu-button')
     }
   }
 

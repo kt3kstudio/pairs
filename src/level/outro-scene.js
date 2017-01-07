@@ -111,7 +111,7 @@ class OutroScene extends Context {
   sequenceGivingLevelKey () {
     const leaderMoo = this.residents('moo')[0]
 
-    const levelKey = img().cc.init('level-key')
+    const levelKey = img().cc('level-key').cc.get('level-key')
 
     const layout = new IntroSceneLayout()
 

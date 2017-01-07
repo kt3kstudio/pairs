@@ -160,7 +160,7 @@ class FloorScene {
    * Creates a level key.
    */
   levelKey () {
-    return img().cc.init('level-key')
+    return img().cc('level-key').cc.get('level-key')
   }
 }
 

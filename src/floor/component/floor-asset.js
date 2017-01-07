@@ -50,7 +50,7 @@ class FloorAsset extends Body {
    * Spawn the frog to the front of the floor asset.
    */
   spawnFrog () {
-    const frog = $('<img />').css({zIndex: 2}).appendTo(this.elem).cc.init('frog')
+    const frog = $('<img />').css({zIndex: 2}).appendTo(this.elem).cc('frog').cc.get('frog')
 
     frog.setGrid(new Grid({x: 35, y: 130, unitWidth: 100, unitHeight: 100}))
 
