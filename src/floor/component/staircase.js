@@ -16,6 +16,8 @@ const STAIRCASE_ANIMATION_DUR = 400
 class Staircase extends FloorAsset {
 
   __init__ () {
+    super.__init__()
+
     this.goto = this.$el.data('goto') // must be parsed position object, not string
 
     this.locked = true

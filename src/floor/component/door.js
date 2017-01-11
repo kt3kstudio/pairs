@@ -22,6 +22,8 @@ const DOOR_APPEAR_DUR = 400
 class Door extends FloorAsset {
 
   __init__ () {
+    super.__init__()
+
     this.level = this.$el.attr('level')
     this.star = 0
     this.score = 0
