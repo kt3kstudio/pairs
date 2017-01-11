@@ -41,9 +41,7 @@ function itemOffsets (offset, num) {
 @component('menu-button')
 class MenuButton {
 
-  constructor (elem) {
-    this.elem = elem
-
+  __init__ () {
     this.closed = true
 
     this.menus = this.getMenuItemSource().map(menu => this.createMenuItem(menu))

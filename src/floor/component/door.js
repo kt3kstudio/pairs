@@ -20,13 +20,9 @@ const DOOR_APPEAR_DUR = 400
 @show('door-appear', DOOR_APPEAR_DUR)
 @hide('door-disappear', DOOR_APPEAR_DUR)
 class Door extends FloorAsset {
-  /**
-   * @constructor
-   */
-  constructor (elem) {
-    super(elem)
 
-    this.level = elem.attr('level')
+  __init__ () {
+    this.level = this.$el.attr('level')
     this.star = 0
     this.score = 0
 

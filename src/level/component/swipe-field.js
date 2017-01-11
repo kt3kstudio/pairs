@@ -6,7 +6,9 @@ const { trigger } = require('../../util')
  */
 @component
 class SwipeField {
-  constructor (elem) {
+  __init__ () {
+    const elem = this.$el
+
     elem.swipeCross()
 
     $(document).arrowkeys()

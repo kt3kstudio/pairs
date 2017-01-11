@@ -9,8 +9,8 @@ const {component} = $.cc
 @animation.show('bom-appear', 400)
 @animation.hide('bom-disappear', 400)
 class LevelSignboard extends Body {
-  constructor (elem) {
-    super()
+  __init__ () {
+    const elem = this.$el
 
     this.level = elem.text()
     elem.empty()

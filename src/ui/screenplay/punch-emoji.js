@@ -6,11 +6,8 @@ const {component, on} = $.cc
  */
 @component('punch-emoji')
 class PunchEmoji {
-  /**
-   * @param {jQuery} elem The jquery object
-   */
-  constructor (elem) {
-    elem.css('opacity', 0)
+  __init__ () {
+    this.$el.css('opacity', 0)
   }
 
   @on('puncher.appended')

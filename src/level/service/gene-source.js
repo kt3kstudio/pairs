@@ -6,8 +6,8 @@ const {component} = $.cc
 void
 @component('gene-source')
 class {
-  constructor (elem) {
-    this.genes = this.parseGenes(elem.text())
+  __init__ () {
+    this.genes = this.parseGenes(this.$el.text())
   }
 
   /**

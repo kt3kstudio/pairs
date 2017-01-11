@@ -14,9 +14,7 @@ const {component, on} = $.cc
 @component('frog')
 class FrogSprite extends GridWalker {
 
-  constructor (elem) {
-    super(elem)
-
+  __init__ () {
     this.initSprite()
   }
 

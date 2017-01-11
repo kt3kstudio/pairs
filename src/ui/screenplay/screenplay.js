@@ -10,7 +10,9 @@ const variables = {}
  */
 @component('screenplay')
 class Screenplay {
-  constructor (elem) {
+  __init__ () {
+    const elem = this.$el
+
     this.context = elem.data('context')
 
     let text = elem.text()

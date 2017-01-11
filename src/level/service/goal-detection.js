@@ -11,10 +11,9 @@ void
 class GoalDetectionService {
   /**
    * Sets the goals.
-   * @param {string} goals The goals in text
    */
-  constructor (elem) {
-    this.goals = extractCells(elem.data('goals-text'))
+  __init__ () {
+    this.goals = extractCells(this.$el.data('goals-text'))
   }
 
   /**

@@ -13,11 +13,9 @@ const {component} = $.cc
 @ratio.x(0.5)
 @ratio.y(1)
 class Character extends GridWalker {
-  constructor (elem) {
-    super()
-
-    this.initSprite(elem)
-    this.setSpeaker(elem)
+  __init__ () {
+    this.initSprite(this.$el)
+    this.setSpeaker(this.$el)
   }
 
   /**

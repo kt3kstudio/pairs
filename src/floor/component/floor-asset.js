@@ -5,10 +5,13 @@ const { trigger } = require('../../util')
 /**
  * FloorAsset is an abstract class which represents the something on the wall in the map view.
  */
-@width(80) @height(100) @ratio.x(0.5) @ratio.y(1)
+@width(80)
+@height(100)
+@ratio.x(0.5)
+@ratio.y(1)
 class FloorAsset extends Body {
-  constructor (elem) {
-    super()
+  __init__ () {
+    const elem = this.$el
 
     this.x = +elem.attr('x')
     this.y = +elem.attr('y')

@@ -32,7 +32,9 @@ class LsSwitch {
     })
   }
 
-  constructor (elem) {
+  __init__ () {
+    const elem = this.$el
+
     const source = window.presets
 
     elem.append(button('COPY').addClass('copy'), '|')

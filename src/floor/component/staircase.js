@@ -15,10 +15,8 @@ const STAIRCASE_ANIMATION_DUR = 400
 @animation.hide('door-disappear', STAIRCASE_ANIMATION_DUR)
 class Staircase extends FloorAsset {
 
-  constructor (elem) {
-    super(elem)
-
-    this.goto = elem.data('goto') // must be parsed position object, not string
+  __init__ () {
+    this.goto = this.$el.data('goto') // must be parsed position object, not string
 
     this.locked = true
   }

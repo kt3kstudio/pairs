@@ -14,13 +14,11 @@ class Cell extends GridWalker {
   cellRatioX () { return 0.65 }
   cellRatioY () { return 0.65 }
 
-  constructor (elem) {
-    super()
-
+  __init__ () {
     /**
      * @property {string} gene The gene
      */
-    this.gene = elem.data('gene')
+    this.gene = this.$el.data('gene')
 
     this.__isLastOne = false
     this.__isEvolved = false

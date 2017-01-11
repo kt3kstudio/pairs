@@ -14,9 +14,7 @@ class LevelKey extends Body {
   /**
    * @param {jQuery} elem The element
    */
-  constructor (elem) {
-    super()
-
+  __init__ () {
     this.initSprite()
   }
 

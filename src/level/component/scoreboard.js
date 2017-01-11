@@ -15,12 +15,7 @@ class Scoreboard extends Body {
   marginX () { return 6 }
   marginY () { return 6 }
 
-  /**
-   * @constructor
-   */
-  constructor () {
-    super()
-
+  __init__ () {
     this.score = 0
   }
 

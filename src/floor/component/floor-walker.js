@@ -23,10 +23,8 @@ class FloorWalker extends Body {
     return this.getPosition().floorObjectId
   }
 
-  constructor (elem) {
-    super()
-
-    this.initSprite(elem)
+  __init__ () {
+    this.initSprite(this.$el)
   }
 
   willShow () {

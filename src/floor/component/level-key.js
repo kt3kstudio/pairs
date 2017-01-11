@@ -12,12 +12,8 @@ const {component} = $.cc
 @animation.hide('char-disappear', 1000)
 @component
 class LevelKey extends Body {
-  /**
-   * @param {jQuery} elem The element
-   */
-  constructor (elem) {
-    super()
 
+  __init__ () {
     this.initSprite()
   }
 

@@ -19,7 +19,9 @@ const DEFAULT_SPEECH_TIMEOUT = 500
 @component('message-balloon')
 class MessageBalloon {
 
-  constructor (elem) {
+  __init__ () {
+    const elem = this.$el
+
     this.target = $(elem.data('target'))[0]
     this.skipTarget = $(elem.data('skip-target'))
     this.message = elem.data('message')

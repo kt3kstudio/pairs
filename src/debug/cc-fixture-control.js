@@ -6,7 +6,9 @@ const methodMask = ['constructor']
 
 @component
 class CcFixtureControl {
-  constructor (elem) {
+  __init__ () {
+    const elem = this.$el
+
     elem.append(
       button({addClass: 'reset'}, 'RESET'),
       div({addClass: 'container'})

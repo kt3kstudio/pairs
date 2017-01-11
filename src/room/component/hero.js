@@ -9,10 +9,8 @@ const { component } = $.cc
 @ratio.x(0.5)
 @ratio.y(1)
 class Hero extends Body {
-  constructor (elem) {
-    super(elem)
-
-    this.initSprite(elem)
+  __init__ () {
+    this.initSprite(this.$el)
   }
 
   willShow () {

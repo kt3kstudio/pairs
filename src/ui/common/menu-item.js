@@ -7,9 +7,7 @@ const {on, component} = $.cc
  */
 @component('menu-item')
 class MenuItem {
-  constructor (elem) {
-    this.elem = elem
-
+  __init__ (elem) {
     const menu = this.elem.data('menu')
 
     if (menu && menu.length) {

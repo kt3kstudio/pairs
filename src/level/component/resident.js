@@ -9,8 +9,8 @@ const {Body, ratio} = require('spn')
 @ratio.y(1)
 class Resident extends Body {
 
-  constructor (elem) {
-    super()
+  __init__ () {
+    const elem = this.$el
 
     this.initSprite()
     this.setSpeaker(elem)
