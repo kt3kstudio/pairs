@@ -3,7 +3,9 @@ const {component, on} = $.cc
 
 @component
 class DebugPanel {
-  constructor (elem) {
+  __init__ () {
+    const elem = this.$el
+
     elem.append(div({addClass: 'toggle'}, 'DEBUG'))
 
     if (elem.attr('auto-open') === 'true') {

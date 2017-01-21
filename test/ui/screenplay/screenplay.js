@@ -12,8 +12,8 @@ describe('screenplay', () => {
 
   before(() => {
     class TestSpeaker {
-      constructor (elem) {
-        elem.data('speaker', this)
+      __init__ () {
+        this.$el.data('speaker', this)
       }
 
       speak (line) {
