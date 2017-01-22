@@ -1,6 +1,6 @@
 const {wait, Being} = require('spn')
 
-const {component} = $.cc
+const {component} = capsid
 const FLOORBOARD_MOVE_DUR = 400
 const HEIGHT_RATE = 0.35
 

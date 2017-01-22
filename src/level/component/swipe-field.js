@@ -1,4 +1,4 @@
-const {component} = $.cc
+const {component} = capsid
 const { trigger } = require('../../util')
 
 /**

@@ -1,6 +1,6 @@
 const {wait} = require('spn')
 
-const {component, on, wire} = $.cc
+const {component, on, wire} = capsid
 
 /**
  * Camera handles the screen position.

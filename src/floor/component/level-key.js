@@ -2,7 +2,7 @@ const sprite = require('../../ui/sprite')
 
 const {ratio, width, height, Body, animation} = require('spn')
 
-const {component} = $.cc
+const {component} = capsid
 
 @sprite.static
 @ratio.x(0.5)

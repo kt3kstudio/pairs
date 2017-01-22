@@ -3,7 +3,7 @@ const FieldIndexGenerator = require('../../util/FieldIndexGenerator')
 const {wait} = require('spn')
 const {object} = require('dom-gen')
 
-const {component} = $.cc
+const {component} = capsid
 
 /**
  * CellCollection class represents the grid positioned queues of cells around the field.

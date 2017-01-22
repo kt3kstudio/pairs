@@ -7,7 +7,7 @@ const { trigger } = require('../../util')
 
 const button = domGen('button')
 
-const {component} = $.cc
+const {component} = capsid
 const DOOR_APPEAR_DUR = 400
 
 /**

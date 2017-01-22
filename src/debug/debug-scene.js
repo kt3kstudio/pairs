@@ -5,7 +5,7 @@ require('./cc-fixture-control')
 require('./rect')
 const scene = require('../ui/scene')
 const block = require('../ui/block')
-const {wire} = $.cc
+const {wire} = capsid
 const {div} = require('dom-gen')
 
 @block

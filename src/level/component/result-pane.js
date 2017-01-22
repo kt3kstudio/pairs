@@ -1,7 +1,7 @@
 const {wait, Body} = require('spn')
 const {div, ul, li} = require('dom-gen')
 
-const {component} = $.cc
+const {component} = capsid
 
 /**
  * ResultPane class handles the behaviour of the pane which appears when the game finished with a score.

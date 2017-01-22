@@ -1,13 +1,13 @@
-const {wait} = require('spn')
+const { wait } = require('spn')
 
-const {on, component} = $.cc
+const { on, component } = capsid
 
 /**
  * MenuItem handles the behaviour of items of the menu.
  */
 @component('menu-item')
 class MenuItem {
-  __init__ (elem) {
+  __init__ () {
     const menu = this.elem.data('menu')
 
     if (menu && menu.length) {

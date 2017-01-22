@@ -1,6 +1,6 @@
 const {wait, Being, Animation} = require('spn')
 
-const {component} = $.cc
+const {component} = capsid
 
 /**
  * Logo animation componenent in the splash screen.

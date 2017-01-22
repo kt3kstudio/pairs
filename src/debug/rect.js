@@ -1,5 +1,5 @@
-const {Body} = require('spn')
-const {component} = $.cc
+const { Body } = require('spn')
+const { component } = capsid
 
 /**
  * The component which visualizes the rectangle.

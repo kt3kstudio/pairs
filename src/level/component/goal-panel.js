@@ -3,7 +3,7 @@ require('../service/goal-detection')
 const {renderEmoji} = require('../../util/emoji')
 const {Body, animation, ratio} = require('spn')
 
-const {on, component} = $.cc
+const {on, component} = capsid
 
 const CSS_CLASS_GOAL_EMOJI = 'emoji-round-yellow'
 

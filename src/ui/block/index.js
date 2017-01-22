@@ -1,4 +1,4 @@
-const { on } = $.cc
+const { on } = capsid
 const { traits } = require('traits-decorator')
 
 module.exports = Cls => {

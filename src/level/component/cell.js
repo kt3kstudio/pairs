@@ -1,7 +1,7 @@
 const {wait, Animation, GridWalker} = require('spn')
 const BomTable = require('../../domain/genetics/bom-table')
 
-const {component} = $.cc
+const {component} = capsid
 
 const ALL_CELLS = []
 /**

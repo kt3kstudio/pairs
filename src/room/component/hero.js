@@ -2,7 +2,7 @@
 const { ratio, Body } = require('spn')
 
 const { sprite } = require('../../ui')
-const { component } = $.cc
+const { component } = capsid
 
 @sprite.character
 @component

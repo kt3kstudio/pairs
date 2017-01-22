@@ -1,7 +1,7 @@
 const { extractCells } = require('../../util/emoji')
 const { trigger } = require('../../util')
 
-const {on, emit, component} = $.cc
+const {on, emit, component} = capsid
 
 /**
  * The service class which detects if the goals are achieved.

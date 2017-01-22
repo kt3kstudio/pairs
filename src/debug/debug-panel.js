@@ -1,5 +1,5 @@
-const {div} = require('dom-gen')
-const {component, on} = $.cc
+const { div } = require('dom-gen')
+const { component, on } = capsid
 
 @component
 class DebugPanel {

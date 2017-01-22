@@ -1,7 +1,7 @@
 const { animation, Body } = require('spn')
 const { block } = require('../../ui')
 
-const { on, emit, component } = $.cc
+const { on, emit, component } = capsid
 
 @block
 @animation.show('fade-in')

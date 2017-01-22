@@ -1,5 +1,5 @@
 const {wait} = require('spn')
-const {component, on} = $.cc
+const {component, on} = capsid
 
 /**
  * Emoji character component.

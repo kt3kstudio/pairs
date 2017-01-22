@@ -7,7 +7,7 @@ const { img } = require('dom-gen')
 
 require('./component')
 
-const {on, wire} = $.cc
+const {on, wire} = capsid
 
 /**
  * MapScene handles the scene of map

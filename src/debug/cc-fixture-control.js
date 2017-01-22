@@ -1,6 +1,6 @@
 const getPropertyNames = require('get-property-names')
-const {hr, div, button} = require('dom-gen')
-const {component, on} = $.cc
+const { hr, div, button } = require('dom-gen')
+const { component, on } = capsid
 
 const methodMask = ['constructor']
 

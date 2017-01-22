@@ -25,7 +25,7 @@ describe('Sprite', () => {
     }
   }
 
-  $.cc('my-sprite', MySprite)
+  capsid.def('my-sprite', MySprite)
 
   beforeEach(() => {
     elem = img()

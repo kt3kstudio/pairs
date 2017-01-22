@@ -8,7 +8,7 @@ const CharacterRepository = require('../domain/character-repository')
 const {Area, DIRS, wait} = require('spn')
 const {img} = require('dom-gen')
 
-const {on} = $.cc
+const {on} = capsid
 
 /**
  * OutroScene handles the scene after finishing main play.

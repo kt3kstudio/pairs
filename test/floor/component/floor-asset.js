@@ -8,7 +8,7 @@ describe('FloorAsset', () => {
   let floorAsset, elem
 
   before(() => {
-    $.cc('floor-asset', FloorAsset)
+    capsid.def('floor-asset', FloorAsset)
   })
 
   beforeEach(() => {

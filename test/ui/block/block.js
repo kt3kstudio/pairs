@@ -1,5 +1,5 @@
 const block = require('../../../src/ui/block')
-const {component} = $.cc
+const {component} = capsid
 const {div} = require('dom-gen')
 const {Rect} = require('spn')
 

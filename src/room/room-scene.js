@@ -6,7 +6,7 @@ const { Point } = require('spn')
 
 require('./component')
 
-const { on, wire } = $.cc
+const { on, wire } = capsid
 
 @scene.primary
 class RoomScene {

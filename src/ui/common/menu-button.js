@@ -3,7 +3,7 @@ require('./menu-item')
 const {wait} = require('spn')
 const {img} = require('dom-gen')
 
-const {on, component} = $.cc
+const {on, component} = capsid
 
 const TRANS_DUR = 800
 const R = 60 // radius of menu item arrangment

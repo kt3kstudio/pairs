@@ -1,6 +1,6 @@
 const {Animation, GridWalker} = require('spn')
 
-const {component} = $.cc
+const {component} = capsid
 
 const TRANS_DUR = 150
 const MAX = 3

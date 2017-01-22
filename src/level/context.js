@@ -2,7 +2,7 @@ require('./component')
 require('./service')
 
 const {wait} = require('spn')
-const {wire} = $.cc
+const {wire} = capsid
 
 /**
  * The common context for level scenes.

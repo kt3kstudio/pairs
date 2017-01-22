@@ -1,7 +1,7 @@
 const ScreenplayLine = require('./screenplay-line')
 const {parse} = require('scenarioscript')
 
-const {on, component} = $.cc
+const {on, component} = capsid
 
 const variables = {}
 

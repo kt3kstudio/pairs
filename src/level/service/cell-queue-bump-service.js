@@ -1,4 +1,4 @@
-const {component} = $.cc
+const {component} = capsid
 
 /**
  * CellQueueBumpService is responsible for checking the bump condition of the cells in the exit queue.

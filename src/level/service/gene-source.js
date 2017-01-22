@@ -1,4 +1,4 @@
-const {component} = $.cc
+const {component} = capsid
 
 /**
  * The source of cells in a level

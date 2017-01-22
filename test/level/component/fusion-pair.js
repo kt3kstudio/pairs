@@ -1,13 +1,15 @@
 const FusionPair = require('../../../src/level/component/fusion-pair')
 const Cell = require('../../../src/level/component/cell')
 
+const { make } = capsid
+
 describe('FusionPair', function () {
   'use strict'
 
   var createCell = function (gene) {
     var div = $('<div class="cell">').data('gene', gene)
 
-    return new Cell(div)
+    return make('cell', div[0])
   }
 
   describe('isEvolving', function () {

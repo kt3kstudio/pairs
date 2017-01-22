@@ -12,7 +12,7 @@ const {wait} = require('spn')
 
 const {img} = require('dom-gen')
 
-const {on, emit} = $.cc
+const {prep, on, emit} = capsid
 
 /**
  * IntroScene class handles the introduction scene of the level page.
@@ -80,7 +80,7 @@ class IntroScene extends Context {
    * @return {Promise}
    */
   setUp () {
-    $.cc.init()
+    prep()
 
     const layout = new IntroSceneLayout()
     const pLayout = new PlaySceneLayout()

@@ -5,7 +5,7 @@ const {p} = require('dom-gen')
 
 const { trigger } = require('../../util')
 
-const {component, on} = $.cc
+const {component, on} = capsid
 
 const DEFAULT_SPEECH_TIMEOUT = 500
 

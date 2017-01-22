@@ -4,7 +4,7 @@ const scene = require('../ui/scene')
 const { checkLocation } = require('../util/location')
 const { Character, User } = require('../domain')
 
-const { wire } = $.cc
+const { wire } = capsid
 
 /**
  * Road scene is the scene in which Ma move from his house to YGGS by taxi.

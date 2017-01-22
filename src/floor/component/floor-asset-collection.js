@@ -2,7 +2,7 @@ const {wait, Being} = require('spn')
 const Floorboard = require('./floorboard')
 
 const {img} = require('dom-gen')
-const {component, wire} = $.cc
+const {prep, component, wire} = capsid
 
 /**
  * FloorAssetCollection class handles the position of wall and objects on wall.
@@ -62,7 +62,7 @@ class FloorAssetCollection extends Being {
     this.elem.find('.door, .staircase').attr('y', Floorboard.groundLevel())
 
     // init floor assets
-    $.cc.init('door staircase', this.elem[0])
+    prep('door staircase', this.elem[0])
 
     // collect staircases
     this.staircases = this.elem.find('.staircase').map(function () {

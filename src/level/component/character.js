@@ -2,7 +2,7 @@ const sprite = require('../../ui/sprite/')
 const {GridWalker, DIRS, ratio} = require('spn')
 const {speaker} = require('../../ui/screenplay/speaker')
 
-const {component} = $.cc
+const {component} = capsid
 
 /**
  * The main character on the level scene.

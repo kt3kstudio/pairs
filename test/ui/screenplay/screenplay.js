@@ -3,7 +3,7 @@ require('../../../src/ui/screenplay/screenplay')
 const {expect} = require('chai')
 const domGen = require('dom-gen')
 
-const {component} = $.cc
+const {component} = capsid
 
 const script = domGen('script')
 

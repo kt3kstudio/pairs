@@ -1,5 +1,5 @@
-const {on, component} = $.cc
-const {button} = require('dom-gen')
+const { on, component } = capsid
+const { button } = require('dom-gen')
 
 const ls = window.localStorage
 const copy = require('clipboard-js').copy

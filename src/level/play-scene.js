@@ -7,7 +7,7 @@ const FusionPreparationService = require('./component/fusion-preparation-service
 const BallMoveMobLeaveService = require('./component/ball-move-mob-leave-service')
 const ExitQueue = require('./component/exit-queue')
 
-const {on, emit} = $.cc
+const {on, emit} = capsid
 
 /**
  * PlayScene controlls the main playing scene of the level page.

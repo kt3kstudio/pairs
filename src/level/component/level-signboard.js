@@ -2,7 +2,7 @@ const {Body, animation} = require('spn')
 const block = require('../../ui/block')
 const {small, br, span} = require('dom-gen')
 
-const {component} = $.cc
+const {component} = capsid
 
 @component
 @block

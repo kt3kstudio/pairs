@@ -1,6 +1,6 @@
 const {object} = require('dom-gen')
 
-const {emit, component} = $.cc
+const {emit, component} = capsid
 
 /**
  * FusionService performs the fusion of the pair of cells.

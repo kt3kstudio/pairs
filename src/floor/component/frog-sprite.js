@@ -1,7 +1,7 @@
 const sprite = require('../../ui/sprite')
 const {Animation, GridWalker, width, height, ratio} = require('spn')
 
-const {component, on} = $.cc
+const {component, on} = capsid
 
 /**
  * The sprite class of the frog (Obstacle creatures in front of the doors.

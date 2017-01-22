@@ -1,7 +1,7 @@
 const {animation, Body, ratio} = require('spn')
 const {commaNumber} = require('../../util/util')
 
-const {component} = $.cc
+const {component} = capsid
 
 /**
  * Scoreboard handles the behaviour of the score board of the level view.

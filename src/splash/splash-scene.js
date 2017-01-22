@@ -1,7 +1,7 @@
 require('./logo')
 const scene = require('../ui/scene')
 
-const {on} = $.cc
+const {on} = capsid
 
 /**
  * SplashScene controls the splash screen.

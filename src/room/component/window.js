@@ -1,7 +1,7 @@
 
 const { Body, animation } = require('spn')
 const { block } = require('../../ui')
-const { component } = $.cc
+const { component } = capsid
 
 @block
 @component

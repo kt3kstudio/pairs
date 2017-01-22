@@ -5,9 +5,8 @@ global.Rx = require('rx-lite')
 global.Tether = require('tether')
 global.Drop = require('tether-drop')
 
-var cc = require('classcaps')
-var ccj = require('classcaps/jquery')
-ccj(cc, global.$)
+const capsid = global.capsid = require('capsid')
+require('capsid/jquery')(capsid, jQuery)
 
 require('es6-promise').polyfill()
 require('es6-object-assign').polyfill()

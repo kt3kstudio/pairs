@@ -1,6 +1,6 @@
 const {Animation, Body} = require('spn')
 
-const {component} = $.cc
+const {component} = capsid
 
 /**
  * Field class represents the background field graphics.

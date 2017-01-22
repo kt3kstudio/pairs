@@ -1,7 +1,7 @@
 const Resident = require('./resident')
 const {animation} = require('spn')
 
-const {component} = $.cc
+const {component} = capsid
 
 @component
 @animation.show('bom-appear', 400)

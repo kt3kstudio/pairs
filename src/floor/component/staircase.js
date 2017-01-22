@@ -3,7 +3,7 @@ const { animation } = require('spn')
 const { trigger } = require('../../util')
 const FloorAsset = require('./floor-asset')
 
-const { component } = $.cc
+const { component } = capsid
 
 const STAIRCASE_ANIMATION_DUR = 400
 

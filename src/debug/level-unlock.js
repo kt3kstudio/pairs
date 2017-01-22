@@ -1,4 +1,4 @@
-const {component, on} = $.cc
+const { component, on } = capsid
 
 /**
  * Unlocks the level in the debug panel.
