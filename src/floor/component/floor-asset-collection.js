@@ -62,7 +62,8 @@ class FloorAssetCollection extends Being {
     this.elem.find('.door, .staircase').attr('y', Floorboard.groundLevel())
 
     // init floor assets
-    prep('door staircase', this.elem[0])
+    prep('door', this.elem[0])
+    prep('staircase', this.elem[0])
 
     // collect staircases
     this.staircases = this.elem.find('.staircase').map(function () {
