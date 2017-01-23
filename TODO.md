@@ -1,14 +1,15 @@
 # TODO
 
-- feat(debug): character debugger
-- feat(road.html): implement
-- feat(room.html): implement
+## Road
+
+- screen scroll
+
+## Design
+
 - design(ma):
 - design(ellen):
 - design(emma):
 - design(ochanoba):
-- design(road): draw house
-- design(road): draw tree
 
 ## feat(data):
 - create floor 7 to floor 16, 10 levels for each.
