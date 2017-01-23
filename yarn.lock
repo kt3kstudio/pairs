@@ -5041,7 +5041,7 @@ test-exclude@^3.3.0:
     read-pkg-up "^1.0.1"
     require-main-filename "^1.0.1"
 
-testdouble@^1.9.0:
+testdouble@1.11:
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/testdouble/-/testdouble-1.11.0.tgz#b4b2c29164ee022f1fcecdd0e89a06ce749412ca"
   dependencies:
