@@ -1,5 +1,4 @@
 const FusionPair = require('../../../src/level/component/fusion-pair')
-const Cell = require('../../../src/level/component/cell')
 
 const { make } = capsid
 

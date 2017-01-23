@@ -6,7 +6,7 @@ global.Tether = require('tether')
 global.Drop = require('tether-drop')
 
 const capsid = global.capsid = require('capsid')
-require('capsid/jquery')(capsid, jQuery)
+require('capsid/jquery')(capsid, global.jQuery)
 
 require('es6-promise').polyfill()
 require('es6-object-assign').polyfill()

@@ -3,7 +3,7 @@ const { Body, DIRS, ratio } = require('spn')
 const { sprite } = require('../../ui')
 const { trigger } = require('../../util')
 
-const { component, on, emit } = capsid
+const { component, on } = capsid
 
 /**
  * FloorWalker is the role of CharSprite which handles the behaviours of the character on the floor.
