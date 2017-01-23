@@ -1,6 +1,6 @@
 require('./component')
 
-const scene = require('../ui/scene')
+const { scene } = require('../ui')
 const { checkLocation } = require('../util/location')
 const { Character, User } = require('../domain')
 
