@@ -30,9 +30,11 @@ class RoadScene {
     return this.bg.turnWhite()
 
     .then(() => this.ground.show())
+    .then(() => this.house.show())
   }
 
   @wire get ground () {}
+  @wire get house () {}
 }
 
 module.exports = RoadScene

@@ -1,1 +1,2 @@
 require('./ground')
+require('./house')

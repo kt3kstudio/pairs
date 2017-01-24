@@ -1,1 +1,1 @@
-require('../../src/road/road-scene')
+require('../../src/road')
