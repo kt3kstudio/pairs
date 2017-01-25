@@ -13,6 +13,10 @@ JSONStream@^1.0.3:
     jsonparse "^1.2.0"
     through ">=2.2.7 <3"
 
+a-sync-waterfall@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/a-sync-waterfall/-/a-sync-waterfall-1.0.0.tgz#38e8319d79379e24628845b53b96722b29e0e47c"
+
 abab@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.3.tgz#b81de5f7274ec4e756d797cd834f303642724e5d"
@@ -994,7 +998,7 @@ builtin-status-codes@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
 
-bulbo@^6.3.0, bulbo@^6.5.0:
+bulbo@^6.5.0:
   version "6.5.0"
   resolved "https://registry.yarnpkg.com/bulbo/-/bulbo-6.5.0.tgz#2e555fe655b4f3491ebc0c579e5a111a11dfd742"
   dependencies:
@@ -1657,22 +1661,22 @@ domain-browser@~1.1.0:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/domain-browser/-/domain-browser-1.1.7.tgz#867aa4b093faa05f1de08c06f4d7b21fdf8698bc"
 
-domaindoc@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/domaindoc/-/domaindoc-1.4.2.tgz#2b172d5ec9fb384a2d3eed495b009d5bbc4fd998"
+domaindoc@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/domaindoc/-/domaindoc-1.5.0.tgz#83733ea74847bf438b20ea425a265d0abf89d10e"
   dependencies:
-    bulbo "^6.3.0"
+    bulbo "^6.5.0"
     chalk "^1.1.3"
     gulp-consolidate "^0.2.0"
     gulp-front-matter "^1.3.0"
     gulp-marked "^1.0.0"
-    gulp-rename "^1.2.2"
     gulp-trimlines "^1.0.0"
-    layout-wrapper "^1.1.0"
+    layout1 "^1.0.2"
     minimisted "^1.1.1"
     minirocket "^2.0.0"
-    nunjucks "^2.5.2"
-    vinyl-accumulate "^1.3.2"
+    nunjucks "^3.0.0"
+    vinyl-accumulate "^1.4.0"
+    vinyl-fork "^1.0.1"
 
 domelementtype@1, domelementtype@^1.3.0:
   version "1.3.0"
@@ -2470,10 +2474,6 @@ gulp-plumber@^1.1.0:
     gulp-util "^3"
     through2 "^2"
 
-gulp-rename@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/gulp-rename/-/gulp-rename-1.2.2.tgz#3ad4428763f05e2764dec1c67d868db275687817"
-
 gulp-sourcemaps@1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/gulp-sourcemaps/-/gulp-sourcemaps-1.6.0.tgz#b86ff349d801ceb56e1d9e7dc7bbcb4b7dee600c"
@@ -2540,21 +2540,6 @@ gulp-util@~2.2.9:
     multipipe "^0.1.0"
     through2 "^0.5.0"
     vinyl "^0.2.1"
-
-gulp-wrap@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/gulp-wrap/-/gulp-wrap-0.12.0.tgz#62909d6facb30b07e194a1545041178979368c22"
-  dependencies:
-    consolidate "^0.14.1"
-    es6-promise "^3.1.2"
-    fs-readfile-promise "^2.0.1"
-    gulp-util "^3.0.3"
-    js-yaml "^3.2.6"
-    lodash "^4.11.1"
-    node.extend "^1.1.2"
-    through2 "^2.0.1"
-    tryit "^1.0.1"
-    vinyl-bufferstream "^1.0.1"
 
 gulp-wrap@^0.13.0:
   version "0.13.0"
@@ -3309,14 +3294,7 @@ labeled-stream-splicer@^2.0.0:
     isarray "~0.0.1"
     stream-splicer "^2.0.0"
 
-layout-wrapper@^1.1.0:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/layout-wrapper/-/layout-wrapper-1.1.1.tgz#c773b0430cb48ca4c63f6e18801f3bca73ffc31e"
-  dependencies:
-    consolidate "^0.14.1"
-    gulp-wrap "^0.12.0"
-
-layout1@^1.0.0:
+layout1@^1.0.0, layout1@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/layout1/-/layout1-1.0.2.tgz#8c8fb0670aa31b32b2fd81d303492329e7571eee"
   dependencies:
@@ -3956,13 +3934,23 @@ number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
 
-nunjucks@^2.3.0, nunjucks@^2.5.2:
+nunjucks@^2.3.0:
   version "2.5.2"
   resolved "https://registry.yarnpkg.com/nunjucks/-/nunjucks-2.5.2.tgz#ea7d346e785b8a4874666c3cca9e18c577fba22c"
   dependencies:
     asap "^2.0.3"
     chokidar "^1.6.0"
     yargs "^3.32.0"
+
+nunjucks@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/nunjucks/-/nunjucks-3.0.0.tgz#0a2a8fd2942a3ba04f5ba6684e4f7f7ceaca8305"
+  dependencies:
+    a-sync-waterfall "^1.0.0"
+    asap "^2.0.3"
+    yargs "^3.32.0"
+  optionalDependencies:
+    chokidar "^1.6.0"
 
 "nwmatcher@>= 1.3.7 < 2.0.0":
   version "1.3.9"
@@ -5294,9 +5282,9 @@ verror@1.3.6:
   dependencies:
     extsprintf "1.0.2"
 
-vinyl-accumulate@^1.3.2:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/vinyl-accumulate/-/vinyl-accumulate-1.3.2.tgz#5c49d7b7566aa6e99ac62c2799d8e95f6a8f1f6a"
+vinyl-accumulate@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/vinyl-accumulate/-/vinyl-accumulate-1.4.0.tgz#85e4768b41afcdf3bdd8b5b42db93d326e75dcfd"
   dependencies:
     debounce "^1.0.0"
     duplexer2 "^0.1.4"
@@ -5308,6 +5296,13 @@ vinyl-bufferstream@^1.0.1:
   resolved "https://registry.yarnpkg.com/vinyl-bufferstream/-/vinyl-bufferstream-1.0.1.tgz#0537869f580effa4ca45acb47579e4b9fe63081a"
   dependencies:
     bufferstreams "1.0.1"
+
+vinyl-fork@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vinyl-fork/-/vinyl-fork-1.0.1.tgz#57a363f4dd7044ee383357042f941d1dfb89c403"
+  dependencies:
+    duplexer2 "^0.1.4"
+    merge-stream "^1.0.0"
 
 vinyl-fs@^2.2.1, vinyl-fs@^2.4.4:
   version "2.4.4"
