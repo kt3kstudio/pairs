@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" href="{{ basepath }}/css/all.css" />
     {% for css in file.frontMatter.css %}
-    <link rel="stylesheet" href="{{ basepath }}/css/{{ css }}" />
+    <link rel="stylesheet" href="{{ basepath }}{{ css }}" />
     {% endfor %}
     {% if IS_DEV %}
     <link rel="stylesheet" href="{{ basepath }}/css/debug.css" />

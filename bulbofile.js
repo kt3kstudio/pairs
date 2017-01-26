@@ -4,6 +4,7 @@ const asset = bulbo.asset
 const bundler = require('bundle-through')
 const frontMatter = require('gulp-front-matter')
 const layout1 = require('layout1')
+const sass = require('gulp-sass')
 
 const config = {lang: 'en'}
 const presets = require('./src/debug/ls-switch/presets')
@@ -46,5 +47,7 @@ asset(`${SITE}/**/*.{svg,png}`).base(SITE)
 
 // css
 asset(`${SITE}/**/*.css`).base(SITE)
+asset(`${SRC}/*/index.scss`).base(SRC)
+  .pipe(sass())
 
 bulbo.debugPagePath('__pairs__')
