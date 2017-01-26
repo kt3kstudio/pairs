@@ -16,10 +16,32 @@ const IS_DEV = process.env.NODE_ENV !== 'production'
 
 const templateData = {config, basepath, IS_DEV, presets}
 
+const paths = {
+  js: {
+    site: `${SITE}/**/*.js`,
+    src: `${SRC}/**/*.js`
+  },
+  scss: {
+    src: `${SRC}/*/index.scss`,
+  },
+  css: {
+    vendor: `${SRC}/vendor/css/*.css`
+  },
+  html: {
+    page: `${SITE}/*.html`,
+    debug: `${SITE}/bed/*.html`
+  },
+  layout: {
+    default: `${SRC}/view/default.njk`
+  },
+  data: `${SITE}/data/**/*.*`,
+  img: `${SITE}/**/*.{svg,png}`
+}
+
 // js
-asset(`${SITE}/**/*.js`)
+asset(paths.js.site)
   .assetOptions({read: false})
-  .watch(`${SITE}/**/*.js`, `${SRC}/**/*.js`)
+  .watch(paths.js.site, paths.js.src)
   .pipe(bundler({transform: 'babelify'}))
 
 // infrastructure.js
@@ -29,25 +51,21 @@ asset(`${SRC}/infrastructure/infrastructure.js`)
   .pipe(bundler({transform: 'babelify'}))
 
 // html
-asset(`${SITE}/*.html`, `${SITE}/bed/*.html`)
+asset(paths.html.page, paths.html.debug)
   .base(SITE)
-  .watch(`${SITE}/*.html`, `${SITE}/bed/*.html`, `${SITE}/layouts/*.nunjucks`)
+  .watch(paths.html.page, paths.html.debug, paths.layout.default)
   .pipe(frontMatter())
-  .pipe(layout1.nunjucks(`${SITE}/layouts/default.nunjucks`, { data: templateData }))
-
-asset(`${SRC}/*/index.html`)
-  .pipe(frontMatter())
-  .pipe(layout1.nunjucks(`${SITE}/layouts/default.nunjucks`, { data: templateData }))
+  .pipe(layout1.nunjucks(paths.layout.default, { data: templateData }))
 
 // data
-asset(`${SITE}/data/**/*.*`).base(SITE)
+asset(paths.data).base(SITE)
 
 // images
-asset(`${SITE}/**/*.{svg,png}`).base(SITE)
+asset(paths.img).base(SITE)
 
 // css
-asset(`${SITE}/**/*.css`).base(SITE)
-asset(`${SRC}/*/index.scss`).base(SRC)
+asset(paths.css.vendor).base(SRC)
+asset(paths.scss.src).base(SRC)
   .pipe(sass())
 
 bulbo.debugPagePath('__pairs__')
