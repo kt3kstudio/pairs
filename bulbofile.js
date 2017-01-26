@@ -24,9 +24,7 @@ const paths = {
   scss: {
     src: `${SRC}/*/index.scss`,
   },
-  css: {
-    vendor: `${SRC}/vendor/css/*.css`
-  },
+  vendor: `${SRC}/vendor/**/*.*`,
   html: {
     page: `${SITE}/*.html`,
     debug: `${SITE}/bed/*.html`
@@ -34,12 +32,13 @@ const paths = {
   layout: {
     default: `${SRC}/view/default.njk`
   },
-  data: `${SITE}/data/**/*.*`,
-  img: `${SITE}/**/*.{svg,png}`
+  data: `${SRC}/data/**/*.*`,
+  img: `${SRC}/**/*.{svg,png}`
 }
 
 // js
 asset(paths.js.site)
+  .base(SITE)
   .assetOptions({read: false})
   .watch(paths.js.site, paths.js.src)
   .pipe(bundler({transform: 'babelify'}))
@@ -58,14 +57,16 @@ asset(paths.html.page, paths.html.debug)
   .pipe(layout1.nunjucks(paths.layout.default, { data: templateData }))
 
 // data
-asset(paths.data).base(SITE)
+asset(paths.data)
 
 // images
-asset(paths.img).base(SITE)
+asset(paths.img)
 
 // css
-asset(paths.css.vendor).base(SRC)
-asset(paths.scss.src).base(SRC)
-  .pipe(sass())
+asset(paths.scss.src).pipe(sass())
 
+// vendor things
+asset(paths.vendor)
+
+bulbo.base(SRC)
 bulbo.debugPagePath('__pairs__')
