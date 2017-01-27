@@ -1,0 +1,15 @@
+.house {
+  position: absolute;
+  margin-top: -100px;
+  width: 100px;
+  height: 100px;
+  left: 20%;
+  top: 80%;
+  background-color: navy;
+  transition-duration: 500ms;
+  transform: scale(1, 0);
+}
+
+.house.showing {
+  transform: scale(1, 1);
+}
