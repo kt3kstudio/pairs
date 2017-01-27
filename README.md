@@ -33,13 +33,13 @@ The name of `infrastructure` came from the terminology of DDD.
 
 This project has produced a lot of subprojects. Here list of them:
 
-- [class-component](https://github.com/kt3k/class-component)
+- [capsid](https://github.com/kt3k/capsid)
   - MVP architecture tool.
 - [bulbo](https://github.com/kt3k/bulbo)
   - A static site generator created for this project.
   - [minirocket](https://github.com/kt3k/minirocket)
     - A cli utility created for bulbo.
-- [layout-wrapper](https://github.com/kt3k/layout-wrapper)
+- [layout1](https://github.com/kt3k/layout1)
   - A gulp transform created for this project.
 - [bundle-through](https://github.com/kt3k/bundle-through)
   - A gulp transform created for this project.
