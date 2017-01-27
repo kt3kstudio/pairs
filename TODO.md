@@ -1,5 +1,9 @@
 # TODO
 
+- fix: door knock doesn't work
+- fix: level goal doesn't work
+- chore: switch from sass to postcss
+
 ## Road
 
 - screen scroll
