@@ -1,4 +1,4 @@
-const PlayingState = require('../../src/domain/playing-state')
+const PlayingState = require('../playing-state')
 
 describe('PlayingState', () => {
   let playingState

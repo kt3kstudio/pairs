@@ -1,5 +1,6 @@
 const { expect } = require('chai')
-const Location = require('../../src/domain/location')
+
+const Location = require('../location')
 
 const factory = new Location.Factory()
 

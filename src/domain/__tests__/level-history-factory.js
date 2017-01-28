@@ -1,6 +1,6 @@
-const LevelHistory = require('../../src/domain/level-history')
-const LevelHistoryFactory = require('../../src/domain/level-history-factory')
-const LevelHistoryCollection = require('../../src/domain/level-history-collection')
+const LevelHistory = require('../level-history')
+const LevelHistoryFactory = require('../level-history-factory')
+const LevelHistoryCollection = require('../level-history-collection')
 
 const factory = new LevelHistoryFactory()
 

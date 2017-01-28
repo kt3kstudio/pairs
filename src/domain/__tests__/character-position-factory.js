@@ -1,5 +1,5 @@
-const CharacterPositionFactory = require('../../src/domain/character-position-factory')
-const CharacterPosition = require('../../src/domain/character-position')
+const CharacterPositionFactory = require('../character-position-factory')
+const CharacterPosition = require('../character-position')
 
 describe('CharacterPositionFactory', () => {
   'use strict'

@@ -1,5 +1,5 @@
-const PlayingStateRepository = require('../../src/domain/playing-state-repository')
-const PlayingState = require('../../src/domain/playing-state')
+const PlayingStateRepository = require('../playing-state-repository')
+const PlayingState = require('../playing-state')
 
 describe('PlayingStateRepository', () => {
   'use strict'

@@ -1,5 +1,5 @@
-const LevelHistoryCollection = require('../../src/domain/level-history-collection')
-const LevelHistory = require('../../src/domain/level-history')
+const LevelHistoryCollection = require('../level-history-collection')
+const LevelHistory = require('../level-history')
 
 describe('LevelHistoryCollection', () => {
   'use strict'

@@ -22,12 +22,13 @@ if (IS_WATCH) {
 module.exports = config => config.set({
   frameworks: ['mocha', 'chai', 'jsmockito-jshamcrest', 'browserify'],
   files: [
-    'site/**/*.css',
     'test/helper.js',
+    'src/**/__tests__/**/*.js',
     'test/**/*.js'
   ],
   preprocessors: {
-    'test/**/*.js': ['browserify']
+    'test/**/*.js': ['browserify'],
+    'src/**/*.js': ['browserify']
   },
   browserify: {
     debug: true,

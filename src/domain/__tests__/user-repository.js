@@ -1,7 +1,7 @@
-const UserRepository = require('../../src/domain/user-repository')
-const UserFactory = require('../../src/domain/user-factory')
-const User = require('../../src/domain/user')
-const UserStatistics = require('../../src/domain/user-statistics')
+const UserRepository = require('../user-repository')
+const UserFactory = require('../user-factory')
+const User = require('../user')
+const UserStatistics = require('../user-statistics')
 
 describe('UserRepository', () => {
   const repo = new UserRepository()

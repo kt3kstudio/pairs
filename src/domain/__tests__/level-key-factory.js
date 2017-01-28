@@ -1,5 +1,5 @@
-const LevelKeyFactory = require('../../src/domain/level-key-factory')
-const LevelKeyCollection = require('../../src/domain/level-key-collection')
+const LevelKeyFactory = require('../level-key-factory')
+const LevelKeyCollection = require('../level-key-collection')
 
 const factory = new LevelKeyFactory()
 

@@ -1,10 +1,10 @@
 const td = require('testdouble')
 
-const Location = require('../../src/domain/location')
-const Character = require('../../src/domain/character')
-const CharacterPosition = require('../../src/domain/character-position')
-const LevelKey = require('../../src/domain/level-key')
-const LevelKeyCollection = require('../../src/domain/level-key-collection')
+const Location = require('../location')
+const Character = require('../character')
+const CharacterPosition = require('../character-position')
+const LevelKey = require('../level-key')
+const LevelKeyCollection = require('../level-key-collection')
 
 describe('CharacterRepository', () => {
   const repo = new Character.Repository()

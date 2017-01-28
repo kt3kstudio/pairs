@@ -1,7 +1,7 @@
 const td = require('testdouble')
 
-const CharacterInitService = require('../../src/domain/character-init-service')
-const Character = require('../../src/domain/character')
+const CharacterInitService = require('../character-init-service')
+const Character = require('../character')
 
 describe('CharacterInitService', () => {
   const service = new CharacterInitService()

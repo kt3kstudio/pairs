@@ -1,6 +1,6 @@
-const LevelHistoryRepository = require('../../src/domain/level-history-repository')
-const LevelHistoryCollection = require('../../src/domain/level-history-collection')
-const LevelHistory = require('../../src/domain/level-history')
+const LevelHistoryRepository = require('../level-history-repository')
+const LevelHistoryCollection = require('../level-history-collection')
+const LevelHistory = require('../level-history')
 
 const repository = new LevelHistoryRepository('ma')
 

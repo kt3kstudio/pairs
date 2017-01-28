@@ -7,6 +7,10 @@ class User {
     return require('./user-repository')
   }
 
+  static get Statistics () {
+    return require('./user-statistics')
+  }
+
   /**
    * @param {string} charId The id of the character currently chosen
    * @param {UserStatistics} stat The statisctics of the user activity

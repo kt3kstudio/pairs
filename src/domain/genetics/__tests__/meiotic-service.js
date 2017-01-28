@@ -1,4 +1,4 @@
-const MeioticService = require('../../../src/domain/genetics/meiotic-service')
+const MeioticService = require('../meiotic-service')
 
 describe('MeioticService', () => {
   'use strict'

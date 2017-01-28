@@ -1,4 +1,5 @@
-const Location = require('../../src/domain/location')
+const Location = require('../location')
+
 const { expect } = require('chai')
 
 describe('Location', () => {

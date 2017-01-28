@@ -1,5 +1,5 @@
-const LevelLock = require('../../src/domain/level-lock')
-const LevelLockCollection = require('../../src/domain/level-lock-collection')
+const LevelLock = require('../level-lock')
+const LevelLockCollection = require('../level-lock-collection')
 
 describe('LevelLockCollection', () => {
   'use strict'
