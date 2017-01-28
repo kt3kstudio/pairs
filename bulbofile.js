@@ -30,7 +30,7 @@ const paths = {
     page: `${SRC}/*/index.html`
   },
   layout: {
-    default: `${SRC}/view/default.njk`
+    default: `${SRC}/common/layout.njk`
   },
   vendor: `${SRC}/vendor/**/*.*`,
   data: `${SRC}/data/**/*.*`,
