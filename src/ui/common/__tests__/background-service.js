@@ -1,4 +1,4 @@
-const BackgroundService = require('../../../src/ui/common/background-service')
+const BackgroundService = require('../background-service')
 
 describe('BackgroundService', function () {
   'use strict'

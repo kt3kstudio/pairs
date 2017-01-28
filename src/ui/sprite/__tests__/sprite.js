@@ -1,7 +1,7 @@
-const {Image, DirStateImageMap} = require('spn')
-const Sprite = require('../../../src/ui/sprite/sprite')
-const {traits} = require('traits-decorator')
-const {img} = require('dom-gen')
+const { Image, DirStateImageMap } = require('spn')
+const Sprite = require('../sprite')
+const { traits } = require('traits-decorator')
+const { img } = require('dom-gen')
 
 describe('Sprite', () => {
   let sprite, elem

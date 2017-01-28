@@ -1,9 +1,9 @@
-require('../../../src/ui/screenplay/screenplay')
+require('../screenplay')
 
-const {expect} = require('chai')
+const { expect } = require('chai')
 const domGen = require('dom-gen')
 
-const {component} = capsid
+const { component } = capsid
 
 const script = domGen('script')
 

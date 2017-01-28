@@ -1,5 +1,6 @@
-require('../../../src/ui/screenplay/message-balloon')
-const { trigger } = require('../../../src/util')
+require('../message-balloon')
+
+const { trigger } = require('../../../util')
 
 const { div } = require('dom-gen')
 

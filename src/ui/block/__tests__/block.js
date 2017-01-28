@@ -1,7 +1,8 @@
-const block = require('../../../src/ui/block')
-const {component} = capsid
-const {div} = require('dom-gen')
-const {Rect} = require('spn')
+const block = require('../')
+
+const { component } = capsid
+const { div } = require('dom-gen')
+const { Rect } = require('spn')
 
 describe('Block', () => {
   void @component
