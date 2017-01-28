@@ -1,6 +1,6 @@
-require('../../../src/floor/component/door')
+require('../door')
 
-const {div} = require('dom-gen')
+const { div } = require('dom-gen')
 
 describe('Door', () => {
   'use strict'

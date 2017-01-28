@@ -1,4 +1,4 @@
-require('../../../src/floor/component/staircase')
+require('../staircase')
 
 describe('Staircase', () => {
   'use strict'

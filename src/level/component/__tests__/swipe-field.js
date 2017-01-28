@@ -1,7 +1,7 @@
 describe('SwipeField', function () {
   'use strict'
 
-  var elem
+  let elem
 
   beforeEach(function () {
     elem = $('<div />')
@@ -10,7 +10,7 @@ describe('SwipeField', function () {
   })
 
   it('binds swipe events on the element', function (done) {
-    var c = 0
+    let c = 0
 
     elem.on('swipeup swipedown swipeleft swiperight', function () {
       c++

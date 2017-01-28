@@ -1,4 +1,4 @@
-const FusionPair = require('../../../src/level/component/fusion-pair')
+const FusionPair = require('../fusion-pair')
 
 const { make } = capsid
 

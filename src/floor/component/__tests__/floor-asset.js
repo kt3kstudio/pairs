@@ -1,6 +1,6 @@
-const FloorAsset = require('../../../src/floor/component/floor-asset')
+const FloorAsset = require('../floor-asset')
 
-const {div} = require('dom-gen')
+const { div } = require('dom-gen')
 
 describe('FloorAsset', () => {
   'use strict'

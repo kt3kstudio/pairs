@@ -24,7 +24,7 @@ const paths = {
     src: `${SRC}/**/*.js`
   },
   scss: {
-    src: `${SRC}/*/index.scss`,
+    src: `${SRC}/*/index.scss`
   },
   html: {
     page: `${SRC}/*/index.html`

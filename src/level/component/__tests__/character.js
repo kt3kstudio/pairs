@@ -1,5 +1,6 @@
-const {Grid} = require('spn')
-require('../../../src/level/component/character')
+const { Grid } = require('spn')
+
+require('../character')
 
 describe('Character', () => {
   'use strict'
