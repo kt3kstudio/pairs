@@ -18,18 +18,18 @@
 
     <script>window.config = {{ config | dump | safe }}</script>
     <script>window.BASEPATH = '{{ basepath }}'</script>
-    <script src="{{ basepath }}/js/common.js"></script>
+    <script src="{{ basepath }}/common/index.js"></script>
     <script src="{{ basepath }}/infrastructure.js"></script>
     {% for js in file.frontMatter.js %}
-    <script src="{{ basepath }}/js/{{ js }}"></script>
+    <script src="{{ basepath }}{{ js }}"></script>
     {% endfor %}
     {% if IS_DEV %}
-    <script src="{{ basepath }}/js/debug/debug.js"></script>
+    <script src="{{ basepath }}/debug/index.js"></script>
     {% endif %}
     <script>
       $(function () {
         setTimeout(function () {
-          $('#main')[0].dispatchEvent(new CustomEvent('scene-start'))
+          document.querySelector('#main').dispatchEvent(new CustomEvent('scene-start'))
         }, 200);
       });
     </script>

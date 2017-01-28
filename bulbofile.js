@@ -20,8 +20,8 @@ const templateData = {config, basepath, IS_DEV, presets}
 
 const paths = {
   js: {
-    site: `${SITE}/**/*.js`,
-    src: `${SRC}/**/*.js`
+    entry: `${SRC}/*/index.js`,
+    all: `${SRC}/**/*.js`
   },
   scss: {
     src: `${SRC}/*/index.scss`
@@ -38,10 +38,9 @@ const paths = {
 }
 
 // js
-asset(paths.js.site)
-  .base(SITE)
+asset(paths.js.entry)
   .assetOptions({ read: false })
-  .watch(paths.js.site, paths.js.src)
+  .watch(paths.js.entry, paths.js.all)
   .pipe(bundler({ transform: 'babelify' }))
 
 // infrastructure.js
