@@ -1,5 +1,5 @@
 const d = require('domaindoc')
 
 d.title('Pairs domain models')
-d.source('doc/domain')
-d.dest('doc/build')
+d.source('src/domain')
+d.dest('build/doc')
