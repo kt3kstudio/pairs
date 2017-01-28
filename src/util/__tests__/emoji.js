@@ -1,4 +1,4 @@
-const {renderEmoji, extractCells} = require('../../src/util/emoji')
+const {renderEmoji, extractCells} = require('../emoji')
 
 describe('renderEmoji', () => {
   it('renders emojis in the given string', () => {

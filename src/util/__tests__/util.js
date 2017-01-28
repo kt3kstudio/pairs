@@ -1,5 +1,5 @@
-const {commaNumber, chainPromise} = require('../../src/util/util')
-const {wait} = require('spn')
+const { commaNumber, chainPromise } = require('../util')
+const { wait } = require('spn')
 
 describe('$', () => {
   describe('streamOf', () => {

@@ -1,6 +1,7 @@
 const td = require('testdouble')
-const { Location } = require('../../src/domain')
-const { checkLocation } = require('../../src/util/location')
+
+const { Location } = require('../../domain')
+const { checkLocation } = require('../location')
 
 describe('checkLocation', () => {
   it('resolves when the given location is the same as the current window.location', done => {

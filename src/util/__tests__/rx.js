@@ -1,4 +1,4 @@
-const {toPromise, flatten} = require('../../src/util/rx')
+const { toPromise, flatten } = require('../rx')
 
 describe('Rx', () => {
   describe('helpers', () => {

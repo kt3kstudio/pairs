@@ -1,4 +1,4 @@
-const FieldIndexGenerator = require('../../src/util/FieldIndexGenerator')
+const FieldIndexGenerator = require('../FieldIndexGenerator')
 
 describe('FieldIndexGenerator', () => {
   'use strict'
