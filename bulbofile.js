@@ -5,6 +5,8 @@ const bundler = require('bundle-through')
 const frontMatter = require('gulp-front-matter')
 const layout1 = require('layout1')
 const sass = require('gulp-sass')
+const rename = require('gulp-rename')
+const path = require('path')
 
 const config = {lang: 'en'}
 const presets = require('./src/debug/ls-switch/presets')
@@ -24,14 +26,13 @@ const paths = {
   scss: {
     src: `${SRC}/*/index.scss`,
   },
-  vendor: `${SRC}/vendor/**/*.*`,
   html: {
-    page: `${SITE}/*.html`,
-    debug: `${SITE}/bed/*.html`
+    page: `${SRC}/*/index.html`
   },
   layout: {
     default: `${SRC}/view/default.njk`
   },
+  vendor: `${SRC}/vendor/**/*.*`,
   data: `${SRC}/data/**/*.*`,
   img: `${SRC}/**/*.{svg,png}`
 }
@@ -39,21 +40,24 @@ const paths = {
 // js
 asset(paths.js.site)
   .base(SITE)
-  .assetOptions({read: false})
+  .assetOptions({ read: false })
   .watch(paths.js.site, paths.js.src)
-  .pipe(bundler({transform: 'babelify'}))
+  .pipe(bundler({ transform: 'babelify' }))
 
 // infrastructure.js
 asset(`${SRC}/infrastructure/infrastructure.js`)
   .watch(`${SRC}/infrastructure/*.js`)
   .base(`${SRC}/infrastructure`)
-  .pipe(bundler({transform: 'babelify'}))
+  .pipe(bundler({ transform: 'babelify' }))
 
 // html
-asset(paths.html.page, paths.html.debug)
-  .base(SITE)
-  .watch(paths.html.page, paths.html.debug, paths.layout.default)
+asset(paths.html.page)
+  .watch(paths.html.page, paths.layout.default)
   .pipe(frontMatter())
+  .pipe(rename(p => {
+    p.basename = path.basename(p.dirname)
+    p.dirname = path.dirname(p.dirname)
+  }))
   .pipe(layout1.nunjucks(paths.layout.default, { data: templateData }))
 
 // data
