@@ -19,9 +19,10 @@
 - Emma
   - She has green hair.
   - She is an old friend of Ellen.
-- Mubi (無火)
+- Mubi (無火) / Ochanoba
   - An old man who appears in the dream of Ma.
   - He reveals Ma that Ellen is detained in the YGGS and urges him to try help her.
+- Bachanobo (場茶坊)
 
 ## Places
 
