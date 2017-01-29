@@ -43,12 +43,6 @@ asset(paths.js.entry)
   .watch(paths.js.entry, paths.js.all)
   .pipe(bundler({ transform: 'babelify' }))
 
-// infrastructure.js
-asset(`${SRC}/infrastructure/infrastructure.js`)
-  .watch(`${SRC}/infrastructure/*.js`)
-  .base(`${SRC}/infrastructure`)
-  .pipe(bundler({ transform: 'babelify' }))
-
 // html
 asset(paths.html.page)
   .watch(paths.html.page, paths.layout.default)
@@ -59,14 +53,14 @@ asset(paths.html.page)
   }))
   .pipe(layout1.nunjucks(paths.layout.default, { data: templateData }))
 
+// css
+asset(paths.scss.src).pipe(sass())
+
 // data
 asset(paths.data)
 
 // images
 asset(paths.img)
-
-// css
-asset(paths.scss.src).pipe(sass())
 
 // vendor things
 asset(paths.vendor)

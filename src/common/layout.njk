@@ -19,7 +19,7 @@
     <script>window.config = {{ config | dump | safe }}</script>
     <script>window.BASEPATH = '{{ basepath }}'</script>
     <script src="{{ basepath }}/common/index.js"></script>
-    <script src="{{ basepath }}/infrastructure.js"></script>
+    <script src="{{ basepath }}/infrastructure/index.js"></script>
     {% for js in file.frontMatter.js %}
     <script src="{{ basepath }}{{ js }}"></script>
     {% endfor %}
