@@ -1,4 +1,4 @@
-require('../infrastructure/infrastructure')
+require('../infrastructure')
 require('../common')
 require('../splash')
 require('../title')
