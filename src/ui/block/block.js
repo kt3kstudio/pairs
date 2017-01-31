@@ -9,7 +9,7 @@ class Block {
    * Requires the guiding rect.
    */
   needsGuidingRect () {
-    const parent = this.elem.parent()[0]
+    const parent = this.el.parentElement
 
     if (parent) {
       trigger(parent, 'block-need-guiding-rect', { child: this })
@@ -21,7 +21,7 @@ class Block {
   }
 
   /**
-   * Initializes the block's rect by the overriden `block` method
+   * Initializes the block's rect by the overriden `block` method.
    */
   initBlock () {
     this.blockRect = this.block(this.getGuidingRect())
@@ -44,8 +44,8 @@ class Block {
   }
 
   /**
-   * @param {object} e The event object
-   * @param {Block} child The child block
+   * @param {Event} e The event object
+   * @param {Block} e.detail.child The child block
    */
   onChildNeedGuidingRect (e) {
     e.stopPropagation()
