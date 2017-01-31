@@ -65,7 +65,7 @@
     "nunjucks": "^2.3.0",
     "rx-lite": "^4.0.7",
     "scenarioscript": "^1.0.1",
-    "spn": "^5.0.0",
+    "spn": "^5.1.0",
     "standard": "^8.0.0",
     "swipe-event": "^0.4.1",
     "testdouble": "^1.11.0",

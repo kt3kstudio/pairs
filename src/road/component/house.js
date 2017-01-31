@@ -17,4 +17,6 @@ class House extends Body {
   }
 }
 
+House.SHOW_DURATION = 500
+
 module.exports = House

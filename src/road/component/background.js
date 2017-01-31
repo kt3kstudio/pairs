@@ -1,14 +1,12 @@
 const { block } = require('../../ui')
+const { component } = capsid
+const { Rect } = require('spn')
 
 @block
+@component
 class Background {
   block () {
-    const top = this.el.offsetTop
-    const left = this.el.offsetLeft
-    const right = left + this.el.offsetWidth
-    const bottom = top + this.el.offsetHeight
-
-    return new Rect({ top, left, right, bottom })
+    return Rect.fromElement(this.el)
   }
 }
 
