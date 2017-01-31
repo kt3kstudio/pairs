@@ -24,7 +24,8 @@ const paths = {
     all: `${SRC}/**/*.js`
   },
   scss: {
-    src: `${SRC}/*/index.scss`
+    src: `${SRC}/*/index.scss`,
+    all: `${SRC}/**/*.scss`
   },
   html: {
     page: `${SRC}/*/index.html`
@@ -54,7 +55,9 @@ asset(paths.html.page)
   .pipe(layout1.nunjucks(paths.layout.default, { data: templateData }))
 
 // css
-asset(paths.scss.src).pipe(sass())
+asset(paths.scss.src)
+  .watch(paths.scss.src, paths.scss.all)
+  .pipe(sass())
 
 // data
 asset(paths.data)
