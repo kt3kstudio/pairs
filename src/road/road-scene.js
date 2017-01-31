@@ -1,5 +1,3 @@
-require('./component')
-
 const { scene } = require('../ui')
 const { checkLocation } = require('../util/location')
 const { Character, User } = require('../domain')
@@ -27,6 +25,7 @@ class RoadScene {
   }
 
   start () {
+    this.house.setRect(this.house.getRect())
     return this.bg.turnWhite()
 
     .then(() => this.ground.show())
