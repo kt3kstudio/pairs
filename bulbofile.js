@@ -4,7 +4,8 @@ const asset = bulbo.asset
 const bundler = require('bundle-through')
 const frontMatter = require('gulp-front-matter')
 const layout1 = require('layout1')
-const sass = require('gulp-sass')
+const postcss = require('gulp-postcss')
+const atImport = require('postcss-import')
 const rename = require('gulp-rename')
 const path = require('path')
 
@@ -24,8 +25,8 @@ const paths = {
     all: `${SRC}/**/*.js`
   },
   scss: {
-    src: `${SRC}/*/index.scss`,
-    all: `${SRC}/**/*.scss`
+    src: `${SRC}/*/index.css`,
+    all: `${SRC}/**/*.css`
   },
   html: {
     page: `${SRC}/*/index.html`
@@ -57,7 +58,7 @@ asset(paths.html.page)
 // css
 asset(paths.scss.src)
   .watch(paths.scss.src, paths.scss.all)
-  .pipe(sass())
+  .pipe(postcss([atImport()]))
 
 // data
 asset(paths.data)
