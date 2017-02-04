@@ -1,0 +1,11 @@
+.tree {
+  position: absolute;
+  transition-duration: 500ms;
+  opacity: 0;
+  transform: scale(0, 1);
+}
+
+.tree.showing {
+  opacity: 1;
+  transform: scale(1, 1);
+}

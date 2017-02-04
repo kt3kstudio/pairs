@@ -2,8 +2,9 @@ const { scene } = require('../ui')
 const { checkLocation } = require('../util/location')
 const { Character, User } = require('../domain')
 const { img } = require('dom-gen')
+const { wait } = require('spn')
 
-const { init, wire } = capsid
+const { make, wire } = capsid
 
 /**
  * Road scene is the scene in which Ma move from his house to YGGS by taxi.
@@ -31,23 +32,46 @@ class RoadScene {
     return this.bg.turnWhite()
       .then(() => this.ground.show())
       .then(() => this.house.show())
+      .then(() => {
+        [...Array(100)].map((_, i) => {
+          const tree = this.createTree(100 * i + 50)
+          this.background.el.appendChild(tree.el)
+
+          wait(i * 50).then(() => tree.show())
+        })
+
+        return this.house.show()
+      })
 
       .then(() => {
-        this.background.$el.append(this.createHero())
+        this.background.$el.append(this.createHero(this.character).el)
         this.hero.setAt(this.house.getPoint())
         return this.hero.show()
       })
   }
 
   /**
+   * creates a hero.
+   * @param {Character} character The character
    * @return {Hero}
    */
-  createHero () {
-    const $el = img().data('character', this.character)
+  createHero (character) {
+    const $el = img().data('character', character)
 
-    init('hero', $el[0])
+    return make('hero', $el[0])
+  }
 
-    return $el
+  /**
+   * creates a tree.
+   * @param {number} left The left
+   * @return {Tree}
+   */
+  createTree (left) {
+    const el = img({ attr: { x: left, y: this.house.getPoint().y } })[0]
+
+    const tree = make('tree', el)
+
+    return tree
   }
 
   @wire get background () {}
