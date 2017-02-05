@@ -1,15 +1,13 @@
-const { block, sprite } = require('../../ui')
+const { sprite, body } = require('../../ui')
 const { width, height, ratio, Body } = require('spn')
-
-const { component } = capsid
 
 @width(100)
 @height(100)
 @ratio.x(0.5)
 @ratio.y(1)
 @sprite.static
-@component
-class Tree extends Body {
+@body
+class Tree {
 
   __init__ () {
     this.x = +this.el.getAttribute('x')
