@@ -1,12 +1,8 @@
 const { sprite, body } = require('../../ui')
 const { width, height, ratio, Body } = require('spn')
 
-@width(100)
-@height(100)
-@ratio.x(0.5)
-@ratio.y(1)
 @sprite.static
-@body
+@body({ width: 100, height: 100, ratio: { x: 0.5, y: 1 } })
 class Tree {
 
   __init__ () {
@@ -26,12 +22,8 @@ class Tree {
    */
   willShow () {
     this.updateSprite()
-
-    return super.willShow()
   }
 
 }
-
-Tree.SHOW_DURATION
 
 module.exports = Tree
