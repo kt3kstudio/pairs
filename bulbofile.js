@@ -24,8 +24,8 @@ const paths = {
     entry: `${SRC}/*/index.js`,
     all: `${SRC}/**/*.js`
   },
-  scss: {
-    src: `${SRC}/*/index.css`,
+  css: {
+    src: [`${SRC}/*/index.css`, `${SRC}/common/cell.css`],
     all: `${SRC}/**/*.css`
   },
   html: {
@@ -56,8 +56,8 @@ asset(paths.html.page)
   .pipe(layout1.nunjucks(paths.layout.default, { data: templateData }))
 
 // css
-asset(paths.scss.src)
-  .watch(paths.scss.src, paths.scss.all)
+asset(paths.css.src)
+  .watch(paths.css.src, paths.css.all)
   .pipe(postcss([atImport()]))
 
 // data
