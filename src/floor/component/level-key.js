@@ -4,7 +4,7 @@ const {ratio, width, height, Body, animation} = require('spn')
 
 const {component} = capsid
 
-@sprite.static
+@sprite.static(`${global.BASEPATH}/img/key.svg`)
 @ratio.x(0.5)
 @ratio.y(1)
 @width(50) @height(50)
@@ -15,10 +15,6 @@ class LevelKey extends Body {
 
   __init__ () {
     this.initSprite()
-  }
-
-  image () {
-    return `${global.BASEPATH}/img/key.svg`
   }
 
   /**

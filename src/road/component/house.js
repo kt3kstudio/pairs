@@ -1,7 +1,7 @@
 const { ratio, Body } = require('spn')
-const { being, block } = require('../../ui')
+const { block } = require('../../ui')
 
-const { component} = capsid
+const { component } = capsid
 
 @block
 @ratio.x(0.5)

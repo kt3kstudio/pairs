@@ -1,15 +1,14 @@
 const Resident = require('./resident')
-const {animation} = require('spn')
+const { sprite } = require('../../ui')
+const { animation } = require('spn')
 
-const {component} = capsid
+const { component } = capsid
 
 @component
 @animation.show('bom-appear', 400)
 @animation.hide('bom-disappear', 400)
+@sprite.static(`${global.BASEPATH}/img/moo.svg`)
 class Moo extends Resident {
-  image () {
-    return `${global.BASEPATH}/img/moo.svg`
-  }
 }
 
 module.exports = Moo

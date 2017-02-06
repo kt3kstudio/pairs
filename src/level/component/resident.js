@@ -2,7 +2,6 @@ const sprite = require('../../ui/sprite')
 const {speaker} = require('../../ui/screenplay/speaker')
 const {Body, ratio} = require('spn')
 
-@sprite.static
 @sprite.relativeBody
 @speaker
 @ratio.x(0.5)
