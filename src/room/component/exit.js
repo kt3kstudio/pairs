@@ -16,11 +16,11 @@ class Exit extends Body {
       .scaleRight(1 / 5)
   }
 
-  willShow () {
-    this.$el.text('EXIT')
+  show () {
+    this.el.textContent = 'EXIT'
     this.setRect(this.getRect())
 
-    return super.willShow()
+    return super.show()
   }
 
   didShow () {

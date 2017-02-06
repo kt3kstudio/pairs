@@ -1,13 +1,8 @@
-const { ratio, Body } = require('spn')
-const { block } = require('../../ui')
-
-const { component } = capsid
+const { block, body } = require('../../ui')
 
 @block
-@ratio.x(0.5)
-@ratio.y(1)
-@component
-class House extends Body {
+@body({ ratio: { x: 0.5, y: 1 }, showDuration: 500 })
+class House {
   block (guideRect) {
     return guideRect
       .scaleBottom(0.80)
@@ -16,7 +11,5 @@ class House extends Body {
       .cutRight(100)
   }
 }
-
-House.SHOW_DURATION = 500
 
 module.exports = House

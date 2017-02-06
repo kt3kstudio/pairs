@@ -16,10 +16,10 @@ class Window extends Body {
       .scaleBottom(2 / 9)
   }
 
-  willShow () {
+  show () {
     this.setRect(this.getRect())
 
-    super.willShow()
+    return super.show()
   }
 
   didShow () {

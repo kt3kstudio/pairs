@@ -10,10 +10,8 @@ const {component} = capsid
 @animation.hide('bom-disappear', 400)
 class LevelSignboard extends Body {
   __init__ () {
-    const elem = this.$el
-
-    this.level = elem.text()
-    elem.empty()
+    this.level = this.$el.text()
+    this.$el.empty()
   }
 
   /**
@@ -48,10 +46,10 @@ class LevelSignboard extends Body {
     return guidingRect.scaleLeft(8 / 9).scaleRight(7 / 8).scaleTop(2 / 3).scaleBottom(1 / 2)
   }
 
-  willShow () {
+  show () {
     this.setRect(this.getRect())
 
-    super.willShow()
+    return super.show()
   }
 
   didShow () {
