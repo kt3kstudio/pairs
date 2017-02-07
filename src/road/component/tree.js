@@ -1,4 +1,5 @@
 const { sprite, body } = require('../../ui')
+const { on } = capsid
 
 @sprite.static(`${global.BASEPATH}/img/tree.svg`)
 @body({ width: 100, height: 100, ratio: { x: 0.5, y: 1 } })
@@ -12,10 +13,7 @@ class Tree {
     this.initSprite()
   }
 
-  /**
-   * @override
-   */
-  willShow () {
+  @on('showing') __showing__ () {
     this.updateSprite()
   }
 
