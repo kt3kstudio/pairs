@@ -16,6 +16,8 @@ module.exports = ({ width, height, ratio, margin, defaultTransitionDuration, sho
   if (margin && margin.left) { pt.marginLeft = () => margin.left }
   if (margin && margin.right) { pt.marginRight = () => margin.right }
   if (margin && margin.bottom) { pt.marginBottom = () => margin.bottom }
+  if (showDuration) { Cls.SHOW_DURATION = showDuration }
+  if (defaultTransitionDuration) { pt.defaultTransitionDuration = () => defaultTransitionDuration }
 
   return traits(Prebody)(component(Cls))
 }

@@ -1,20 +1,17 @@
-const { sprite } = require('../../ui')
-const { ratio, Body } = require('spn')
-const { component } = capsid
+const { sprite, body } = require('../../ui')
+const { ratio } = require('spn')
 
-@component
+const { on } = capsid
+
 @sprite.character
-@ratio.x(0.5)
-@ratio.y(1)
-class Hero extends Body {
+@body({ ratio: { x: 0.5, y: 1 } })
+class Hero {
   __init__ () {
     this.initSprite(this.$el)
   }
 
-  willShow () {
+  @on('showing') onShowing () {
     this.updateSprite()
-
-    return super.willShow()
   }
 }
 

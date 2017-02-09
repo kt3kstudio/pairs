@@ -32,17 +32,12 @@ class RoadScene {
     return this.bg.turnWhite()
       .then(() => this.ground.show())
       .then(() => this.house.show())
-      .then(() => {
-        [...Array(100)].map((_, i) => {
-          const tree = this.createTree(100 * i + 50)
-          this.background.el.appendChild(tree.el)
+      .then(() => [...Array(100)].map((_, i) => {
+        const tree = this.createTree(100 * i + 50)
+        this.background.el.appendChild(tree.el)
 
-          wait(i * 50).then(() => tree.show())
-        })
-
-        return this.house.show()
-      })
-
+        wait(i * 50).then(() => tree.show())
+      })[0])
       .then(() => {
         this.background.$el.append(this.createHero(this.character).el)
         this.hero.setAt(this.house.getPoint())

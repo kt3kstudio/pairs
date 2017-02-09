@@ -4,14 +4,8 @@ const {Animation} = require('spn')
  * The sprite modifier of Ma (the protagonist).
  */
 module.exports = function () {
-  this.id = 'ma'
-  this.name = 'ma'
-
-  this.x = 0
-  this.y = 0
-
-  this.posture.width = 40
-  this.posture.height = 60
+  this.width = () => 40
+  this.height = () => 60
 
   this.upImage = () => 'img/ma-B.svg'
   this.downImage = () => 'img/ma-F.svg'
