@@ -1,2 +1,2 @@
-require('./component')
+require('./c')
 require('./road-scene')

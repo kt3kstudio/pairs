@@ -36,8 +36,12 @@ class RoadScene {
         const tree = this.createTree(100 * i + 50)
         this.background.el.appendChild(tree.el)
 
-        wait(i * 50).then(() => tree.show())
+        return wait(i * 50).then(() => tree.show())
       })[0])
+      .then(() => {
+        this.car.setAt(this.house.getPoint().right(200))
+        return this.car.show()
+      })
       .then(() => {
         this.background.$el.append(this.createHero(this.character).el)
         this.hero.setAt(this.house.getPoint())
@@ -70,6 +74,7 @@ class RoadScene {
   }
 
   @wire get background () {}
+  @wire get car () {}
   @wire get ground () {}
   @wire get house () {}
   @wire get hero () {}

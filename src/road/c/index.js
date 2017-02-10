@@ -1,5 +1,6 @@
-require('./ground')
-require('./house')
 require('./background')
+require('./car')
+require('./ground')
 require('./hero')
+require('./house')
 require('./tree')

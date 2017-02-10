@@ -1,0 +1,10 @@
+.car {
+  position: absolute;
+  z-index: 2;
+  transition-duration: 500ms;
+  opacity: 0;
+}
+
+.car.showing {
+  opacity: 1;
+}

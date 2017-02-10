@@ -23,11 +23,9 @@ module.exports = config => config.set({
   frameworks: ['mocha', 'chai', 'jsmockito-jshamcrest', 'browserify'],
   files: [
     'src/__tests__/helper.js',
-    'src/**/__tests__/**/*.js',
-    'test/**/*.js'
+    'src/**/__tests__/**/*.js'
   ],
   preprocessors: {
-    'test/**/*.js': ['browserify'],
     'src/**/*.js': ['browserify']
   },
   browserify: {
