@@ -12,7 +12,6 @@ const path = require('path')
 const config = {lang: 'en'}
 const presets = require('./src/debug/ls-switch/presets')
 const basepath = process.env.BASEPATH || ''
-const SITE = 'site'
 const SRC = 'src'
 
 const IS_DEV = process.env.NODE_ENV !== 'production'

@@ -1,5 +1,4 @@
 const { sprite, body } = require('../../ui')
-const { ratio } = require('spn')
 
 const { on } = capsid
 
