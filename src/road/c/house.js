@@ -4,11 +4,12 @@ const { block, body } = require('../../ui')
 @body({ ratio: { x: 0.5, y: 1 }, showDuration: 500 })
 class House {
   block (guideRect) {
-    return guideRect
-      .scaleBottom(0.80)
-      .cutBottom(100)
-      .cutLeft(150)
-      .cutRight(100)
+    return guideRect.slice({
+      left: 50,
+      width: 100,
+      bottom: '20%',
+      height: 100
+    })
   }
 }
 
