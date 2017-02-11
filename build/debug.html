@@ -1,12 +1,14 @@
 <html>
   <head>
-    <title>The room</title>
+    <title>The Test Bed</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="/common/index.css" />
     
-    <link rel="stylesheet" href="/room/index.css" />
+    <link rel="stylesheet" href="/level/index.css" />
+    
+    <link rel="stylesheet" href="/debug/index.css" />
     
     
     <link rel="stylesheet" href="/debug/index.css" />
@@ -21,7 +23,7 @@
     <script src="/common/index.js"></script>
     <script src="/infrastructure/index.js"></script>
     
-    <script src="/room/index.js"></script>
+    <script src="/debug/index.js"></script>
     
     
     <script src="/debug/index.js"></script>
@@ -34,18 +36,23 @@
       });
     </script>
   </head>
-  <body class="dark-bg">
-    <div id="main" class="room-scene room">
-  <div class="window">
-    <img class="window-moon" src="/img/moon.svg"/>
-    <div class="window-frame"></div>
-  </div>
-</div>
+  <body>
+    <style>
+.debug-scene .rect {
+  position: absolute;
+  background-color: hsla(200, 80%, 50%, 0.2);
+  box-shadow: 0px 0px 4px hsla(200, 80%, 50%, 0.7) inset;
+}
+</style>
 
-<div class="debug-panel">
-  <h2>room debug</h2>
-  <div class="ls-switch"></div>
-  <hr/>
+<div id="main" class="debug-scene"></div>
+
+<div class="debug-panel" auto-open="true">
+  <div class="cc-fixture-control" target="#main" auto-reset="true">
+    <script type="text/x">
+      <h1 class="level-signboard" unlocks="701">404</h1>
+    </script>
+  </div>
 </div>
 
   </body>

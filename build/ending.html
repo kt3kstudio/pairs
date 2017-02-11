@@ -4,29 +4,29 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="/pairs/build/css/all.css" />
+    <link rel="stylesheet" href="/common/index.css" />
     
     
-    <link rel="stylesheet" href="/pairs/build/css/debug.css" />
+    <link rel="stylesheet" href="/debug/index.css" />
     
-    <link rel="stylesheet" href="/pairs/build/css/tether.css" />
-    <link rel="stylesheet" href="/pairs/build/css/drop-theme-arrows-bounce.css" />
-    <link rel="stylesheet" href="/pairs/build/asset/emoji/css/emoji.css" />
-    <link rel="icon" href="/pairs/build/img/favicon.png" />
+    <link rel="stylesheet" href="/vendor/css/tether.css" />
+    <link rel="stylesheet" href="/vendor/css/drop-theme-arrows-bounce.css" />
+    <link rel="stylesheet" href="/vendor/emoji/css/emoji.css" />
+    <link rel="icon" href="/img/favicon.png" />
 
     <script>window.config = {"lang":"en"}</script>
-    <script>window.BASEPATH = '/pairs/build'</script>
-    <script src="/pairs/build/js/common.js"></script>
-    <script src="/pairs/build/infrastructure.js"></script>
+    <script>window.BASEPATH = ''</script>
+    <script src="/common/index.js"></script>
+    <script src="/infrastructure/index.js"></script>
     
     
-    <script src="/pairs/build/js/debug/debug.js"></script>
+    <script src="/debug/index.js"></script>
     
     <script>
       $(function () {
         setTimeout(function () {
-          $('#main').trigger('scene-start');
-        }, 50);
+          document.querySelector('#main').dispatchEvent(new CustomEvent('scene-start'))
+        }, 200);
       });
     </script>
   </head>
