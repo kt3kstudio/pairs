@@ -29,22 +29,31 @@ class RoadScene {
   start () {
     this.house.setRect(this.house.getRect())
 
+    const TREE_MAX = 97
+
     return this.bg.turnWhite()
+      .then(() => $('.window').scrollLeft(10000))
       .then(() => this.ground.show())
-      .then(() => this.house.show())
-      .then(() => [...Array(100)].map((_, i) => {
+      .then(() => {
+        this.tower.show()
+
+        return this.house.show()
+      })
+      .then(() => [...Array(TREE_MAX)].map((_, i) => {
         const tree = this.createTree(100 * i + 50)
         this.background.el.insertBefore(tree.el, this.car.el)
 
-        return wait(i * 50).then(() => tree.show())
+        return wait(Math.min(i, TREE_MAX - i) * 50).then(() => tree.show())
       })[0])
       .then(() => {
         this.car.setAt(this.house.getPoint().right(200))
+
         return this.car.show()
       })
       .then(() => {
-        this.background.$el.append(this.createHero(this.character).el)
+        this.background.el.appendChild(this.createHero(this.character).el)
         this.hero.setAt(this.house.getPoint())
+
         return this.hero.show()
       })
   }
@@ -80,6 +89,7 @@ class RoadScene {
   @wire get ground () {}
   @wire get house () {}
   @wire get hero () {}
+  @wire get tower () {}
 }
 
 module.exports = RoadScene

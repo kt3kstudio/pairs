@@ -9,6 +9,6 @@
   background-color: black;
 }
 
-.tower {
+.tower.showing {
   opacity: 1;
 }
