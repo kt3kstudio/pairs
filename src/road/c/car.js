@@ -18,6 +18,12 @@ class Car {
     return { car: this }
   }
 
+  @on('get-on-car') onGetOnCar () {
+    this.setAt(this.getPoint().right(10000)) // TODO: fix the point
+
+    return this.engage(50000)
+  }
+
 }
 
 module.exports = Car
