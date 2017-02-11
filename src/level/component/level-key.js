@@ -1,8 +1,7 @@
-const sprite = require('../../ui/sprite')
+const { sprite } = require('../../ui')
 
-const {Body, decorators} = require('spn')
-const {animation, ratio} = decorators
-const {component} = capsid
+const { Body, animation, ratio } = require('spn')
+const { component } = capsid
 
 @sprite.static(`${global.BASEPATH}/img/key.svg`)
 @ratio.x(0.5)
