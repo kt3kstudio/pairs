@@ -1,6 +1,6 @@
 const { body, sprite } = require('../../ui')
 
-const { on } = capsid
+const { on, emit } = capsid
 
 @sprite.static(`${global.BASEPATH}/img/car.svg`)
 @body({ width: 200, height: 85, ratio: { x: 0.5, y: 1 }, showDuration: 500 })
@@ -12,6 +12,10 @@ class Car {
 
   @on('showing') onShowing () {
     this.updateSprite()
+  }
+
+  @on('click') @emit.last('click-on-car') onClick () {
+    return { car: this }
   }
 
 }

@@ -34,7 +34,7 @@ class RoadScene {
       .then(() => this.house.show())
       .then(() => [...Array(100)].map((_, i) => {
         const tree = this.createTree(100 * i + 50)
-        this.background.el.appendChild(tree.el)
+        this.background.el.insertBefore(tree.el, this.car.el)
 
         return wait(i * 50).then(() => tree.show())
       })[0])
@@ -55,9 +55,11 @@ class RoadScene {
    * @return {Hero}
    */
   createHero (character) {
-    const $el = img().data('character', character)
+    const el = img().data('character', character)[0]
 
-    return make('hero', $el[0])
+    el.classList.add('sub-click-on-car')
+
+    return make('hero', el)
   }
 
   /**

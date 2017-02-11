@@ -1,5 +1,6 @@
 require('./global')
-require('event-hub')
+const EventHub = require('event-hub')
+capsid.def('event-hub', EventHub)
 require('../util/jquery')
 require('../util/rx')
 require('multiflip')
