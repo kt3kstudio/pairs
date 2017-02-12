@@ -1,5 +1,6 @@
 const { sprite, body } = require('../../ui')
 
+const { DIRS } = require('spn')
 const { on, emit } = capsid
 
 @sprite.character
@@ -20,6 +21,17 @@ class Hero {
     this.setAt(car.getPoint())
 
     return this.engage().then(() => this.hide())
+  }
+
+  /**
+   * @param {Entrance} entrance The entrance
+   */
+  getIntoEntrance (entrance) {
+    this.setAt(entrance.getPoint())
+
+    return this.engage()
+      .then(() => this.turn(DIRS.UP))
+      .then(() => this.hide())
   }
 }
 

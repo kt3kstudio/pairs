@@ -18,10 +18,15 @@ class Car {
     return { car: this }
   }
 
-  @on('get-on-car') onGetOnCar () {
-    this.setAt(this.getPoint().right(10000)) // TODO: fix the point
+  /**
+   * Goes to the given point.
+   * @param {Point} point The point
+   */
+  @emit.last('arrive-to-destination')
+  goTo (point) {
+    this.setAt(point)
 
-    return this.engage(50000)
+    return this.engage(10000)
   }
 
 }

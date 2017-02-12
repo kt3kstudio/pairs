@@ -4,7 +4,7 @@ const { Character, User } = require('../domain')
 const { img } = require('dom-gen')
 const { wait } = require('spn')
 
-const { make, wire } = capsid
+const { on, make, wire } = capsid
 
 /**
  * Road scene is the scene in which Ma move from his house to YGGS by taxi.
@@ -32,7 +32,6 @@ class RoadScene {
     const TREE_MAX = 97
 
     return this.bg.turnWhite()
-      .then(() => $('.window').scrollLeft(10000))
       .then(() => this.ground.show())
       .then(() => {
         this.tower.show().then(() => this.entrance.show())
@@ -82,6 +81,25 @@ class RoadScene {
     const tree = make('tree', el)
 
     return tree
+  }
+
+  @on('get-on-car') onGetOnCar () {
+    if (true) {
+      this.car.goTo(this.entrance.getPoint().left(500))
+    } else {
+      this.car.goTo(this.house.getPoint().right(200))
+    }
+  }
+
+  @on('arrive-to-destination') onArrive () {
+    this.hero.setAt(this.car.getPoint())
+    this.hero.engage(0)
+
+    return this.hero.show()
+  }
+
+  @on('click-on-entrance') onClickOnEntrance (e) {
+    return this.hero.getIntoEntrance(e.detail.entrance)
   }
 
   @wire get background () {}
