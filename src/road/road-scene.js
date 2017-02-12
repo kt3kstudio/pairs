@@ -35,7 +35,7 @@ class RoadScene {
       .then(() => $('.window').scrollLeft(10000))
       .then(() => this.ground.show())
       .then(() => {
-        this.tower.show()
+        this.tower.show().then(() => this.entrance.show())
 
         return this.house.show()
       })
@@ -86,6 +86,7 @@ class RoadScene {
 
   @wire get background () {}
   @wire get car () {}
+  @wire get entrance () {}
   @wire get ground () {}
   @wire get house () {}
   @wire get hero () {}
