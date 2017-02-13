@@ -55,6 +55,14 @@ class RoadLocationDetail extends LocationDetail {
 
     this.place = place
   }
+
+  moveToTower () {
+    this.place = PLACE.TOWER
+  }
+
+  moveToRoom () {
+    this.place = PLACE.ROOM
+  }
 }
 
 const PLACE = {

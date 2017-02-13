@@ -1,9 +1,10 @@
 const { scene } = require('../ui')
 const { checkLocation } = require('../util/location')
-const { Character, User } = require('../domain')
+const { Character, User, Location } = require('../domain')
 const { img } = require('dom-gen')
-const { wait } = require('spn')
+const { wait, DIRS } = require('spn')
 
+const { PLACE } = Location
 const { on, make, wire } = capsid
 
 /**
@@ -29,29 +30,43 @@ class RoadScene {
   start () {
     this.house.setRect(this.house.getRect())
 
-    const TREE_MAX = 97
+    const TREE_MAX = 95
 
     return this.bg.turnWhite()
       .then(() => this.ground.show())
       .then(() => {
+        if (this.heroIsAtRoom()) {
+          $('.window').scrollLeft(0)
+        } else {
+          $('.window').scrollLeft(10000)
+        }
         this.tower.show().then(() => this.entrance.show())
 
         return this.house.show()
       })
       .then(() => [...Array(TREE_MAX)].map((_, i) => {
-        const tree = this.createTree(100 * i + 50)
+        const tree = this.createTree(100 * i + 150)
         this.background.el.insertBefore(tree.el, this.car.el)
 
         return wait(Math.min(i, TREE_MAX - i) * 50).then(() => tree.show())
       })[0])
       .then(() => {
-        this.car.setAt(this.house.getPoint().right(200))
+        if (this.heroIsAtRoom()) {
+          this.car.setAt(this.house.getPoint().right(200))
+        } else {
+          this.car.setAt(this.entrance.getPoint().left(300))
+        }
 
         return this.car.show()
       })
       .then(() => {
         this.background.el.appendChild(this.createHero(this.character).el)
-        this.hero.setAt(this.house.getPoint())
+
+        if (this.heroIsAtRoom()) {
+          this.hero.setAt(this.house.getPoint())
+        } else {
+          this.hero.setAt(this.entrance.getPoint())
+        }
 
         return this.hero.show()
       })
@@ -83,8 +98,12 @@ class RoadScene {
     return tree
   }
 
+  heroIsAtRoom () {
+    return this.character.location.detail.place === PLACE.ROOM
+  }
+
   @on('get-on-car') onGetOnCar () {
-    if (true) {
+    if (this.heroIsAtRoom()) {
       this.car.goTo(this.entrance.getPoint().left(500))
     } else {
       this.car.goTo(this.house.getPoint().right(200))
@@ -93,13 +112,26 @@ class RoadScene {
 
   @on('arrive-to-destination') onArrive () {
     this.hero.setAt(this.car.getPoint())
+    this.hero.turn(DIRS.DOWN)
     this.hero.engage(0)
+
+    if (this.heroIsAtRoom()) {
+      this.character.location.detail.moveToTower()
+    } else {
+      this.character.location.detail.moveToRoom()
+    }
+
+    this.character.save()
 
     return this.hero.show()
   }
 
   @on('click-on-entrance') onClickOnEntrance (e) {
-    return this.hero.getIntoEntrance(e.detail.entrance)
+    return this.hero.getInto(e.detail.entrance)
+  }
+
+  @on('click-on-room') onClickOnRoom (e) {
+    return this.hero.getInto(e.detail.room)
   }
 
   @wire get background () {}

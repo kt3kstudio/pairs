@@ -20,14 +20,14 @@ class Hero {
 
     this.setAt(car.getPoint())
 
-    return this.engage().then(() => this.hide())
+    return this.engage().then(() => this.turn(DIRS.UP)).then(() => this.hide())
   }
 
   /**
-   * @param {Entrance} entrance The entrance
+   * @param {Body} entrance The entrance
    */
-  getIntoEntrance (entrance) {
-    this.setAt(entrance.getPoint())
+  getInto (body) {
+    this.setAt(body.getPoint())
 
     return this.engage()
       .then(() => this.turn(DIRS.UP))
