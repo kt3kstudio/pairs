@@ -1,13 +1,7 @@
 # TODO
 
-- fix: door knock doesn't work
 - fix: level goal doesn't work
-- chore: switch from sass to postcss
-- feat(sugar): add PreBody (spn)
-
-## Road
-
-- screen scroll
+- feat(road): screen scroll
 
 ## Design
 
@@ -101,6 +95,9 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom (markup)
 
 # DONE
+- feat(sugar): add Prebody (spn)
+- chore: switch from sass to postcss
+- fix: door knock doesn't work
 - feat(domain): update character-repository for handling location correctly
 - feat(scene): switch scenes depending the character.location
 - rename app name to Pairs
