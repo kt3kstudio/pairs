@@ -1,6 +1,6 @@
-const {wait} = require('spn')
+const { wait } = require('spn')
 
-const {component, on, wire} = capsid
+const { component, on, wire } = capsid
 
 /**
  * Camera handles the screen position.
@@ -45,7 +45,7 @@ class Camera {
    * Sets the horizontal scroll position.
    */
   scrollSet (x) {
-    this.elem.scrollLeft(x - this.getWindowWidth() / 2)
+    this.$el.scrollLeft(x - this.getWindowWidth() / 2)
   }
 
   /**
@@ -60,7 +60,7 @@ class Camera {
     const x = e.detail.x
     const dur = e.detail.dur
 
-    this.elem.animate({scrollLeft: x - this.getWindowWidth() / 2}, dur)
+    this.$el.animate({scrollLeft: x - this.getWindowWidth() / 2}, dur)
 
     return wait(dur)
   }
@@ -71,7 +71,7 @@ class Camera {
    * @returns {Boolean}
    */
   visible (x) {
-    return x > this.elem.scrollLeft() && x < this.elem.scrollLeft() + this.getWindowWidth()
+    return x > this.$el.scrollLeft() && x < this.$el.scrollLeft() + this.getWindowWidth()
   }
 }
 
