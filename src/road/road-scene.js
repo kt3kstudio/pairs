@@ -31,6 +31,7 @@ class RoadScene {
     this.house.setRect(this.house.getRect())
 
     const TREE_MAX = 95
+    this.trees = []
 
     return this.bg.turnWhite()
       .then(() => this.ground.show())
@@ -46,6 +47,7 @@ class RoadScene {
       })
       .then(() => [...Array(TREE_MAX)].map((_, i) => {
         const tree = this.createTree(100 * i + 150)
+        this.trees.push(tree)
         this.background.el.insertBefore(tree.el, this.car.el)
 
         return wait(Math.min(i, TREE_MAX - i) * 50).then(() => tree.show())
@@ -105,8 +107,10 @@ class RoadScene {
   @on('get-on-car') onGetOnCar () {
     if (this.heroIsAtRoom()) {
       this.car.goTo(this.entrance.getPoint().left(500))
+      $('.window').animate({scrollLeft: 10000}, 7000)
     } else {
       this.car.goTo(this.house.getPoint().right(200))
+      $('.window').animate({scrollLeft: 0}, 7000)
     }
   }
 
@@ -126,12 +130,32 @@ class RoadScene {
     return this.hero.show()
   }
 
+  sceneFadeOut () {
+    this.car.hide()
+    this.trees.forEach(tree => tree.hide())
+    return this.entrance.hide()
+      .then(() => {
+        this.house.hide()
+        return this.tower.hide()
+      })
+      .then(() => this.ground.hide())
+      .then(() => this.bg.turnBlack())
+  }
+
   @on('click-on-entrance') onClickOnEntrance (e) {
+    this.character.location.goToTower()
+    this.character.save()
     return this.hero.getInto(e.detail.entrance)
+      .then(() => this.sceneFadeOut())
+      .then(() => window.location.reload())
   }
 
   @on('click-on-room') onClickOnRoom (e) {
+    this.character.location.goToRoom()
+    this.character.save()
     return this.hero.getInto(e.detail.room)
+      .then(() => this.sceneFadeOut())
+      .then(() => window.location.reload())
   }
 
   @wire get background () {}
