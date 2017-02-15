@@ -1,3 +1,5 @@
+@import "c/index";
+
 .floorboard {
     position: absolute;
     top: 0;

@@ -1,30 +1,26 @@
-const {wait, Being} = require('spn')
+const { block } = require('../../ui')
+const { wait, Being } = require('spn')
 const Floorboard = require('./floorboard')
 
-const {img} = require('dom-gen')
-const {prep, component, wire} = capsid
+const { img } = require('dom-gen')
+const { get, prep, component, wire } = capsid
 
 /**
  * FloorAssetCollection class handles the position of wall and objects on wall.
- *
- * It's also responsible for the position of the camera.
- *
- * Collective Component
  */
+@block
 @component
 class FloorAssetCollection extends Being {
-  /**
-   * @return {FloorWalker}
-   */
-  @wire('floor-walker') get walker () {}
 
-  /**
-   * @return {Floorboard}
-   */
+  @wire('floor-walker') get walker () {}
   @wire get floorboard () {}
 
+  block (rect) {
+    return Rect.fromElement(this.el)
+  }
+
   init (character) {
-    this.elem.append(this.floorWalker(character))
+    this.$el.append(this.floorWalker(character))
 
     return this.loadFloorData(character)
 
@@ -47,38 +43,43 @@ class FloorAssetCollection extends Being {
    * @return {string}
    */
   getFloorDataURL (character) {
-    return `${global.BASEPATH}/data/floor/${character.position.floorId}.html`
+    return `${global.BASEPATH}/data/floor/${character.location.detail.floorId}.html`
   }
 
   /**
    * Loads assets from the given string html data.
-   * @param {String} data The data
+   * @param {String} data The html data floor
    */
   setUpComponents (data) {
     // prepend loaded (string) data to the elem
-    $(data).prependTo(this.elem)
+    $(data).prependTo(this.el)
 
     // set y coordinate to doors and staircases
-    this.elem.find('.door, .staircase').attr('y', Floorboard.groundLevel())
+    this.$el.find('.door, .staircase, .entrance').attr('y', Floorboard.groundLevel())
 
     // init floor assets
-    prep('door', this.elem[0])
-    prep('staircase', this.elem[0])
+    prep('door', this.el)
+    prep('staircase', this.el)
+    prep('entrance', this.el)
 
     // collect staircases
-    this.staircases = this.elem.find('.staircase').map(function () {
-      return $(this).cc.get('staircase')
+    this.staircases = this.$el.find('.staircase').map(function () {
+      return get('staircase', this)
     }).toArray()
 
     // collect doors
-    this.doors = this.elem.find('.door').map(function () {
-      return $(this).cc.get('door')
+    this.doors = this.$el.find('.door').map(function () {
+      return get('door', this)
     }).toArray()
 
-    this.items = [].concat(this.staircases, this.doors)
+    this.entrances = this.$el.find('.entrance').map(function () {
+      return get('entrance', this)
+    }).toArray()
+
+    this.items = [].concat(this.staircases, this.doors, this.entrances)
 
     // set floor width
-    this.elem.width(this.elem.find('.floor-data').data('floor-width'))
+    this.$el.width(this.$el.find('.floor-data').data('floor-width'))
 
     const character = this.walker.character
 
@@ -162,7 +163,7 @@ class FloorAssetCollection extends Being {
    * @returns {domain.map.Door}
    */
   findById (id) {
-    return this.items.filter(item => item.id === id)[0]
+    return this.items.filter(item => item.el.id === id)[0]
   }
 
   /**
@@ -191,13 +192,22 @@ class FloorAssetCollection extends Being {
       throw new Error(`The asset not found: assetId=${id}`)
     }
 
-    asset.unlock()
+    this.unlockAsset(asset)
 
     this.walker.unlockById(id)
     this.walker.removeKeyOf(id)
 
     return this.walker.saveAll()
   }
+
+  /**
+   * Unlocks the asset.
+   * @param {FloorAsset} asset The floor asset
+   */
+  unlockAsset (asset) {
+    asset.el.dispatchEvent(new CustomEvent('unlock'))
+  }
+
 }
 
 module.exports = FloorAssetCollection

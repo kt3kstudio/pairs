@@ -1,13 +1,11 @@
-const scene = require('../ui/scene')
+const { scene } = require('../ui')
 const { checkLocation } = require('../util/location')
 const { trigger } = require('../util')
 const { User, Character } = require('../domain')
 
 const { img } = require('dom-gen')
 
-require('./component')
-
-const {on, wire} = capsid
+const { on, wire } = capsid
 
 /**
  * MapScene handles the scene of map
@@ -20,16 +18,8 @@ const {on, wire} = capsid
  */
 @scene.primary
 class FloorScene {
-  /**
-   * Gets the floor asset collection.
-   * @return {FloorAssetCollection}
-   */
-  @wire('floor-asset-collection') get floorAssets () {}
 
-  /**
-   * Gets the camera.
-   * @return {Camera}
-   */
+  @wire('floor-asset-collection') get floorAssets () {}
   @wire get camera () {}
 
   /**
@@ -93,8 +83,10 @@ class FloorScene {
    */
   sequenceUnlocking (levelKey) {
     let asset
+
     const id = levelKey.levelId
     const key = this.levelKey()
+
     this.floorAssets.elem.append(key.elem)
 
     key.setAt(this.floorAssets.walker.getPoint())
@@ -134,7 +126,6 @@ class FloorScene {
 
   /**
    * Go to the specified level.
-   *
    * @param {String} level The level
    */
   @on('go-to-level')
@@ -146,13 +137,9 @@ class FloorScene {
 
   /**
    * Reloads the map scene.
-   *
-   * This is typically used when the the floor is changed.
-   *
    * @return {Promise}
    */
-  @on('scene-reload')
-  sceneReload () {
+  @on('scene-reload') sceneReload () {
     return this.walkerFadeIntoDoor().then(() => location.reload())
   }
 

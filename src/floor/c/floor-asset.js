@@ -11,12 +11,8 @@ const { trigger } = require('../../util')
 @ratio.y(1)
 class FloorAsset extends Body {
   __init__ () {
-    const elem = this.$el
-
-    this.x = +elem.attr('x')
-    this.y = +elem.attr('y')
-
-    this.id = elem.attr('id')
+    this.x = +this.$el.attr('x')
+    this.y = +this.$el.attr('y')
   }
 
   /**

@@ -20,7 +20,7 @@ class FloorWalker extends Body {
    * @return {string}
    */
   get assetId () {
-    return this.getPosition().floorObjectId
+    return this.character.location.detail.assetId
   }
 
   __init__ () {
@@ -81,7 +81,7 @@ class FloorWalker extends Body {
    * @return {CharacterPosition}
    */
   getPosition () {
-    return this.character.position
+    return this.character.location.detail
   }
 
   /**

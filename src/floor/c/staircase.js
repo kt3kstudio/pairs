@@ -3,7 +3,7 @@ const { animation } = require('spn')
 const { trigger } = require('../../util')
 const FloorAsset = require('./floor-asset')
 
-const { component } = capsid
+const { component, on } = capsid
 
 const STAIRCASE_ANIMATION_DUR = 400
 
@@ -55,6 +55,13 @@ class Staircase extends FloorAsset {
    */
   onGetWalker () {
     trigger(this.elem, 'character-goto', { goto: this.goto })
+  }
+
+  /**
+   * Unlocks the staircase
+   */
+  @on('unlock') unlock ()  {
+    super.unlock()
   }
 }
 

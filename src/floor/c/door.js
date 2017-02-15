@@ -1,4 +1,4 @@
-const {wait, animation: {show, hide}} = require('spn')
+const { wait, animation: { show, hide } } = require('spn')
 const domGen = require('dom-gen')
 const { div, hr, br, p, small } = domGen
 
@@ -7,7 +7,7 @@ const { trigger } = require('../../util')
 
 const button = domGen('button')
 
-const {component} = capsid
+const { component, on } = capsid
 const DOOR_APPEAR_DUR = 400
 
 /**
@@ -120,6 +120,13 @@ class Door extends FloorAsset {
    */
   disableDoorKnock () {
     this.doorBody.off('click')
+  }
+
+  /**
+   * Unlocks the door.
+   */
+  @on('unlock') unlock () {
+    super.unlock()
   }
 }
 

@@ -1,5 +1,6 @@
 require('./camera')
 require('./door')
+require('./entrance')
 require('./floor-asset-collection')
 require('./floor-walker')
 require('./floorboard')
