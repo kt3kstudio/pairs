@@ -1,7 +1,7 @@
-const sprite = require('../../ui/sprite')
-const {Animation, GridWalker, width, height, ratio} = require('spn')
+const { sprite } = require('../../ui')
+const { Animation, GridWalker, width, height, ratio, reflow } = require('spn')
 
-const {component, on} = capsid
+const { component, on } = capsid
 
 /**
  * The sprite class of the frog (Obstacle creatures in front of the doors.
@@ -32,7 +32,7 @@ class FrogSprite extends GridWalker {
 
   @on('click')
   jump () {
-    this.elem.anim('jump', 300)
+    this.$el.anim('jump', 300).then(() => this.$el.anim('-', 300))
   }
 }
 
