@@ -1,5 +1,5 @@
 const { sprite } = require('../../ui')
-const { Animation, GridWalker, width, height, ratio, reflow } = require('spn')
+const { Animation, GridWalker, width, height, ratio } = require('spn')
 
 const { component, on } = capsid
 

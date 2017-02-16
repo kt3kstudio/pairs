@@ -60,7 +60,7 @@ class Staircase extends FloorAsset {
   /**
    * Unlocks the staircase
    */
-  @on('unlock') unlock ()  {
+  @on('unlock') unlock () {
     super.unlock()
   }
 }
