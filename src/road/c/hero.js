@@ -6,6 +6,7 @@ const { on, emit } = capsid
 @sprite.character
 @body({ ratio: { x: 0.5, y: 1 } })
 class Hero {
+
   __init__ () {
     this.initSprite(this.$el)
   }

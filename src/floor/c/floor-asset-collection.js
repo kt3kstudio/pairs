@@ -1,5 +1,5 @@
 const { block } = require('../../ui')
-const { wait, Being } = require('spn')
+const { wait, Being, Rect } = require('spn')
 const Floorboard = require('./floorboard')
 
 const { img } = require('dom-gen')

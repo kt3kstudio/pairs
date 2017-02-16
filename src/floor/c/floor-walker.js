@@ -1,9 +1,9 @@
-const { Body, DIRS, ratio } = require('spn')
+const { DIRS } = require('spn')
 
-const { sprite } = require('../../ui')
+const { sprite, body } = require('../../ui')
 const { trigger } = require('../../util')
 
-const { component, on } = capsid
+const { on } = capsid
 
 /**
  * FloorWalker is the role of CharSprite which handles the behaviours of the character on the floor.
@@ -11,10 +11,8 @@ const { component, on } = capsid
  * This works as the facade of Character model.
  */
 @sprite.character
-@ratio.x(0.5)
-@ratio.y(1)
-@component
-class FloorWalker extends Body {
+@body({ ratio: { x: 0.5, y: 1 } })
+class FloorWalker {
 
   /**
    * @return {string}
@@ -27,10 +25,8 @@ class FloorWalker extends Body {
     this.initSprite(this.$el)
   }
 
-  willShow () {
+  @on('showing') onShowing () {
     this.updateSprite()
-
-    return super.willShow()
   }
 
   /**
@@ -55,8 +51,7 @@ class FloorWalker extends Body {
    * @param {Eevent} e The event
    * @param {FloorAsset} floorAsset The floor asset
    */
-  @on('door-knock')
-  doorKnock (e) {
+  @on('door-knock') onDoorKnock (e) {
     this.moveToFloorAsset(e.detail.knocked)
   }
 
@@ -64,8 +59,7 @@ class FloorWalker extends Body {
    * Character goes to another floor.
    * @param {Event} e The event object
    */
-  @on('character-goto')
-  characterGoto (e) {
+  @on('character-goto') characterGoto (e) {
     this.character.position.floorId = e.detail.goto.floorId
     this.character.position.floorObjectId = e.detail.goto.floorObjectId
 
