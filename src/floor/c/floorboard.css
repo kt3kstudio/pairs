@@ -1,0 +1,11 @@
+.floorboard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background-color: #4E5760;
+  transition-duration: 500ms;
+  transition-property: transform;
+  transform: scale(1, 0);
+}

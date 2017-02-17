@@ -1,2 +1,9 @@
+@import "door";
 @import "elevator";
 @import "entrance";
+@import "floor-asset-collection";
+@import "floor-walker";
+@import "floorboard";
+@import "frog";
+@import "level-key";
+@import "staircase";

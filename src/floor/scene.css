@@ -1,0 +1,31 @@
+.floor-scene {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.01);
+  overflow-x: scroll;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+@-webkit-keyframes floor-appear {
+  0% { bottom: -35%; }
+  100% { bottom: 0; }
+}
+
+@-webkit-keyframes floor-disappear {
+  0% { bottom: 0; }
+  100% { bottom: -35%; }
+}
+
+@-webkit-keyframes door-appear {
+  0% { opacity: 0 }
+  100% { opacity: 1 }
+}
+
+@-webkit-keyframes door-disappear {
+  0% { opacity: 1 }
+  100% { opacity: 0 }
+}
