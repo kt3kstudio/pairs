@@ -1,0 +1,11 @@
+.elevator {
+  position: absolute;
+  transition-duration: 500ms;
+  transition-property: transform;
+  transform: scale(0, 1);
+  background-color: #112222;
+}
+
+.elevator.showing {
+  transform: scale(1, 1)
+}

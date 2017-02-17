@@ -5,6 +5,13 @@ const Floorboard = require('./floorboard')
 const { img } = require('dom-gen')
 const { get, prep, component, wire } = capsid
 
+const assetTypes = [
+  'door',
+  'staircase',
+  'entrance',
+  'elevator'
+]
+
 /**
  * FloorAssetCollection class handles the position of wall and objects on wall.
  */
@@ -16,13 +23,15 @@ class FloorAssetCollection extends Being {
   @wire get floorboard () {}
 
   block (rect) {
+    console.log('FAC block')
+    console.log(Rect.fromElement(this.el))
     return Rect.fromElement(this.el)
   }
 
   init (character) {
     this.$el.append(this.floorWalker(character))
 
-    return this.loadFloorData(character)
+    return this.loadFloorData()
 
     .then(data => this.setUpComponents(data))
 
@@ -33,17 +42,10 @@ class FloorAssetCollection extends Being {
 
   /**
    * Loads the floor data.
+   * @return {Promise<string>}
    */
-  loadFloorData (character) {
-    return Promise.resolve($.get(this.getFloorDataURL(character)))
-  }
-
-  /**
-   * Gets the floor data url.
-   * @return {string}
-   */
-  getFloorDataURL (character) {
-    return `${global.BASEPATH}/floor/data/${character.location.detail.floorId}.html`
+  loadFloorData () {
+    return $.get(`${global.BASEPATH}/floor/data/${this.walker.floorId}.html`)
   }
 
   /**
@@ -54,32 +56,22 @@ class FloorAssetCollection extends Being {
     // prepend loaded (string) data to the elem
     $(data).prependTo(this.el)
 
-    // set y coordinate to doors and staircases
-    this.$el.find('.door, .staircase, .entrance').attr('y', Floorboard.groundLevel())
-
-    // init floor assets
-    prep('door', this.el)
-    prep('staircase', this.el)
-    prep('entrance', this.el)
-
-    // collect staircases
-    this.staircases = this.$el.find('.staircase').map(function () {
-      return get('staircase', this)
-    }).toArray()
-
-    // collect doors
-    this.doors = this.$el.find('.door').map(function () {
-      return get('door', this)
-    }).toArray()
-
-    this.entrances = this.$el.find('.entrance').map(function () {
-      return get('entrance', this)
-    }).toArray()
-
-    this.items = [].concat(this.staircases, this.doors, this.entrances)
-
     // set floor width
     this.$el.width(this.$el.find('.floor-data').data('floor-width'))
+
+    // set y coordinate to doors and staircases
+    this.$el.find('.door, .staircase').attr('y', Floorboard.groundLevel())
+
+    const items = this.items = []
+
+    // init floor assets
+    assetTypes.forEach(assetType => {
+      prep(assetType, this.el)
+
+      this.$el.find(`.${assetType}`).each(function () {
+        items.push(get(assetType, this))
+      })
+    })
 
     const character = this.walker.character
 

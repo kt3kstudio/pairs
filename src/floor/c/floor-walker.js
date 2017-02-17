@@ -21,6 +21,13 @@ class FloorWalker {
     return this.character.location.detail.assetId
   }
 
+  /**
+   * @return {string}
+   */
+  get floorId () {
+    return this.character.location.detail.floorId
+  }
+
   __init__ () {
     this.initSprite(this.$el)
   }
