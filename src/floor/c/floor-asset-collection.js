@@ -43,7 +43,7 @@ class FloorAssetCollection extends Being {
    * @return {string}
    */
   getFloorDataURL (character) {
-    return `${global.BASEPATH}/data/floor/${character.location.detail.floorId}.html`
+    return `${global.BASEPATH}/floor/data/${character.location.detail.floorId}.html`
   }
 
   /**

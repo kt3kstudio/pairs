@@ -28,7 +28,8 @@ const paths = {
     all: `${SRC}/**/*.css`
   },
   html: {
-    page: `${SRC}/*/index.html`
+    page: `${SRC}/*/index.html`,
+    data: `${SRC}/*/data/*.html`
   },
   layout: {
     default: `${SRC}/common/layout.njk`
@@ -61,6 +62,7 @@ asset(paths.css.src)
 
 // data
 asset(paths.data)
+asset(paths.html.data)
 
 // images
 asset(paths.img)
