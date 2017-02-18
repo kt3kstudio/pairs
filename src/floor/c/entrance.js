@@ -1,7 +1,9 @@
 const { block, body } = require('../../ui')
+const { trigger } = require('../../util')
 
-@block
-@body({ ratio: { x: 0.5, y: 1 } })
+const { on, emit } = capsid
+
+@block @body({ ratio: { x: 0.5, y: 1 }, showDuration: 500 })
 class Entrance {
 
   __init__ () {
@@ -19,6 +21,18 @@ class Entrance {
 
   open () {
     return Promise.resolve()
+  }
+
+  close () {
+    return Promise.resolve()
+  }
+
+  @on('click') onClick () {
+    trigger(this.el, 'door-knock', { knocked: this })
+  }
+
+  @on('get-walker') @emit.last('scene-reload') onGetWalker (e) {
+    e.detail.walker.goToRoad()
   }
 }
 

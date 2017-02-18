@@ -13,4 +13,12 @@ const trigger = (dom, type, params, bubbles = true) => {
   }))
 }
 
+/**
+ * No bubble shorthand of bubble
+ */
+const triggerNoBubble = (dom, type, params) => {
+  trigger(dom, type, params, false)
+}
+
 module.exports = trigger
+module.exports.triggerNoBubble = triggerNoBubble

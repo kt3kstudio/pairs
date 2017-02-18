@@ -128,8 +128,7 @@ class FloorScene {
    * Go to the specified level.
    * @param {String} level The level
    */
-  @on('go-to-level')
-  goToLevel () {
+  @on('go-to-level') goToLevel () {
     return this.walkerFadeIntoDoor().then(() => {
       location.href = 'level.html'
     })

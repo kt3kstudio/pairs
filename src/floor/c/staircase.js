@@ -53,8 +53,8 @@ class Staircase extends FloorAsset {
   /**
    * Triggers the reload event.
    */
-  onGetWalker () {
-    trigger(this.elem, 'character-goto', { goto: this.goto })
+  @on('get-walker') onGetWalker () {
+    trigger(this.el, 'character-goto', { goto: this.goto })
   }
 
   /**

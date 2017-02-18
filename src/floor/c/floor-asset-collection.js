@@ -112,30 +112,19 @@ class FloorAssetCollection extends Being {
 
   /**
    * Shows the floor assets.
-   *
-   * @override
    */
   willShow () {
-    this.floorboard.show()
-
-    return this.foldByFunc(item => {
-      item.show()
-
-      return wait(100)
-    })
+    return this.floorboard.show()
+      .then(() => this.items.map((item, i) => wait(i * 100).then(() => item.show())).slice(-1)[0])
+      .then(() => this.walker.appearAt(this.findById(this.walker.assetId)))
   }
 
   /**
    * Hides the floor assets.
-   *
-   * @override
    */
   willHide () {
-    return this.foldByFunc(item => {
-      item.disappear()
-
-      return wait(100)
-    }).then(() => this.floorboard.hide())
+    return this.items.map((item, i) => wait(i * 100).then(() => item.hide())).slice(-1)[0]
+      .then(() => this.floorboard.hide())
   }
 
   /**

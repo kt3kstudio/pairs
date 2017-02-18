@@ -1,7 +1,7 @@
 const { DIRS } = require('spn')
 
 const { sprite, body } = require('../../ui')
-const { trigger } = require('../../util')
+const { trigger, triggerNoBubble } = require('../../util')
 
 const { on } = capsid
 
@@ -67,8 +67,8 @@ class FloorWalker {
    * @param {Event} e The event object
    */
   @on('character-goto') characterGoto (e) {
-    this.character.position.floorId = e.detail.goto.floorId
-    this.character.position.floorObjectId = e.detail.goto.floorObjectId
+    this.character.location.detail.floorId = e.detail.goto.floorId
+    this.character.location.detail.assetId = e.detail.goto.assetId
 
     // Reloads the submodels here because the floor could change
     this.character.reloadAll()
@@ -83,17 +83,6 @@ class FloorWalker {
    */
   getPosition () {
     return this.character.location.detail
-  }
-
-  /**
-   * Sets the floor object id.
-   *
-   * @param {String} floorObjectId The floor object id
-   */
-  setFloorObjectId (floorObjectId) {
-    this.character.position.floorObjectId = floorObjectId
-
-    return this.saveAll()
   }
 
   /**
@@ -112,8 +101,7 @@ class FloorWalker {
 
   /**
    * Moves the character sprite to wall object
-   *
-   * @param {FloorAsset} floorAsset The wall object to go to
+   * @param {FloorAsset} floorAsset The asset to go to
    * @return {Promise}
    */
   moveToFloorAsset (floorAsset) {
@@ -124,7 +112,7 @@ class FloorWalker {
 
     this.focusMe()
 
-    this.current.close()
+    if (typeof this.current.close === 'function') this.current.close()
 
     this.setTo(this.current.getPoint().down(goOutDistance))
 
@@ -135,7 +123,7 @@ class FloorWalker {
       // The camera take this info and move following the hero.
       trigger(this.el, 'camera-move', { x: floorAsset.x, dur: moveOnCorridor })
 
-      floorAsset.open()
+      if (typeof this.current.open === 'function') this.current.open()
 
       this.setTo(floorAsset.getPoint().down(goOutDistance))
 
@@ -151,9 +139,10 @@ class FloorWalker {
     .then(() => {
       this.current = floorAsset
 
-      this.setFloorObjectId(floorAsset.id)
+      this.character.location.detail.assetId = floorAsset.el.id
+      this.saveAll()
 
-      floorAsset.onGetWalker(this)
+      triggerNoBubble(floorAsset.el, 'get-walker', { walker: this })
 
       this.turn(DIRS.DOWN)
     })
@@ -189,6 +178,14 @@ class FloorWalker {
    */
   saveAll () {
     return this.character.saveAll()
+  }
+
+  /**
+   * Goes to the road.
+   */
+  goToRoad () {
+    this.character.location.goToRoad()
+    this.saveAll()
   }
 }
 

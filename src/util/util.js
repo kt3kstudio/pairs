@@ -1,4 +1,4 @@
-const {img} = require('dom-gen')
+const { img } = require('dom-gen')
 
 /**
  * Load image and returns promise which resolves when the image loaded.

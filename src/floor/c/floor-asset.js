@@ -37,15 +37,6 @@ class FloorAsset extends Body {
   }
 
   /**
-   * The handler when it gets the walker.
-   *
-   * @abstract
-   */
-  onGetWalker () {
-    return Promise.resolve()
-  }
-
-  /**
    * Spawn the frog to the front of the floor asset.
    */
   spawnFrog () {
