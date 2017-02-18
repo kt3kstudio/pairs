@@ -20,10 +20,9 @@ describe('FloorAsset', () => {
   afterEach(() => elem.remove())
 
   describe('constructor', () => {
-    it('gets w, h, x, y and id properties from the given dom', () => {
+    it('gets x and y properties from the given dom', () => {
       expect(floorAsset.x).to.equal(200)
       expect(floorAsset.y).to.equal(300)
-      expect(floorAsset.id).to.equal('abc')
     })
   })
 
@@ -60,12 +59,6 @@ describe('FloorAsset', () => {
   describe('close', () => {
     it('returns an empty promise', () => {
       return floorAsset.close()
-    })
-  })
-
-  describe('onGetWalker', () => {
-    it('returns an empty promise', () => {
-      return floorAsset.onGetWalker()
     })
   })
 })
