@@ -23,8 +23,6 @@ class FloorAssetCollection extends Being {
   @wire get floorboard () {}
 
   block (rect) {
-    console.log('FAC block')
-    console.log(Rect.fromElement(this.el))
     return Rect.fromElement(this.el)
   }
 
