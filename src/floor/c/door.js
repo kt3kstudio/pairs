@@ -25,23 +25,13 @@ class Door extends FloorAsset {
     super.__init__()
 
     this.level = this.$el.attr('level')
-    this.star = 0
     this.score = 0
 
     this.doorActionDur = 400
 
     this.locked = true
-  }
 
-  /**
-   * Constructs the contents of the door. (Maybe not a good thing to do here)
-   *
-   * @override
-   */
-  willShow () {
-    super.willShow()
-
-    this.elem.css('opcaity', 0).append(
+    this.$el.append(
       div({addClass: 'door-body'},
         div({addClass: 'door-front'}, this.id),
         div({addClass: 'doorknob'}, '●')
@@ -49,7 +39,7 @@ class Door extends FloorAsset {
 
       div({
         addClass: 'door-info multiflip',
-        attr: {m: 3, n: 5, bgcolor: '#393F44'},
+        attr: { m: 3, n: 5, bgcolor: '#393F44' },
         css: {
           width: '150px',
           height: '150px',
@@ -70,8 +60,17 @@ class Door extends FloorAsset {
       ).cc()
     )
 
-    this.doorBody = this.elem.find('.door-body')
-    this.informationPanel = this.elem.find('.door-info').cc.get('multiflip')
+    this.doorBody = this.$el.find('.door-body')
+    this.informationPanel = this.$el.find('.door-info').cc.get('multiflip')
+  }
+
+  /**
+   * Constructs the contents of the door. (Maybe not a good thing to do here)
+   *
+   * @override
+   */
+  willShow () {
+    super.willShow()
 
     if (!this.locked) {
       this.enableDoorKnock()

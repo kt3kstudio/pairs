@@ -101,10 +101,10 @@ class FloorWalker {
 
   /**
    * Moves the character sprite to wall object
-   * @param {FloorAsset} floorAsset The asset to go to
+   * @param {FloorAsset} next The asset to go to
    * @return {Promise}
    */
-  moveToFloorAsset (floorAsset) {
+  moveToFloorAsset (next) {
     const goOutDur = 220
     const moveOnCorridor = 300
     const goIntoDur = goOutDur
@@ -121,28 +121,28 @@ class FloorWalker {
     .then(() => {
       // Notifies the character starts moving to the floorAsset.x.
       // The camera take this info and move following the hero.
-      trigger(this.el, 'camera-move', { x: floorAsset.x, dur: moveOnCorridor })
+      trigger(this.el, 'camera-move', { x: next.x, dur: moveOnCorridor })
 
-      if (typeof this.current.open === 'function') this.current.open()
+      if (typeof next.open === 'function') next.open()
 
-      this.setTo(floorAsset.getPoint().down(goOutDistance))
+      this.setTo(next.getPoint().down(goOutDistance))
 
       return this.engage(moveOnCorridor)
     })
 
     .then(() => {
-      this.setTo(floorAsset.getPoint())
+      this.setTo(next.getPoint())
 
       return this.engage(goIntoDur)
     })
 
     .then(() => {
-      this.current = floorAsset
+      this.current = next
 
-      this.character.location.detail.assetId = floorAsset.el.id
+      this.character.location.detail.assetId = next.el.id
       this.saveAll()
 
-      triggerNoBubble(floorAsset.el, 'get-walker', { walker: this })
+      triggerNoBubble(next.el, 'get-walker', { walker: this })
 
       this.turn(DIRS.DOWN)
     })

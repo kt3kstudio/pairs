@@ -83,9 +83,11 @@ class FloorAssetCollection extends Being {
    */
   updateAssetsByLocksAndHistories (locks, histories) {
     this.items.forEach(asset => {
-      asset.locked = locks.isLocked(asset.id)
+      const id = asset.el.id
 
-      let history = histories.getById(asset.id)
+      asset.locked = locks.isLocked(id)
+
+      let history = histories.getById(id)
 
       if (history) {
         asset.score = history.score

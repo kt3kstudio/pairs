@@ -24,14 +24,6 @@
   },
   "level-lock-ma-7": [
     {
-      "levelId": 702,
-      "locked": false
-    },
-    {
-      "levelId": 701,
-      "locked": false
-    },
-    {
       "levelId": "701",
       "locked": false
     },
