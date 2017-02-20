@@ -22,15 +22,13 @@ class DebugPanel {
   /**
    * The handler of toggle click.
    */
-  @on('click', { at: '.toggle' })
-  @on('click', { at: 'h2' })
-  onToggle () {
+  @on('click', { at: '.toggle' }) @on('click', { at: 'h2' }) onToggle () {
     if (this.flag) {
       this.flag = false
-      this.elem.css('top', -$(window).height() * 0.85 + 'px')
+      this.$el.css('top', -$(window).height() * 0.85 + 'px')
     } else {
       this.flag = true
-      this.elem.css('top', '0')
+      this.$el.css('top', '0')
     }
   }
 }

@@ -33,14 +33,16 @@ class LsSwitch {
   }
 
   __init__ () {
-    const elem = this.$el
-
     const source = window.presets
 
-    elem.append(button('COPY').addClass('copy'), '|')
+    this.$el.append(
+      button('RELOAD').addClass('reload'),
+      button('COPY').addClass('copy'),
+      '|'
+    )
 
     Object.keys(source).forEach(name => {
-      elem.append(button(name).addClass('apply').data('data', source[name]))
+      this.$el.append(button(name).addClass('apply').data('data', source[name]))
     })
   }
 
@@ -57,6 +59,10 @@ class LsSwitch {
     console.log('LsSwitch: Copying the localStorage to the clipboard.')
 
     LsSwitch.copyJSON()
+  }
+
+  @on('click', { at: '.reload' }) reload () {
+    location.reload()
   }
 }
 

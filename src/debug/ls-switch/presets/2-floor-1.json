@@ -1,0 +1,13 @@
+{
+  "character-ma": {
+    "id": "ma",
+    "name": "Ma",
+    "location": {
+      "place": "TOWER",
+      "detail": {
+        "floorId": "1",
+        "assetId": "entrance"
+      }
+    }
+  }
+}
