@@ -1,14 +1,10 @@
-const { block, body } = require('../../ui')
+const { blockbody } = require('../../ui')
 const { trigger } = require('../../util')
 
 const { on, emit } = capsid
 
-@block @body({ ratio: { x: 0.5, y: 1 }, showDuration: 500 })
+@blockbody({ ratio: { x: 0.5, y: 1 }, showDuration: 500 })
 class Entrance {
-
-  __init__ () {
-    this.setRect(this.getRect())
-  }
 
   block (rect) {
     return rect.slice({

@@ -28,8 +28,6 @@ class RoadScene {
   }
 
   start () {
-    this.house.setRect(this.house.getRect())
-
     const TREE_MAX = 95
     this.trees = []
 
