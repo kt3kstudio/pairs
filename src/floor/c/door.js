@@ -7,14 +7,11 @@ const { trigger } = require('../../util')
 
 const button = domGen('button')
 
-const { component, on } = capsid
+const { component, on, emit } = capsid
 const DOOR_APPEAR_DUR = 400
 
 /**
  * Door class handles behaviour of the level's doors.
- *
- * @class
- * @extends domain.map.FloorAsset
  */
 @component
 @show('door-appear', DOOR_APPEAR_DUR)
@@ -33,41 +30,33 @@ class Door extends FloorAsset {
 
     this.$el.append(
       div({addClass: 'door-body'},
-        div({addClass: 'door-front'}, this.id),
+        div({addClass: 'door-front'}, this.el.id),
         div({addClass: 'doorknob'}, '●')
       ),
 
       div({
-        addClass: 'door-info multiflip',
+        addClass: 'door-info',
         attr: { m: 3, n: 5, bgcolor: '#393F44' },
-        css: {
-          width: '150px',
-          height: '150px',
-          top: '-200px',
-          left: '-40px'
-        }
+        css: { width: 150, height: 150, top: -200, left: -40 }
       },
         div({addClass: 'door-info-content'},
-          p(this.id),
+          p(this.el.id),
           hr(),
-          p(small`♛ Best ♛`, br(), this.score),
+          p(small('♛ Best ♛'), br(), this.score),
           hr(),
-          button`▶`.click(function (event) {
-            event.preventDefault()
-            trigger($(this), 'go-to-level')
-          })
+          button('▶')
         )
-      ).cc()
+      ).cc('multiflip')
     )
 
     this.doorBody = this.$el.find('.door-body')
     this.informationPanel = this.$el.find('.door-info').cc.get('multiflip')
   }
 
+  @on('click', { at: 'button' }) @emit('go-to-level') onButtonClick (e) {}
+
   /**
    * Constructs the contents of the door. (Maybe not a good thing to do here)
-   *
-   * @override
    */
   willShow () {
     super.willShow()

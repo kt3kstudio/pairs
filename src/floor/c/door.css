@@ -49,6 +49,10 @@
 
 .door-info {
   position: absolute;
+  width: 150px;
+  height: 150px;
+  top: -200px;
+  left: -40px;
 }
 
 .door-info-content {
@@ -78,3 +82,4 @@
   border-radius: 3px;
   outline: 0px;
 }
+
