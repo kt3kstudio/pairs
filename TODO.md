@@ -1,7 +1,6 @@
 # TODO
 
 - fix: level goal doesn't work
-- refactor(block,body): don't require setPoint(this.getPoint()) explicitly
 - refactor(sprite): don't require initSprite to be called
 - multiflip uses computed style values instead of direct style values
 
@@ -97,6 +96,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom (markup)
 
 # DONE
+- refactor(block,body): don't require setPoint(this.getPoint()) explicitly
 - feat(road): screen scroll
 - feat(sugar): add Prebody (spn)
 - chore: switch from sass to postcss

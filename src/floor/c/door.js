@@ -1,22 +1,20 @@
-const { wait, animation: { show, hide } } = require('spn')
-const domGen = require('dom-gen')
-const { div, hr, br, p, small } = domGen
+const { wait, animation } = require('spn')
+const { div, hr, br, p, small, button } = require('dom-gen')
 
 const FloorAsset = require('./floor-asset')
-const { trigger } = require('../../util')
 
-const button = domGen('button')
-
-const { component, on, emit } = capsid
+const { component, on, emit, wire } = capsid
 const DOOR_APPEAR_DUR = 400
 
 /**
  * Door class handles behaviour of the level's doors.
  */
 @component
-@show('door-appear', DOOR_APPEAR_DUR)
-@hide('door-disappear', DOOR_APPEAR_DUR)
+@animation.show('door-appear', DOOR_APPEAR_DUR)
+@animation.hide('door-disappear', DOOR_APPEAR_DUR)
 class Door extends FloorAsset {
+
+  @wire get multiflip () {}
 
   __init__ () {
     super.__init__()
@@ -50,7 +48,6 @@ class Door extends FloorAsset {
     )
 
     this.doorBody = this.$el.find('.door-body')
-    this.informationPanel = this.$el.find('.door-info').cc.get('multiflip')
   }
 
   @on('click', { at: 'button' }) @emit('go-to-level') onButtonClick (e) {}
@@ -61,9 +58,7 @@ class Door extends FloorAsset {
   willShow () {
     super.willShow()
 
-    if (!this.locked) {
-      this.enableDoorKnock()
-    } else {
+    if (this.locked) {
       return this.spawnFrog()
     }
   }
@@ -72,13 +67,11 @@ class Door extends FloorAsset {
    * Opens the door.
    */
   open () {
-    this.informationPanel.show()
+    this.multiflip.show()
 
     this.doorBody.addClass('open')
 
     this.removeFrog()
-
-    this.disableDoorKnock()
 
     return wait(this.doorActionDur)
   }
@@ -87,27 +80,15 @@ class Door extends FloorAsset {
    * Closes the door.
    */
   close () {
-    this.informationPanel.hide()
+    this.multiflip.hide()
 
     this.doorBody.removeClass('open')
-
-    this.enableDoorKnock()
 
     return wait(this.doorActionDur)
   }
 
-  /**
-   * Enables the door knock.
-   */
-  enableDoorKnock () {
-    this.doorBody.one('click', () => this.doorKnock())
-  }
-
-  /**
-   * Disables the door knock.
-   */
-  disableDoorKnock () {
-    this.doorBody.off('click')
+  @on('click', { at: '.door-body:not(.open)' }) onClosedDoorBodyClick () {
+    this.doorKnock()
   }
 
   /**
