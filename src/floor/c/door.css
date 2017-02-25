@@ -18,7 +18,7 @@
   background-color: #191B1D;
 }
 
-.door-body.open {
+.door.door-open .door-body {
   transform: rotateY(-180deg);
 }
 

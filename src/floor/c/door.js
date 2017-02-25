@@ -47,8 +47,6 @@ class Door extends FloorAsset {
       )
     )
 
-    this.doorBody = this.el.querySelector('.door-body')
-
     init('multiflip', this.el.querySelector('.door-info'))
   }
 
@@ -71,7 +69,7 @@ class Door extends FloorAsset {
   open () {
     this.multiflip.show()
 
-    this.doorBody.classList.add('open')
+    this.el.classList.add('door-open')
 
     this.removeFrog()
 
@@ -84,12 +82,12 @@ class Door extends FloorAsset {
   close () {
     this.multiflip.hide()
 
-    this.doorBody.classList.remove('open')
+    this.el.classList.remove('door-open')
 
     return wait(this.doorActionDur)
   }
 
-  @on('click', { at: '.door-body:not(.open)' }) onClosedDoorBodyClick () {
+  @on('click', { at: ':not(.door-open) .door-body' }) onClosedDoorBodyClick () {
     this.doorKnock()
   }
 
