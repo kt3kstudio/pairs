@@ -3,7 +3,7 @@ const { div, hr, br, p, small, button } = require('dom-gen')
 
 const FloorAsset = require('./floor-asset')
 
-const { component, on, emit, wire } = capsid
+const { component, init, on, emit, wire } = capsid
 const DOOR_APPEAR_DUR = 400
 
 /**
@@ -19,7 +19,7 @@ class Door extends FloorAsset {
   __init__ () {
     super.__init__()
 
-    this.level = this.$el.attr('level')
+    this.level = this.el.getAttribute('level')
     this.score = 0
 
     this.doorActionDur = 400
@@ -44,10 +44,12 @@ class Door extends FloorAsset {
           hr(),
           button('▶')
         )
-      ).cc('multiflip')
+      )
     )
 
-    this.doorBody = this.$el.find('.door-body')
+    this.doorBody = this.el.querySelector('.door-body')
+
+    init('multiflip', this.el.querySelector('.door-info'))
   }
 
   @on('click', { at: 'button' }) @emit('go-to-level') onButtonClick (e) {}
@@ -69,7 +71,7 @@ class Door extends FloorAsset {
   open () {
     this.multiflip.show()
 
-    this.doorBody.addClass('open')
+    this.doorBody.classList.add('open')
 
     this.removeFrog()
 
@@ -82,7 +84,7 @@ class Door extends FloorAsset {
   close () {
     this.multiflip.hide()
 
-    this.doorBody.removeClass('open')
+    this.doorBody.classList.remove('open')
 
     return wait(this.doorActionDur)
   }
