@@ -34,8 +34,7 @@ class Door extends FloorAsset {
 
       div({
         addClass: 'door-info',
-        attr: { m: 3, n: 5, bgcolor: '#393F44' },
-        css: { width: 150, height: 150, top: -200, left: -40 }
+        attr: { m: 3, n: 5, bgcolor: '#393F44' }
       },
         div({addClass: 'door-info-content'},
           p(this.el.id),
@@ -87,8 +86,8 @@ class Door extends FloorAsset {
     return wait(this.doorActionDur)
   }
 
-  @on('click', { at: ':not(.door-open) .door-body' }) onClosedDoorBodyClick () {
-    this.doorKnock()
+  @on('click', { at: ':not(.door-open) .door-body' }) @emit.last('door-knock') onClosedDoorBodyClick () {
+    return { knocked: this }
   }
 
   /**
