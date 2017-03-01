@@ -49,7 +49,7 @@ class Door extends FloorAsset {
     init('multiflip', this.el.querySelector('.door-info'))
   }
 
-  @on('click', { at: 'button' }) @emit('go-to-level') onButtonClick (e) {}
+  @on('click', { at: 'button' }) @emit('go-to-level') onButtonClick () {}
 
   /**
    * Constructs the contents of the door. (Maybe not a good thing to do here)

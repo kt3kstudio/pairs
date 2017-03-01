@@ -36,8 +36,8 @@ describe('Staircase', () => {
   })
 
   describe('onGetWalker', () => {
-    it('triggers the character-goto event', done => {
-      staircase.elem.on('character-goto', () => {
+    it('triggers the go-to-floor event', done => {
+      staircase.elem.on('go-to-floor', () => {
         done()
       })
 
