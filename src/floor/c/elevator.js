@@ -2,7 +2,7 @@ const { blockbody } = require('../../ui')
 const { trigger } = require('../../util')
 const { div, button } = require('dom-gen')
 
-const { on, emit, init, component, wire } = capsid
+const { on, emit, component, wire } = capsid
 
 @blockbody({ ratio: { x: 0.5, y: 1 }, showDuration: 500 })
 class Elevator {
@@ -52,7 +52,7 @@ class ElevatorInfo {
       m: 3,
       n: 5,
       bgcolor: 'indianred',
-      'unit-dur': '250',
+      'unit-dur': '250'
     })
     const floors = this.$el.attr('floor').split(/\s/)
     const contents = div({ addClass: 'elevator-info-contents' })
@@ -77,3 +77,4 @@ class ElevatorInfo {
 }
 
 module.exports = Elevator
+module.exports.ElevatorInfo = ElevatorInfo

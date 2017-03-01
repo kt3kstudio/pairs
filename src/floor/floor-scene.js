@@ -142,7 +142,7 @@ class FloorScene {
     return this.walkerFadeIntoDoor().then(() => location.reload())
   }
 
-  @on('go-to-floor') @emit.last('scene-reload') goToFloor(e) {
+  @on('go-to-floor') @emit.last('scene-reload') goToFloor (e) {
     this.floorAssets.walker.setLocationDetail(e.detail)
 
     return this.floorAssets.walker.refreshAll()
