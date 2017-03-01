@@ -5,7 +5,7 @@ const { User, Character } = require('../domain')
 
 const { img } = require('dom-gen')
 
-const { on, wire } = capsid
+const { emit, on, wire } = capsid
 
 /**
  * MapScene handles the scene of map
@@ -140,6 +140,12 @@ class FloorScene {
    */
   @on('scene-reload') sceneReload () {
     return this.walkerFadeIntoDoor().then(() => location.reload())
+  }
+
+  @on('go-to-floor') @emit.last('scene-reload') goToFloor(e) {
+    this.floorAssets.walker.setLocationDetail(e.detail)
+
+    return this.floorAssets.walker.refreshAll()
   }
 
   /**

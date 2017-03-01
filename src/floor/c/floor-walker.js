@@ -63,17 +63,11 @@ class FloorWalker {
   }
 
   /**
-   * Character goes to another floor.
-   * @param {Event} e The event object
+   * Reloads and saves the state.
+   * @return {Promise}
    */
-  @on('character-goto') characterGoto (e) {
-    this.character.location.detail.floorId = e.detail.goto.floorId
-    this.character.location.detail.assetId = e.detail.goto.assetId
-
-    // Reloads the submodels here because the floor could change
-    this.character.reloadAll()
-    .then(() => this.saveAll())
-    .then(() => trigger(this.elem, 'scene-reload'))
+  refreshAll () {
+    return this.character.reloadAll().then(() => this.saveAll())
   }
 
   /**
@@ -186,6 +180,11 @@ class FloorWalker {
   goToRoad () {
     this.character.location.goToRoad()
     this.saveAll()
+  }
+
+  setLocationDetail ({ assetId, floorId }) {
+    this.character.location.detail.floorId = floorId
+    this.character.location.detail.assetId = assetId
   }
 }
 

@@ -3,7 +3,7 @@ const { animation } = require('spn')
 const { trigger } = require('../../util')
 const FloorAsset = require('./floor-asset')
 
-const { component, on } = capsid
+const { emit, component, on } = capsid
 
 const STAIRCASE_ANIMATION_DUR = 400
 
@@ -53,8 +53,8 @@ class Staircase extends FloorAsset {
   /**
    * Triggers the reload event.
    */
-  @on('get-walker') onGetWalker () {
-    trigger(this.el, 'character-goto', { goto: this.goto })
+  @on('get-walker') @emit.last('character-goto') onGetWalker () {
+    return this.goto
   }
 
   /**
