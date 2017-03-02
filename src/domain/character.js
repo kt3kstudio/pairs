@@ -169,7 +169,6 @@ class Character {
    * Saves the current level locks.
    */
   saveLocks () {
-    console.log('save locks')
     return new LevelLockRepository(this.id).saveByFloorId(this.position.floorId, this.locks).then(() => this)
   }
 

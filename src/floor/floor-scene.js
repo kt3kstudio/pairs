@@ -61,9 +61,9 @@ class FloorScene {
     return this.floorAssets.show()
 
     .then(() => {
-      let floorAsset = this.floorAssets.findById(this.floorAssets.walker.assetId)
+      const asset = this.floorAssets.findById(this.floorAssets.walker.assetId)
 
-      return this.floorAssets.walker.appearAt(floorAsset)
+      return this.floorAssets.walker.appearAt(asset)
     })
   }
 
@@ -72,7 +72,9 @@ class FloorScene {
    */
   sequenceUnlockingAll () {
     if (this.character.hasAnyKey()) {
-      return this.character.keys.reduce((promise, key) => promise.then(() => this.sequenceUnlocking(key)), Promise.resolve())
+      return this.character.keys
+        .filter(key => key.belongsTo(this.floorAssets.walker.floorId))
+        .reduce((promise, key) => promise.then(() => this.sequenceUnlocking(key)), Promise.resolve())
     }
   }
 

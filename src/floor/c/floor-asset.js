@@ -72,7 +72,7 @@ class FloorAsset extends Body {
   unlock () {
     this.locked = false
 
-    this.enableDoorKnock()
+    if (typeof this.enableDoorKnock === 'function') this.enableDoorKnock()
 
     this.removeFrog()
   }

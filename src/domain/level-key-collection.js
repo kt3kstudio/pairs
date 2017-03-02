@@ -51,6 +51,14 @@ class LevelKeyCollection {
   }
 
   /**
+   * Filters by the function.
+   * @param {Function} filter The filter function
+   */
+  filter (filter) {
+    return this.keys.filter(filter)
+  }
+
+  /**
    * Deletes the key by the given level id.
    * @param {string} levelId The level id
    */
