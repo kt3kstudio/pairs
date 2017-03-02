@@ -44,6 +44,17 @@ class Elevator {
   }
 }
 
+const reAssetId = /(\d*)-.*/
+const floorIdFromAssetId = assetId => {
+  const match = assetId.match(reAssetId)
+
+  if (!match) {
+    return null
+  }
+
+  return match[1]
+}
+
 @component
 class ElevatorInfo {
 
@@ -54,11 +65,15 @@ class ElevatorInfo {
       bgcolor: 'indianred',
       'unit-dur': '250'
     })
-    const floors = this.$el.attr('floor').split(/\s/)
+    const ids = this.$el.attr('floor').split(/\s/)
     const contents = div({ addClass: 'elevator-info-contents' })
 
-    floors.forEach(floor => {
-      contents.append(button(floor).attr('floor-id', floor))
+    ids.forEach(assetId => {
+      const floorId = floorIdFromAssetId(assetId)
+      contents.append(button(floorId).attr({
+        'asset-id': assetId,
+        'floor-id': floorId
+      }))
     })
 
     this.$el.append(contents)
@@ -69,8 +84,9 @@ class ElevatorInfo {
   }
 
   @on('click', { at: 'button' }) @emit.last('go-to-floor') onClickAtButton (e) {
-    const floorId = e.target.getAttribute('floor-id')
-    const assetId = `e${floorId}` // TODO: do more clever thing
+    const el = e.target
+    const assetId = el.getAttribute('asset-id')
+    const floorId = el.getAttribute('floor-id')
 
     return { floorId, assetId }
   }

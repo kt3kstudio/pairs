@@ -4,31 +4,27 @@
     "name": "Ma",
     "keys": [
       {
-        "levelId": "703"
+        "levelId": "7-703"
       },
       {
-        "levelId": "704"
+        "levelId": "7-704"
       }
     ],
-    "position": {
-      "floorId": "7",
-      "floorObjectId": "702"
-    },
     "location": {
       "place": "TOWER",
       "detail": {
         "floorId": "7",
-        "assetId": "702"
+        "assetId": "7-702"
       }
     }
   },
   "level-lock-ma-7": [
     {
-      "levelId": "701",
+      "levelId": "7-701",
       "locked": false
     },
     {
-      "levelId": "702",
+      "levelId": "7-702",
       "locked": false
     }
   ],
