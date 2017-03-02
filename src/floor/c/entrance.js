@@ -10,7 +10,7 @@ class Entrance {
     return rect.slice({
       left: 0,
       bottom: '35%',
-      height: 300,
+      height: 100,
       width: 170
     })
   }

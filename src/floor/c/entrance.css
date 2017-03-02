@@ -1,6 +1,6 @@
 .entrance {
   position: absolute;
-  background-color: #887711;
+  background-color: yellow;
   transition-duration: 500ms;
   opacity: 0;
 }
