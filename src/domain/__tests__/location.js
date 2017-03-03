@@ -34,7 +34,7 @@ describe('Location', () => {
       expect(location.place).to.equal(Location.PLACE.TOWER)
       expect(location.detail).to.be.instanceof(Location.TowerLocationDetail)
       expect(location.detail.floorId).to.equal('1')
-      expect(location.detail.assetId).to.equal('entrance')
+      expect(location.detail.assetId).to.equal('1-entrance')
     })
   })
 })
