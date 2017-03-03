@@ -27,7 +27,7 @@ class Location {
 
   goToTower () {
     this.place = PLACE.TOWER
-    this.detail = new TowerLocationDetail({assetId: 'entrance', floorId: '1'})
+    this.detail = new TowerLocationDetail({assetId: '1-entrance', floorId: '1'})
   }
 }
 
