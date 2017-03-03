@@ -44,7 +44,7 @@ class FloorAssetCollection extends Being {
    * @return {Promise<string>}
    */
   loadFloorData () {
-    return $.get(`${global.BASEPATH}/floor/data/${this.walker.floorId}.html`)
+    return $.get(`${BASEPATH}/floor/data/${this.walker.floorId}.html`)
   }
 
   /**

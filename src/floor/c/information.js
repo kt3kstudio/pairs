@@ -8,7 +8,7 @@ class Information {
       bottom: '35%',
       left: +this.el.getAttribute('x'),
       height: 35,
-      width: 170,
+      width: 170
     })
   }
 
@@ -19,3 +19,4 @@ class InformationPerson {
 }
 
 module.exports = Information
+module.exports.InformationPerson = InformationPerson

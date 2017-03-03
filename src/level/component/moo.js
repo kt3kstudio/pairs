@@ -7,7 +7,7 @@ const { component } = capsid
 @component
 @animation.show('bom-appear', 400)
 @animation.hide('bom-disappear', 400)
-@sprite.static(`${global.BASEPATH}/img/moo.svg`)
+@sprite.static(`${BASEPATH}/img/moo.svg`)
 class Moo extends Resident {
 }
 

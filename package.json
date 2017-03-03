@@ -91,6 +91,7 @@
     "globals": [
       "infrastructure",
       "capsid",
+      "BASEPATH",
       "$",
       "Rx",
       "spy",

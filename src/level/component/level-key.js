@@ -3,7 +3,7 @@ const { sprite } = require('../../ui')
 const { Body, animation, ratio } = require('spn')
 const { component } = capsid
 
-@sprite.static(`${global.BASEPATH}/img/key.svg`)
+@sprite.static(`${BASEPATH}/img/key.svg`)
 @ratio.x(0.5)
 @ratio.y(1)
 @animation.show('level-key-show', 3000)
