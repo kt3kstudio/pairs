@@ -29,7 +29,7 @@ class FloorWalker {
   }
 
   __init__ () {
-    this.initSprite(this.$el)
+    this.character = this.$el.data('character')
   }
 
   @on('showing') onShowing () {

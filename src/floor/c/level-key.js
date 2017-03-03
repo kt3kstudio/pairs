@@ -13,10 +13,6 @@ const {component} = capsid
 @component
 class LevelKey extends Body {
 
-  __init__ () {
-    this.initSprite()
-  }
-
   /**
    * @override
    */

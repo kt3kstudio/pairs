@@ -29,8 +29,8 @@ class CharSprite {
    * Initializes the sprite.
    * @param {jQuery} elem The jquery dom element
    */
-  initSprite (elem) {
-    this.character = elem.data('character')
+  initSprite () {
+    this.character = this.$el.data('character')
 
     CHR_TABLE[this.character.id].call(this)
 

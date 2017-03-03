@@ -7,10 +7,6 @@ const { on, emit } = capsid
 @body({ ratio: { x: 0.5, y: 1 } })
 class Hero {
 
-  __init__ () {
-    this.initSprite(this.$el)
-  }
-
   @on('showing') onShowing () {
     this.updateSprite()
   }

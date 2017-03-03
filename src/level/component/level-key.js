@@ -10,12 +10,6 @@ const { component } = capsid
 @animation.hide('level-key-hide', 1500)
 @component
 class LevelKey extends Body {
-  /**
-   * @param {jQuery} elem The element
-   */
-  __init__ () {
-    this.initSprite()
-  }
 
   /**
    * @override

@@ -8,9 +8,6 @@ class Tree {
   __init__ () {
     this.x = +this.el.getAttribute('x')
     this.y = +this.el.getAttribute('y')
-
-    // const { x, y } = props(this.el)
-    this.initSprite()
   }
 
   @on('showing') __showing__ () {

@@ -11,7 +11,6 @@ class Resident extends Body {
   __init__ () {
     const elem = this.$el
 
-    this.initSprite()
     this.setSpeaker(elem)
 
     const [x, y] = elem.attr('xy').split(/\s+/)

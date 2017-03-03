@@ -14,7 +14,6 @@ const {component} = capsid
 @ratio.y(1)
 class Character extends GridWalker {
   __init__ () {
-    this.initSprite(this.$el)
     this.setSpeaker(this.$el)
   }
 

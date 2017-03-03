@@ -14,10 +14,6 @@ const { component, on } = capsid
 @component('frog')
 class FrogSprite extends GridWalker {
 
-  __init__ () {
-    this.initSprite()
-  }
-
   willShow () {
     this.updateSprite()
 
