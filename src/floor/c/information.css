@@ -3,9 +3,32 @@
   transition-duration: 500ms;
   transition-property: transform;
   transform: scale(0, 1);
-  background-color: #ad5305;
 }
 
 .information.showing {
   transform: scale(1, 1);
+}
+
+.information .information-person {
+  position: absolute;
+  left: 55px;
+  bottom: 15px;
+  transition-duration: 500ms;
+  transition-property: transform opacity;
+  transform: translate(0, 80px);
+  opacity: 0;
+}
+
+.information .information-person.showing {
+  transform: translate(0, 0);
+  opacity: 1;
+}
+
+.information .information-table {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: brown;
 }
