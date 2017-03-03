@@ -1,0 +1,11 @@
+.information {
+  position: absolute;
+  transition-duration: 500ms;
+  transition-property: transform;
+  transform: scale(0, 1);
+  background-color: #ad5305;
+}
+
+.information.showing {
+  transform: scale(1, 1);
+}

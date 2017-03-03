@@ -7,9 +7,10 @@ const { get, prep, component, wire } = capsid
 
 const assetTypes = [
   'door',
-  'staircase',
   'entrance',
-  'elevator'
+  'elevator',
+  'information',
+  'staircase'
 ]
 
 /**
