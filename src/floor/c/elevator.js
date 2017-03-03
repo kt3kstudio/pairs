@@ -1,5 +1,4 @@
 const { blockbody } = require('../../ui')
-const { trigger } = require('../../util')
 const { div, button } = require('dom-gen')
 
 const { on, emit, component, wire } = capsid
@@ -7,7 +6,7 @@ const { on, emit, component, wire } = capsid
 @blockbody({ ratio: { x: 0.5, y: 1 }, showDuration: 500 })
 class Elevator {
 
-  @wire('multiflip') get info () {}
+  @wire get multiflip () {}
 
   __init__ () {
     const floor = this.$el.attr('floor')
@@ -28,19 +27,19 @@ class Elevator {
   }
 
   open () {
-    this.info.show()
+    this.multiflip.show()
 
     return Promise.resolve()
   }
 
   close () {
-    this.info.hide()
+    this.multiflip.hide()
 
     return Promise.resolve()
   }
 
-  @on('click') onClick (e) {
-    trigger(this.el, 'door-knock', { knocked: this })
+  @on('click') @emit.last('door-knock') onClick (e) {
+    return { knocked: this }
   }
 }
 
@@ -70,6 +69,7 @@ class ElevatorInfo {
 
     ids.forEach(assetId => {
       const floorId = floorIdFromAssetId(assetId)
+
       contents.append(button(floorId).attr({
         'asset-id': assetId,
         'floor-id': floorId
@@ -84,11 +84,10 @@ class ElevatorInfo {
   }
 
   @on('click', { at: 'button' }) @emit.last('go-to-floor') onClickAtButton (e) {
-    const el = e.target
-    const assetId = el.getAttribute('asset-id')
-    const floorId = el.getAttribute('floor-id')
-
-    return { floorId, assetId }
+    return {
+      floorId: e.target.getAttribute('floor-id'),
+      assetId: e.target.getAttribute('asset-id')
+    }
   }
 }
 
