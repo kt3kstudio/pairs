@@ -1,4 +1,4 @@
-const { blockbody } = require('../../ui')
+const { blockbody, DIRS } = require('../../ui')
 const { div, button } = require('dom-gen')
 
 const { on, emit, component, wire } = capsid
@@ -36,6 +36,14 @@ class Elevator {
     this.multiflip.hide()
 
     return Promise.resolve()
+  }
+
+  getAcceptDir () {
+    return DIRS.DOWN
+  }
+
+  getAcceptPoint () {
+    return this.getPoint()
   }
 
   @on('click') @emit.last('door-knock') onClick (e) {

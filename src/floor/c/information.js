@@ -1,6 +1,6 @@
-const { body, blockbody, sprite } = require('../../ui')
+const { DIRS, body, blockbody, sprite } = require('../../ui')
 const { div, img } = require('dom-gen')
-const { on, wire } = capsid
+const { emit, on, wire } = capsid
 
 @blockbody({ ratio: { x: 0.5, y: 1 }, showDuration: 500 })
 class Information {
@@ -31,8 +31,24 @@ class Information {
     return this.person.hide()
   }
 
-  @on('click', { at: '.information-person' }) onClick () {
-    alert('hey')
+  @on('click', { at: '.information-person' }) onClickAtPerson (e) {
+    $(e.target).anim('jump', 300).then(() => $(e.target).anim('', 0))
+  }
+
+  @on('click') @emit.last('door-knock') onClick () {
+    return { knocked: this }
+  }
+
+  open () {
+    return Promise.resolve()
+  }
+
+  getAcceptPoint () {
+    return this.getPoint().down(40)
+  }
+
+  getAcceptDir () {
+    return DIRS.UP
   }
 
 }

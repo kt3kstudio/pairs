@@ -1,5 +1,6 @@
 const { Grid, Body, width, height, ratio } = require('spn')
 
+const { DIRS } = require('../../ui')
 const { trigger } = require('../../util')
 
 /**
@@ -75,6 +76,14 @@ class FloorAsset extends Body {
     if (typeof this.enableDoorKnock === 'function') this.enableDoorKnock()
 
     this.removeFrog()
+  }
+
+  getAcceptDir () {
+    return DIRS.DOWN
+  }
+
+  getAcceptPoint () {
+    return this.getPoint()
   }
 }
 

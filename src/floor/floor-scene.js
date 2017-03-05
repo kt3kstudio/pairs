@@ -89,11 +89,11 @@ class FloorScene {
     const id = levelKey.levelId
     const key = this.levelKey()
 
-    this.floorAssets.elem.append(key.elem)
+    this.floorAssets.$el.append(key.el)
 
     key.setAt(this.floorAssets.walker.getPoint())
 
-    trigger(this.el, 'camera-focus', {x: key.getPoint().x})
+    trigger(this.el, 'camera-focus', key.getPoint())
 
     return key.show()
 
@@ -131,9 +131,7 @@ class FloorScene {
    * @param {String} level The level
    */
   @on('go-to-level') goToLevel () {
-    return this.walkerFadeIntoDoor().then(() => {
-      location.href = 'level.html'
-    })
+    return this.walkerFadeIntoDoor().then(() => { location.href = 'level.html' })
   }
 
   /**
@@ -141,7 +139,7 @@ class FloorScene {
    * @return {Promise}
    */
   @on('scene-reload') sceneReload () {
-    return this.walkerFadeIntoDoor().then(() => location.reload())
+    return this.walkerFadeIntoDoor().then(() => { location.reload() })
   }
 
   @on('go-to-floor') @emit.last('scene-reload') goToFloor (e) {

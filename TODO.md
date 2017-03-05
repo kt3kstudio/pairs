@@ -1,8 +1,9 @@
 # TODO
 
+- block ui during sensitive action
 - fix: level goal doesn't work
-- refactor(sprite): don't require initSprite to be called
-- multiflip uses computed style values instead of direct style values
+- show items in the corner
+- very static version of sprite system - don't change dom runtime except class property
 
 ## Design
 
@@ -25,12 +26,7 @@
   - 1501 - 1509 1510(sp)
   - 1601 - 1609 1610(sp)
 
-
-## feat(unlock)
-- block UI while unlocking (?)
-
-## feat(debug):
-- clear level button in level scene
+- feat(debug): clear level button in level scene
 
 ## feat(hisotry):
 - create the history when the level finished
@@ -96,6 +92,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom (markup)
 
 # DONE
+- refactor(sprite): don't require initSprite to be called
 - refactor(block,body): don't require setPoint(this.getPoint()) explicitly
 - feat(road): screen scroll
 - feat(sugar): add Prebody (spn)

@@ -1,4 +1,5 @@
 const { on } = capsid
+const { DIRS } = require('spn')
 
 exports.block = require('./block')
 exports.sprite = require('./sprite')
@@ -13,3 +14,5 @@ exports.blockbody = opts => Cls => {
 
   exports.body(opts)(exports.block(Cls))
 }
+
+exports.DIRS = DIRS

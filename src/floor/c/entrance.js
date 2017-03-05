@@ -1,4 +1,4 @@
-const { blockbody } = require('../../ui')
+const { blockbody, DIRS } = require('../../ui')
 const { trigger } = require('../../util')
 
 const { on, emit } = capsid
@@ -21,6 +21,14 @@ class Entrance {
 
   close () {
     return Promise.resolve()
+  }
+
+  getAcceptPoint () {
+    return this.getPoint()
+  }
+
+  getAcceptDir () {
+    return DIRS.DOWN
   }
 
   @on('click') onClick () {

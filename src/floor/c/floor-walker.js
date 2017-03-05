@@ -1,6 +1,4 @@
-const { DIRS } = require('spn')
-
-const { sprite, body } = require('../../ui')
+const { sprite, body, DIRS } = require('../../ui')
 const { trigger, triggerNoBubble } = require('../../util')
 
 const { on } = capsid
@@ -39,16 +37,16 @@ class FloorWalker {
   /**
    * Makes the character appear in the scene
    *
-   * @param {FloorAsset} floorAsset The wall object
+   * @param {FloorAsset} asset The wall object
    * @return {Promise}
    */
-  appearAt (floorAsset) {
-    this.current = floorAsset
+  appearAt (asset) {
+    this.current = asset
 
-    this.setAt(floorAsset.getPoint())
+    this.setAt(asset.getAcceptPoint())
 
-    return floorAsset.open().then(() => {
-      this.turn(DIRS.DOWN)
+    return asset.open().then(() => {
+      this.turn(asset.getAcceptDir())
 
       return this.show()
     })
@@ -125,7 +123,7 @@ class FloorWalker {
     })
 
     .then(() => {
-      this.setTo(next.getPoint())
+      this.setTo(next.getAcceptPoint())
 
       return this.engage(goIntoDur)
     })
@@ -138,7 +136,7 @@ class FloorWalker {
 
       triggerNoBubble(next.el, 'get-walker', { walker: this })
 
-      this.turn(DIRS.DOWN)
+      this.turn(next.getAcceptDir())
     })
   }
 

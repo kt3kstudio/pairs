@@ -38,7 +38,7 @@ class Sprite {
    * Updates sprite related things.
    */
   updateSprite () {
-    this.updateElemByDirState()
+    this.setDirState(null, null)
   }
 
   /**
