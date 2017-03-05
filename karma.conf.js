@@ -37,9 +37,17 @@ module.exports = config => config.set({
       'es6-symbol/implement',
       'tether',
       'tether-drop',
+      'traits-decorator',
       'multiflip',
       'multiflip-bubble',
-      '@kt3k/puncher'
+      '@kt3k/puncher',
+      'capsid',
+      'arrowkeys',
+      'swipe-event',
+      'stats.js',
+      'power-assert',
+      'event-hub',
+      'spn'
     ],
     transform: [['babelify', babelConfig]]
   },
