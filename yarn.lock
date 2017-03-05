@@ -1083,9 +1083,9 @@ camelcase@^2.0.0, camelcase@^2.0.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-2.1.1.tgz#7c1d16d679a1bbe59ca02cacecfb011e201f5a1f"
 
-capsid@0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/capsid/-/capsid-0.3.1.tgz#79bea65dc1cc2f661acbca52bcaa2238a1dd3dad"
+capsid@0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/capsid/-/capsid-0.8.0.tgz#fa528c8f58adabf2db0626c2053681b15e02aa25"
 
 caseless@~0.11.0:
   version "0.11.0"
@@ -3127,9 +3127,9 @@ karma-mocha@^1.0.1:
   dependencies:
     minimist "1.2.0"
 
-karma-spec-reporter@0.0.26:
-  version "0.0.26"
-  resolved "https://registry.yarnpkg.com/karma-spec-reporter/-/karma-spec-reporter-0.0.26.tgz#bf5561377dce1b63cf2c975c1af3e35f199e2265"
+karma-spec-reporter@0.0.27:
+  version "0.0.27"
+  resolved "https://registry.yarnpkg.com/karma-spec-reporter/-/karma-spec-reporter-0.0.27.tgz#8ab48b51bb5fc15a475f93daee88ae00f2ff1697"
   dependencies:
     colors "~0.6.0"
 
@@ -3698,9 +3698,9 @@ multiflip-bubble@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/multiflip-bubble/-/multiflip-bubble-5.0.0.tgz#a4322b2c773f7bf9ceb567d13cad307dabedb31f"
 
-multiflip@^5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/multiflip/-/multiflip-5.0.1.tgz#d9ab6bbf117bb4243a888bb0a0c3ad401185e77d"
+multiflip@^5.1.4:
+  version "5.1.4"
+  resolved "https://registry.yarnpkg.com/multiflip/-/multiflip-5.1.4.tgz#df1c284332bec1b4eab5f0c77a9534d5876c992c"
 
 multipipe@^0.1.0, multipipe@^0.1.2:
   version "0.1.2"
