@@ -12,11 +12,11 @@ class Blocker {
   }
 
   unblock () {
-    this.el.classList.remove('blocking')
+    this.el.classList.remove(BLOCKING_CLASS)
   }
 
   block () {
-    this.el.classList.add('blocking')
+    this.el.classList.add(BLOCKING_CLASS)
   }
 
 }

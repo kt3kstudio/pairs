@@ -1,7 +1,7 @@
 const BackgroundService = require('./common/background-service')
 const isFunction = f => typeof f === 'function'
 
-const { get, component, wire } = capsid
+const { get, component } = capsid
 
 const scene = Cls => {
   Object.defineProperty(Cls.prototype, 'main', {
