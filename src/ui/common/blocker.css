@@ -1,13 +1,26 @@
 .ui-blocker {
   position: fixed;
-  left: 0;
-  top: 0;
+  right: 0;
+  bottom: 0;
   width: 0;
   height: 0;
   z-index: 1000;
+  transition-duration: 500ms;
+  transition-property: opacity;
+  overflow: visible;
+  opacity: 0;
 }
 
 .ui-blocker.blocking {
   width: 100%;
   height: 100%;
+  opacity: 1;
+}
+
+.ui-blocker img {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  bottom: 20px;
+  right: 20px;
 }
