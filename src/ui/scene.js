@@ -1,7 +1,7 @@
 const BackgroundService = require('./common/background-service')
 const isFunction = f => typeof f === 'function'
 
-const {component} = capsid
+const { get, component, wire } = capsid
 
 const scene = Cls => {
   Object.defineProperty(Cls.prototype, 'main', {
@@ -22,11 +22,18 @@ const scene = Cls => {
     get: () => $('.menu-button-root').cc.get('menu-button')
   })
 
+  Object.defineProperty(Cls.prototype, 'blocker', {
+    get () {
+      return get('ui-blocker', this.el.querySelector('.ui-blocker'))
+    }
+  })
+
   return component(Cls)
 }
 
 scene.primary = Cls => {
   capsid.on('scene-start')(Cls.prototype, 'main')
+
   return scene(Cls)
 }
 

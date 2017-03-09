@@ -43,11 +43,15 @@ class FloorScene {
   }
 
   start () {
+    this.blocker.block()
+
     return this.sequenceInitial()
 
     .then(() => this.sequenceUnlockingAll())
 
     .then(() => this.floorAssets.walker.focusMe())
+
+    .then(() => this.blocker.unblock())
   }
 
   /**
