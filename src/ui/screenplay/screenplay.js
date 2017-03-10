@@ -1,7 +1,7 @@
 const ScreenplayLine = require('./screenplay-line')
-const {parse} = require('scenarioscript')
+const { parse } = require('scenarioscript')
 
-const {on, component} = capsid
+const { on, component } = capsid
 
 const variables = {}
 
@@ -10,12 +10,11 @@ const variables = {}
  */
 @component('screenplay')
 class Screenplay {
+
   __init__ () {
-    const elem = this.$el
+    this.context = this.$el.data('context')
 
-    this.context = elem.data('context')
-
-    let text = elem.text()
+    const text = this.$el.text()
 
     this.lines = parse(text).map(line => new ScreenplayLine(line.role, line.message, this.context, line.params))
   }
