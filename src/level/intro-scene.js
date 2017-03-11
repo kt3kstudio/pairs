@@ -136,9 +136,9 @@ class IntroScene extends Context {
     })
   }
 
-  @on('screenplay.goals')
+  @on('level-goals')
   onGoalsSuggested (e) {
-    this.showGoalPanel(e.detail.goals)
+    this.showGoalPanel(e.detail)
   }
 
   /**

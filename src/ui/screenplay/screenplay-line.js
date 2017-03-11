@@ -38,12 +38,13 @@ class ScreenplayLine {
    * @param {object} opts The options
    */
   play (opts) {
-    return Promise.resolve(this.speak(this.getElement(), this.line, opts)).then(() => {
-      if (typeof this.options.goals === 'string') {
-        trigger(this.getElement(), 'screenplay.goals', {
-          goals: this.options.goals
-        })
-      }
+    return this.speak(this.getElement(), this.line, opts)
+      .then(() => { this.triggerEvents() })
+  }
+
+  triggerEvents () {
+    Object.keys(this.options).forEach(key => {
+      trigger(this.getElement(), key, this.options[key])
     })
   }
 
