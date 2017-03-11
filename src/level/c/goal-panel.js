@@ -1,5 +1,3 @@
-require('../service/goal-detection')
-
 const { renderEmoji } = require('../../util/emoji')
 const { Body, animation, ratio, margin } = require('spn')
 

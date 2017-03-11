@@ -1,8 +1,8 @@
-require('./component')
-require('./service')
+require('./c')
+require('./s')
 
-const {wait} = require('spn')
-const {wire} = capsid
+const { wait } = require('spn')
+const { wire } = capsid
 
 /**
  * The common context for level scenes.

@@ -8,11 +8,11 @@ const CharacterRepository = require('../domain/character-repository')
 const block = require('../ui/block')
 const Screenplay = require('../ui/screenplay/screenplay')
 
-const {wait} = require('spn')
+const { wait } = require('spn')
 
-const {img} = require('dom-gen')
+const { img } = require('dom-gen')
 
-const {prep, on, emit} = capsid
+const { prep, on, emit } = capsid
 
 /**
  * IntroScene class handles the introduction scene of the level page.

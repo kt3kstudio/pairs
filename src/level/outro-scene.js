@@ -2,13 +2,13 @@ const Context = require('./context')
 const scene = require('../ui/scene')
 const IntroSceneLayout = require('./layout/intro-scene-layout')
 const PlaySceneLayout = require('./layout/play-scene-layout')
-const Cell = require('./component/cell')
+const Cell = require('./c/cell')
 const CharacterRepository = require('../domain/character-repository')
 
-const {Area, DIRS, wait} = require('spn')
-const {img} = require('dom-gen')
+const { Area, DIRS, wait } = require('spn')
+const { img } = require('dom-gen')
 
-const {on} = capsid
+const { on } = capsid
 
 /**
  * OutroScene handles the scene after finishing main play.

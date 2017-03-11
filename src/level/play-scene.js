@@ -1,11 +1,11 @@
 const Context = require('./context')
 const scene = require('../ui/scene')
 const PlaySceneLayout = require('./layout/play-scene-layout')
-const {wait} = require('spn')
-const {toPromise} = require('../util/rx')
-const FusionPreparationService = require('./component/fusion-preparation-service')
-const BallMoveMobLeaveService = require('./component/ball-move-mob-leave-service')
-const ExitQueue = require('./component/exit-queue')
+const { wait } = require('spn')
+const { toPromise } = require('../util/rx')
+const FusionPreparationService = require('./c/fusion-preparation-service')
+const BallMoveMobLeaveService = require('./c/ball-move-mob-leave-service')
+const ExitQueue = require('./c/exit-queue')
 
 const {on, emit} = capsid
 
