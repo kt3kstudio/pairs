@@ -1,11 +1,11 @@
-const {renderEmoji} = require('../../util/emoji')
+const { renderEmoji } = require('../../util/emoji')
 
-const {wait} = require('spn')
-const {p} = require('dom-gen')
+const { wait } = require('spn')
+const { p } = require('dom-gen')
 
 const { trigger } = require('../../util')
 
-const {component, on} = capsid
+const { component, on } = capsid
 
 const DEFAULT_SPEECH_TIMEOUT = 500
 
@@ -20,42 +20,42 @@ const DEFAULT_SPEECH_TIMEOUT = 500
 class MessageBalloon {
 
   __init__ () {
-    const elem = this.$el
-
-    this.target = $(elem.data('target'))[0]
-    this.skipTarget = $(elem.data('skip-target'))
-    this.message = elem.data('message')
-    this.timeout = +elem.data('timeout') || DEFAULT_SPEECH_TIMEOUT
+    this.target = $(this.$el.data('target'))[0]
+    this.skipTarget = $(this.$el.data('skip-target'))
+    this.message = this.$el.data('message')
+    this.timeout = +this.$el.data('timeout') || DEFAULT_SPEECH_TIMEOUT
   }
 
   /**
    * Starts showing the balloon and returns a promise.
    * @return {Promise}
    */
-  @on('message-balloon.start')
   start () {
-    trigger(this.elem, 'message-balloon.started')
+    trigger(this.el, 'message-balloon-started')
 
-    const msgPlaceholder = p({css: {height: 0, overflow: 'hidden'}}, renderEmoji(this.message)) // This is dummy for occupying the space.
-    const msg = p(renderEmoji(this.message, 'punch-emoji')).cc('puncher') // This is actual message for showing
+    // This is dummy for occupying the space.
+    const msgPlaceholder = p({ css: { height: 0, overflow: 'hidden' } }, renderEmoji(this.message))
 
-    this.elem.append(msgPlaceholder, msg)
+    // This is actual message for showing
+    const msg = p(renderEmoji(this.message, 'punch-emoji')).cc('puncher')
+
+    this.$el.append(msgPlaceholder, msg)
 
     trigger(msg, 'puncher-start')
 
     const drop = new global.Drop({
       target: this.target,
-      content: this.elem[0],
+      content: this.el,
       classes: 'drop-theme-arrows-bounce',
       position: 'top center',
       openOn: 'always'
     })
 
-    return this.elem.once('puncher-ended')
-    .then(() => wait(this.timeout / 10))
-    .then(() => drop.close())
-    .then(() => wait(500))
-    .then(() => this.elem.trigger('message-balloon.ended'))
+    return this.$el.once('puncher-ended')
+      .then(() => wait(this.timeout / 10))
+      .then(() => drop.close())
+      .then(() => wait(500))
+      .then(() => trigger(this.el, 'message-balloon-ended'))
   }
 }
 

@@ -1,17 +1,13 @@
 const sprite = require('../../ui/sprite')
-const {speaker} = require('../../ui/screenplay/speaker')
 const {Body, ratio} = require('spn')
 
 @sprite.relativeBody
-@speaker
 @ratio.x(0.5)
 @ratio.y(1)
 class Resident extends Body {
 
   __init__ () {
     const elem = this.$el
-
-    this.setSpeaker(elem)
 
     const [x, y] = elem.attr('xy').split(/\s+/)
 

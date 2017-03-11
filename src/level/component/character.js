@@ -1,21 +1,16 @@
 const sprite = require('../../ui/sprite/')
 const {GridWalker, DIRS, ratio} = require('spn')
-const {speaker} = require('../../ui/screenplay/speaker')
 
 const {component} = capsid
 
 /**
  * The main character on the level scene.
  */
-@speaker
 @sprite.character
 @component('hero')
 @ratio.x(0.5)
 @ratio.y(1)
 class Character extends GridWalker {
-  __init__ () {
-    this.setSpeaker(this.$el)
-  }
 
   /**
    * @override
