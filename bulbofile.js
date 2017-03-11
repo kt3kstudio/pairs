@@ -9,14 +9,14 @@ const atImport = require('postcss-import')
 const rename = require('gulp-rename')
 const path = require('path')
 
-const config = {lang: 'en'}
+const config = { lang: 'en' }
 const presets = require('./src/debug/ls-switch/presets')
 const basepath = process.env.BASEPATH || ''
 const SRC = 'src'
 
 const IS_DEV = process.env.NODE_ENV !== 'production'
 
-const templateData = {config, basepath, IS_DEV, presets}
+const templateData = { config, basepath, IS_DEV, presets }
 
 const paths = {
   js: {
@@ -29,13 +29,12 @@ const paths = {
   },
   html: {
     page: `${SRC}/*/index.html`,
-    data: `${SRC}/*/data/*.html`
+    data: `${SRC}/*/data/**/*.html`
   },
   layout: {
     default: `${SRC}/common/layout.njk`
   },
   vendor: `${SRC}/vendor/**/*.*`,
-  data: `${SRC}/data/**/*.*`,
   img: `${SRC}/**/*.{svg,png}`
 }
 
@@ -61,7 +60,6 @@ asset(paths.css.src)
   .pipe(postcss([atImport()]))
 
 // data
-asset(paths.data)
 asset(paths.html.data)
 
 // images

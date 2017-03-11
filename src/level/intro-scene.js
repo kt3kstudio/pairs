@@ -71,7 +71,7 @@ class IntroScene extends Context {
    * @return {string}
    */
   getLevelDataUrl (id) {
-    return `${BASEPATH}/data/level/${id}.html`
+    return `${BASEPATH}/level/data/${id}.html`
   }
 
   /**
