@@ -137,8 +137,8 @@ class IntroScene extends Context {
   }
 
   @on('screenplay.goals')
-  onGoalsSuggested (e, goals) {
-    this.showGoalPanel(goals)
+  onGoalsSuggested (e) {
+    this.showGoalPanel(e.detail.goals)
   }
 
   /**

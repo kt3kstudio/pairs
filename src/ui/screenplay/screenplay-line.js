@@ -40,7 +40,9 @@ class ScreenplayLine {
   play (opts) {
     return Promise.resolve(this.speak(this.getElement(), this.line, opts)).then(() => {
       if (typeof this.options.goals === 'string') {
-        trigger(this.getElement(), 'screenplay.goals', this.options.goals)
+        trigger(this.getElement(), 'screenplay.goals', {
+          goals: this.options.goals
+        })
       }
     })
   }

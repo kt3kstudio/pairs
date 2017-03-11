@@ -20,8 +20,9 @@ class GoalDetectionService {
    * @param {object} e The event object
    * @param {Cell} cell The new born cell
    */
-  @on('cell-fusion')
-  onCellFusion (e, cell) {
+  @on('cell-fusion') onCellFusion (e) {
+    const cell = e.detail
+
     const index = this.goals.indexOf(cell.gene)
 
     if (index !== -1) {

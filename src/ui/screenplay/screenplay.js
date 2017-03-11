@@ -60,10 +60,9 @@ class Screenplay {
    */
   @on('screenplay-start')
   play ({vars} = {}) {
-    vars = vars || {}
     vars = Object.assign({}, variables, vars)
 
-    return this.lines.reduce((previous, line) => previous.then(() => line.play({vars})), Promise.resolve())
+    return this.lines.reduce((p, line) => p.then(() => line.play({vars})), Promise.resolve())
   }
 }
 

@@ -2,7 +2,6 @@
 
 - chore: use gh-pages module and uncommit build
 - feat: information person speaks and gives Ma the key of 701.
-- fix: level goal doesn't work
 - show possessed items in the corner
 
 ## Design
@@ -92,6 +91,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom (markup)
 
 # DONE
+- fix: level goal doesn't work
 - block ui during sensitive action
 - refactor(sprite): don't require initSprite to be called
 - refactor(block,body): don't require setPoint(this.getPoint()) explicitly
