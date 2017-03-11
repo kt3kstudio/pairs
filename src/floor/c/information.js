@@ -1,4 +1,3 @@
-const { wait } = require('spn')
 const { DIRS, body, blockbody, sprite } = require('../../ui')
 const { trigger } = require('../../util')
 const { div, img } = require('dom-gen')
@@ -54,7 +53,7 @@ class Information {
   }
 
   @on('get-walker') onGetWalker () {
-    wait(500)
+    this.person.jump()
       .then(() => trigger(this.el, 'screenplay', { name: 'give-701-key' }))
   }
 
@@ -70,6 +69,10 @@ class InformationPerson {
 
   @on('showing') onShowing () {
     this.updateSprite()
+  }
+
+  jump () {
+    return this.$el.anim('jump', 300).then(() => this.$el.anim('', 0))
   }
 }
 
