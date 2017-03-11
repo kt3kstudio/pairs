@@ -83,15 +83,6 @@ class Context {
   @wire get fusionService () {}
 
   /**
-   * Gets the screenplay managers.
-   * @param {string} part The part of the screenplay (one of 'level-begining', 'level-failure' or 'level-success')
-   * @return {Screenplay}
-   */
-  screenplay (part) {
-    return this.elem.find('.screenplay.' + part).cc.get('screenplay')
-  }
-
-  /**
    * @return {CellQueueBumpService}
    */
   @wire get cellQueueBumpService () {}

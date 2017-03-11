@@ -120,6 +120,13 @@ class FloorScene {
     .then(() => key.disappear())
   }
 
+  @on('screenplay') onScreenplay (e) {
+    this.blocker.block()
+
+    this.screenplay(e.detail.name).play()
+    .then(() => this.blocker.unblock())
+  }
+
   fadeOut () {
     this.menuButton.hide()
 
@@ -127,6 +134,8 @@ class FloorScene {
   }
 
   walkerFadeIntoDoor () {
+    this.blocker.block()
+
     return this.floorAssets.walker.getIntoDoor().then(() => this.fadeOut())
   }
 

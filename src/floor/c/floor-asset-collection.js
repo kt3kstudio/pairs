@@ -63,9 +63,10 @@ class FloorAssetCollection extends Being {
 
     const items = this.items = []
 
+    prep()
+
     // init floor assets
     assetTypes.forEach(assetType => {
-      prep(assetType, this.el)
 
       this.$el.find(`.${assetType}`).each(function () {
         items.push(get(assetType, this))

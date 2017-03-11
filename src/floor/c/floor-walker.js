@@ -12,6 +12,11 @@ const { on } = capsid
 @body({ ratio: { x: 0.5, y: 1 } })
 class FloorWalker {
 
+  __init__ () {
+    this.el.setAttribute('id', 'hero')
+    this.character = this.$el.data('character')
+  }
+
   /**
    * @return {string}
    */
@@ -24,10 +29,6 @@ class FloorWalker {
    */
   get floorId () {
     return this.character.location.detail.floorId
-  }
-
-  __init__ () {
-    this.character = this.$el.data('character')
   }
 
   @on('showing') onShowing () {

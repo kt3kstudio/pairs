@@ -28,6 +28,16 @@ const scene = Cls => {
     }
   })
 
+  /**
+   * Retrieve the screenplay of the given name.
+   * @param {string} name
+   */
+  Object.defineProperty(Cls.prototype, 'screenplay', {
+    value (name) {
+      return get('screenplay', this.el.querySelector(`.screenplay.${name}`))
+    }
+  })
+
   return component(Cls)
 }
 

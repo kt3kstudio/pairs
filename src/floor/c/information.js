@@ -1,4 +1,6 @@
+const { wait } = require('spn')
 const { DIRS, body, blockbody, sprite } = require('../../ui')
+const { trigger } = require('../../util')
 const { div, img } = require('dom-gen')
 const { emit, on, wire } = capsid
 
@@ -51,11 +53,21 @@ class Information {
     return DIRS.UP
   }
 
+  @on('get-walker') onGetWalker () {
+    wait(500)
+      .then(() => trigger(this.el, 'screenplay', { name: 'give-701-key' }))
+  }
+
 }
 
 @sprite.static(`${BASEPATH}/img/female.svg`)
 @body({ width: 60, height: 80, ratio: { x: 0.5, y: 1 }, showDuration: 500 })
 class InformationPerson {
+
+  __init__ () {
+    this.el.setAttribute('id', 'zero')
+  }
+
   @on('showing') onShowing () {
     this.updateSprite()
   }

@@ -2,9 +2,6 @@ const { trigger } = require('../../util')
 const { div } = require('dom-gen')
 const { make } = capsid
 
-require('./message-balloon')
-require('./punch-emoji')
-
 const DEFAULT_SPEECH_TIMEOUT = 5000
 
 /**
