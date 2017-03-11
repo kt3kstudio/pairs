@@ -41,7 +41,7 @@ class MessageBalloon {
 
     this.elem.append(msgPlaceholder, msg)
 
-    trigger(msg, 'puncher.start')
+    trigger(msg, 'puncher-start')
 
     const drop = new global.Drop({
       target: this.target,
@@ -51,7 +51,7 @@ class MessageBalloon {
       openOn: 'always'
     })
 
-    return this.elem.once('puncher.ended')
+    return this.elem.once('puncher-ended')
     .then(() => wait(this.timeout / 10))
     .then(() => drop.close())
     .then(() => wait(500))
