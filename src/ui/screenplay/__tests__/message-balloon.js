@@ -25,11 +25,11 @@ describe('message-balloon', () => {
     expect(balloon.message).to.equal('foo bar baz')
   })
 
-  it('starts showing by the event `message-balloon.start` and fires `message-balloon.ended` when finished', done => {
-    elem.once('message-balloon.ended').then(() => {
+  it('starts showing by the event `message-balloon-start` and fires `message-balloon-ended` when finished', done => {
+    elem.once('message-balloon-ended').then(() => {
       done()
     })
 
-    trigger(elem[0], 'message-balloon.start')
+    trigger(elem[0], 'message-balloon-start')
   })
 })
