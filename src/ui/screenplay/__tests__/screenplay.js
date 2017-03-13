@@ -1,45 +1,31 @@
 require('../screenplay')
 
 const { expect } = require('chai')
-const domGen = require('dom-gen')
-
-const { component } = capsid
-
-const script = domGen('script')
+const { script } = require('dom-gen')
 
 describe('screenplay', () => {
   let elem, sm
-
-  before(() => {
-    class TestSpeaker {
-      __init__ () {
-        this.$el.data('speaker', this)
-      }
-
-      speak (line) {
-        this.elem.attr('stored-message', line)
-      }
-    }
-
-    component('test-speaker')(TestSpeaker)
-  })
 
   beforeEach(() => {
     elem = script `
       [#moo0] Hey!
       [#moo1] Hi!
       [#moo2] Yay!
-    `.attr('type', 'text/x-screenplay')
+    `.attr('type', 'scenarioscript')
 
     sm = elem.cc.init('screenplay')
 
-    $('<div id="moo0" />').appendTo(document.body).cc.init('test-speaker')
-    $('<div id="moo1" />').appendTo(document.body).cc.init('test-speaker')
-    $('<div id="moo2" />').appendTo(document.body).cc.init('test-speaker')
+    $('body').append(
+      $('<div id="moo0" />'),
+      $('<div id="moo1" />'),
+      $('<div id="moo2" />')
+    )
   })
 
   afterEach(() => {
-    $('.test-speaker').remove()
+    $('#moo0').remove()
+    $('#moo1').remove()
+    $('#moo2').remove()
   })
 
   it('stores the parsed screenplay-lines', () => {
@@ -60,10 +46,18 @@ describe('screenplay', () => {
 
   describe('start', () => {
     it('starts the screenplay', done => {
-      sm.play().then(() => {
-        expect($('#moo0').attr('stored-message')).to.equal('Hey!')
-        expect($('#moo1').attr('stored-message')).to.equal('Hi!')
-        expect($('#moo2').attr('stored-message')).to.equal('Yay!')
+      let linesCalled0 = false
+      let linesCalled1 = false
+      let linesCalled2 = false
+
+      sm.lines[0].play = () => { linesCalled0 = true }
+      sm.lines[1].play = () => { linesCalled1 = true }
+      sm.lines[2].play = () => { linesCalled2 = true }
+
+      sm.play({}).then(() => {
+        expect(linesCalled0).to.be.true
+        expect(linesCalled1).to.be.true
+        expect(linesCalled2).to.be.true
         done()
       }).catch(done)
     })

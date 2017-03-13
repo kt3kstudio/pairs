@@ -30,6 +30,6 @@ describe('message-balloon', () => {
       done()
     })
 
-    trigger(elem[0], 'message-balloon-start')
+    balloon.start()
   })
 })
