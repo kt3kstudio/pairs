@@ -1,6 +1,3 @@
-# dev document
-/esdoc
-
 # tools
 /tools
 
@@ -11,3 +8,5 @@ node_modules
 # coverage
 /coverage
 
+# build
+/build
