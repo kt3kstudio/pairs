@@ -1,6 +1,5 @@
 # TODO
 
-- chore: use gh-pages module and uncommit build
 - feat: information person speaks and gives Ma the key of 701.
 - show possessed items in the corner
 
@@ -91,6 +90,7 @@
 - refactor char-sprite not to use word Ma, character detail should be in the dom (markup)
 
 # DONE
+- chore: use gh-pages module and uncommit build
 - fix: level goal doesn't work
 - block ui during sensitive action
 - refactor(sprite): don't require initSprite to be called
