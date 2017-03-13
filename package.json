@@ -24,7 +24,7 @@
   "author": "Yoshiya Hinosawa <stibium121@gmail.com> (https://twitter.com/kt3k)",
   "license": "MIT",
   "devDependencies": {
-    "@kt3k/puncher": "^7.0.0",
+    "@kt3k/puncher": "^7.0.1",
     "arrowkeys": "^0.2.1",
     "babel-eslint": "^7.0.0",
     "babel-plugin-istanbul": "^4.0.0",
