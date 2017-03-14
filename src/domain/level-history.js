@@ -2,6 +2,11 @@
  * LevelHistory is model class which represents the history of the level clearance.
  */
 class LevelHistory {
+
+  static get Repository () {
+    return require('./level-history-repository')
+  }
+
   /**
    * @constructor
    * @param {string} levelId The id of the level

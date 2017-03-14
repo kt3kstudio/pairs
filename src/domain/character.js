@@ -1,7 +1,8 @@
-const PlayingStateRepository = require('./playing-state-repository')
-const LevelHistoryRepository = require('./level-history-repository')
-const LevelLockRepository = require('./level-lock-repository')
+const PlayingState = require('./playing-state')
+const LevelHistory = require('./level-history')
+const LevelLock = require('./level-lock')
 const LevelKey = require('./level-key')
+const Location = require('./location')
 
 /**
  * Character is the domain model and the aggregate root of character aggregate.
@@ -83,13 +84,16 @@ class Character {
     this.location = location
   }
 
-  /**
-   * Sets the position of character.
-   *
-   * @param {CharacterPosition} position The position of the character
-   */
-  setPosition (position) {
-    this.position = position
+  isInTower () {
+    return this.location != null && this.location.place === Location.PLACE.TOWER
+  }
+
+  assetId () {
+    return this.isInTower() ? this.location.detail.assetId : null
+  }
+
+  floorId () {
+    return this.isInTower() ? this.location.detail.floorId : null
   }
 
   /**
@@ -97,8 +101,7 @@ class Character {
    * @return {Promise}
    */
   save () {
-    const CharacterRepository = require('./character-repository')
-    const repository = new CharacterRepository()
+    const repository = new Character.Repository()
 
     return repository.save(this)
   }
@@ -130,11 +133,9 @@ class Character {
    * @return {Promise} resolves with updated character
    */
   reloadHistories () {
-    if (this.position == null) {
-      return Promise.resolve(this)
-    }
+    if (!this.isInTower()) { return Promise.resolve(this) }
 
-    return new LevelHistoryRepository(this.id).getByFloorId(this.position.floorId).then(histories => {
+    return new LevelHistory.Repository(this.id).getByFloorId(this.floorId()).then(histories => {
       this.histories = histories
 
       return this
@@ -147,18 +148,18 @@ class Character {
    * @return {Promise}
    */
   saveHistories () {
-    return new LevelHistoryRepository(this.id).saveForFloorId(this.position.floorId, this.histories).then(() => this)
+    if (!this.isInTower()) { return Promise.resolve(this) }
+
+    return new LevelHistory.Repository(this.id).saveForFloorId(this.floorId(), this.histories).then(() => this)
   }
 
   /**
    * Reloads the level locks.
    */
   reloadLocks () {
-    if (this.position == null) {
-      return Promise.resolve(this)
-    }
+    if (!this.isInTower()) { return Promise.resolve(this) }
 
-    return new LevelLockRepository(this.id).getByFloorId(this.position.floorId).then(locks => {
+    return new LevelLock.Repository(this.id).getByFloorId(this.floorId()).then(locks => {
       this.locks = locks
 
       return this
@@ -169,7 +170,9 @@ class Character {
    * Saves the current level locks.
    */
   saveLocks () {
-    return new LevelLockRepository(this.id).saveByFloorId(this.position.floorId, this.locks).then(() => this)
+    if (!this.isInTower()) { return Promise.resolve(this) }
+
+    return new LevelLock.Repository(this.id).saveByFloorId(this.floorId(), this.locks).then(() => this)
   }
 
   /**
@@ -178,7 +181,9 @@ class Character {
    * @return {Promise}
    */
   reloadPlayingState () {
-    return new PlayingStateRepository().getByCharIdLevelId(this.id, this.position.floorObjectId).then(playingState => {
+    if (!this.isInTower()) { return Promise.resolve(this) }
+
+    return new PlayingState.Repository().getByCharIdLevelId(this.id, this.assetId()).then(playingState => {
       this.playingState = playingState
 
       return this
@@ -191,7 +196,9 @@ class Character {
    * @return {Promise}
    */
   savePlayingState () {
-    return new PlayingStateRepository().save(this.playingState).then(() => this)
+    if (!this.isInTower()) { return Promise.resolve(this) }
+
+    return new PlayingState.Repository().save(this.playingState).then(() => this)
   }
 
   /**
@@ -200,7 +207,7 @@ class Character {
    * @return {Promise}
    */
   clearPlayingState () {
-    return new PlayingStateRepository().clearByCharId(this.id)
+    return new PlayingState.Repository().clearByCharId(this.id)
   }
 
   /**

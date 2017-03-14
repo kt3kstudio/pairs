@@ -1,9 +1,12 @@
 /**
  * PlayingState model represents the current playing state of the level.
- *
- * [Entity]
  */
 class PlayingState {
+
+  static get Repository () {
+    return require('./playing-state-repository')
+  }
+
   /**
    * @constructor
    * @param {String} charId The character id

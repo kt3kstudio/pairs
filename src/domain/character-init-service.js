@@ -20,17 +20,14 @@ class CharacterInitService {
     const location = this.initialLocationById(id)
 
     if (id === 'ma') {
-      character = factory.createFromObject({id, name: 'Ma', location})
+      character = factory.createFromObject({ id, name: 'Ma', location })
     } else if (id === 'ellen') {
-      character = factory.createFromObject({id, name: 'Ellen', location})
+      character = factory.createFromObject({ id, name: 'Ellen', location })
     } else if (id === 'emma') {
-      character = factory.createFromObject({id, name: 'Emma', location})
+      character = factory.createFromObject({ id, name: 'Emma', location })
     } else {
       throw new Error('unknown character: ' + id)
     }
-
-    // The first asset is always unlocked.
-    character.unlockById(THE_FIRST_ASSET)
 
     return character
   }
@@ -42,12 +39,12 @@ class CharacterInitService {
    */
   initialLocationById (id) {
     if (id === 'ma') {
-      return new Location({place: Location.PLACE.ROOM})
+      return new Location({ place: Location.PLACE.ROOM })
     } else if (id === 'ellen') {
-      return new Location({place: Location.PLACE.ROOM})
+      return new Location({ place: Location.PLACE.ROOM })
     }
 
-    return new Location({place: Location.PLACE.ROOM})
+    return new Location({ place: Location.PLACE.ROOM })
   }
 
   /**

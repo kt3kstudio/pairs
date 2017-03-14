@@ -22,7 +22,6 @@ class CharacterRepository {
 
   /**
    * Gets a character by the id.
-   *
    * @param {String} id The id
    * @return {Promise<Character>} A promise of a character
    */

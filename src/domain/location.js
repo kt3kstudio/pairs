@@ -1,3 +1,5 @@
+const TOWER_INITIAL_FLOOR_ID = '1'
+const TOWER_INITIAL_ASSET_ID = '1-entrance'
 /**
  * The location model. VO.
  */
@@ -10,7 +12,7 @@ class Location {
    * @param {string} place The place
    * @param {LocationDetail} detail The detail of the location
    */
-  constructor ({place, detail}) {
+  constructor ({ place, detail }) {
     this.place = place
     this.detail = detail
   }
@@ -21,13 +23,16 @@ class Location {
   }
 
   goToRoad () {
-    this.detail = new RoadLocationDetail({place: this.place})
+    this.detail = new RoadLocationDetail({ place: this.place })
     this.place = PLACE.ROAD
   }
 
   goToTower () {
     this.place = PLACE.TOWER
-    this.detail = new TowerLocationDetail({assetId: '1-entrance', floorId: '1'})
+    this.detail = new TowerLocationDetail({
+      assetId: TOWER_INITIAL_ASSET_ID,
+      floorId: TOWER_INITIAL_FLOOR_ID
+    })
   }
 }
 
@@ -38,7 +43,7 @@ class TowerLocationDetail extends LocationDetail {
    * @param {string} floorId The floor id
    * @param {string} assetId The asset id
    */
-  constructor ({floorId, assetId}) {
+  constructor ({ floorId, assetId }) {
     super()
 
     this.floorId = floorId
@@ -50,7 +55,7 @@ class RoadLocationDetail extends LocationDetail {
   /**
    * @param {string} place The place in the road scene
    */
-  constructor ({place}) {
+  constructor ({ place }) {
     super()
 
     this.place = place

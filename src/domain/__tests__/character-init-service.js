@@ -14,7 +14,7 @@ describe('CharacterInitService', () => {
 
       expect(ma).to.be.instanceof(Character)
       expect(ma.name).to.equal('Ma')
-      expect(ma.locks.isLocked('701')).to.be.false
+      expect(ma.locks.isLocked('701')).to.be.true
       expect(ma.locks.isLocked('702')).to.be.true
       expect(emma).to.be.instanceof(Character)
       expect(emma.name).to.equal('Emma')

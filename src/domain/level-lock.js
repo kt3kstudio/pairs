@@ -2,6 +2,11 @@
  * The level lock model
  */
 class LevelLock {
+
+  static get Repository () {
+    return require('./level-lock-repository')
+  }
+
   /**
    * @param {string} levelId The level id
    * @param {boolean} locked True iff the level is locked
