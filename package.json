@@ -38,7 +38,7 @@
     "capsid": "0.8.0",
     "chai": "^3.5.0",
     "clipboard-js": "^0.3.1",
-    "codecov": "^1.0.1",
+    "codecov": "^2.0.1",
     "dom-gen": "^2.3.0",
     "domaindoc": "^1.5.0",
     "es6-object-assign": "^1.0.2",
