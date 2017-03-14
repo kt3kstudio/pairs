@@ -1,7 +1,7 @@
-const sprite = require('../../ui/sprite/')
-const {GridWalker, DIRS, ratio} = require('spn')
+const { sprite } = require('../../ui')
+const { GridWalker, DIRS, ratio } = require('spn')
 
-const {component} = capsid
+const { component } = capsid
 
 /**
  * The main character on the level scene.

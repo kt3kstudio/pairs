@@ -1,10 +1,10 @@
 const td = require('testdouble')
 
-const CharacterInitService = require('../character-init-service')
-const Character = require('../character')
+const { Character } = require('../')
+const { InitService } = Character
 
 describe('CharacterInitService', () => {
-  const service = new CharacterInitService()
+  const service = new InitService()
 
   describe('initById', () => {
     it('creates the initial state of the characters of the given ids', () => {

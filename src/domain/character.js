@@ -204,14 +204,6 @@ class Character {
   }
 
   /**
-   * Gets the floow object id.
-   * @return {string}
-   */
-  getFloorObjectId () {
-    return this.position.floorObjectId
-  }
-
-  /**
    * Adds the level key of the given id.
    * @param {string} levelId The level id
    */

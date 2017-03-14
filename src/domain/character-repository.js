@@ -75,10 +75,6 @@ class CharacterRepository {
    * @return {object}
    */
   keyToObject (key) {
-    if (key == null) {
-      return null
-    }
-
     return {
       levelId: key.levelId
     }

@@ -30,7 +30,7 @@ class IntroScene extends Context {
 
     .then(() => this.loadCharacter(this.user.charId))
 
-    .then(() => this.loadLevelContents(this.character.getFloorObjectId()))
+    .then(() => this.loadLevelContents(this.character.location.detail.assetId))
   }
 
   /**
@@ -50,7 +50,7 @@ class IntroScene extends Context {
     return new CharacterRepository().getById(id)
     .then(character => {
       this.character = character
-      this.elem.data('character', character)
+      this.$el.data('character', character)
     })
   }
 
@@ -60,9 +60,9 @@ class IntroScene extends Context {
    * @return {Promise}
    */
   loadLevelContents (id) {
-    return Promise.resolve($.get(this.getLevelDataUrl(id))).then(levelData => {
-      $(levelData).appendTo(this.elem)
-    })
+    return $.get(this.getLevelDataUrl(id))
+
+      .then(data => $(data).appendTo(this.el))
   }
 
   /**
@@ -137,7 +137,7 @@ class IntroScene extends Context {
   }
 
   @on('level-goals')
-  onGoalsSuggested (e) {
+  onGoalsGiven (e) {
     this.showGoalPanel(e.detail)
   }
 
@@ -149,12 +149,12 @@ class IntroScene extends Context {
   spawnBall () {
     const playSceneLayout = new PlaySceneLayout()
 
-    $($('#tpl-ball').html()).css({display: 'none'}).data({
+    $($('#tpl-ball').html()).css({ display: 'none' }).data({
 
       grid: playSceneLayout.playGrid(),
-      pos: {m: 1, n: 1}
+      pos: { m: 1, n: 1 }
 
-    }).appendTo(this.elem).cc('ball').cc.get('ball')
+    }).appendTo(this.el).cc('ball')
   }
 
   /**
@@ -162,7 +162,7 @@ class IntroScene extends Context {
    * @private
    */
   spawnCharacter (character) {
-    this.elem.append(img({data: {character: character}, cc: 'hero'}))
+    this.$el.append(img({ data: { character }, cc: 'hero' }))
   }
 }
 
