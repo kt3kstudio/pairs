@@ -1,7 +1,7 @@
 {
   "name": "pairs",
   "version": "0.6.0",
-  "repository": "https://github.com/kt3kstudio/long-dream-core.git",
+  "repository": "https://github.com/kt3kstudio/pairs.git",
   "description": "A puzzle game",
   "main": "index.js",
   "directories": {

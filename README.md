@@ -1,4 +1,4 @@
-# long-dream-core v0.6.0
+# Pairs v0.6.0
 
 [![Circle CI](https://circleci.com/gh/kt3kstudio/pairs.svg?style=svg)](https://circleci.com/gh/kt3kstudio/pairs)
 [![codecov](https://codecov.io/gh/kt3kstudio/pairs/branch/master/graph/badge.svg)](https://codecov.io/gh/kt3kstudio/pairs)
