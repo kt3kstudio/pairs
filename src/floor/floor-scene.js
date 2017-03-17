@@ -1,4 +1,4 @@
-const { scene } = require('../ui')
+const { scene, blocking } = require('../ui')
 const { checkLocation } = require('../util/location')
 const { trigger } = require('../util')
 const { User, Character } = require('../domain')
@@ -42,16 +42,13 @@ class FloorScene {
     .then(() => this.floorAssets.init(this.character).then(() => this.camera.setUp()))
   }
 
+  @blocking
   start () {
-    this.blocker.block()
-
     return this.sequenceInitial()
 
     .then(() => this.sequenceUnlockingAll())
 
     .then(() => this.floorAssets.walker.focusMe())
-
-    .then(() => this.blocker.unblock())
   }
 
   /**
@@ -120,11 +117,8 @@ class FloorScene {
     .then(() => key.disappear())
   }
 
-  @on('screenplay') onScreenplay (e) {
-    this.blocker.block()
-
+  @on('screenplay') @blocking onScreenplay (e) {
     this.screenplay(e.detail.name).play()
-    .then(() => this.blocker.unblock())
   }
 
   fadeOut () {
@@ -133,9 +127,8 @@ class FloorScene {
     return this.floorAssets.hide().then(() => this.bg.turnBlack())
   }
 
+  @blocking
   walkerFadeIntoDoor () {
-    this.blocker.block()
-
     return this.floorAssets.walker.getIntoDoor().then(() => this.fadeOut())
   }
 

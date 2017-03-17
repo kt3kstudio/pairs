@@ -22,12 +22,6 @@ const scene = Cls => {
     get: () => $('.menu-button-root').cc.get('menu-button')
   })
 
-  Object.defineProperty(Cls.prototype, 'blocker', {
-    get () {
-      return get('ui-blocker', this.el.querySelector('.ui-blocker'))
-    }
-  })
-
   /**
    * Retrieve the screenplay of the given name.
    * @param {string} name
