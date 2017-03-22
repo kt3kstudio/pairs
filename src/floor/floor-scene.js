@@ -118,7 +118,7 @@ class FloorScene {
   }
 
   @on('screenplay') @blocking onScreenplay (e) {
-    this.screenplay(e.detail.name).play()
+    return this.screenplay(e.detail.name).play()
   }
 
   fadeOut () {
