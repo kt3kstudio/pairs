@@ -1,0 +1,3 @@
+title: Pairs domain models
+source: src/domain
+dest: build/doc

@@ -16,8 +16,8 @@
     "watch": "WATCH=true npm test",
     "cov": "COV=true npm test",
     "codecov": "npm run cov && codecov",
-    "db": "domaindoc build",
-    "ds": "domaindoc serve",
+    "doc-build": "domaindoc build",
+    "doc": "domaindoc serve",
     "lines": "find src/ spec/ -name '*.js' | xargs wc",
     "gh-pages": "rimraf build && npm run build:gh-pages && gh-pages -o hub -d build"
   },
