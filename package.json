@@ -40,7 +40,7 @@
     "clipboard-js": "^0.3.1",
     "codecov": "^3.0.0",
     "dom-gen": "^2.3.0",
-    "domaindoc": "^2.0.0",
+    "domaindoc": "^3.0.0",
     "es6-object-assign": "^1.0.2",
     "es6-promise": "^4.0.4",
     "es6-symbol": "^3.0.2",
