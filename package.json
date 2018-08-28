@@ -26,7 +26,7 @@
   "devDependencies": {
     "@kt3k/puncher": "^7.0.1",
     "arrowkeys": "^0.2.1",
-    "babel-eslint": "^8.0.0",
+    "babel-eslint": "^9.0.0",
     "babel-plugin-istanbul": "^4.0.0",
     "babel-preset-decorators-legacy": "^1.0.0",
     "babel-preset-es2015": "^6.13.0",
