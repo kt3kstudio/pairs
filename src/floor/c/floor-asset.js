@@ -11,7 +11,7 @@ const { trigger } = require('../../util')
 @ratio.x(0.5)
 @ratio.y(1)
 class FloorAsset extends Body {
-  __init__ () {
+  __mount__ () {
     this.x = +this.$el.attr('x')
     this.y = +this.$el.attr('y')
   }

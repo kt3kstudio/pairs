@@ -4491,7 +4491,7 @@ karma-mocha@^1.0.1:
   dependencies:
     minimist "1.2.0"
 
-karma-spec-reporter@0.0.32:
+karma-spec-reporter@^0.0.32:
   version "0.0.32"
   resolved "https://registry.yarnpkg.com/karma-spec-reporter/-/karma-spec-reporter-0.0.32.tgz#2e9c7207ea726771260259f82becb543209e440a"
   dependencies:
@@ -5118,9 +5118,9 @@ multiflip-bubble@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/multiflip-bubble/-/multiflip-bubble-5.0.0.tgz#a4322b2c773f7bf9ceb567d13cad307dabedb31f"
 
-multiflip@^5.1.5:
-  version "5.1.5"
-  resolved "https://registry.yarnpkg.com/multiflip/-/multiflip-5.1.5.tgz#848d764dce77a1298de67473d6946731e630088d"
+multiflip@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/multiflip/-/multiflip-5.2.0.tgz#176cccdfc9b9ab35cd276e86e03ac67aa65bfec4"
 
 multipipe@^0.1.2:
   version "0.1.2"
