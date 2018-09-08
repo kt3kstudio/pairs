@@ -1,6 +1,6 @@
 const { blockbody } = require('../../ui')
 
-const { on, emit } = capsid
+const { on, emits } = capsid
 
 @blockbody({ ratio: { x: 0.5, y: 1 } })
 class Entrance {
@@ -14,7 +14,7 @@ class Entrance {
     })
   }
 
-  @on('click') @emit.last('click-on-entrance') onClick () {
+  @on('click') @emits('click-on-entrance') onClick () {
     return { entrance: this }
   }
 }

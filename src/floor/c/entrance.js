@@ -1,7 +1,7 @@
 const { blockbody, DIRS } = require('../../ui')
 const { trigger } = require('../../util')
 
-const { on, emit } = capsid
+const { on, emits } = capsid
 
 @blockbody({ ratio: { x: 0.5, y: 1 }, showDuration: 500 })
 class Entrance {
@@ -35,7 +35,7 @@ class Entrance {
     trigger(this.el, 'door-knock', { knocked: this })
   }
 
-  @on('get-walker') @emit.last('scene-reload') onGetWalker (e) {
+  @on('get-walker') @emits('scene-reload') onGetWalker (e) {
     e.detail.walker.goToRoad()
   }
 }

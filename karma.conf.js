@@ -41,7 +41,7 @@ module.exports = config => config.set({
       'multiflip',
       'multiflip-bubble',
       '@kt3k/puncher',
-      'capsid',
+      //'capsid',
       'arrowkeys',
       'swipe-event',
       'stats.js',
@@ -49,7 +49,7 @@ module.exports = config => config.set({
       'event-hub',
       'spn'
     ],
-    transform: [['babelify', babelConfig]]
+    transform: [['babelify', babelConfig], ['envify', { global: true }]]
   },
   reporters,
   autoWatch,

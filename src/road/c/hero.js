@@ -1,7 +1,7 @@
 const { sprite, body } = require('../../ui')
 
 const { DIRS } = require('spn')
-const { on, emit } = capsid
+const { on, emits } = capsid
 
 @sprite.character
 @body({ ratio: { x: 0.5, y: 1 } })
@@ -12,7 +12,7 @@ class Hero {
   }
 
   @on('click-on-car')
-  @emit.last('get-on-car') onClickOnCar (e) {
+  @emits('get-on-car') onClickOnCar (e) {
     const car = e.detail.car
 
     this.setAt(car.getPoint())
