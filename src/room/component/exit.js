@@ -1,7 +1,7 @@
 const { animation, Body } = require('spn')
 const { block } = require('../../ui')
 
-const { on, emit, component } = capsid
+const { on, emits, component } = capsid
 
 @block
 @animation.show('fade-in')
@@ -31,7 +31,7 @@ class Exit extends Body {
     this.$el.css('opacity', 0)
   }
 
-  @emit('exit-room')
+  @emits('exit-room')
   @on('click') exit () {
     console.log('exit clicked')
   }

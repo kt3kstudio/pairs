@@ -1,6 +1,6 @@
 const {object} = require('dom-gen')
 
-const {emit, component} = capsid
+const {emits, component} = capsid
 
 /**
  * FusionService performs the fusion of the pair of cells.
@@ -59,7 +59,7 @@ class FusionService {
    * @param {FusionPair} pair The fusion pair
    * @return {Promise} The new cell {Promise<Cell>}
    */
-  @emit.last('cell-fusion')
+  @emits('cell-fusion')
   fusion (pair) {
     const dur = 600
 

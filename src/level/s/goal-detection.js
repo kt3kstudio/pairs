@@ -1,7 +1,7 @@
 const { extractCells } = require('../../util/emoji')
 const { trigger } = require('../../util')
 
-const {on, emit, component} = capsid
+const {on, emits, component} = capsid
 
 /**
  * The service class which detects if the goals are achieved.
@@ -34,7 +34,7 @@ class GoalDetectionService {
    * Counts the goal at the given index. This means the goal of the given index is achieved.
    * @param {number} index The index of the goal
    */
-  @emit('goal-detection.goal')
+  @emits('goal-detection.goal')
   countGoal (index) {
     delete this.goals[index]
 

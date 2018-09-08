@@ -1,7 +1,7 @@
 const { DIRS, body, blockbody, sprite } = require('../../ui')
 const { trigger } = require('../../util')
 const { div, img } = require('dom-gen')
-const { emit, on, wire } = capsid
+const { emits, on, wire } = capsid
 
 @blockbody({ ratio: { x: 0.5, y: 1 }, showDuration: 500 })
 class Information {
@@ -36,7 +36,7 @@ class Information {
     $(e.target).anim('jump', 300).then(() => $(e.target).anim('', 0))
   }
 
-  @on('click') @emit.last('door-knock') onClick () {
+  @on('click') @emits('door-knock') onClick () {
     return { knocked: this }
   }
 

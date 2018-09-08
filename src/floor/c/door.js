@@ -3,7 +3,7 @@ const { div, hr, br, p, small, button } = require('dom-gen')
 
 const FloorAsset = require('./floor-asset')
 
-const { component, init, on, emit, wire } = capsid
+const { component, init, on, emits, wire } = capsid
 const DOOR_APPEAR_DUR = 400
 
 /**
@@ -49,7 +49,7 @@ class Door extends FloorAsset {
     init('multiflip', this.el.querySelector('.door-info'))
   }
 
-  @on('click', { at: 'button' }) @emit('go-to-level') onButtonClick () {}
+  @on('click', { at: 'button' }) @emits('go-to-level') onButtonClick () {}
 
   /**
    * Constructs the contents of the door. (Maybe not a good thing to do here)
@@ -86,7 +86,7 @@ class Door extends FloorAsset {
     return wait(this.doorActionDur)
   }
 
-  @on('click', { at: ':not(.door-open) .door-body' }) @emit.last('door-knock') onClosedDoorBodyClick () {
+  @on('click', { at: ':not(.door-open) .door-body' }) @emits('door-knock') onClosedDoorBodyClick () {
     return { knocked: this }
   }
 

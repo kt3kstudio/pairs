@@ -1,6 +1,6 @@
 const { body, sprite } = require('../../ui')
 
-const { on, emit } = capsid
+const { on, emits } = capsid
 
 @sprite.static(`${BASEPATH}/img/car.svg`)
 @body({ width: 200, height: 85, ratio: { x: 0.5, y: 1 }, showDuration: 500 })
@@ -10,7 +10,7 @@ class Car {
     this.updateSprite()
   }
 
-  @on('click') @emit.last('click-on-car') onClick () {
+  @on('click') @emits('click-on-car') onClick () {
     return { car: this }
   }
 
@@ -18,7 +18,7 @@ class Car {
    * Goes to the given point.
    * @param {Point} point The point
    */
-  @emit.last('arrive-to-destination')
+  @emits('arrive-to-destination')
   goTo (point) {
     this.setAt(point)
 

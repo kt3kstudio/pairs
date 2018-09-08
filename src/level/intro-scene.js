@@ -113,7 +113,7 @@ class IntroScene extends Context {
    *
    * @return {Promise}
    */
-  @emit.last('intro-scene.finished')
+  @emits('intro-scene.finished')
   start () {
     return this.bg.turnWhite()
 

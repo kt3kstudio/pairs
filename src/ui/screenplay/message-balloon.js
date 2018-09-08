@@ -5,7 +5,7 @@ const { p } = require('dom-gen')
 
 const { trigger } = require('../../util')
 
-const { component, emit, on } = capsid
+const { component, emits, on } = capsid
 
 const DEFAULT_SPEECH_TIMEOUT = 500
 
@@ -30,8 +30,8 @@ class MessageBalloon {
    * Starts showing the balloon and returns a promise.
    * @return {Promise}
    */
-  @emit('message-balloon-started')
-  @emit.last('message-balloon-ended')
+  @emits('message-balloon-started')
+  @emits('message-balloon-ended')
   start () {
     // This is dummy for occupying the space.
     const msgPlaceholder = p({ css: { height: 0, overflow: 'hidden' } }, renderEmoji(this.message))

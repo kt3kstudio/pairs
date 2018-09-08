@@ -1,7 +1,7 @@
 const { blockbody, DIRS } = require('../../ui')
 const { div, button } = require('dom-gen')
 
-const { on, emit, component, wire } = capsid
+const { on, emits, component, wire } = capsid
 
 @blockbody({ ratio: { x: 0.5, y: 1 }, showDuration: 500 })
 class Elevator {
@@ -46,7 +46,7 @@ class Elevator {
     return this.getPoint()
   }
 
-  @on('click') @emit.last('door-knock') onClick (e) {
+  @on('click') @emits('door-knock') onClick (e) {
     return { knocked: this }
   }
 }
@@ -91,7 +91,7 @@ class ElevatorInfo {
     e.stopPropagation()
   }
 
-  @on('click', { at: 'button' }) @emit.last('go-to-floor') onClickAtButton (e) {
+  @on('click', { at: 'button' }) @emits('go-to-floor') onClickAtButton (e) {
     return {
       floorId: e.target.getAttribute('floor-id'),
       assetId: e.target.getAttribute('asset-id')
