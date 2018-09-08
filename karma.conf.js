@@ -10,7 +10,7 @@ let autoWatch = false
 let singleRun = true
 
 if (IS_COV) {
-  babelConfig.plugins = ['istanbul']
+  babelConfig.plugins.push('istanbul')
   reporters.push('coverage')
 }
 
@@ -20,7 +20,7 @@ if (IS_WATCH) {
 }
 
 module.exports = config => config.set({
-  frameworks: ['mocha', 'chai', 'jsmockito-jshamcrest', 'browserify'],
+  frameworks: ['browserify', 'mocha', 'chai', 'jsmockito-jshamcrest'],
   files: [
     'src/__tests__/helper.js',
     'src/**/__tests__/**/*.js'

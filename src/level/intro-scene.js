@@ -12,7 +12,7 @@ const { wait } = require('spn')
 
 const { img } = require('dom-gen')
 
-const { prep, on, emit } = capsid
+const { prep, on, emits } = capsid
 
 /**
  * IntroScene class handles the introduction scene of the level page.
