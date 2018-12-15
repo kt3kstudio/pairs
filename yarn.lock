@@ -3175,6 +3175,11 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
+flatted@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/flatted/-/flatted-2.0.0.tgz#55122b6536ea496b4b44893ee2608141d10d9916"
+  integrity sha512-R+H8IZclI8AAkSBRQJLVOsxwAoHd6WC40b4QTNWIjzAa6BXOBfQcM587MXDTVPeYaopFNWHUFLx7eNmHDSxMWg==
+
 flush-write-stream@^1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/flush-write-stream/-/flush-write-stream-1.0.3.tgz#c5d586ef38af6097650b49bc41b55fabb19f35bd"
@@ -4502,9 +4507,10 @@ jsx-ast-utils@^2.0.1:
   dependencies:
     array-includes "^3.0.3"
 
-karma-browserify@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/karma-browserify/-/karma-browserify-5.3.0.tgz#9001796dfd1196cbc0327b022a00c6345a28e5dd"
+karma-browserify@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/karma-browserify/-/karma-browserify-6.0.0.tgz#423b719fe80d064ad5ec36f8eb15c399305b9aba"
+  integrity sha512-G3dGjoy1/6P8I6qTp799fbcAxs4P+1JcyEKUzy9g1/xMakqf9FFPwW2T9iEtCbWoH5WIKD3z+YwGL5ysBhzrsg==
   dependencies:
     convert-source-map "^1.1.3"
     hat "^0.0.3"
@@ -4524,11 +4530,12 @@ karma-chrome-launcher@^2.0.0:
     fs-access "^1.0.0"
     which "^1.2.1"
 
-karma-cli@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/karma-cli/-/karma-cli-1.0.1.tgz#ae6c3c58a313a1d00b45164c455b9b86ce17f960"
+karma-cli@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/karma-cli/-/karma-cli-2.0.0.tgz#481548d28661af4cc68f3d8e09708f17d2cba931"
+  integrity sha512-1Kb28UILg1ZsfqQmeELbPzuEb5C6GZJfVIk0qOr8LNYQuYWmAaqP16WpbpKEjhejDrDYyYOwwJXSZO6u7q5Pvw==
   dependencies:
-    resolve "^1.1.6"
+    resolve "^1.3.3"
 
 karma-coverage@^1.0.0:
   version "1.1.1"
@@ -4559,9 +4566,10 @@ karma-spec-reporter@^0.0.32:
   dependencies:
     colors "^1.1.2"
 
-karma@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/karma/-/karma-3.0.0.tgz#6da83461a8a28d8224575c3b5b874e271b4730c3"
+karma@^3.1.3:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/karma/-/karma-3.1.3.tgz#6e251648e3aff900927bc1126dbcbcb92d3edd61"
+  integrity sha512-JU4FYUtFEGsLZd6ZJzLrivcPj0TkteBiIRDcXWFsltPMGgZMDtby/MIzNOzgyZv/9dahs9vHpSxerC/ZfeX9Qw==
   dependencies:
     bluebird "^3.3.0"
     body-parser "^1.16.1"
@@ -4573,11 +4581,12 @@ karma@^3.0.0:
     di "^0.0.1"
     dom-serialize "^2.2.0"
     expand-braces "^0.1.1"
+    flatted "^2.0.0"
     glob "^7.1.1"
     graceful-fs "^4.1.2"
     http-proxy "^1.13.0"
     isbinaryfile "^3.0.0"
-    lodash "^4.17.4"
+    lodash "^4.17.5"
     log4js "^3.0.0"
     mime "^2.3.1"
     minimatch "^3.0.2"
@@ -4589,7 +4598,7 @@ karma@^3.0.0:
     socket.io "2.1.1"
     source-map "^0.6.1"
     tmp "0.0.33"
-    useragent "2.2.1"
+    useragent "2.3.0"
 
 kind-of@^1.1.0:
   version "1.1.0"
@@ -4902,9 +4911,13 @@ loud-rejection@^1.0.0:
     currently-unhandled "^0.4.1"
     signal-exit "^3.0.0"
 
-lru-cache@2.2.x:
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-2.2.4.tgz#6c658619becf14031d0d0b594b16042ce4dc063d"
+lru-cache@4.1.x:
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-4.1.5.tgz#8bbe50ea85bed59bc9e33dcab8235ee9bcf443cd"
+  integrity sha512-sWZlbEP2OsHNkXrMl5GYk/jKk70MBng6UU4YI/qGDYbgf6YbP4EvmqISbXCoJiRKs+1bSpFHVgQxvJ17F2li5g==
+  dependencies:
+    pseudomap "^1.0.2"
+    yallist "^2.1.2"
 
 make-dir@^1.0.0:
   version "1.3.0"
@@ -5374,9 +5387,10 @@ nunjucks@^3.0.0:
   optionalDependencies:
     chokidar "^1.6.0"
 
-nunjucks@^3.0.1:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/nunjucks/-/nunjucks-3.1.3.tgz#9a23c844af01c143a0b40f3bdd1212a9d7877260"
+nunjucks@^3.1.6:
+  version "3.1.6"
+  resolved "https://registry.yarnpkg.com/nunjucks/-/nunjucks-3.1.6.tgz#6e3a3420c77ceae937ae323e9e2995383d6410fb"
+  integrity sha512-aHCt5arZUqHnRNjfDBCq+fI/O3J2sxx+xZdz6mCNvwAgJVCtHM/VAv2++figjGeFyrZ1dVcJ1dCJwMxY8iYoqQ==
   dependencies:
     a-sync-waterfall "^1.0.0"
     asap "^2.0.3"
@@ -5895,6 +5909,11 @@ prop-types@^15.6.2:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
+pseudomap@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/pseudomap/-/pseudomap-1.0.2.tgz#f052a28da70e618917ef0a8ac34c1ae5a68286b3"
+  integrity sha1-8FKijacOYYkX7wqKw0wa5aaChrM=
+
 psl@^1.1.24:
   version "1.1.29"
   resolved "https://registry.yarnpkg.com/psl/-/psl-1.1.29.tgz#60f580d360170bb722a797cc704411e6da850c67"
@@ -6371,7 +6390,7 @@ resolve@^1.1.3, resolve@^1.1.4, resolve@^1.1.6, resolve@^1.1.7:
   dependencies:
     path-parse "^1.0.5"
 
-resolve@^1.3.2, resolve@^1.4.0, resolve@^1.5.0, resolve@^1.6.0, resolve@^1.7.1, resolve@^1.8.1:
+resolve@^1.3.2, resolve@^1.3.3, resolve@^1.4.0, resolve@^1.5.0, resolve@^1.6.0, resolve@^1.7.1, resolve@^1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.8.1.tgz#82f1ec19a423ac1fbd080b0bab06ba36e84a7a26"
   dependencies:
@@ -7327,11 +7346,12 @@ use@^3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
 
-useragent@2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/useragent/-/useragent-2.2.1.tgz#cf593ef4f2d175875e8bb658ea92e18a4fd06d8e"
+useragent@2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/useragent/-/useragent-2.3.0.tgz#217f943ad540cb2128658ab23fc960f6a88c9972"
+  integrity sha512-4AoH4pxuSvHCjqLO04sU6U/uE65BYza8l/KKBS0b0hnUPWi+cQ2BpeTEwejCSx9SPV5/U03nniDTrWx5NrmKdw==
   dependencies:
-    lru-cache "2.2.x"
+    lru-cache "4.1.x"
     tmp "0.0.x"
 
 util-deprecate@~1.0.1:
@@ -7600,6 +7620,11 @@ xmlhttprequest-ssl@~1.5.4:
 y18n@^3.2.0:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/y18n/-/y18n-3.2.1.tgz#6d15fba884c08679c0d77e88e7759e811e07fa41"
+
+yallist@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/yallist/-/yallist-2.1.2.tgz#1c11f9218f076089a47dd512f93c6699a6a81d52"
+  integrity sha1-HBH5IY8HYImkfdUS+TxmmaaoHVI=
 
 yallist@^3.0.0, yallist@^3.0.2:
   version "3.0.2"
