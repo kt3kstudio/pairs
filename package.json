@@ -45,7 +45,7 @@
     "domaindoc": "^3.0.0",
     "envify": "^4.1.0",
     "es6-object-assign": "^1.0.2",
-    "es6-promise": "^4.0.4",
+    "es6-promise": "^4.2.7",
     "es6-symbol": "^3.0.2",
     "event-hub": "^6.2.2",
     "get-property-names": "^1.0.0",
