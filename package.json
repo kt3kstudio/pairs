@@ -34,7 +34,7 @@
     "babel-plugin-istanbul": "^5.0.1",
     "babel-register": "^6.3.13",
     "babelify": "^10.0.0",
-    "browserify": "^16.0.0",
+    "browserify": "^16.5.0",
     "bulbo": "^7.0.0",
     "bundle-through": "^1.0.3",
     "capsid": "0.27.0",
