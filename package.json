@@ -30,7 +30,7 @@
     "@babel/register": "^7.0.0",
     "@kt3k/puncher": "^7.0.1",
     "arrowkeys": "^0.2.1",
-    "babel-eslint": "^10.0.0",
+    "babel-eslint": "^10.0.3",
     "babel-plugin-istanbul": "^5.0.1",
     "babel-register": "^6.3.13",
     "babelify": "^10.0.0",
