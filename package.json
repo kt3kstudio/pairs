@@ -40,7 +40,7 @@
     "capsid": "0.27.0",
     "chai": "^4.0.1",
     "clipboard-js": "^0.3.1",
-    "codecov": "^3.0.0",
+    "codecov": "^3.6.0",
     "dom-gen": "^2.3.0",
     "domaindoc": "^3.0.0",
     "envify": "^4.1.0",
