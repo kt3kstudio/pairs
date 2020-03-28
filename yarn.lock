@@ -1757,9 +1757,10 @@ caniuse-lite@^1.0.30000884:
   version "1.0.30000885"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000885.tgz#e889e9f8e7e50e769f2a49634c932b8aee622984"
 
-capsid@0.27.0:
-  version "0.27.0"
-  resolved "https://registry.yarnpkg.com/capsid/-/capsid-0.27.0.tgz#4c318b9416a4f3592213e4e0dd6f6fa443da78cd"
+capsid@1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/capsid/-/capsid-1.6.0.tgz#2c4e020e7bec55d7a2dd4382b13ed4fa35084e7d"
+  integrity sha512-jEoeqZcbceMFWcmXAcM07Gij6dnOTuUofdXQW/B3XZujMq43NsfkIwA19f361xQFdaedivCJ7AbXR7Q2m/bnJg==
 
 caseless@~0.12.0:
   version "0.12.0"
